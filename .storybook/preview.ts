@@ -1,4 +1,6 @@
 /** @type { import('@storybook/react-vite').Preview } */
+import { themes } from "storybook/theming";
+import "@/styles/_variables.css";
 
 const preview = {
   parameters: {
@@ -7,6 +9,9 @@ const preview = {
         color: /(background|color)$/i,
         date: /Date$/i,
       },
+    },
+    docs: {
+      theme: themes.hoam,
     },
   },
 };
