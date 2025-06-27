@@ -6,6 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "tokens": "style-dictionary build --config style-dictionary.json",
+    "icon:tokens": "node scripts/generate-icons.mjs",
     "dev": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
@@ -17,6 +19,7 @@
     "@vitejs/plugin-react": "^4.6.0",
     "prop-types": "^15.8.1",
     "storybook": "^9.0.13",
+    "style-dictionary": "^5.0.0",
     "typescript": "^5.8.3"
   }
 }

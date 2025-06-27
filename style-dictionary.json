@@ -1,0 +1,32 @@
+{
+  "source": ["src/design-tokens/**/*.json"],
+  "platforms": {
+    "scss": {
+      "transformGroup": "css",
+      "buildPath": "src/styles/",
+      "files": [
+        {
+          "destination": "_variables.css",
+          "format": "css/variables"
+        }
+      ],
+      "prefix": "hoam",
+      "options": {
+        "usesDtcg": true
+      }
+    },
+    "js": {
+      "transformGroup": "js",
+      "buildPath": "src/styles/",
+      "files": [
+        {
+          "destination": "variables.json",
+          "format": "json/nested"
+        }
+      ],
+      "options": {
+        "usesDtcg": true
+      }
+    }
+  }
+}
