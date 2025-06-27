@@ -1,6 +1,8 @@
 # build output
 dist/
 src/styles/
+src/design-tokens/icons.json
+public/icons/icons.svg
 
 # dependencies
 node_modules/

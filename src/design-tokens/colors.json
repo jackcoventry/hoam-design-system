@@ -1,0 +1,118 @@
+{
+  "color": {
+    "$type": "color",
+    "sun": {
+      "100": {
+        "$value": "#EEDDFD"
+      },
+      "200": {
+        "$value": "#DCBBFC"
+      },
+      "300": {
+        "$value": "#CB99FA"
+      },
+      "400": {
+        "$value": "#BA77F9"
+      },
+      "500": {
+        "$value": "#A855F7",
+        "$description": "Base colour"
+      },
+      "600": {
+        "$value": "#8815F4"
+      },
+      "700": {
+        "$value": "#6609BE"
+      },
+      "800": {
+        "$value": "#44067F"
+      },
+      "900": {
+        "$value": "#22033F"
+      }
+    },
+    "moon": {
+      "100": {
+        "$value": "#E9FCFA"
+      },
+      "200": {
+        "$value": "#D7F9F7"
+      },
+      "300": {
+        "$value": "#C1F5F2"
+      },
+      "400": {
+        "$value": "#ABF2ED"
+      },
+      "500": {
+        "$value": "#97EFE9",
+        "$description": "Base colour"
+      },
+      "600": {
+        "$value": "#53E4DB"
+      },
+      "700": {
+        "$value": "#1FCBC0"
+      },
+      "800": {
+        "$value": "#158981"
+      },
+      "900": {
+        "$value": "#0A423F"
+      }
+    },
+    "neutral": {
+      "100": {
+        "$value": "#000000"
+      },
+      "200": {
+        "$value": "#0D0D0D"
+      },
+      "300": {
+        "$value": "#1A1A1A"
+      },
+      "400": {
+        "$value": "#404040"
+      },
+      "500": {
+        "$value": "#666666",
+        "$description": "Base colour"
+      },
+      "600": {
+        "$value": "#8C8C8C"
+      },
+      "700": {
+        "$value": "#B3B3B3"
+      },
+      "800": {
+        "$value": "#D9D9D9"
+      },
+      "900": {
+        "$value": "#ffffff"
+      }
+    },
+    "fill": {
+      "primary": {
+        "$value": "{color.sun.500}"
+      },
+      "secondary": {
+        "$value": "{color.sun.500}"
+      },
+      "tertiary": {
+        "$value": "{color.moon.500}",
+        "$description": "Accent colour"
+      },
+      "white": {
+        "$value": "{color.neutral.900}"
+      },
+      "black": {
+        "$value": "{color.neutral.100}"
+      }
+    },
+    "text": {
+      "primary": {
+        "$value": "{color.neutral.400}"
+      }
+    }
+  }
+}
