@@ -1,0 +1,53 @@
+:root {
+  --hoam-button-color-fill-primary: var(--hoam-color-moon-700);
+  --hoam-button-color-fill-primary-hover: var(--hoam-color-moon-500);
+  --hoam-button-spacing-horizontal: var(--hoam-spacing-5);
+  --hoam-button-spacing-vertical: var(--hoam-spacing-3);
+  --hoam-button-border-radius: 5px;
+  --hoam-button-content-gap: var(--hoam-spacing-2);
+  --hoam-button-min-height: 46px;
+}
+
+.hoam-button {
+  background-color: var(--hoam-button-color-fill-primary);
+  border-color: transparent;
+  border-radius: var(--hoam-ui-button-radius);
+  border-style: solid;
+  border-width: 0;
+  border-radius: var(--hoam-button-border-radius);
+  box-shadow: 0 0 0 0 transparent;
+  cursor: pointer;
+  display: flex;
+  gap: var(--hoam-button-content-gap);
+  font: var(--hoam-typography-button-1);
+  min-height: var(--hoam-button-min-height);
+  outline: none;
+  padding: var(--hoam-button-spacing-vertical)
+    var(--hoam-button-spacing-horizontal);
+  white-space: nowrap;
+}
+
+.hoam-button:hover {
+  background-color: var(--hoam-button-color-fill-primary-hover);
+}
+
+.hoam-button__icon {
+  align-items: center;
+  display: inline-flex;
+}
+
+.hoam-button[data-icon-position="left"] .hoam-button__icon {
+  order: 1;
+}
+
+.hoam-button[data-icon-position="left"] .hoam-button__content {
+  order: 2;
+}
+
+.hoam-button[data-icon-position="right"] .hoam-button__icon {
+  order: 2;
+}
+
+.hoam-button[data-icon-position="right"] .hoam-button__content {
+  order: 1;
+}
