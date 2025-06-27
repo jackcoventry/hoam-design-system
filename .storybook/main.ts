@@ -1,25 +1,25 @@
-/** @type { import('@storybook/react-vite').StorybookConfig } */
+import type { StorybookConfig } from "@storybook/react-vite";
 
-const config = {
+const config: StorybookConfig = {
   stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
-  addons: [],
+  addons: [
+    // "@storybook/addon-onboarding",
+    // "@chromatic-com/storybook",
+    // "@storybook/addon-vitest",
+    // "@storybook/addon-docs"
+  ],
   framework: {
     name: "@storybook/react-vite",
     options: {},
   },
-  // async viteFinal(config) {
-  //   const { mergeConfig } = await import("vite");
-
-  //   return mergeConfig(config, {
-  //     resolve: {
-  //       alias: {
-  //         "@": "../src",
-  //       },
-  //     },
-  //     esbuild: {
-  //       jsx: "automatic",
-  //     },
-  //   });
-  // },
+  async viteFinal(config) {
+    const { alias } = await import("../alias.config.js");
+    config.resolve = config.resolve || {};
+    config.resolve.alias = {
+      ...(config.resolve.alias || {}),
+      ...alias,
+    };
+    return config;
+  },
 };
 export default config;

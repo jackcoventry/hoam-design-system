@@ -1,19 +1,17 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "target": "es5",
+    "target": "ESNext",
     "lib": ["dom", "es2015"],
     "allowJs": true,
     "jsx": "react",
-    "module": "esnext",
+    "module": "ESNext",
     "moduleResolution": "node",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "paths": {
-      "@/public/*": ["public/*"],
-      "@/src/*": ["src/*"]
+      "@/*": ["src/*"]
     }
-  },
-  "include": ["src/**/*"]
+  }
 }
