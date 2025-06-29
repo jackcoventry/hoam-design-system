@@ -27,6 +27,19 @@
       "options": {
         "usesDtcg": true
       }
+    },
+    "cssClasses": {
+      "transformGroup": "css",
+      "buildPath": "src/styles/",
+      "files": [
+        {
+          "destination": "classes.css",
+          "format": "custom/css/classes"
+        }
+      ],
+      "options": {
+        "usesDtcg": true
+      }
     }
   }
 }

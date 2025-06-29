@@ -9,8 +9,9 @@
     "tokens": "style-dictionary build --config style-dictionary.json",
     "icon:tokens": "node scripts/generate-icons.mjs",
     "icons": "npm run icon:tokens && svg-sprite --config svg.json --log=info \"src/icons/*.svg\"",
+    "utility-classes": "node scripts/build-utility-classes.mjs",
     "dev": "storybook dev -p 6006",
-    "build": "npm run tokens && rollup -c",
+    "build": "npm run tokens && npm run utility-classes && rollup -c",
     "prepare": "npm run build",
     "build-storybook": "storybook build"
   },

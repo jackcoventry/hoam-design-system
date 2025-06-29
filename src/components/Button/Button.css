@@ -36,18 +36,12 @@
   display: inline-flex;
 }
 
-.hoam-button[data-icon-position="left"] .hoam-button__icon {
-  order: 1;
-}
-
-.hoam-button[data-icon-position="left"] .hoam-button__content {
-  order: 2;
-}
-
-.hoam-button[data-icon-position="right"] .hoam-button__icon {
-  order: 2;
-}
-
+.hoam-button[data-icon-position="left"] .hoam-button__icon,
 .hoam-button[data-icon-position="right"] .hoam-button__content {
   order: 1;
+}
+
+.hoam-button[data-icon-position="left"] .hoam-button__content,
+.hoam-button[data-icon-position="right"] .hoam-button__icon {
+  order: 2;
 }
