@@ -2,21 +2,12 @@ import StyleDictionary from "style-dictionary";
 import { readFile } from "fs/promises";
 import { glob } from "glob";
 
-// Optional: confirm file visibility
 console.log("📦 Tokens found:", await glob("src/design-tokens/**/*.json"));
 
 StyleDictionary.registerFormat({
   name: "custom/css/classes",
   format: ({ allTokens }) => {
-    const output = [];
-
-    const colorTokens = allTokens.filter((e) => e.$type === "color");
-    const typographyTokens = allTokens.filter((e) => e.$type === "typography");
-
-    console.log("typographyTokens", typographyTokens);
-
-    // console.log("✅ Formatter running with", allTokens.length, "tokens");
-    return false;
+    console.log("✅ Formatter running with", allTokens.length, "tokens");
 
     return allTokens
       .map((prop) => {
@@ -28,42 +19,29 @@ StyleDictionary.registerFormat({
           case "color":
             return `.${className} { color: ${value}; }`;
 
-          case "dimension":
-          case "spacing":
-            return `.${className} { padding: ${value}; }`; // or `gap`, `margin`, etc.
-
-          case "typography":
-            // Typography tokens are usually objects → handle each sub-prop
-            return Object.entries(value)
-              .map(([key, val]) => `.${className}-${key} { ${key}: ${val}; }`)
-              .join("\n");
-
-          case "fontFamily":
-            return `.${className} { font-family: ${value}; }`;
-
-          case "fontWeight":
-            return `.${className} { font-weight: ${value}; }`;
-
-          case "lineHeight":
-            return `.${className} { line-height: ${value}; }`;
-
-          case "letterSpacing":
-            return `.${className} { letter-spacing: ${value}; }`;
-
-          case "breakpoint":
-          case "screen":
-            return `@media (min-width: ${value}) { .${className} { display: block; } }`;
-
-          case "icon":
-            return `.${className}::before { content: "${value}"; }`;
-
           default:
-            console.warn(`⚠️ Unhandled token type: ${type} (${className})`);
+            // console.warn(`⚠️ Unhandled token type: ${type} (${className})`);
             return null;
         }
       })
       .filter(Boolean) // Remove skipped/null entries
       .join("\n");
+  },
+});
+
+StyleDictionary.registerFormat({
+  name: "custom/json/flat-with-meta",
+  format: ({ allTokens }) => {
+    const flat = allTokens.map((token) => ({
+      name: "hoam-" + token.name,
+      cssVar: "--hoam-" + token.name,
+      type: token.$type ?? null,
+      value: token.$value,
+      displayName: token.$metadata?.displayName ?? null,
+      description: token.$metadata?.description ?? null,
+    }));
+
+    return JSON.stringify(flat, null, 2);
   },
 });
 
@@ -74,4 +52,5 @@ const raw = await readFile(
 const config = JSON.parse(raw);
 const sd = new StyleDictionary(config);
 
-await sd.buildPlatform("cssClasses");
+// await sd.buildPlatform("cssClasses");
+await sd.buildAllPlatforms();

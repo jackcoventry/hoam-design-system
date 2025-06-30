@@ -15,13 +15,13 @@
         "usesDtcg": true
       }
     },
-    "js": {
-      "transformGroup": "js",
+    "storybook": {
+      "transformGroup": "css",
       "buildPath": "src/styles/",
       "files": [
         {
           "destination": "variables.json",
-          "format": "json/nested"
+          "format": "custom/json/flat-with-meta"
         }
       ],
       "options": {
