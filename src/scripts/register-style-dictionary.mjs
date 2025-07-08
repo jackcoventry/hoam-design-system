@@ -39,6 +39,17 @@ StyleDictionary.registerTransform({
   },
 });
 
+StyleDictionary.registerTransform({
+  name: "attribute/set",
+  type: "attribute",
+  matcher: () => true,
+  transform: (token) => {
+    const set =
+      token.path.length >= 2 ? token.path[token.path.length - 2] : null; // TODO: maybe tweak these parameter to exclude unnecessary data
+    return { set };
+  },
+});
+
 StyleDictionary.registerFormat({
   name: "custom/json/flat-with-meta",
   format: ({ allTokens }) => {
@@ -48,6 +59,7 @@ StyleDictionary.registerFormat({
       type: token.$type ?? null,
       value: token.$value,
       group: token.attributes?.group ?? null,
+      set: token.attributes?.set ?? null,
       description: token.$extensions?.description || null,
     }));
 

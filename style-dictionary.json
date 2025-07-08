@@ -17,7 +17,7 @@
     },
     "storybook": {
       "transformGroup": "css",
-      "transforms": ["attribute/group"],
+      "transforms": ["attribute/group", "attribute/set"],
       "buildPath": "src/styles/",
       "files": [
         {
