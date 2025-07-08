@@ -112,7 +112,8 @@
           "lineHeight": "{typography.line-height.4}"
         },
         "$extensions": {
-          "$targetElement": "h1"
+          "$targetElement": "h1",
+          "$name": "Title 1"
         }
       },
       "2": {

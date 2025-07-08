@@ -3,8 +3,8 @@ import { promises as fs } from "fs";
 
 // Array of file paths to delete
 const filesToDelete = [
-  "./src/design-tokens/_variables.css",
-  "./src/design-tokens/variables.json",
+  "./design-tokens/_variables.css",
+  "./design-tokens/variables.json",
 ];
 
 // Function to delete files

@@ -2,6 +2,9 @@
   "color": {
     "$type": "color",
     "sun": {
+      "$extensions": {
+        "$group": "global"
+      },
       "100": {
         "$value": "#EEDDFD"
       },
@@ -32,6 +35,9 @@
       }
     },
     "moon": {
+      "$extensions": {
+        "$group": "global"
+      },
       "100": {
         "$value": "#E9FCFA"
       },
@@ -62,6 +68,9 @@
       }
     },
     "neutral": {
+      "$extensions": {
+        "$group": "global"
+      },
       "100": {
         "$value": "#000000"
       },
@@ -92,6 +101,9 @@
       }
     },
     "fill": {
+      "$extensions": {
+        "$group": "fill"
+      },
       "primary": {
         "$value": "{color.sun.500}"
       },
@@ -110,6 +122,9 @@
       }
     },
     "text": {
+      "$extensions": {
+        "$group": "text"
+      },
       "primary": {
         "$value": "{color.neutral.400}"
       }

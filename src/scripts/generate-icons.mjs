@@ -4,8 +4,8 @@ import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const iconsDir = path.join(__dirname, "../src/icons");
-const iconstOutput = path.join(__dirname, "../src/design-tokens/icons.json");
+const iconsDir = path.join(__dirname, "../icons");
+const iconstOutput = path.join(__dirname, "../design-tokens/icons.json");
 const files = fs.readdirSync(iconsDir);
 const icons = [];
 

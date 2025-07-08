@@ -17,24 +17,12 @@
     },
     "storybook": {
       "transformGroup": "css",
+      "transforms": ["attribute/group"],
       "buildPath": "src/styles/",
       "files": [
         {
           "destination": "variables.json",
           "format": "custom/json/flat-with-meta"
-        }
-      ],
-      "options": {
-        "usesDtcg": true
-      }
-    },
-    "cssClasses": {
-      "transformGroup": "css",
-      "buildPath": "src/styles/",
-      "files": [
-        {
-          "destination": "classes.css",
-          "format": "custom/css/classes"
         }
       ],
       "options": {
