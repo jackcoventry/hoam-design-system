@@ -1,18 +1,20 @@
 /**
- * @description
- * Takes an Array<V>, and a grouping function,
- * and returns a Map of the array grouped by the grouping function.
+ * Groups the elements of an array based on the result of a key-generating function.
  *
- * @param list An array of type V.
- * @param keyGetter A Function that takes the the Array type V as an input, and returns a value of type K.
- *                  K is generally intended to be a property key of V.
+ * @template T - The type of elements in the input array.
+ * @template K - The type of keys returned by the keyGetter function.
+ * @param list - The array of items to group.
+ * @param keyGetter - A function that takes an item and returns its grouping key.
+ * @returns A Map where each key is a grouping key and the value is an array of items with that key.
  *
- * @returns Map of the array grouped by the grouping function.
+ * @example
+ * const data = [{type: 'a', value: 1}, {type: 'b', value: 2}, {type: 'a', value: 3}];
+ * const grouped = groupBy(data, item => item.type);
+ * // grouped is Map { 'a' => [{type: 'a', value: 1}, {type: 'a', value: 3}], 'b' => [{type: 'b', value: 2}] }
  */
-//export function groupBy<K, V>(list: Array<V>, keyGetter: (input: V) => K): Map<K, Array<V>> {
-//    const map = new Map<K, Array<V>>();
-function groupBy(list, keyGetter) {
-  const map = new Map();
+
+function groupBy<T, K>(list: T[], keyGetter: (item: T) => K): Map<K, T[]> {
+  const map = new Map<K, T[]>();
   list.forEach((item) => {
     const key = keyGetter(item);
     const collection = map.get(key);

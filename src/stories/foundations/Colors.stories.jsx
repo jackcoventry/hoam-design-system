@@ -1,24 +1,21 @@
 import Tokens from "@/styles/variables.json";
 import groupBy from "@/utils/group-by";
+import Table from "@/components/Table/Table";
+import ColorSwatch from "@/components/ColorSwatch/ColorSwatch";
 
 const DocTable = ({ children }) => {
-  return <table>{children}</table>;
+  return <Table>{children}</Table>;
 };
 
-const ColorItem = ({ title = "", subtitle = "", colors = [] }) => {
+const ColorItem = ({ title, subtitle, colors = [] }) => {
   return (
-    <tr>
-      <td>
-        {title}
-        <br />
-        {subtitle}
+    <tr className="hoam-table__row">
+      <td className="hoam-table__cell">
+        {title && <h3>{title}</h3>}
+        {subtitle && <p>{subtitle}</p>}
       </td>
-      <td>
-        {colors?.map((color) => (
-          <div>
-            {color?.name} - {color?.value}
-          </div>
-        ))}
+      <td className="hoam-table__cell">
+        <ColorSwatch colors={colors} />
       </td>
     </tr>
   );

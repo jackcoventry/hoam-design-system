@@ -1,0 +1,14 @@
+.hoam-table {
+  border-collapse: collapse;
+  display: table;
+  width: 100%;
+}
+
+.hoam-table__row {
+  border-bottom: 1px solid grey;
+  vertical-align: top;
+}
+
+.hoam-table__cell {
+  padding: var(--hoam-spacing-4);
+}

@@ -1,0 +1,14 @@
+.hoam-color-swatch {
+  display: flex;
+  gap: var(--hoam-spacing-4);
+  width: 100%;
+}
+
+.hoam-color-swatch__item {
+  align-items: center;
+  border: 1px solid var(--hoam-color-neutral-700);
+  border-radius: var(--hoam-border-radius, 1rem);
+  padding: var(--hoam-spacing-2);
+  display: flex;
+  flex-grow: 1;
+}
