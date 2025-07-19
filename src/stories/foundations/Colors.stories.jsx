@@ -1,25 +1,8 @@
 import Tokens from "@/styles/variables.json";
+import DocTable from "@/stories/components/DocTable";
+import ColorItem from "@/stories/components/ColorItem";
 import groupBy from "@/utils/group-by";
-import Table from "@/components/Table/Table";
-import ColorSwatch from "@/components/ColorSwatch/ColorSwatch";
-
-const DocTable = ({ children }) => {
-  return <Table>{children}</Table>;
-};
-
-const ColorItem = ({ title, subtitle, colors = [] }) => {
-  return (
-    <tr className="hoam-table__row">
-      <td className="hoam-table__cell">
-        {title && <h3>{title}</h3>}
-        {subtitle && <p>{subtitle}</p>}
-      </td>
-      <td className="hoam-table__cell">
-        <ColorSwatch colors={colors} />
-      </td>
-    </tr>
-  );
-};
+import getContrastTextColor from "@/stories/utils/getContrastTextColor";
 
 const TokenList = ({ items = [], title }) => {
   return items?.length > 0 ? (
@@ -27,6 +10,8 @@ const TokenList = ({ items = [], title }) => {
       {title && <h2>{title}</h2>}
       <DocTable>
         {items?.map((token) => {
+          const textColor = getContrastTextColor(token?.value);
+
           return (
             <ColorItem
               title={token?.name}
@@ -35,6 +20,7 @@ const TokenList = ({ items = [], title }) => {
                 {
                   name: token?.value,
                   value: token?.value,
+                  textColor,
                 },
               ]}
             />
@@ -46,9 +32,21 @@ const TokenList = ({ items = [], title }) => {
 };
 
 const TokenSet = ({ items = [] }) => {
-  return items?.length > 0 ? (
+  const processedItems = items?.map((token) => {
+    return {
+      ...token,
+      items: token?.items?.map((item) => {
+        return {
+          ...item,
+          textColor: getContrastTextColor(item?.value),
+        };
+      }),
+    };
+  });
+
+  return processedItems?.length > 0 ? (
     <DocTable>
-      {items?.map((token) => {
+      {processedItems?.map((token) => {
         return <ColorItem title={token?.name} colors={token?.items} />;
       })}
     </DocTable>
@@ -75,8 +73,6 @@ const Template = () => {
       items: set[1],
     };
   });
-
-  console.log(colorTokensBySet);
 
   return (
     <>

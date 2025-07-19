@@ -5,7 +5,7 @@ import "./ColorSwatch.css";
 function ColorSwatch({
   colors = [],
 }: {
-  colors?: { name: string; value: string }[];
+  colors?: { name: string; value: string; textColor: string }[];
 }) {
   return (
     <div className="hoam-color-swatch">
@@ -13,9 +13,9 @@ function ColorSwatch({
         <div
           className="hoam-color-swatch__item"
           key={color?.name}
-          style={{ backgroundColor: color?.value }}
+          style={{ backgroundColor: color?.value, color: color?.textColor }}
         >
-          {color?.name} - {color?.value}
+          {color?.name} - {color?.value} - poo - {color?.textColor} - wee
         </div>
       ))}
     </div>
