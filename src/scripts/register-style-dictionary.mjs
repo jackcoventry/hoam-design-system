@@ -60,7 +60,6 @@ StyleDictionary.registerFormat({
       value: token.$value,
       group: token.attributes?.group ?? null,
       set: token.attributes?.set ?? null,
-      description: token.$extensions?.description || null,
     }));
 
     return JSON.stringify(flat, null, 2);
@@ -74,5 +73,4 @@ const raw = await readFile(
 const config = JSON.parse(raw);
 const sd = new StyleDictionary(config);
 
-// await sd.buildPlatform("cssClasses");
 await sd.buildAllPlatforms();

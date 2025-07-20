@@ -2,51 +2,33 @@ import Tokens from "@/styles/variables.json";
 import DocTable from "@/stories/components/DocTable";
 import ColorItem from "@/stories/components/ColorItem";
 import groupBy from "@/utils/group-by";
-import getContrastTextColor from "@/stories/utils/getContrastTextColor";
 
 const TokenList = ({ items = [], title }) => {
   return items?.length > 0 ? (
     <>
       {title && <h2>{title}</h2>}
       <DocTable>
-        {items?.map((token) => {
-          const textColor = getContrastTextColor(token?.value);
-
-          return (
-            <ColorItem
-              title={token?.name}
-              subtitle={token?.cssVar}
-              colors={[
-                {
-                  name: token?.value,
-                  value: token?.value,
-                  textColor,
-                },
-              ]}
-            />
-          );
-        })}
+        {items?.map((token) => (
+          <ColorItem
+            title={token?.name}
+            subtitle={token?.cssVar}
+            colors={[
+              {
+                name: token?.value,
+                value: token?.value,
+              },
+            ]}
+          />
+        ))}
       </DocTable>
     </>
   ) : null;
 };
 
 const TokenSet = ({ items = [] }) => {
-  const processedItems = items?.map((token) => {
-    return {
-      ...token,
-      items: token?.items?.map((item) => {
-        return {
-          ...item,
-          textColor: getContrastTextColor(item?.value),
-        };
-      }),
-    };
-  });
-
-  return processedItems?.length > 0 ? (
+  return items?.length > 0 ? (
     <DocTable>
-      {processedItems?.map((token) => {
+      {items?.map((token) => {
         return <ColorItem title={token?.name} colors={token?.items} />;
       })}
     </DocTable>

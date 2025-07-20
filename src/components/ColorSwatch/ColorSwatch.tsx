@@ -5,17 +5,19 @@ import "./ColorSwatch.css";
 function ColorSwatch({
   colors = [],
 }: {
-  colors?: { name: string; value: string; textColor: string }[];
+  colors?: { name: string; value: string }[];
 }) {
   return (
     <div className="hoam-color-swatch">
       {colors?.map((color) => (
-        <div
-          className="hoam-color-swatch__item"
-          key={color?.name}
-          style={{ backgroundColor: color?.value, color: color?.textColor }}
-        >
-          {color?.name} - {color?.value} - poo - {color?.textColor} - wee
+        <div className="hoam-color-swatch__item" key={color?.name}>
+          <div
+            className="hoam-color-swatch__color"
+            style={{ backgroundColor: color?.value }}
+          ></div>
+          <p>
+            {color?.name} - {color?.value}
+          </p>
         </div>
       ))}
     </div>
