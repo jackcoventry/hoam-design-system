@@ -14,9 +14,10 @@ const Template = () => {
           <tr>
             <th style={{ textAlign: "left" }}>Token</th>
             <th style={{ textAlign: "center" }}>Value</th>
-            {/* <th style={{ textAlign: "center" }}>Size</th>
+            <th style={{ textAlign: "center" }}>Family</th>
+            <th style={{ textAlign: "center" }}>Size</th>
             <th style={{ textAlign: "center" }}>Weight</th>
-            <th style={{ textAlign: "center" }}>Line Height</th> */}
+            <th style={{ textAlign: "center" }}>Line Height</th>
           </tr>
           {typographyTokens?.map((token) => {
             return (
@@ -30,6 +31,18 @@ const Template = () => {
                   {token?.cssVar}
                 </td>
                 <td style={{ textAlign: "center" }}>{token?.value}</td>
+                <td style={{ textAlign: "center" }}>
+                  {token?.originalValues?.fontFamily}
+                </td>
+                <td style={{ textAlign: "center" }}>
+                  {token?.originalValues?.fontSize}
+                </td>
+                <td style={{ textAlign: "center" }}>
+                  {token?.originalValues?.fontWeight}
+                </td>
+                <td style={{ textAlign: "center" }}>
+                  {token?.originalValues?.lineHeight}
+                </td>
               </tr>
             );
           })}
