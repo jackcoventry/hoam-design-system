@@ -4,8 +4,8 @@ import "./Button.css";
 type ButtonProps = {
   children?: React.ReactNode;
   icon?: string;
-  variant?: "primary" | "secondary";
   iconPosition?: "left" | "right";
+  variant?: "primary" | "secondary";
 };
 
 const Button = ({
