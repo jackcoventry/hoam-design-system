@@ -1,6 +1,4 @@
 :root {
-  --hoam-button-color-fill-primary: var(--hoam-color-moon-700);
-  --hoam-button-color-fill-primary-hover: var(--hoam-color-moon-500);
   --hoam-button-spacing-horizontal: var(--hoam-spacing-5);
   --hoam-button-spacing-vertical: var(--hoam-spacing-3);
   --hoam-button-border-radius: 5px;
@@ -9,7 +7,7 @@
 }
 
 .hoam-button {
-  background-color: var(--hoam-button-color-fill-primary);
+  background-color: var(--hoam-button-color-fill);
   border-color: transparent;
   border-radius: var(--hoam-ui-button-radius);
   border-style: solid;
@@ -20,6 +18,7 @@
   display: flex;
   gap: var(--hoam-button-content-gap);
   font: var(--hoam-typography-button-1);
+  line-height: 1.375; /* TODO: Calculate programatically */
   min-height: var(--hoam-button-min-height);
   outline: none;
   padding: var(--hoam-button-spacing-vertical)
@@ -27,8 +26,24 @@
   white-space: nowrap;
 }
 
+.hoam-button[data-variant="primary"] {
+  --hoam-button-color-fill: var(--hoam-color-moon-700);
+  --hoam-button-color-fill-hover: var(--hoam-color-moon-500);
+}
+
+.hoam-button[data-variant="secondary"] {
+  --hoam-button-color-fill: var(--hoam-color-sun-200);
+  --hoam-button-color-fill-hover: var(--hoam-color-sun-300);
+}
+
 .hoam-button:hover {
-  background-color: var(--hoam-button-color-fill-primary-hover);
+  background-color: var(--hoam-button-color-fill-hover);
+}
+
+.hoam-button:focus-visible {
+  box-shadow:
+    0 0 0 2px white,
+    0 0 0 6px yellow;
 }
 
 .hoam-button__icon {

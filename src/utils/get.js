@@ -30,7 +30,7 @@ export function resolveReferences(obj, root = obj) {
   }
 
   if (typeof obj === "string" && /^\{.+\}$/.test(obj)) {
-    const path = obj.slice(1, -1); // remove { and }
+    const path = obj.slice(1, -1);
     const value = get(root, path);
     return resolveReferences(value, root); // in case nested references
   }
