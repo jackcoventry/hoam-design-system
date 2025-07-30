@@ -35,32 +35,16 @@ const Template: Story = {
   ),
 };
 
-// Default
-// Uncontrolled mode
-// All panels start collapsed
-// Only one panel can be open at a time so you can click to open a panel, which closes any other open panel.
 export const Default = {
   ...Template,
-  args: {
-    allowMultiple: false,
-    defaultOpenIds: [],
-  },
+  args: { allowMultiple: false, defaultOpenIds: [] },
 };
 
-// WithDefaultOpen
-// Uncontrolled mode
-// Panel “one” is expanded initially; the other remains collapsed
-// Because allowMultiple: true, clicking to open “two” won’t auto‑close “one.”
 export const WithDefaultOpen = {
   ...Template,
-  args: {
-    allowMultiple: true,
-    defaultOpenIds: ["one"],
-  },
+  args: { allowMultiple: true, defaultOpenIds: ["one"] },
 };
 
-// Controlled
-// Clicking headers calls back into the story’s setOpenIds, so you see how to integrate this component in a fully controlled scenario.
 export const Controlled: Story = {
   render: (args) => {
     const [openIds, setOpenIds] = useState<string[]>(["two"]);
@@ -77,8 +61,5 @@ export const Controlled: Story = {
       </Accordion>
     );
   },
-  args: {
-    allowMultiple: false,
-    defaultOpenIds: [],
-  },
+  args: { allowMultiple: false, defaultOpenIds: [] },
 };

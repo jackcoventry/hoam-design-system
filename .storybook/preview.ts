@@ -1,6 +1,7 @@
 /** @type { import('@storybook/react-vite').Preview } */
 import { themes } from "storybook/theming";
 import "@/styles/_variables.css";
+import "@/styles/_reset.css";
 
 const preview = {
   parameters: {

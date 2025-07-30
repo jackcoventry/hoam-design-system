@@ -94,4 +94,53 @@ describe("AccessibleAccordion", () => {
     fireEvent.keyDown(firstHeader, { key: "ArrowDown" });
     expect(screen.getByText("Two")).toHaveFocus();
   });
+
+  it("expands all sections when Expand All is clicked", () => {
+    render(
+      <Accordion>
+        <AccordionItem id="one">
+          <AccordionHeader>One</AccordionHeader>
+          <AccordionPanel>Panel One</AccordionPanel>
+        </AccordionItem>
+        <AccordionItem id="two">
+          <AccordionHeader>Two</AccordionHeader>
+          <AccordionPanel>Panel Two</AccordionPanel>
+        </AccordionItem>
+        <AccordionItem id="three">
+          <AccordionHeader>Three</AccordionHeader>
+          <AccordionPanel>Panel Three</AccordionPanel>
+        </AccordionItem>
+      </Accordion>
+    );
+    fireEvent.click(screen.getByLabelText("Expand all sections"));
+    expect(screen.getByText("Panel One")).toBeVisible();
+    expect(screen.getByText("Panel Two")).toBeVisible();
+    expect(screen.getByText("Panel Three")).toBeVisible();
+  });
+
+  it("collapses all sections when Collapse All is clicked", () => {
+    render(
+      <Accordion defaultOpenIds={["one", "two", "three"]}>
+        <AccordionItem id="one">
+          <AccordionHeader>One</AccordionHeader>
+          <AccordionPanel>Panel One</AccordionPanel>
+        </AccordionItem>
+        <AccordionItem id="two">
+          <AccordionHeader>Two</AccordionHeader>
+          <AccordionPanel>Panel Two</AccordionPanel>
+        </AccordionItem>
+        <AccordionItem id="three">
+          <AccordionHeader>Three</AccordionHeader>
+          <AccordionPanel>Panel Three</AccordionPanel>
+        </AccordionItem>
+      </Accordion>
+    );
+    expect(screen.getByText("Panel One")).toBeVisible();
+    expect(screen.getByText("Panel Two")).toBeVisible();
+    expect(screen.getByText("Panel Three")).toBeVisible();
+    fireEvent.click(screen.getByLabelText("Collapse all sections"));
+    expect(screen.queryByText("Panel One")).toBeNull();
+    expect(screen.queryByText("Panel Two")).toBeNull();
+    expect(screen.queryByText("Panel Three")).toBeNull();
+  });
 });

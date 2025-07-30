@@ -12,8 +12,9 @@ import React, {
   ButtonHTMLAttributes,
   HTMLAttributes,
 } from "react";
+import { ACCORDION } from "@/constants/errors";
+import { KEYS } from "@/constants/keys";
 
-// Props for <Accordion>
 export interface AccordionProps {
   allowMultiple?: boolean;
   defaultOpenIds?: string[];
@@ -23,7 +24,6 @@ export interface AccordionProps {
   children: ReactNode;
 }
 
-// Props for each <AccordionItem>
 export interface AccordionItemProps {
   id: string;
   index?: number;
@@ -31,7 +31,6 @@ export interface AccordionItemProps {
   children: ReactNode;
 }
 
-// Internal context
 interface AccordionContextType {
   openIds: string[];
   toggle: (id: string) => void;
@@ -40,22 +39,27 @@ interface AccordionContextType {
   headerRefs: React.RefObject<HTMLButtonElement>[];
   total: number;
 }
+
 const AccordionContext = createContext<AccordionContextType | null>(null);
 
-// Accordion container
+/**
+ * Main Accordion container component
+ */
+
 export const Accordion: React.FC<AccordionProps> = ({
   allowMultiple = false,
-  defaultOpenIds,
-  openIds: controlledOpenIds,
-  onChange,
   className = "",
   children,
+  defaultOpenIds = [],
+  openIds: controlledOpenIds,
+  onChange,
 }) => {
   const items = React.Children.toArray(children).filter(
     (c): c is ReactElement<AccordionItemProps> =>
       React.isValidElement(c) && c.type === AccordionItem
   );
   const total = items.length;
+  const allIds = items.map((item) => item.props.id);
   const headerRefs = useMemo(
     () => Array.from({ length: total }, () => createRef<HTMLButtonElement>()),
     [total]
@@ -63,18 +67,25 @@ export const Accordion: React.FC<AccordionProps> = ({
   const baseId = useId();
   const isControlled = controlledOpenIds !== undefined;
 
-  const initialOpen = React.useMemo<string[]>(() => {
+  const initialOpen = useMemo<string[]>(() => {
     if (isControlled) return controlledOpenIds!;
-    if (defaultOpenIds && defaultOpenIds.length) return defaultOpenIds;
-    return [];
+    return defaultOpenIds;
   }, [isControlled, controlledOpenIds, defaultOpenIds]);
 
   const [internalOpenIds, setInternalOpenIds] = useState<string[]>(initialOpen);
   const openIds = isControlled ? controlledOpenIds! : internalOpenIds;
 
-  const update = (ids: string[]) => {
-    if (isControlled) onChange?.(ids);
-    else setInternalOpenIds(ids);
+  const [liveMessage, setLiveMessage] = useState<string>("");
+
+  const updateOpenIds = (ids: string[], message?: string) => {
+    if (isControlled) {
+      onChange?.(ids);
+    } else {
+      setInternalOpenIds(ids);
+    }
+    if (message) {
+      setLiveMessage(message);
+    }
   };
 
   const toggle = (id: string) => {
@@ -84,24 +95,51 @@ export const Accordion: React.FC<AccordionProps> = ({
       : allowMultiple
         ? [...openIds, id]
         : [id];
-    update(next);
+    updateOpenIds(next);
   };
 
-  return (
+  return items.length > 0 ? (
     <AccordionContext.Provider
       value={{ openIds, toggle, allowMultiple, baseId, headerRefs, total }}
     >
       <div className={className}>
+        <div aria-live="polite" className="sr-only">
+          {liveMessage}
+        </div>
+
+        <div
+          role="group"
+          aria-label="Accordion controls"
+          className="accordion-controls mb-2 flex gap-2"
+        >
+          <button
+            type="button"
+            onClick={() => updateOpenIds(allIds, "All sections expanded")}
+            aria-label="Expand all sections"
+          >
+            Expand All
+          </button>
+          <button
+            type="button"
+            onClick={() => updateOpenIds([], "All sections collapsed")}
+            aria-label="Collapse all sections"
+          >
+            Collapse All
+          </button>
+        </div>
         {items.map((child, idx) => React.cloneElement(child, { index: idx }))}
       </div>
     </AccordionContext.Provider>
-  );
+  ) : null;
 };
 
 Accordion.displayName = "Accordion";
+
 export default Accordion;
 
-// AccordionItem
+/**
+ * Individual AccordionItem component
+ */
 export const AccordionItem: React.FC<AccordionItemProps> = ({
   id,
   index = 0,
@@ -109,34 +147,34 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
   children,
 }) => {
   const ctx = useContext(AccordionContext);
-  if (!ctx) throw new Error("AccordionItem must be used within Accordion");
+  if (!ctx) throw new Error(ACCORDION.ITEM_MUST_BE_WITHIN_ACCORDION);
   const { openIds, toggle, baseId, headerRefs, total } = ctx;
   const isOpen = openIds.includes(id);
 
   const onKeyDown = (e: KeyboardEvent<HTMLButtonElement>) => {
     const key = e.key;
-    let next: number;
+    let nextIndex: number;
     switch (key) {
-      case "ArrowDown":
+      case KEYS.ARROW_DOWN:
         e.preventDefault();
-        next = (index + 1) % total;
-        headerRefs[next].current?.focus();
+        nextIndex = (index + 1) % total;
+        headerRefs[nextIndex].current?.focus();
         break;
-      case "ArrowUp":
+      case KEYS.ARROW_UP:
         e.preventDefault();
-        next = (index - 1 + total) % total;
-        headerRefs[next].current?.focus();
+        nextIndex = (index - 1 + total) % total;
+        headerRefs[nextIndex].current?.focus();
         break;
-      case "Home":
+      case KEYS.HOME:
         e.preventDefault();
         headerRefs[0].current?.focus();
         break;
-      case "End":
+      case KEYS.END:
         e.preventDefault();
         headerRefs[total - 1].current?.focus();
         break;
-      case "Enter":
-      case " ":
+      case KEYS.ENTER:
+      case KEYS.SPACE:
         e.preventDefault();
         toggle(id);
         break;
@@ -151,54 +189,57 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
   const panelChild = React.Children.toArray(children).find(
     (c) => React.isValidElement(c) && c.type === AccordionPanel
   ) as ReactElement<HTMLAttributes<HTMLDivElement>>;
-
   if (!headerChild || !panelChild) {
-    throw new Error(
-      "AccordionItem must contain AccordionHeader and AccordionPanel"
-    );
+    throw new Error(ACCORDION.ITEM_MUST_CONTAINER_HEADER_AND_PANEL);
   }
 
-  const headerProps = headerChild.props;
-  const panelProps = panelChild.props;
-  const headerId = `${baseId}-head-${id}`;
+  const { children: headerContent, ...headerProps } = headerChild.props;
+  const { children: panelContent, ...panelProps } = panelChild.props;
+  const headerId = `${baseId}-header-${id}`;
   const panelId = `${baseId}-panel-${id}`;
 
   return (
     <div className={className}>
-      <AccordionHeader
-        id={headerId}
-        aria-controls={panelId}
-        aria-expanded={isOpen}
-        onClick={() => toggle(id)}
-        onKeyDown={onKeyDown}
-        ref={headerRefs[index]}
-        {...headerProps}
-      >
-        {headerProps.children}
-      </AccordionHeader>
+      <h3>
+        <AccordionHeader
+          id={headerId}
+          aria-controls={panelId}
+          aria-expanded={isOpen}
+          onClick={() => toggle(id)}
+          onKeyDown={onKeyDown}
+          ref={headerRefs[index]}
+          {...headerProps}
+        >
+          {headerContent}
+        </AccordionHeader>
+      </h3>
       <AccordionPanel
         id={panelId}
         aria-labelledby={headerId}
         hidden={!isOpen}
         {...panelProps}
       >
-        {panelProps.children}
+        {panelContent}
       </AccordionPanel>
     </div>
   );
 };
-
 AccordionItem.displayName = "AccordionItem";
 
-// AccordionHeader
+/**
+ * Header sub-component
+ */
 export const AccordionHeader = forwardRef<
   HTMLButtonElement,
   ButtonHTMLAttributes<HTMLButtonElement>
 >((props, ref) => <button ref={ref} type="button" {...props} />);
 AccordionHeader.displayName = "AccordionHeader";
 
-// AccordionPanel
+/**
+ * Panel sub-component
+ */
 export const AccordionPanel: React.FC<HTMLAttributes<HTMLDivElement>> = (
   props
 ) => <div role="region" {...props} />;
+
 AccordionPanel.displayName = "AccordionPanel";
