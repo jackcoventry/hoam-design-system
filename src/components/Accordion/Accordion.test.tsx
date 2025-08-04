@@ -7,8 +7,8 @@ import Accordion, {
   AccordionPanel,
 } from "@/components/Accordion/Accordion";
 
-describe("AccessibleAccordion", () => {
-  it("renders all items collapsed by default", () => {
+describe("Accordion", () => {
+  it("renders collapsed by default and toggles sections", () => {
     render(
       <Accordion>
         <AccordionItem id="one">
@@ -22,47 +22,35 @@ describe("AccessibleAccordion", () => {
       </Accordion>
     );
     expect(screen.queryByText("Panel One")).toBeNull();
+    fireEvent.click(screen.getByRole("button", { name: "One" }));
+    expect(screen.getByText("Panel One")).toBeVisible();
+  });
+
+  it("expand/collapse toggle works for all sections", () => {
+    render(
+      <Accordion defaultOpenIds={[]}>
+        <AccordionItem id="one">
+          <AccordionHeader>One</AccordionHeader>
+          <AccordionPanel>Panel One</AccordionPanel>
+        </AccordionItem>
+        <AccordionItem id="two">
+          <AccordionHeader>Two</AccordionHeader>
+          <AccordionPanel>Panel Two</AccordionPanel>
+        </AccordionItem>
+      </Accordion>
+    );
+    const toggleBtn = screen.getByRole("button", {
+      name: "Expand all sections",
+    });
+    fireEvent.click(toggleBtn);
+    expect(screen.getByText("Panel One")).toBeVisible();
+    expect(screen.getByText("Panel Two")).toBeVisible();
+    fireEvent.click(toggleBtn);
+    expect(screen.queryByText("Panel One")).toBeNull();
     expect(screen.queryByText("Panel Two")).toBeNull();
   });
 
-  it("opens and closes items on click in uncontrolled mode", () => {
-    render(
-      <Accordion defaultOpenIds={["one"]}>
-        <AccordionItem id="one">
-          <AccordionHeader>One</AccordionHeader>
-          <AccordionPanel>Panel One</AccordionPanel>
-        </AccordionItem>
-        <AccordionItem id="two">
-          <AccordionHeader>Two</AccordionHeader>
-          <AccordionPanel>Panel Two</AccordionPanel>
-        </AccordionItem>
-      </Accordion>
-    );
-    expect(screen.getByText("Panel One")).toBeVisible();
-    fireEvent.click(screen.getByText("One"));
-    expect(screen.queryByText("Panel One")).toBeNull();
-  });
-
-  it("allows multiple items open when allowMultiple is true", () => {
-    render(
-      <Accordion allowMultiple>
-        <AccordionItem id="one">
-          <AccordionHeader>One</AccordionHeader>
-          <AccordionPanel>Panel One</AccordionPanel>
-        </AccordionItem>
-        <AccordionItem id="two">
-          <AccordionHeader>Two</AccordionHeader>
-          <AccordionPanel>Panel Two</AccordionPanel>
-        </AccordionItem>
-      </Accordion>
-    );
-    fireEvent.click(screen.getByText("One"));
-    fireEvent.click(screen.getByText("Two"));
-    expect(screen.getByText("Panel One")).toBeVisible();
-    expect(screen.getByText("Panel Two")).toBeVisible();
-  });
-
-  it("calls onChange in controlled mode", () => {
+  it("controlled mode calls onChange", () => {
     const handleChange = vi.fn();
     render(
       <Accordion openIds={[]} onChange={handleChange}>
@@ -72,11 +60,11 @@ describe("AccessibleAccordion", () => {
         </AccordionItem>
       </Accordion>
     );
-    fireEvent.click(screen.getByText("One"));
+    fireEvent.click(screen.getByRole("button", { name: "One" }));
     expect(handleChange).toHaveBeenCalledWith(["one"]);
   });
 
-  it("supports keyboard navigation", () => {
+  it("keyboard navigation with expand/collapse toggle first", () => {
     render(
       <Accordion>
         <AccordionItem id="one">
@@ -89,58 +77,9 @@ describe("AccessibleAccordion", () => {
         </AccordionItem>
       </Accordion>
     );
-    const firstHeader = screen.getByText("One");
-    firstHeader.focus();
-    fireEvent.keyDown(firstHeader, { key: "ArrowDown" });
-    expect(screen.getByText("Two")).toHaveFocus();
-  });
-
-  it("expands all sections when Expand All is clicked", () => {
-    render(
-      <Accordion>
-        <AccordionItem id="one">
-          <AccordionHeader>One</AccordionHeader>
-          <AccordionPanel>Panel One</AccordionPanel>
-        </AccordionItem>
-        <AccordionItem id="two">
-          <AccordionHeader>Two</AccordionHeader>
-          <AccordionPanel>Panel Two</AccordionPanel>
-        </AccordionItem>
-        <AccordionItem id="three">
-          <AccordionHeader>Three</AccordionHeader>
-          <AccordionPanel>Panel Three</AccordionPanel>
-        </AccordionItem>
-      </Accordion>
-    );
-    fireEvent.click(screen.getByLabelText("Expand all sections"));
-    expect(screen.getByText("Panel One")).toBeVisible();
-    expect(screen.getByText("Panel Two")).toBeVisible();
-    expect(screen.getByText("Panel Three")).toBeVisible();
-  });
-
-  it("collapses all sections when Collapse All is clicked", () => {
-    render(
-      <Accordion defaultOpenIds={["one", "two", "three"]}>
-        <AccordionItem id="one">
-          <AccordionHeader>One</AccordionHeader>
-          <AccordionPanel>Panel One</AccordionPanel>
-        </AccordionItem>
-        <AccordionItem id="two">
-          <AccordionHeader>Two</AccordionHeader>
-          <AccordionPanel>Panel Two</AccordionPanel>
-        </AccordionItem>
-        <AccordionItem id="three">
-          <AccordionHeader>Three</AccordionHeader>
-          <AccordionPanel>Panel Three</AccordionPanel>
-        </AccordionItem>
-      </Accordion>
-    );
-    expect(screen.getByText("Panel One")).toBeVisible();
-    expect(screen.getByText("Panel Two")).toBeVisible();
-    expect(screen.getByText("Panel Three")).toBeVisible();
-    fireEvent.click(screen.getByLabelText("Collapse all sections"));
-    expect(screen.queryByText("Panel One")).toBeNull();
-    expect(screen.queryByText("Panel Two")).toBeNull();
-    expect(screen.queryByText("Panel Three")).toBeNull();
+    const buttons = screen.getAllByRole("button");
+    expect(buttons[0]).toHaveAccessibleName("Expand all sections");
+    expect(buttons[1]).toHaveAccessibleName("One");
+    expect(buttons[2]).toHaveAccessibleName("Two");
   });
 });

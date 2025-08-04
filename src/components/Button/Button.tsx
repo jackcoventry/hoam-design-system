@@ -1,24 +1,31 @@
 import React from "react";
 import "./Button.css";
+import clsx from "clsx";
 
 type ButtonProps = {
+  className?: string;
   children?: React.ReactNode;
   icon?: string;
   iconPosition?: "left" | "right";
+  onClick?: () => void;
   variant?: "primary" | "secondary";
 };
 
 const Button = ({
   children,
+  className = "",
+  onClick,
   icon,
   iconPosition = "right",
   variant = "primary",
 }: ButtonProps) => {
+  const classes = clsx("hoam-button", className);
   return (
     <button
-      className="hoam-button"
+      className={classes}
       data-icon-position={iconPosition}
       data-variant={variant}
+      onClick={onClick}
     >
       {children && <span className="hoam-button__content">{children}</span>}
       {icon && (

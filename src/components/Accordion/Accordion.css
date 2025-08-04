@@ -1,0 +1,18 @@
+.hoam-accordion__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--hoam-spacing-2) var(--hoam-spacing-3);
+}
+
+.hoam-accordion__item {
+  padding: var(--hoam-spacing-3) 0;
+}
+
+.hoam-accordion__item:not(:last-child) {
+  border-bottom: 1px solid var(--hoam-color-moon-200);
+}
+
+.hoam-accordion__panel {
+  padding: var(--hoam-spacing-3) var(--hoam-spacing-3) 0;
+}

@@ -34,6 +34,8 @@
     "@vitejs/plugin-react": "^4.6.0",
     "@vitest/browser": "^3.2.4",
     "@vitest/coverage-v8": "^3.2.4",
+    "clsx": "^2.1.1",
+    "deepmerge": "^4.3.1",
     "playwright": "^1.53.1",
     "prop-types": "^15.8.1",
     "rollup": "^4.44.1",
@@ -44,8 +46,5 @@
     "svg-sprite": "^2.0.4",
     "typescript": "^5.8.3",
     "vitest": "^3.2.4"
-  },
-  "dependencies": {
-    "deepmerge": "^4.3.1"
   }
 }
