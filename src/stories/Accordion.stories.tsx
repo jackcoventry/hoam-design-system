@@ -35,7 +35,11 @@ export const Controlled: Story = {
   render: () => {
     const [openIds, setOpenIds] = useState(["two"]);
     return (
-      <Accordion openIds={openIds} onChange={setOpenIds}>
+      <Accordion
+        openIds={openIds}
+        onChange={setOpenIds}
+        accordionTitle="Controlled Accordion"
+      >
         <AccordionItem id="one">
           <div>Section 1</div>
           <div>Content 1</div>

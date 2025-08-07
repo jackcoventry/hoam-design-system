@@ -88,14 +88,16 @@ export const Accordion: React.FC<AccordionProps> = ({
           {accordionTitle && (
             <h2 className="hoam-accordion__title">{accordionTitle}</h2>
           )}
-          <Button
+          <button
+            type="button"
             className="hoam-accordion__toggle-all"
             onClick={() => updateOpenIds(allExpanded ? [] : itemIds)}
             aria-label={
               allExpanded ? "Collapse all sections" : "Expand all sections"
             }
-            icon={allExpanded ? "arrow-right" : "arrow-left"}
-          />
+          >
+            {allExpanded ? "Collapse all" : "Expand all"}
+          </button>
         </div>
 
         {children}
@@ -123,12 +125,13 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ id, children }) => {
 
   return (
     <div className="hoam-accordion__item">
-      <h3>
+      <h4 className="hoam-accordion__item-title">
         <button
           id={headerId}
           aria-controls={panelId}
           aria-expanded={isOpen}
           onClick={() => toggle(id)}
+          className="hoam-accordion__item-title-button"
         >
           {(children as any)[0].props.children}
           <span className="hoam-accordion__icon">
@@ -144,7 +147,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ id, children }) => {
             </svg>
           </span>
         </button>
-      </h3>
+      </h4>
       <div
         id={panelId}
         aria-labelledby={headerId}

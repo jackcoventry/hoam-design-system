@@ -1,8 +1,7 @@
 .hoam-accordion__header {
-  display: flex;
   align-items: center;
+  display: flex;
   justify-content: space-between;
-  padding: var(--hoam-spacing-2) var(--hoam-spacing-3);
 }
 
 .hoam-accordion__item {
@@ -15,4 +14,25 @@
 
 .hoam-accordion__panel {
   padding: var(--hoam-spacing-3) var(--hoam-spacing-3) 0;
+}
+
+.hoam-accordion__item-title-button {
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  gap: var(--hoam-spacing-2);
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.hoam-accordion__toggle-all {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin: 0 0 0 auto;
+  padding: 0;
 }
