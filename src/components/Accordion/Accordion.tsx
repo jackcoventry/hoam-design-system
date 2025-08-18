@@ -153,8 +153,11 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ id, children }) => {
         aria-labelledby={headerId}
         hidden={!isOpen}
         className="hoam-accordion__panel"
+        data-open={isOpen ? "true" : "false"}
       >
-        {(children as any)[1].props.children}
+        <div className="hoam-accordion__panel-inner">
+          {(children as any)[1].props.children}
+        </div>
       </div>
     </div>
   );

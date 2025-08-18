@@ -12,8 +12,42 @@
   border-bottom: 1px solid var(--hoam-color-moon-200);
 }
 
-.hoam-accordion__panel {
+.hoam-accordion__panel-inner {
+  overflow: hidden;
   padding: var(--hoam-spacing-3) var(--hoam-spacing-3) 0;
+}
+
+.hoam-accordion__panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    grid-template-rows 300ms ease,
+    opacity 300ms ease,
+    visibility 0s linear 300ms;
+}
+
+.hoam-accordion__panel[data-open="true"],
+.hoam-accordion__panel[aria-hidden="false"] {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  visibility: visible;
+  transition:
+    grid-template-rows 300ms ease,
+    opacity 300ms ease,
+    visibility 0s linear 0s;
+  @starting-style {
+    grid-template-rows: 0fr;
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hoam-accordion__panel {
+    transition: none;
+  }
 }
 
 .hoam-accordion__item-title-button {

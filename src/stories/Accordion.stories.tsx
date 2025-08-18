@@ -42,7 +42,9 @@ export const Controlled: Story = {
       >
         <AccordionItem id="one">
           <div>Section 1</div>
-          <div>Content 1</div>
+          <div>
+            Content 1 <a href="#">Test link</a>
+          </div>
         </AccordionItem>
         <AccordionItem id="two">
           <div>Section 2</div>
