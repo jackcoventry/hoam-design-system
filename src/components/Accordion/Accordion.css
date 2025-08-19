@@ -21,33 +21,33 @@
   display: grid;
   grid-template-rows: 0fr;
   opacity: 0;
-  visibility: hidden;
   transition:
     grid-template-rows 300ms ease,
     opacity 300ms ease,
     visibility 0s linear 300ms;
+  visibility: hidden;
 }
 
 .hoam-accordion__panel[data-open="true"],
 .hoam-accordion__panel[aria-hidden="false"] {
   grid-template-rows: 1fr;
   opacity: 1;
-  visibility: visible;
   transition:
     grid-template-rows 300ms ease,
     opacity 300ms ease,
     visibility 0s linear 0s;
-  @starting-style {
-    grid-template-rows: 0fr;
-    opacity: 0;
-    visibility: hidden;
-  }
+  visibility: visible;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .hoam-accordion__panel {
     transition: none;
   }
+}
+
+/* Block pointer events on closed content */
+.hoam-accordion__panel[aria-hidden="true"] * {
+  pointer-events: none;
 }
 
 .hoam-accordion__item-title-button {

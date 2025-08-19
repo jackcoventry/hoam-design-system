@@ -21,3 +21,8 @@ h5 {
 h6 {
   font: var(--hoam-typography-title-6);
 }
+
+.body-text {
+  display: grid;
+  gap: var(--body-text-spacing, var(--hoam-spacing-3));
+}
