@@ -128,6 +128,23 @@
       "primary": {
         "$value": "{color.neutral.400}"
       }
+    },
+    "semantic": {
+      "$extensions": {
+        "$group": "semantic"
+      },
+      "error": {
+        "$value": "#FF4D4F"
+      },
+      "warning": {
+        "$value": "#FAAD14"
+      },
+      "success": {
+        "$value": "#52C41A"
+      },
+      "info": {
+        "$value": "#1890FF"
+      }
     }
   }
 }

@@ -6,10 +6,10 @@
   "type": "module",
   "scripts": {
     "test": "npx vitest --project=storybook",
-    "tokens": "style-dictionary build --config style-dictionary.json",
+    "tokens-old": "style-dictionary build --config style-dictionary.json",
     "icon:tokens": "node src/scripts/generate-icons.mjs",
     "icons": "npm run icon:tokens && svg-sprite --config svg.json --log=info \"src/icons/*.svg\"",
-    "register-style-dictionary": "node src/scripts/register-style-dictionary.mjs",
+    "tokens": "node src/scripts/register-style-dictionary.mjs",
     "dev": "storybook dev -p 6006",
     "build": "npm run tokens && npm run register-style-dictionary && rollup -c",
     "prepare": "npm run build",

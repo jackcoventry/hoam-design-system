@@ -1,0 +1,7 @@
+.hoam-message {
+  border-radius: var(--hoam-border-radius-2);
+  padding: var(--hoam-spacing-4);
+  display: grid;
+  gap: var(--hoam-spacing-2);
+  background-color: var(--hoam-color-background-secondary);
+}
