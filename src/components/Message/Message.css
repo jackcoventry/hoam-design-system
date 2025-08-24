@@ -1,7 +1,49 @@
+:root {
+  --hoam-message-highlight: var(--hoam-color-moon-500);
+}
+
 .hoam-message {
-  border-radius: var(--hoam-border-radius-2);
+  border-width: 2px;
+  border-style: solid;
+  border-left-width: 8px;
+  border-radius: 4px;
+  border-color: var(--hoam-message-highlight);
   padding: var(--hoam-spacing-4);
   display: grid;
   gap: var(--hoam-spacing-2);
-  background-color: var(--hoam-color-background-secondary);
+  grid-template-columns: 1fr auto;
+  width: 100%;
+}
+
+.hoam-message[data-open="false"] {
+  display: none;
+}
+
+.hoam-message__content {
+  display: grid;
+  gap: var(--hoam-spacing-2);
+}
+
+.hoam-message__title {
+  color: var(--hoam-message-highlight);
+}
+
+.hoam-message__text {
+  font: var(--hoam-typography-title-4);
+}
+
+.hoam-message[data-status="info"] {
+  --hoam-message-highlight: var(--hoam-color-semantic-info);
+}
+
+.hoam-message[data-status="error"] {
+  --hoam-message-highlight: var(--hoam-color-semantic-error);
+}
+
+.hoam-message[data-status="success"] {
+  --hoam-message-highlight: var(--hoam-color-semantic-success);
+}
+
+.hoam-message[data-status="warning"] {
+  --hoam-message-highlight: var(--hoam-color-semantic-warning);
 }

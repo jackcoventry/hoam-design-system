@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 
 import Message from "@/components/Message/Message";
+import React from "react";
 
 const meta = {
   title: "Components/Message",
@@ -10,21 +11,31 @@ const meta = {
   },
   tags: ["autodocs"],
   argTypes: {},
-  args: {},
-} satisfies Meta<typeof Message>;
-
-export default meta;
-type Story = StoryObj<typeof meta>;
-
-export const InformationMessage: Story = {
   args: {
     status: "info",
     title: "Info Message",
     text: "This is an informational message.",
   },
+} satisfies Meta<typeof Message>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+const Template = (args) => {
+  return (
+    <div style={{ width: "600px" }}>
+      <Message status={args.status} title={args.title} text={args.text} />
+    </div>
+  );
+};
+
+export const InformationMessage: Story = {
+  render: Template,
+  args: {},
 };
 
 export const WarningMessage: Story = {
+  render: Template,
   args: {
     status: "warning",
     title: "Warning Message",
@@ -33,6 +44,7 @@ export const WarningMessage: Story = {
 };
 
 export const ErrorMessage: Story = {
+  render: Template,
   args: {
     status: "error",
     title: "Error Message",
@@ -41,9 +53,29 @@ export const ErrorMessage: Story = {
 };
 
 export const SuccessMessage: Story = {
+  render: Template,
   args: {
     status: "success",
     title: "Success Message",
     text: "This is a success message.",
   },
+};
+
+export const Closeable: Story = {
+  render: () => {
+    const handleOnClose = () => {
+      console.log("Message closed");
+    };
+    return (
+      <div style={{ width: "600px" }}>
+        <Message
+          status="info"
+          title="Closeable Message"
+          text="This message can be closed."
+          onClose={handleOnClose}
+        />
+      </div>
+    );
+  },
+  args: {},
 };
