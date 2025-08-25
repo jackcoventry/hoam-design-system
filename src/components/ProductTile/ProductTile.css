@@ -1,0 +1,22 @@
+.hoam-product-tile {
+  position: relative;
+}
+
+.hoam-product-tile__link {
+  display: block;
+}
+
+.hoam-product-tile__link::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 0;
+}
+
+.hoam-product-tile__button {
+  position: relative;
+  z-index: 1;
+}

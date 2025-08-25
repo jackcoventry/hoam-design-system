@@ -1,5 +1,6 @@
 import { Button } from "@/components/Button/Button";
 import React from "react";
+import "./ProductTile.css";
 
 type ProductPrice = {
   amount: number;
@@ -32,12 +33,16 @@ function ProductTile({
   inStock,
 }: Readonly<ProductTileProps>) {
   return (
-    <a href={`#${productId}`} className="hoam-product-tile">
+    <div className="hoam-product-tile">
       <img
-        src={`https://via.placeholder.com/150?text=${encodeURIComponent(title)}`}
+        src={`https://placehold.co/600x400?text=${encodeURIComponent(title)}`}
         alt={title}
       />
-      <h2>{title}</h2>
+      <h2>
+        <a href={`#${productId}`} className="hoam-product-tile__link">
+          <span role="text">{title}</span>
+        </a>
+      </h2>
       <p>Rating: {rating} / 5</p>
       <p>
         Price: {formatPrice(price.saleAmount || price.amount, price.currency)}
@@ -47,10 +52,10 @@ function ProductTile({
           </span>
         )}
       </p>
-      <Button disabled={!inStock}>
+      <Button disabled={!inStock} className="hoam-product-tile__button">
         {inStock ? "Add to cart" : "Out of stock"}
       </Button>
-    </a>
+    </div>
   );
 }
 
