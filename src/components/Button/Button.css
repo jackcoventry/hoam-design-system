@@ -36,10 +36,13 @@
   --hoam-button-color-fill-hover: var(--hoam-color-sun-300);
 }
 
-.hoam-button:hover {
+.hoam-button:not(:disabled):hover {
   background-color: var(--hoam-button-color-fill-hover);
 }
 
+.hoam-button:disabled {
+  --hoam-button-color-fill: var(--hoam-color-neutral-700);
+}
 .hoam-button:focus-visible {
   box-shadow:
     0 0 0 2px white,

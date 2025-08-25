@@ -23,3 +23,5 @@ const Template: Story = {
 };
 
 export const Default = { ...Template, args: {} };
+
+export const OutOfStock = { ...Template, args: { inStock: false } };

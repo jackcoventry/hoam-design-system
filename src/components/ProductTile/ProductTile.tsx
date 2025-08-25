@@ -15,13 +15,22 @@ type ProductTileProps = {
   inStock: boolean;
 };
 
+function formatPrice(value = 0, currency = "GBP") {
+  const amount = value;
+  const result = amount.toLocaleString("en-GB", {
+    style: "currency",
+    currency: currency,
+  });
+  return result;
+}
+
 function ProductTile({
   title,
   productId,
   rating,
   price,
   inStock,
-}: ProductTileProps) {
+}: Readonly<ProductTileProps>) {
   return (
     <a href={`#${productId}`} className="hoam-product-tile">
       <img
@@ -31,15 +40,16 @@ function ProductTile({
       <h2>{title}</h2>
       <p>Rating: {rating} / 5</p>
       <p>
-        Price: {price.currency} {price.saleAmount ?? price.amount}
-        {price.saleAmount && (
+        Price: {formatPrice(price.saleAmount || price.amount, price.currency)}
+        {!!price.saleAmount && (
           <span style={{ textDecoration: "line-through", marginLeft: "8px" }}>
-            {price.currency} {price.amount}
+            {formatPrice(price.amount, price.currency)}
           </span>
         )}
       </p>
-      <p>{inStock ? "In Stock" : "Out of Stock"}</p>
-      <Button disabled={!inStock}>Add to Cart</Button>
+      <Button disabled={!inStock}>
+        {inStock ? "Add to cart" : "Out of stock"}
+      </Button>
     </a>
   );
 }
