@@ -9,6 +9,7 @@ type ButtonProps = {
   iconPosition?: "left" | "right";
   onClick?: () => void;
   variant?: "primary" | "secondary";
+  disabled?: boolean;
 };
 
 const Button = ({
@@ -18,6 +19,7 @@ const Button = ({
   icon,
   iconPosition = "right",
   variant = "primary",
+  disabled = false,
 }: ButtonProps) => {
   const classes = clsx("hoam-button", className);
   return (
@@ -26,6 +28,7 @@ const Button = ({
       data-icon-position={iconPosition}
       data-variant={variant}
       onClick={onClick}
+      {...(disabled ? { disabled: true } : {})}
     >
       {children && <span className="hoam-button__content">{children}</span>}
       {icon && (
