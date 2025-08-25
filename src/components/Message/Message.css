@@ -19,6 +19,20 @@
   display: none;
 }
 
+.hoam-message__close {
+  align-items: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  padding: 0;
+}
+
+.hoam-message__close .icon {
+  pointer-events: none;
+}
+
 .hoam-message__content {
   display: grid;
   gap: var(--hoam-spacing-2);

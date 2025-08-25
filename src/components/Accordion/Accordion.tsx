@@ -1,6 +1,5 @@
 import React, { useState, createContext, useContext, ReactNode } from "react";
 import clsx from "clsx";
-import { Button } from "@/components/Button/Button";
 import "./Accordion.css";
 
 /**
@@ -142,7 +141,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ id, children }) => {
               fill="currentColor"
             >
               <use
-                xlinkHref={`/icons/icons.svg#${isOpen ? "arrow-left" : "arrow-right"}`}
+                xlinkHref={`/icons/icons.svg#${isOpen ? "caret-down" : "caret-right"}`}
               />
             </svg>
           </span>

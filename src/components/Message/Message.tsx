@@ -3,14 +3,12 @@ import "./Message.css";
 
 type MessageProps = {
   onClose?: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  pinned?: boolean;
   status: "info" | "warning" | "error" | "success";
   text?: string;
   title: string;
 };
 
 function Message({
-  pinned,
   status = "info",
   text,
   title,
@@ -27,7 +25,6 @@ function Message({
     <div
       className="hoam-message"
       data-status={status}
-      data-pinned={pinned}
       data-open={isOpen}
       role="alert"
     >
@@ -46,7 +43,9 @@ function Message({
             aria-label="Close message"
             onClick={handleClose}
           >
-            X
+            <svg className="icon" width="2em" height="2em" fill="currentColor">
+              <use xlinkHref="/icons/icons.svg#close" />
+            </svg>
           </button>
         </div>
       )}
