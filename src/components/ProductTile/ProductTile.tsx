@@ -11,7 +11,7 @@ type ProductPrice = {
 type ProductTileProps = {
   title: string;
   productId: string;
-  rating: number;
+  footnote: string;
   price: ProductPrice;
   inStock: boolean;
 };
@@ -28,33 +28,45 @@ function formatPrice(value = 0, currency = "GBP") {
 function ProductTile({
   title,
   productId,
-  rating,
+  footnote,
   price,
   inStock,
 }: Readonly<ProductTileProps>) {
   return (
     <div className="hoam-product-tile">
-      <img
-        src={`https://placehold.co/600x400?text=${encodeURIComponent(title)}`}
-        alt={title}
-      />
-      <h2>
+      <figure className="hoam-product-tile__image-wrapper">
+        <img
+          src={`https://placehold.co/600x400?text=${encodeURIComponent(title)}`}
+          alt={title}
+          className="hoam-product-tile__image"
+        />
+      </figure>
+      <h2 className="hoam-product-tile__title">
         <a href={`#${productId}`} className="hoam-product-tile__link">
           <span role="text">{title}</span>
         </a>
       </h2>
-      <p>Rating: {rating} / 5</p>
+      {footnote && (
+        <span className="hoam-product-tile__footnote">{footnote}</span>
+      )}
       <p>
-        Price: {formatPrice(price.saleAmount || price.amount, price.currency)}
-        {!!price.saleAmount && (
-          <span style={{ textDecoration: "line-through", marginLeft: "8px" }}>
-            {formatPrice(price.amount, price.currency)}
+        <span className="hoam-product-tile__price" data-price-status="current">
+          {formatPrice(price?.saleAmount || price?.amount, price?.currency)}
+        </span>
+        {!!price?.saleAmount && (
+          <span
+            className="hoam-product-tile__price"
+            data-price-status="previous"
+          >
+            {formatPrice(price?.amount, price?.currency)}
           </span>
         )}
       </p>
-      <Button disabled={!inStock} className="hoam-product-tile__button">
-        {inStock ? "Add to cart" : "Out of stock"}
-      </Button>
+      <div>
+        <Button disabled={!inStock} className="hoam-product-tile__button">
+          {inStock ? "Add to cart" : "Out of stock"}
+        </Button>
+      </div>
     </div>
   );
 }

@@ -1,9 +1,30 @@
 .hoam-product-tile {
+  display: grid;
+  gap: var(--hoam-spacing-2);
   position: relative;
 }
 
-.hoam-product-tile__link {
+.hoam-product-tile__image-wrapper {
+  height: 0;
+  padding-bottom: 66.66%;
+  overflow: hidden;
+  margin: 0;
+  width: 100%;
+  background: linear-gradient(90deg, #eeea 30%, #fffa, #eeea 60%) right/300%
+    100%;
+  animation: hoam-product-tile-image-loading 1.5s linear infinite;
+}
+
+.hoam-product-tile__image {
   display: block;
+  width: 100%;
+  height: auto;
+}
+
+.hoam-product-tile__link {
+  color: var(--hoam-color-moon-700);
+  display: block;
+  text-decoration: none;
 }
 
 .hoam-product-tile__link::after {
@@ -17,6 +38,31 @@
 }
 
 .hoam-product-tile__button {
+  margin-top: var(--hoam-spacing-3);
   position: relative;
   z-index: 1;
+}
+
+.hoam-product-tile__title {
+  font: var(--hoam-typography-title-4);
+}
+
+.hoam-product-tile__price {
+  font: var(--hoam-typography-body-1);
+}
+
+.hoam-product-tile__price[data-price-status="previous"] {
+  font-style: italic;
+  margin-left: var(--hoam-spacing-2);
+  text-decoration: line-through;
+}
+
+.hoam-product-tile__footnote {
+  font: var(--hoam-typography-body-1);
+}
+
+@keyframes hoam-product-tile-image-loading {
+  to {
+    background-position: left;
+  }
 }

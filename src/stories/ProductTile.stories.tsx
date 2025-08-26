@@ -9,7 +9,7 @@ const meta: Meta<typeof ProductTile> = {
   args: {
     title: "Sample Product",
     productId: "sample-product",
-    rating: 4.5,
+    footnote: "A short description of the product.",
     price: { amount: 100, saleAmount: 80, currency: "GBP" },
     inStock: true,
   },
@@ -19,7 +19,11 @@ export default meta;
 type Story = StoryObj<typeof ProductTile>;
 
 const Template: Story = {
-  render: (args) => <ProductTile {...args} />,
+  render: (args) => (
+    <div style={{ width: "300px" }}>
+      <ProductTile {...args} />
+    </div>
+  ),
 };
 
 export const Default = { ...Template, args: {} };
