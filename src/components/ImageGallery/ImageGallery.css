@@ -1,0 +1,140 @@
+.hoam-carousel {
+  --hoam-carousel-button-size: 32px;
+
+  width: 100%;
+}
+
+.hoam-carousel__empty {
+  padding: var(--hoam-spacing-4);
+  color: #666;
+}
+
+.hoam-carousel__header {
+  align-items: center;
+  display: grid;
+  grid-template-columns: var(--hoam-carousel-button-size) 1fr var(
+      --hoam-carousel-button-size
+    );
+  gap: var(--hoam-spacing-2);
+}
+
+.hoam-carousel__btn {
+  inline-size: var(--hoam-carousel-button-size);
+  block-size: var(--hoam-carousel-button-size);
+  display: grid;
+  place-items: center;
+  user-select: none;
+}
+
+.hoam-carousel__btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.hoam-carousel__status {
+  text-align: center;
+}
+
+.hoam-carousel__viewport {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 100%;
+  gap: var(--hoam-spacing-4);
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 0.25rem; /* avoid scrollbar bump */
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+}
+
+.hoam-carousel__viewport:focus {
+  outline: none;
+}
+
+.hoam-carousel__viewport::-webkit-scrollbar {
+  height: 10px;
+  display: none; /* Chrome, Safari, Edge */
+}
+
+.hoam-carousel__viewport::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hoam-carousel__viewport {
+    scroll-behavior: auto;
+  }
+}
+
+.hoam-carousel__slide {
+  scroll-snap-align: start;
+  position: relative;
+}
+
+.hoam-carousel__media {
+  width: 100%;
+  aspect-ratio: 16/9;
+  overflow: hidden;
+}
+
+.hoam-carousel__media > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+  pointer-events: none;
+}
+
+.hoam-carousel__thumbs {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: max-content;
+  gap: var(--hoam-spacing-2);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.hoam-carousel__thumb {
+  --thumb-w: 72px; /* tweak sizes here */
+  --thumb-h: 48px;
+
+  inline-size: var(--thumb-w);
+  block-size: var(--thumb-h);
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  opacity: 0.7;
+  transition:
+    opacity 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.hoam-carousel__thumb:hover {
+  opacity: 0.9;
+}
+
+.hoam-carousel__thumb:focus-visible {
+  outline: none;
+  border-color: #111;
+}
+
+.hoam-carousel__thumb.is-active {
+  opacity: 1;
+  border-color: #333;
+}
+
+.hoam-carousel__thumb > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 6px;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+}

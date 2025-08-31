@@ -20,7 +20,7 @@ function Pagination({
           </Button>
         </li>
         {Array.from({ length: pageCount }, (_, i) => i + 1).map((page) => (
-          <li key={page}>
+          <li className="hoam-pagination__pages" key={page}>
             <Button variant={page === currentPage ? "primary" : "secondary"}>
               {page}
             </Button>
