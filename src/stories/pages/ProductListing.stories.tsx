@@ -1,10 +1,10 @@
 import React from "react";
 import { Meta, StoryObj } from "@storybook/react";
 import ProductTile from "@/components/ProductTile/ProductTile";
+import Pagination from "@/components/Pagination/Pagination";
 
 const meta: Meta<typeof ProductTile> = {
   title: "Pages/ProductListing",
-  //   component: ProductTile,
   tags: ["autodocs"],
   args: {
     title: "Sample Product",
@@ -21,7 +21,7 @@ type Story = StoryObj<typeof ProductTile>;
 const Template: Story = {
   render: (args) => (
     <>
-      <div style={{ display: "flex", gap: "16px", marginBottom: "32px" }}>
+      <div style={{ display: "flex", gap: "16px", paddingBottom: "64px" }}>
         <div>
           <ProductTile {...args} />
         </div>
@@ -32,7 +32,7 @@ const Template: Story = {
           <ProductTile {...args} />
         </div>
       </div>
-      <div style={{ display: "flex", gap: "16px" }}>
+      <div style={{ display: "flex", gap: "16px", paddingBottom: "64px" }}>
         <div>
           <ProductTile {...args} />
         </div>
@@ -43,6 +43,7 @@ const Template: Story = {
           <ProductTile {...args} />
         </div>
       </div>
+      <Pagination pageCount={5} currentPage={2} />
     </>
   ),
 };

@@ -4,7 +4,7 @@
   --hoam-button-spacing-vertical: var(--hoam-spacing-3);
   --hoam-button-border-radius: 5px;
   --hoam-button-content-gap: var(--hoam-spacing-2);
-  --hoam-button-min-height: 46px;
+  --hoam-button-min-height: 50px;
 }
 
 .hoam-button {

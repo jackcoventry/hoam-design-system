@@ -1,0 +1,12 @@
+.hoam-pagination {
+  display: flex;
+  justify-content: center;
+  margin: var(--hoam-spacing-3) 0;
+}
+
+.hoam-pagination__list {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  gap: var(--hoam-spacing-2);
+}
