@@ -1,6 +1,4 @@
 .hoam-carousel {
-  --hoam-carousel-button-size: 32px;
-
   width: 100%;
 }
 
@@ -12,23 +10,9 @@
 .hoam-carousel__header {
   align-items: center;
   display: grid;
-  grid-template-columns: var(--hoam-carousel-button-size) 1fr var(
-      --hoam-carousel-button-size
-    );
+  grid-template-columns: auto 1fr auto;
   gap: var(--hoam-spacing-2);
-}
-
-.hoam-carousel__btn {
-  inline-size: var(--hoam-carousel-button-size);
-  block-size: var(--hoam-carousel-button-size);
-  display: grid;
-  place-items: center;
-  user-select: none;
-}
-
-.hoam-carousel__btn:disabled {
-  opacity: 0.4;
-  cursor: not-allowed;
+  padding-bottom: var(--hoam-spacing-4);
 }
 
 .hoam-carousel__status {

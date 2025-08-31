@@ -42,13 +42,12 @@ export default function ImageGallery({
     );
   }
 
-  // Scroll to initial slide after mount (no animation)
+  // Scroll to initial slide after mount
   useEffect(() => {
     const el = viewportRef.current;
     if (!el) return;
     const slide = el.children[index] as HTMLElement | undefined;
     if (slide) el.scrollTo({ left: slide.offsetLeft, top: 0 });
-    // run only once on mount
   }, []);
 
   // Track index while the user swipes/drags/scrolls
@@ -113,12 +112,12 @@ export default function ImageGallery({
     >
       <div className="hoam-carousel__header">
         <Button
-          className="hoam-carousel__btn"
           onClick={prev}
           aria-label="Previous slide"
           aria-controls={idBase}
           disabled={index === 0}
           icon="arrow-left"
+          iconOnly
         />
 
         <div className="hoam-carousel__status" aria-live="polite">
@@ -126,12 +125,12 @@ export default function ImageGallery({
         </div>
 
         <Button
-          className="hoam-carousel__btn"
           onClick={next}
           aria-label="Next slide"
           aria-controls={idBase}
-          disabled={index === 0}
+          disabled={index === images.length - 1}
           icon="arrow-right"
+          iconOnly
         />
       </div>
 
