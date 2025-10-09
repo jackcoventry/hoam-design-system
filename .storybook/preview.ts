@@ -3,6 +3,8 @@ import { themes } from "storybook/theming";
 import "@/styles/_variables.css";
 import "@/styles/_reset.css";
 import "@/styles/_global.css";
+import "@/styles/_grid.scss";
+import "@/styles/_demo.css";
 
 const preview = {
   parameters: {

@@ -1,0 +1,187 @@
+@use "sass:map";
+
+/* ===============================
+   Config
+   =============================== */
+
+$container-max: 1200px;
+$grid-columns: 12;
+$grid-gap: var(--hoam-spacing-4);
+
+$sizes: (
+  0: 0,
+  2xs: 1,
+  xs: 2,
+  sm: 3,
+  md: 4,
+  lg: 5,
+  xl: 6,
+  2xl: 7,
+);
+
+$breakpoints: (
+  sm: 480px,
+  md: 768px,
+  lg: 1024px,
+  xl: 1280px,
+);
+
+/* Escaped prefixes so selectors render like .sm\:m-sm, etc. */
+$bp-prefixes: (
+  sm: "sm\\:",
+  md: "md\\:",
+  lg: "lg\\:",
+  xl: "xl\\:",
+);
+
+/* ===============================
+   Layout Helpers
+   =============================== */
+
+.container {
+  width: min(100% - var(--hoam-spacing-8), $container-max);
+  margin-inline: auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat($grid-columns, minmax(0, 1fr));
+  gap: $grid-gap;
+}
+
+/* Auto grid: auto-fit min width columns */
+.grid-auto {
+  display: grid;
+  gap: $grid-gap;
+  grid-template-columns: repeat(auto-fit, minmax(var(--auto-min, 14rem), 1fr));
+}
+
+/* ===============================
+   Column Span & Start Utilities
+   =============================== */
+@for $i from 1 through $grid-columns {
+  .span-#{$i} {
+    grid-column: span $i;
+  }
+  .start-#{$i} {
+    grid-column-start: $i;
+  }
+}
+
+/* Responsive span/start variants */
+@each $bp, $width in $breakpoints {
+  @media (min-width: $width) {
+    $prefix: map.get($bp-prefixes, $bp);
+    @for $i from 1 through $grid-columns {
+      .#{$prefix}span-#{$i} {
+        grid-column: span $i;
+      }
+      .#{$prefix}start-#{$i} {
+        grid-column-start: $i;
+      }
+    }
+  }
+}
+
+/* ===============================
+   Gap Utilities (Base)
+   =============================== */
+@each $label, $i in $sizes {
+  .gap-#{$label} {
+    gap: var(--hoam-spacing-#{$i});
+  }
+  .v-gap-#{$label} {
+    row-gap: var(--hoam-spacing-#{$i});
+  }
+  .h-gap-#{$label} {
+    column-gap: var(--hoam-spacing-#{$i});
+  }
+}
+
+/* ===============================
+   Gap Utilities (Responsive)
+   =============================== */
+@each $bp, $width in $breakpoints {
+  @media (min-width: $width) {
+    $prefix: map.get($bp-prefixes, $bp);
+    @each $label, $i in $sizes {
+      .#{$prefix}gap-#{$label} {
+        gap: var(--hoam-spacing-#{$i});
+      }
+      .#{$prefix}v-gap-#{$label} {
+        row-gap: var(--hoam-spacing-#{$i});
+      }
+      .#{$prefix}h-gap-#{$label} {
+        column-gap: var(--hoam-spacing-#{$i});
+      }
+    }
+  }
+}
+
+/* ===============================
+   Generator
+   =============================== */
+@mixin create-utilities($prefix: "") {
+  @each $label, $i in $sizes {
+    /* Margin — all + sides + axes */
+    .#{$prefix}m-#{$label} {
+      margin: var(--hoam-spacing-#{$i});
+    }
+    .#{$prefix}mt-#{$label} {
+      margin-top: var(--hoam-spacing-#{$i});
+    }
+    .#{$prefix}mr-#{$label} {
+      margin-right: var(--hoam-spacing-#{$i});
+    }
+    .#{$prefix}mb-#{$label} {
+      margin-bottom: var(--hoam-spacing-#{$i});
+    }
+    .#{$prefix}ml-#{$label} {
+      margin-left: var(--hoam-spacing-#{$i});
+    }
+    .#{$prefix}mx-#{$label} {
+      margin-left: var(--hoam-spacing-#{$i});
+      margin-right: var(--hoam-spacing-#{$i});
+    }
+    .#{$prefix}my-#{$label} {
+      margin-top: var(--hoam-spacing-#{$i});
+      margin-bottom: var(--hoam-spacing-#{$i});
+    }
+
+    /* Padding — all + sides + axes */
+    .#{$prefix}p-#{$label} {
+      padding: var(--hoam-spacing-#{$i});
+    }
+    .#{$prefix}pt-#{$label} {
+      padding-top: var(--hoam-spacing-#{$i});
+    }
+    .#{$prefix}pr-#{$label} {
+      padding-right: var(--hoam-spacing-#{$i});
+    }
+    .#{$prefix}pb-#{$label} {
+      padding-bottom: var(--hoam-spacing-#{$i});
+    }
+    .#{$prefix}pl-#{$label} {
+      padding-left: var(--hoam-spacing-#{$i});
+    }
+    .#{$prefix}px-#{$label} {
+      padding-left: var(--hoam-spacing-#{$i});
+      padding-right: var(--hoam-spacing-#{$i});
+    }
+    .#{$prefix}py-#{$label} {
+      padding-top: var(--hoam-spacing-#{$i});
+      padding-bottom: var(--hoam-spacing-#{$i});
+    }
+  }
+}
+
+/* Base (mobile-first) */
+@include create-utilities();
+
+/* Responsive variants */
+@each $bp, $width in $breakpoints {
+  @media (min-width: $width) {
+    $prefix: map.get($bp-prefixes, $bp);
+    @include create-utilities($prefix);
+  }
+}
