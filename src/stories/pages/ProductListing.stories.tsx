@@ -20,31 +20,36 @@ type Story = StoryObj<typeof ProductTile>;
 
 const Template: Story = {
   render: (args) => (
-    <>
-      <div style={{ display: "flex", gap: "16px", paddingBottom: "64px" }}>
-        <div>
+    <div className="container">
+      <div className="grid gap-lg mb-2xl">
+        <div className="span-12 lg:span-4">
           <ProductTile {...args} />
         </div>
-        <div>
+        <div className="span-12 lg:span-4">
           <ProductTile {...args} />
         </div>
-        <div>
-          <ProductTile {...args} />
-        </div>
-      </div>
-      <div style={{ display: "flex", gap: "16px", paddingBottom: "64px" }}>
-        <div>
-          <ProductTile {...args} />
-        </div>
-        <div>
-          <ProductTile {...args} />
-        </div>
-        <div>
+        <div className="span-12 lg:span-4">
           <ProductTile {...args} />
         </div>
       </div>
-      <Pagination pageCount={5} currentPage={2} />
-    </>
+      <div className="grid gap-lg mb-xl">
+        <div className="span-12 lg:span-4">
+          <ProductTile {...args} />
+        </div>
+        <div className="span-12 lg:span-4">
+          <ProductTile {...args} />
+        </div>
+        <div className="span-12 lg:span-4">
+          <ProductTile {...args} />
+        </div>
+      </div>
+
+      <div className="grid">
+        <div className="span-12">
+          <Pagination pageCount={5} currentPage={2} />
+        </div>
+      </div>
+    </div>
   ),
 };
 

@@ -1,13 +1,15 @@
 @use "sass:map";
 
 /* ===============================
-   Config
+   Settings
    =============================== */
 
-$container-max: 1200px;
+// Grid settings
 $grid-columns: 12;
 $grid-gap: var(--hoam-spacing-4);
 
+// Spacing sizes (for utilities, based on --hoam-spacing-*)
+// TODO: sync better, maybe reduce overall number of size tokens
 $sizes: (
   0: 0,
   2xs: 1,
@@ -19,6 +21,8 @@ $sizes: (
   2xl: 7,
 );
 
+// Breakpoints
+// TODO: integrate with tokens
 $breakpoints: (
   sm: 480px,
   md: 768px,
@@ -39,8 +43,8 @@ $bp-prefixes: (
    =============================== */
 
 .container {
-  width: min(100% - var(--hoam-spacing-8), $container-max);
   margin-inline: auto;
+  width: min(100% - var(--hoam-spacing-8), 1200px);
 }
 
 .grid {
@@ -59,6 +63,7 @@ $bp-prefixes: (
 /* ===============================
    Column Span & Start Utilities
    =============================== */
+
 @for $i from 1 through $grid-columns {
   .span-#{$i} {
     grid-column: span $i;
@@ -119,11 +124,11 @@ $bp-prefixes: (
 }
 
 /* ===============================
-   Generator
+   Selector generator
    =============================== */
 @mixin create-utilities($prefix: "") {
   @each $label, $i in $sizes {
-    /* Margin — all + sides + axes */
+    /* Margin — all + sides */
     .#{$prefix}m-#{$label} {
       margin: var(--hoam-spacing-#{$i});
     }
@@ -148,7 +153,7 @@ $bp-prefixes: (
       margin-bottom: var(--hoam-spacing-#{$i});
     }
 
-    /* Padding — all + sides + axes */
+    /* Padding — all + sides */
     .#{$prefix}p-#{$label} {
       padding: var(--hoam-spacing-#{$i});
     }
@@ -175,7 +180,6 @@ $bp-prefixes: (
   }
 }
 
-/* Base (mobile-first) */
 @include create-utilities();
 
 /* Responsive variants */
