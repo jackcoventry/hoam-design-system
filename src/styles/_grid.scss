@@ -66,7 +66,7 @@ $bp-prefixes: (
 
 @for $i from 1 through $grid-columns {
   .span-#{$i} {
-    grid-column: span $i;
+    grid-column-end: span $i;
   }
   .start-#{$i} {
     grid-column-start: $i;
@@ -79,7 +79,7 @@ $bp-prefixes: (
     $prefix: map.get($bp-prefixes, $bp);
     @for $i from 1 through $grid-columns {
       .#{$prefix}span-#{$i} {
-        grid-column: span $i;
+        grid-column-end: span $i;
       }
       .#{$prefix}start-#{$i} {
         grid-column-start: $i;
