@@ -14,11 +14,20 @@ export default meta;
 type Story = StoryObj<typeof QuantitySelector>;
 
 const Template: Story = {
-  render: (args) => (
-    <div>
-      <QuantitySelector {...args} />
-    </div>
-  ),
+  render: (args) => {
+    const [qty, setQty] = React.useState(0);
+
+    function onChange(value: number) {
+      console.log("Quantity changed to:", value);
+      setQty(value);
+    }
+
+    return (
+      <div>
+        <QuantitySelector {...args} onChange={onChange} value={qty} />
+      </div>
+    );
+  },
 };
 
 export const Default = { ...Template, args: {} };

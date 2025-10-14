@@ -30,7 +30,7 @@ export const QuantitySelector = React.forwardRef<
       onChange,
       min = 0,
       max = Number.POSITIVE_INFINITY,
-      disabled = false,
+      disabled = true,
       id,
       name,
       ariaLabel,
@@ -49,6 +49,8 @@ export const QuantitySelector = React.forwardRef<
     }, [value, min, max]);
 
     const apply = (next: number) => onChange(clamp(next, min, max));
+    const update = (dir: 1 | -1, multiplier = 1) =>
+      apply(value + dir * multiplier);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const raw = e.target.value;
@@ -63,14 +65,41 @@ export const QuantitySelector = React.forwardRef<
       else setText(String(value));
     };
 
-    const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {};
+    const keyDispatch: Record<string, () => void> = {
+      ArrowUp: () => update(1),
+      ArrowDown: () => update(-1),
+      PageUp: () => update(1, 5),
+      PageDown: () => update(-1, 5),
+      Home: () => apply(min),
+      End: () => apply(max),
+    } as const;
+
+    const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (disabled) return;
+      const fn = keyDispatch[e.key];
+      if (fn) {
+        e.preventDefault();
+        fn();
+      }
+    };
+
+    const createButtonHandlers = (dir: 1 | -1) => ({
+      onClick: () => update(dir),
+    });
 
     const atMin = value <= min;
     const atMax = value >= max;
 
     return (
       <div className="hoam-quantity-selector">
-        <button>-</button>
+        <button
+          type="button"
+          aria-label={decrementLabel}
+          disabled={atMin}
+          {...createButtonHandlers(-1)}
+        >
+          −
+        </button>
         <input
           ref={ref}
           id={id}
@@ -90,7 +119,14 @@ export const QuantitySelector = React.forwardRef<
           aria-disabled={disabled || undefined}
           disabled={disabled}
         />
-        <button>+</button>
+        <button
+          type="button"
+          aria-label={incrementLabel}
+          disabled={atMax}
+          {...createButtonHandlers(1)}
+        >
+          +
+        </button>
       </div>
     );
   }
