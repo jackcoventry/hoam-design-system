@@ -1,0 +1,12 @@
+.hoam-quantity-selector {
+  display: inline-flex;
+  align-items: center;
+}
+
+.hoam-quantity-selector__input {
+  width: 100px;
+  text-align: center;
+  border: none;
+  outline: none;
+  font: var(--hoam-typography-body-1);
+}

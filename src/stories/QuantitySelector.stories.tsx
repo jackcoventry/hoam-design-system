@@ -18,13 +18,12 @@ const Template: Story = {
     const [qty, setQty] = React.useState(0);
 
     function onChange(value: number) {
-      console.log("Quantity changed to:", value);
       setQty(value);
     }
 
     return (
       <div>
-        <QuantitySelector {...args} onChange={onChange} value={qty} />
+        <QuantitySelector {...args} onChange={onChange} value={qty} max={13} />
       </div>
     );
   },

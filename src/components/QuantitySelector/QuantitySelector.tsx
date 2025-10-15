@@ -1,11 +1,12 @@
 import React from "react";
+import { Button } from "@/components/Button/Button";
+import "./QuantitySelector.css";
 
 export interface QuantitySelectorProps {
   value: number;
   onChange: (value: number) => void;
   min?: number;
   max?: number;
-  disabled?: boolean;
   id?: string;
   name?: string;
   ariaLabel?: string;
@@ -13,8 +14,8 @@ export interface QuantitySelectorProps {
   decrementLabel?: string;
 }
 
+// Ensures a number stays between the min and max bounds.
 function clamp(n: number, min: number, max: number) {
-  // Ensures a number stays between the min and max bounds.
   if (Number.isFinite(min)) n = Math.max(n, min);
   if (Number.isFinite(max)) n = Math.min(n, max);
   return n;
@@ -30,7 +31,6 @@ export const QuantitySelector = React.forwardRef<
       onChange,
       min = 0,
       max = Number.POSITIVE_INFINITY,
-      disabled = true,
       id,
       name,
       ariaLabel,
@@ -41,6 +41,9 @@ export const QuantitySelector = React.forwardRef<
   ) => {
     const ariaMin = Number.isFinite(min) ? min : undefined;
     const ariaMax = Number.isFinite(max) ? max : undefined;
+    const latestValueRef = React.useRef(value);
+    const atMin = value <= min;
+    const atMax = value >= max;
 
     const [text, setText] = React.useState(String(value));
 
@@ -48,85 +51,100 @@ export const QuantitySelector = React.forwardRef<
       setText(String(clamp(value, min, max)));
     }, [value, min, max]);
 
+    React.useEffect(() => {
+      latestValueRef.current = value;
+    }, [value]);
+
+    React.useEffect(() => stopPress, []); // cleanup
+
+    // Takes a new number, clamps it and triggers the onChange callback
     const apply = (next: number) => onChange(clamp(next, min, max));
+
+    // Updates the value by a delta, optionally multiplied
     const update = (dir: 1 | -1, multiplier = 1) =>
-      apply(value + dir * multiplier);
+      apply(latestValueRef.current + dir * multiplier);
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const raw = e.target.value;
-      setText(raw);
-      const n = Number(raw);
-      if (!Number.isNaN(n)) onChange(n);
-    };
+    // Handles pressing and holding the increment/decrement buttons
+    const pressTimeout = React.useRef<number | null>(null);
+    const pressDirection = React.useRef<1 | -1 | 0>(0);
 
-    const handleBlur = () => {
-      const n = Number(text);
-      if (!Number.isNaN(n)) apply(n);
-      else setText(String(value));
-    };
-
-    const keyDispatch: Record<string, () => void> = {
-      ArrowUp: () => update(1),
-      ArrowDown: () => update(-1),
-      PageUp: () => update(1, 5),
-      PageDown: () => update(-1, 5),
-      Home: () => apply(min),
-      End: () => apply(max),
-    } as const;
-
-    const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (disabled) return;
-      const fn = keyDispatch[e.key];
-      if (fn) {
-        e.preventDefault();
-        fn();
+    const stopPress = () => {
+      pressDirection.current = 0;
+      if (pressTimeout.current) {
+        window.clearTimeout(pressTimeout.current);
+        pressTimeout.current = null;
       }
     };
 
-    const createButtonHandlers = (dir: 1 | -1) => ({
-      onClick: () => update(dir),
-    });
+    const pressTick = (dir: 1 | -1, delay: number) => {
+      if (pressDirection.current !== dir) return; // stopped or changed
+      update(dir);
+      const nextDelay = Math.max(50, delay - 10); // accelerate a bit
+      pressTimeout.current = window.setTimeout(
+        () => pressTick(dir, nextDelay),
+        nextDelay
+      );
+    };
 
-    const atMin = value <= min;
-    const atMax = value >= max;
+    const startPress = (dir: 1 | -1) => {
+      stopPress();
+      pressDirection.current = dir;
+      update(dir);
+      pressTimeout.current = window.setTimeout(() => pressTick(dir, 140), 300);
+    };
+
+    const createButtonHandlers = (dir: 1 | -1) => ({
+      onMouseDown: () => startPress(dir),
+      onMouseUp: stopPress,
+      onMouseLeave: stopPress,
+      onTouchStart: () => startPress(dir),
+      onTouchEnd: stopPress,
+      onKeyDown: (e: React.KeyboardEvent<HTMLButtonElement>) => {
+        // Support keyboard activation on focused buttons
+        if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") {
+          e.preventDefault(); // avoid page scroll and rely on our handler
+          startPress(dir);
+        }
+      },
+      onKeyUp: (e: React.KeyboardEvent<HTMLButtonElement>) => {
+        if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") {
+          e.preventDefault();
+          stopPress();
+        }
+      },
+    });
 
     return (
       <div className="hoam-quantity-selector">
-        <button
-          type="button"
-          aria-label={decrementLabel}
+        <Button
+          ariaLabel={decrementLabel}
           disabled={atMin}
           {...createButtonHandlers(-1)}
         >
           −
-        </button>
+        </Button>
         <input
           ref={ref}
           id={id}
           name={name}
           type="text"
-          inputMode="numeric"
-          pattern="[0-9]*"
           value={text}
-          onChange={handleInputChange}
-          onBlur={handleBlur}
-          onKeyDown={onKeyDown}
           role="spinbutton"
+          readOnly
+          disabled
           aria-label={ariaLabel}
           aria-valuenow={value}
           aria-valuemin={ariaMin}
           aria-valuemax={ariaMax}
-          aria-disabled={disabled || undefined}
-          disabled={disabled}
+          className="hoam-quantity-selector__input"
         />
-        <button
-          type="button"
-          aria-label={incrementLabel}
+        <Button
+          ariaLabel={incrementLabel}
           disabled={atMax}
           {...createButtonHandlers(1)}
         >
           +
-        </button>
+        </Button>
       </div>
     );
   }

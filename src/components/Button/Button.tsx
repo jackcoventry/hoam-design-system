@@ -24,6 +24,7 @@ const Button = ({
   disabled = false,
   iconOnly = false,
   ariaLabel,
+  ...rest
 }: ButtonProps) => {
   const classes = clsx("hoam-button", className);
 
@@ -41,6 +42,7 @@ const Button = ({
       onClick={onClick}
       aria-label={computedAriaLabel}
       {...(disabled ? { disabled: true } : {})}
+      {...rest}
     >
       {children && !iconOnly && (
         <span className="hoam-button__content">{children}</span>
