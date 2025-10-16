@@ -141,6 +141,7 @@ export const QuantitySelector = React.forwardRef<
         <Button
           ariaLabel={incrementLabel}
           disabled={atMax}
+          variant="secondary"
           {...createButtonHandlers(1)}
         >
           +
