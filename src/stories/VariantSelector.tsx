@@ -1,17 +1,17 @@
 import React from "react";
 import { Meta, StoryObj } from "@storybook/react";
-import ColorSelector from "@/components/ColorSelector/ColorSelector";
+import VariantSelector from "@/components/VariantSelector/VariantSelector";
 
-const meta: Meta<typeof ColorSelector> = {
-  title: "Components/Color Selector",
-  component: ColorSelector,
+const meta: Meta<typeof VariantSelector> = {
+  title: "Components/Variant Selector",
+  component: VariantSelector,
   tags: ["autodocs"],
   args: {},
 };
 
 export default meta;
 
-type Story = StoryObj<typeof ColorSelector>;
+type Story = StoryObj<typeof VariantSelector>;
 
 const options = [
   { label: "Red", value: "red", name: "color" },
@@ -29,7 +29,7 @@ const Template: Story = {
 
     return (
       <div>
-        <ColorSelector
+        <VariantSelector
           {...args}
           onChange={onChange}
           value={active}
