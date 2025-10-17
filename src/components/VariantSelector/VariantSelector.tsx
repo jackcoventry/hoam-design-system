@@ -19,11 +19,10 @@ export type VariantSelectorProps = {
   label?: string;
   required?: boolean;
   orientation?: "horizontal" | "vertical";
-  wrap?: boolean;
+  wrap?: boolean; // whether arrow navigation circles around or stops at end
 };
 
 function focusNextTick(fn: () => void) {
-  // queueMicrotask may not exist in very old environments
   if (typeof queueMicrotask === "function") queueMicrotask(fn);
   else setTimeout(fn, 0);
 }

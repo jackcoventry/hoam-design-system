@@ -1,0 +1,210 @@
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import React from "react";
+import { render, screen, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import {
+  VariantSelector,
+  VariantOption,
+} from "@/components/VariantSelector/VariantSelector";
+
+function setup({
+  value = null as string | number | null,
+  options = [
+    { value: "black", label: "Black" },
+    { value: "white", label: "White" },
+    { value: "red", label: "Red" },
+  ] as VariantOption[],
+  label = "Color",
+  orientation = "horizontal" as const,
+  wrap = true,
+  onChange = vi.fn(),
+} = {}) {
+  const user = userEvent.setup();
+  render(
+    <VariantSelector
+      name="color"
+      label={label}
+      value={value}
+      onChange={onChange}
+      options={options}
+      orientation={orientation}
+      wrap={wrap}
+      required
+    />
+  );
+  return { user, onChange, options };
+}
+
+describe("VariantSelector", () => {
+  beforeEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it("renders all provided options and links legend via aria-labelledby", () => {
+    setup();
+    // legend should render and be connected to the radiogroup via aria-labelledby
+    const legend = screen.getByText("Color");
+    const group = screen.getByRole("radiogroup");
+    const labelledby = group.getAttribute("aria-labelledby");
+    expect(legend).toBeInTheDocument();
+    expect(labelledby).toBeTruthy();
+    expect(legend.id).toBe(labelledby);
+
+    // radios exist
+    const radios = screen.getAllByRole("radio");
+    expect(radios).toHaveLength(3);
+  });
+
+  it("is controlled: checked reflects value prop", () => {
+    setup({ value: "white" });
+    const black = screen.getByRole("radio", {
+      name: "Black",
+    }) as HTMLInputElement;
+    const white = screen.getByRole("radio", {
+      name: "White",
+    }) as HTMLInputElement;
+
+    expect(black.checked).toBe(false);
+    expect(white.checked).toBe(true);
+  });
+
+  it("clicking an option triggers onChange with that value", async () => {
+    const { user, onChange } = setup({ value: "black" });
+    const red = screen.getByRole("radio", { name: "Red" });
+    await user.click(red);
+    expect(onChange).toHaveBeenCalledWith("Red".toLowerCase()); // value is "red"
+  });
+
+  it("radiogroup is focusable and delegates focus to selected radio", async () => {
+    const { user } = setup({ value: "white" });
+    const group = screen.getByRole("radiogroup");
+    // focus group
+    group.focus();
+    // it should immediately refocus to the selected radio
+    const white = screen.getByRole("radio", { name: "White" });
+    expect(document.activeElement).toBe(white);
+    // also confirm tabIndex=0 present
+    expect(group).toHaveAttribute("tabIndex", "0");
+  });
+
+  it("when no selection, focusing the group moves focus to first enabled option", async () => {
+    const { user } = setup({
+      value: null,
+      options: [
+        { value: "black", label: "Black", disabled: true },
+        { value: "white", label: "White" },
+        { value: "red", label: "Red" },
+      ],
+    });
+    const group = screen.getByRole("radiogroup");
+    group.focus();
+    const white = screen.getByRole("radio", { name: "White" });
+    expect(document.activeElement).toBe(white);
+  });
+
+  it("Left/Right arrows cycle selection with wrap (horizontal)", async () => {
+    const { user, onChange, options } = setup({ value: "black" });
+    const group = screen.getByRole("radiogroup");
+
+    // Focus group (delegates to selected "black")
+    group.focus();
+    const radios = screen.getAllByRole("radio");
+    expect(document.activeElement).toBe(radios[0]); // black
+
+    // Press ArrowLeft should wrap to last (red)
+    await user.keyboard("{ArrowLeft}");
+    expect(onChange).toHaveBeenLastCalledWith(options[2].value); // red
+
+    // Long-press simulation: multiple ArrowRight should traverse sequentially and wrap
+    await user.keyboard("{ArrowRight}{ArrowRight}{ArrowRight}");
+    // From red -> black -> white -> red
+    expect(onChange).toHaveBeenLastCalledWith(options[2].value); // red again
+  });
+
+  it("Up/Down arrows work when orientation is vertical", async () => {
+    const { user, onChange, options } = setup({
+      value: "black",
+      orientation: "vertical",
+    });
+    const group = screen.getByRole("radiogroup");
+    group.focus();
+
+    // ArrowDown moves forward
+    await user.keyboard("{ArrowDown}");
+    expect(onChange).toHaveBeenLastCalledWith(options[1].value); // white
+
+    // ArrowUp moves back (with wrap)
+    await user.keyboard("{ArrowUp}");
+    expect(onChange).toHaveBeenLastCalledWith(options[0].value); // black
+  });
+
+  it("skips disabled options while navigating", async () => {
+    const { user, onChange, options } = setup({
+      value: "black",
+      options: [
+        { value: "black", label: "Black" },
+        { value: "white", label: "White", disabled: true },
+        { value: "red", label: "Red" },
+      ],
+    });
+    const group = screen.getByRole("radiogroup");
+    group.focus();
+
+    // ArrowRight should skip disabled "white" and land on "red"
+    await user.keyboard("{ArrowRight}");
+    expect(onChange).toHaveBeenLastCalledWith("red");
+  });
+
+  it("when wrap is false, navigation stops at the edges", async () => {
+    const { user, onChange } = setup({
+      value: "black",
+      wrap: false,
+    });
+    const group = screen.getByRole("radiogroup");
+    group.focus();
+
+    // At the first item, ArrowLeft should do nothing
+    await user.keyboard("{ArrowLeft}");
+    expect(onChange).not.toHaveBeenCalled();
+
+    // Move to last item via repeated Right
+    await user.keyboard("{ArrowRight}{ArrowRight}");
+    // Called twice: white then red
+    expect(onChange).toHaveBeenNthCalledWith(1, "white");
+    expect(onChange).toHaveBeenNthCalledWith(2, "red");
+
+    onChange.mockClear();
+    // At the last item, ArrowRight should do nothing (no wrap)
+    await user.keyboard("{ArrowRight}");
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
+  it("forwards ref to the first radio input", () => {
+    const ref = React.createRef<HTMLInputElement>();
+    render(
+      <VariantSelector
+        ref={ref}
+        name="color"
+        label="Color"
+        value={null}
+        onChange={() => {}}
+        options={[
+          { value: "a", label: "A" },
+          { value: "b", label: "B" },
+        ]}
+      />
+    );
+    const firstRadio = screen.getByRole("radio", { name: "A" });
+    expect(ref.current).toBe(firstRadio);
+  });
+
+  it("radios are correctly labelled and grouped", () => {
+    setup({ value: null });
+    const group = screen.getByRole("radiogroup");
+    const radios = within(group).getAllByRole("radio");
+    for (const r of radios) {
+      expect(r.getAttribute("name")).toBe("color");
+      expect(r).toHaveAttribute("aria-label");
+    }
+  });
+});
