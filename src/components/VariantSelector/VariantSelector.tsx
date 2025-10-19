@@ -1,4 +1,5 @@
 import React, { forwardRef, useMemo, useRef, useId } from "react";
+import "./VariantSelector.css";
 
 type VariantValue = string | number;
 
@@ -17,6 +18,7 @@ export type VariantSelectorProps = {
   onChange: (value: VariantValue) => void;
   options: VariantOption[];
   label?: string;
+  showLabels?: boolean;
   required?: boolean;
   orientation?: "horizontal" | "vertical";
   wrap?: boolean; // whether arrow navigation circles around or stops at end
@@ -41,6 +43,7 @@ export const VariantSelector = forwardRef<
       required,
       orientation = "horizontal",
       wrap = true,
+      showLabels = true,
     },
     forwardedRef
   ) => {
@@ -96,10 +99,14 @@ export const VariantSelector = forwardRef<
     const isHorizontal = orientation === "horizontal";
 
     return (
-      <fieldset aria-required={required || undefined}>
+      <fieldset
+        aria-required={required || undefined}
+        className="hoam-variant-selector"
+      >
         {label ? <legend id={legendId}>{label}</legend> : null}
 
         <div
+          className="hoam-variant-selector__items"
           ref={groupRef}
           role="radiogroup"
           aria-orientation={orientation}
@@ -145,7 +152,7 @@ export const VariantSelector = forwardRef<
             // TODO: add colors or images
             // Also, pull this into separate component
             return (
-              <label key={opt.value}>
+              <label key={opt.value} className="hoam-variant-selector__item">
                 <input
                   ref={setRef}
                   type="radio"
@@ -156,8 +163,29 @@ export const VariantSelector = forwardRef<
                   required={required}
                   onChange={() => onChange(opt.value)}
                   aria-label={opt.label}
+                  className="hoam-variant-selector__radio | sr-only"
                 />
-                {opt.label}
+                <span
+                  className="hoam-variant-selector__visual"
+                  style={{
+                    backgroundColor: opt.color || undefined,
+                  }}
+                >
+                  <span className="hoam-variant-selector__indicator">
+                    {opt.imageSrc ? (
+                      <img
+                        src={opt.imageSrc}
+                        alt={opt.label}
+                        className="hoam-variant-selector__image"
+                      />
+                    ) : null}
+                  </span>
+                  {showLabels && (
+                    <span className="hoam-variant-selector__label">
+                      {opt.label}
+                    </span>
+                  )}
+                </span>
               </label>
             );
           })}
