@@ -1,3 +1,7 @@
+:root {
+  --image-size: 48px;
+}
+
 .hoam-variant-selector {
   border: none;
   margin: 0;
@@ -5,9 +9,7 @@
 }
 
 .hoam-variant-selector__visual {
-  display: inline-flex;
   gap: var(--hoam-spacing-2);
-  flex-direction: column;
 }
 
 .hoam-variant-selector__radio:checked
@@ -17,30 +19,26 @@
 }
 
 .hoam-variant-selector__indicator {
-  background-color: var(--hoam-color-moon-100);
-  width: 60px;
-  height: 60px;
-  display: flex;
   align-items: center;
-  justify-content: center;
-  overflow: hidden;
   border-radius: 100%;
-  border: 3px solid white;
+  border: 3px solid var(--hoam-color-neutral-900);
   box-shadow:
     0 0 0 1px rgba(0, 0, 0, 0.1),
     0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  height: var(--image-size);
+  justify-content: center;
+  overflow: hidden;
+  width: var(--image-size);
+}
+
+.hoam-variant-selector__item:hover .hoam-variant-selector__indicator {
+  outline: 1px solid var(--hoam-color-moon-500);
 }
 
 .hoam-variant-selector__radio:focus-visible + .hoam-variant-selector__visual {
   outline: 3px solid var(--hoam-color-sun-700);
-  outline-offset: 4px;
-}
-
-.hoam-variant-selector__item {
-  cursor: pointer;
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
+  outline-offset: 6px;
 }
 
 .hoam-variant-selector__items {
@@ -49,5 +47,41 @@
 }
 
 .hoam-variant-selector__label {
+  font: var(--hoam-typography-label-1);
+}
+
+.hoam-variant-selector__item {
+  cursor: pointer;
+}
+
+/* Horizontal Variant */
+.hoam-variant-selector__items[aria-orientation="horizontal"]
+  .hoam-variant-selector__label {
   text-align: center;
+  width: var(--image-size);
+  word-break: break-all;
+}
+
+.hoam-variant-selector__items[aria-orientation="horizontal"]
+  .hoam-variant-selector__item {
+  align-items: center;
+  display: inline-flex;
+  flex-direction: column;
+}
+
+.hoam-variant-selector__items[aria-orientation="horizontal"]
+  .hoam-variant-selector__visual {
+  display: inline-flex;
+  flex-direction: column;
+}
+
+/* Vertical Variant */
+.hoam-variant-selector__items[aria-orientation="vertical"] {
+  flex-direction: column;
+}
+
+.hoam-variant-selector__items[aria-orientation="vertical"]
+  .hoam-variant-selector__visual {
+  align-items: center;
+  display: inline-flex;
 }

@@ -14,9 +14,15 @@ export default meta;
 type Story = StoryObj<typeof VariantSelector>;
 
 const options = [
-  { label: "Red", value: "red", name: "color" },
-  { label: "Blue", value: "blue", name: "color" },
-  { label: "Green", value: "green", name: "color" },
+  { label: "Red", value: "#ff0000", name: "color", type: "color" },
+  { label: "Yellow", value: "#ffff00", name: "color", type: "color" },
+  {
+    label: "Vitamin D Supplement",
+    value: "https://placehold.co/48x48?text=Vitamin+D+Supplement",
+    name: "color",
+    type: "image",
+  },
+  { label: "Green", value: "#067c0eff", name: "color", type: "color" },
 ];
 
 const Template: Story = {

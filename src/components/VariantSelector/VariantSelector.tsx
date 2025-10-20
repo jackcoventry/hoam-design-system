@@ -6,8 +6,7 @@ type VariantValue = string | number;
 export type VariantOption = {
   value: VariantValue;
   label: string;
-  color?: string;
-  imageSrc?: string;
+  type?: "color" | "image";
   disabled?: boolean;
   description?: string;
 };
@@ -165,16 +164,17 @@ export const VariantSelector = forwardRef<
                   aria-label={opt.label}
                   className="hoam-variant-selector__radio | sr-only"
                 />
-                <span
-                  className="hoam-variant-selector__visual"
-                  style={{
-                    backgroundColor: opt.color || undefined,
-                  }}
-                >
-                  <span className="hoam-variant-selector__indicator">
-                    {opt.imageSrc ? (
+                <span className="hoam-variant-selector__visual">
+                  <span
+                    className="hoam-variant-selector__indicator"
+                    style={{
+                      backgroundColor:
+                        opt.type === "color" ? opt.value.toString() : undefined,
+                    }}
+                  >
+                    {opt.type === "image" ? (
                       <img
-                        src={opt.imageSrc}
+                        src={opt.value.toString()}
                         alt={opt.label}
                         className="hoam-variant-selector__image"
                       />
