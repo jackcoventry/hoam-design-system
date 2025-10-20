@@ -47,5 +47,8 @@
     "svg-sprite": "^2.0.4",
     "typescript": "^5.8.3",
     "vitest": "^3.2.4"
+  },
+  "dependencies": {
+    "react-hook-form": "^7.65.0"
   }
 }

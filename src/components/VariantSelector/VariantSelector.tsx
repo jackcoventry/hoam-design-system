@@ -6,7 +6,8 @@ type VariantValue = string | number;
 export type VariantOption = {
   value: VariantValue;
   label: string;
-  type?: "color" | "image";
+  name: string;
+  type?: string; // 'color' | 'image'
   disabled?: boolean;
   description?: string;
 };
