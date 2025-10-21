@@ -6,6 +6,8 @@
     "allowJs": true,
     "jsx": "react",
     "module": "ESNext",
+    "rootDir": "src",
+    "outDir": "dist",
     "moduleResolution": "node",
     "esModuleInterop": true,
     "resolveJsonModule": true,
@@ -14,5 +16,6 @@
     "paths": {
       "@/*": ["src/*"]
     }
-  }
+  },
+  "include": ["src"]
 }

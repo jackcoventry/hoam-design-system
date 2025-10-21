@@ -28,8 +28,8 @@
   visibility: hidden;
 }
 
-.hoam-accordion__panel[data-open="true"],
-.hoam-accordion__panel[aria-hidden="false"] {
+.hoam-accordion__panel[data-open='true'],
+.hoam-accordion__panel[aria-hidden='false'] {
   grid-template-rows: 1fr;
   opacity: 1;
   transition:
@@ -46,7 +46,7 @@
 }
 
 /* Block pointer events on closed content */
-.hoam-accordion__panel[aria-hidden="true"] * {
+.hoam-accordion__panel[aria-hidden='true'] * {
   pointer-events: none;
 }
 

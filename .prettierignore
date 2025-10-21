@@ -1,1 +1,9 @@
 *.mdx
+node_modules
+dist
+build
+coverage
+.storybook
+*.lock
+*.md
+*.svg

@@ -1,16 +1,16 @@
-import React from "react";
-import { Meta, StoryObj } from "@storybook/react";
-import ProductTile from "@/components/ProductTile/ProductTile";
+import ProductTile from '@/components/ProductTile/ProductTile';
+import { Meta, StoryObj } from '@storybook/react';
+import React from 'react';
 
 const meta: Meta<typeof ProductTile> = {
-  title: "Components/ProductTile",
+  title: 'Components/ProductTile',
   component: ProductTile,
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   args: {
-    title: "Sample Product",
-    productId: "sample-product",
-    footnote: "A short description of the product.",
-    price: { amount: 100, saleAmount: 80, currency: "GBP" },
+    title: 'Sample Product',
+    productId: 'sample-product',
+    footnote: 'A short description of the product.',
+    price: { amount: 100, saleAmount: 80, currency: 'GBP' },
     inStock: true,
   },
 };
@@ -20,7 +20,7 @@ type Story = StoryObj<typeof ProductTile>;
 
 const Template: Story = {
   render: (args) => (
-    <div style={{ width: "300px" }}>
+    <div style={{ width: '300px' }}>
       <ProductTile {...args} />
     </div>
   ),

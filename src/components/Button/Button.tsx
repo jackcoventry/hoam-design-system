@@ -1,14 +1,14 @@
-import React from "react";
-import "./Button.css";
-import clsx from "clsx";
+import clsx from 'clsx';
+import React from 'react';
+import './Button.css';
 
 type ButtonProps = {
   className?: string;
   children?: React.ReactNode;
   icon?: string;
-  iconPosition?: "left" | "right";
+  iconPosition?: 'left' | 'right';
   onClick?: () => void;
-  variant?: "primary" | "secondary";
+  variant?: 'primary' | 'secondary';
   disabled?: boolean;
   iconOnly?: boolean;
   ariaLabel?: string;
@@ -16,21 +16,21 @@ type ButtonProps = {
 
 const Button = ({
   children,
-  className = "",
+  className = '',
   onClick,
   icon,
-  iconPosition = "right",
-  variant = "primary",
+  iconPosition = 'right',
+  variant = 'primary',
   disabled = false,
   iconOnly = false,
   ariaLabel,
   ...rest
 }: ButtonProps) => {
-  const classes = clsx("hoam-button", className);
+  const classes = clsx('hoam-button', className);
 
   // Fallback: if ariaLabel is not provided and iconOnly is true, try to use children as string
   let computedAriaLabel = ariaLabel;
-  if (!ariaLabel && iconOnly && typeof children === "string") {
+  if (!ariaLabel && iconOnly && typeof children === 'string') {
     computedAriaLabel = children;
   }
 
@@ -44,9 +44,7 @@ const Button = ({
       {...(disabled ? { disabled: true } : {})}
       {...rest}
     >
-      {children && !iconOnly && (
-        <span className="hoam-button__content">{children}</span>
-      )}
+      {children && !iconOnly && <span className="hoam-button__content">{children}</span>}
       {icon && (
         <span className="hoam-button__icon">
           <svg

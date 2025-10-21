@@ -1,5 +1,5 @@
-import React, { forwardRef, useMemo, useRef, useId } from "react";
-import "./VariantSelector.css";
+import React, { forwardRef, useId, useMemo, useRef } from 'react';
+import './VariantSelector.css';
 
 type VariantValue = string | number;
 
@@ -20,19 +20,16 @@ export type VariantSelectorProps = {
   label?: string;
   showLabels?: boolean;
   required?: boolean;
-  orientation?: "horizontal" | "vertical";
+  orientation?: 'horizontal' | 'vertical';
   wrap?: boolean; // whether arrow navigation circles around or stops at end
 };
 
 function focusNextTick(fn: () => void) {
-  if (typeof queueMicrotask === "function") queueMicrotask(fn);
+  if (typeof queueMicrotask === 'function') queueMicrotask(fn);
   else setTimeout(fn, 0);
 }
 
-export const VariantSelector = forwardRef<
-  HTMLInputElement,
-  VariantSelectorProps
->(
+export const VariantSelector = forwardRef<HTMLInputElement, VariantSelectorProps>(
   (
     {
       name,
@@ -41,7 +38,7 @@ export const VariantSelector = forwardRef<
       options,
       label,
       required,
-      orientation = "horizontal",
+      orientation = 'horizontal',
       wrap = true,
       showLabels = true,
     },
@@ -54,9 +51,9 @@ export const VariantSelector = forwardRef<
     // Forward the first radio input to parent
     function setFirstInputRef(el: HTMLInputElement | null) {
       if (!el) return;
-      if (typeof forwardedRef === "function") {
+      if (typeof forwardedRef === 'function') {
         forwardedRef(el);
-      } else if (forwardedRef && "current" in forwardedRef) {
+      } else if (forwardedRef && 'current' in forwardedRef) {
         forwardedRef.current = el;
       }
     }
@@ -85,9 +82,7 @@ export const VariantSelector = forwardRef<
     function handleArrow(move: 1 | -1) {
       const start = currentIndex >= 0 ? currentIndex : -1;
       const target =
-        start === -1
-          ? options.findIndex((o) => !o.disabled)
-          : nextEnabledIndex(start, move);
+        start === -1 ? options.findIndex((o) => !o.disabled) : nextEnabledIndex(start, move);
 
       if (target !== -1 && target !== start) {
         const targetVal = options[target].value;
@@ -96,7 +91,7 @@ export const VariantSelector = forwardRef<
       }
     }
 
-    const isHorizontal = orientation === "horizontal";
+    const isHorizontal = orientation === 'horizontal';
 
     return (
       <fieldset
@@ -110,27 +105,23 @@ export const VariantSelector = forwardRef<
           ref={groupRef}
           role="radiogroup"
           aria-orientation={orientation}
-          {...(label
-            ? { "aria-labelledby": legendId }
-            : { "aria-label": name })}
+          {...(label ? { 'aria-labelledby': legendId } : { 'aria-label': name })}
           tabIndex={0}
           onFocus={(e) => {
             // Only when the group itself receives focus (not a child)
             if (e.target === e.currentTarget) {
               const start =
-                currentIndex >= 0
-                  ? currentIndex
-                  : options.findIndex((o) => !o.disabled);
+                currentIndex >= 0 ? currentIndex : options.findIndex((o) => !o.disabled);
               if (start !== -1) {
                 inputRefs.current[start]?.focus();
               }
             }
           }}
           onKeyDown={(e) => {
-            const left = e.key === "ArrowLeft";
-            const right = e.key === "ArrowRight";
-            const up = e.key === "ArrowUp";
-            const down = e.key === "ArrowDown";
+            const left = e.key === 'ArrowLeft';
+            const right = e.key === 'ArrowRight';
+            const up = e.key === 'ArrowUp';
+            const down = e.key === 'ArrowDown';
 
             const relevant = isHorizontal ? left || right : up || down;
             if (!relevant) return;
@@ -152,7 +143,10 @@ export const VariantSelector = forwardRef<
             // TODO: add colors or images
             // Also, pull this into separate component
             return (
-              <label key={opt.value} className="hoam-variant-selector__item">
+              <label
+                key={opt.value}
+                className="hoam-variant-selector__item"
+              >
                 <input
                   ref={setRef}
                   type="radio"
@@ -169,11 +163,10 @@ export const VariantSelector = forwardRef<
                   <span
                     className="hoam-variant-selector__indicator"
                     style={{
-                      backgroundColor:
-                        opt.type === "color" ? opt.value.toString() : undefined,
+                      backgroundColor: opt.type === 'color' ? opt.value.toString() : undefined,
                     }}
                   >
-                    {opt.type === "image" ? (
+                    {opt.type === 'image' ? (
                       <img
                         src={opt.value.toString()}
                         alt={opt.label}
@@ -181,11 +174,7 @@ export const VariantSelector = forwardRef<
                       />
                     ) : null}
                   </span>
-                  {showLabels && (
-                    <span className="hoam-variant-selector__label">
-                      {opt.label}
-                    </span>
-                  )}
+                  {showLabels && <span className="hoam-variant-selector__label">{opt.label}</span>}
                 </span>
               </label>
             );
@@ -196,6 +185,6 @@ export const VariantSelector = forwardRef<
   }
 );
 
-VariantSelector.displayName = "VariantSelector";
+VariantSelector.displayName = 'VariantSelector';
 
 export default VariantSelector;
