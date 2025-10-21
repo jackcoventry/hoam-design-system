@@ -1,5 +1,5 @@
-import React from "react";
-import ColorSwatch from "@/components/ColorSwatch/ColorSwatch";
+import ColorSwatch from '@/components/ColorSwatch/ColorSwatch';
+import React from 'react';
 
 function ColorItem({ title, subtitle, colors = [] }) {
   return (

@@ -1,8 +1,8 @@
-import React from "react";
-import { useForm, Controller, SubmitHandler } from "react-hook-form";
+import React from 'react';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
-import "./ProductInfo.css";
-import VariantSelector from "@/components/VariantSelector/VariantSelector";
+import VariantSelector from '@/components/VariantSelector/VariantSelector';
+import './ProductInfo.css';
 
 type ProductInfoProps = {
   title: string;
@@ -15,19 +15,14 @@ interface IFormInput {
   color: string;
 }
 
-function ProductInfo({
-  title,
-  productId,
-  footnote,
-  inStock,
-}: Readonly<ProductInfoProps>) {
+function ProductInfo({ title, productId, footnote, inStock }: Readonly<ProductInfoProps>) {
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm({
     defaultValues: {
-      color: "",
+      color: '',
     },
   });
 
@@ -36,15 +31,15 @@ function ProductInfo({
   };
 
   const options = [
-    { label: "Red", value: "#ff0000", name: "color", type: "color" },
-    { label: "Yellow", value: "#ffff00", name: "color", type: "color" },
+    { label: 'Red', value: '#ff0000', name: 'color', type: 'color' },
+    { label: 'Yellow', value: '#ffff00', name: 'color', type: 'color' },
     {
-      label: "Vitamin D Supplement",
-      value: "https://placehold.co/48x4?text=Vitamin+D+Supplement",
-      name: "color",
-      type: "image",
+      label: 'Vitamin D Supplement',
+      value: 'https://placehold.co/48x4?text=Vitamin+D+Supplement',
+      name: 'color',
+      type: 'image',
     },
-    { label: "Green", value: "#067c0eff", name: "color", type: "color" },
+    { label: 'Green', value: '#067c0eff', name: 'color', type: 'color' },
   ];
 
   return (
@@ -66,9 +61,7 @@ function ProductInfo({
             />
           )}
         />
-        {errors?.color?.type === "required" && (
-          <p role="alert">This is required</p>
-        )}
+        {errors?.color?.type === 'required' && <p role="alert">This is required</p>}
         {/* <Controller
           name="iceCreamType"
           control={control}

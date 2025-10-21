@@ -1,7 +1,7 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import clsx from "clsx";
-import { Button } from "@/components/Button/Button";
-import "./ImageGallery.css";
+import { Button } from '@/components/Button/Button';
+import clsx from 'clsx';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import './ImageGallery.css';
 
 type ImageItem = { src: string; alt?: string };
 
@@ -24,16 +24,13 @@ export default function ImageGallery({
   );
 
   // Generated id for aria-controls and references
-  const idBase = useMemo(
-    () => `hoam-carousel-${Math.random().toString(36).slice(2, 8)}`,
-    []
-  );
+  const idBase = useMemo(() => `hoam-carousel-${Math.random().toString(36).slice(2, 8)}`, []);
 
   // If there are no images, render a message instead
   if (!images || images.length === 0) {
     return (
       <section
-        className={clsx("hoam-carousel", className)}
+        className={clsx('hoam-carousel', className)}
         aria-roledescription="carousel"
         aria-label="Image carousel"
       >
@@ -68,8 +65,8 @@ export default function ImageGallery({
       });
     };
 
-    el.addEventListener("scroll", onScroll, { passive: true });
-    return () => el.removeEventListener("scroll", onScroll);
+    el.addEventListener('scroll', onScroll, { passive: true });
+    return () => el.removeEventListener('scroll', onScroll);
   }, [index]);
 
   const goTo = (target: number, smooth = true) => {
@@ -80,7 +77,7 @@ export default function ImageGallery({
     if (slide) {
       el.scrollTo({
         left: slide.offsetLeft,
-        behavior: smooth ? "smooth" : "auto",
+        behavior: smooth ? 'smooth' : 'auto',
       });
     }
   };
@@ -89,16 +86,16 @@ export default function ImageGallery({
   const prev = () => goTo(index - 1);
 
   const onKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (e) => {
-    if (e.key === "ArrowRight") {
+    if (e.key === 'ArrowRight') {
       e.preventDefault();
       next();
-    } else if (e.key === "ArrowLeft") {
+    } else if (e.key === 'ArrowLeft') {
       e.preventDefault();
       prev();
-    } else if (e.key === "Home") {
+    } else if (e.key === 'Home') {
       e.preventDefault();
       goTo(0);
-    } else if (e.key === "End") {
+    } else if (e.key === 'End') {
       e.preventDefault();
       goTo(images.length - 1);
     }
@@ -106,7 +103,7 @@ export default function ImageGallery({
 
   return (
     <section
-      className={clsx("hoam-carousel", className)}
+      className={clsx('hoam-carousel', className)}
       aria-roledescription="carousel"
       aria-label="Image carousel"
     >
@@ -120,7 +117,10 @@ export default function ImageGallery({
           iconOnly
         />
 
-        <div className="hoam-carousel__status" aria-live="polite">
+        <div
+          className="hoam-carousel__status"
+          aria-live="polite"
+        >
           {index + 1} / {images.length}
         </div>
 
@@ -151,8 +151,8 @@ export default function ImageGallery({
             <div className="hoam-carousel__media">
               <img
                 src={img.src}
-                alt={img.alt ?? ""}
-                loading={i === 0 ? "eager" : "lazy"}
+                alt={img.alt ?? ''}
+                loading={i === 0 ? 'eager' : 'lazy'}
                 draggable={false}
               />
             </div>
@@ -174,14 +174,14 @@ export default function ImageGallery({
               role="tab"
               aria-selected={active}
               aria-controls={idBase}
-              className={"hoam-carousel__thumb" + (active ? " is-active" : "")}
+              className={'hoam-carousel__thumb' + (active ? ' is-active' : '')}
               onClick={() => goTo(i)}
               title={`Go to slide ${i + 1}`}
             >
               <span className="sr-only">{`Slide ${i + 1}`}</span>
               <img
                 src={img.src}
-                alt={img.alt ?? ""}
+                alt={img.alt ?? ''}
                 loading="lazy"
                 draggable={false}
               />

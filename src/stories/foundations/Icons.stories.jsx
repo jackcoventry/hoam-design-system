@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { Button } from "@/components/Button/Button";
-import Tokens from "@/design-tokens/icons.json";
+import { Button } from '@/components/Button/Button';
+import Tokens from '@/design-tokens/icons.json';
+import { useState } from 'react';
 
 const CopyButton = ({ icon }) => {
   const [copied, setStatus] = useState(false);
@@ -35,10 +35,10 @@ const CopyButton = ({ icon }) => {
     <Button
       type="button"
       onClick={copyCodeBlock}
-      variant={copied ? "tertiary" : "primary"}
+      variant={copied ? 'tertiary' : 'primary'}
       className="w-full"
     >
-      {copied ? "Copied!" : "Copy"}
+      {copied ? 'Copied!' : 'Copy'}
     </Button>
   );
 };
@@ -87,7 +87,7 @@ const Template = () => (
 );
 
 export default {
-  title: "Foundations/Icons",
+  title: 'Foundations/Icons',
   component: Template,
   argTypes: {},
 };

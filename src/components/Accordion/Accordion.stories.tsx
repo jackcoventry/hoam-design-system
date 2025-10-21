@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { Meta, StoryObj } from "@storybook/react";
-import Accordion, { AccordionItem } from "@/components/Accordion/Accordion";
+import Accordion, { AccordionItem } from '@/components/Accordion/Accordion';
+import { Meta, StoryObj } from '@storybook/react';
+import React, { useState } from 'react';
 
 const meta: Meta<typeof Accordion> = {
-  title: "Components/Accordion",
+  title: 'Components/Accordion',
   component: Accordion,
-  tags: ["autodocs"],
+  tags: ['autodocs'],
 };
 export default meta;
 
@@ -13,7 +13,10 @@ type Story = StoryObj<typeof Accordion>;
 
 const Template: Story = {
   render: (args) => (
-    <Accordion {...args} defaultOpenIds={[]}>
+    <Accordion
+      {...args}
+      defaultOpenIds={[]}
+    >
       <AccordionItem id="one">
         <div>Section 1</div>
         <div>Content 1</div>
@@ -29,11 +32,11 @@ const Template: Story = {
 export const Default = { ...Template, args: { allowMultiple: false } };
 export const WithDefaultOpen = {
   ...Template,
-  args: { allowMultiple: true, defaultOpenIds: ["one"] },
+  args: { allowMultiple: true, defaultOpenIds: ['one'] },
 };
 export const Controlled: Story = {
   render: () => {
-    const [openIds, setOpenIds] = useState(["two"]);
+    const [openIds, setOpenIds] = useState(['two']);
     return (
       <Accordion
         openIds={openIds}

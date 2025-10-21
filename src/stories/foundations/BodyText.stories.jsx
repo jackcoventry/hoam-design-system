@@ -6,7 +6,10 @@ const Template = () => {
         <h2>Subheading</h2>
         <p>This is a paragraph with body text styling.</p>
         <p>Another paragraph to demonstrate the body text style.</p>
-        <img src="https://placehold.co/600x400/EEE/31343C" alt="Example" />
+        <img
+          src="https://placehold.co/600x400/EEE/31343C"
+          alt="Example"
+        />
         <p>This is a paragraph following an image to show spacing.</p>
         <ul>
           <li>First item in a list</li>
@@ -20,7 +23,7 @@ const Template = () => {
 };
 
 export default {
-  title: "Foundations/Body Text",
+  title: 'Foundations/Body Text',
   component: Template,
   argTypes: {},
 };

@@ -1,11 +1,11 @@
-import React from "react";
-import { Meta, StoryObj } from "@storybook/react";
-import QuantitySelector from "@/components/QuantitySelector/QuantitySelector";
+import QuantitySelector from '@/components/QuantitySelector/QuantitySelector';
+import { Meta, StoryObj } from '@storybook/react';
+import React from 'react';
 
 const meta: Meta<typeof QuantitySelector> = {
-  title: "Components/Quantity Selector",
+  title: 'Components/Quantity Selector',
   component: QuantitySelector,
-  tags: ["autodocs"],
+  tags: ['autodocs'],
   args: {},
 };
 
@@ -23,7 +23,12 @@ const Template: Story = {
 
     return (
       <div>
-        <QuantitySelector {...args} onChange={onChange} value={qty} max={13} />
+        <QuantitySelector
+          {...args}
+          onChange={onChange}
+          value={qty}
+          max={13}
+        />
       </div>
     );
   },

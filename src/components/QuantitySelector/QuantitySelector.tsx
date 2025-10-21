@@ -1,6 +1,6 @@
-import React from "react";
-import { Button } from "@/components/Button/Button";
-import "./QuantitySelector.css";
+import { Button } from '@/components/Button/Button';
+import React from 'react';
+import './QuantitySelector.css';
 
 export interface QuantitySelectorProps {
   value: number;
@@ -21,10 +21,7 @@ function clamp(n: number, min: number, max: number) {
   return n;
 }
 
-export const QuantitySelector = React.forwardRef<
-  HTMLInputElement,
-  QuantitySelectorProps
->(
+export const QuantitySelector = React.forwardRef<HTMLInputElement, QuantitySelectorProps>(
   (
     {
       value = 0,
@@ -34,8 +31,8 @@ export const QuantitySelector = React.forwardRef<
       id,
       name,
       ariaLabel,
-      incrementLabel = "Increase quantity",
-      decrementLabel = "Decrease quantity",
+      incrementLabel = 'Increase quantity',
+      decrementLabel = 'Decrease quantity',
     },
     ref
   ) => {
@@ -80,10 +77,7 @@ export const QuantitySelector = React.forwardRef<
       if (pressDirection.current !== dir) return; // stopped or changed
       update(dir);
       const nextDelay = Math.max(50, delay - 10); // accelerate a bit
-      pressTimeout.current = window.setTimeout(
-        () => pressTick(dir, nextDelay),
-        nextDelay
-      );
+      pressTimeout.current = window.setTimeout(() => pressTick(dir, nextDelay), nextDelay);
     };
 
     const startPress = (dir: 1 | -1) => {
@@ -101,13 +95,13 @@ export const QuantitySelector = React.forwardRef<
       onTouchEnd: stopPress,
       onKeyDown: (e: React.KeyboardEvent<HTMLButtonElement>) => {
         // Support keyboard activation on focused buttons
-        if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") {
+        if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
           e.preventDefault(); // avoid page scroll and rely on our handler
           startPress(dir);
         }
       },
       onKeyUp: (e: React.KeyboardEvent<HTMLButtonElement>) => {
-        if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") {
+        if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
           e.preventDefault();
           stopPress();
         }

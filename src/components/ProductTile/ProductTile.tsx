@@ -1,6 +1,6 @@
-import { Button } from "@/components/Button/Button";
-import React from "react";
-import "./ProductTile.css";
+import { Button } from '@/components/Button/Button';
+import React from 'react';
+import './ProductTile.css';
 
 type ProductPrice = {
   amount: number;
@@ -16,22 +16,16 @@ type ProductTileProps = {
   inStock: boolean;
 };
 
-function formatPrice(value = 0, currency = "GBP") {
+function formatPrice(value = 0, currency = 'GBP') {
   const amount = value;
-  const result = amount.toLocaleString("en-GB", {
-    style: "currency",
+  const result = amount.toLocaleString('en-GB', {
+    style: 'currency',
     currency: currency,
   });
   return result;
 }
 
-function ProductTile({
-  title,
-  productId,
-  footnote,
-  price,
-  inStock,
-}: Readonly<ProductTileProps>) {
+function ProductTile({ title, productId, footnote, price, inStock }: Readonly<ProductTileProps>) {
   return (
     <div className="hoam-product-tile">
       <figure className="hoam-product-tile__image-wrapper">
@@ -42,15 +36,19 @@ function ProductTile({
         />
       </figure>
       <h2 className="hoam-product-tile__title">
-        <a href={`#${productId}`} className="hoam-product-tile__link">
+        <a
+          href={`#${productId}`}
+          className="hoam-product-tile__link"
+        >
           <span role="text">{title}</span>
         </a>
       </h2>
-      {footnote && (
-        <span className="hoam-product-tile__footnote">{footnote}</span>
-      )}
+      {footnote && <span className="hoam-product-tile__footnote">{footnote}</span>}
       <p>
-        <span className="hoam-product-tile__price" data-price-status="current">
+        <span
+          className="hoam-product-tile__price"
+          data-price-status="current"
+        >
           {formatPrice(price?.saleAmount || price?.amount, price?.currency)}
         </span>
         {!!price?.saleAmount && (
@@ -63,8 +61,11 @@ function ProductTile({
         )}
       </p>
       <div>
-        <Button disabled={!inStock} className="hoam-product-tile__button">
-          {inStock ? "Add to cart" : "Out of stock"}
+        <Button
+          disabled={!inStock}
+          className="hoam-product-tile__button"
+        >
+          {inStock ? 'Add to cart' : 'Out of stock'}
         </Button>
       </div>
     </div>

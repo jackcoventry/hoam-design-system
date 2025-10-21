@@ -1,19 +1,14 @@
-import React from "react";
-import "./Message.css";
+import React from 'react';
+import './Message.css';
 
 type MessageProps = {
   onClose?: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  status: "info" | "warning" | "error" | "success";
+  status: 'info' | 'warning' | 'error' | 'success';
   text?: string;
   title: string;
 };
 
-function Message({
-  status = "info",
-  text,
-  title,
-  onClose,
-}: Readonly<MessageProps>) {
+function Message({ status = 'info', text, title, onClose }: Readonly<MessageProps>) {
   const [isOpen, setIsOpen] = React.useState(true);
 
   const handleClose = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -43,7 +38,12 @@ function Message({
             aria-label="Close message"
             onClick={handleClose}
           >
-            <svg className="icon" width="2em" height="2em" fill="currentColor">
+            <svg
+              className="icon"
+              width="2em"
+              height="2em"
+              fill="currentColor"
+            >
               <use xlinkHref="/icons/icons.svg#close" />
             </svg>
           </button>

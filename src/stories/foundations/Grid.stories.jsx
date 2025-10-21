@@ -26,7 +26,7 @@ const Template = () => {
 };
 
 export default {
-  title: "Foundations/Grid",
+  title: 'Foundations/Grid',
   component: Template,
   argTypes: {},
 };

@@ -1,11 +1,8 @@
 // Import the necessary modules
-import { promises as fs } from "fs";
+import { promises as fs } from 'fs';
 
 // Array of file paths to delete
-const filesToDelete = [
-  "./design-tokens/_variables.css",
-  "./design-tokens/variables.json",
-];
+const filesToDelete = ['./design-tokens/_variables.css', './design-tokens/variables.json'];
 
 // Function to delete files
 async function deleteFiles(files) {
@@ -21,5 +18,5 @@ async function deleteFiles(files) {
 
 // Execute the deleteFiles function
 deleteFiles(filesToDelete)
-  .then(() => console.log("All files processed."))
-  .catch((err) => console.error("Error processing files:", err));
+  .then(() => console.log('All files processed.'))
+  .catch((err) => console.error('Error processing files:', err));

@@ -1,1 +1,1 @@
-export const PREFIX = "hoam";
+export const PREFIX = 'hoam';

@@ -1,17 +1,17 @@
-import StyleDictionary from "style-dictionary";
-import { readFile } from "fs/promises";
-import { glob } from "glob";
-import merge from "deepmerge";
-import { PREFIX } from "../constants/index.js";
-import { get, resolveReferences } from "../utils/get.js";
+import merge from 'deepmerge';
+import { readFile } from 'fs/promises';
+import { glob } from 'glob';
+import StyleDictionary from 'style-dictionary';
+import { PREFIX } from '../constants/index.js';
+import { resolveReferences } from '../utils/get.js';
 
 // Load and merge all token files for reference
-const tokenFiles = await glob("src/design-tokens/**/*.json");
+const tokenFiles = await glob('src/design-tokens/**/*.json');
 
-console.log("📦 Tokens found:", tokenFiles);
+console.log('📦 Tokens found:', tokenFiles);
 
 const rawTokenObjects = await Promise.all(
-  tokenFiles.map(async (file) => JSON.parse(await readFile(file, "utf8")))
+  tokenFiles.map(async (file) => JSON.parse(await readFile(file, 'utf8')))
 );
 
 // Deep merge all token trees into one rawTokens object
@@ -20,7 +20,7 @@ function getNodeAtPath(obj, path) {
   return path.reduce((acc, key) => acc?.[key], obj);
 }
 
-console.log("📦 Raw tokens loaded:", rawTokens.typography);
+console.log('📦 Raw tokens loaded:', rawTokens.typography);
 
 function findGroup(path) {
   for (let i = path.length - 1; i >= 0; i--) {
@@ -35,8 +35,8 @@ function findGroup(path) {
 // Custom transform to add 'group' attribute
 // Group is determined by the first occurrence of $extensions.$group in the token path
 StyleDictionary.registerTransform({
-  name: "attribute/group",
-  type: "attribute",
+  name: 'attribute/group',
+  type: 'attribute',
   matcher: () => true,
   transform: (token) => {
     const group = findGroup(token.path);
@@ -48,19 +48,18 @@ StyleDictionary.registerTransform({
 // Set is determined by the second last segment of the token path
 // This assumes the path is structured such that the set is always the second last segment
 StyleDictionary.registerTransform({
-  name: "attribute/set",
-  type: "attribute",
+  name: 'attribute/set',
+  type: 'attribute',
   matcher: () => true,
   transform: (token) => {
-    const set =
-      token.path.length >= 2 ? token.path[token.path.length - 2] : null; // TODO: maybe tweak these parameter to exclude unnecessary data
+    const set = token.path.length >= 2 ? token.path[token.path.length - 2] : null; // TODO: maybe tweak these parameter to exclude unnecessary data
     return { set };
   },
 });
 
 // Format to output tokens as flat JSON with metadata
 StyleDictionary.registerFormat({
-  name: "custom/json/flat-with-meta",
+  name: 'custom/json/flat-with-meta',
   format: ({ allTokens }) => {
     const flat = allTokens.map((token) => ({
       name: `${PREFIX}-${token.name}`,
@@ -69,28 +68,20 @@ StyleDictionary.registerFormat({
       value: token.$value,
       group: token.attributes?.group ?? null,
       set: token.attributes?.set ?? null,
-      ...(token.$type === "typography" && {
+      ...(token.$type === 'typography' && {
         originalValues: {
           fontFamily:
-            resolveReferences(
-              token.original?.$value?.fontFamily,
-              rawTokens
-            )?.$value.join(", ") ?? null,
+            resolveReferences(token.original?.$value?.fontFamily, rawTokens)?.$value.join(', ') ??
+            null,
           fontSize:
-            typeof resolveReferences(
-              token.original?.$value?.fontSize,
-              rawTokens
-            )?.$value === "object"
-              ? resolveReferences(token.original?.$value?.fontSize, rawTokens)
-                  ?.$value?.$value
-              : (resolveReferences(token.original?.$value?.fontSize, rawTokens)
-                  ?.$value ?? null),
+            typeof resolveReferences(token.original?.$value?.fontSize, rawTokens)?.$value ===
+            'object'
+              ? resolveReferences(token.original?.$value?.fontSize, rawTokens)?.$value?.$value
+              : (resolveReferences(token.original?.$value?.fontSize, rawTokens)?.$value ?? null),
           fontWeight:
-            resolveReferences(token.original?.$value?.fontWeight, rawTokens)
-              ?.$value ?? null,
+            resolveReferences(token.original?.$value?.fontWeight, rawTokens)?.$value ?? null,
           lineHeight:
-            resolveReferences(token.original?.$value?.lineHeight, rawTokens)
-              ?.$value ?? null,
+            resolveReferences(token.original?.$value?.lineHeight, rawTokens)?.$value ?? null,
         },
       }),
     }));
@@ -99,10 +90,7 @@ StyleDictionary.registerFormat({
   },
 });
 
-const raw = await readFile(
-  new URL("../../style-dictionary.json", import.meta.url),
-  "utf-8"
-);
+const raw = await readFile(new URL('../../style-dictionary.json', import.meta.url), 'utf-8');
 const config = JSON.parse(raw);
 const sd = new StyleDictionary(config);
 

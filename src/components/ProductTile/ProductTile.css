@@ -10,8 +10,7 @@
   overflow: hidden;
   margin: 0;
   width: 100%;
-  background: linear-gradient(90deg, #eeea 30%, #fffa, #eeea 60%) right/300%
-    100%;
+  background: linear-gradient(90deg, #eeea 30%, #fffa, #eeea 60%) right/300% 100%;
   animation: hoam-product-tile-image-loading 1.5s linear infinite;
 }
 

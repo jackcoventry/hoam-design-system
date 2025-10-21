@@ -21,8 +21,7 @@
   line-height: 1.375; /* TODO: Calculate programatically */
   min-height: var(--hoam-button-min-height);
   outline: none;
-  padding: var(--hoam-button-spacing-vertical)
-    var(--hoam-button-spacing-horizontal);
+  padding: var(--hoam-button-spacing-vertical) var(--hoam-button-spacing-horizontal);
   white-space: nowrap;
 }
 
