@@ -12,7 +12,7 @@ function setup({
     { value: 'red', label: 'Red' },
   ] as VariantOption[],
   label = 'Color',
-  orientation = 'horizontal' as const,
+  orientation = 'horizontal' as 'horizontal' | 'vertical',
   wrap = true,
   onChange = vi.fn(),
 } = {}) {
@@ -73,7 +73,7 @@ describe('VariantSelector', () => {
   });
 
   it('radiogroup is focusable and delegates focus to selected radio', async () => {
-    const { user } = setup({ value: 'white' });
+    setup({ value: 'white' });
     const group = screen.getByRole('radiogroup');
     // focus group
     group.focus();
@@ -85,7 +85,7 @@ describe('VariantSelector', () => {
   });
 
   it('when no selection, focusing the group moves focus to first enabled option', async () => {
-    const { user } = setup({
+    setup({
       value: null,
       options: [
         { value: 'black', label: 'Black', disabled: true },
@@ -136,7 +136,7 @@ describe('VariantSelector', () => {
   });
 
   it('skips disabled options while navigating', async () => {
-    const { user, onChange, options } = setup({
+    const { user, onChange } = setup({
       value: 'black',
       options: [
         { value: 'black', label: 'Black' },
@@ -203,5 +203,52 @@ describe('VariantSelector', () => {
       expect(r.getAttribute('name')).toBe('color');
       expect(r).toHaveAttribute('aria-label');
     }
+  });
+
+  it('supports shift+tab to move to the previous VariantPicker', async () => {
+    const user = userEvent.setup();
+
+    function Demo() {
+      const [a, setA] = React.useState<string | null>('white');
+      const [b, setB] = React.useState<string | null>('red');
+      return (
+        <>
+          <VariantSelector
+            name="a"
+            label="A"
+            value={a}
+            onChange={(v) => setA(String(v))}
+            options={[
+              { value: 'black', label: 'Black' },
+              { value: 'white', label: 'White' },
+            ]}
+          />
+          <VariantSelector
+            name="b"
+            label="B"
+            value={b}
+            onChange={(v) => setB(String(v))}
+            options={[
+              { value: 'red', label: 'Red' },
+              { value: 'green', label: 'Green' },
+            ]}
+          />
+        </>
+      );
+    }
+
+    render(<Demo />);
+
+    // Tab into first picker -> it should delegate to "White"
+    await user.tab();
+    expect(screen.getByRole('radio', { name: 'White' })).toHaveFocus();
+
+    // Tab to second picker -> it should delegate to "Red"
+    await user.tab();
+    expect(screen.getByRole('radio', { name: 'Red' })).toHaveFocus();
+
+    // Shift+Tab should go back to previous picker ("White"), not get trapped
+    await user.tab({ shift: true });
+    expect(screen.getByRole('radio', { name: 'White' })).toHaveFocus();
   });
 });

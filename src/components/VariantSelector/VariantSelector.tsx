@@ -1,15 +1,13 @@
-import React, { forwardRef, useId, useMemo, useRef } from 'react';
+import React, { forwardRef, useId, useMemo, useRef, useState } from 'react';
 import './VariantSelector.css';
 
 type VariantValue = string | number;
 
 export type VariantOption = {
-  value: VariantValue;
   label: string;
-  name: string;
-  type?: string; // 'color' | 'image'
+  value: VariantValue;
+  displayValue?: string; // e.g. hex color code, image URL or label
   disabled?: boolean;
-  description?: string;
 };
 
 export type VariantSelectorProps = {
@@ -18,10 +16,10 @@ export type VariantSelectorProps = {
   onChange: (value: VariantValue) => void;
   options: VariantOption[];
   label?: string;
-  showLabels?: boolean;
   required?: boolean;
   orientation?: 'horizontal' | 'vertical';
   wrap?: boolean; // whether arrow navigation circles around or stops at end
+  variant?: 'color' | 'image' | 'label';
 };
 
 function focusNextTick(fn: () => void) {
@@ -40,13 +38,14 @@ export const VariantSelector = forwardRef<HTMLInputElement, VariantSelectorProps
       required,
       orientation = 'horizontal',
       wrap = true,
-      showLabels = true,
+      variant = 'label',
     },
     forwardedRef
   ) => {
     const legendId = useId();
     const groupRef = useRef<HTMLDivElement | null>(null);
     const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
+    const [groupTabIndex, setGroupTabIndex] = useState<0 | -1>(0);
 
     // Forward the first radio input to parent
     function setFirstInputRef(el: HTMLInputElement | null) {
@@ -93,20 +92,36 @@ export const VariantSelector = forwardRef<HTMLInputElement, VariantSelectorProps
 
     const isHorizontal = orientation === 'horizontal';
 
+    function getLabelFromValue(value: VariantValue | null) {
+      const option = options.find((opt) => opt.value === value);
+      return option?.label || '';
+    }
+
     return (
       <fieldset
         aria-required={required || undefined}
         className="hoam-variant-selector"
       >
-        {label ? <legend id={legendId}>{label}</legend> : null}
+        {label ? (
+          <div className="hoam-variant-selector__label">
+            <legend
+              className="hoam-variant-selector__legend"
+              id={legendId}
+            >
+              {label}
+            </legend>
+            <span className="hoam-variant-selector__selected">{getLabelFromValue(value)}</span>
+          </div>
+        ) : null}
 
         <div
           className="hoam-variant-selector__items"
           ref={groupRef}
           role="radiogroup"
           aria-orientation={orientation}
+          data-variant={variant}
           {...(label ? { 'aria-labelledby': legendId } : { 'aria-label': name })}
-          tabIndex={0}
+          tabIndex={groupTabIndex}
           onFocus={(e) => {
             // Only when the group itself receives focus (not a child)
             if (e.target === e.currentTarget) {
@@ -115,6 +130,18 @@ export const VariantSelector = forwardRef<HTMLInputElement, VariantSelectorProps
               if (start !== -1) {
                 inputRefs.current[start]?.focus();
               }
+            }
+          }}
+          // Track focus entering children → make group not tabbable
+          onFocusCapture={() => {
+            if (groupTabIndex !== -1) setGroupTabIndex(-1);
+          }}
+          // When focus leaves the entire group, restore tabIndex=0
+          onBlurCapture={(e) => {
+            const next = e.relatedTarget as Node | null;
+            const stillInside = next && groupRef.current && groupRef.current.contains(next);
+            if (!stillInside && groupTabIndex !== 0) {
+              setGroupTabIndex(0);
             }
           }}
           onKeyDown={(e) => {
@@ -140,8 +167,6 @@ export const VariantSelector = forwardRef<HTMLInputElement, VariantSelectorProps
               if (idx === 0 && el) setFirstInputRef(el);
             };
 
-            // TODO: add colors or images
-            // Also, pull this into separate component
             return (
               <label
                 key={opt.value}
@@ -163,18 +188,21 @@ export const VariantSelector = forwardRef<HTMLInputElement, VariantSelectorProps
                   <span
                     className="hoam-variant-selector__indicator"
                     style={{
-                      backgroundColor: opt.type === 'color' ? opt.value.toString() : undefined,
+                      backgroundColor:
+                        variant === 'color' ? opt.displayValue.toString() : undefined,
                     }}
                   >
-                    {opt.type === 'image' ? (
+                    {variant === 'image' ? (
                       <img
-                        src={opt.value.toString()}
+                        src={opt.displayValue.toString()}
                         alt={opt.label}
                         className="hoam-variant-selector__image"
                       />
                     ) : null}
+                    {variant === 'label' && (
+                      <span className="hoam-variant-selector__indicator-text">{opt.label}</span>
+                    )}
                   </span>
-                  {showLabels && <span className="hoam-variant-selector__label">{opt.label}</span>}
                 </span>
               </label>
             );

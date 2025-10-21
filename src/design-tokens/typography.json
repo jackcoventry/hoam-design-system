@@ -195,6 +195,14 @@
           "fontSize": "{typography.size.1}",
           "lineHeight": "{typography.line-height.1}"
         }
+      },
+      "2": {
+        "$value": {
+          "fontFamily": "{typography.family.2}",
+          "fontWeight": "{typography.weight.2}",
+          "fontSize": "{typography.size.1}",
+          "lineHeight": "{typography.line-height.1}"
+        }
       }
     }
   }

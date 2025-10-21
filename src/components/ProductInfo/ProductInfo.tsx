@@ -16,6 +16,7 @@ type ProductInfoProps = {
 
 interface IFormInput {
   color: string;
+  size: string;
   quantity: number;
 }
 
@@ -33,6 +34,8 @@ function ProductInfo({
   } = useForm({
     defaultValues: {
       color: '',
+      size: '',
+      image: '',
       quantity: 1,
     },
     mode: 'all',
@@ -42,16 +45,37 @@ function ProductInfo({
     console.log(data);
   };
 
-  const options = [
-    { label: 'Red', value: '#ff0000', name: 'color', type: 'color' },
-    { label: 'Yellow', value: '#ffff00', name: 'color', type: 'color' },
+  const colorOptions = [
+    // TODO: move this
+    { label: 'Red', value: 'red', displayValue: '#ff0000' },
+    { label: 'Yellow', value: 'yellow', displayValue: '#ffff00' },
+    { label: 'Green', value: 'green', displayValue: '#067c0eff' },
+  ];
+
+  const sizeOptions = [
+    // TODO: move this
+    { label: 'Small', value: 'small', displayValue: 'Small' },
+    { label: 'Medium', value: 'medium', displayValue: 'Medium' },
+    { label: 'Large', value: 'large', displayValue: 'Large' },
+  ];
+
+  const imageOptions = [
+    // TODO: move this
     {
-      label: 'Vitamin D Supplement',
-      value: 'https://placehold.co/48x4?text=Vitamin+D+Supplement',
-      name: 'color',
-      type: 'image',
+      label: 'Style 1',
+      value: 'style1',
+      displayValue: 'https://placehold.co/48x4?text=Vitamin+A+Supplement',
     },
-    { label: 'Green', value: '#067c0eff', name: 'color', type: 'color' },
+    {
+      label: 'Style 2',
+      value: 'style2',
+      displayValue: 'https://placehold.co/48x4?text=Vitamin+B+Supplement',
+    },
+    {
+      label: 'Style 3',
+      value: 'style3',
+      displayValue: 'https://placehold.co/48x4?text=Vitamin+C+Supplement',
+    },
   ];
 
   return (
@@ -66,17 +90,50 @@ function ProductInfo({
           control={control}
           rules={{ required: true }}
           render={({ field }) => (
-            <>
-              <label htmlFor="color">Variant</label>
-              <VariantSelector
-                {...field}
-                name="color"
-                options={options}
-              />
-            </>
+            <VariantSelector
+              {...field}
+              label="Color"
+              name="color"
+              options={colorOptions}
+              variant="color"
+            />
           )}
         />
         {errors?.color?.type === 'required' && <p role="alert">This is required</p>}
+
+        <Controller
+          name="size"
+          control={control}
+          rules={{ required: true }}
+          render={({ field }) => (
+            <VariantSelector
+              {...field}
+              label="Size"
+              name="size"
+              options={sizeOptions}
+              variant="label"
+            />
+          )}
+        />
+        {errors?.size?.type === 'required' && <p role="alert">This is required</p>}
+
+        <Controller
+          name="image"
+          control={control}
+          rules={{ required: true }}
+          render={({ field }) => (
+            <VariantSelector
+              {...field}
+              label="Image"
+              name="image"
+              options={imageOptions}
+              variant="image"
+              orientation="horizontal"
+            />
+          )}
+        />
+        {errors?.image?.type === 'required' && <p role="alert">This is required</p>}
+
         <Controller
           name="quantity"
           control={control}
