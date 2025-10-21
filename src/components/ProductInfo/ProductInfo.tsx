@@ -1,11 +1,14 @@
 import React from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
+import { Button } from '@/components/Button/Button';
+import QuantitySelector from '@/components/QuantitySelector/QuantitySelector';
 import VariantSelector from '@/components/VariantSelector/VariantSelector';
 import './ProductInfo.css';
 
 type ProductInfoProps = {
   title: string;
+  description?: string;
   productId: string;
   footnote: string;
   inStock: boolean;
@@ -13,17 +16,26 @@ type ProductInfoProps = {
 
 interface IFormInput {
   color: string;
+  quantity: number;
 }
 
-function ProductInfo({ title, productId, footnote, inStock }: Readonly<ProductInfoProps>) {
+function ProductInfo({
+  title,
+  description,
+  productId,
+  footnote,
+  inStock,
+}: Readonly<ProductInfoProps>) {
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid, isDirty },
   } = useForm({
     defaultValues: {
       color: '',
+      quantity: 1,
     },
+    mode: 'all',
   });
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
@@ -45,6 +57,8 @@ function ProductInfo({ title, productId, footnote, inStock }: Readonly<ProductIn
   return (
     <div className="hoam-product-info">
       <h1 className="hoam-product-info__title">{title}</h1>
+      {description && <p className="hoam-product-info__description">{description}</p>}
+
       {/* TODO: Use form for add to cart + controls */}
       <form onSubmit={handleSubmit(onSubmit)}>
         <Controller
@@ -52,31 +66,36 @@ function ProductInfo({ title, productId, footnote, inStock }: Readonly<ProductIn
           control={control}
           rules={{ required: true }}
           render={({ field }) => (
-            <VariantSelector
-              {...field}
-              name="color"
-              // onChange={onChange}
-              // value={active}
-              options={options}
-            />
+            <>
+              <label htmlFor="color">Variant</label>
+              <VariantSelector
+                {...field}
+                name="color"
+                options={options}
+              />
+            </>
           )}
         />
         {errors?.color?.type === 'required' && <p role="alert">This is required</p>}
-        {/* <Controller
-          name="iceCreamType"
+        <Controller
+          name="quantity"
           control={control}
           render={({ field }) => (
-            <Select
-              {...field}
-              options={[
-                { value: "chocolate", label: "Chocolate" },
-                { value: "strawberry", label: "Strawberry" },
-                { value: "vanilla", label: "Vanilla" },
-              ]}
-            />
+            <>
+              <label htmlFor="color">Quantity</label>
+              <QuantitySelector
+                {...field}
+                max={13}
+              />
+            </>
           )}
-        /> */}
-        <input type="submit" />
+        />
+        <Button
+          type="submit"
+          disabled={!inStock}
+        >
+          Add to cart
+        </Button>
       </form>
     </div>
   );

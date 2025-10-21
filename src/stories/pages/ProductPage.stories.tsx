@@ -8,6 +8,7 @@ const meta: Meta<typeof ProductInfo> = {
   tags: ['autodocs'],
   args: {
     title: 'Sample Product',
+    description: 'This is a sample product used to demonstrate the ProductInfo component.',
     productId: 'sample-product',
     footnote: 'A short description of the product.',
     price: { amount: 100, saleAmount: 80, currency: 'GBP' },

@@ -12,6 +12,7 @@ type ButtonProps = {
   disabled?: boolean;
   iconOnly?: boolean;
   ariaLabel?: string;
+  type?: 'button' | 'submit' | 'reset';
 };
 
 const Button = ({
@@ -24,6 +25,7 @@ const Button = ({
   disabled = false,
   iconOnly = false,
   ariaLabel,
+  type = 'button',
   ...rest
 }: ButtonProps) => {
   const classes = clsx('hoam-button', className);
@@ -41,6 +43,7 @@ const Button = ({
       data-variant={variant}
       onClick={onClick}
       aria-label={computedAriaLabel}
+      type={type}
       {...(disabled ? { disabled: true } : {})}
       {...rest}
     >
