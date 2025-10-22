@@ -13,8 +13,34 @@ export default meta;
 
 type Story = StoryObj<typeof Select>;
 
-const Template: Story = {
-  render: (args) => {
+export const Default = {
+  render: () => {
+    const [value, setValue] = React.useState('');
+
+    function onChange(id: string) {
+      setValue(id);
+    }
+
+    return (
+      <div>
+        <Select
+          label="T-Shirt Size"
+          value={value}
+          onChange={onChange}
+        >
+          <Select.Placeholder>Select size</Select.Placeholder>
+          <Select.Option value="m-s">Small</Select.Option>
+          <Select.Option value="m-m">Medium</Select.Option>
+          <Select.Option value="w-l">Large</Select.Option>
+        </Select>
+      </div>
+    );
+  },
+  args: {},
+};
+
+export const SelectWithOptGroup = {
+  render: () => {
     const [value, setValue] = React.useState('');
 
     function onChange(id: string) {
@@ -41,6 +67,5 @@ const Template: Story = {
       </div>
     );
   },
+  args: {},
 };
-
-export const Default = { ...Template, args: {} };
