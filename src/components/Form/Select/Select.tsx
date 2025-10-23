@@ -1,4 +1,5 @@
 import * as React from 'react';
+import './Select.css';
 
 /**
  * For single options, the value will be a string.
@@ -47,19 +48,21 @@ const SelectRoot = React.forwardRef(function Select<M extends boolean = false>(
   };
 
   return (
-    <div>
+    <div className="hoam-select">
       {label && (
         <label
+          className="hoam-select__label"
           id={labelId}
           htmlFor={actualId}
         >
-          {label}
-          {required ? ' *' : null}
+          <span className="hoam-select__label-text">{label}</span>
+          <span className="hoam-select__label-value">{value}</span>
         </label>
       )}
 
       <select
         id={actualId}
+        className="hoam-select__input"
         name={name}
         ref={ref}
         aria-labelledby={label ? labelId : undefined}

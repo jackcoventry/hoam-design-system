@@ -1,0 +1,41 @@
+.hoam-select {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hoam-spacing-2);
+}
+
+.hoam-select__label {
+  cursor: pointer;
+  display: inline-flex;
+  gap: var(--hoam-spacing-2);
+  padding: var(--hoam-spacing-2);
+}
+
+.hoam-select__label-text {
+  font: var(--hoam-typography-label-2);
+}
+
+.hoam-select__label-value {
+  font: var(--hoam-typography-label-1);
+}
+
+.hoam-select__input {
+  appearance: none;
+  background-color: var(--hoam-color-neutral-900);
+  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16"><path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right var(--hoam-spacing-4) center;
+  border: 1px solid var(--hoam-color-neutral-300);
+  border-radius: 4px;
+  color: var(--hoam-color-neutral-100);
+  font: var(--hoam-typography-label-1);
+  padding: var(--hoam-spacing-4);
+}
+
+/* TODO: Reuse this focus state across all form elements */
+.hoam-select__input:focus-visible {
+  outline: 3px solid var(--hoam-color-sun-700);
+  outline-offset: 6px;
+}
+
+/* TODO: Add option for completely new CSS */
