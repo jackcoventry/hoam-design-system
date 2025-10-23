@@ -107,33 +107,6 @@ export default function ImageGallery({
       aria-roledescription="carousel"
       aria-label="Image carousel"
     >
-      <div className="hoam-carousel__header">
-        <Button
-          onClick={prev}
-          aria-label="Previous slide"
-          aria-controls={idBase}
-          disabled={index === 0}
-          icon="arrow-left"
-          iconOnly
-        />
-
-        <div
-          className="hoam-carousel__status"
-          aria-live="polite"
-        >
-          {index + 1} / {images.length}
-        </div>
-
-        <Button
-          onClick={next}
-          aria-label="Next slide"
-          aria-controls={idBase}
-          disabled={index === images.length - 1}
-          icon="arrow-right"
-          iconOnly
-        />
-      </div>
-
       <div
         id={idBase}
         ref={viewportRef}
@@ -188,6 +161,33 @@ export default function ImageGallery({
             </button>
           );
         })}
+      </div>
+
+      <div className="hoam-carousel__header">
+        <Button
+          onClick={prev}
+          aria-label="Previous slide"
+          aria-controls={idBase}
+          disabled={index === 0}
+          icon="arrow-left"
+          iconOnly
+        />
+
+        <div
+          className="hoam-carousel__status"
+          aria-live="polite"
+        >
+          {index + 1} / {images.length}
+        </div>
+
+        <Button
+          onClick={next}
+          aria-label="Next slide"
+          aria-controls={idBase}
+          disabled={index === images.length - 1}
+          icon="arrow-right"
+          iconOnly
+        />
       </div>
     </section>
   );

@@ -13,6 +13,7 @@ type ProductInfoProps = {
   description?: string;
   productId: string;
   footnote: string;
+  price: { amount: number; saleAmount: number; currency: string };
   inStock: boolean;
 };
 
@@ -115,6 +116,7 @@ function ProductInfo({
   productId,
   footnote,
   inStock,
+  price,
 }: Readonly<ProductInfoProps>) {
   const {
     control,
@@ -135,10 +137,34 @@ function ProductInfo({
     console.log(data);
   };
 
+  const priceString = new Intl.NumberFormat('en-GB', {
+    style: 'currency',
+    currency: price.currency,
+  }).format(price.amount);
+
+  const salePriceString = price.saleAmount
+    ? new Intl.NumberFormat('en-GB', {
+        style: 'currency',
+        currency: price.currency,
+      }).format(price.saleAmount)
+    : undefined;
+
   return (
     <div className="hoam-product-info">
-      <h1 className="hoam-product-info__title">{title}</h1>
-      {description && <p className="hoam-product-info__description">{description}</p>}
+      <div className="hoam-product-info__content">
+        <h1 className="hoam-product-info__title">{title}</h1>
+        <h2 className="hoam-product-info__price">
+          {salePriceString ? (
+            <>
+              {salePriceString}{' '}
+              <span className="hoam-product-info__price-previous">{priceString}</span>
+            </>
+          ) : (
+            priceString
+          )}
+        </h2>
+        {description && <p className="hoam-product-info__description">{description}</p>}
+      </div>
 
       <form
         onSubmit={handleSubmit(onSubmit)}
