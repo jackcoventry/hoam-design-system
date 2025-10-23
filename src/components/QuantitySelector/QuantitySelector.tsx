@@ -110,6 +110,8 @@ export const QuantitySelector = React.forwardRef<HTMLInputElement, QuantitySelec
 
     return (
       <div className="hoam-quantity-selector">
+        {ariaLabel && <span className="hoam-quantity-selector__label">{ariaLabel}</span>}
+
         <div className="hoam-quantity-selector__inner">
           <Button
             ariaLabel={decrementLabel}

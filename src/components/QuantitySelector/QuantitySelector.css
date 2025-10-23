@@ -10,3 +10,9 @@
   outline: none;
   font: var(--hoam-typography-body-1);
 }
+
+.hoam-quantity-selector__label {
+  display: flex;
+  font: var(--hoam-typography-label-1);
+  margin-bottom: var(--hoam-spacing-2);
+}

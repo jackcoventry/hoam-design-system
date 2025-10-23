@@ -2,9 +2,10 @@ import React from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
 import { Button } from '@/components/Button/Button';
+import FieldWrapper from '@/components/Form/FieldWrapper/FieldWrapper';
+import { Select } from '@/components/Form/Select/Select';
 import QuantitySelector from '@/components/QuantitySelector/QuantitySelector';
 import VariantSelector from '@/components/VariantSelector/VariantSelector';
-import { Select } from '../Form/Select/Select';
 import './ProductInfo.css';
 
 type ProductInfoProps = {
@@ -139,108 +140,114 @@ function ProductInfo({
       <h1 className="hoam-product-info__title">{title}</h1>
       {description && <p className="hoam-product-info__description">{description}</p>}
 
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Controller
-          name="color"
-          control={control}
-          rules={{ required: true }}
-          render={({ field }) => (
-            <VariantSelector
-              {...field}
-              label="Color"
-              name="color"
-              options={colorOptions}
-              variant="color"
-            />
-          )}
-        />
-        {errors?.color?.type === 'required' && <p role="alert">This is required</p>}
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="hoam-form"
+      >
+        <FieldWrapper error={errors?.color?.type === 'required' ? 'This is required' : undefined}>
+          <Controller
+            name="color"
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <VariantSelector
+                {...field}
+                label="Color"
+                name="color"
+                options={colorOptions}
+                variant="color"
+              />
+            )}
+          />
+        </FieldWrapper>
 
-        <Controller
-          name="size"
-          control={control}
-          rules={{ required: true }}
-          render={({ field }) => (
-            <VariantSelector
-              {...field}
-              label="Size"
-              name="size"
-              options={sizeOptions}
-              variant="label"
-            />
-          )}
-        />
-        {errors?.size?.type === 'required' && <p role="alert">This is required</p>}
+        <FieldWrapper error={errors?.size?.type === 'required' ? 'This is required' : undefined}>
+          <Controller
+            name="size"
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <VariantSelector
+                {...field}
+                label="Size"
+                name="size"
+                options={sizeOptions}
+                variant="label"
+              />
+            )}
+          />
+        </FieldWrapper>
 
-        <Controller
-          name="image"
-          control={control}
-          rules={{ required: true }}
-          render={({ field }) => (
-            <VariantSelector
-              {...field}
-              label="Image"
-              name="image"
-              options={imageOptions}
-              variant="image"
-              orientation="horizontal"
-            />
-          )}
-        />
-        {errors?.image?.type === 'required' && <p role="alert">This is required</p>}
+        <FieldWrapper error={errors?.image?.type === 'required' ? 'This is required' : undefined}>
+          <Controller
+            name="image"
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <VariantSelector
+                {...field}
+                label="Image"
+                name="image"
+                options={imageOptions}
+                variant="image"
+                orientation="horizontal"
+              />
+            )}
+          />
+        </FieldWrapper>
 
-        <Controller
-          name="quantity"
-          control={control}
-          render={({ field }) => (
-            <>
-              <label htmlFor="color">Quantity</label>
+        <FieldWrapper error={errors?.tshirt?.type === 'required' ? 'This is required' : undefined}>
+          <Controller
+            name="tshirt"
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <Select
+                label="T-Shirt Size"
+                {...field}
+              >
+                <Select.Placeholder>Select size</Select.Placeholder>
+                {tshirtOptionsByCategory?.map((category) => (
+                  <Select.OptGroup
+                    key={category.name}
+                    label={category.name}
+                  >
+                    {category.options.map((option) => (
+                      <Select.Option
+                        key={option.value}
+                        value={option.value}
+                        disabled={option.disabled}
+                      >
+                        {option.displayValue}
+                      </Select.Option>
+                    ))}
+                  </Select.OptGroup>
+                ))}
+              </Select>
+            )}
+          />
+        </FieldWrapper>
+
+        <div className="hoam-form__controls">
+          <Controller
+            name="quantity"
+            control={control}
+            render={({ field }) => (
               <QuantitySelector
                 {...field}
                 max={13}
+                ariaLabel="Quantity"
               />
-            </>
-          )}
-        />
-
-        <Controller
-          name="tshirt"
-          control={control}
-          rules={{ required: true }}
-          render={({ field }) => (
-            <Select
-              label="T-Shirt Size"
-              {...field}
-            >
-              <Select.Placeholder>Select size</Select.Placeholder>
-              {tshirtOptionsByCategory?.map((category) => (
-                <Select.OptGroup
-                  key={category.name}
-                  label={category.name}
-                >
-                  {category.options.map((option) => (
-                    <Select.Option
-                      key={option.value}
-                      value={option.value}
-                      disabled={option.disabled}
-                    >
-                      {option.displayValue}
-                    </Select.Option>
-                  ))}
-                </Select.OptGroup>
-              ))}
-            </Select>
-          )}
-        />
-
-        {errors?.tshirt?.type === 'required' && <p role="alert">This is required</p>}
-
-        <Button
-          type="submit"
-          disabled={!inStock}
-        >
-          Add to cart
-        </Button>
+            )}
+          />
+          <Button
+            type="submit"
+            disabled={!inStock}
+            className="hoam-form__submit"
+          >
+            Add to cart
+          </Button>
+        </div>
       </form>
     </div>
   );

@@ -8,15 +8,14 @@
   cursor: pointer;
   display: inline-flex;
   gap: var(--hoam-spacing-2);
-  padding: var(--hoam-spacing-2);
 }
 
 .hoam-select__label-text {
-  font: var(--hoam-typography-label-2);
+  font: var(--hoam-typography-label-1);
 }
 
 .hoam-select__label-value {
-  font: var(--hoam-typography-label-1);
+  font: var(--hoam-typography-label-2);
 }
 
 .hoam-select__input {

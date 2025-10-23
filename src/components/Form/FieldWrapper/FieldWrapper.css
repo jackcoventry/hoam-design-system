@@ -1,0 +1,5 @@
+.hoam-field-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hoam-spacing-2);
+}
