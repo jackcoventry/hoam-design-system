@@ -38,10 +38,14 @@ const Template: Story = {
         src: 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1600&auto=format&fit=crop',
         alt: 'Desert road',
       },
+      {
+        src: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1600&auto=format&fit=crop',
+        alt: 'Mountains at dusk',
+      },
     ];
     return (
       <div className="container">
-        <div className="grid gap-lg">
+        <div className="grid gap-lg py-2xl">
           <div className="span-12 lg:span-5">
             <ImageGallery images={images} />
           </div>

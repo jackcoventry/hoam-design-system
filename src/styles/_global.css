@@ -24,6 +24,7 @@ h6 {
 
 .body-text {
   display: grid;
+  font: var(--hoam-typography-body-1);
   gap: var(--body-text-spacing, var(--hoam-spacing-3));
 }
 
@@ -36,7 +37,7 @@ h6 {
 
 .hoam-form__controls {
   display: grid;
-  gap: var(--hoam-spacing-3);
+  gap: var(--hoam-spacing-7);
   grid-template-columns: auto 1fr;
 }
 

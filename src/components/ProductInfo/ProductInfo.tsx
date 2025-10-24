@@ -1,6 +1,7 @@
 import React from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 
+import Accordion, { AccordionItem } from '@/components/Accordion/Accordion';
 import { Button } from '@/components/Button/Button';
 import FieldWrapper from '@/components/Form/FieldWrapper/FieldWrapper';
 import { Select } from '@/components/Form/Select/Select';
@@ -275,6 +276,49 @@ function ProductInfo({
           </Button>
         </div>
       </form>
+
+      <div className="hoam-product-info__information | mt-2xl">
+        <Accordion defaultOpenIds={['one']}>
+          <AccordionItem id="one">
+            <div>
+              <strong>Description</strong>
+            </div>
+            <div>
+              <div className="body-text">
+                <p>
+                  Ut minim mollit officia ad adipiscing velit duis duis fugiat. Reprehenderit
+                  voluptate dolore laboris esse in adipiscing adipiscing voluptate anim laboris qui
+                  reprehenderit eiusmod eiusmod incididunt occaecat excepteur mollit. Ad labore
+                  irure amet sit aliquip veniam pariatur veniam laboris nostrud nulla ullamco.
+                  Adipiscing veniam dolore cupidatat qui ad exercitation elit labore velit et
+                  aliquip adipiscing occaecat fugiat consequat esse sint nulla ea. Excepteur anim
+                  cillum culpa ullamco labore commodo veniam ut dolor excepteur irure duis voluptate
+                  proident ex in velit qui anim.
+                </p>
+              </div>
+            </div>
+          </AccordionItem>
+          <AccordionItem id="two">
+            <div>
+              <strong>Returns Policy</strong>
+            </div>
+            <div>
+              <div className="body-text">
+                <p>
+                  Fugiat esse consequat ad aliquip amet aliquip sed sit voluptate. Enim est culpa
+                  labore pariatur aliquip culpa mollit excepteur officia ea magna. Mollit ipsum nisi
+                  mollit minim laboris labore sunt et dolore ullamco reprehenderit. Dolor est velit
+                  adipiscing commodo nisi deserunt commodo ad cillum amet veniam in ea ut incididunt
+                  esse cupidatat eiusmod. Et ullamco aute elit tempor cillum id aliqua aute magna
+                  irure sit. Ex cillum sint incididunt sit adipiscing commodo labore duis nulla
+                  laborum dolor laborum. Aliqua do proident laborum in reprehenderit commodo ut
+                  adipiscing sunt.
+                </p>
+              </div>
+            </div>
+          </AccordionItem>
+        </Accordion>
+      </div>
     </div>
   );
 }

@@ -28,15 +28,7 @@ export default function ImageGallery({
 
   // If there are no images, render a message instead
   if (!images || images.length === 0) {
-    return (
-      <section
-        className={clsx('hoam-carousel', className)}
-        aria-roledescription="carousel"
-        aria-label="Image carousel"
-      >
-        <p className="hoam-carousel__empty">No images.</p>
-      </section>
-    );
+    return null;
   }
 
   // Scroll to initial slide after mount
@@ -163,7 +155,7 @@ export default function ImageGallery({
         })}
       </div>
 
-      <div className="hoam-carousel__header">
+      <div className="hoam-carousel__footer">
         <Button
           onClick={prev}
           aria-label="Previous slide"

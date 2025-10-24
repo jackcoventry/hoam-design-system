@@ -81,7 +81,7 @@ export const Accordion: React.FC<AccordionProps> = ({
           {accordionTitle && <h2 className="hoam-accordion__title">{accordionTitle}</h2>}
           <button
             type="button"
-            className="hoam-accordion__toggle-all"
+            className="hoam-accordion__toggle-all | focusable-only"
             onClick={() => updateOpenIds(allExpanded ? [] : itemIds)}
             aria-label={allExpanded ? 'Collapse all sections' : 'Expand all sections'}
           >
