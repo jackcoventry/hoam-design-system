@@ -1,5 +1,7 @@
+import { zodResolver } from '@hookform/resolvers/zod';
 import React from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { z } from 'zod';
 
 import Accordion, { AccordionItem } from '@/components/Accordion/Accordion';
 import { Button } from '@/components/Button/Button';
@@ -9,6 +11,16 @@ import QuantitySelector from '@/components/QuantitySelector/QuantitySelector';
 import VariantSelector from '@/components/VariantSelector/VariantSelector';
 
 import './ProductInfo.css';
+
+const ProductInformationSchema = z.object({
+  color: z.string(),
+  size: z.string(),
+  tshirt: z.string(),
+  image: z.string(),
+  quantity: z.number().min(1),
+});
+
+type ProductInformationSchemaType = z.infer<typeof ProductInformationSchema>;
 
 type ProductOption = {
   label: string;
@@ -33,13 +45,6 @@ type ProductInfoProps = {
     };
   };
 };
-
-interface IFormInput {
-  color: string;
-  size: string;
-  tshirt: string;
-  quantity: number;
-}
 
 function ProductInfo({
   title,
@@ -70,7 +75,8 @@ function ProductInfo({
     control,
     handleSubmit,
     formState: { errors, isValid, isDirty },
-  } = useForm({
+  } = useForm<ProductInformationSchemaType>({
+    resolver: zodResolver(ProductInformationSchema),
     defaultValues: {
       color: colorOptions[0].value,
       size: sizeOptions[0].value,
@@ -81,7 +87,7 @@ function ProductInfo({
     mode: 'all',
   });
 
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {
+  const onSubmit: SubmitHandler<ProductInformationSchemaType> = (data) => {
     console.log(data);
   };
 
@@ -118,11 +124,10 @@ function ProductInfo({
         onSubmit={handleSubmit(onSubmit)}
         className="hoam-form"
       >
-        <FieldWrapper error={errors?.color?.type === 'required' ? 'This is required' : undefined}>
+        <FieldWrapper error={errors?.color?.message}>
           <Controller
             name="color"
             control={control}
-            rules={{ required: true }}
             render={({ field }) => (
               <VariantSelector
                 {...field}
@@ -135,11 +140,10 @@ function ProductInfo({
           />
         </FieldWrapper>
 
-        <FieldWrapper error={errors?.size?.type === 'required' ? 'This is required' : undefined}>
+        <FieldWrapper error={errors?.size?.message}>
           <Controller
             name="size"
             control={control}
-            rules={{ required: true }}
             render={({ field }) => (
               <VariantSelector
                 {...field}
@@ -152,11 +156,10 @@ function ProductInfo({
           />
         </FieldWrapper>
 
-        <FieldWrapper error={errors?.image?.type === 'required' ? 'This is required' : undefined}>
+        <FieldWrapper error={errors?.image?.message}>
           <Controller
             name="image"
             control={control}
-            rules={{ required: true }}
             render={({ field }) => (
               <VariantSelector
                 {...field}
@@ -170,11 +173,10 @@ function ProductInfo({
           />
         </FieldWrapper>
 
-        <FieldWrapper error={errors?.tshirt?.type === 'required' ? 'This is required' : undefined}>
+        <FieldWrapper error={errors?.tshirt?.message}>
           <Controller
             name="tshirt"
             control={control}
-            rules={{ required: true }}
             render={({ field }) => (
               <Select
                 label="T-Shirt Size"
@@ -216,7 +218,7 @@ function ProductInfo({
           />
           <Button
             type="submit"
-            disabled={!inStock}
+            disabled={!inStock || Boolean(errors?.quantity?.message)}
             className="hoam-form__submit"
           >
             Add to cart
