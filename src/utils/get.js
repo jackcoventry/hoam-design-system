@@ -1,3 +1,5 @@
+// TODO: Rewrite this in typescript
+
 /**
  * Basic object getter using dot notation
  */

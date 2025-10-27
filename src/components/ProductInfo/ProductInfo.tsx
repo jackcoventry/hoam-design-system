@@ -1,5 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import React from 'react';
+import React, { useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -10,6 +10,7 @@ import { Select } from '@/components/Form/Select/Select';
 import QuantitySelector from '@/components/QuantitySelector/QuantitySelector';
 import VariantSelector from '@/components/VariantSelector/VariantSelector';
 
+import { convertNumberToCurrency } from '@/utils/convertNumberToCurrency';
 import './ProductInfo.css';
 
 const ProductInformationSchema = z.object({
@@ -74,7 +75,7 @@ function ProductInfo({
   const {
     control,
     handleSubmit,
-    formState: { errors, isValid, isDirty },
+    formState: { errors },
   } = useForm<ProductInformationSchemaType>({
     resolver: zodResolver(ProductInformationSchema),
     defaultValues: {
@@ -86,22 +87,23 @@ function ProductInfo({
     },
     mode: 'all',
   });
+  const [submitting, setSubmitting] = useState<boolean>(false);
 
   const onSubmit: SubmitHandler<ProductInformationSchemaType> = (data) => {
     console.log(data);
+    setSubmitting(true);
+
+    // TODO: temporary, to mimic server response.
+    setTimeout(() => {
+      setSubmitting(false);
+    }, 2000);
   };
 
-  const priceString = new Intl.NumberFormat('en-GB', {
-    style: 'currency',
+  const priceString = convertNumberToCurrency({ value: price.amount, currency: price.currency });
+  const salePriceString = convertNumberToCurrency({
+    value: price.saleAmount,
     currency: price.currency,
-  }).format(price.amount);
-
-  const salePriceString = price.saleAmount
-    ? new Intl.NumberFormat('en-GB', {
-        style: 'currency',
-        currency: price.currency,
-      }).format(price.saleAmount)
-    : undefined;
+  });
 
   return (
     <div className="hoam-product-info">
@@ -218,10 +220,10 @@ function ProductInfo({
           />
           <Button
             type="submit"
-            disabled={!inStock || Boolean(errors?.quantity?.message)}
+            disabled={!inStock || Boolean(errors?.quantity?.message) || submitting}
             className="hoam-form__submit"
           >
-            Add to cart
+            {submitting ? 'Added!' : 'Add to cart'}
           </Button>
         </div>
       </form>
