@@ -1,6 +1,9 @@
 import ImageGallery from '@/components/ImageGallery/ImageGallery';
 import ProductInfo from '@/components/ProductInfo/ProductInfo';
+import ImageGalleryMockData from '@/mocks/components/ImageGallery.json';
+import ProductInformationMockData from '@/mocks/components/ProductInformation.json';
 import { Meta, StoryObj } from '@storybook/react';
+
 import React from 'react';
 
 const meta: Meta<typeof ProductInfo> = {
@@ -10,7 +13,6 @@ const meta: Meta<typeof ProductInfo> = {
     title: 'Sample Product',
     description: 'This is a sample product used to demonstrate the ProductInfo component.',
     productId: 'sample-product',
-    footnote: 'A short description of the product.',
     price: { amount: 100, saleAmount: 80, currency: 'GBP' },
     inStock: true,
   },
@@ -21,36 +23,17 @@ type Story = StoryObj<typeof ProductInfo>;
 
 const Template: Story = {
   render: (args) => {
-    const images = [
-      {
-        src: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1600&auto=format&fit=crop',
-        alt: 'Mountains at dusk',
-      },
-      {
-        src: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=1600&auto=format&fit=crop',
-        alt: 'Ocean waves',
-      },
-      {
-        src: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=1600&auto=format&fit=crop',
-        alt: 'Forest path',
-      },
-      {
-        src: 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?q=80&w=1600&auto=format&fit=crop',
-        alt: 'Desert road',
-      },
-      {
-        src: 'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1600&auto=format&fit=crop',
-        alt: 'Mountains at dusk',
-      },
-    ];
     return (
       <div className="container">
         <div className="grid gap-lg py-2xl">
           <div className="span-12 lg:span-5">
-            <ImageGallery images={images} />
+            <ImageGallery images={ImageGalleryMockData} />
           </div>
           <div className="span-12 lg:start-7 lg:span-6">
-            <ProductInfo {...args} />
+            <ProductInfo
+              {...args}
+              data={ProductInformationMockData}
+            />
           </div>
         </div>
       </div>
