@@ -15,6 +15,7 @@
   "singleAttributePerLine": true,
   "embeddedLanguageFormatting": "auto",
   "plugins": ["prettier-plugin-organize-imports"],
+  "organizeImportsSkipDestructiveCodeActions": true,
   "overrides": [
     {
       "files": ["*.css", "*.scss"],

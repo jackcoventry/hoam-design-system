@@ -1,4 +1,5 @@
 import VariantSelector from '@/components/VariantSelector/VariantSelector';
+import ProductInformationMockData from '@/mocks/components/ProductInformation.json';
 import { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 
@@ -12,18 +13,6 @@ const meta: Meta<typeof VariantSelector> = {
 export default meta;
 
 type Story = StoryObj<typeof VariantSelector>;
-
-const options = [
-  { label: 'Red', value: '#ff0000', name: 'color', type: 'color' },
-  { label: 'Yellow', value: '#ffff00', name: 'color', type: 'color' },
-  {
-    label: 'Vitamin D Supplement',
-    value: 'https://placehold.co/48x48?text=Vitamin+D+Supplement',
-    name: 'color',
-    type: 'image',
-  },
-  { label: 'Green', value: '#067c0eff', name: 'color', type: 'color' },
-];
 
 const Template: Story = {
   render: (args) => {
@@ -39,11 +28,35 @@ const Template: Story = {
           {...args}
           onChange={onChange}
           value={active}
-          options={options}
+          options={args.options}
+          variant={args.variant}
+          label="Option"
         />
       </div>
     );
   },
 };
 
-export const Default = { ...Template, args: {} };
+export const Label = {
+  ...Template,
+  args: {
+    options: ProductInformationMockData.options.size,
+    variant: 'label',
+  },
+};
+
+export const Color = {
+  ...Template,
+  args: {
+    options: ProductInformationMockData.options.color,
+    variant: 'color',
+  },
+};
+
+export const Image = {
+  ...Template,
+  args: {
+    options: ProductInformationMockData.options.image,
+    variant: 'image',
+  },
+};
