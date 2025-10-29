@@ -16,15 +16,17 @@ type Story = StoryObj<typeof Hero>;
 
 const Template: Story = {
   render: (args) => (
-    <Hero effect={MockSlides.length > 3 ? 'slide' : 'fade'}>
+    <Hero effect={MockSlides.length > 2 ? 'slide' : 'fade'}>
       {MockSlides?.map((slide) => (
         <HeroSlide
           key={slide.image}
           title={slide.title}
+          subtitle={slide.subtitle}
           text={slide.text}
           theme={slide.theme}
           image={slide.image}
           button={slide.button}
+          position={slide.position}
         />
       ))}
     </Hero>

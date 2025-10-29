@@ -13,33 +13,53 @@ import './Hero.css';
 
 type HeroSlideProps = {
   title: string;
+  subtitle: string;
   text: string;
   image: string;
   theme: string;
+  position: string;
   button: { url: string; text?: string };
 };
 
-function HeroSlide({ title, text, image, theme = 'default', button }: Readonly<HeroSlideProps>) {
+function HeroSlide({
+  title,
+  subtitle,
+  text,
+  image,
+  theme = 'default',
+  button,
+  position = 'left',
+}: Readonly<HeroSlideProps>) {
   return (
     <div
       className="hoam-hero__slide"
+      data-position={position}
       data-theme={theme}
+      style={{
+        backgroundImage: `url(${image})`,
+      }}
     >
-      <h1>{title}</h1>
-      <p>{text}</p>
-      <img src={image} />
-      <Button>{button?.text || 'Read more'}</Button>
+      <div className="hoam-hero__content">
+        <p className="hoam-hero__subtitle">{subtitle}</p>
+        <h1 className="hoam-hero__title">{title}</h1>
+        <p className="hoam-hero__text">{text}</p>
+        <div className="hoam-hero__content-link">
+          <Button variant={theme === 'default' ? 'primary' : 'secondary'}>
+            {button?.text || 'Read more'}
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }
 
 type HeroProps = {
   delay?: number;
-  effect: string;
+  effect?: string;
   children: React.ReactNode;
 };
 
-function Hero({ delay = 2500, effect, children }: Readonly<HeroProps>) {
+function Hero({ delay = 2500, effect = 'slide', children }: Readonly<HeroProps>) {
   return (
     <Swiper
       centeredSlides={true}

@@ -1,8 +1,9 @@
 [
   {
     "title": "Slide 1",
+    "subtitle": "Special collection",
     "text": "A test description",
-    "image": "https://placehold.co/1920x1280?text=Slide+1",
+    "image": "/hero/banner-1.webp",
     "theme": "default",
     "button": {
       "url": "/",
@@ -11,12 +12,26 @@
   },
   {
     "title": "Slide 2",
+    "subtitle": "Christmas collection",
     "text": "Another test description",
-    "image": "https://placehold.co/1920x1280?text=Slide+2",
-    "theme": "default",
+    "image": "/hero/banner-2.webp",
+    "theme": "light",
     "button": {
       "url": "/",
       "text": "Find out more"
-    }
+    },
+    "position": "right"
+  },
+  {
+    "title": "Slide 3",
+    "subtitle": "Member exclusive",
+    "text": "Yet another test description",
+    "image": "/hero/banner-3.webp",
+    "theme": "light",
+    "button": {
+      "url": "/",
+      "text": "Join now"
+    },
+    "position": "center"
   }
 ]
