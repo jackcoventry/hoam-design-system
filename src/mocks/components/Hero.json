@@ -1,0 +1,22 @@
+[
+  {
+    "title": "Slide 1",
+    "text": "A test description",
+    "image": "https://placehold.co/1920x1280?text=Slide+1",
+    "theme": "default",
+    "button": {
+      "url": "/",
+      "text": "Read more"
+    }
+  },
+  {
+    "title": "Slide 2",
+    "text": "Another test description",
+    "image": "https://placehold.co/1920x1280?text=Slide+2",
+    "theme": "default",
+    "button": {
+      "url": "/",
+      "text": "Find out more"
+    }
+  }
+]
