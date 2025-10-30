@@ -28,3 +28,4 @@ pnpm-debug.log*
 doctor-storybook.log
 *storybook.log
 storybook-static
+.NOTES

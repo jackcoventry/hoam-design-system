@@ -15,19 +15,22 @@ type ButtonProps = {
   type?: 'button' | 'submit' | 'reset';
 };
 
-const Button = ({
-  children,
-  className = '',
-  onClick,
-  icon,
-  iconPosition = 'right',
-  variant = 'primary',
-  disabled = false,
-  iconOnly = false,
-  ariaLabel,
-  type = 'button',
-  ...rest
-}: ButtonProps) => {
+const Button = React.forwardRef(function ButtonRoot(
+  {
+    children,
+    className = '',
+    onClick,
+    icon,
+    iconPosition = 'right',
+    variant = 'primary',
+    disabled = false,
+    iconOnly = false,
+    ariaLabel,
+    type = 'button',
+    ...rest
+  }: Readonly<ButtonProps>,
+  ref: React.ForwardedRef<HTMLButtonElement>
+) {
   const classes = clsx('hoam-button', className);
 
   // Fallback: if ariaLabel is not provided and iconOnly is true, try to use children as string
@@ -44,6 +47,7 @@ const Button = ({
       onClick={onClick}
       aria-label={computedAriaLabel}
       type={type}
+      ref={ref}
       {...(disabled ? { disabled: true } : {})}
       {...rest}
     >
@@ -62,6 +66,6 @@ const Button = ({
       )}
     </button>
   );
-};
+});
 
 export { Button };

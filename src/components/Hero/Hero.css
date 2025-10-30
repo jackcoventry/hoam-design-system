@@ -1,6 +1,6 @@
 .swiper {
-  width: 100%;
   height: 600px;
+  width: 100%;
 }
 
 .swiper-slide {
@@ -11,18 +11,25 @@
 
 .swiper-slide img {
   display: block;
-  width: 100%;
   height: 100%;
   object-fit: cover;
+  width: 100%;
+}
+
+.hoam-hero {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  position: relative;
 }
 
 .hoam-hero__slide {
-  background-color: #fff;
+  align-items: center;
+  background-color: var(--hoam-color-neutral-900);
   background-position: center right;
   background-size: auto 600px;
   background-repeat: no-repeat;
   display: flex;
-  align-items: center;
   height: 100%;
   width: 100%;
 }
@@ -42,6 +49,7 @@
   padding-top: var(--hoam-spacing-5);
 }
 
+/* TODO: tokenize */
 .hoam-hero__subtitle {
   font: var(--hoam-typography-body-1);
   letter-spacing: 0.25rem;
@@ -55,7 +63,7 @@
 [data-theme="light"] .hoam-hero__title,
 [data-theme="light"] .hoam-hero__subtitle,
 [data-theme="light"] .hoam-hero__text {
-  color: #fff;
+  color: var(--hoam-color-neutral-900);
 }
 
 [data-position="right"] {
@@ -64,4 +72,53 @@
 
 [data-position="center"] {
   justify-content: center;
+}
+
+.hoam-hero__nav-btn {
+  position: absolute;
+  /* TODO: tokenize */
+  z-index: 100;
+}
+
+.hoam-hero__nav-btn[data-direction="right"] {
+  right: 0;
+}
+
+.hoam-hero__nav-btn[data-direction="left"] {
+  left: 0;
+}
+
+.hoam__hero-controls {
+  bottom: var(--hoam-spacing-3);
+  position: absolute;
+  z-index: 100;
+}
+
+.hoam-hero__bullet {
+  --hoam-hero-pagination-size: 18px;
+  background: none;
+  border: 1px solid var(--hoam-color-sun-700);
+  border-radius: 100%;
+  cursor: pointer;
+  height: var(--hoam-hero-pagination-size);
+  overflow: hidden;
+  text-indent: -9999px;
+  width: var(--hoam-hero-pagination-size);
+}
+
+.hoam-hero__bullet\:active {
+  background-color: var(--hoam-color-neutral-900);
+}
+
+.hoam-hero__bullet:hover {
+  background-color: var(--hoam-color-sun-100);
+}
+
+.hoam-hero__pagination {
+  align-content: center;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 50px;
+  display: flex;
+  gap: var(--hoam-spacing-2);
+  padding: var(--hoam-spacing-3);
 }
