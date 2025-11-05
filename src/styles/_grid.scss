@@ -28,6 +28,7 @@ $breakpoints: (
   md: 768px,
   lg: 1024px,
   xl: 1280px,
+  xxl: 1600px,
 );
 
 /* Escaped prefixes so selectors render like .sm\:m-sm, etc. */
@@ -36,6 +37,7 @@ $bp-prefixes: (
   md: "md\\:",
   lg: "lg\\:",
   xl: "xl\\:",
+  xxl: "xxl\\:",
 );
 
 /* ===============================
@@ -44,7 +46,7 @@ $bp-prefixes: (
 
 .container {
   margin-inline: auto;
-  width: min(100% - var(--hoam-spacing-8), 1200px);
+  width: min(100% - var(--hoam-spacing-8), 1680px);
 }
 
 .grid {

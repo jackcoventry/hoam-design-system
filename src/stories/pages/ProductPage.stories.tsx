@@ -26,10 +26,10 @@ const Template: Story = {
     return (
       <div className="container">
         <div className="grid gap-lg py-2xl">
-          <div className="span-12 lg:span-5">
+          <div className="span-12 lg:span-6">
             <ImageGallery images={ImageGalleryMockData} />
           </div>
-          <div className="span-12 lg:start-7 lg:span-6">
+          <div className="span-12 lg:start-8 lg:span-5">
             <ProductInfo
               {...args}
               data={ProductInformationMockData}

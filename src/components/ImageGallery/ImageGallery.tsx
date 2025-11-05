@@ -1,5 +1,5 @@
 import { Button } from '@/components/Button/Button';
-import tokens from '@/styles/variables.json';
+import getTokenByName from '@/utils/getTokenByName';
 import React, { useEffect, useRef, useState } from 'react';
 import type { Swiper as SwiperCore } from 'swiper';
 import { A11y, FreeMode, Keyboard, Navigation, Pagination, Thumbs } from 'swiper/modules';
@@ -22,7 +22,7 @@ function ImageGallery({ images = [] }) {
   const pagRef = useRef<HTMLDivElement | null>(null);
   const swiperRef = useRef<SwiperCore | null>(null);
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperCore | null>(null);
-  const spacingToken = tokens?.find((t) => t.name === 'hoam-spacing-5').value;
+  const spacingToken = getTokenByName('hoam-spacing-5');
 
   const handleBeforeInit = (swiper: SwiperCore) => {
     swiperRef.current = swiper;
@@ -82,8 +82,8 @@ function ImageGallery({ images = [] }) {
           a11y={{ enabled: true }}
           direction="vertical"
         >
-          {images.map((image, i) => (
-            <SwiperSlide key={image.src}>
+          {images?.map((image, i) => (
+            <SwiperSlide key={image.id}>
               <img
                 className="hoam-image-gallery__thumb-image"
                 src={image.thumb ?? image.src}
@@ -133,7 +133,7 @@ function ImageGallery({ images = [] }) {
           a11y={{ enabled: true }}
         >
           {images?.map((image) => (
-            <SwiperSlide>{<img src={image.src} />}</SwiperSlide>
+            <SwiperSlide key={image.id}>{<img src={image.src} />}</SwiperSlide>
           ))}
         </Swiper>
       </div>
