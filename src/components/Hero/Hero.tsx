@@ -11,6 +11,7 @@ import 'swiper/css/effect-fade';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
+import '@/components/Common/Dots.css';
 import './Hero.css';
 
 type HeroSlideProps = {
@@ -81,12 +82,12 @@ function Hero({ delay = 2500, effect = 'slide', children }: Readonly<HeroProps>)
       ...(swiper.params.pagination as object),
       el: pagRef.current,
       clickable: true,
-      bulletClass: 'hoam-hero__bullet',
-      bulletActiveClass: 'hoam-hero__bullet:active',
+      bulletClass: 'hoam-dots__bullet',
+      bulletActiveClass: 'hoam-dots__bullet:active',
       // Has to return string
       renderBullet: (index, className) =>
         `<button type="button" class="${className}" aria-label="Go to slide ${index + 1}">
-           <span class="hoam-hero__bullet-inner">${index + 1}</span>
+           <span class="hoam-dots__bullet-inner">${index + 1}</span>
          </button>`,
     };
   };
@@ -136,7 +137,7 @@ function Hero({ delay = 2500, effect = 'slide', children }: Readonly<HeroProps>)
       <div className="hoam__hero-controls">
         <div
           ref={pagRef}
-          className="hoam-hero__pagination"
+          className="hoam-dots"
           aria-label="Slide pagination"
         />
       </div>

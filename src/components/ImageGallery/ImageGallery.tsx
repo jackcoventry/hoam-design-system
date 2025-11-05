@@ -1,15 +1,19 @@
 import { Button } from '@/components/Button/Button';
-import React, { useEffect, useRef } from 'react';
+import tokens from '@/styles/variables.json';
+import React, { useEffect, useRef, useState } from 'react';
 import type { Swiper as SwiperCore } from 'swiper';
-import { A11y, Keyboard, Navigation, Pagination } from 'swiper/modules';
+import { A11y, FreeMode, Keyboard, Navigation, Pagination, Thumbs } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/a11y';
+import 'swiper/css/free-mode';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import 'swiper/css/thumbs';
 
+import '@/components/Common/Dots.css';
 import './ImageGallery.css';
 
 function ImageGallery({ images = [] }) {
@@ -17,7 +21,8 @@ function ImageGallery({ images = [] }) {
   const nextRef = useRef<HTMLButtonElement | null>(null);
   const pagRef = useRef<HTMLDivElement | null>(null);
   const swiperRef = useRef<SwiperCore | null>(null);
-  const thumbBtnsRef = useRef<Array<HTMLButtonElement | null>>([]);
+  const [thumbsSwiper, setThumbsSwiper] = useState<SwiperCore | null>(null);
+  const spacingToken = tokens?.find((t) => t.name === 'hoam-spacing-5').value;
 
   const handleBeforeInit = (swiper: SwiperCore) => {
     swiperRef.current = swiper;
@@ -33,37 +38,14 @@ function ImageGallery({ images = [] }) {
       ...(swiper.params.pagination as object),
       el: pagRef.current,
       clickable: true,
-      bulletClass: 'hoam-image-gallery__bullet',
-      bulletActiveClass: 'hoam-image-gallery__bullet:active',
+      bulletClass: 'hoam-dots__bullet',
+      bulletActiveClass: 'hoam-dots__bullet:active',
       // Has to return string
       renderBullet: (index, className) =>
         `<button type="button" class="${className}" aria-label="Go to slide ${index + 1}">
-           <span class="hoam-image-gallery__bullet-inner">${index + 1}</span>
+           <span class="hoam-dots__bullet-inner">${index + 1}</span>
          </button>`,
     };
-  };
-
-  const goTo = (i: number) => {
-    const swiper = swiperRef.current;
-    if (!swiper) return;
-    const length = images.length;
-    const idx = ((i % length) + length) % length;
-    swiper.params.loop ? swiper.slideToLoop(idx) : swiper.slideTo(idx);
-    thumbBtnsRef.current[idx]?.focus();
-  };
-
-  const handleThumbKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (e) => {
-    const swiper = swiperRef.current;
-    if (!swiper) return;
-
-    const i = swiper.realIndex;
-    if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      goTo(i + 1);
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      goTo(i - 1);
-    }
   };
 
   useEffect(() => {
@@ -90,75 +72,70 @@ function ImageGallery({ images = [] }) {
 
   return (
     <div className="hoam-image-gallery">
-      <Button
-        ref={prevRef}
-        type="button"
-        className="hoam-image-gallery__nav-btn"
-        data-direction="left"
-        aria-label="Previous slide"
-        icon="arrow-left"
-        iconOnly
-      />
-      <Button
-        ref={nextRef}
-        type="button"
-        className="hoam-image-gallery__nav-btn"
-        data-direction="right"
-        aria-label="Next slide"
-        icon="arrow-right"
-        iconOnly
-      />
-      <div className="hoam__hero-controls">
-        <div
-          ref={pagRef}
-          className="hoam-image-gallery__pagination"
-          aria-label="Slide pagination"
-        />
-      </div>
-      <Swiper
-        centeredSlides={false}
-        keyboard={{
-          enabled: true,
-        }}
-        modules={[Pagination, Navigation, Keyboard, A11y]}
-        onBeforeInit={handleBeforeInit}
-        onSwiper={(s) => (swiperRef.current = s)}
-      >
-        {images?.map((image) => (
-          <SwiperSlide>{<img src={image.src} />}</SwiperSlide>
-        ))}
-      </Swiper>
-      <div
-        className="thumbs"
-        role="tablist"
-        aria-label="Slide thumbnails"
-        aria-orientation="vertical"
-        tabIndex={0}
-        onKeyDown={handleThumbKeyDown}
-      >
-        {images?.map((image, i) => {
-          const isActive = i === swiperRef?.current?.activeIndex;
-          return (
-            <button
-              key={image.src}
-              type="button"
-              ref={(el: HTMLButtonElement | null) => {
-                thumbBtnsRef.current[i] = el;
-              }}
-              role="tab"
-              aria-selected={isActive}
-              aria-controls={`slide-panel-${image.src}`}
-              className={`thumb ${isActive ? 'is-active' : ''}`}
-              onClick={() => goTo(i)}
-            >
+      <div className="hoam-image-gallery__thumbs">
+        <Swiper
+          freeMode
+          modules={[Thumbs, FreeMode]}
+          onSwiper={setThumbsSwiper}
+          slidesPerView={5}
+          spaceBetween={spacingToken}
+          a11y={{ enabled: true }}
+          direction="vertical"
+        >
+          {images.map((image, i) => (
+            <SwiperSlide key={image.src}>
               <img
-                src={image.src}
-                width={100}
-                height={100}
+                className="hoam-image-gallery__thumb-image"
+                src={image.thumb ?? image.src}
+                alt={image.alt ?? `Slide ${i + 1}`}
               />
-            </button>
-          );
-        })}
+            </SwiperSlide>
+          ))}
+        </Swiper>
+      </div>
+      <div className="hoam-image-gallery__images">
+        <div className="hoam-image-gallery__controls">
+          <Button
+            ref={prevRef}
+            type="button"
+            className="hoam-image-gallery__nav-btn"
+            data-direction="left"
+            aria-label="Previous slide"
+            icon="arrow-left"
+            iconOnly
+          />
+          <Button
+            ref={nextRef}
+            type="button"
+            className="hoam-image-gallery__nav-btn"
+            data-direction="right"
+            aria-label="Next slide"
+            icon="arrow-right"
+            iconOnly
+          />
+          <div className="hoam-image-gallery__dots-wrapper">
+            <div
+              ref={pagRef}
+              className="hoam-dots"
+              aria-label="Slide pagination"
+            />
+          </div>
+        </div>
+        <Swiper
+          centeredSlides={false}
+          keyboard={{
+            enabled: true,
+          }}
+          modules={[Pagination, Navigation, Keyboard, A11y, Thumbs]}
+          onBeforeInit={handleBeforeInit}
+          onSwiper={(s) => (swiperRef.current = s)}
+          thumbs={{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }}
+          a11y={{ enabled: true }}
+        >
+          {images?.map((image) => (
+            <SwiperSlide>{<img src={image.src} />}</SwiperSlide>
+          ))}
+        </Swiper>
       </div>
     </div>
   );
