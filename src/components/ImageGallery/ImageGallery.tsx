@@ -1,186 +1,167 @@
 import { Button } from '@/components/Button/Button';
-import clsx from 'clsx';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
+import type { Swiper as SwiperCore } from 'swiper';
+import { A11y, Keyboard, Navigation, Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/a11y';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+
 import './ImageGallery.css';
 
-type ImageItem = { src: string; alt?: string };
+function ImageGallery({ images = [] }) {
+  const prevRef = useRef<HTMLButtonElement | null>(null);
+  const nextRef = useRef<HTMLButtonElement | null>(null);
+  const pagRef = useRef<HTMLDivElement | null>(null);
+  const swiperRef = useRef<SwiperCore | null>(null);
+  const thumbBtnsRef = useRef<Array<HTMLButtonElement | null>>([]);
 
-type ImageGalleryProps = {
-  images: ImageItem[];
-  initialIndex?: number;
-  className?: string;
-};
+  const handleBeforeInit = (swiper: SwiperCore) => {
+    swiperRef.current = swiper;
 
-export default function ImageGallery({
-  images,
-  initialIndex = 0,
-  className,
-}: Readonly<ImageGalleryProps>) {
-  const viewportRef = useRef<HTMLDivElement | null>(null);
-
-  // Current slide index
-  const [index, setIndex] = useState(
-    images.length ? Math.min(Math.max(initialIndex, 0), images.length - 1) : 0
-  );
-
-  // Generated id for aria-controls and references
-  const idBase = useMemo(() => `hoam-carousel-${Math.random().toString(36).slice(2, 8)}`, []);
-
-  // If there are no images, render a message instead
-  if (!images || images.length === 0) {
-    return null;
-  }
-
-  // Scroll to initial slide after mount
-  useEffect(() => {
-    const el = viewportRef.current;
-    if (!el) return;
-    const slide = el.children[index] as HTMLElement | undefined;
-    if (slide) el.scrollTo({ left: slide.offsetLeft, top: 0 });
-  }, []);
-
-  // Track index while the user swipes/drags/scrolls
-  useEffect(() => {
-    const el = viewportRef.current;
-    if (!el) return;
-
-    let ticking = false;
-    const onScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        ticking = false;
-        const first = el.firstElementChild as HTMLElement | null;
-        const slideWidth = first?.clientWidth ?? 1;
-        const current = Math.round(el.scrollLeft / slideWidth);
-        if (current !== index) setIndex(current);
-      });
+    // Attach refs so Navigation/Pagination can initialize with them
+    swiper.params.navigation = {
+      ...(swiper.params.navigation as object),
+      prevEl: prevRef.current,
+      nextEl: nextRef.current,
     };
 
-    el.addEventListener('scroll', onScroll, { passive: true });
-    return () => el.removeEventListener('scroll', onScroll);
-  }, [index]);
+    swiper.params.pagination = {
+      ...(swiper.params.pagination as object),
+      el: pagRef.current,
+      clickable: true,
+      bulletClass: 'hoam-image-gallery__bullet',
+      bulletActiveClass: 'hoam-image-gallery__bullet:active',
+      // Has to return string
+      renderBullet: (index, className) =>
+        `<button type="button" class="${className}" aria-label="Go to slide ${index + 1}">
+           <span class="hoam-image-gallery__bullet-inner">${index + 1}</span>
+         </button>`,
+    };
+  };
 
-  const goTo = (target: number, smooth = true) => {
-    const el = viewportRef.current;
-    if (!el) return;
-    const clamped = Math.max(0, Math.min(images.length - 1, target));
-    const slide = el.children[clamped] as HTMLElement | undefined;
-    if (slide) {
-      el.scrollTo({
-        left: slide.offsetLeft,
-        behavior: smooth ? 'smooth' : 'auto',
-      });
+  const goTo = (i: number) => {
+    const swiper = swiperRef.current;
+    if (!swiper) return;
+    const length = images.length;
+    const idx = ((i % length) + length) % length;
+    swiper.params.loop ? swiper.slideToLoop(idx) : swiper.slideTo(idx);
+    thumbBtnsRef.current[idx]?.focus();
+  };
+
+  const handleThumbKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (e) => {
+    const swiper = swiperRef.current;
+    if (!swiper) return;
+
+    const i = swiper.realIndex;
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      goTo(i + 1);
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      goTo(i - 1);
     }
   };
 
-  const next = () => goTo(index + 1);
-  const prev = () => goTo(index - 1);
+  useEffect(() => {
+    const swiper = swiperRef.current;
+    if (!swiper) return;
 
-  const onKeyDown: React.KeyboardEventHandler<HTMLDivElement> = (e) => {
-    if (e.key === 'ArrowRight') {
-      e.preventDefault();
-      next();
-    } else if (e.key === 'ArrowLeft') {
-      e.preventDefault();
-      prev();
-    } else if (e.key === 'Home') {
-      e.preventDefault();
-      goTo(0);
-    } else if (e.key === 'End') {
-      e.preventDefault();
-      goTo(images.length - 1);
+    // (Re)bind navigation if needed
+    if (swiper.params.navigation && typeof swiper.params.navigation !== 'boolean') {
+      swiper.params.navigation.prevEl = prevRef.current;
+      swiper.params.navigation.nextEl = nextRef.current;
+      swiper.navigation?.destroy();
+      swiper.navigation?.init();
+      swiper.navigation?.update();
     }
-  };
+
+    // (Re)bind pagination if needed
+    if (swiper.params.pagination && typeof swiper.params.pagination !== 'boolean') {
+      swiper.params.pagination.el = pagRef.current;
+      swiper.pagination?.destroy();
+      swiper.pagination?.init();
+      swiper.pagination?.update();
+    }
+  }, []);
 
   return (
-    <section
-      className={clsx('hoam-carousel', className)}
-      aria-roledescription="carousel"
-      aria-label="Image carousel"
-    >
-      <div
-        id={idBase}
-        ref={viewportRef}
-        className="hoam-carousel__viewport"
-        tabIndex={0}
-        onKeyDown={onKeyDown}
-      >
-        {images.map((img, i) => (
-          <figure
-            key={i}
-            className="hoam-carousel__slide"
-            aria-roledescription="slide"
-            aria-label={`Slide ${i + 1} of ${images.length}`}
-          >
-            <div className="hoam-carousel__media">
-              <img
-                src={img.src}
-                alt={img.alt ?? ''}
-                loading={i === 0 ? 'eager' : 'lazy'}
-                draggable={false}
-              />
-            </div>
-          </figure>
-        ))}
+    <div className="hoam-image-gallery">
+      <Button
+        ref={prevRef}
+        type="button"
+        className="hoam-image-gallery__nav-btn"
+        data-direction="left"
+        aria-label="Previous slide"
+        icon="arrow-left"
+        iconOnly
+      />
+      <Button
+        ref={nextRef}
+        type="button"
+        className="hoam-image-gallery__nav-btn"
+        data-direction="right"
+        aria-label="Next slide"
+        icon="arrow-right"
+        iconOnly
+      />
+      <div className="hoam__hero-controls">
+        <div
+          ref={pagRef}
+          className="hoam-image-gallery__pagination"
+          aria-label="Slide pagination"
+        />
       </div>
-
+      <Swiper
+        centeredSlides={false}
+        keyboard={{
+          enabled: true,
+        }}
+        modules={[Pagination, Navigation, Keyboard, A11y]}
+        onBeforeInit={handleBeforeInit}
+        onSwiper={(s) => (swiperRef.current = s)}
+      >
+        {images?.map((image) => (
+          <SwiperSlide>{<img src={image.src} />}</SwiperSlide>
+        ))}
+      </Swiper>
       <div
-        className="hoam-carousel__thumbs"
+        className="thumbs"
         role="tablist"
         aria-label="Slide thumbnails"
+        aria-orientation="vertical"
+        tabIndex={0}
+        onKeyDown={handleThumbKeyDown}
       >
-        {images.map((img, i) => {
-          const active = i === index;
+        {images?.map((image, i) => {
+          const isActive = i === swiperRef?.current?.activeIndex;
           return (
             <button
-              key={img.src + i}
+              key={image.src}
               type="button"
+              ref={(el: HTMLButtonElement | null) => {
+                thumbBtnsRef.current[i] = el;
+              }}
               role="tab"
-              aria-selected={active}
-              aria-controls={idBase}
-              className={'hoam-carousel__thumb' + (active ? ' is-active' : '')}
+              aria-selected={isActive}
+              aria-controls={`slide-panel-${image.src}`}
+              className={`thumb ${isActive ? 'is-active' : ''}`}
               onClick={() => goTo(i)}
-              title={`Go to slide ${i + 1}`}
             >
-              <span className="sr-only">{`Slide ${i + 1}`}</span>
               <img
-                src={img.src}
-                alt={img.alt ?? ''}
-                loading="lazy"
-                draggable={false}
+                src={image.src}
+                width={100}
+                height={100}
               />
             </button>
           );
         })}
       </div>
-
-      <div className="hoam-carousel__footer">
-        <Button
-          onClick={prev}
-          aria-label="Previous slide"
-          aria-controls={idBase}
-          disabled={index === 0}
-          icon="arrow-left"
-          iconOnly
-        />
-
-        <div
-          className="hoam-carousel__status"
-          aria-live="polite"
-        >
-          {index + 1} / {images.length}
-        </div>
-
-        <Button
-          onClick={next}
-          aria-label="Next slide"
-          aria-controls={idBase}
-          disabled={index === images.length - 1}
-          icon="arrow-right"
-          iconOnly
-        />
-      </div>
-    </section>
+    </div>
   );
 }
+
+export default ImageGallery;
