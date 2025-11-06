@@ -11,6 +11,7 @@ import QuantitySelector from '@/components/QuantitySelector/QuantitySelector';
 import VariantSelector from '@/components/VariantSelector/VariantSelector';
 
 import { convertNumberToCurrency } from '@/utils/convertNumberToCurrency';
+import BadgeList, { BadgeListItem } from '../BadgeList/BadgeList';
 import './ProductInfo.css';
 
 const ProductInformationSchema = z.object({
@@ -37,6 +38,8 @@ type ProductInfoProps = {
   productId: string;
   price: { amount: number; saleAmount: number; currency: string };
   inStock: boolean;
+  newItem: boolean;
+  lowStock: boolean;
   data: {
     options: {
       color: ProductOption[];
@@ -52,6 +55,8 @@ function ProductInfo({
   description,
   productId,
   inStock,
+  newItem,
+  lowStock,
   price,
   data,
 }: Readonly<ProductInfoProps>) {
@@ -119,6 +124,10 @@ function ProductInfo({
             priceString
           )}
         </h2>
+        {newItem || lowStock ? (
+          <BadgeList>{newItem && <BadgeListItem>NEW</BadgeListItem>}</BadgeList>
+        ) : null}
+
         {description && <p className="hoam-product-info__description">{description}</p>}
       </div>
 

@@ -15,6 +15,7 @@ const meta: Meta<typeof ProductInfo> = {
     productId: 'sample-product',
     price: { amount: 100, saleAmount: 80, currency: 'GBP' },
     inStock: true,
+    newItem: true,
   },
 };
 export default meta;
