@@ -24,14 +24,17 @@ function RecommendedProducts({ title, description, products }: Readonly<Recommen
 
       <div className="container">
         <div className="grid gap-lg">
-          {products?.map((product) => (
-            <div
-              key={product.productId}
-              className="span-12 lg:span-4"
-            >
-              <ProductTile {...product} />
-            </div>
-          ))}
+          {products?.map((product, index) => {
+            const id = `${product.productId}-${index}`;
+            return (
+              <div
+                key={id}
+                className="span-12 lg:span-4"
+              >
+                <ProductTile {...product} />
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

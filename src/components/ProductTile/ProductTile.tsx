@@ -1,3 +1,4 @@
+import BadgeList, { BadgeListItem } from '@/components/BadgeList/BadgeList';
 import { Button } from '@/components/Button/Button';
 import React from 'react';
 import './ProductTile.css';
@@ -14,6 +15,8 @@ export type ProductTileProps = {
   description: string;
   price: ProductPrice;
   inStock: boolean;
+  newItem: boolean;
+  lowStock: boolean;
 };
 
 function formatPrice(value = 0, currency = 'GBP') {
@@ -31,16 +34,25 @@ function ProductTile({
   description,
   price,
   inStock,
+  lowStock,
+  newItem,
 }: Readonly<ProductTileProps>) {
   return (
     <div className="hoam-product-tile">
-      <figure className="hoam-product-tile__image-wrapper">
-        <img
-          src="https://images.unsplash.com/photo-1685384338018-1774719d5b69?auto=format&fit=crop&q=80&w=600&h=600"
-          alt={title}
-          className="hoam-product-tile__image"
-        />
-      </figure>
+      <div className="hoam-product-tile__image-wrapper">
+        {newItem || lowStock ? (
+          <div className="hoam-product-tile__badges">
+            <BadgeList>{newItem && <BadgeListItem>NEW</BadgeListItem>}</BadgeList>
+          </div>
+        ) : null}
+        <figure>
+          <img
+            src="https://images.unsplash.com/photo-1685384338018-1774719d5b69?auto=format&fit=crop&q=80&w=600&h=600"
+            alt={title}
+            className="hoam-product-tile__image"
+          />
+        </figure>
+      </div>
       <h2 className="hoam-product-tile__title">
         <a
           href={`#${productId}`}

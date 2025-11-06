@@ -12,9 +12,19 @@
   width: calc(100% - calc(var(--hoam-image-gallery-thumbs) + var(--hoam-spacing-5)));
 }
 
+.hoam-image-gallery__img {
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
 .hoam-image-gallery__thumbs {
   margin-right: var(--hoam-spacing-5);
   width: var(--hoam-image-gallery-thumbs);
+}
+
+.hoam-image-gallery__thumbs .swiper {
+  height: 600px;
 }
 
 .hoam-image-gallery__controls {
@@ -57,6 +67,9 @@
 
 .hoam-image-gallery__thumb-image {
   cursor: pointer;
+  display: block;
+  height: auto;
+  width: 100%;
 }
 
 .hoam-image-gallery__dots-wrapper {
@@ -67,6 +80,7 @@
 
 .hoam-image-gallery__thumbs .swiper-slide {
   border: 0px solid transparent;
+  height: auto;
   transition: border 100ms ease-in-out;
 }
 

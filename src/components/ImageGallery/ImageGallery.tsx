@@ -23,6 +23,8 @@ function ImageGallery({ images = [] }) {
   const swiperRef = useRef<SwiperCore | null>(null);
   const [thumbsSwiper, setThumbsSwiper] = useState<SwiperCore | null>(null);
   const spacingToken = getTokenByName('hoam-spacing-5');
+  const spacing =
+    typeof spacingToken === 'number' ? spacingToken : Number.parseFloat(String(spacingToken)) || 8;
 
   const handleBeforeInit = (swiper: SwiperCore) => {
     swiperRef.current = swiper;
@@ -76,18 +78,23 @@ function ImageGallery({ images = [] }) {
         <Swiper
           freeMode
           modules={[Thumbs, FreeMode]}
-          onSwiper={setThumbsSwiper}
           slidesPerView={5}
-          spaceBetween={spacingToken}
+          spaceBetween={spacing}
           a11y={{ enabled: true }}
           direction="vertical"
+          onSwiper={(s) => {
+            setThumbsSwiper(s);
+            queueMicrotask(() => s.update());
+          }}
+          watchSlidesProgress
         >
-          {images?.map((image, i) => (
-            <SwiperSlide key={image.id}>
+          {images?.map((image, index) => (
+            <SwiperSlide key={`${image.id}-${index}`}>
               <img
                 className="hoam-image-gallery__thumb-image"
                 src={image.thumb ?? image.src}
-                alt={image.alt ?? `Slide ${i + 1}`}
+                alt={image.alt ?? `Slide ${index + 1}`}
+                onLoad={() => thumbsSwiper?.update()}
               />
             </SwiperSlide>
           ))}
@@ -122,7 +129,6 @@ function ImageGallery({ images = [] }) {
           </div>
         </div>
         <Swiper
-          centeredSlides={false}
           keyboard={{
             enabled: true,
           }}
@@ -132,8 +138,16 @@ function ImageGallery({ images = [] }) {
           thumbs={{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }}
           a11y={{ enabled: true }}
         >
-          {images?.map((image) => (
-            <SwiperSlide key={image.id}>{<img src={image.src} />}</SwiperSlide>
+          {images?.map((image, index) => (
+            <SwiperSlide key={`${image.id}-${index}`}>
+              {
+                <img
+                  src={image.src}
+                  alt={image.title}
+                  className="hoam-image-gallery__img"
+                />
+              }
+            </SwiperSlide>
           ))}
         </Swiper>
       </div>

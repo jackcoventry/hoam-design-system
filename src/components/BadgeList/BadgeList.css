@@ -5,6 +5,7 @@
 }
 
 .hoam-badge-list__item {
+  background-color: var(--hoam-color-neutral-900);
   border-radius: 4px;
   display: inline-flex;
   font: var(--hoam-typography-label-2);

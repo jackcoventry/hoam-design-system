@@ -8,6 +8,14 @@
   transform: scale(1.1);
 }
 
+.hoam-product-tile__badges {
+  left: var(--hoam-spacing-2);
+  position: absolute;
+  top: var(--hoam-spacing-2);
+  width: calc(100% - var(--hoam-spacing-4));
+  z-index: 10;
+}
+
 .hoam-product-tile__image-wrapper {
   animation: hoam-product-tile-image-loading 1.5s linear infinite;
   background: linear-gradient(90deg, #eeea 30%, #fffa, #eeea 60%) right/300% 100%;
@@ -15,6 +23,7 @@
   margin: 0;
   overflow: hidden;
   padding-bottom: 100%;
+  position: relative;
   width: 100%;
 }
 

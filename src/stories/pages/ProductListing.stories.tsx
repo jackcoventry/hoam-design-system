@@ -5,7 +5,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 
 const meta: Meta<typeof ProductTile> = {
-  title: 'Pages/ProductListing',
+  title: 'Pages/Product Listing',
   tags: ['autodocs'],
   args: Data,
 };
