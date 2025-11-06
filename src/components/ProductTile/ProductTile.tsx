@@ -8,10 +8,10 @@ type ProductPrice = {
   currency: string;
 };
 
-type ProductTileProps = {
+export type ProductTileProps = {
   title: string;
   productId: string;
-  footnote: string;
+  description: string;
   price: ProductPrice;
   inStock: boolean;
 };
@@ -25,12 +25,18 @@ function formatPrice(value = 0, currency = 'GBP') {
   return result;
 }
 
-function ProductTile({ title, productId, footnote, price, inStock }: Readonly<ProductTileProps>) {
+function ProductTile({
+  title,
+  productId,
+  description,
+  price,
+  inStock,
+}: Readonly<ProductTileProps>) {
   return (
     <div className="hoam-product-tile">
       <figure className="hoam-product-tile__image-wrapper">
         <img
-          src={`https://placehold.co/600x400?text=${encodeURIComponent(title)}`}
+          src="https://images.unsplash.com/photo-1685384338018-1774719d5b69?auto=format&fit=crop&q=80&w=600&h=600"
           alt={title}
           className="hoam-product-tile__image"
         />
@@ -43,7 +49,7 @@ function ProductTile({ title, productId, footnote, price, inStock }: Readonly<Pr
           <span role="text">{title}</span>
         </a>
       </h2>
-      {footnote && <span className="hoam-product-tile__footnote">{footnote}</span>}
+      {description && <span className="hoam-product-tile__description">{description}</span>}
       <p>
         <span
           className="hoam-product-tile__price"

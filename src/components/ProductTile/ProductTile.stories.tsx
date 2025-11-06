@@ -1,4 +1,5 @@
 import ProductTile from '@/components/ProductTile/ProductTile';
+import Data from '@/mocks/components/ProductTile.json';
 import { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 
@@ -6,13 +7,7 @@ const meta: Meta<typeof ProductTile> = {
   title: 'Components/ProductTile',
   component: ProductTile,
   tags: ['autodocs'],
-  args: {
-    title: 'Sample Product',
-    productId: 'sample-product',
-    footnote: 'A short description of the product.',
-    price: { amount: 100, saleAmount: 80, currency: 'GBP' },
-    inStock: true,
-  },
+  args: Data,
 };
 export default meta;
 

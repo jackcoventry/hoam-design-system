@@ -18,7 +18,11 @@ type Story = StoryObj<typeof ImageGallery>;
 
 const Template: Story = {
   render: (args) => (
-    <div>
+    <div
+      style={{
+        maxWidth: 800,
+      }}
+    >
       <ImageGallery {...args} />
     </div>
   ),

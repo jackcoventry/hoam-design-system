@@ -1,7 +1,9 @@
 import ImageGallery from '@/components/ImageGallery/ImageGallery';
 import ProductInfo from '@/components/ProductInfo/ProductInfo';
+import RecommendedProducts from '@/components/RecommendedProducts/RecommendedProducts';
 import ImageGalleryMockData from '@/mocks/components/ImageGallery.json';
 import ProductInformationMockData from '@/mocks/components/ProductInformation.json';
+import ProductTileData from '@/mocks/components/ProductTile.json';
 import { Meta, StoryObj } from '@storybook/react';
 
 import React from 'react';
@@ -10,14 +12,11 @@ const meta: Meta<typeof ProductInfo> = {
   title: 'Pages/Product Page',
   tags: ['autodocs'],
   args: {
-    title: 'Sample Product',
-    description: 'This is a sample product used to demonstrate the ProductInfo component.',
-    productId: 'sample-product',
-    price: { amount: 100, saleAmount: 80, currency: 'GBP' },
-    inStock: true,
+    ...ProductTileData,
     newItem: true,
   },
 };
+
 export default meta;
 
 type Story = StoryObj<typeof ProductInfo>;
@@ -37,6 +36,11 @@ const Template: Story = {
             />
           </div>
         </div>
+
+        <RecommendedProducts
+          title="Recommended products"
+          products={[ProductTileData, ProductTileData, ProductTileData]}
+        />
       </div>
     );
   },
