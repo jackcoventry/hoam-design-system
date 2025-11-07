@@ -1,6 +1,11 @@
-.swiper {
-  height: 600px;
+.swiper,
+.hoam-hero {
+  height: 100dvh;
   width: 100%;
+
+  @media (min-width: 1000px) {
+    height: 600px;
+  }
 }
 
 .swiper-slide {
@@ -27,11 +32,15 @@
   align-items: center;
   background-color: var(--hoam-color-neutral-900);
   background-position: center right;
-  background-size: auto 600px;
+  background-size: auto 100%;
   background-repeat: no-repeat;
   display: flex;
   height: 100%;
   width: 100%;
+
+  @media (min-width: 1000px) {
+    background-size: auto 600px;
+  }
 }
 
 .hoam-hero__content {
@@ -40,7 +49,12 @@
   gap: var(--hoam-spacing-3);
   padding: var(--hoam-spacing-7);
   text-align: center;
-  width: 50%;
+  width: 100%;
+
+  /* TODO:  maybe use sass to bring in variables here */
+  @media (min-width: 1000px) {
+    width: 50%;
+  }
 }
 
 .hoam-hero__content-link {

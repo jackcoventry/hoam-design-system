@@ -7,7 +7,9 @@ const meta: Meta<typeof Hero> = {
   title: 'Components/Hero',
   component: Hero,
   tags: ['autodocs'],
-  args: {},
+  args: {
+    data: MockSlides,
+  },
 };
 
 export default meta;
@@ -16,8 +18,8 @@ type Story = StoryObj<typeof Hero>;
 
 const Template: Story = {
   render: (args) => (
-    <Hero effect={MockSlides.length > 2 ? 'slide' : 'fade'}>
-      {MockSlides?.map((slide) => (
+    <Hero effect={args.data?.length > 2 ? 'slide' : 'fade'}>
+      {args.data?.map((slide) => (
         <HeroSlide
           key={slide.image}
           title={slide.title}
@@ -34,3 +36,9 @@ const Template: Story = {
 };
 
 export const Default = { ...Template, args: {} };
+export const Single = {
+  ...Template,
+  args: {
+    data: [MockSlides[0]],
+  },
+};

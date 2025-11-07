@@ -1,3 +1,5 @@
+/* TODO: Add clamp or other solution to handle smaller screens */
+
 h1 {
   font: var(--hoam-typography-title-1);
 }

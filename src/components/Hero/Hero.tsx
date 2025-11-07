@@ -56,13 +56,13 @@ function HeroSlide({
   );
 }
 
-type HeroProps = {
+type HeroSliderProps = {
   delay?: number;
   effect?: string;
   children: React.ReactNode;
 };
 
-function Hero({ delay = 2500, effect = 'slide', children }: Readonly<HeroProps>) {
+function HeroSlider({ delay = 2500, effect = 'slide', children }: Readonly<HeroSliderProps>) {
   const prevRef = useRef<HTMLButtonElement | null>(null);
   const nextRef = useRef<HTMLButtonElement | null>(null);
   const pagRef = useRef<HTMLDivElement | null>(null);
@@ -115,7 +115,7 @@ function Hero({ delay = 2500, effect = 'slide', children }: Readonly<HeroProps>)
   }, []);
 
   return (
-    <div className="hoam-hero">
+    <>
       <Button
         ref={prevRef}
         type="button"
@@ -167,6 +167,14 @@ function Hero({ delay = 2500, effect = 'slide', children }: Readonly<HeroProps>)
           }
         })}
       </Swiper>
+    </>
+  );
+}
+
+function Hero({ children, ...rest }) {
+  return (
+    <div className="hoam-hero">
+      {children.length > 1 ? <HeroSlider {...rest}>{children}</HeroSlider> : children}
     </div>
   );
 }
