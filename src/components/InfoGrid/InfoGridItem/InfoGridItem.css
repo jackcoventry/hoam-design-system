@@ -1,0 +1,18 @@
+.hoam-info-grid-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hoam-spacing-4);
+  padding: 0 var(--hoam-spacing-5);
+  text-align: center;
+}
+
+.hoam-info-grid-item__icon {
+  background-color: var(--hoam-color-sun-400);
+  border-radius: 100%;
+  display: inline-flex;
+  margin: 0 auto;
+}
+
+.hoam-info-grid-item__title {
+  font: var(--hoam-typography-title-2);
+}

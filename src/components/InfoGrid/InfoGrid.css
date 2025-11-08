@@ -1,0 +1,13 @@
+.hoam-info-grid {
+  background-color: var(--hoam-color-sun-300);
+  padding: var(--hoam-spacing-8) var(--hoam-spacing-2);
+}
+
+.hoam-info-grid__content {
+  margin-bottom: var(--hoam-spacing-7);
+  text-align: center;
+}
+
+.hoam-info-grid__title {
+  font: var(--hoam-typography-title-1);
+}

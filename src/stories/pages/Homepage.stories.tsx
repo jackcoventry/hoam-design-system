@@ -18,7 +18,7 @@ export default meta;
 const HeroData = [MockSlides[0]];
 
 const Template = {
-  render: (args) => {
+  render: () => {
     return (
       <>
         <NotificationBar messages={NotificationBarData} />
