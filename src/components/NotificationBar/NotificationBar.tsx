@@ -1,57 +1,67 @@
+import { clearIntervalSafe, clearTimeoutSafe } from '@/utils/clearIntervalTimeout';
 import { usePrefersReducedMotion } from '@/utils/usePrefersReducedMotion';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { CSSProperties, useEffect, useRef, useState } from 'react';
 
 type NotificationBannerProps = {
   messages: Array<React.ReactNode>;
-  interval?: number;
-  restartDelay?: number;
   ariaLabel?: string;
 };
 
-function clearIntervalSafe(ref: React.RefObject<number | null>) {
-  if (ref.current !== null) {
-    clearInterval(ref.current);
-    ref.current = null;
-  }
-}
-function clearTimeoutSafe(ref: React.RefObject<number | null>) {
-  if (ref.current !== null) {
-    clearTimeout(ref.current);
-    ref.current = null;
-  }
-}
-
 function NotificationBar({
   messages,
-  interval = 4000,
-  restartDelay = 2000,
   ariaLabel = 'Notifications',
 }: Readonly<NotificationBannerProps>) {
+  // Base settings
+  const interval = 5000;
+  const restartDelay = 2000;
+  const fadeTime = 500;
+
+  // User preferences
   const prefersReducedMotion = usePrefersReducedMotion();
+
+  // States
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(prefersReducedMotion);
+  const [isFading, setIsFading] = useState(false);
 
-  const safeMessages = useMemo(() => (messages?.length ? messages : ['']), [messages]);
-
+  // Refs
   const intervalRef = useRef<number | null>(null);
   const resumeTimeoutRef = useRef<number | null>(null);
+  const fadeTimeoutRef = useRef<number | null>(null);
+
+  const advance = () => {
+    if (messages.length <= 1) return;
+
+    if (prefersReducedMotion) {
+      // This will bypass fading effect if active
+      setIndex((i) => (i + 1) % messages.length);
+      return;
+    }
+
+    // If reduced motion is off, activate fading effect.
+    setIsFading(true);
+    clearTimeoutSafe(fadeTimeoutRef);
+    fadeTimeoutRef.current = window.setTimeout(
+      () => {
+        setIndex((i) => (i + 1) % messages.length);
+        setIsFading(false);
+      },
+      Math.max(1, fadeTime)
+    );
+  };
 
   useEffect(() => {
     clearIntervalSafe(intervalRef);
-    if (!paused && !prefersReducedMotion && safeMessages.length > 1) {
+    if (!paused && messages.length > 1) {
       intervalRef.current = window.setInterval(
         () => {
-          setIndex((i) => (i + 1) % safeMessages.length);
+          advance();
         },
         Math.max(1000, interval)
       );
     }
     return () => clearIntervalSafe(intervalRef);
-  }, [paused, prefersReducedMotion, safeMessages.length, interval]);
-
-  useEffect(() => {
-    setPaused(prefersReducedMotion);
-  }, [prefersReducedMotion]);
+  }, [paused, prefersReducedMotion, messages.length, interval, fadeTime]);
 
   const stopTemporarily = () => {
     clearTimeoutSafe(resumeTimeoutRef);
@@ -70,6 +80,12 @@ function NotificationBar({
     }
   };
 
+  const fadeStyle: CSSProperties = prefersReducedMotion
+    ? {}
+    : {
+        opacity: isFading ? 0 : 1,
+        transition: `opacity ${fadeTime}ms linear`,
+      };
   const ariaLive: 'polite' | 'off' = paused ? 'off' : 'polite';
 
   return (
@@ -84,17 +100,9 @@ function NotificationBar({
       <output
         aria-live={ariaLive}
         aria-atomic="true"
-      >
-        {safeMessages[index]}
-      </output>
-
-      {safeMessages.length > 1 && (
-        <div aria-live="off">
-          <small>
-            {index + 1} of {safeMessages.length}
-          </small>
-        </div>
-      )}
+        style={fadeStyle}
+        dangerouslySetInnerHTML={{ __html: messages[index] }}
+      />
     </section>
   );
 }
