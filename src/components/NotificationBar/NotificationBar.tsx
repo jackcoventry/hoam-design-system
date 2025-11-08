@@ -1,6 +1,7 @@
 import { clearIntervalSafe, clearTimeoutSafe } from '@/utils/clearIntervalTimeout';
 import { usePrefersReducedMotion } from '@/utils/usePrefersReducedMotion';
 import React, { CSSProperties, useEffect, useRef, useState } from 'react';
+import './NotificationBar.css';
 
 type NotificationBannerProps = {
   messages: Array<React.ReactNode>;
@@ -96,6 +97,7 @@ function NotificationBar({
       onFocus={stopTemporarily}
       onBlur={scheduleResume}
       tabIndex={0}
+      className="hoam-notification-bar"
     >
       <output
         aria-live={ariaLive}
