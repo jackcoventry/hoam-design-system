@@ -25,6 +25,12 @@ vi.mock('@/utils/clearIntervalTimeout', () => ({
 
 const { usePrefersReducedMotion } = await import('@/utils/usePrefersReducedMotion');
 
+const MESSAGE = [
+  <p key="1">
+    Single message — <a href="/one">one link</a>
+  </p>,
+];
+
 const MESSAGES = [
   `Sale now on! — <a href="/sale">Take me there</a>.`,
   `Free shipping on orders over £50!`,
@@ -35,10 +41,13 @@ const INTERVAL = 5000; // interval
 const FADE = 500; // fadeTime
 const RESTART = 2000; // restartDelay
 
-describe('NotificationBar', () => {
+describe('NotificationBar (auto-rotates only when messages.length > 1)', () => {
+  let setIntervalSpy: ReturnType<typeof vi.spyOn>;
+
   beforeEach(() => {
     vi.useFakeTimers();
     (usePrefersReducedMotion as unknown as Mock).mockReturnValue(false);
+    setIntervalSpy = vi.spyOn(globalThis, 'setInterval');
   });
 
   afterEach(() => {
@@ -46,152 +55,113 @@ describe('NotificationBar', () => {
     vi.clearAllMocks();
   });
 
-  it('renders the first message and link', () => {
+  it('renders statically with a single message: no timers, aria-live=off, no tabIndex', () => {
     render(
       <NotificationBar
-        messages={MESSAGES}
+        messages={MESSAGE}
         ariaLabel="Notifications"
       />
     );
 
-    const status = screen.getByRole('status');
-    expect(status).toBeInTheDocument();
-
-    const link = screen.getByRole('link', { name: /see status/i });
-    expect(link).toHaveAttribute('href', '/status');
-
-    // While playing, aria-live should be "polite"
-    expect(status).toHaveAttribute('aria-live', 'polite');
-  });
-
-  it('auto-advances to the next message after the interval + fade', async () => {
-    render(
-      <NotificationBar
-        messages={MESSAGES}
-        ariaLabel="Notifications"
-      />
-    );
-
-    expect(screen.getByRole('link', { name: /see status/i })).toBeInTheDocument();
-
-    await act(async () => {
-      vi.advanceTimersByTime(INTERVAL);
-      vi.advanceTimersByTime(FADE);
-    });
-
-    // message 2 should now be visible
-    expect(screen.queryByRole('link', { name: /see status/i })).not.toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /export data/i })).toBeInTheDocument();
-  });
-
-  it('pauses on mouse enter (hover) and does not advance while paused', async () => {
-    render(
-      <NotificationBar
-        messages={MESSAGES}
-        ariaLabel="Notifications"
-      />
-    );
+    // Section is present
     const region = screen.getByLabelText('Notifications');
+    expect(region).toBeInTheDocument();
 
-    fireEvent.mouseEnter(region);
+    // Only one link present and it's visible
+    expect(screen.getAllByRole('link')).toHaveLength(1);
+    expect(screen.getByRole('link', { name: /one link/i })).toHaveAttribute('href', '/one');
 
-    expect(screen.getByRole('status')).toHaveAttribute('aria-live', 'off');
+    // aria-live should be off
+    const output = screen.getByRole('status');
+    expect(output).toHaveAttribute('aria-live', 'off');
 
-    await act(async () => {
-      vi.advanceTimersByTime(INTERVAL * 3);
-    });
+    // No timers scheduled (no rotation, no resume scheduler)
+    expect(setIntervalSpy).not.toHaveBeenCalled();
 
-    expect(screen.getByRole('link', { name: /see status/i })).toBeInTheDocument();
+    // Section should NOT have tabIndex attribute
+    expect(region).not.toHaveAttribute('tabindex');
   });
 
-  it('resumes after mouse leave, but only after the restart delay', async () => {
+  it('auto-rotates when there are 2+ messages (reduced motion off)', async () => {
     render(
       <NotificationBar
         messages={MESSAGES}
         ariaLabel="Notifications"
       />
     );
-    const region = screen.getByLabelText('Notifications');
 
-    fireEvent.mouseEnter(region);
-    fireEvent.mouseLeave(region);
-
-    await act(async () => {
-      vi.advanceTimersByTime(RESTART - 1);
-    });
-    expect(screen.getByRole('status')).toHaveAttribute('aria-live', 'off');
+    // Starts at first message
     expect(screen.getByRole('link', { name: /see status/i })).toBeInTheDocument();
 
-    await act(async () => {
-      vi.advanceTimersByTime(1);
-    });
-
+    // aria-live should be polite
     expect(screen.getByRole('status')).toHaveAttribute('aria-live', 'polite');
 
+    // Only one link
+    expect(screen.getAllByRole('link')).toHaveLength(1);
+
     await act(async () => {
       vi.advanceTimersByTime(INTERVAL);
       vi.advanceTimersByTime(FADE);
     });
+
+    // Now the second message is visible
+    expect(screen.queryByRole('link', { name: /see status/i })).not.toBeInTheDocument();
     expect(screen.getByRole('link', { name: /export data/i })).toBeInTheDocument();
+    expect(screen.getAllByRole('link')).toHaveLength(1);
   });
 
-  it('pauses on focus and resumes after blur + restart delay', async () => {
+  it('pauses on hover/focus and resumes after blur/leave + restart delay', async () => {
     render(
       <NotificationBar
         messages={MESSAGES}
         ariaLabel="Notifications"
       />
     );
-    const region = screen.getByLabelText('Notifications');
 
-    fireEvent.focus(region);
-    expect(screen.getByRole('status')).toHaveAttribute('aria-live', 'off');
+    const region = screen.getByLabelText('Notifications');
+    const status = screen.getByRole('status');
+
+    // Pause via mouse enter
+    fireEvent.mouseEnter(region);
+    expect(status).toHaveAttribute('aria-live', 'off');
 
     await act(async () => {
       vi.advanceTimersByTime(INTERVAL * 2);
     });
     expect(screen.getByRole('link', { name: /see status/i })).toBeInTheDocument();
 
-    fireEvent.blur(region);
+    // Schedule resume on mouse leave
+    fireEvent.mouseLeave(region);
 
     await act(async () => {
       vi.advanceTimersByTime(RESTART - 1);
     });
-    expect(screen.getByRole('status')).toHaveAttribute('aria-live', 'off');
+    expect(status).toHaveAttribute('aria-live', 'off');
 
     await act(async () => {
       vi.advanceTimersByTime(1);
     });
-    expect(screen.getByRole('status')).toHaveAttribute('aria-live', 'polite');
+    expect(status).toHaveAttribute('aria-live', 'polite');
 
     await act(async () => {
       vi.advanceTimersByTime(INTERVAL);
       vi.advanceTimersByTime(FADE);
     });
     expect(screen.getByRole('link', { name: /export data/i })).toBeInTheDocument();
-  });
 
-  it('only the currently visible message is focusable (only one link in DOM)', async () => {
-    render(
-      <NotificationBar
-        messages={MESSAGES}
-        ariaLabel="Notifications"
-      />
-    );
+    // Pause via keyboard focus
+    fireEvent.focus(region);
+    expect(status).toHaveAttribute('aria-live', 'off');
 
-    expect(screen.getAllByRole('link')).toHaveLength(1);
-    expect(screen.getByRole('link', { name: /see status/i })).toBeInTheDocument();
-
+    // Blur + restart delay resumes
+    fireEvent.blur(region);
     await act(async () => {
-      vi.advanceTimersByTime(INTERVAL);
-      vi.advanceTimersByTime(FADE);
+      vi.advanceTimersByTime(RESTART);
     });
-
-    expect(screen.getAllByRole('link')).toHaveLength(1);
-    expect(screen.getByRole('link', { name: /export data/i })).toBeInTheDocument();
+    expect(status).toHaveAttribute('aria-live', 'polite');
   });
 
-  it('with prefers-reduced-motion=true, starts paused and never auto-rotates', async () => {
+  it('with prefers-reduced-motion=true: does not rotate even with multiple messages; no tabIndex', async () => {
     (usePrefersReducedMotion as unknown as Mock).mockReturnValue(true);
 
     render(
@@ -200,13 +170,33 @@ describe('NotificationBar', () => {
         ariaLabel="Notifications"
       />
     );
+    const region = screen.getByLabelText('Notifications');
 
+    // Starts paused, aria-live off
     expect(screen.getByRole('status')).toHaveAttribute('aria-live', 'off');
-    expect(screen.getByRole('link', { name: /see status/i })).toBeInTheDocument();
+
+    // No tabIndex when rotation is disabled
+    expect(region).not.toHaveAttribute('tabindex');
 
     await act(async () => {
       vi.advanceTimersByTime(60_000);
     });
     expect(screen.getByRole('link', { name: /see status/i })).toBeInTheDocument();
+    expect(screen.getAllByRole('link')).toHaveLength(1);
+  });
+
+  it('does not schedule timers when messages.length is 0', async () => {
+    render(
+      <NotificationBar
+        messages={[]}
+        ariaLabel="Notifications"
+      />
+    );
+
+    // when there are messages, no rotation should occur
+    expect(setIntervalSpy).not.toHaveBeenCalled();
+
+    // Output element should still be there
+    expect(screen.getByRole('status')).toHaveAttribute('aria-live', 'off');
   });
 });

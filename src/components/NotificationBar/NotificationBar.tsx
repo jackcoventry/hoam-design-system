@@ -20,15 +20,28 @@ function NotificationBar({
   // User preferences
   const prefersReducedMotion = usePrefersReducedMotion();
 
+  // Derived flags
+  const hasMultipleMessages = messages.length > 1;
+  const canRotate = hasMultipleMessages && !prefersReducedMotion;
+
   // States
   const [index, setIndex] = useState(0);
-  const [paused, setPaused] = useState(prefersReducedMotion);
+  const [paused, setPaused] = useState(!canRotate);
   const [isFading, setIsFading] = useState(false);
 
   // Refs
   const intervalRef = useRef<number | null>(null);
   const resumeTimeoutRef = useRef<number | null>(null);
   const fadeTimeoutRef = useRef<number | null>(null);
+
+  // React to system setting or messages length changing
+  useEffect(() => {
+    // If rotation isn't allowed (1 item or reduced motion), ensure paused
+    setPaused(!canRotate);
+    if (messages.length > 0 && index >= messages.length) {
+      setIndex(0);
+    }
+  }, [canRotate, messages.length]);
 
   const advance = () => {
     if (messages.length <= 1) return;
@@ -53,57 +66,58 @@ function NotificationBar({
 
   useEffect(() => {
     clearIntervalSafe(intervalRef);
-    if (!paused && messages.length > 1) {
-      intervalRef.current = window.setInterval(
-        () => {
-          advance();
-        },
-        Math.max(1000, interval)
-      );
+    if (canRotate && !paused) {
+      intervalRef.current = window.setInterval(advance, Math.max(1000, interval));
     }
     return () => clearIntervalSafe(intervalRef);
-  }, [paused, prefersReducedMotion, messages.length, interval, fadeTime]);
+  }, [canRotate, paused, interval, fadeTime]); // advance is stable enough via refs used above
 
   const stopTemporarily = () => {
+    if (!canRotate) return;
     clearTimeoutSafe(resumeTimeoutRef);
     setPaused(true);
   };
 
   const scheduleResume = () => {
+    if (!canRotate) return;
     clearTimeoutSafe(resumeTimeoutRef);
-    if (!prefersReducedMotion) {
-      resumeTimeoutRef.current = window.setTimeout(
-        () => {
-          setPaused(false);
-        },
-        Math.max(500, restartDelay)
-      );
-    }
+    resumeTimeoutRef.current = window.setTimeout(
+      () => setPaused(false),
+      Math.max(500, restartDelay)
+    );
   };
 
-  const fadeStyle: CSSProperties = prefersReducedMotion
-    ? {}
-    : {
-        opacity: isFading ? 0 : 1,
-        transition: `opacity ${fadeTime}ms linear`,
-      };
-  const ariaLive: 'polite' | 'off' = paused ? 'off' : 'polite';
+  const fadeStyle: CSSProperties =
+    canRotate && !prefersReducedMotion
+      ? { opacity: isFading ? 0 : 1, transition: `opacity ${fadeTime}ms linear` }
+      : {};
+
+  const ariaLive: 'polite' | 'off' = canRotate && !paused ? 'polite' : 'off';
+
+  // Conditionally attach focusability + handlers ONLY when more than one message is present
+  const interactiveProps = canRotate
+    ? {
+        tabIndex: 0,
+        onMouseEnter: stopTemporarily,
+        onMouseLeave: scheduleResume,
+        onFocus: stopTemporarily as React.FocusEventHandler<HTMLElement>,
+        onBlur: scheduleResume as React.FocusEventHandler<HTMLElement>,
+      }
+    : {};
 
   return (
     <section
       aria-label={ariaLabel}
-      onMouseEnter={stopTemporarily}
-      onMouseLeave={scheduleResume}
-      onFocus={stopTemporarily}
-      onBlur={scheduleResume}
-      tabIndex={0}
+      {...interactiveProps}
       className="hoam-notification-bar"
     >
       <output
         aria-live={ariaLive}
         aria-atomic="true"
         style={fadeStyle}
-        dangerouslySetInnerHTML={{ __html: messages[index] }}
+        dangerouslySetInnerHTML={{
+          __html: hasMultipleMessages ? messages[index] : (messages[0] ?? null),
+        }}
       />
     </section>
   );

@@ -14,7 +14,7 @@ export default meta;
 type Story = StoryObj<typeof NotificationBar>;
 
 const Template: Story = {
-  render: (args) => <NotificationBar messages={NotificationBarData} />,
+  render: (args) => <NotificationBar messages={[NotificationBarData[0]]} />,
 };
 
 export const Default = { ...Template, args: {} };
