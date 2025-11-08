@@ -4,11 +4,11 @@ import RecommendedProducts from '@/components/RecommendedProducts/RecommendedPro
 import ImageGalleryMockData from '@/mocks/components/ImageGallery.json';
 import ProductInformationMockData from '@/mocks/components/ProductInformation.json';
 import ProductTileData from '@/mocks/components/ProductTile.json';
-import { Meta, StoryObj } from '@storybook/react';
+import { Meta } from '@storybook/react';
 
 import React from 'react';
 
-const meta: Meta<typeof ProductInfo> = {
+const meta: Meta = {
   title: 'Pages/Product Page',
   tags: ['autodocs'],
   args: {
@@ -19,9 +19,7 @@ const meta: Meta<typeof ProductInfo> = {
 
 export default meta;
 
-type Story = StoryObj<typeof ProductInfo>;
-
-const Template: Story = {
+const Template = {
   render: (args) => {
     return (
       <div className="container">

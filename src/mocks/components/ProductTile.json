@@ -4,5 +4,6 @@
   "description": "A short description of the product.",
   "price": { "amount": 100, "saleAmount": 80, "currency": "GBP" },
   "inStock": true,
-  "newItem": true
+  "newItem": true,
+  "lowStock": false
 }

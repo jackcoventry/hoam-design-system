@@ -1,21 +1,19 @@
 import Pagination from '@/components/Pagination/Pagination';
 import ProductTile from '@/components/ProductTile/ProductTile';
 import Data from '@/mocks/components/ProductTile.json';
-import { Meta, StoryObj } from '@storybook/react';
+import { Meta } from '@storybook/react';
 import React from 'react';
 
-const meta: Meta<typeof ProductTile> = {
+const meta: Meta = {
   title: 'Pages/Product Listing',
   tags: ['autodocs'],
   args: Data,
 };
 export default meta;
 
-type Story = StoryObj<typeof ProductTile>;
-
 const productArray = [1, 2, 3];
 
-const Template: Story = {
+const Template = {
   render: (args) => (
     <div className="container">
       <div className="grid gap-lg mb-2xl">

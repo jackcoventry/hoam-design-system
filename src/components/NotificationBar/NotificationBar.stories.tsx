@@ -1,4 +1,5 @@
 import NotificationBar from '@/components/NotificationBar/NotificationBar';
+import NotificationBarData from '@/mocks/components/NotificationBar';
 import { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 
@@ -12,13 +13,8 @@ export default meta;
 
 type Story = StoryObj<typeof NotificationBar>;
 
-const messages = [
-  `Sale now on! — <a href="/sale">Take me there</a>.`,
-  `Free shipping on orders over £50!`,
-  `Same day shipping if ordered place before 5pm!`,
-];
 const Template: Story = {
-  render: (args) => <NotificationBar messages={messages} />,
+  render: (args) => <NotificationBar messages={NotificationBarData} />,
 };
 
 export const Default = { ...Template, args: {} };
