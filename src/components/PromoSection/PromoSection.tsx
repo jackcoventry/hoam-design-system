@@ -1,3 +1,4 @@
+import { Button } from '@/components/Button/Button';
 import React from 'react';
 import './PromoSection.css';
 
@@ -21,27 +22,23 @@ function PromoSection({
   alignment = 'left',
 }: Readonly<PromoSectionProps>) {
   const contentImage = () => (
-    <div className="span-12 lg:span-6">
+    <div className="span-12 lg:span-5">
       <img
         src={imageUrl}
         alt={title}
+        className="hoam-promo-section__image"
       />
     </div>
   );
 
   const contentText = () => (
     <div className="span-12 lg:span-6">
-      {title && <h2>{title}</h2>}
-      {subtitle && <h3>{subtitle}</h3>}
-      {description && <p>{description}</p>}
-      {linkUrl && linkText && (
-        <a
-          href={linkUrl}
-          className="hoam-button"
-        >
-          {linkText}
-        </a>
-      )}
+      <div className="hoam-promo-section__content">
+        {subtitle && <h3 className="hoam-promo-section__subtitle">{subtitle}</h3>}
+        {title && <h2 className="hoam-promo-section__title">{title}</h2>}
+        {description && <p className="hoam-promo-section__description">{description}</p>}
+        {linkUrl && linkText && <Button className="hoam-promo-section__button">{linkText}</Button>}
+      </div>
     </div>
   );
 
@@ -52,11 +49,15 @@ function PromoSection({
           {alignment === 'left' ? (
             <>
               {contentImage()}
+              {/* spacer */}
+              <div className="lg:span-1" />
               {contentText()}
             </>
           ) : (
             <>
               {contentText()}
+              {/* spacer */}
+              <div className="lg:span-1" />
               {contentImage()}
             </>
           )}
