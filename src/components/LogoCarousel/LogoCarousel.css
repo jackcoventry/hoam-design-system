@@ -1,10 +1,66 @@
 :root {
-  --hoam-logo-carousel-duration: 20s;
-  --hoam-logo-carousel-gap: 2em;
+  --hoam-logo-carousel-duration: 300s;
+  --hoam-logo-carousel-gap: 3rem;
+  --hoam-logo-height: clamp(100px, 10vw, 200px);
 }
 
 .hoam-logo-carousel {
-  width: 100%;
   overflow: hidden;
-  box-sizing: border-box;
+  position: relative;
+  width: 100%;
+}
+
+.hoam-logo-carousel__rail {
+  animation: hoam-marquee var(--hoam-logo-carousel-duration) linear infinite;
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+@keyframes hoam-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.hoam-logo-carousel[data-pause="true"]:hover .hoam-logo-carousel__rail {
+  animation-play-state: paused;
+}
+
+.hoam-logo-carousel__sequence {
+  display: inline-flex;
+  gap: var(--hoam-logo-carousel-gap);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  white-space: nowrap;
+}
+
+.hoam-logo-carousel__sequence--clone {
+  margin-left: var(--hoam-logo-carousel-gap);
+}
+
+.hoam-logo-carousel__item {
+  align-items: center;
+  display: inline-flex;
+  flex: 0 0 auto;
+  width: auto;
+}
+
+.hoam-logo-carousel__item img {
+  display: block;
+  max-height: var(--hoam-logo-height);
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hoam-logo-carousel__rail {
+    animation: none !important;
+    transform: none !important;
+  }
 }
