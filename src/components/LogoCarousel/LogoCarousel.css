@@ -4,8 +4,20 @@
   --hoam-logo-height: clamp(100px, 10vw, 200px);
 }
 
+.hoam-logo-carousel__content {
+  margin-bottom: var(--hoam-spacing-6);
+  text-align: center;
+}
+
+.hoam-logo-carousel__title {
+  color: var(--hoam-color-neutral-900);
+  font: var(--hoam-typography-title-2);
+}
+
 .hoam-logo-carousel {
+  background-color: var(--hoam-color-neutral-100);
   overflow: hidden;
+  padding: var(--hoam-spacing-10) 0;
   position: relative;
   width: 100%;
 }

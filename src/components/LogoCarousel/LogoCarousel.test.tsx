@@ -162,4 +162,21 @@ describe('LogoCarousel', () => {
       });
     });
   });
+
+  it('renders the title if specified', () => {
+    render(
+      <LogoCarousel
+        items={sampleItems}
+        title="As featured in"
+      />
+    );
+    expect(screen.getByRole('heading', { level: 2, name: /As featured in/i })).toBeInTheDocument();
+  });
+
+  it('does not render the title if not specified', () => {
+    render(<LogoCarousel items={sampleItems} />);
+    expect(
+      screen.getByRole('heading', { level: 2, name: /As featured in/i })
+    ).not.toBeInTheDocument();
+  });
 });

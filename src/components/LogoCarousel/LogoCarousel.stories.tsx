@@ -14,7 +14,12 @@ export default meta;
 type Story = StoryObj<typeof LogoCarousel>;
 
 const Template: Story = {
-  render: () => <LogoCarousel items={LogoCarouselData} />,
+  render: () => (
+    <LogoCarousel
+      title="As featured in"
+      items={LogoCarouselData}
+    />
+  ),
 };
 
 export const Default = { ...Template, args: {} };

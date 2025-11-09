@@ -3,12 +3,14 @@ import './LogoCarousel.css';
 
 type LogoCarouselItem = { id: number; src: string; alt?: string };
 type LogoCarouselProps = {
+  title?: string;
   items: LogoCarouselItem[];
   pauseOnHover?: boolean;
   ariaLabel?: string;
 };
 
 export default function LogoCarousel({
+  title,
   items,
   pauseOnHover = true,
   ariaLabel,
@@ -80,6 +82,17 @@ export default function LogoCarousel({
       data-pause={pauseOnHover ? 'true' : 'false'}
       aria-label={ariaLabel}
     >
+      <div className="container">
+        {title && (
+          <div className="grid">
+            <div className="span-12">
+              <div className="hoam-logo-carousel__content">
+                <h2 className="hoam-logo-carousel__title">{title}</h2>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
       <div
         ref={railRef}
         className="hoam-logo-carousel__rail"
