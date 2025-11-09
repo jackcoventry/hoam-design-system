@@ -1,0 +1,13 @@
+.hoam-newsletter-banner {
+  background-color: var(--hoam-color-sun-300);
+  padding: var(--hoam-spacing-8) var(--hoam-spacing-2);
+}
+
+.hoam-newsletter-banner__content {
+  margin-bottom: var(--hoam-spacing-7);
+  text-align: center;
+}
+
+.hoam-newsletter-banner__title {
+  font: var(--hoam-typography-title-2);
+}
