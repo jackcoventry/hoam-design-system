@@ -1,4 +1,5 @@
 import PromoSection from '@/components/PromoSection/PromoSection';
+import PromoSectionData from '@/mocks/components/PromoSection.json';
 import { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 
@@ -7,15 +8,7 @@ const meta: Meta<typeof PromoSection> = {
   component: PromoSection,
   tags: ['autodocs'],
   args: {
-    title: 'Introducing our new product line',
-    subtitle: 'Product launch',
-    description:
-      'Fugiat esse consequat ad aliquip amet aliquip sed sit voluptate. Enim est culpa labore pariatur aliquip culpa mollit excepteur officia ea magna',
-    linkUrl: '#',
-    linkText: 'Shop Now',
-    imageUrl:
-      'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=60',
-    alignment: 'left',
+    ...PromoSectionData,
   },
 };
 export default meta;

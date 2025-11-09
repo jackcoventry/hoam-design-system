@@ -2,12 +2,14 @@ import NotificationBar from '@/components/NotificationBar/NotificationBar';
 import MockSlides from '@/mocks/components/Hero.json';
 import LogoCarouselData from '@/mocks/components/LogoCarousel.json';
 import NotificationBarData from '@/mocks/components/NotificationBar';
+import PromoSectionData from '@/mocks/components/PromoSection.json';
 
 import { Meta } from '@storybook/react';
 
 import Hero, { HeroSlide } from '@/components/Hero/Hero';
 import LogoCarousel from '@/components/LogoCarousel/LogoCarousel';
 import NewsletterBanner from '@/components/NewsletterBanner/NewsletterBanner';
+import PromoSection from '@/components/PromoSection/PromoSection';
 import React from 'react';
 
 const meta: Meta = {
@@ -39,6 +41,15 @@ const Template = {
             />
           ))}
         </Hero>
+        <PromoSection
+          title={PromoSectionData.title}
+          description={PromoSectionData.description}
+          subtitle={PromoSectionData.subtitle}
+          linkUrl={PromoSectionData.linkUrl}
+          linkText={PromoSectionData.linkText}
+          imageUrl={PromoSectionData.imageUrl}
+          alignment={PromoSectionData.alignment}
+        />
         <LogoCarousel
           title="As featured in"
           items={LogoCarouselData}

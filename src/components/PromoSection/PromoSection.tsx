@@ -9,7 +9,7 @@ type PromoSectionProps = {
   linkUrl?: string;
   linkText?: string;
   imageUrl?: string;
-  alignment?: 'left' | 'right';
+  alignment?: string;
 };
 
 function PromoSection({
