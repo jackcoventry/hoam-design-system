@@ -1,3 +1,8 @@
+:root {
+  --hoam-logo-carousel-duration: 20s;
+  --hoam-logo-carousel-gap: 2em;
+}
+
 .hoam-logo-carousel {
   width: 100%;
   overflow: hidden;

@@ -1,13 +1,19 @@
 import React from 'react';
 import './LogoCarousel.css';
 
-type MarqueeProps = {
-  items: Array<React.ReactNode | string>;
+type LogoCarouselItem = {
+  id: number;
+  src: string;
+  alt?: string;
+};
+
+type LogoCarouselProps = {
+  items: Array<LogoCarouselItem>;
   pauseOnHover?: boolean;
   ariaLabel?: string;
 };
 
-function LogoCarousel({ items, pauseOnHover = true, ariaLabel }: Readonly<MarqueeProps>) {
+function LogoCarousel({ items, pauseOnHover = true, ariaLabel }: Readonly<LogoCarouselProps>) {
   return (
     <div
       className="hoam-logo-carousel"
@@ -20,7 +26,10 @@ function LogoCarousel({ items, pauseOnHover = true, ariaLabel }: Readonly<Marque
             className="hoam-logo-carousel__item"
             key={`a-${item.id}`}
           >
-            {item}
+            <img
+              src={item.src}
+              alt={item.alt || `Logo ${item.id}`}
+            />
           </li>
         ))}
       </ul>
@@ -34,7 +43,10 @@ function LogoCarousel({ items, pauseOnHover = true, ariaLabel }: Readonly<Marque
             className="hoam-logo-carousel__item"
             key={`b-${item.id}`}
           >
-            {item}
+            <img
+              src={item.src}
+              alt={item.alt || `Logo ${item.id}`}
+            />
           </li>
         ))}
       </ul>
