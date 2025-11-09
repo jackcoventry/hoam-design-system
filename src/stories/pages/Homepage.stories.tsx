@@ -5,6 +5,7 @@ import NotificationBarData from '@/mocks/components/NotificationBar';
 import { Meta } from '@storybook/react';
 
 import Hero, { HeroSlide } from '@/components/Hero/Hero';
+import NewsletterBanner from '@/components/NewsletterBanner/NewsletterBanner';
 import React from 'react';
 
 const meta: Meta = {
@@ -37,9 +38,10 @@ const Template = {
           ))}
         </Hero>
 
-        <div className="container">
-          <div className="grid gap-lg py-2xl"></div>
-        </div>
+        <NewsletterBanner
+          title="Connect with us"
+          description="Sign up to our newsletter to receive the latest news and updates from our team."
+        />
       </>
     );
   },
