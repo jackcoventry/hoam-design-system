@@ -43,6 +43,7 @@
   --hoam-button-color-fill: var(--hoam-color-neutral-700);
   cursor: not-allowed;
 }
+
 .hoam-button:focus-visible {
   box-shadow:
     0 0 0 2px white,

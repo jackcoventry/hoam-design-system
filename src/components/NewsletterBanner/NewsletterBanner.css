@@ -1,13 +1,65 @@
 .hoam-newsletter-banner {
-  background-color: var(--hoam-color-sun-300);
+  background-color: var(--hoam-color-moon-600);
   padding: var(--hoam-spacing-8) var(--hoam-spacing-2);
 }
 
 .hoam-newsletter-banner__content {
-  margin-bottom: var(--hoam-spacing-7);
   text-align: center;
+}
+
+.hoam-newsletter-banner__wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hoam-spacing-5);
 }
 
 .hoam-newsletter-banner__title {
   font: var(--hoam-typography-title-2);
+}
+
+.hoam-newsletter-banner__social-links {
+  display: flex;
+  justify-content: center;
+  gap: var(--hoam-spacing-4);
+}
+
+.hoam-newsletter-banner__social-links a {
+  color: var(--hoam-color-neutral-100);
+  font-size: var(--hoam-font-size-24);
+}
+
+.hoam-newsletter-banner__input {
+  border-radius: 5px;
+  border: 1px solid var(--hoam-color-moon-400);
+  font: var(--hoam-typography-body-1);
+  padding: var(--hoam-spacing-2) var(--hoam-spacing-4);
+  width: 100%;
+}
+
+.hoam-newsletter-banner__input:focus-visible {
+  box-shadow:
+    0 0 0 2px white,
+    0 0 0 6px yellow;
+  outline: none;
+}
+
+.hoam-newsletter-banner__input[data-valid="false"] {
+  border: 1px solid var(--hoam-color-semantic-error);
+}
+
+.hoam-newsletter-banner__input[data-valid="false"]:focus-visible {
+  box-shadow:
+    0 0 0 2px white,
+    0 0 0 6px var(--hoam-color-semantic-error);
+}
+
+.hoam-newsletter-banner__form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--hoam-spacing-2);
+
+  @media (min-width: 600px) {
+    flex-direction: row;
+  }
 }
