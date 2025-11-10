@@ -1,4 +1,5 @@
 import { Button } from '@/components/Button/Button';
+import socialLinks from '@/mocks/socialLinks.json';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
@@ -9,24 +10,6 @@ type NewsletterBannerProps = {
   title: string;
   description?: string;
 };
-
-const socialLinks = [
-  {
-    name: 'Facebook',
-    url: 'https://www.facebook.com/',
-    icon: 'facebook',
-  },
-  {
-    name: 'Instagram',
-    url: 'https://www.instagram.com/',
-    icon: 'instagram',
-  },
-  {
-    name: 'TikTok',
-    url: 'https://www.tiktok.com/',
-    icon: 'tiktok',
-  },
-];
 
 const NewsletterSignupSchema = z.object({
   email: z.email('Please enter a valid email!'),
