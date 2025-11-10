@@ -19,7 +19,83 @@ function Navigation({ items }: Readonly<NavigationProps>) {
 
   return (
     <header className="hoam-navigation">
-      <div className="container">
+      <div
+        className="container"
+        data-visible-on="mobile"
+      >
+        <div className="grid">
+          <div className="span-12">
+            <div className="hoam-navigation__inner">
+              <a
+                href="/"
+                className="hoam-navigation__logo"
+              >
+                <img
+                  src="/logo.svg"
+                  alt="Hoam Logo"
+                />
+              </a>
+              <button
+                className="hoam-navigation__toggle"
+                aria-label="Toggle menu"
+              >
+                Menu
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        data-visible-on="mobile"
+        data-state="closed"
+        className="hoam-navigation__mobile-menu"
+      >
+        <nav aria-label="Main navigation">
+          <ul className="hoam-navigation__list">
+            {items.map((item) => (
+              <li
+                key={item.id}
+                className="hoam-navigation__item"
+              >
+                <button
+                  id={buttonId(item.id)}
+                  aria-controls={item.panel ? panelId(item.id) : undefined}
+                  aria-expanded={item.panel ? 'false' : undefined}
+                  className="hoam-navigation__link"
+                >
+                  {item.label}
+                </button>
+                {item.panel && (
+                  <div
+                    id={panelId(item.id)}
+                    aria-labelledby={buttonId(item.id)}
+                    className="hoam-navigation__panel"
+                  >
+                    {item.panel}
+                  </div>
+                )}
+              </li>
+            ))}
+          </ul>
+        </nav>
+        <nav aria-label="User navigation">
+          <ul className="hoam-navigation__list">
+            <li className="hoam-navigation__item">
+              <button className="hoam-navigation__link">My Account</button>
+            </li>
+            <li className="hoam-navigation__item">
+              <button className="hoam-navigation__link">My basket</button>
+            </li>
+            <li className="hoam-navigation__item">
+              <button className="hoam-navigation__link">Search</button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <div
+        className="container"
+        data-visible-on="desktop"
+      >
         <div className="grid">
           <div className="span-12">
             <div className="hoam-navigation__inner">

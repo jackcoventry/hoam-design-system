@@ -2,6 +2,7 @@ import NotificationBar from '@/components/NotificationBar/NotificationBar';
 import FooterData from '@/mocks/components/Footer.json';
 import MockSlides from '@/mocks/components/Hero.json';
 import LogoCarouselData from '@/mocks/components/LogoCarousel.json';
+import NavigationData from '@/mocks/components/Navigation.json';
 import NotificationBarData from '@/mocks/components/NotificationBar';
 import PromoSectionData from '@/mocks/components/PromoSection.json';
 
@@ -10,6 +11,7 @@ import { Meta } from '@storybook/react';
 import Footer from '@/components/Footer/Footer';
 import Hero, { HeroSlide } from '@/components/Hero/Hero';
 import LogoCarousel from '@/components/LogoCarousel/LogoCarousel';
+import Navigation from '@/components/Navigation/Navigation';
 import NewsletterBanner from '@/components/NewsletterBanner/NewsletterBanner';
 import PromoSection from '@/components/PromoSection/PromoSection';
 import React from 'react';
@@ -29,6 +31,8 @@ const Template = {
     return (
       <>
         <NotificationBar messages={NotificationBarData} />
+        <Navigation items={NavigationData} />
+
         <Hero>
           {HeroData.map((slide) => (
             <HeroSlide

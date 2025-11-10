@@ -1,4 +1,5 @@
 import Navigation from '@/components/Navigation/Navigation';
+import NavigationData from '@/mocks/components/Navigation.json';
 import { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 
@@ -12,28 +13,10 @@ export default meta;
 
 type Story = StoryObj<typeof Navigation>;
 
-const navItems = [
-  {
-    id: 'shop',
-    label: 'Shop',
-    href: '/shop',
-  },
-  {
-    id: 'subscriptions',
-    label: 'Subscriptions',
-    href: '/subscriptions',
-  },
-  {
-    id: 'our-story',
-    label: 'Our Story',
-    href: '/our-story',
-  },
-];
-
 const Template: Story = {
   render: () => (
     <div>
-      <Navigation items={navItems} />
+      <Navigation items={NavigationData} />
     </div>
   ),
 };

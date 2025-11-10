@@ -17,6 +17,7 @@ const preview = {
     docs: {
       theme: themes.hoam,
     },
+    layout: 'fullscreen',
   },
 };
 

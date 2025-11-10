@@ -1,4 +1,29 @@
 .hoam-navigation {
+  background-color: var(--hoam-color-neutral-900);
+}
+
+/* TODO: this is currently a bit clunky - refactor next */
+[data-visible-on="mobile"] {
+  display: block;
+}
+
+[data-visible-on="desktop"] {
+  display: none;
+}
+
+[data-visible-on="mobile"] .hoam-navigation__inner {
+  display: flex;
+  justify-content: space-between;
+}
+
+@media (min-width: 1200px) {
+  [data-visible-on="mobile"] {
+    display: none;
+  }
+
+  [data-visible-on="desktop"] {
+    display: block;
+  }
 }
 
 .hoam-navigation__inner {
@@ -11,7 +36,7 @@
   align-items: center;
   display: inline-flex;
   font: var(--hoam-typography-body-1);
-  height: 60px;
+  height: 80px;
   padding: var(--hoam-spacing-1) var(--hoam-spacing-2);
 }
 
