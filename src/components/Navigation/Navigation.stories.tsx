@@ -12,10 +12,28 @@ export default meta;
 
 type Story = StoryObj<typeof Navigation>;
 
+const navItems = [
+  {
+    id: 'shop',
+    label: 'Shop',
+    href: '/shop',
+  },
+  {
+    id: 'subscriptions',
+    label: 'Subscriptions',
+    href: '/subscriptions',
+  },
+  {
+    id: 'our-story',
+    label: 'Our Story',
+    href: '/our-story',
+  },
+];
+
 const Template: Story = {
   render: () => (
     <div>
-      <Navigation items={[]} />
+      <Navigation items={navItems} />
     </div>
   ),
 };

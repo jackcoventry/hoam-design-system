@@ -1,2 +1,46 @@
 .hoam-navigation {
 }
+
+.hoam-navigation__inner {
+  display: grid;
+  gap: var(--hoam-spacing-2);
+  grid-template-columns: 1fr 120px 1fr;
+}
+
+.hoam-navigation__link {
+  align-items: center;
+  display: inline-flex;
+  font: var(--hoam-typography-body-1);
+  height: 60px;
+  padding: var(--hoam-spacing-1) var(--hoam-spacing-2);
+}
+
+.hoam-navigation__link:link,
+.hoam-navigation__link:visited {
+  color: var(--hoam-color-moon-700);
+  text-decoration: none;
+}
+
+.hoam-navigation__link:hover,
+.hoam-navigation__link:focus {
+  color: var(--hoam-color-moon-900);
+  text-decoration: underline;
+}
+
+.hoam-navigation__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: var(--hoam-spacing-2);
+}
+
+.hoam-navigation__list[data-alignment="right"] {
+  justify-content: flex-end;
+}
+
+.hoam-navigation__logo {
+  display: inline-flex;
+  align-items: center;
+  width: 120px;
+}
