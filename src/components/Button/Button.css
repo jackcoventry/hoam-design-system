@@ -14,6 +14,7 @@
   border-width: 0;
   border-radius: var(--hoam-button-border-radius);
   box-shadow: 0 0 0 0 transparent;
+  color: var(--hoam-color-neutral-100);
   cursor: pointer;
   display: flex;
   gap: var(--hoam-button-content-gap);
@@ -22,6 +23,7 @@
   min-height: var(--hoam-button-min-height);
   outline: none;
   padding: var(--hoam-button-spacing-vertical) var(--hoam-button-spacing-horizontal);
+  text-decoration: none;
   white-space: nowrap;
 }
 
