@@ -49,6 +49,11 @@ $bp-prefixes: (
   width: min(100% - var(--hoam-spacing-8), 1680px);
 }
 
+.container-fluid {
+  margin-inline: auto;
+  width: 100%;
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat($grid-columns, minmax(0, 1fr));
