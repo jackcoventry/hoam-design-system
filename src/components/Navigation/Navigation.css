@@ -1,82 +1,11 @@
-:root {
-  --hoam-navigation-bar-height-mobile: 80px;
-}
-
 .hoam-navigation {
   background-color: var(--hoam-color-neutral-900);
-}
-
-/* Mobile Navigation */
-.hoam_navigation__mobile {
-  display: block;
-  height: var(--hoam-navigation-bar-height-mobile);
-  padding: var(--hoam-spacing-4);
-}
-
-.hoam-navigation__mobile-menu {
   display: none;
-  height: calc(100dvh - var(--hoam-navigation-bar-height-mobile));
-  overflow-y: auto;
-  padding: var(--hoam-spacing-4);
-  background-color: var(--hoam-color-neutral-800);
-}
-
-.hoam-navigation__mobile-menu .hoam-navigation__list {
-  display: flex;
-  flex-direction: column;
-  gap: var(--hoam-spacing-4);
-}
-
-.hoam-navigation__mobile-menu .hoam-navigation__link {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: var(--hoam-spacing-1);
-  text-align: center;
-  width: 100%;
-}
-
-.hoam-navigation__mobile-menu[data-state="open"] {
-  display: block;
-}
-
-.hoam-navigation__toggle {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: var(--hoam-spacing-1);
-}
-
-.hoam-navigation__desktop {
-  display: none;
-}
-
-.hoam-navigation__desktop .hoam-navigation__link {
-  align-items: center;
-  display: inline-flex;
-  height: 80px;
-}
-
-.hoam_navigation__mobile .hoam-navigation__inner {
-  display: flex;
-  justify-content: space-between;
+  height: auto;
 }
 
 @media (min-width: 1200px) {
   .hoam-navigation {
-    height: auto;
-  }
-
-  .hoam-navigation__mobile-menu,
-  .hoam-navigation__mobile-menu[data-state="open"] {
-    display: none;
-  }
-
-  .hoam_navigation__mobile {
-    display: none;
-  }
-
-  .hoam-navigation__desktop {
     display: block;
   }
 }
@@ -87,9 +16,11 @@
   grid-template-columns: 1fr 120px 1fr;
 }
 
-/* Common Styles */
 .hoam-navigation__link {
+  align-items: center;
+  display: inline-flex;
   font: var(--hoam-typography-body-1);
+  height: 80px;
   padding: var(--hoam-spacing-1) var(--hoam-spacing-2);
 }
 
@@ -99,8 +30,8 @@
   text-decoration: none;
 }
 
-.hoam-navigation__desktop .hoam-navigation__link:hover,
-.hoam-navigation__desktop .hoam-navigation__link:focus {
+.hoam-navigation__link:hover,
+.hoam-navigation__link:focus {
   color: var(--hoam-color-moon-900);
   text-decoration: underline;
 }
@@ -118,7 +49,7 @@
 }
 
 .hoam-navigation__logo {
-  display: inline-flex;
   align-items: center;
+  display: inline-flex;
   width: 120px;
 }

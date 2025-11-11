@@ -1,4 +1,5 @@
 import React from 'react';
+import './MobileItem.css';
 
 type MobileItemProps = {
   item: {
@@ -18,14 +19,32 @@ function MobileItem({ item }: Readonly<MobileItemProps>) {
 
   return (
     <li className="hoam-mobile-navigation__item">
-      <button
-        aria-controls={panelId(item.id)}
-        aria-expanded={open ? 'true' : 'false'}
-        className="hoam-mobile-navigation__link"
-        onClick={() => setOpen(!open)}
-      >
-        {item.label}
-      </button>
+      {item?.items?.length > 0 ? (
+        <button
+          aria-controls={panelId(item.id)}
+          aria-expanded={open ? 'true' : 'false'}
+          className="hoam-mobile-navigation__link"
+          onClick={() => setOpen(!open)}
+        >
+          {item.label}{' '}
+          <svg
+            className="icon"
+            width="0.75em"
+            height="0.75em"
+            fill="currentColor"
+          >
+            <use xlinkHref={`/icons/icons.svg#${open ? 'caret-down' : 'caret-right'}`} />
+          </svg>
+        </button>
+      ) : (
+        <a
+          href={item.href}
+          className="hoam-mobile-navigation__link"
+        >
+          {item.label}
+        </a>
+      )}
+
       {item.items && open ? (
         <ul
           id={panelId(item.id)}
