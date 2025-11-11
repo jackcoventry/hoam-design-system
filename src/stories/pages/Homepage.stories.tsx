@@ -19,6 +19,9 @@ import React from 'react';
 const meta: Meta = {
   title: 'Pages/Homepage',
   tags: ['autodocs'],
+  parameters: {
+    layout: 'fullscreen',
+  },
   args: {},
 };
 

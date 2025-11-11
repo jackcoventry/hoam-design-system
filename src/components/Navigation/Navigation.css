@@ -4,7 +4,6 @@
 
 .hoam-navigation {
   background-color: var(--hoam-color-neutral-900);
-  height: 100dvh;
 }
 
 /* Mobile Navigation */
@@ -29,12 +28,23 @@
 }
 
 .hoam-navigation__mobile-menu .hoam-navigation__link {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--hoam-spacing-1);
   text-align: center;
   width: 100%;
 }
 
 .hoam-navigation__mobile-menu[data-state="open"] {
   display: block;
+}
+
+.hoam-navigation__toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--hoam-spacing-1);
 }
 
 .hoam-navigation__desktop {
@@ -89,8 +99,8 @@
   text-decoration: none;
 }
 
-.hoam-navigation__link:hover,
-.hoam-navigation__link:focus {
+.hoam-navigation__desktop .hoam-navigation__link:hover,
+.hoam-navigation__desktop .hoam-navigation__link:focus {
   color: var(--hoam-color-moon-900);
   text-decoration: underline;
 }

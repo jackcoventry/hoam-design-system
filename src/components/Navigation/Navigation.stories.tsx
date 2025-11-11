@@ -7,6 +7,9 @@ const meta: Meta<typeof Navigation> = {
   title: 'Components/Navigation',
   component: Navigation,
   tags: ['autodocs'],
+  parameters: {
+    layout: 'fullscreen',
+  },
   args: {},
 };
 export default meta;

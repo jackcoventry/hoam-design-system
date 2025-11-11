@@ -11,6 +11,9 @@ import React from 'react';
 const meta: Meta = {
   title: 'Pages/Product Page',
   tags: ['autodocs'],
+  parameters: {
+    layout: 'fullscreen',
+  },
   args: {
     ...ProductTileData,
     newItem: true,

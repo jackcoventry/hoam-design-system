@@ -7,6 +7,9 @@ import React from 'react';
 const meta: Meta = {
   title: 'Pages/Product Listing',
   tags: ['autodocs'],
+  parameters: {
+    layout: 'fullscreen',
+  },
   args: Data,
 };
 export default meta;

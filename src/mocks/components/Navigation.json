@@ -2,7 +2,24 @@
   {
     "id": "shop",
     "label": "Shop",
-    "href": "/shop"
+    "href": "/shop",
+    "items": [
+      {
+        "id": "all-products",
+        "label": "All Products",
+        "href": "/shop/all-products"
+      },
+      {
+        "id": "new-arrivals",
+        "label": "New Arrivals",
+        "href": "/shop/new-arrivals"
+      },
+      {
+        "id": "best-sellers",
+        "label": "Best Sellers",
+        "href": "/shop/best-sellers"
+      }
+    ]
   },
   {
     "id": "subscriptions",
@@ -12,6 +29,23 @@
   {
     "id": "our-story",
     "label": "Our Story",
-    "href": "/our-story"
+    "href": "/our-story",
+    "items": [
+      {
+        "id": "about-us",
+        "label": "About Us",
+        "href": "/our-story/about-us"
+      },
+      {
+        "id": "sustainability",
+        "label": "Sustainability",
+        "href": "/our-story/sustainability"
+      },
+      {
+        "id": "careers",
+        "label": "Careers",
+        "href": "/our-story/careers"
+      }
+    ]
   }
 ]

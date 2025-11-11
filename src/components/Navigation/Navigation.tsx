@@ -1,4 +1,6 @@
-import React from 'react';
+import { useFocusTrap } from '@/utils/useFocusTrap';
+import React, { useRef } from 'react';
+import MobileItem from './MobileItem/MobileItem';
 import './Navigation.css';
 
 export type NavItem = {
@@ -13,14 +15,24 @@ export type NavigationProps = {
 };
 
 function Navigation({ items }: Readonly<NavigationProps>) {
+  const navigationRef = useRef<HTMLButtonElement>(null);
   const idPrefix = 'hoam-nav';
   const panelId = (id: string) => `${idPrefix}-panel-${id}`;
   const buttonId = (id: string) => `${idPrefix}-button-${id}`;
 
   const [mobileNavigationVisible, setMobileNavigationVisibility] = React.useState(false);
 
+  useFocusTrap({
+    containerRef: navigationRef,
+    active: mobileNavigationVisible,
+    onEscape: () => setMobileNavigationVisibility(false),
+  });
+
   return (
-    <header className="hoam-navigation">
+    <header
+      className="hoam-navigation"
+      ref={navigationRef}
+    >
       <div className="hoam_navigation__mobile">
         <div className="container-fluid">
           <div className="grid">
@@ -61,28 +73,10 @@ function Navigation({ items }: Readonly<NavigationProps>) {
         <nav aria-label="Main navigation">
           <ul className="hoam-navigation__list">
             {items.map((item) => (
-              <li
+              <MobileItem
                 key={item.id}
-                className="hoam-navigation__item"
-              >
-                <button
-                  id={buttonId(item.id)}
-                  aria-controls={item.panel ? panelId(item.id) : undefined}
-                  aria-expanded={item.panel ? 'false' : undefined}
-                  className="hoam-navigation__link"
-                >
-                  {item.label}
-                </button>
-                {item.panel && (
-                  <div
-                    id={panelId(item.id)}
-                    aria-labelledby={buttonId(item.id)}
-                    className="hoam-navigation__panel"
-                  >
-                    {item.panel}
-                  </div>
-                )}
-              </li>
+                item={item}
+              />
             ))}
             <li className="hoam-navigation__item">
               <button className="hoam-navigation__link">My Account</button>
