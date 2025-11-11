@@ -34,7 +34,6 @@
 .hoam-mobile-navigation__list {
   display: flex;
   flex-direction: column;
-  gap: var(--hoam-spacing-4);
   list-style: none;
   margin: 0;
   padding: 0;
@@ -56,7 +55,7 @@
   font: var(--hoam-typography-body-1);
   gap: var(--hoam-spacing-1);
   justify-content: center;
-  padding: var(--hoam-spacing-1);
+  margin: var(--hoam-spacing-4) 0;
   text-decoration: none;
   width: 100%;
 }
@@ -82,4 +81,21 @@
   align-items: center;
   display: inline-flex;
   width: 120px;
+}
+
+.hoam-mobile-navigation__panel {
+  background-color: var(--hoam-color-neutral-900);
+  list-style: none;
+  margin: 0;
+  padding: var(--hoam-spacing-4) 0;
+}
+
+.hoam-mobile-navigation__sublink {
+  color: var(--hoam-color-sun-400);
+  display: flex;
+  font: var(--hoam-typography-body-1);
+  justify-content: center;
+  padding: var(--hoam-spacing-2);
+  text-decoration: none;
+  width: 100%;
 }
