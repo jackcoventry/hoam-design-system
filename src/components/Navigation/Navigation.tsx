@@ -149,11 +149,12 @@ export default function Navigation({ items, userItems }: Readonly<NavigationProp
                   <a
                     href="/"
                     className="hoam-navigation__logo"
-                    onPointerEnter={() => {
+                    data-top-cyclable
+                    onFocus={() => {
                       setOpenIndex(null);
                       setOpenGroupId(null);
                     }}
-                    onFocus={() => {
+                    onPointerEnter={() => {
                       setOpenIndex(null);
                       setOpenGroupId(null);
                     }}
@@ -167,11 +168,11 @@ export default function Navigation({ items, userItems }: Readonly<NavigationProp
                   {userItems?.length > 0 ? (
                     <nav
                       aria-label="User navigation"
-                      onPointerEnter={() => {
+                      onFocusCapture={() => {
                         setOpenIndex(null);
                         setOpenGroupId(null);
                       }}
-                      onFocusCapture={() => {
+                      onPointerEnter={() => {
                         setOpenIndex(null);
                         setOpenGroupId(null);
                       }}
@@ -180,15 +181,16 @@ export default function Navigation({ items, userItems }: Readonly<NavigationProp
                         className="hoam-navigation__list"
                         data-alignment="right"
                       >
-                        {userItems.map((u) => (
+                        {userItems.map((userLink) => (
                           <li
-                            key={u.id}
+                            key={userLink.id}
                             className="hoam-navigation__item"
                           >
                             <a
-                              href={u.href}
+                              href={userLink.href}
                               className="hoam-navigation__link"
-                              title={u.label}
+                              title={userLink.label}
+                              data-top-cyclable
                             >
                               <svg
                                 className="icon"
@@ -197,9 +199,9 @@ export default function Navigation({ items, userItems }: Readonly<NavigationProp
                                 fill="currentColor"
                                 aria-hidden="true"
                               >
-                                <use xlinkHref={`/icons/icons.svg#${u.icon}`} />
+                                <use xlinkHref={`/icons/icons.svg#${userLink.icon}`} />
                               </svg>
-                              <span className="sr-only">{u.label}</span>
+                              <span className="sr-only">{userLink.label}</span>
                             </a>
                           </li>
                         ))}

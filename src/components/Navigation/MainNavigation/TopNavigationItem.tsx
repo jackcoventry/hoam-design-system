@@ -38,6 +38,7 @@ function TopNavigationItem({
         <button
           id={topTriggerId(item.id)}
           data-top-trigger
+          data-top-cyclable
           className="hoam-navigation__link"
           aria-expanded={isOpen}
           aria-controls={panelId(item.id)}
@@ -49,6 +50,7 @@ function TopNavigationItem({
         <a
           id={topTriggerId(item.id)}
           data-top-trigger
+          data-top-cyclable
           className="hoam-navigation__link"
           href={item.href}
         >

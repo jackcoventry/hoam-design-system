@@ -29,44 +29,53 @@ export function useKeyboardNav(
       e.stopPropagation();
 
       const target = e.target as HTMLElement;
-      const isTop = target.matches('[data-top-trigger]');
+      const isTopTrigger = (el: HTMLElement) => el.matches('[data-top-trigger]');
+      const isTopCyclable = (el: HTMLElement) => el.matches('[data-top-cyclable]');
+      const topItems = querySubItemVisibility<HTMLElement>(container, '[data-top-cyclable]');
       const isSubTrigger = target.matches('[data-sub-trigger]');
-      const isThird = target.matches('[data-sub-link]');
-
-      const tops = querySubItemVisibility<HTMLElement>(container, '[data-top-trigger]');
-
-      const panelRootFor = (topIdx: number) =>
-        container.querySelector<HTMLElement>(`#${panelId(items[topIdx].id)}`) ?? container;
+      const isThirdLink = target.matches('[data-sub-link]');
 
       // Top level navigation
-      if (isTop) {
-        const topIndex = tops.indexOf(target);
+      if (isTopCyclable(target)) {
         switch (logicalKey) {
           case 'ArrowRight':
-            moveInList(tops, target, +1);
+            moveInList(topItems, target, +1);
             return;
           case 'ArrowLeft':
-            moveInList(tops, target, -1);
+            moveInList(topItems, target, -1);
             return;
           case 'Home':
-            focusNextTick(tops[0]);
+            focusNextTick(topItems[0]);
             return;
           case 'End':
-            focusNextTick(tops[tops.length - 1]);
+            focusNextTick(topItems[topItems.length - 1]);
             return;
           case 'ArrowDown': {
-            if (!items[topIndex]?.items?.length) return;
-            setOpenIndex(topIndex);
-            // pre-open first category visually
-            const firstId = items[topIndex]?.items?.[0]?.id;
-            setOpenGroupId(firstId ?? null);
-            requestAnimationFrame(() => {
-              const firstCat =
-                subSelectors.subTriggersOnly(panelRootFor(topIndex))[0] ??
-                subSelectors.subInteractive(panelRootFor(topIndex))[0];
-              firstCat?.focus();
-            });
-            return;
+            // ArrowDown only opens if we're on a real top trigger (not logo/user)
+            if (logicalKey === 'ArrowDown' && isTopTrigger(target)) {
+              const triggerId = target.id; // "trigger-<id>"
+              if (triggerId?.startsWith('trigger-')) {
+                const rawId = triggerId.replace(/^trigger-/, '');
+                const itemIdx = items.findIndex((i) => i.id === rawId);
+                if (itemIdx >= 0 && items[itemIdx]?.items?.length) {
+                  setOpenIndex(itemIdx);
+                  const firstId = items[itemIdx]?.items?.[0]?.id;
+                  setOpenGroupId(firstId ?? null);
+                  requestAnimationFrame(() => {
+                    const panelRoot =
+                      container.querySelector<HTMLElement>(`#panel-${rawId}`) ?? container;
+                    const firstCat =
+                      querySubItemVisibility<HTMLElement>(panelRoot, '[data-sub-trigger]')[0] ??
+                      querySubItemVisibility<HTMLElement>(
+                        panelRoot,
+                        '[data-sub-trigger], [data-sub-link]'
+                      )[0];
+                    firstCat?.focus();
+                  });
+                }
+              }
+              return;
+            }
           }
         }
       }
@@ -75,7 +84,6 @@ export function useKeyboardNav(
       if (isSubTrigger) {
         const panelEl = target.closest('[id^="panel-"]');
         if (!panelEl) return;
-        const topIdx = items.findIndex((t) => panelId(t.id) === panelEl.id);
         const categories = subSelectors.subTriggersOnly(panelEl);
         switch (logicalKey) {
           case 'ArrowDown':
@@ -90,9 +98,15 @@ export function useKeyboardNav(
           case 'End':
             focusNextTick(categories[categories.length - 1]);
             return;
-          case 'ArrowLeft':
-            focusNextTick(tops[topIdx]);
+          case 'ArrowLeft': {
+            const panelEl = target.closest('[id^="panel-"]');
+            const labelledBy = panelEl?.getAttribute('aria-labelledby');
+            const trigger = labelledBy
+              ? container.querySelector<HTMLElement>(`#${labelledBy}`)
+              : null;
+            if (trigger) focusNextTick(trigger);
             return;
+          }
           case 'ArrowRight': {
             const domId = target.id; // group-<id>
             const raw = domId.replace(/^group-/, '');
@@ -107,7 +121,7 @@ export function useKeyboardNav(
       }
 
       // Third and final navigation level
-      if (isThird) {
+      if (isThirdLink) {
         const listContainer = target.closest('[id$="-panel"]');
         const groupId = listContainer?.id?.replace(/-panel$/, '');
         const siblings = subSelectors.thirdList(container, groupId);
