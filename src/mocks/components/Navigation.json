@@ -66,5 +66,27 @@
     "id": "subscriptions",
     "label": "Subscriptions",
     "href": "/subscriptions"
+  },
+  {
+    "id": "our-story",
+    "label": "Our Story",
+    "href": "/our-story",
+    "items": [
+      {
+        "id": "about-us",
+        "label": "About Us",
+        "href": "/our-story/about-us"
+      },
+      {
+        "id": "sustainability",
+        "label": "Sustainability",
+        "href": "/our-story/sustainability"
+      },
+      {
+        "id": "careers",
+        "label": "Careers",
+        "href": "/our-story/careers"
+      }
+    ]
   }
 ]

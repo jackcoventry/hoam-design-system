@@ -85,12 +85,15 @@
   height: 100%;
 }
 
-/* hide when `hidden` is present */
+.hoam-navigation__panel[hidden],
 .hoam-navigation__panel-sub-level[hidden] {
   display: none;
 }
 
-/* optional visuals */
-.hoam-navigation__group [aria-expanded="true"] {
-  text-decoration: underline;
+/* Optional: reduce motion */
+@media (prefers-reduced-motion: reduce) {
+  .hoam-navigation__panel,
+  .hoam-navigation__panel-sub-level {
+    transition: none !important;
+  }
 }
