@@ -6,7 +6,6 @@ type CategoryGroupProps = {
   open: boolean;
   onHoverOpen: () => void;
   onFocusOpen: () => void;
-  onClickToggle: () => void;
   children?: React.ReactNode;
 };
 
@@ -15,7 +14,6 @@ function CategoryGroup({
   open,
   onHoverOpen,
   onFocusOpen,
-  onClickToggle,
   children,
 }: Readonly<CategoryGroupProps>) {
   const btnId = groupBtnId(subitem.id);
@@ -30,20 +28,9 @@ function CategoryGroup({
         aria-expanded={open}
         aria-controls={groupPanelId(subitem.id)}
         onFocus={onFocusOpen}
-        onClick={onClickToggle}
       >
         {subitem.label}
       </button>
-
-      {subitem.href && (
-        <a
-          href={subitem.href}
-          data-sub-link
-        >
-          View all {subitem.label}
-        </a>
-      )}
-
       {children}
     </div>
   );

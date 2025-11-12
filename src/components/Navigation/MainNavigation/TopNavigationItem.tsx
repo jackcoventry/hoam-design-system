@@ -3,29 +3,36 @@ import React from 'react';
 
 type TopNavigationItemProps = {
   item: { id: string; label: string; href: string; items?: any[] };
-  index: number;
   isOpen: boolean;
   hasPanel: boolean;
   onFocusOpen: () => void;
-  onClickToggle: () => void;
   onHoverOpen: () => void;
+  onHoverClose: () => void;
   children?: React.ReactNode;
 };
 
 function TopNavigationItem({
   item,
-  index,
   isOpen,
   hasPanel,
   onFocusOpen,
-  onClickToggle,
   onHoverOpen,
+  onHoverClose,
   children,
 }: Readonly<TopNavigationItemProps>) {
   return (
     <li
       className="hoam-navigation__item"
-      onPointerEnter={() => hasPanel && onHoverOpen()}
+      onPointerEnter={() => {
+        if (hasPanel) {
+          onHoverOpen();
+        } else {
+          onHoverClose();
+        }
+      }}
+      onFocusCapture={() => {
+        if (!hasPanel) onHoverClose();
+      }}
     >
       {hasPanel ? (
         <button
@@ -35,7 +42,6 @@ function TopNavigationItem({
           aria-expanded={isOpen}
           aria-controls={panelId(item.id)}
           onFocus={onFocusOpen}
-          onClick={onClickToggle}
         >
           {item.label}
         </button>

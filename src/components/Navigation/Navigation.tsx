@@ -28,7 +28,9 @@ export default function Navigation({ items, userItems }: Readonly<NavigationProp
   const isRTL = typeof document !== 'undefined' && document.dir === 'rtl';
   const mapArrow = (key: string) =>
     isRTL && (key === 'ArrowLeft' || key === 'ArrowRight')
-      ? key === 'ArrowRight' || 'ArrowLeft'
+      ? key === 'ArrowRight'
+        ? 'ArrowRight'
+        : 'ArrowLeft'
       : key;
 
   const subSelectors = {
@@ -87,22 +89,16 @@ export default function Navigation({ items, userItems }: Readonly<NavigationProp
                         <TopNavItem
                           key={item.id}
                           item={item}
-                          index={index}
                           isOpen={isOpen}
                           hasPanel={hasPanel}
                           onHoverOpen={() => handleTopNavigationOpen(index)}
+                          onHoverClose={() => {
+                            setOpenIndex(null);
+                            setOpenGroupId(null);
+                          }}
                           onFocusOpen={() => {
                             handleTopNavigationOpen(index);
                             openFirstCategoryVisually(index);
-                          }}
-                          onClickToggle={() => {
-                            const next = isOpen ? null : index;
-                            setOpenIndex(next);
-                            if (next === null) {
-                              setOpenGroupId(null);
-                            } else {
-                              openFirstCategoryVisually(next);
-                            }
                           }}
                         >
                           {hasPanel && (
@@ -113,13 +109,6 @@ export default function Navigation({ items, userItems }: Readonly<NavigationProp
                               onEnter={() => clearLeave()}
                               left={
                                 <div className="hoam-navigation__panel-top-level">
-                                  <a
-                                    href={item.href}
-                                    data-sub-link
-                                  >
-                                    View all {item.label}
-                                  </a>
-
                                   {item?.items?.map((sub) => {
                                     const open = openGroupId === sub.id;
                                     return (
@@ -129,11 +118,10 @@ export default function Navigation({ items, userItems }: Readonly<NavigationProp
                                         open={open}
                                         onHoverOpen={() => setOpenGroupId(sub.id)}
                                         onFocusOpen={() => setOpenGroupId(sub.id)}
-                                        onClickToggle={() => setOpenGroupId(open ? null : sub.id)}
                                       >
                                         {sub.items?.length ? (
                                           <ThirdLevelList
-                                            parentId={sub.id}
+                                            parent={sub}
                                             items={sub.items}
                                             open={open}
                                           />
@@ -161,6 +149,14 @@ export default function Navigation({ items, userItems }: Readonly<NavigationProp
                   <a
                     href="/"
                     className="hoam-navigation__logo"
+                    onPointerEnter={() => {
+                      setOpenIndex(null);
+                      setOpenGroupId(null);
+                    }}
+                    onFocus={() => {
+                      setOpenIndex(null);
+                      setOpenGroupId(null);
+                    }}
                   >
                     <img
                       src="/logo.svg"
@@ -169,7 +165,17 @@ export default function Navigation({ items, userItems }: Readonly<NavigationProp
                   </a>
 
                   {userItems?.length > 0 ? (
-                    <nav aria-label="User navigation">
+                    <nav
+                      aria-label="User navigation"
+                      onPointerEnter={() => {
+                        setOpenIndex(null);
+                        setOpenGroupId(null);
+                      }}
+                      onFocusCapture={() => {
+                        setOpenIndex(null);
+                        setOpenGroupId(null);
+                      }}
+                    >
                       <ul
                         className="hoam-navigation__list"
                         data-alignment="right"
