@@ -1,0 +1,23 @@
+[
+  {
+    "id": "account",
+    "label": "My Account",
+    "href": "/account",
+    "icon": "person-circle",
+    "title": "My Account"
+  },
+  {
+    "id": "basket",
+    "label": "My Basket",
+    "href": "/basket",
+    "icon": "bag",
+    "title": "My basket"
+  },
+  {
+    "id": "search",
+    "label": "Search",
+    "href": "/search",
+    "icon": "search",
+    "title": "Search"
+  }
+]

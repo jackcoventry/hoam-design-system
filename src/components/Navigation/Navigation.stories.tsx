@@ -1,5 +1,6 @@
 import Navigation from '@/components/Navigation/Navigation';
 import NavigationData from '@/mocks/components/Navigation.json';
+import UserNavigationData from '@/mocks/components/UserNavigation.json';
 import { Meta, StoryObj } from '@storybook/react';
 import React from 'react';
 
@@ -19,7 +20,10 @@ type Story = StoryObj<typeof Navigation>;
 const Template: Story = {
   render: () => (
     <div>
-      <Navigation items={NavigationData} />
+      <Navigation
+        items={NavigationData}
+        userItems={UserNavigationData}
+      />
     </div>
   ),
 };

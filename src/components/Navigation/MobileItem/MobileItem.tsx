@@ -1,5 +1,4 @@
 import React from 'react';
-import './MobileItem.css';
 
 type MobileItemProps = {
   item: {

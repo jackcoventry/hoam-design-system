@@ -53,3 +53,44 @@
   display: inline-flex;
   width: 120px;
 }
+
+.hoam-navigation__panel {
+  height: 400px;
+  width: 100dvw;
+  background-color: red;
+  position: absolute;
+  top: auto;
+  left: 0;
+}
+
+.hoam-navigation__panel-top-level {
+  background-color: green;
+  height: 400px;
+  padding: var(--hoam-spacing-2);
+  position: relative;
+  width: 30%;
+}
+
+.hoam-navigation__panel-sub-level {
+  position: absolute;
+  left: 100%;
+  top: 0;
+  height: 400px;
+  width: 233.333%; /* This should be 2.33 times the width of the parent to fill space correctly */
+  background-color: yellow;
+}
+
+.hoam-navigation__panel-promo {
+  background-color: orange;
+  height: 100%;
+}
+
+/* hide when `hidden` is present */
+.hoam-navigation__panel-sub-level[hidden] {
+  display: none;
+}
+
+/* optional visuals */
+.hoam-navigation__group [aria-expanded="true"] {
+  text-decoration: underline;
+}

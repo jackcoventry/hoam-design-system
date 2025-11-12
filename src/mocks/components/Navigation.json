@@ -7,17 +7,58 @@
       {
         "id": "all-products",
         "label": "All Products",
-        "href": "/shop/all-products"
+        "href": "/shop/all-products",
+        "items": [
+          {
+            "id": "furniture",
+            "label": "Furniture",
+            "href": "/shop/all-products/furniture"
+          },
+          {
+            "id": "lighting",
+            "label": "Lighting",
+            "href": "/shop/all-products/lighting"
+          },
+          {
+            "id": "decor",
+            "label": "Decor",
+            "href": "/shop/all-products/decor"
+          }
+        ]
       },
       {
         "id": "new-arrivals",
         "label": "New Arrivals",
-        "href": "/shop/new-arrivals"
+        "href": "/shop/new-arrivals",
+        "items": [
+          {
+            "id": "spring-collection",
+            "label": "Spring Collection",
+            "href": "/shop/new-arrivals/spring-collection"
+          },
+          {
+            "id": "summer-collection",
+            "label": "Summer Collection",
+            "href": "/shop/new-arrivals/summer-collection"
+          }
+        ]
       },
       {
         "id": "best-sellers",
         "label": "Best Sellers",
-        "href": "/shop/best-sellers"
+        "href": "/shop/best-sellers",
+        "items": [
+          {
+            "id": "top-furniture",
+            "label": "Top Furniture",
+            "href": "/shop/best-sellers/top-furniture"
+          },
+          {
+            "id": "top-lighting",
+            "label": "Top Lighting",
+            "href": "/shop/best-sellers/top-lighting"
+          }
+        ]
       }
     ]
   },
@@ -25,27 +66,5 @@
     "id": "subscriptions",
     "label": "Subscriptions",
     "href": "/subscriptions"
-  },
-  {
-    "id": "our-story",
-    "label": "Our Story",
-    "href": "/our-story",
-    "items": [
-      {
-        "id": "about-us",
-        "label": "About Us",
-        "href": "/our-story/about-us"
-      },
-      {
-        "id": "sustainability",
-        "label": "Sustainability",
-        "href": "/our-story/sustainability"
-      },
-      {
-        "id": "careers",
-        "label": "Careers",
-        "href": "/our-story/careers"
-      }
-    ]
   }
 ]
