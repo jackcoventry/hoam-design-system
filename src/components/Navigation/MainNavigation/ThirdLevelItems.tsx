@@ -3,7 +3,7 @@ import React from 'react';
 
 type ThirdLevelItemsProps = {
   parent: NavItem;
-  items: Array<{ id: string; label: string; href: string }>;
+  items: Array<{ id: string; label: string; href: string; items: Array<NavItem> }>;
   open: boolean;
 };
 
@@ -15,24 +15,45 @@ function ThirdLevelItems({ parent, items, open }: Readonly<ThirdLevelItemsProps>
       aria-labelledby={groupBtnId(parent?.id)}
       hidden={!open}
     >
-      {parent.href && (
-        <a
-          href={parent.href}
-          data-sub-link
-        >
-          View all {parent.label}
-        </a>
-      )}
-      {items.map((i) => (
-        <a
-          key={i.id}
-          href={i.href}
-          data-sub-link
-          tabIndex={open ? 0 : -1}
-        >
-          {i.label}
-        </a>
-      ))}
+      <div className="hoam-navigation__panel-group">
+        <div className="hoam-navigation__panel-group-section">
+          {parent.href && (
+            <a
+              href={parent.href}
+              data-sub-link
+              className="hoam-navigation__panel-group-header"
+            >
+              View {parent.label}
+            </a>
+          )}
+        </div>
+
+        {items.map((i) => (
+          <div
+            key={i.id}
+            className="hoam-navigation__panel-group-section"
+          >
+            <a
+              href={i.href}
+              data-sub-link
+              tabIndex={open ? 0 : -1}
+              className="hoam-navigation__panel-group-header"
+            >
+              {i.label}
+            </a>
+
+            {i.items?.map((child) => (
+              <a
+                href={child.href}
+                key={child.id}
+                data-sub-link
+              >
+                {child.label}
+              </a>
+            ))}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

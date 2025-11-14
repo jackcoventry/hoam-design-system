@@ -18,15 +18,14 @@
 
 .hoam-navigation__link {
   align-items: center;
+  background: none;
+  border: none;
+  color: var(--hoam-color-moon-700);
+  cursor: pointer;
   display: inline-flex;
   font: var(--hoam-typography-body-1);
   height: 80px;
   padding: var(--hoam-spacing-1) var(--hoam-spacing-2);
-}
-
-.hoam-navigation__link:link,
-.hoam-navigation__link:visited {
-  color: var(--hoam-color-moon-700);
   text-decoration: none;
 }
 
@@ -55,29 +54,32 @@
 }
 
 .hoam-navigation__panel {
+  background-color: var(--hoam-color-moon-100);
+  box-shadow:
+    0 10px 20px rgba(0, 0, 0, 0.19),
+    0 6px 6px rgba(0, 0, 0, 0.23);
   height: 400px;
-  width: 100dvw;
-  background-color: red;
+  left: 0;
   position: absolute;
   top: auto;
-  left: 0;
+  width: 100dvw;
 }
 
 .hoam-navigation__panel-top-level {
-  background-color: green;
   height: 400px;
-  padding: var(--hoam-spacing-2);
+  padding: var(--hoam-spacing-4);
   position: relative;
   width: 30%;
 }
 
 .hoam-navigation__panel-sub-level {
+  background-color: var(--hoam-color-moon-200);
   position: absolute;
   left: 100%;
   top: 0;
   height: 400px;
+  padding: var(--hoam-spacing-4);
   width: 233.333%; /* This should be 2.33 times the width of the parent to fill space correctly */
-  background-color: yellow;
 }
 
 .hoam-navigation__panel-promo {
@@ -90,7 +92,57 @@
   display: none;
 }
 
-/* Optional: reduce motion */
+.hoam-navigation__group-top-link {
+  align-items: center;
+  background: none;
+  background-color: none;
+  border: none;
+  color: var(--hoam-color-moon-900);
+  cursor: pointer;
+  display: flex;
+  font: var(--hoam-typography-body-1);
+  justify-content: space-between;
+  padding: var(--hoam-spacing-4);
+  text-decoration: none;
+  width: 100%;
+}
+
+.hoam-navigation__group-top-link:hover,
+.hoam-navigation__group-top-link:focus-visible {
+  background-color: var(--hoam-color-neutral-900);
+}
+
+.hoam-navigation__panel-group {
+  columns: 3;
+  column-gap: var(--hoam-spacing-4);
+  height: 100%;
+  overflow: auto;
+}
+
+.hoam-navigation__panel-group-section {
+  break-inside: avoid;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 40px;
+}
+
+.hoam-navigation__panel-group-section a[data-sub-link] {
+  color: var(--hoam-color-moon-800);
+  font: var(--hoam-typography-label-1);
+  text-decoration: none;
+}
+
+.hoam-navigation__panel-group-section a[data-sub-link]:hover {
+  color: var(--hoam-color-moon-900);
+  text-decoration: underline;
+}
+
+a.hoam-navigation__panel-group-header[data-sub-link] {
+  font: var(--hoam-typography-label-2);
+  padding-bottom: var(--hoam-spacing-2);
+  text-transform: uppercase;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hoam-navigation__panel,
   .hoam-navigation__panel-sub-level {

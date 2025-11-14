@@ -12,7 +12,7 @@ import React, { useMemo, useRef } from 'react';
 import './Navigation.css';
 import type { NavigationProps } from './Navigation.types';
 
-export default function Navigation({ items, userItems }: Readonly<NavigationProps>) {
+export default function Navigation({ items = [], userItems = [] }: Readonly<NavigationProps>) {
   const rootRef = useRef<HTMLElement>(null);
   const {
     openIndex,
@@ -181,7 +181,7 @@ export default function Navigation({ items, userItems }: Readonly<NavigationProp
                         className="hoam-navigation__list"
                         data-alignment="right"
                       >
-                        {userItems.map((userLink) => (
+                        {userItems?.map((userLink) => (
                           <li
                             key={userLink.id}
                             className="hoam-navigation__item"

@@ -22,16 +22,40 @@ function CategoryGroup({
       className="hoam-navigation__group"
       onPointerEnter={onHoverOpen}
     >
-      <button
-        id={btnId}
-        data-sub-trigger
-        aria-expanded={open}
-        aria-controls={groupPanelId(subitem.id)}
-        onFocus={onFocusOpen}
-      >
-        {subitem.label}
-      </button>
-      {children}
+      {children ? (
+        <>
+          <button
+            id={btnId}
+            data-sub-trigger
+            aria-expanded={open}
+            aria-controls={groupPanelId(subitem.id)}
+            onFocus={onFocusOpen}
+            className="hoam-navigation__group-top-link"
+          >
+            {subitem.label}
+
+            {children ? (
+              <svg
+                className="icon"
+                width="0.75em"
+                height="0.75em"
+                fill="currentColor"
+              >
+                <use xlinkHref={`/icons/icons.svg#${open ? 'caret-down' : 'caret-right'}`} />
+              </svg>
+            ) : null}
+          </button>
+          {children}
+        </>
+      ) : (
+        <a
+          href={subitem.href}
+          className="hoam-navigation__group-top-link"
+          data-sub-trigger
+        >
+          {subitem.label}
+        </a>
+      )}
     </div>
   );
 }
