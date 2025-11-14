@@ -3,17 +3,19 @@ import React from 'react';
 
 type ThirdLevelItemsProps = {
   parent: NavItem;
-  items: Array<{ id: string; label: string; href: string; items: Array<NavItem> }>;
+  items: Array<NavItem>;
   open: boolean;
+  layout?: 'list' | 'thumbnail';
 };
 
-function ThirdLevelItems({ parent, items, open }: Readonly<ThirdLevelItemsProps>) {
+function ThirdLevelItems({ parent, items, open, layout = 'list' }: Readonly<ThirdLevelItemsProps>) {
   return (
     <div
       id={groupPanelId(parent?.id)}
       className="hoam-navigation__panel-sub-level"
       aria-labelledby={groupBtnId(parent?.id)}
       hidden={!open}
+      data-layout={layout}
     >
       <div className="hoam-navigation__panel-group">
         <div className="hoam-navigation__panel-group-section">
@@ -39,6 +41,8 @@ function ThirdLevelItems({ parent, items, open }: Readonly<ThirdLevelItemsProps>
               tabIndex={open ? 0 : -1}
               className="hoam-navigation__panel-group-header"
             >
+              {layout === 'thumbnail' && <img src={i.thumbnail} />}
+
               {i.label}
             </a>
 

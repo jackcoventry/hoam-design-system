@@ -58,7 +58,7 @@
   box-shadow:
     0 10px 20px rgba(0, 0, 0, 0.19),
     0 6px 6px rgba(0, 0, 0, 0.23);
-  height: 400px;
+  height: 420px;
   left: 0;
   position: absolute;
   top: auto;
@@ -66,7 +66,7 @@
 }
 
 .hoam-navigation__panel-top-level {
-  height: 400px;
+  height: 420px;
   padding: var(--hoam-spacing-4);
   position: relative;
   width: 30%;
@@ -74,11 +74,12 @@
 
 .hoam-navigation__panel-sub-level {
   background-color: var(--hoam-color-moon-200);
-  position: absolute;
+  height: 420px;
   left: 100%;
-  top: 0;
-  height: 400px;
+  overflow: auto;
   padding: var(--hoam-spacing-4);
+  position: absolute;
+  top: 0;
   width: 233.333%; /* This should be 2.33 times the width of the parent to fill space correctly */
 }
 
@@ -112,14 +113,12 @@
   background-color: var(--hoam-color-neutral-900);
 }
 
-.hoam-navigation__panel-group {
+.hoam-navigation__panel-sub-level[data-layout="list"] .hoam-navigation__panel-group {
   columns: 3;
   column-gap: var(--hoam-spacing-4);
-  height: 100%;
-  overflow: auto;
 }
 
-.hoam-navigation__panel-group-section {
+.hoam-navigation__panel-sub-level[data-layout="list"] .hoam-navigation__panel-group-section {
   break-inside: avoid;
   display: flex;
   flex-direction: column;

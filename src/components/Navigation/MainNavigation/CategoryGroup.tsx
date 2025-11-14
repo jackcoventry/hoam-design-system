@@ -1,8 +1,8 @@
-import { groupBtnId, groupPanelId } from '@/components/Navigation/Navigation.types';
+import { groupBtnId, groupPanelId, NavItem } from '@/components/Navigation/Navigation.types';
 import React from 'react';
 
 type CategoryGroupProps = {
-  subitem: { id: string; label: string; href?: string; items?: any[] };
+  subitem: NavItem;
   open: boolean;
   onHoverOpen: () => void;
   onFocusOpen: () => void;

@@ -4,6 +4,11 @@ export type NavItem = {
   href: string;
   icon?: string;
   items?: NavItem[];
+  thumbnail?: string;
+};
+
+export type NavGroupItem = NavItem & {
+  layout: 'list' | 'thumbnail';
 };
 
 export type NavigationProps = {

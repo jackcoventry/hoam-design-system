@@ -10,7 +10,7 @@ import { panelId, topTriggerId } from '@/components/Navigation/Navigation.types'
 import { querySubItemVisibility } from '@/components/Navigation/utils/helpers';
 import React, { useMemo, useRef } from 'react';
 import './Navigation.css';
-import type { NavigationProps } from './Navigation.types';
+import type { NavGroupItem, NavigationProps } from './Navigation.types';
 
 export default function Navigation({ items = [], userItems = [] }: Readonly<NavigationProps>) {
   const rootRef = useRef<HTMLElement>(null);
@@ -109,7 +109,7 @@ export default function Navigation({ items = [], userItems = [] }: Readonly<Navi
                               onEnter={() => clearLeave()}
                               left={
                                 <div className="hoam-navigation__panel-top-level">
-                                  {item?.items?.map((sub) => {
+                                  {item?.items?.map((sub: NavGroupItem) => {
                                     const open = openGroupId === sub.id;
                                     return (
                                       <CategoryGroup
@@ -124,6 +124,7 @@ export default function Navigation({ items = [], userItems = [] }: Readonly<Navi
                                             parent={sub}
                                             items={sub.items}
                                             open={open}
+                                            layout={sub.layout}
                                           />
                                         ) : null}
                                       </CategoryGroup>

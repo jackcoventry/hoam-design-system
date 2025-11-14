@@ -182,21 +182,25 @@
         "id": "new-arrivals",
         "label": "New Arrivals",
         "href": "/shop/new-arrivals",
+        "layout": "thumbnail",
         "items": [
           {
             "id": "spring-specials",
             "label": "Spring Specials",
-            "href": "/shop/new-arrivals/spring-specials"
+            "href": "/shop/new-arrivals/spring-specials",
+            "thumbnail": "https://placehold.co/600x400"
           },
           {
             "id": "summer-specials",
             "label": "Summer Specials",
-            "href": "/shop/new-arrivals/summer-specials"
+            "href": "/shop/new-arrivals/summer-specials",
+            "thumbnail": "https://placehold.co/600x400"
           },
           {
             "id": "seasonal-drinks",
             "label": "Seasonal Drinks",
-            "href": "/shop/new-arrivals/seasonal-drinks"
+            "href": "/shop/new-arrivals/seasonal-drinks",
+            "thumbnail": "https://placehold.co/600x400"
           }
         ]
       },
@@ -205,6 +209,7 @@
         "id": "best-sellers",
         "label": "Best Sellers",
         "href": "/shop/best-sellers",
+        "layout": "thumbnail",
         "items": [
           {
             "id": "top-coffee",
