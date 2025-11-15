@@ -44,6 +44,7 @@ export function ModalStackProvider({ children }: ModalStackProviderProps) {
     [stack]
   );
 
+  // Centralised scroll lock: lock when at least one modal is open
   useEffect(() => {
     if (stack.length === 0) {
       document.body.style.overflow = prevOverflowRef.current;
@@ -68,18 +69,28 @@ export function ModalStackProvider({ children }: ModalStackProviderProps) {
   return <ModalStackContext.Provider value={value}>{children}</ModalStackContext.Provider>;
 }
 
+/**
+ * Hook for a modal to participate in the global stack
+ * - Registers/unregisters when active; i.e. when isOpen changes
+ * - Returns whether this modal is currently the top-most one
+ * - If no provider is present, falls back to a single modal
+ */
 export function useModalStack(id: string, active: boolean) {
   const ctx = useContext(ModalStackContext);
 
-  useEffect(() => {
-    if (!ctx || !active) return;
-    ctx.register(id);
-    return () => {
-      ctx.unregister(id);
-    };
-  }, [ctx, id, active]);
+  const register = ctx?.register;
+  const unregister = ctx?.unregister;
 
-  const isTopMost = ctx ? ctx.isTop(id) : true;
+  useEffect(() => {
+    if (!ctx || !active || !register || !unregister) return;
+
+    register(id);
+    return () => {
+      unregister(id);
+    };
+  }, [active, id, register, unregister]);
+
+  const isTopMost = ctx?.isTop ? ctx.isTop(id) : true;
 
   return { isTopMost };
 }

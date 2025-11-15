@@ -14,24 +14,15 @@ type Story = StoryObj<typeof Modal>;
 
 const Template: Story = {
   render: () => {
-    const [openA, setOpenA] = useState(false);
-    const [openB, setOpenB] = useState(false);
+    const [open, setOpen] = useState(false);
 
     return (
       <div>
-        <button onClick={() => setOpenA(true)}>Open modal a</button>
+        <button onClick={() => setOpen(true)}>Open modal</button>
         <Modal
-          isOpen={openA}
-          onClose={() => setOpenA(false)}
+          isOpen={open}
+          onClose={() => setOpen(false)}
           title="Test title"
-        >
-          <p>Hello world</p>
-        </Modal>
-        <button onClick={() => setOpenB(true)}>Open modal b</button>
-        <Modal
-          isOpen={openB}
-          onClose={() => setOpenB(false)}
-          title="Test title 2"
         >
           <p>Hello world</p>
         </Modal>

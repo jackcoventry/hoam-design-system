@@ -5,7 +5,20 @@
   align-items: center;
   justify-content: center;
   background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms ease-out;
   z-index: 999;
+}
+
+.hoam-modal__overlay[data-open="true"] {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.hoam-modal__overlay[data-open="false"] {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .hoam-modal__dialog {
@@ -15,6 +28,16 @@
   border-radius: 0.5rem;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
   outline: none;
+  transform: translateY(4px);
+  transition: transform 200ms ease-out;
+}
+
+.hoam-modal__overlay[data-open="true"] .hoam-modal__dialog {
+  transform: translateY(0);
+}
+
+.hoam-modal__overlay[data-open="false"] .hoam-modal__dialog {
+  transform: translateY(4px);
 }
 
 .hoam-modal__header {
@@ -39,4 +62,23 @@
 .hoam-modal__close-button:focus-visible {
   outline: 2px solid currentColor;
   outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hoam-modal__overlay {
+    transition: none !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+
+  .hoam-modal__overlay[data-open="true"],
+  .hoam-modal__overlay[data-open="false"] {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+
+  .hoam-modal__dialog {
+    transition: none !important;
+    transform: none !important;
+  }
 }
