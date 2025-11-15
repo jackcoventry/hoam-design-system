@@ -18,11 +18,12 @@ export default meta;
 type Story = StoryObj<typeof Navigation>;
 
 const Template: Story = {
-  render: () => (
-    <div>
+  render: (args) => (
+    <div style={{ height: '200vh' }}>
       <Navigation
         items={NavigationData}
         userItems={UserNavigationData}
+        variant={args.variant}
       />
     </div>
   ),
@@ -30,7 +31,7 @@ const Template: Story = {
 
 export const Default = { ...Template, args: {} };
 
-export const Transparent = {
+export const Fixed = {
   ...Template,
   parameters: {
     layout: 'fullscreen',
@@ -38,5 +39,7 @@ export const Transparent = {
   globals: {
     backgrounds: { value: 'dark' },
   },
-  args: {},
+  args: {
+    variant: 'fixed',
+  },
 };

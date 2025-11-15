@@ -39,7 +39,7 @@ describe('<Footer />', () => {
 
     const logo = screen.getByRole('img', { name: /hoam logo/i });
     expect(logo).toBeInTheDocument();
-    expect(logo).toHaveAttribute('src', '/logo.svg');
+    expect(logo).toHaveAttribute('src', '/logo.png');
     expect(logo).toHaveClass('hoam-footer__logo');
   });
 

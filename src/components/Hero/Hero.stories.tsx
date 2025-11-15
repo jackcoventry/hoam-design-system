@@ -27,6 +27,7 @@ const Template: Story = {
           text={slide.text}
           theme={slide.theme}
           image={slide.image}
+          video={slide.video}
           button={slide.button}
           position={slide.position}
         />
@@ -40,5 +41,12 @@ export const Single = {
   ...Template,
   args: {
     data: [MockSlides[0]],
+  },
+};
+
+export const Video = {
+  ...Template,
+  args: {
+    data: [MockSlides[3]],
   },
 };

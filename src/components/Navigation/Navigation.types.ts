@@ -14,6 +14,7 @@ export type NavGroupItem = NavItem & {
 export type NavigationProps = {
   items: NavItem[];
   userItems: NavItem[];
+  variant: 'default' | 'fixed';
 };
 
 export const topTriggerId = (id: string) => `trigger-${id}`;

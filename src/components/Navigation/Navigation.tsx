@@ -8,12 +8,16 @@ import TopNavItem from '@/components/Navigation/MainNavigation/TopNavigationItem
 import MobileNavigation from '@/components/Navigation/MobileNavigation/MobileNavigation';
 import { panelId, topTriggerId } from '@/components/Navigation/Navigation.types';
 import { querySubItemVisibility } from '@/components/Navigation/utils/helpers';
-import React, { useMemo, useRef } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import PromoBlock from './MainNavigation/PromoBlock';
 import './Navigation.css';
 import type { NavGroupItem, NavigationProps } from './Navigation.types';
 
-export default function Navigation({ items = [], userItems = [] }: Readonly<NavigationProps>) {
+export default function Navigation({
+  items = [],
+  userItems = [],
+  variant = 'default',
+}: Readonly<NavigationProps>) {
   const rootRef = useRef<HTMLElement>(null);
   const {
     openIndex,
@@ -25,7 +29,8 @@ export default function Navigation({ items = [], userItems = [] }: Readonly<Navi
     handleAllNavigationClose,
     clearLeave,
   } = useMegaNavState();
-
+  const isDefaultVariant = variant === 'default';
+  const isFixedVariant = variant === 'fixed';
   const isRTL = typeof document !== 'undefined' && document.dir === 'rtl';
   const mapArrow = (key: string) =>
     isRTL && (key === 'ArrowLeft' || key === 'ArrowRight')
@@ -59,19 +64,33 @@ export default function Navigation({ items = [], userItems = [] }: Readonly<Navi
     setOpenGroupId(firstId ?? null);
   };
 
+  const LOGO = {
+    DEFAULT: '/logo.png',
+    WHITE: '/logo-white.png',
+  };
+  const [logoSrc, setLogoSrc] = useState<string>(isDefaultVariant ? LOGO.DEFAULT : LOGO.WHITE);
+
   return (
     <>
       <MobileNavigation items={mobileNavigation} />
 
       <header
         ref={rootRef as any}
-        onPointerLeave={() => handleAllNavigationClose()}
-        onPointerEnter={() => clearLeave()}
+        onPointerLeave={() => {
+          handleAllNavigationClose();
+          if (isFixedVariant) setLogoSrc(LOGO.WHITE);
+        }}
+        onPointerEnter={() => {
+          clearLeave();
+          if (isFixedVariant) setLogoSrc(LOGO.DEFAULT);
+        }}
         onKeyDown={(e) => {
           setKeyboarding();
           onKeyDown(e);
         }}
         role="none"
+        data-variant={variant}
+        className="hoam-navigation__root"
       >
         <div className="hoam-navigation">
           <div className="container">
@@ -167,7 +186,7 @@ export default function Navigation({ items = [], userItems = [] }: Readonly<Navi
                     }}
                   >
                     <img
-                      src="/logo.svg"
+                      src={logoSrc}
                       alt="Hoam Logo"
                     />
                   </a>

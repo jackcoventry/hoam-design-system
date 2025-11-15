@@ -50,6 +50,7 @@
   padding: var(--hoam-spacing-7);
   text-align: center;
   width: 100%;
+  z-index: 1;
 
   /* TODO:  maybe use sass to bring in variables here */
   @media (min-width: 1000px) {
@@ -88,6 +89,13 @@
   justify-content: center;
 }
 
+.hoam-hero__video {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .hoam-hero__nav-btn {
   position: absolute;
   /* TODO: tokenize */
@@ -102,7 +110,7 @@
   left: 0;
 }
 
-.hoam__hero-controls {
+.hoam-hero__controls {
   bottom: var(--hoam-spacing-3);
   position: absolute;
   z-index: 100;

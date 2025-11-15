@@ -12,13 +12,15 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 import '@/components/Common/Dots.css';
+import { usePrefersReducedMotion } from '@/utils/usePrefersReducedMotion';
 import './Hero.css';
 
 type HeroSlideProps = {
   title: string;
   subtitle: string;
   text: string;
-  image: string;
+  image?: string;
+  video?: string;
   theme: string;
   position: string;
   button: { url: string; text?: string };
@@ -29,19 +31,37 @@ function HeroSlide({
   subtitle,
   text,
   image,
+  video,
   theme = 'default',
   button,
   position = 'left',
 }: Readonly<HeroSlideProps>) {
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const videoProps = {
+    muted: true,
+    className: 'hoam-hero__video',
+    ...(!prefersReducedMotion && { autoPlay: true, loop: true }),
+  };
+
   return (
     <div
       className="hoam-hero__slide"
       data-position={position}
       data-theme={theme}
-      style={{
-        backgroundImage: `url(${image})`,
-      }}
+      style={
+        image && {
+          backgroundImage: `url(${image})`,
+        }
+      }
     >
+      {video && (
+        <video {...videoProps}>
+          <source
+            src={video}
+            type="video/mp4"
+          />
+        </video>
+      )}
       <div className="hoam-hero__content">
         <p className="hoam-hero__subtitle">{subtitle}</p>
         <h1 className="hoam-hero__title">{title}</h1>
@@ -134,7 +154,7 @@ function HeroSlider({ delay = 2500, effect = 'slide', children }: Readonly<HeroS
         icon="arrow-right"
         iconOnly
       />
-      <div className="hoam__hero-controls">
+      <div className="hoam-hero__controls">
         <div
           ref={pagRef}
           className="hoam-dots"

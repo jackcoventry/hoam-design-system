@@ -20,7 +20,7 @@ function Footer({ topLinks = [], bottomLinks = [] }: Readonly<FooterProps>) {
         <div className="grid">
           <div className="span-12 xl:span-2">
             <img
-              src="/logo.svg"
+              src="/logo.png"
               alt="HOAM logo"
               className="hoam-footer__logo"
             />

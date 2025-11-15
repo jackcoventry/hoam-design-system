@@ -1,11 +1,35 @@
 :root {
   --hoam-navigation-height: 420px;
+  --hoam-link-height: 80px;
 }
 
 .hoam-navigation {
-  background-color: var(--hoam-color-neutral-900);
   display: none;
   height: auto;
+}
+
+.hoam-navigation__root {
+}
+
+[data-variant="default"] {
+  background-color: var(--hoam-color-neutral-900);
+  position: relative;
+  z-index: 1000;
+}
+
+[data-variant="fixed"] {
+  position: sticky;
+  top: 0;
+  z-index: 10000;
+  width: 100%;
+}
+
+[data-variant="fixed"]:hover {
+  background-color: var(--hoam-color-neutral-900);
+}
+
+[data-variant="fixed"] + .hoam-hero {
+  margin-top: calc(var(--hoam-link-height) * -1);
 }
 
 @media (min-width: 1200px) {
@@ -28,7 +52,7 @@
   cursor: pointer;
   display: inline-flex;
   font: var(--hoam-typography-body-1);
-  height: 80px;
+  height: var(--hoam-link-height);
   padding: var(--hoam-spacing-1) var(--hoam-spacing-2);
   text-decoration: none;
 }
@@ -64,6 +88,7 @@
     0 6px 6px rgba(0, 0, 0, 0.23);
   height: var(--hoam-navigation-height);
   left: 0;
+  max-width: 100%;
   position: absolute;
   top: auto;
   width: 100dvw;

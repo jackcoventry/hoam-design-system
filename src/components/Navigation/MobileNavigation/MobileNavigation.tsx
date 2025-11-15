@@ -28,7 +28,7 @@ function MobileNavigation({ items }) {
                   className="hoam-mobile-navigation__logo"
                 >
                   <img
-                    src="/logo.svg"
+                    src="/logo.png"
                     alt="Hoam Logo"
                   />
                 </a>

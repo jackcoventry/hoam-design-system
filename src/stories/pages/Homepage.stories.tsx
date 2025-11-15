@@ -28,7 +28,7 @@ const meta: Meta = {
 
 export default meta;
 
-const HeroData = [MockSlides[0]];
+const HeroData = [MockSlides[3]];
 
 const Template = {
   render: () => {
@@ -38,6 +38,7 @@ const Template = {
         <Navigation
           items={NavigationData}
           userItems={UserNavigationData}
+          variant="default"
         />
 
         <Hero>
@@ -49,6 +50,7 @@ const Template = {
               text={slide.text}
               theme={slide.theme}
               image={slide.image}
+              video={slide.video}
               button={slide.button}
               position={slide.position}
             />

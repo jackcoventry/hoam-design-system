@@ -8,7 +8,7 @@ export default create({
 
   brandTitle: "HOAM",
   brandUrl: "https://hoam.coffee",
-  brandImage: "/logo.svg",
+  brandImage: "/logo.png",
   brandTarget: "_self",
 
   //

@@ -33,5 +33,17 @@
       "text": "Join now"
     },
     "position": "center"
+  },
+  {
+    "title": "Slide 4",
+    "subtitle": "New Arrivals",
+    "text": "Check out our new shop",
+    "video": "/hero/hero.mp4",
+    "theme": "light",
+    "button": {
+      "url": "/",
+      "text": "Read more"
+    },
+    "position": "center"
   }
 ]
