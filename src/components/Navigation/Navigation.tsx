@@ -137,7 +137,7 @@ export default function Navigation({ items = [], userItems = [] }: Readonly<Navi
                                   className="hoam-navigation__panel-promo"
                                   aria-label={`${item.label} highlights`}
                                 >
-                                  Some other promo stuff
+                                  {`${item.label} highlights`}
                                 </aside>
                               }
                             />

@@ -188,19 +188,19 @@
             "id": "spring-specials",
             "label": "Spring Specials",
             "href": "/shop/new-arrivals/spring-specials",
-            "thumbnail": "https://placehold.co/600x400"
+            "thumbnail": "https://placehold.co/600x300"
           },
           {
             "id": "summer-specials",
             "label": "Summer Specials",
             "href": "/shop/new-arrivals/summer-specials",
-            "thumbnail": "https://placehold.co/600x400"
+            "thumbnail": "https://placehold.co/600x300"
           },
           {
             "id": "seasonal-drinks",
             "label": "Seasonal Drinks",
             "href": "/shop/new-arrivals/seasonal-drinks",
-            "thumbnail": "https://placehold.co/600x400"
+            "thumbnail": "https://placehold.co/600x300"
           }
         ]
       },
@@ -214,22 +214,26 @@
           {
             "id": "top-coffee",
             "label": "Top Coffee",
-            "href": "/shop/best-sellers/top-coffee"
+            "href": "/shop/best-sellers/top-coffee",
+            "thumbnail": "https://placehold.co/600x300"
           },
           {
             "id": "top-equipment",
             "label": "Top Equipment",
-            "href": "/shop/best-sellers/top-equipment"
+            "href": "/shop/best-sellers/top-equipment",
+            "thumbnail": "https://placehold.co/600x300"
           },
           {
             "id": "top-gifts",
             "label": "Top Gifts",
-            "href": "/shop/best-sellers/top-gifts"
+            "href": "/shop/best-sellers/top-gifts",
+            "thumbnail": "https://placehold.co/600x300"
           },
           {
             "id": "top-merch",
             "label": "Top Merchandise",
-            "href": "/shop/best-sellers/top-merch"
+            "href": "/shop/best-sellers/top-merch",
+            "thumbnail": "https://placehold.co/600x300"
           }
         ]
       }

@@ -1,3 +1,7 @@
+:root {
+  --hoam-navigation-height: 420px;
+}
+
 .hoam-navigation {
   background-color: var(--hoam-color-neutral-900);
   display: none;
@@ -58,7 +62,7 @@
   box-shadow:
     0 10px 20px rgba(0, 0, 0, 0.19),
     0 6px 6px rgba(0, 0, 0, 0.23);
-  height: 420px;
+  height: var(--hoam-navigation-height);
   left: 0;
   position: absolute;
   top: auto;
@@ -66,15 +70,15 @@
 }
 
 .hoam-navigation__panel-top-level {
-  height: 420px;
-  padding: var(--hoam-spacing-4);
+  height: var(--hoam-navigation-height);
+  padding: var(--hoam-spacing-4) 0;
   position: relative;
   width: 30%;
 }
 
 .hoam-navigation__panel-sub-level {
   background-color: var(--hoam-color-moon-200);
-  height: 420px;
+  height: var(--hoam-navigation-height);
   left: 100%;
   overflow: auto;
   padding: var(--hoam-spacing-4);
@@ -122,7 +126,16 @@
   break-inside: avoid;
   display: flex;
   flex-direction: column;
-  margin-bottom: 40px;
+}
+
+.hoam-navigation__panel-group-section {
+  margin-bottom: var(--hoam-spacing-4);
+}
+
+.hoam-navigation__panel-sub-level[data-layout="thumbnail"] .hoam-navigation__panel-group-header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hoam-spacing-2);
 }
 
 .hoam-navigation__panel-group-section a[data-sub-link] {

@@ -18,45 +18,106 @@ function ThirdLevelItems({ parent, items, open, layout = 'list' }: Readonly<Thir
       data-layout={layout}
     >
       <div className="hoam-navigation__panel-group">
-        <div className="hoam-navigation__panel-group-section">
-          {parent.href && (
-            <a
-              href={parent.href}
-              data-sub-link
-              className="hoam-navigation__panel-group-header"
-            >
-              View {parent.label}
-            </a>
-          )}
-        </div>
-
-        {items.map((i) => (
-          <div
-            key={i.id}
-            className="hoam-navigation__panel-group-section"
-          >
-            <a
-              href={i.href}
-              data-sub-link
-              tabIndex={open ? 0 : -1}
-              className="hoam-navigation__panel-group-header"
-            >
-              {layout === 'thumbnail' && <img src={i.thumbnail} />}
-
-              {i.label}
-            </a>
-
-            {i.items?.map((child) => (
-              <a
-                href={child.href}
-                key={child.id}
-                data-sub-link
-              >
-                {child.label}
-              </a>
-            ))}
+        {/* The section title shouldn't wrap with the thumbnail variant  */}
+        {layout === 'thumbnail' ? (
+          <div className="container-fluid">
+            <div className="grid">
+              <div className="span-12">
+                <div className="hoam-navigation__panel-group-section">
+                  {parent.href && (
+                    <a
+                      href={parent.href}
+                      data-sub-link
+                      className="hoam-navigation__panel-group-header"
+                    >
+                      {parent.label}
+                    </a>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
-        ))}
+        ) : (
+          <div className="hoam-navigation__panel-group-section">
+            {parent.href && (
+              <a
+                href={parent.href}
+                data-sub-link
+                className="hoam-navigation__panel-group-header"
+              >
+                {parent.label}
+              </a>
+            )}
+          </div>
+        )}
+
+        {/* The thumbnail variant needs to have grid layout */}
+        {layout === 'thumbnail' ? (
+          <div className="container-fluid">
+            <div className="grid">
+              {items.map((i) => (
+                <div
+                  className="span-12 md:span-4"
+                  key={i.id}
+                >
+                  <div className="hoam-navigation__panel-group-section">
+                    <a
+                      href={i.href}
+                      data-sub-link
+                      tabIndex={open ? 0 : -1}
+                      className="hoam-navigation__panel-group-header"
+                    >
+                      {layout === 'thumbnail' && (
+                        <img
+                          src={i.thumbnail}
+                          alt={i.label}
+                        />
+                      )}
+
+                      {i.label}
+                    </a>
+
+                    {i.items?.map((child) => (
+                      <a
+                        href={child.href}
+                        key={child.id}
+                        data-sub-link
+                      >
+                        {child.label}
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          items.map((i) => (
+            <div
+              key={i.id}
+              className="hoam-navigation__panel-group-section"
+            >
+              <a
+                href={i.href}
+                data-sub-link
+                tabIndex={open ? 0 : -1}
+                className="hoam-navigation__panel-group-header"
+              >
+                {i.label}
+              </a>
+
+              {i.items?.map((child) => (
+                <a
+                  href={child.href}
+                  key={child.id}
+                  data-sub-link
+                >
+                  {child.label}
+                </a>
+              ))}
+            </div>
+          ))
+        )}
       </div>
     </div>
   );
