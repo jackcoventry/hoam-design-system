@@ -1,3 +1,4 @@
+import FOCUSABLE_SELECTORS from '@/constants/focusable-selectors';
 import { useEffect, useRef } from 'react';
 
 type UseFocusTrapOptions = {
@@ -7,18 +8,7 @@ type UseFocusTrapOptions = {
 };
 
 function getFocusableElements(root: HTMLElement): HTMLElement[] {
-  const selector = [
-    'a[href]',
-    'area[href]',
-    'button:not([disabled])',
-    'input:not([disabled]):not([type="hidden"])',
-    'select:not([disabled])',
-    'textarea:not([disabled])',
-    'summary',
-    'details',
-    '[tabindex]:not([tabindex="-1"])',
-  ].join(',');
-  const nodes = Array.from(root.querySelectorAll<HTMLElement>(selector));
+  const nodes = Array.from(root.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTORS));
   // Only visible, actually focusable
   return nodes.filter(
     (el) =>
