@@ -25,9 +25,18 @@ type ModalProps = {
   showTitle?: boolean;
   /** Optional id for testing - might not need eventually */
   id?: string;
+  variant?: 'modal' | 'drawer';
 };
 
-function Modal({ isOpen, onClose, children, title, showTitle = true, id }: ModalProps) {
+function Modal({
+  isOpen,
+  onClose,
+  children,
+  title,
+  showTitle = true,
+  id,
+  variant = 'modal',
+}: ModalProps) {
   const dialogRef = useRef<HTMLDivElement | null>(null);
   const lastFocusedRef = useRef<HTMLElement | null>(null);
 
@@ -146,6 +155,7 @@ function Modal({ isOpen, onClose, children, title, showTitle = true, id }: Modal
       id={id}
       className="hoam-modal__overlay"
       data-open={isVisible ? 'true' : 'false'}
+      data-variant={variant}
       onClick={handleOverlayClick}
       role="none"
     >
