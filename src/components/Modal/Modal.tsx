@@ -1,6 +1,7 @@
 import FOCUSABLE_SELECTORS from '@/constants/focusable-selectors';
 import React, { KeyboardEvent, ReactNode, useCallback, useEffect, useId, useRef } from 'react';
 import { createPortal } from 'react-dom';
+import './Modal.css';
 import { useModalStack } from './ModalStackContext';
 
 type ModalProps = {
@@ -83,7 +84,7 @@ function Modal({ isOpen, onClose, children, title, showTitle = true, id }: Modal
 
       const currentIndex = items.indexOf(document.activeElement as HTMLElement);
       const lastIndex = items.length - 1;
-      let nextIndex = currentIndex;
+      let nextIndex;
 
       if (e.shiftKey) {
         nextIndex = currentIndex <= 0 ? lastIndex : currentIndex - 1;

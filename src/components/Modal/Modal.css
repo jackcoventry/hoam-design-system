@@ -1,0 +1,42 @@
+.hoam-modal__overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.hoam-modal__dialog {
+  background: #fff;
+  max-width: 600px;
+  width: 100%;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  outline: none;
+}
+
+.hoam-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.hoam-modal__body {
+  padding: 1.25rem;
+}
+
+.hoam-modal__close-button {
+  border: none;
+  background: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+.hoam-modal__close-button:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
