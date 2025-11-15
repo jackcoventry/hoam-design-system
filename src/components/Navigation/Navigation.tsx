@@ -9,6 +9,7 @@ import MobileNavigation from '@/components/Navigation/MobileNavigation/MobileNav
 import { panelId, topTriggerId } from '@/components/Navigation/Navigation.types';
 import { querySubItemVisibility } from '@/components/Navigation/utils/helpers';
 import React, { useMemo, useRef } from 'react';
+import PromoBlock from './MainNavigation/PromoBlock';
 import './Navigation.css';
 import type { NavGroupItem, NavigationProps } from './Navigation.types';
 
@@ -137,7 +138,12 @@ export default function Navigation({ items = [], userItems = [] }: Readonly<Navi
                                   className="hoam-navigation__panel-promo"
                                   aria-label={`${item.label} highlights`}
                                 >
-                                  {`${item.label} highlights`}
+                                  <PromoBlock
+                                    title={item.label}
+                                    subtitle="Explore"
+                                    image={item.thumbnail}
+                                    href={`/explore/${item.id}`}
+                                  />
                                 </aside>
                               }
                             />

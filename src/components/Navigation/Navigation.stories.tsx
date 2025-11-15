@@ -29,3 +29,14 @@ const Template: Story = {
 };
 
 export const Default = { ...Template, args: {} };
+
+export const Transparent = {
+  ...Template,
+  parameters: {
+    layout: 'fullscreen',
+  },
+  globals: {
+    backgrounds: { value: 'dark' },
+  },
+  args: {},
+};

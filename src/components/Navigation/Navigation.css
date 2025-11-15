@@ -161,3 +161,22 @@ a.hoam-navigation__panel-group-header[data-sub-link] {
     transition: none !important;
   }
 }
+
+.hoam-navigation-promo {
+  background-position: center;
+  background-size: cover;
+  color: var(--hoam-color-neutral-900);
+  display: block;
+  height: 100%;
+  padding: var(--hoam-spacing-4);
+  text-decoration: none;
+}
+
+.hoam-navigation-promo__subtitle {
+  font: var(--hoam-typography-label-2);
+  text-transform: uppercase;
+}
+
+.hoam-navigation-promo__title {
+  font: var(--hoam-typography-title-2);
+}
