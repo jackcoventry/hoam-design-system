@@ -1,61 +1,100 @@
-.hoam-modal__overlay {
-  position: fixed;
-  inset: 0;
+.hoam-modal {
+  background: rgba(0, 0, 0, 0.3);
   display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0, 0, 0, 0.5);
+  inset: 0;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 200ms ease-out;
+  position: fixed;
   z-index: 999;
 }
 
-.hoam-modal__overlay[data-open="true"] {
+.hoam-modal[data-variant="modal"] {
+  align-items: center;
+  justify-content: center;
+  transition: opacity 200ms ease-out;
+}
+
+.hoam-modal[data-open="true"] {
   opacity: 1;
   pointer-events: auto;
 }
 
-.hoam-modal__overlay[data-open="false"] {
+.hoam-modal[data-open="false"] {
   opacity: 0;
   pointer-events: none;
 }
 
-.hoam-modal__dialog {
-  background: #fff;
-  max-width: 600px;
+.hoam-modal[data-variant="drawer"] {
+  align-items: start;
+  justify-content: end;
+  transition: opacity 200ms ease-out;
   width: 100%;
-  border-radius: 0.5rem;
+}
+
+.hoam-modal__dialog {
+  background: var(--hoam-color-neutral-900);
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
   outline: none;
+  width: 100%;
+}
+
+.hoam-modal[data-variant="modal"] .hoam-modal__dialog {
+  border-radius: 5px;
+  max-width: 600px;
   transform: translateY(4px);
   transition: transform 200ms ease-out;
 }
 
-.hoam-modal__overlay[data-open="true"] .hoam-modal__dialog {
+.hoam-modal[data-open="true"][data-variant="modal"] .hoam-modal__dialog {
   transform: translateY(0);
 }
 
-.hoam-modal__overlay[data-open="false"] .hoam-modal__dialog {
+.hoam-modal[data-open="false"][data-variant="modal"] .hoam-modal__dialog {
   transform: translateY(4px);
 }
 
+.hoam-modal[data-variant="drawer"] .hoam-modal__dialog {
+  height: 100%;
+  max-width: 350px;
+  transform: translateX(150%);
+  transition: transform 200ms ease-out;
+  display: grid;
+  grid-template-rows: 100px 1fr;
+}
+
+.hoam-modal[data-open="true"][data-variant="drawer"] .hoam-modal__dialog {
+  transform: translateX(0%);
+}
+
+.hoam-modal[data-open="false"][data-variant="drawer"] .hoam-modal__dialog {
+  transform: translateX(150%);
+}
+
+.hoam-modal[data-variant="drawer"] .hoam-modal__body {
+  overflow-y: auto;
+}
+
 .hoam-modal__header {
-  display: flex;
   align-items: center;
+  display: flex;
+}
+
+.hoam-modal__header[data-title-visible="false"] {
+  justify-content: end;
+  padding: var(--hoam-spacing-5) var(--hoam-spacing-5) 0 var(--hoam-spacing-5);
+}
+
+.hoam-modal__header[data-title-visible="true"] {
+  border-bottom: 1px solid var(--hoam-color-moon-300);
   justify-content: space-between;
-  padding: 1rem 1.25rem;
-  border-bottom: 1px solid #e5e5e5;
+  padding: var(--hoam-spacing-5);
 }
 
 .hoam-modal__body {
-  padding: 1.25rem;
+  padding: var(--hoam-spacing-5);
 }
 
 .hoam-modal__close-button {
-  border: none;
-  background: none;
-  font-size: 1.25rem;
   cursor: pointer;
 }
 
@@ -65,14 +104,14 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hoam-modal__overlay {
+  .hoam-modal {
     transition: none !important;
     opacity: 1 !important;
     pointer-events: auto !important;
   }
 
-  .hoam-modal__overlay[data-open="true"],
-  .hoam-modal__overlay[data-open="false"] {
+  .hoam-modal[data-open="true"],
+  .hoam-modal[data-open="false"] {
     opacity: 1 !important;
     pointer-events: auto !important;
   }

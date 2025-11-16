@@ -13,7 +13,7 @@ export default meta;
 type Story = StoryObj<typeof Modal>;
 
 const Template: Story = {
-  render: () => {
+  render: (props) => {
     const [open, setOpen] = useState(false);
 
     return (
@@ -23,6 +23,8 @@ const Template: Story = {
           isOpen={open}
           onClose={() => setOpen(false)}
           title="Test title"
+          showTitle={props.showTitle}
+          variant={props.variant}
         >
           <p>Hello world</p>
         </Modal>
@@ -32,3 +34,15 @@ const Template: Story = {
 };
 
 export const Default = { ...Template, args: {} };
+export const NoTitle = {
+  ...Template,
+  args: {
+    showTitle: false,
+  },
+};
+export const Drawer = {
+  ...Template,
+  args: {
+    variant: 'drawer',
+  },
+};

@@ -1,16 +1,11 @@
+import { Button } from '@/components/Button/Button';
 import FOCUSABLE_SELECTORS from '@/constants/focusable-selectors';
-import React, {
-  KeyboardEvent,
-  ReactNode,
-  useCallback,
-  useEffect,
-  useId,
-  useRef,
-  useState,
-} from 'react';
+import React, { KeyboardEvent, ReactNode, useCallback, useEffect, useId, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import './Modal.css';
 import { useModalStack } from './ModalStackContext';
+
+type ModalVariant = 'modal' | 'drawer';
 
 type ModalProps = {
   isOpen: boolean;
@@ -23,9 +18,9 @@ type ModalProps = {
    */
   title: string;
   showTitle?: boolean;
-  /** Optional id for testing - might not need eventually */
+  /** Optional id for testing */
   id?: string;
-  variant?: 'modal' | 'drawer';
+  variant?: ModalVariant;
 };
 
 function Modal({
@@ -45,31 +40,6 @@ function Modal({
 
   const { isTopMost } = useModalStack(instanceId, isOpen);
 
-  const [hasOpened, setHasOpened] = useState(isOpen);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    if (isOpen) {
-      if (!hasOpened) {
-        setHasOpened(true);
-        setIsVisible(false);
-
-        const openTimeout = setTimeout(() => {
-          setIsVisible(true);
-        }, 0);
-
-        return () => {
-          clearTimeout(openTimeout);
-        };
-      }
-
-      setIsVisible(true);
-      return;
-    }
-
-    setIsVisible(false);
-  }, [isOpen, hasOpened]);
-
   const getFocusableElements = useCallback((): HTMLElement[] => {
     if (!dialogRef.current) return [];
     return Array.from(dialogRef.current.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTORS)).filter(
@@ -86,6 +56,7 @@ function Modal({
     }
   }, [getFocusableElements]);
 
+  // Move focus into the dialog when it opens and is top-most
   useEffect(() => {
     if (!isOpen || !isTopMost) return;
 
@@ -98,7 +69,7 @@ function Modal({
     return () => cancelAnimationFrame(raf);
   }, [isOpen, isTopMost, focusFirstElement]);
 
-  // When closed, restore focus to the previously focused element
+  // Restore focus when closed
   useEffect(() => {
     if (!isOpen && lastFocusedRef.current) {
       lastFocusedRef.current.focus();
@@ -143,19 +114,18 @@ function Modal({
     }
   };
 
-  // Don't render anything until it's been opened at least once
-  if (!hasOpened) return null;
   if (typeof document === 'undefined') return null; // SSR / tests safety
 
   const ariaLabel = showTitle ? undefined : title;
   const ariaLabelledBy = showTitle ? titleId : undefined;
+  const variantAttr = variant ?? 'modal';
 
   return createPortal(
     <div
       id={id}
-      className="hoam-modal__overlay"
-      data-open={isVisible ? 'true' : 'false'}
-      data-variant={variant}
+      className="hoam-modal"
+      data-open={isOpen ? 'true' : 'false'}
+      data-variant={variantAttr}
       onClick={handleOverlayClick}
       role="none"
     >
@@ -170,17 +140,19 @@ function Modal({
         tabIndex={-1}
         onKeyDown={handleKeyDown}
       >
-        <header className="hoam-modal__header">
+        <header
+          className="hoam-modal__header"
+          data-title-visible={showTitle}
+        >
           {showTitle && <h2 id={titleId}>{title}</h2>}
 
-          <button
-            type="button"
+          <Button
             onClick={onClose}
             aria-label="Close dialog"
             className="hoam-modal__close-button"
-          >
-            X
-          </button>
+            iconOnly
+            icon="close"
+          />
         </header>
 
         <div className="hoam-modal__body">{children}</div>
