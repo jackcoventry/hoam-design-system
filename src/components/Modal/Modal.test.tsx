@@ -1,3 +1,4 @@
+// Modal.test.tsx
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -11,31 +12,64 @@ function renderWithProvider(ui: React.ReactElement) {
   return render(<ModalStackProvider>{ui}</ModalStackProvider>);
 }
 
-describe('Modal', () => {
-  it('does not render anything before first open when isOpen is false', () => {
-    const { queryByRole } = renderWithProvider(
+describe('Modal (compound API)', () => {
+  it('does not expose the dialog when closed', () => {
+    renderWithProvider(
       <Modal
         isOpen={false}
-        title="My modal"
+        ariaLabel="My modal"
       >
-        <button>Inside</button>
+        <Modal.Header>
+          <Modal.Title>My modal</Modal.Title>
+          <Modal.CloseButton />
+        </Modal.Header>
+        <Modal.Body>
+          <button>Inside</button>
+        </Modal.Body>
       </Modal>
     );
 
-    expect(queryByRole('dialog')).not.toBeInTheDocument();
+    // Role-based queries should respect aria-hidden="true"
+    const dialog = screen.queryByRole('dialog', { name: /my modal/i });
+    expect(dialog).not.toBeInTheDocument();
   });
 
-  it('renders a dialog with the correct accessible name when open', () => {
+  it('renders a dialog with correct accessible name from <Modal.Title>', () => {
     renderWithProvider(
       <Modal
         isOpen
-        title="My modal"
+        ariaLabel={undefined}
       >
-        <button>Inside</button>
+        <Modal.Header>
+          <Modal.Title>My modal title</Modal.Title>
+          <Modal.CloseButton />
+        </Modal.Header>
+        <Modal.Body>
+          <button>Inside</button>
+        </Modal.Body>
       </Modal>
     );
 
-    const dialog = screen.getByRole('dialog', { name: 'My modal' });
+    const dialog = screen.getByRole('dialog', { name: 'My modal title' });
+    expect(dialog).toBeInTheDocument();
+  });
+
+  it('falls back to ariaLabel when no <Modal.Title> is used', () => {
+    renderWithProvider(
+      <Modal
+        isOpen
+        ariaLabel="Aria label only"
+      >
+        <Modal.Header>
+          <Modal.CloseButton />
+        </Modal.Header>
+        <Modal.Body>
+          <button>Inside</button>
+        </Modal.Body>
+      </Modal>
+    );
+
+    const dialog = screen.getByRole('dialog', { name: 'Aria label only' });
     expect(dialog).toBeInTheDocument();
   });
 
@@ -45,10 +79,16 @@ describe('Modal', () => {
     renderWithProvider(
       <Modal
         isOpen
-        title="My modal"
         onClose={onClose}
+        ariaLabel="My modal"
       >
-        <button>Inside</button>
+        <Modal.Header>
+          <Modal.Title>My modal</Modal.Title>
+          <Modal.CloseButton />
+        </Modal.Header>
+        <Modal.Body>
+          <button>Inside</button>
+        </Modal.Body>
       </Modal>
     );
 
@@ -59,36 +99,45 @@ describe('Modal', () => {
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 
-  it('calls onClose when clicking on the overlay (but not on the dialog itself)', async () => {
+  it('calls onClose when clicking on the overlay, but not when clicking inside the dialog', async () => {
+    const user = userEvent.setup();
     const onClose = vi.fn();
 
-    renderWithProvider(
+    const { container } = renderWithProvider(
       <Modal
         isOpen
-        title="My modal"
         onClose={onClose}
+        ariaLabel="My modal"
       >
-        <button>Inside</button>
+        <Modal.Header>
+          <Modal.Title>My modal</Modal.Title>
+          <Modal.CloseButton />
+        </Modal.Header>
+        <Modal.Body>
+          <button>Inside</button>
+        </Modal.Body>
       </Modal>
     );
 
-    const overlay = screen.getByRole('none'); // the outer overlay div
     const dialog = screen.getByRole('dialog', { name: 'My modal' });
+    const overlay = container.querySelector('.hoam-modal__overlay');
+    expect(overlay).not.toBeNull();
 
-    // Click inside the dialog: should NOT close
-    await userEvent.click(dialog);
+    // Click inside the dialog: SHOULD NOT close
+    await user.click(dialog);
     expect(onClose).not.toHaveBeenCalled();
 
     // Click on the overlay background: SHOULD close
-    await userEvent.click(overlay);
+    await user.click(overlay as HTMLElement);
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 
-  it('moves focus into the dialog when opened and restores focus to trigger when closed', async () => {
+  it('moves focus into the dialog on open and restores it to the trigger on close', async () => {
     const user = userEvent.setup();
 
     function Harness() {
       const [open, setOpen] = useState(false);
+
       return (
         <>
           <button
@@ -97,13 +146,20 @@ describe('Modal', () => {
           >
             Open modal
           </button>
+
           <Modal
             isOpen={open}
             onClose={() => setOpen(false)}
-            title="My modal"
+            ariaLabel="My modal"
           >
-            <button>First focusable</button>
-            <button>Second focusable</button>
+            <Modal.Header>
+              <Modal.Title>My modal</Modal.Title>
+              <Modal.CloseButton />
+            </Modal.Header>
+            <Modal.Body>
+              <button>First focusable</button>
+              <button>Second focusable</button>
+            </Modal.Body>
           </Modal>
         </>
       );
@@ -113,10 +169,11 @@ describe('Modal', () => {
 
     const openButton = screen.getByRole('button', { name: /open modal/i });
 
-    // Focus the trigger and open the modal
+    // Focus the trigger first
     openButton.focus();
     expect(openButton).toHaveFocus();
 
+    // Open the modal
     await user.click(openButton);
 
     const firstFocusable = await screen.findByRole('button', {
@@ -124,24 +181,58 @@ describe('Modal', () => {
     });
     expect(firstFocusable).toHaveFocus();
 
-    // Press Escape to close; focus should return to trigger
+    // Press Escape to close
     await user.keyboard('{Escape}');
     expect(openButton).toHaveFocus();
   });
 
-  it('accepts variant="drawer" without breaking basic behaviour', () => {
-    // This test just ensures the prop is accepted and the dialog renders.
-    renderWithProvider(
+  it('supports the "drawer" variant and sets data-variant correctly', () => {
+    const { container } = renderWithProvider(
       <Modal
         isOpen
-        title="Drawer title"
         variant="drawer"
+        ariaLabel="Drawer title"
       >
-        <button>Inside</button>
+        <Modal.Header>
+          <Modal.Title>Drawer title</Modal.Title>
+          <Modal.CloseButton />
+        </Modal.Header>
+        <Modal.Body>
+          <button>Inside</button>
+        </Modal.Body>
       </Modal>
     );
 
+    const overlay = container.querySelector('.hoam-modal__overlay');
+    expect(overlay).toHaveAttribute('data-variant', 'drawer');
+
     const dialog = screen.getByRole('dialog', { name: 'Drawer title' });
     expect(dialog).toBeInTheDocument();
+  });
+
+  it('Modal.CloseButton uses context to call close()', async () => {
+    const user = userEvent.setup();
+    const onClose = vi.fn();
+
+    renderWithProvider(
+      <Modal
+        isOpen
+        onClose={onClose}
+        ariaLabel="My modal"
+      >
+        <Modal.Header>
+          <Modal.Title>My modal</Modal.Title>
+          <Modal.CloseButton />
+        </Modal.Header>
+        <Modal.Body>
+          <button>Inside</button>
+        </Modal.Body>
+      </Modal>
+    );
+
+    const closeButton = screen.getByRole('button', { name: 'Close dialog' });
+
+    await user.click(closeButton);
+    expect(onClose).toHaveBeenCalledTimes(1);
   });
 });

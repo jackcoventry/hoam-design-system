@@ -76,17 +76,9 @@
 
 .hoam-modal__header {
   align-items: center;
+  border-bottom: 1px solid var(--hoam-color-moon-300);
   display: flex;
   gap: var(--hoam-spacing-5);
-}
-
-.hoam-modal__header[data-title-visible="false"] {
-  justify-content: end;
-  padding: var(--hoam-spacing-5) var(--hoam-spacing-5) 0 var(--hoam-spacing-5);
-}
-
-.hoam-modal__header[data-title-visible="true"] {
-  border-bottom: 1px solid var(--hoam-color-moon-300);
   justify-content: space-between;
   padding: var(--hoam-spacing-5);
 }
@@ -97,6 +89,10 @@
 
 .hoam-modal__close-button {
   cursor: pointer;
+}
+
+.hoam-modal__close-button:only-child {
+  margin-left: auto;
 }
 
 .hoam-modal__close-button:focus-visible {

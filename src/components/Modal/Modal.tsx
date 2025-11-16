@@ -1,40 +1,54 @@
-import { Button } from '@/components/Button/Button';
 import FOCUSABLE_SELECTORS from '@/constants/focusable-selectors';
-import React, { KeyboardEvent, ReactNode, useCallback, useEffect, useId, useRef } from 'react';
+import React, {
+  KeyboardEvent,
+  ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useId,
+  useRef,
+} from 'react';
 import { createPortal } from 'react-dom';
 import './Modal.css';
 import { useModalStack } from './ModalStackContext';
 
 type ModalVariant = 'modal' | 'drawer';
-type ModalHeaderProps = {};
 
-type ModalProps = {
+type ModalContextValue = {
+  titleId: string;
+  close: () => void;
+};
+
+const ModalContext = React.createContext<ModalContextValue | null>(null);
+
+function useModalContext(componentName: string): ModalContextValue {
+  const ctx = useContext(ModalContext);
+  if (!ctx) {
+    throw new Error(`${componentName} must be used within <Modal>`);
+  }
+  return ctx;
+}
+
+type ModalRootProps = {
   isOpen: boolean;
   onClose?: () => void;
   children: ReactNode;
   /**
-   * Required. The accessible name for the modal.
-   * - If showTitle=true: visible <h2>, aria-labelledby used
-   * - If showTitle=false: hidden title, aria-label used
+   * Optional accessible name fallback when no <Modal.Title> is used.
    */
-  title: string;
-  showTitle?: boolean;
-  /** Optional id for testing */
+  ariaLabel?: string;
   id?: string;
   variant?: ModalVariant;
-  header?: ReactNode;
 };
 
-function Modal({
+function ModalRoot({
   isOpen,
   onClose,
   children,
-  title,
-  showTitle = true,
+  ariaLabel,
   id,
   variant = 'modal',
-  header,
-}: ModalProps) {
+}: ModalRootProps) {
   const dialogRef = useRef<HTMLDivElement | null>(null);
   const lastFocusedRef = useRef<HTMLElement | null>(null);
 
@@ -119,9 +133,14 @@ function Modal({
 
   if (typeof document === 'undefined') return null; // SSR / tests safety
 
-  const ariaLabelledBy = showTitle ? titleId : undefined;
-  const ariaLabel = ariaLabelledBy && !header ? undefined : title;
+  const close = () => onClose?.();
   const variantAttr = variant ?? 'modal';
+  const contextValue: ModalContextValue = {
+    titleId,
+    close,
+  };
+
+  const ariaLabelledBy = ariaLabel ? undefined : titleId;
 
   return createPortal(
     <div
@@ -143,43 +162,66 @@ function Modal({
         tabIndex={-1}
         onKeyDown={handleKeyDown}
       >
-        {header ? (
-          <header
-            className="hoam-modal__header"
-            data-title-visible={showTitle}
-          >
-            {header}
-
-            <Button
-              onClick={onClose}
-              aria-label="Close dialog"
-              className="hoam-modal__close-button"
-              iconOnly
-              icon="close"
-            />
-          </header>
-        ) : (
-          <header
-            className="hoam-modal__header"
-            data-title-visible={showTitle}
-          >
-            {showTitle && <h2 id={titleId}>{title}</h2>}
-
-            <Button
-              onClick={onClose}
-              aria-label="Close dialog"
-              className="hoam-modal__close-button"
-              iconOnly
-              icon="close"
-            />
-          </header>
-        )}
-
-        <div className="hoam-modal__body">{children}</div>
+        <ModalContext.Provider value={contextValue}>{children}</ModalContext.Provider>
       </div>
     </div>,
     document.body
   );
 }
 
+/**
+ * <Modal.Header> — structural wrapper for the header area
+ */
+function ModalHeader({ children }: { children: ReactNode }) {
+  return <header className="hoam-modal__header">{children}</header>;
+}
+
+/**
+ * <Modal.Title> — accessible title, wires up aria-labelledby via titleId
+ */
+function ModalTitle({ children }: { children: ReactNode }) {
+  const { titleId } = useModalContext('Modal.Title');
+  return <h2 id={titleId}>{children}</h2>;
+}
+
+/**
+ * <Modal.CloseButton> — standardised close button hooked into Modal.close()
+ */
+type ModalCloseButtonProps = {
+  ariaLabel?: string;
+};
+
+function ModalCloseButton({ ariaLabel = 'Close dialog' }: ModalCloseButtonProps) {
+  const { close } = useModalContext('Modal.CloseButton');
+  return (
+    <button
+      type="button"
+      onClick={close}
+      aria-label={ariaLabel}
+      className="hoam-modal__close-button"
+    >
+      X
+    </button>
+  );
+}
+
+/**
+ * <Modal.Body> — content area
+ */
+function ModalBody({ children }: { children: ReactNode }) {
+  return <div className="hoam-modal__body">{children}</div>;
+}
+
+/**
+ * Compound export:
+ *   <Modal.Root> with <Modal.Header>, <Modal.Title>, <Modal.CloseButton>, <Modal.Body>
+ */
+const Modal = Object.assign(ModalRoot, {
+  Header: ModalHeader,
+  Title: ModalTitle,
+  CloseButton: ModalCloseButton,
+  Body: ModalBody,
+});
+
 export default Modal;
+export { ModalBody, ModalCloseButton, ModalHeader, ModalRoot, ModalTitle };

@@ -22,19 +22,25 @@ const Template: Story = {
         <Modal
           isOpen={open}
           onClose={() => setOpen(false)}
-          title="Test title"
-          showTitle={props.showTitle}
+          ariaLabel="My simple modal"
           variant={props.variant}
         >
-          <p>Hello world</p>
+          <Modal.Header>
+            <Modal.Title>My simple modal</Modal.Title>
+            <Modal.CloseButton />
+          </Modal.Header>
+
+          <Modal.Body>
+            <p>Hello from the modal</p>
+          </Modal.Body>
         </Modal>
       </div>
     );
   },
 };
 
-const TemplateForCustomHeader: Story = {
-  render: (props) => {
+const TemplateNoTitle: Story = {
+  render: () => {
     const [open, setOpen] = useState(false);
 
     return (
@@ -43,12 +49,50 @@ const TemplateForCustomHeader: Story = {
         <Modal
           isOpen={open}
           onClose={() => setOpen(false)}
-          title="Test title"
-          showTitle={props.showTitle}
-          variant={props.variant}
-          header={<div>Heyyy</div>}
+          ariaLabel="My simple modal"
         >
-          <p>Hello world</p>
+          <Modal.Header>
+            <Modal.CloseButton />
+          </Modal.Header>
+
+          <Modal.Body>
+            <p>Hello from the modal</p>
+          </Modal.Body>
+        </Modal>
+      </div>
+    );
+  },
+};
+
+const TemplateForCustomHeader: Story = {
+  render: () => {
+    const [open, setOpen] = useState(false);
+    const confirmDelete = () => {};
+    return (
+      <div>
+        <button onClick={() => setOpen(true)}>Open modal</button>
+        <Modal
+          isOpen={open}
+          onClose={() => setOpen(false)}
+          variant="modal"
+        >
+          <Modal.Header>
+            <Modal.Title>
+              Delete <strong>“My Project”</strong>?
+            </Modal.Title>
+
+            <Modal.CloseButton ariaLabel="Close delete confirmation" />
+          </Modal.Header>
+
+          <Modal.Body>
+            <p>This action cannot be undone.</p>
+            <button
+              type="button"
+              onClick={confirmDelete}
+            >
+              Delete project
+            </button>
+          </Modal.Body>
         </Modal>
       </div>
     );
@@ -57,7 +101,7 @@ const TemplateForCustomHeader: Story = {
 
 export const Default = { ...Template, args: {} };
 export const NoTitle = {
-  ...Template,
+  ...TemplateNoTitle,
   args: {
     showTitle: false,
   },
