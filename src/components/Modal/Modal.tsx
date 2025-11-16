@@ -6,6 +6,7 @@ import './Modal.css';
 import { useModalStack } from './ModalStackContext';
 
 type ModalVariant = 'modal' | 'drawer';
+type ModalHeaderProps = {};
 
 type ModalProps = {
   isOpen: boolean;
@@ -21,6 +22,7 @@ type ModalProps = {
   /** Optional id for testing */
   id?: string;
   variant?: ModalVariant;
+  header?: ReactNode;
 };
 
 function Modal({
@@ -31,6 +33,7 @@ function Modal({
   showTitle = true,
   id,
   variant = 'modal',
+  header,
 }: ModalProps) {
   const dialogRef = useRef<HTMLDivElement | null>(null);
   const lastFocusedRef = useRef<HTMLElement | null>(null);
@@ -116,8 +119,8 @@ function Modal({
 
   if (typeof document === 'undefined') return null; // SSR / tests safety
 
-  const ariaLabel = showTitle ? undefined : title;
   const ariaLabelledBy = showTitle ? titleId : undefined;
+  const ariaLabel = ariaLabelledBy && !header ? undefined : title;
   const variantAttr = variant ?? 'modal';
 
   return createPortal(
@@ -140,20 +143,37 @@ function Modal({
         tabIndex={-1}
         onKeyDown={handleKeyDown}
       >
-        <header
-          className="hoam-modal__header"
-          data-title-visible={showTitle}
-        >
-          {showTitle && <h2 id={titleId}>{title}</h2>}
+        {header ? (
+          <header
+            className="hoam-modal__header"
+            data-title-visible={showTitle}
+          >
+            {header}
 
-          <Button
-            onClick={onClose}
-            aria-label="Close dialog"
-            className="hoam-modal__close-button"
-            iconOnly
-            icon="close"
-          />
-        </header>
+            <Button
+              onClick={onClose}
+              aria-label="Close dialog"
+              className="hoam-modal__close-button"
+              iconOnly
+              icon="close"
+            />
+          </header>
+        ) : (
+          <header
+            className="hoam-modal__header"
+            data-title-visible={showTitle}
+          >
+            {showTitle && <h2 id={titleId}>{title}</h2>}
+
+            <Button
+              onClick={onClose}
+              aria-label="Close dialog"
+              className="hoam-modal__close-button"
+              iconOnly
+              icon="close"
+            />
+          </header>
+        )}
 
         <div className="hoam-modal__body">{children}</div>
       </div>

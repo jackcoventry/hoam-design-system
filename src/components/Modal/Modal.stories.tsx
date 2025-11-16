@@ -33,6 +33,28 @@ const Template: Story = {
   },
 };
 
+const TemplateForCustomHeader: Story = {
+  render: (props) => {
+    const [open, setOpen] = useState(false);
+
+    return (
+      <div>
+        <button onClick={() => setOpen(true)}>Open modal</button>
+        <Modal
+          isOpen={open}
+          onClose={() => setOpen(false)}
+          title="Test title"
+          showTitle={props.showTitle}
+          variant={props.variant}
+          header={<div>Heyyy</div>}
+        >
+          <p>Hello world</p>
+        </Modal>
+      </div>
+    );
+  },
+};
+
 export const Default = { ...Template, args: {} };
 export const NoTitle = {
   ...Template,
@@ -45,4 +67,9 @@ export const Drawer = {
   args: {
     variant: 'drawer',
   },
+};
+
+export const CustomHeader = {
+  ...TemplateForCustomHeader,
+  args: {},
 };

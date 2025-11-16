@@ -77,6 +77,7 @@
 .hoam-modal__header {
   align-items: center;
   display: flex;
+  gap: var(--hoam-spacing-5);
 }
 
 .hoam-modal__header[data-title-visible="false"] {
