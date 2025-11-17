@@ -1,6 +1,13 @@
+import SearchForm, {
+  SearchFormResult,
+  SearchFormSchemaType,
+} from '@/components/Form/SearchForm/SearchForm';
 import Modal from '@/components/Modal/Modal';
+import SearchResultsData from '@/mocks/components/SearchResults.json';
+import { useMockRequest } from '@/utils/useMockRequest';
 import { Meta, StoryObj } from '@storybook/react';
 import React, { useState } from 'react';
+import { SubmitHandler } from 'react-hook-form';
 
 const meta: Meta<typeof Modal> = {
   title: 'Components/Modal',
@@ -99,6 +106,44 @@ const TemplateForCustomHeader: Story = {
   },
 };
 
+const TemplateForSearchModal: Story = {
+  render: () => {
+    const [open, setOpen] = useState(false);
+    const { data, loading, error, run, reset } = useMockRequest<Array<SearchFormResult>>();
+
+    const onSubmit: SubmitHandler<SearchFormSchemaType> = () => {
+      run({
+        delay: 1500,
+        response: SearchResultsData,
+      });
+    };
+
+    return (
+      <div>
+        <button onClick={() => setOpen(true)}>Open Search</button>
+        <Modal
+          isOpen={open}
+          onClose={() => setOpen(false)}
+          variant="modal"
+        >
+          <Modal.Body>
+            <SearchForm
+              onSubmit={onSubmit}
+              onClose={() => {
+                setOpen(false);
+                reset();
+              }}
+              data={data}
+              loading={loading}
+              error={error}
+            />
+          </Modal.Body>
+        </Modal>
+      </div>
+    );
+  },
+};
+
 export const Default = { ...Template, args: {} };
 export const NoTitle = {
   ...TemplateNoTitle,
@@ -115,5 +160,10 @@ export const Drawer = {
 
 export const CustomHeader = {
   ...TemplateForCustomHeader,
+  args: {},
+};
+
+export const CustomSearchForm = {
+  ...TemplateForSearchModal,
   args: {},
 };

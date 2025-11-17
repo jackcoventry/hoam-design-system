@@ -1,20 +1,53 @@
 import { Button } from '@/components/Button/Button';
+import '@/components/Common/Fields.css';
 import { zodResolver } from '@hookform/resolvers/zod';
-import React, { useState } from 'react';
+import React from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import z from 'zod';
+import './SearchForm.css';
 
 const SearchFormSchema = z.object({
-  q: z.string(),
+  q: z.string().trim().min(1, { message: 'Required' }),
 });
 
-type SearchFormSchemaType = z.infer<typeof SearchFormSchema>;
+export type SearchFormSchemaType = z.infer<typeof SearchFormSchema>;
 
-function SearchForm() {
+type SearchFormProps = {
+  onSubmit: SubmitHandler<SearchFormSchemaType>;
+  onClose: () => void;
+  data: SearchFormResult[];
+  loading: boolean;
+  error: Error;
+};
+
+export type SearchFormResult = {
+  id: number;
+  title: string;
+  url: string;
+  preview: string;
+};
+
+type SearchResultsProps = {
+  items: SearchFormResult[];
+};
+
+function SearchResults({ items }: Readonly<SearchResultsProps>) {
+  if (items.length === 0) return <p>No results</p>;
+  return (
+    <div>
+      {items.map((item) => (
+        <p key={item.id}>{item.title}</p>
+      ))}
+    </div>
+  );
+}
+
+function SearchForm({ onSubmit, onClose, data, loading, error }: Readonly<SearchFormProps>) {
   const {
     control,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<SearchFormSchemaType>({
     resolver: zodResolver(SearchFormSchema),
     defaultValues: {
@@ -23,43 +56,48 @@ function SearchForm() {
     mode: 'all',
   });
 
-  const [submitting, setSubmitting] = useState<boolean>(false);
-
-  const onSubmit: SubmitHandler<SearchFormSchemaType> = (data) => {
-    setSubmitting(true);
-
-    // TODO: temporary, to mimic server response.
-    setTimeout(() => {
-      setSubmitting(false);
-    }, 2000);
+  const handleReset = () => {
+    reset();
+    onClose?.();
   };
-  return (
-    <form
-      className="hoam-search-form"
-      onSubmit={handleSubmit(onSubmit)}
-    >
-      <Controller
-        name="q"
-        control={control}
-        render={({ field }) => (
-          <input
-            {...field}
-            placeholder={errors?.q?.message}
-            className="hoam-search-form__input"
-            data-valid={errors?.q ? 'false' : 'true'}
-            disabled={submitting}
-          />
-        )}
-      />
 
-      <Button
-        type="submit"
-        className="hoam-search-form__button"
-        variant="secondary"
+  return (
+    <div>
+      <form
+        className="hoam-search-form"
+        onSubmit={handleSubmit(onSubmit)}
       >
-        {submitting ? 'Searching...' : 'Search'}
-      </Button>
-    </form>
+        <Controller
+          name="q"
+          control={control}
+          render={({ field }) => (
+            <input
+              {...field}
+              placeholder={errors?.q?.message}
+              className="hoam-text-field"
+              data-valid={errors?.q ? 'false' : 'true'}
+              disabled={loading}
+            />
+          )}
+        />
+
+        <Button
+          type="submit"
+          className="hoam-search-form__button"
+          variant="secondary"
+        >
+          Search
+        </Button>
+        <Button
+          type="button"
+          onClick={handleReset}
+        >
+          Close
+        </Button>
+      </form>
+      {loading && !error ? <p>Loading</p> : null}
+      {data && !error && !loading ? <SearchResults items={data} /> : null}
+    </div>
   );
 }
 

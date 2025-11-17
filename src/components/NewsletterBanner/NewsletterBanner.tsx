@@ -1,4 +1,5 @@
 import { Button } from '@/components/Button/Button';
+import '@/components/Common/Dots.css';
 import socialLinks from '@/mocks/socialLinks.json';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useState } from 'react';
@@ -64,7 +65,7 @@ function NewsletterBanner({ title, description }: Readonly<NewsletterBannerProps
                     {...field}
                     type="email"
                     placeholder={errors?.email?.message || 'Enter your email'}
-                    className="hoam-newsletter-banner__input"
+                    className="hoam-text-field"
                     data-valid={errors?.email ? 'false' : 'true'}
                     disabled={submitting}
                   />

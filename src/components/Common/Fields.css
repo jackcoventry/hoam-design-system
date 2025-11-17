@@ -1,0 +1,24 @@
+.hoam-text-field {
+  border-radius: 5px;
+  border: 1px solid var(--hoam-color-moon-400);
+  font: var(--hoam-typography-body-1);
+  padding: var(--hoam-spacing-2) var(--hoam-spacing-4);
+  width: 100%;
+}
+
+.hoam-text-field:focus-visible {
+  box-shadow:
+    0 0 0 2px white,
+    0 0 0 6px yellow;
+  outline: none;
+}
+
+.hoam-text-field[data-valid="false"] {
+  border: 1px solid var(--hoam-color-semantic-error);
+}
+
+.hoam-text-field[data-valid="false"]:focus-visible {
+  box-shadow:
+    0 0 0 2px white,
+    0 0 0 6px var(--hoam-color-semantic-error);
+}

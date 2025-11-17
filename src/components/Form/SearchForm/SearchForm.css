@@ -1,0 +1,4 @@
+.hoam-search-form {
+  display: flex;
+  gap: var(--hoam-spacing-4);
+}
