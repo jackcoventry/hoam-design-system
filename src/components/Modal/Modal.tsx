@@ -189,14 +189,19 @@ function ModalTitle({ children }: { children: ReactNode }) {
  */
 type ModalCloseButtonProps = {
   ariaLabel?: string;
+  callback?: () => void;
 };
 
-function ModalCloseButton({ ariaLabel = 'Close dialog' }: ModalCloseButtonProps) {
+function ModalCloseButton({ ariaLabel = 'Close dialog', callback }: ModalCloseButtonProps) {
   const { close } = useModalContext('Modal.CloseButton');
+  const handleClose = () => {
+    callback?.();
+    close();
+  };
   return (
     <button
       type="button"
-      onClick={close}
+      onClick={handleClose}
       aria-label={ariaLabel}
       className="hoam-modal__close-button"
     >

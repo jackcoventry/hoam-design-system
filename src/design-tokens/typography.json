@@ -141,7 +141,7 @@
       "4": {
         "$value": {
           "fontFamily": "{typography.family.2}",
-          "fontWeight": "{typography.weight.1}",
+          "fontWeight": "{typography.weight.2}",
           "fontSize": "{typography.size.2}",
           "lineHeight": "{typography.line-height.1}"
         },

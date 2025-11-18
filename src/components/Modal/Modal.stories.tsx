@@ -107,15 +107,23 @@ const TemplateForCustomHeader: Story = {
 };
 
 const TemplateForSearchModal: Story = {
-  render: () => {
+  render: (args) => {
     const [open, setOpen] = useState(false);
     const { data, loading, error, run, reset } = useMockRequest<Array<SearchFormResult>>();
 
     const onSubmit: SubmitHandler<SearchFormSchemaType> = () => {
       run({
         delay: 1500,
-        response: SearchResultsData,
+        response: args.data,
       });
+    };
+
+    const handleClose = () => {
+      setOpen(false);
+
+      setTimeout(() => {
+        reset();
+      }, 500);
     };
 
     return (
@@ -123,21 +131,19 @@ const TemplateForSearchModal: Story = {
         <button onClick={() => setOpen(true)}>Open Search</button>
         <Modal
           isOpen={open}
-          onClose={() => setOpen(false)}
+          onClose={handleClose}
           variant="modal"
         >
-          <Modal.Body>
-            <SearchForm
-              onSubmit={onSubmit}
-              onClose={() => {
-                setOpen(false);
-                reset();
-              }}
-              data={data}
-              loading={loading}
-              error={error}
-            />
-          </Modal.Body>
+          <Modal.Header>
+            <Modal.Title>Search</Modal.Title>
+            <Modal.CloseButton callback={handleClose} />
+          </Modal.Header>
+          <SearchForm
+            onSubmit={onSubmit}
+            data={data}
+            loading={loading}
+            error={error}
+          />
         </Modal>
       </div>
     );
@@ -165,5 +171,14 @@ export const CustomHeader = {
 
 export const CustomSearchForm = {
   ...TemplateForSearchModal,
-  args: {},
+  args: {
+    data: SearchResultsData,
+  },
+};
+
+export const CustomSearchFormNoResults = {
+  ...TemplateForSearchModal,
+  args: {
+    data: [],
+  },
 };
