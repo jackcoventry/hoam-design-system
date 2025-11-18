@@ -8,7 +8,12 @@ import TopNavItem from '@/components/Navigation/MainNavigation/TopNavigationItem
 import MobileNavigation from '@/components/Navigation/MobileNavigation/MobileNavigation';
 import { panelId, topTriggerId } from '@/components/Navigation/Navigation.types';
 import { querySubItemVisibility } from '@/components/Navigation/utils/helpers';
+import SearchResultsData from '@/mocks/components/SearchResults.json';
+import { useMockRequest } from '@/utils/useMockRequest';
 import React, { useMemo, useRef, useState } from 'react';
+import { SubmitHandler } from 'react-hook-form';
+import SearchForm, { SearchFormResult, SearchFormSchemaType } from '../Form/SearchForm/SearchForm';
+import Modal from '../Modal/Modal';
 import PromoBlock from './MainNavigation/PromoBlock';
 import './Navigation.css';
 import type { NavGroupItem, NavigationProps } from './Navigation.types';
@@ -69,6 +74,31 @@ export default function Navigation({
     WHITE: '/logo-white.png',
   };
   const [logoSrc, setLogoSrc] = useState<string>(isDefaultVariant ? LOGO.DEFAULT : LOGO.WHITE);
+
+  const [openSearchModal, setOpenSearchModal] = useState(false);
+  const { data, loading, error, run, reset } = useMockRequest<Array<SearchFormResult>>();
+
+  const onSubmit: SubmitHandler<SearchFormSchemaType> = () => {
+    run({
+      delay: 1500,
+      response: SearchResultsData,
+    });
+  };
+
+  const handleClose = () => {
+    setOpenSearchModal(false);
+
+    setTimeout(() => {
+      reset();
+    }, 500);
+  };
+
+  const ACTIONS = {
+    USER_SEARCH: (event) => {
+      event.preventDefault();
+      setOpenSearchModal(true);
+    },
+  };
 
   return (
     <>
@@ -207,30 +237,34 @@ export default function Navigation({
                         className="hoam-navigation__list"
                         data-alignment="right"
                       >
-                        {userItems?.map((userLink) => (
-                          <li
-                            key={userLink.id}
-                            className="hoam-navigation__item"
-                          >
-                            <a
-                              href={userLink.href}
-                              className="hoam-navigation__link"
-                              title={userLink.label}
-                              data-top-cyclable
+                        {userItems?.map((userLink) => {
+                          const action = ACTIONS[userLink.action] || null;
+                          return (
+                            <li
+                              key={userLink.id}
+                              className="hoam-navigation__item"
                             >
-                              <svg
-                                className="icon"
-                                width="1.25em"
-                                height="1.25em"
-                                fill="currentColor"
-                                aria-hidden="true"
+                              <a
+                                href={userLink.href}
+                                className="hoam-navigation__link"
+                                title={userLink.label}
+                                data-top-cyclable
+                                onClick={action}
                               >
-                                <use xlinkHref={`/icons/icons.svg#${userLink.icon}`} />
-                              </svg>
-                              <span className="sr-only">{userLink.label}</span>
-                            </a>
-                          </li>
-                        ))}
+                                <svg
+                                  className="icon"
+                                  width="1.25em"
+                                  height="1.25em"
+                                  fill="currentColor"
+                                  aria-hidden="true"
+                                >
+                                  <use xlinkHref={`/icons/icons.svg#${userLink.icon}`} />
+                                </svg>
+                                <span className="sr-only">{userLink.label}</span>
+                              </a>
+                            </li>
+                          );
+                        })}
                       </ul>
                     </nav>
                   ) : null}
@@ -240,6 +274,23 @@ export default function Navigation({
           </div>
         </div>
       </header>
+
+      <Modal
+        isOpen={openSearchModal}
+        onClose={handleClose}
+        variant="modal"
+      >
+        <Modal.Header>
+          <Modal.Title>Search</Modal.Title>
+          <Modal.CloseButton callback={handleClose} />
+        </Modal.Header>
+        <SearchForm
+          onSubmit={onSubmit}
+          data={data}
+          loading={loading}
+          error={error}
+        />
+      </Modal>
     </>
   );
 }

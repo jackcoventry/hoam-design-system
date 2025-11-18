@@ -74,6 +74,8 @@
 
 .hoam-search-result__preview {
   font: var(--hoam-typography-body-1);
+  max-height: 2.825em;
+  overflow: hidden;
 }
 
 .hoam-search-result__title {

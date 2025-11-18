@@ -8,13 +8,10 @@
   height: auto;
 }
 
-.hoam-navigation__root {
-}
-
 [data-variant="default"] {
   background-color: var(--hoam-color-neutral-900);
   position: relative;
-  z-index: 1000;
+  z-index: 998;
 }
 
 [data-variant="fixed"] {

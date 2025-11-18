@@ -1,3 +1,4 @@
+import { Button } from '@/components/Button/Button';
 import FOCUSABLE_SELECTORS from '@/constants/focusable-selectors';
 import React, {
   KeyboardEvent,
@@ -199,14 +200,14 @@ function ModalCloseButton({ ariaLabel = 'Close dialog', callback }: ModalCloseBu
     close();
   };
   return (
-    <button
+    <Button
       type="button"
       onClick={handleClose}
       aria-label={ariaLabel}
       className="hoam-modal__close-button"
-    >
-      X
-    </button>
+      iconOnly
+      icon="close"
+    />
   );
 }
 

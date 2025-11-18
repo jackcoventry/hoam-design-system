@@ -4,6 +4,7 @@ export type NavItem = {
   href: string;
   icon?: string;
   items?: NavItem[];
+  action?: string;
   thumbnail?: string;
 };
 
