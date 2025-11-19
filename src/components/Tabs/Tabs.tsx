@@ -1,9 +1,9 @@
 import React, { Activity, Suspense, useState } from 'react';
 
-type TabConfig = {
+export type TabConfig = {
   id: string;
   label: string;
-  render: () => React.ReactNode;
+  content: React.ReactNode;
 };
 
 type TabsProps = {
@@ -57,7 +57,7 @@ function Tabs({ title, items = [] }: Readonly<TabsProps>) {
                 aria-labelledby={`hoam-tab-${id}`}
                 tabIndex={0}
               >
-                {tab.render()}
+                {tab.content}
               </section>
             </Activity>
           );

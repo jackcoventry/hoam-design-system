@@ -1,4 +1,4 @@
-import Tabs from '@/components/Tabs/Tabs';
+import Tabs, { TabConfig } from '@/components/Tabs/Tabs';
 import { Meta, StoryObj } from '@storybook/react-vite';
 import React from 'react';
 
@@ -12,8 +12,36 @@ export default meta;
 
 type Story = StoryObj<typeof Tabs>;
 
+const TABS: TabConfig[] = [
+  {
+    id: 'home',
+    label: 'Home',
+    content: <div>Home</div>,
+  },
+  {
+    id: 'contact',
+    label: 'Contact',
+    content: <div>Contact</div>,
+  },
+  {
+    id: 'search',
+    label: 'Search',
+    content: <div>Search</div>,
+  },
+];
+
 const Template: Story = {
-  render: (args) => <div></div>,
+  render: (args) => (
+    <Tabs
+      title={args.title}
+      items={TABS}
+    />
+  ),
 };
 
-export const Default = { ...Template, args: {} };
+export const Default = {
+  ...Template,
+  args: {
+    title: 'Default tabs',
+  },
+};
