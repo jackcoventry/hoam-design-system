@@ -1,7 +1,13 @@
+import SearchForm, {
+  SearchFormResult,
+  SearchFormSchemaType,
+} from '@/components/Form/SearchForm/SearchForm';
+import Modal from '@/components/Modal/Modal';
 import { useKeyboardNav } from '@/components/Navigation/hooks/useKeyboardNav';
 import { useMegaNavState } from '@/components/Navigation/hooks/useNavState';
 import CategoryGroup from '@/components/Navigation/MainNavigation/CategoryGroup';
 import Panel from '@/components/Navigation/MainNavigation/Panel';
+import PromoBlock from '@/components/Navigation/MainNavigation/PromoBlock';
 import ThirdLevelList from '@/components/Navigation/MainNavigation/ThirdLevelItems';
 import TopNav from '@/components/Navigation/MainNavigation/TopNavigation';
 import TopNavItem from '@/components/Navigation/MainNavigation/TopNavigationItem';
@@ -12,9 +18,6 @@ import SearchResultsData from '@/mocks/components/SearchResults.json';
 import { useMockRequest } from '@/utils/useMockRequest';
 import React, { useMemo, useRef, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
-import SearchForm, { SearchFormResult, SearchFormSchemaType } from '../Form/SearchForm/SearchForm';
-import Modal from '../Modal/Modal';
-import PromoBlock from './MainNavigation/PromoBlock';
 import './Navigation.css';
 import type { NavGroupItem, NavigationProps } from './Navigation.types';
 

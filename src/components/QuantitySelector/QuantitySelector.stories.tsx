@@ -1,5 +1,5 @@
 import QuantitySelector from '@/components/QuantitySelector/QuantitySelector';
-import { Meta, StoryObj } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/react-vite';
 import React from 'react';
 
 const meta: Meta<typeof QuantitySelector> = {

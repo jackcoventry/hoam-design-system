@@ -1,5 +1,5 @@
 import Accordion, { AccordionItem } from '@/components/Accordion/Accordion';
-import { Meta, StoryObj } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/react-vite';
 import React, { useState } from 'react';
 
 const meta: Meta<typeof Accordion> = {

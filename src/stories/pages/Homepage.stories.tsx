@@ -7,7 +7,7 @@ import NotificationBarData from '@/mocks/components/NotificationBar';
 import PromoSectionData from '@/mocks/components/PromoSection.json';
 import UserNavigationData from '@/mocks/components/UserNavigation.json';
 
-import { Meta } from '@storybook/react';
+import { Meta } from '@storybook/react-vite';
 
 import Footer from '@/components/Footer/Footer';
 import Hero, { HeroSlide } from '@/components/Hero/Hero';

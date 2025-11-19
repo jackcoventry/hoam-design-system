@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "target": "ESNext",
+    "target": "esnext",
     "lib": ["dom", "es2015"],
     "allowJs": true,
     "jsx": "react",
-    "module": "ESNext",
+    "module": "esnext",
     "rootDir": "src",
     "outDir": "dist",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,

@@ -20,8 +20,6 @@ function getNodeAtPath(obj, path) {
   return path.reduce((acc, key) => acc?.[key], obj);
 }
 
-console.log('📦 Raw tokens loaded:', rawTokens.typography);
-
 function findGroup(path) {
   for (let i = path.length - 1; i >= 0; i--) {
     const node = getNodeAtPath(rawTokens, path.slice(0, i));

@@ -1,5 +1,5 @@
 import { Select } from '@/components/Form/Select/Select';
-import { Meta, StoryObj } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/react-vite';
 import React from 'react';
 
 const meta: Meta<typeof Select> = {

@@ -1,7 +1,7 @@
 import Pagination from '@/components/Pagination/Pagination';
 import ProductTile from '@/components/ProductTile/ProductTile';
 import Data from '@/mocks/components/ProductTile.json';
-import { Meta } from '@storybook/react';
+import { Meta } from '@storybook/react-vite';
 import React from 'react';
 
 const meta: Meta = {

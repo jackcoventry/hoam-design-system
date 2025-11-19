@@ -11,7 +11,7 @@ const config: StorybookConfig = {
     const { alias } = await import("../alias.config.js");
     config.resolve = config.resolve || {};
     config.resolve.alias = {
-      ...(config.resolve.alias || {}),
+      ...config.resolve.alias,
       ...alias,
     };
     return config;

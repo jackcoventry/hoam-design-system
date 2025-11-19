@@ -4,7 +4,7 @@ import RecommendedProducts from '@/components/RecommendedProducts/RecommendedPro
 import ImageGalleryMockData from '@/mocks/components/ImageGallery.json';
 import ProductInformationMockData from '@/mocks/components/ProductInformation.json';
 import ProductTileData from '@/mocks/components/ProductTile.json';
-import { Meta } from '@storybook/react';
+import { Meta } from '@storybook/react-vite';
 
 import React from 'react';
 
