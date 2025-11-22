@@ -129,3 +129,17 @@ ol[role="list"] {
   height: auto;
   margin: 0;
 }
+
+/* 15. Table reset styles */
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+th,
+td {
+  margin: 0;
+  padding: 0;
+  border: none;
+}

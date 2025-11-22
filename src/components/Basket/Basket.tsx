@@ -1,5 +1,6 @@
 import QuantitySelector from '@/components/QuantitySelector/QuantitySelector';
 import React from 'react';
+import './Basket.css';
 
 type Thumbnail = {
   src: string;
@@ -27,31 +28,67 @@ function BasketItem({
   quantity,
 }: Readonly<BasketItemProps>) {
   return (
-    <a
-      href={url}
-      className="hoam-basket-item"
-    >
-      <img
-        src={thumbnail.src}
-        alt={thumbnail.alt}
-      />
-      <div>
-        <h4>{title}</h4>
-        <span>{summary}</span>
-      </div>
-      <div>{price}</div>
-      <div>
+    <tr className="hoam-basket__row">
+      <td>
+        <a href={url}>
+          <img
+            src={thumbnail.src}
+            alt={thumbnail.alt}
+          />
+        </a>
+      </td>
+      <td>
+        <a href={url}>
+          <h4>{title}</h4>
+          <span>{summary}</span>
+        </a>
+        <div>
+          <button>Remove</button>
+          <button>Save for later</button>
+        </div>
+      </td>
+      <td>{price}</td>
+      <td>
         <QuantitySelector
           onChange={onChange}
           value={quantity}
         />
-      </div>
-    </a>
+      </td>
+    </tr>
   );
 }
 
-function Basket() {
-  return <div></div>;
+type BasketProps = {
+  items: BasketItemProps[];
+};
+
+function Basket({ items = [] }: Readonly<BasketProps>) {
+  return (
+    <table className="hoam-basket">
+      <tr className="hoam-basket__row">
+        <th scope="col">Product</th>
+        <th scope="col"></th>
+        <th scope="col">Price</th>
+        <th scope="col">Quantity</th>
+      </tr>
+      {items?.map((item) => {
+        const { id, title, summary, price, thumbnail, url, onChange, quantity } = item;
+        return (
+          <BasketItem
+            key={id}
+            id={id}
+            title={title}
+            summary={summary}
+            price={price}
+            thumbnail={thumbnail}
+            url={url}
+            onChange={onChange}
+            quantity={quantity}
+          />
+        );
+      })}
+    </table>
+  );
 }
 
 export default Basket;

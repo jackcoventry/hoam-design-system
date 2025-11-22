@@ -1,0 +1,20 @@
+.hoam-basket {
+  width: 100%;
+}
+
+.hoam-basket__row {
+  display: grid;
+  gap: var(--hoam-spacing-4);
+}
+
+@media (min-width: 1000px) {
+  .hoam-basket__row {
+    display: grid;
+    grid-template-columns: 100px 1fr 100px 200px;
+  }
+}
+
+.hoam-basket__row td,
+.hoam-basket__row th {
+  text-align: left;
+}
