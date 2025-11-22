@@ -35,6 +35,8 @@ const Template: Story = {
     <Tabs
       title={args.title}
       items={TABS}
+      layout={args.layout}
+      mode={args.mode}
     />
   ),
 };
@@ -42,6 +44,22 @@ const Template: Story = {
 export const Default = {
   ...Template,
   args: {
-    title: 'Default tabs',
+    title: 'Vertical tabs',
+  },
+};
+
+export const Horizontal = {
+  ...Template,
+  args: {
+    title: 'Horizontal tabs',
+    layout: 'horizontal',
+  },
+};
+
+export const Automatic = {
+  ...Template,
+  args: {
+    title: 'Automatic tabs',
+    mode: 'automatic',
   },
 };
