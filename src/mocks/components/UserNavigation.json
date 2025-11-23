@@ -11,7 +11,8 @@
     "label": "My Basket",
     "href": "/basket",
     "icon": "bag",
-    "title": "My basket"
+    "title": "My basket",
+    "action": "USER_BASKET"
   },
   {
     "id": "search",

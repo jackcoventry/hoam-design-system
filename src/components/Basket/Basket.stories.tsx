@@ -12,7 +12,7 @@ export default meta;
 
 type Story = StoryObj<typeof Basket>;
 
-const items = [
+export const items = [
   {
     id: 'test-product-1',
     title: 'Trendy Bomber Jacket',

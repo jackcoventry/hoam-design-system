@@ -1,3 +1,5 @@
+import Basket from '@/components/Basket/Basket';
+import { items as BasketItemData } from '@/components/Basket/Basket.stories';
 import SearchForm, {
   SearchFormResult,
   SearchFormSchemaType,
@@ -81,6 +83,8 @@ export default function Navigation({
   const [openSearchModal, setOpenSearchModal] = useState(false);
   const { data, loading, error, run, reset } = useMockRequest<Array<SearchFormResult>>();
 
+  const [openBasketModal, setOpenBasketModal] = useState(false);
+
   const onSubmit: SubmitHandler<SearchFormSchemaType> = () => {
     run({
       delay: 1500,
@@ -88,7 +92,7 @@ export default function Navigation({
     });
   };
 
-  const handleClose = () => {
+  const handleSearchModalClose = () => {
     setOpenSearchModal(false);
 
     setTimeout(() => {
@@ -96,12 +100,26 @@ export default function Navigation({
     }, 500);
   };
 
+  const handleBasketModalClose = () => {
+    setOpenBasketModal(false);
+  };
+
   const ACTIONS = {
     USER_SEARCH: (event) => {
       event.preventDefault();
       setOpenSearchModal(true);
     },
+    USER_BASKET: (event) => {
+      event.preventDefault();
+      setOpenBasketModal(true);
+    },
   };
+
+  // TEMPORARY: Just to give element of realism
+  const basketTotalTemp = BasketItemData?.reduce((acc, item) => {
+    const result = item.price * item.quantity;
+    return result + acc;
+  }, 0);
 
   return (
     <>
@@ -280,18 +298,33 @@ export default function Navigation({
 
       <Modal
         isOpen={openSearchModal}
-        onClose={handleClose}
+        onClose={handleSearchModalClose}
         variant="modal"
       >
         <Modal.Header>
           <Modal.Title>Search</Modal.Title>
-          <Modal.CloseButton callback={handleClose} />
+          <Modal.CloseButton callback={handleSearchModalClose} />
         </Modal.Header>
         <SearchForm
           onSubmit={onSubmit}
           data={data}
           loading={loading}
           error={error}
+        />
+      </Modal>
+
+      <Modal
+        isOpen={openBasketModal}
+        onClose={handleBasketModalClose}
+        variant="modal"
+      >
+        <Modal.Header>
+          <Modal.Title>Your Basket</Modal.Title>
+          <Modal.CloseButton callback={handleBasketModalClose} />
+        </Modal.Header>
+        <Basket
+          items={BasketItemData}
+          total={basketTotalTemp}
         />
       </Modal>
     </>
