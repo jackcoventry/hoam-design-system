@@ -69,9 +69,17 @@ const items = [
 
 const Template: Story = {
   render: () => {
+    // Just to give element of realism
+    const total = items?.reduce((acc, item) => {
+      const result = item.price * item.quantity;
+      return result + acc;
+    }, 0);
     return (
       <div>
-        <Basket items={items} />
+        <Basket
+          items={items}
+          total={total}
+        />
       </div>
     );
   },

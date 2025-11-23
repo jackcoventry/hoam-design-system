@@ -88,9 +88,10 @@ function BasketItem({
 
 type BasketProps = {
   items: BasketItemProps[];
+  total: number;
 };
 
-function Basket({ items = [] }: Readonly<BasketProps>) {
+function Basket({ items = [], total = 0 }: Readonly<BasketProps>) {
   return (
     <table className="hoam-basket">
       <tr className="hoam-basket__row">
@@ -115,6 +116,16 @@ function Basket({ items = [] }: Readonly<BasketProps>) {
           />
         );
       })}
+      <tr className="hoam-basket__footer">
+        <td>
+          <div className="hoam-basket__footer-content">
+            <h4 className="hoam-basket__footer-title">
+              Sub-total: {convertNumberToCurrency({ value: total })}
+            </h4>
+            <Button>Proceed to Checkout</Button>
+          </div>
+        </td>
+      </tr>
     </table>
   );
 }
