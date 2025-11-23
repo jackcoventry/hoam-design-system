@@ -11,6 +11,7 @@ type CommonProps = {
   variant?: 'primary' | 'secondary';
   iconOnly?: boolean;
   ariaLabel?: string;
+  size?: 'default' | 'small';
 };
 
 type ButtonOnlyProps = {
@@ -48,6 +49,7 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Readonly<
       variant = 'primary',
       iconOnly = false,
       ariaLabel,
+      size = 'default',
       ...rest
     } = props;
 
@@ -68,6 +70,7 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Readonly<
           className={classes}
           data-icon-position={iconPosition}
           data-variant={variant}
+          data-size={size}
           aria-label={computedAriaLabel}
           href={href}
           target={target}
@@ -99,6 +102,7 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Readonly<
         className={classes}
         data-icon-position={iconPosition}
         data-variant={variant}
+        data-size={size}
         onClick={onClick}
         aria-label={computedAriaLabel}
         type={type}

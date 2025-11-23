@@ -44,3 +44,13 @@ export const Anchor: Story = {
     variant: 'secondary',
   },
 };
+
+export const Small: Story = {
+  args: {
+    children: 'Button',
+    icon: 'arrow-right',
+    iconPosition: 'right',
+    size: 'small',
+    variant: 'secondary',
+  },
+};

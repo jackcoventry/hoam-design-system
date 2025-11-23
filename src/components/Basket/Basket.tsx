@@ -1,4 +1,6 @@
+import { Button } from '@/components/Button/Button';
 import QuantitySelector from '@/components/QuantitySelector/QuantitySelector';
+import { convertNumberToCurrency } from '@/utils/convertNumberToCurrency';
 import React from 'react';
 import './Basket.css';
 
@@ -27,10 +29,15 @@ function BasketItem({
   onChange,
   quantity,
 }: Readonly<BasketItemProps>) {
+  const totalPrice = quantity * price;
+
   return (
     <tr className="hoam-basket__row">
       <td>
-        <a href={url}>
+        <a
+          href={url}
+          className="hoam-basket__link"
+        >
           <img
             src={thumbnail.src}
             alt={thumbnail.alt}
@@ -38,21 +45,42 @@ function BasketItem({
         </a>
       </td>
       <td>
-        <a href={url}>
-          <h4>{title}</h4>
-          <span>{summary}</span>
-        </a>
-        <div>
-          <button>Remove</button>
-          <button>Save for later</button>
+        <div className="hoam-basket__content">
+          <a
+            href={url}
+            className="hoam-basket__link"
+          >
+            <h4 className="hoam-basket__title">{title}</h4>
+            <span className="hoam-basket__summary">
+              {convertNumberToCurrency({ value: price })}
+            </span>
+          </a>
+          <div className="hoam-basket__controls">
+            <Button
+              size="small"
+              title="Remove item from basket"
+              icon="trash"
+              iconOnly
+            />
+            <Button
+              size="small"
+              variant="secondary"
+            >
+              Save for later
+            </Button>
+          </div>
         </div>
       </td>
-      <td>{price}</td>
       <td>
-        <QuantitySelector
-          onChange={onChange}
-          value={quantity}
-        />
+        <div className="hoam-basket__quantity">
+          <QuantitySelector
+            onChange={onChange}
+            value={quantity}
+          />
+        </div>
+      </td>
+      <td>
+        <div className="hoam-basket__price">{convertNumberToCurrency({ value: totalPrice })}</div>
       </td>
     </tr>
   );
@@ -68,8 +96,8 @@ function Basket({ items = [] }: Readonly<BasketProps>) {
       <tr className="hoam-basket__row">
         <th scope="col">Product</th>
         <th scope="col"></th>
-        <th scope="col">Price</th>
         <th scope="col">Quantity</th>
+        <th scope="col">Price</th>
       </tr>
       {items?.map((item) => {
         const { id, title, summary, price, thumbnail, url, onChange, quantity } = item;

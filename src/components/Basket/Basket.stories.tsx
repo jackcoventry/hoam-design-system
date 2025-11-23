@@ -23,7 +23,7 @@ const items = [
       alt: 'A fashion-forward bomber jacket to elevate your casual looks',
     },
     url: '/test-product-1',
-    quantity: 0,
+    quantity: 1,
     onChange: () => {},
   },
   {
@@ -36,7 +36,7 @@ const items = [
       alt: 'Durable jump rope for cardio workouts',
     },
     url: '/test-product-2',
-    quantity: 0,
+    quantity: 2,
     onChange: () => {},
   },
   {
@@ -49,7 +49,7 @@ const items = [
       alt: 'Folding massage table for professional or home use.',
     },
     url: '/test-product-3',
-    quantity: 0,
+    quantity: 1,
     onChange: () => {},
   },
   {
@@ -62,7 +62,7 @@ const items = [
       alt: 'Concentrated tomato paste, great for sauces.',
     },
     url: '/test-product-4',
-    quantity: 0,
+    quantity: 3,
     onChange: () => {},
   },
 ];

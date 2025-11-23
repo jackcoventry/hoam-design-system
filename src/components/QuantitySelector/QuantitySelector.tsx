@@ -116,6 +116,7 @@ export const QuantitySelector = React.forwardRef<HTMLInputElement, QuantitySelec
           <Button
             ariaLabel={decrementLabel}
             disabled={atMin}
+            size="small"
             {...createButtonHandlers(-1)}
           >
             −
@@ -139,6 +140,7 @@ export const QuantitySelector = React.forwardRef<HTMLInputElement, QuantitySelec
             ariaLabel={incrementLabel}
             disabled={atMax}
             variant="secondary"
+            size="small"
             {...createButtonHandlers(1)}
           >
             +

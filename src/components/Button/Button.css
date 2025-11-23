@@ -5,6 +5,7 @@
   --hoam-button-border-radius: 5px;
   --hoam-button-content-gap: var(--hoam-spacing-2);
   --hoam-button-min-height: 50px;
+  --hoam-button-font: var(--hoam-typography-button-1);
 }
 
 .hoam-button {
@@ -18,13 +19,21 @@
   cursor: pointer;
   display: flex;
   gap: var(--hoam-button-content-gap);
-  font: var(--hoam-typography-button-1);
+  font: var(--hoam-button-font);
   line-height: 1.375; /* TODO: Calculate programatically */
   min-height: var(--hoam-button-min-height);
   outline: none;
   padding: var(--hoam-button-spacing-vertical) var(--hoam-button-spacing-horizontal);
   text-decoration: none;
   white-space: nowrap;
+}
+
+.hoam-button[data-size="small"] {
+  --hoam-button-spacing-horizontal: var(--hoam-spacing-3);
+  --hoam-button-spacing-vertical: var(--hoam-spacing-2);
+  --hoam-button-content-gap: var(--hoam-spacing-2);
+  --hoam-button-min-height: 20px;
+  --hoam-button-font: var(--hoam-typography-label-1);
 }
 
 .hoam-button[data-variant="primary"] {
