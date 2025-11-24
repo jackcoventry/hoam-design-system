@@ -1,6 +1,8 @@
 import SearchForm, {
   SearchFormResult,
   SearchFormSchemaType,
+  SearchLoader,
+  SearchResults,
 } from '@/components/Form/SearchForm/SearchForm';
 import Modal from '@/components/Modal/Modal';
 import SearchResultsData from '@/mocks/components/SearchResults.json';
@@ -134,16 +136,18 @@ const TemplateForSearchModal: Story = {
           onClose={handleClose}
           variant="modal"
         >
-          <Modal.Header>
-            <Modal.Title>Search</Modal.Title>
-            <Modal.CloseButton callback={handleClose} />
+          <Modal.Header padded={false}>
+            <SearchForm
+              onSubmit={onSubmit}
+              data={data}
+              loading={loading}
+              error={error}
+            />
           </Modal.Header>
-          <SearchForm
-            onSubmit={onSubmit}
-            data={data}
-            loading={loading}
-            error={error}
-          />
+          <Modal.Body padded={false}>
+            {loading && !error ? <SearchLoader /> : null}
+            {data && !error && !loading ? <SearchResults items={data} /> : null}
+          </Modal.Body>
         </Modal>
       </div>
     );

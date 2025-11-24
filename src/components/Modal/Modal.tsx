@@ -173,8 +173,15 @@ function ModalRoot({
 /**
  * <Modal.Header> — structural wrapper for the header area
  */
-function ModalHeader({ children }: { children: ReactNode }) {
-  return <header className="hoam-modal__header">{children}</header>;
+function ModalHeader({ children, padded = true }: { children: ReactNode; padded?: Boolean }) {
+  return (
+    <header
+      className="hoam-modal__header"
+      data-padded={padded}
+    >
+      {children}
+    </header>
+  );
 }
 
 /**
@@ -214,8 +221,15 @@ function ModalCloseButton({ ariaLabel = 'Close dialog', callback }: ModalCloseBu
 /**
  * <Modal.Body> — content area
  */
-function ModalBody({ children }: { children: ReactNode }) {
-  return <div className="hoam-modal__body">{children}</div>;
+function ModalBody({ children, padded = true }: { children: ReactNode; padded?: Boolean }) {
+  return (
+    <div
+      className="hoam-modal__body"
+      data-padded={padded}
+    >
+      {children}
+    </div>
+  );
 }
 
 /**

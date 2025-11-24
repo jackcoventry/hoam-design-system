@@ -46,7 +46,15 @@ function SearchResult({ title, url, preview }: Readonly<SearchFormResult>) {
   );
 }
 
-function SearchResults({ items }: Readonly<SearchResultsProps>) {
+export function SearchLoader() {
+  return (
+    <div className="hoam-search-form__loader">
+      <span className="hoam-loader"></span>
+    </div>
+  );
+}
+
+export function SearchResults({ items }: Readonly<SearchResultsProps>) {
   if (items.length === 0)
     return (
       <div className="hoam-search-form__message">
@@ -93,14 +101,13 @@ function SearchForm({ onSubmit, data, loading, error }: Readonly<SearchFormProps
           render={({ field }) => (
             <input
               {...field}
-              placeholder={errors?.q?.message || 'Search...'}
+              placeholder={errors?.q?.message || 'Enter keywords...'}
               className="hoam-text-field"
               data-valid={errors?.q ? 'false' : 'true'}
               disabled={loading}
             />
           )}
         />
-
         <Button
           type="submit"
           className="hoam-search-form__button"
@@ -109,12 +116,6 @@ function SearchForm({ onSubmit, data, loading, error }: Readonly<SearchFormProps
           Search
         </Button>
       </form>
-      {loading && !error ? (
-        <div className="hoam-search-form__loader">
-          <span className="hoam-loader"></span>
-        </div>
-      ) : null}
-      {data && !error && !loading ? <SearchResults items={data} /> : null}
     </div>
   );
 }

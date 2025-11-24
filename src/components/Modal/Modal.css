@@ -44,7 +44,8 @@
 .hoam-modal[data-variant="modal"] .hoam-modal__dialog {
   border-radius: 5px;
   max-height: calc(100dvh - var(--hoam-spacing-6));
-  max-width: 600px;
+  max-width: 1200px;
+  width: fit-content;
   transform: translateY(4px);
   transition: transform 200ms ease-out;
 }
@@ -63,7 +64,7 @@
   transform: translateX(150%);
   transition: transform 200ms ease-out;
   display: grid;
-  grid-template-rows: 100px 1fr;
+  grid-template-rows: 110px 1fr;
 }
 
 .hoam-modal[data-open="true"][data-variant="drawer"] .hoam-modal__dialog {
@@ -80,14 +81,21 @@
 
 .hoam-modal__header {
   align-items: center;
-  border-bottom: 1px solid var(--hoam-color-moon-300);
   display: flex;
   gap: var(--hoam-spacing-5);
   justify-content: space-between;
-  padding: var(--hoam-spacing-5);
+}
+
+.hoam-modal__header:has(+ .hoam-modal__body:not(:empty)) {
+  border-bottom: 1px solid var(--hoam-color-moon-300);
 }
 
 .hoam-modal__body {
+  overflow-y: auto;
+}
+
+.hoam-modal__header[data-padded="true"],
+.hoam-modal__body[data-padded="true"] {
   padding: var(--hoam-spacing-5);
 }
 

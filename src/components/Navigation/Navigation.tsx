@@ -3,6 +3,8 @@ import { items as BasketItemData } from '@/components/Basket/Basket.stories';
 import SearchForm, {
   SearchFormResult,
   SearchFormSchemaType,
+  SearchLoader,
+  SearchResults,
 } from '@/components/Form/SearchForm/SearchForm';
 import Modal from '@/components/Modal/Modal';
 import { useKeyboardNav } from '@/components/Navigation/hooks/useKeyboardNav';
@@ -301,16 +303,18 @@ export default function Navigation({
         onClose={handleSearchModalClose}
         variant="modal"
       >
-        <Modal.Header>
-          <Modal.Title>Search</Modal.Title>
-          <Modal.CloseButton callback={handleSearchModalClose} />
+        <Modal.Header padded={false}>
+          <SearchForm
+            onSubmit={onSubmit}
+            data={data}
+            loading={loading}
+            error={error}
+          />
         </Modal.Header>
-        <SearchForm
-          onSubmit={onSubmit}
-          data={data}
-          loading={loading}
-          error={error}
-        />
+        <Modal.Body padded={false}>
+          {loading && !error ? <SearchLoader /> : null}
+          {data && !error && !loading ? <SearchResults items={data} /> : null}
+        </Modal.Body>
       </Modal>
 
       <Modal
