@@ -233,15 +233,30 @@ function ModalBody({ children, padded = true }: { children: ReactNode; padded?: 
 }
 
 /**
+ * <Modal.Footer> — structural wrapper for the footer area
+ */
+function ModalFooter({ children, padded = true }: { children: ReactNode; padded?: Boolean }) {
+  return (
+    <footer
+      className="hoam-modal__footer"
+      data-padded={padded}
+    >
+      {children}
+    </footer>
+  );
+}
+
+/**
  * Compound export:
- *   <Modal.Root> with <Modal.Header>, <Modal.Title>, <Modal.CloseButton>, <Modal.Body>
+ *   <Modal.Root> with <Modal.Header>, <Modal.Title>, <Modal.CloseButton>, <Modal.Body>, <Modal.Footer>
  */
 const Modal = Object.assign(ModalRoot, {
   Header: ModalHeader,
   Title: ModalTitle,
   CloseButton: ModalCloseButton,
   Body: ModalBody,
+  Footer: ModalFooter,
 });
 
 export default Modal;
-export { ModalBody, ModalCloseButton, ModalHeader, ModalRoot, ModalTitle };
+export { ModalBody, ModalCloseButton, ModalFooter, ModalHeader, ModalRoot, ModalTitle };

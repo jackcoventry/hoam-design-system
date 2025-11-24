@@ -42,6 +42,10 @@ const Template: Story = {
           <Modal.Body>
             <p>Hello from the modal</p>
           </Modal.Body>
+
+          <Modal.Footer>
+            <p>Footer!</p>
+          </Modal.Footer>
         </Modal>
       </div>
     );

@@ -1,4 +1,4 @@
-import Basket from '@/components/Basket/Basket';
+import Basket, { BasketFooter } from '@/components/Basket/Basket';
 import { items as BasketItemData } from '@/components/Basket/Basket.stories';
 import SearchForm, {
   SearchFormResult,
@@ -320,16 +320,21 @@ export default function Navigation({
       <Modal
         isOpen={openBasketModal}
         onClose={handleBasketModalClose}
-        variant="modal"
+        variant="drawer"
       >
         <Modal.Header>
           <Modal.Title>Your Basket</Modal.Title>
           <Modal.CloseButton callback={handleBasketModalClose} />
         </Modal.Header>
-        <Basket
-          items={BasketItemData}
-          total={basketTotalTemp}
-        />
+        <Modal.Body>
+          <Basket
+            items={BasketItemData}
+            total={basketTotalTemp}
+          />
+        </Modal.Body>
+        <Modal.Footer>
+          <BasketFooter total={basketTotalTemp} />
+        </Modal.Footer>
       </Modal>
     </>
   );

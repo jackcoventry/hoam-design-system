@@ -64,7 +64,7 @@
   transform: translateX(150%);
   transition: transform 200ms ease-out;
   display: grid;
-  grid-template-rows: 110px 1fr;
+  grid-template-rows: 110px 1fr auto;
 }
 
 .hoam-modal[data-open="true"][data-variant="drawer"] .hoam-modal__dialog {
@@ -94,8 +94,13 @@
   overflow-y: auto;
 }
 
+.hoam-modal__body:has(+ .hoam-modal__footer:not(:empty)) {
+  border-bottom: 1px solid var(--hoam-color-moon-300);
+}
+
 .hoam-modal__header[data-padded="true"],
-.hoam-modal__body[data-padded="true"] {
+.hoam-modal__body[data-padded="true"],
+.hoam-modal__footer[data-padded="true"] {
   padding: var(--hoam-spacing-5);
 }
 
