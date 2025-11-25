@@ -1,0 +1,12 @@
+.hoam-signin-form {
+  display: grid;
+  gap: var(--hoam-spacing-4);
+}
+
+.hoam-signin-form__button {
+  justify-content: center;
+}
+
+.hoam-signin-form__title {
+  font: var(--hoam-typography-title-4);
+}

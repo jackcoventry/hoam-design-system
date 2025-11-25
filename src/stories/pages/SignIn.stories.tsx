@@ -35,10 +35,9 @@ const Template = {
 
     return (
       <BaseTemplate>
-        <div className="container">
+        <div className="container | py-2xl">
           <div className="grid">
-            <div className="span-12">
-              <h1>Sign in</h1>
+            <div className="span-12 lg:span-4 lg:start-5">
               <SignInForm
                 onSubmit={onSubmit}
                 data={data}

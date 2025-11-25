@@ -1,12 +1,12 @@
 import { Button } from '@/components/Button/Button';
 import '@/components/Common/Fields.css';
 import '@/components/Common/Loader.css';
-import ErrorPanel from '@/components/ErrorPanel/ErrorPanel';
 import FieldWrapper from '@/components/Form/FieldWrapper/FieldWrapper';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useEffect, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import z from 'zod';
+import './SignIn.css';
 
 const SignInFormSchema = z.object({
   email_address: z.email().trim().min(1, { message: 'Enter a valid email address!' }),
@@ -49,7 +49,7 @@ function SignInForm({ onSubmit, data, loading, error }: Readonly<SignInFormProps
 
   return submitComplete ? (
     <div className="hoam-signin-form__wrapper">
-      <h4>Success! Redirecting now...</h4>
+      <h1 className="hoam-signin-form__title">Success! Redirecting now...</h1>
     </div>
   ) : (
     <div className="hoam-signin-form__wrapper">
@@ -57,6 +57,8 @@ function SignInForm({ onSubmit, data, loading, error }: Readonly<SignInFormProps
         className="hoam-signin-form"
         onSubmit={handleSubmit(onSubmit)}
       >
+        <h2 className="hoam-signin-form__title">Sign in</h2>
+
         <FieldWrapper error={errors?.email_address?.message}>
           <Controller
             name="email_address"
@@ -80,6 +82,7 @@ function SignInForm({ onSubmit, data, loading, error }: Readonly<SignInFormProps
             render={({ field }) => (
               <input
                 {...field}
+                type="password"
                 placeholder="Enter your password"
                 className="hoam-text-field"
                 data-valid={errors?.password ? 'false' : 'true'}
