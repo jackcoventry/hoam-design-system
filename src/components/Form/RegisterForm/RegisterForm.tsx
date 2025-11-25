@@ -2,14 +2,15 @@ import { Button } from '@/components/Button/Button';
 import '@/components/Common/Fields.css';
 import '@/components/Common/Form.css';
 import '@/components/Common/Loader.css';
+import FieldLabel from '@/components/Form/FieldLabel/FieldLabel';
 import FieldWrapper from '@/components/Form/FieldWrapper/FieldWrapper';
+import PasswordStrengthMeter, {
+  calculatePasswordStrength,
+} from '@/components/Form/PasswordStrengthMeter/PasswordStrengthMeter';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useEffect, useMemo, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import z from 'zod';
-import PasswordStrengthMeter, {
-  calculatePasswordStrength,
-} from '../PasswordStrengthMeter/PasswordStrengthMeter';
 
 const RegisterFormSchema = z
   .object({
@@ -88,102 +89,109 @@ function RegisterForm({ onSubmit, data, loading, error }: Readonly<RegisterFormP
       >
         <h2 className="hoam-form__title">Register</h2>
 
-        <label htmlFor="firstName">First Name</label>
-        <FieldWrapper error={errors?.firstName?.message}>
-          <Controller
-            name="firstName"
-            control={control}
-            render={({ field }) => (
-              <input
-                {...field}
-                id="firstName"
-                placeholder="Enter your first name"
-                className="hoam-text-field"
-                data-valid={errors?.firstName ? 'false' : 'true'}
-                disabled={loading}
-              />
-            )}
-          />
-        </FieldWrapper>
+        <section>
+          <FieldLabel htmlFor="firstName">First Name</FieldLabel>
+          <FieldWrapper error={errors?.firstName?.message}>
+            <Controller
+              name="firstName"
+              control={control}
+              render={({ field }) => (
+                <input
+                  {...field}
+                  id="firstName"
+                  placeholder="Enter your first name"
+                  className="hoam-text-field"
+                  data-valid={errors?.firstName ? 'false' : 'true'}
+                  disabled={loading}
+                />
+              )}
+            />
+          </FieldWrapper>
+        </section>
 
-        <label htmlFor="lastName">Last Name</label>
-        <FieldWrapper error={errors?.lastName?.message}>
-          <Controller
-            name="lastName"
-            control={control}
-            render={({ field }) => (
-              <input
-                {...field}
-                id="lastName"
-                placeholder="Enter your last name"
-                className="hoam-text-field"
-                data-valid={errors?.lastName ? 'false' : 'true'}
-                disabled={loading}
-              />
-            )}
-          />
-        </FieldWrapper>
+        <section>
+          <FieldLabel htmlFor="lastName">Last Name</FieldLabel>
+          <FieldWrapper error={errors?.lastName?.message}>
+            <Controller
+              name="lastName"
+              control={control}
+              render={({ field }) => (
+                <input
+                  {...field}
+                  id="lastName"
+                  placeholder="Enter your last name"
+                  className="hoam-text-field"
+                  data-valid={errors?.lastName ? 'false' : 'true'}
+                  disabled={loading}
+                />
+              )}
+            />
+          </FieldWrapper>
+        </section>
 
-        <label htmlFor="email">Email</label>
-        <FieldWrapper error={errors?.email?.message}>
-          <Controller
-            name="email"
-            control={control}
-            render={({ field }) => (
-              <input
-                {...field}
-                id="email"
-                placeholder="Enter your email address"
-                className="hoam-text-field"
-                data-valid={errors?.email ? 'false' : 'true'}
-                disabled={loading}
-              />
-            )}
-          />
-        </FieldWrapper>
+        <section>
+          <FieldLabel htmlFor="email">Email</FieldLabel>
+          <FieldWrapper error={errors?.email?.message}>
+            <Controller
+              name="email"
+              control={control}
+              render={({ field }) => (
+                <input
+                  {...field}
+                  id="email"
+                  placeholder="Enter your email address"
+                  className="hoam-text-field"
+                  data-valid={errors?.email ? 'false' : 'true'}
+                  disabled={loading}
+                />
+              )}
+            />
+          </FieldWrapper>
+        </section>
 
         <hr />
-        <label htmlFor="password">Password</label>
+        <section>
+          <FieldLabel htmlFor="password">Password</FieldLabel>
+          <PasswordStrengthMeter strength={passwordStrength} />
+          <FieldWrapper error={errors?.password?.message}>
+            <Controller
+              name="password"
+              control={control}
+              render={({ field }) => (
+                <input
+                  {...field}
+                  type="password"
+                  id="password"
+                  placeholder="Enter your password"
+                  className="hoam-text-field"
+                  data-valid={errors?.password ? 'false' : 'true'}
+                  disabled={loading}
+                />
+              )}
+            />
+          </FieldWrapper>
+        </section>
 
-        <PasswordStrengthMeter strength={passwordStrength} />
-
-        <FieldWrapper error={errors?.password?.message}>
-          <Controller
-            name="password"
-            control={control}
-            render={({ field }) => (
-              <input
-                {...field}
-                type="password"
-                id="password"
-                placeholder="Enter your password"
-                className="hoam-text-field"
-                data-valid={errors?.password ? 'false' : 'true'}
-                disabled={loading}
-              />
-            )}
-          />
-        </FieldWrapper>
-
-        <label htmlFor="confirmPassword">Confirm Password</label>
-
-        <FieldWrapper error={errors?.confirmPassword?.message}>
-          <Controller
-            name="confirmPassword"
-            control={control}
-            render={({ field }) => (
-              <input
-                {...field}
-                type="password"
-                id="confirmPassword"
-                placeholder="Confirm your password"
-                className="hoam-text-field"
-                data-valid={errors?.confirmPassword ? 'false' : 'true'}
-                disabled={loading}
-              />
-            )}
-          />
-        </FieldWrapper>
+        <section>
+          <FieldLabel htmlFor="confirmPassword">Confirm Password</FieldLabel>
+          <FieldWrapper error={errors?.confirmPassword?.message}>
+            <Controller
+              name="confirmPassword"
+              control={control}
+              render={({ field }) => (
+                <input
+                  {...field}
+                  type="password"
+                  id="confirmPassword"
+                  placeholder="Confirm your password"
+                  className="hoam-text-field"
+                  data-valid={errors?.confirmPassword ? 'false' : 'true'}
+                  disabled={loading}
+                />
+              )}
+            />
+          </FieldWrapper>
+        </section>
 
         <Button
           type="submit"

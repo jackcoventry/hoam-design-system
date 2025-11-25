@@ -1,8 +1,8 @@
 .hoam-text-field {
   border-radius: 5px;
   border: 1px solid var(--hoam-color-moon-400);
-  font: var(--hoam-typography-body-1);
-  padding: var(--hoam-spacing-2) var(--hoam-spacing-4);
+  font: var(--hoam-typography-label-1);
+  padding: var(--hoam-spacing-3) var(--hoam-spacing-4);
   width: 100%;
 }
 

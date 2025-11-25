@@ -57,7 +57,15 @@ function PasswordStrengthMeter({ strength }: Readonly<PasswordStrengthMeterProps
           );
         })}
       </div>
-      {strength ? <div aria-live="polite">{label}</div> : null}
+      {strength ? (
+        <div
+          aria-live="polite"
+          aria-hidden="true"
+          className="sr-only"
+        >
+          {label}
+        </div>
+      ) : null}
     </div>
   );
 }
