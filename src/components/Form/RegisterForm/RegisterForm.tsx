@@ -4,9 +4,12 @@ import '@/components/Common/Form.css';
 import '@/components/Common/Loader.css';
 import FieldWrapper from '@/components/Form/FieldWrapper/FieldWrapper';
 import { zodResolver } from '@hookform/resolvers/zod';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import z from 'zod';
+import PasswordStrengthMeter, {
+  calculatePasswordStrength,
+} from '../PasswordStrengthMeter/PasswordStrengthMeter';
 
 const RegisterFormSchema = z
   .object({
@@ -49,6 +52,7 @@ function RegisterForm({ onSubmit, data, loading, error }: Readonly<RegisterFormP
     control,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm<RegisterFormSchemaType>({
     resolver: zodResolver(RegisterFormSchema),
     defaultValues: {
@@ -69,6 +73,9 @@ function RegisterForm({ onSubmit, data, loading, error }: Readonly<RegisterFormP
     }
   }, [data]);
 
+  const password = watch('password', '');
+  const passwordStrength = useMemo(() => calculatePasswordStrength(password), [password]);
+
   return submitComplete ? (
     <div className="hoam-form__wrapper">
       <h1 className="hoam-form__title">Success! Redirecting now...</h1>
@@ -81,6 +88,7 @@ function RegisterForm({ onSubmit, data, loading, error }: Readonly<RegisterFormP
       >
         <h2 className="hoam-form__title">Register</h2>
 
+        <label htmlFor="firstName">First Name</label>
         <FieldWrapper error={errors?.firstName?.message}>
           <Controller
             name="firstName"
@@ -88,6 +96,7 @@ function RegisterForm({ onSubmit, data, loading, error }: Readonly<RegisterFormP
             render={({ field }) => (
               <input
                 {...field}
+                id="firstName"
                 placeholder="Enter your first name"
                 className="hoam-text-field"
                 data-valid={errors?.firstName ? 'false' : 'true'}
@@ -97,6 +106,7 @@ function RegisterForm({ onSubmit, data, loading, error }: Readonly<RegisterFormP
           />
         </FieldWrapper>
 
+        <label htmlFor="lastName">Last Name</label>
         <FieldWrapper error={errors?.lastName?.message}>
           <Controller
             name="lastName"
@@ -104,6 +114,7 @@ function RegisterForm({ onSubmit, data, loading, error }: Readonly<RegisterFormP
             render={({ field }) => (
               <input
                 {...field}
+                id="lastName"
                 placeholder="Enter your last name"
                 className="hoam-text-field"
                 data-valid={errors?.lastName ? 'false' : 'true'}
@@ -113,6 +124,7 @@ function RegisterForm({ onSubmit, data, loading, error }: Readonly<RegisterFormP
           />
         </FieldWrapper>
 
+        <label htmlFor="email">Email</label>
         <FieldWrapper error={errors?.email?.message}>
           <Controller
             name="email"
@@ -120,6 +132,7 @@ function RegisterForm({ onSubmit, data, loading, error }: Readonly<RegisterFormP
             render={({ field }) => (
               <input
                 {...field}
+                id="email"
                 placeholder="Enter your email address"
                 className="hoam-text-field"
                 data-valid={errors?.email ? 'false' : 'true'}
@@ -129,6 +142,11 @@ function RegisterForm({ onSubmit, data, loading, error }: Readonly<RegisterFormP
           />
         </FieldWrapper>
 
+        <hr />
+        <label htmlFor="password">Password</label>
+
+        <PasswordStrengthMeter strength={passwordStrength} />
+
         <FieldWrapper error={errors?.password?.message}>
           <Controller
             name="password"
@@ -137,6 +155,7 @@ function RegisterForm({ onSubmit, data, loading, error }: Readonly<RegisterFormP
               <input
                 {...field}
                 type="password"
+                id="password"
                 placeholder="Enter your password"
                 className="hoam-text-field"
                 data-valid={errors?.password ? 'false' : 'true'}
@@ -146,6 +165,8 @@ function RegisterForm({ onSubmit, data, loading, error }: Readonly<RegisterFormP
           />
         </FieldWrapper>
 
+        <label htmlFor="confirmPassword">Confirm Password</label>
+
         <FieldWrapper error={errors?.confirmPassword?.message}>
           <Controller
             name="confirmPassword"
@@ -154,6 +175,7 @@ function RegisterForm({ onSubmit, data, loading, error }: Readonly<RegisterFormP
               <input
                 {...field}
                 type="password"
+                id="confirmPassword"
                 placeholder="Confirm your password"
                 className="hoam-text-field"
                 data-valid={errors?.confirmPassword ? 'false' : 'true'}
