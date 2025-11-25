@@ -47,3 +47,11 @@ h6 {
   margin-top: auto;
   justify-content: center;
 }
+
+html {
+  background-color: var(--hoam-color-moon-100);
+}
+
+main#content {
+  background-color: var(--hoam-color-neutral-900);
+}

@@ -1,0 +1,19 @@
+.hoam-error-panel {
+  display: grid;
+  gap: var(--hoam-spacing-5);
+  padding: var(--hoam-spacing-5) 0;
+}
+
+.hoam-error-panel__button {
+  margin: auto;
+}
+
+.hoam-error-panel__image {
+  margin: 0 auto;
+  max-width: 400px;
+  width: 100%;
+}
+
+.hoam-error-panel__title {
+  text-align: center;
+}
