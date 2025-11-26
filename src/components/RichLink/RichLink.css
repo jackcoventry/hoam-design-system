@@ -1,0 +1,49 @@
+.hoam-rich-link {
+  aspect-ratio: 16/9;
+  border-radius: 5px;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+}
+
+.hoam-rich-link::after {
+  background-color: var(--hoam-color-neutral-100);
+  content: "";
+  display: block;
+  height: 100%;
+  left: 0;
+  opacity: 0.2;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.hoam-rich-link:focus-within {
+  box-shadow:
+    0 0 0 2px white,
+    0 0 0 6px yellow;
+  outline: none;
+}
+
+.hoam-rich-link:hover .hoam-rich-link__image {
+  transform: scale(1.1);
+}
+
+.hoam-rich-link__image {
+  display: block;
+  height: auto;
+  object-fit: cover;
+  object-position: center;
+  transform: scale(1);
+  transition: transform 0.125s ease-in-out;
+  width: 100%;
+}
+
+.hoam-rich-link__text {
+  bottom: var(--hoam-spacing-4);
+  color: var(--hoam-color-moon-100);
+  font: var(--hoam-typography-body-1);
+  left: var(--hoam-spacing-4);
+  position: absolute;
+  z-index: 1;
+}

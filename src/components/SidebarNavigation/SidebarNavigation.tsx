@@ -30,7 +30,7 @@ function SidebarNavigation({ items }) {
                     <h2 className="hoam-sidebar-navigation__section-title">{item.label}</h2>
                     <div>
                       <ul className="hoam-sidebar-navigation__list">
-                        {item?.items.map((child) => (
+                        {item?.items?.map((child) => (
                           <li key={child.id}>
                             <a
                               href={child.href}
@@ -62,7 +62,7 @@ function SidebarNavigation({ items }) {
           >
             <h2 className="hoam-sidebar-navigation__section-title">{item.label}</h2>
             <ul className="hoam-sidebar-navigation__list">
-              {item?.items.map((child) => (
+              {item?.items?.map((child) => (
                 <li key={child.id}>
                   <a
                     href={child.href}
