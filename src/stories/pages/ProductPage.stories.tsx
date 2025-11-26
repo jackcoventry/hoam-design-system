@@ -4,6 +4,7 @@ import RecommendedProducts from '@/components/RecommendedProducts/RecommendedPro
 import ImageGalleryMockData from '@/mocks/components/ImageGallery.json';
 import ProductInformationMockData from '@/mocks/components/ProductInformation.json';
 import ProductTileData from '@/mocks/components/ProductTile.json';
+import BaseTemplate from '@/templates/Base';
 import { Meta } from '@storybook/react-vite';
 
 import React from 'react';
@@ -25,24 +26,26 @@ export default meta;
 const Template = {
   render: (args) => {
     return (
-      <div className="container">
-        <div className="grid gap-lg py-2xl">
-          <div className="span-12 lg:span-6">
-            <ImageGallery images={ImageGalleryMockData} />
+      <BaseTemplate>
+        <div className="container">
+          <div className="grid gap-lg py-2xl">
+            <div className="span-12 lg:span-6">
+              <ImageGallery images={ImageGalleryMockData} />
+            </div>
+            <div className="span-12 lg:start-8 lg:span-5">
+              <ProductInfo
+                {...args}
+                data={ProductInformationMockData}
+              />
+            </div>
           </div>
-          <div className="span-12 lg:start-8 lg:span-5">
-            <ProductInfo
-              {...args}
-              data={ProductInformationMockData}
-            />
-          </div>
-        </div>
 
-        <RecommendedProducts
-          title="Recommended products"
-          products={[ProductTileData, ProductTileData, ProductTileData]}
-        />
-      </div>
+          <RecommendedProducts
+            title="Recommended products"
+            products={[ProductTileData, ProductTileData, ProductTileData]}
+          />
+        </div>
+      </BaseTemplate>
     );
   },
 };
