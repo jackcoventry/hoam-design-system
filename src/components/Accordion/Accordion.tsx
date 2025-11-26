@@ -122,7 +122,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ id, children }) => {
           onClick={() => toggle(id)}
           className="hoam-accordion__item-title-button"
         >
-          {(children as any)[0].props.children}
+          {(children as any)?.[0]?.props?.children}
           <span className="hoam-accordion__icon">
             <svg
               className="icon"
@@ -142,7 +142,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ id, children }) => {
         className="hoam-accordion__panel"
         data-open={isOpen ? 'true' : 'false'}
       >
-        <div className="hoam-accordion__panel-inner">{(children as any)[1].props.children}</div>
+        <div className="hoam-accordion__panel-inner">{(children as any)[1]?.props?.children}</div>
       </div>
     </div>
   );
