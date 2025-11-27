@@ -66,7 +66,11 @@ const Template: Story = {
         tags={args.tags}
         footnote={args.footnote}
       >
-        <h2>Introduction: Lorem Ipsum Dolor Sit Amet</h2>
+        <p>
+          Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per
+          conubia nostra, per inceptos himenaeos.
+        </p>
+        <h3>Introduction: Lorem Ipsum Dolor Sit Amet</h3>
         <p>
           Lorem ipsum dolor sit amet, <strong>consectetur adipiscing elit</strong>. Integer nec
           odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh

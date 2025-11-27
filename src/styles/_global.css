@@ -27,7 +27,7 @@ h6 {
 .body-text {
   display: grid;
   font: var(--hoam-typography-body-1);
-  gap: var(--body-text-spacing, var(--hoam-spacing-3));
+  gap: var(--body-text-spacing, var(--hoam-spacing-4));
 }
 
 /* TODO: move to own file eventually */

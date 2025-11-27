@@ -1,3 +1,4 @@
+import socialLinks from '@/mocks/socialLinks.json';
 import {
   formatISODate,
   formatReadableDate,
@@ -46,10 +47,10 @@ const Wrapper = ({
 }) => {
   let classList = 'span-12';
   if (size === 'default') {
-    classList += ' md:start-3 md:span-8';
+    classList += ' lg:start-3 lg:span-8';
   }
   if (size === 'small') {
-    classList += ' md:start-4 md:span-6';
+    classList += ' lg:start-4 lg:span-6';
   }
 
   return (
@@ -80,34 +81,57 @@ function BlogArticle({
   return (
     <div className="hoam-article__wrapper">
       <article className="hoam-article">
-        <header className="hoam-article__header">
+        <div className="hoam-article__header-wrapper">
           <Wrapper>
-            {category && <p className="hoam-article__header-category">{category}</p>}
-            {title && <h1>{title}</h1>}
-            {summary && <h2>{summary}</h2>}
+            <header className="hoam-article__header">
+              {category && <p className="hoam-article__header-category">{category}</p>}
+              {title && <h1>{title}</h1>}
+              {summary && <h2>{summary}</h2>}
 
-            <p className="hoam-article__meta">
-              {author && (
-                <span className="hoam-article__author">
-                  By
+              <p className="hoam-article__meta">
+                {author && (
+                  <span className="hoam-article__author">
+                    By{' '}
+                    <a
+                      href={`/profile/${author.id}`}
+                      rel="author"
+                    >
+                      {author.name}
+                    </a>
+                  </span>
+                )}
+                <time
+                  className="hoam-article__date"
+                  dateTime={formattedDate}
+                >
+                  {stringDate}
+                </time>
+                <span className="hoam-article__reading-time">{readingTime} minute read</span>
+              </p>
+              <div className="hoam-newsletter-banner__social-links">
+                SHARE
+                {socialLinks.map((link) => (
                   <a
-                    href={`/profile/${author.id}`}
-                    rel="author"
+                    key={link.name}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hoam-newsletter-banner__social-link"
                   >
-                    {author.name}
+                    <svg
+                      className="icon"
+                      width="1.25em"
+                      height="1.25em"
+                      fill="currentColor"
+                    >
+                      <use xlinkHref={`/icons/icons.svg#${link.icon}`} />
+                    </svg>
                   </a>
-                </span>
-              )}
-              <time
-                className="hoam-article__date"
-                dateTime={formattedDate}
-              >
-                {stringDate}
-              </time>
-              <span className="hoam-article__reading-time">{readingTime} minute read</span>
-            </p>
+                ))}
+              </div>
+            </header>
           </Wrapper>
-        </header>
+        </div>
 
         {image && (
           <Wrapper>
@@ -116,7 +140,7 @@ function BlogArticle({
                 src={image.src}
                 alt={image.alt}
               />
-              <figcaption>{image.caption}</figcaption>
+              <figcaption className="hoam-article__figcaption">{image.caption}</figcaption>
             </figure>
           </Wrapper>
         )}
