@@ -5,6 +5,7 @@ function PromoBlock({ title, subtitle, href, image }) {
   const interactiveProps = href
     ? {
         href,
+        'data-sub-link': true,
       }
     : {};
 
