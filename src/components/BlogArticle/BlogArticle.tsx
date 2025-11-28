@@ -32,7 +32,6 @@ type BlogArticleProps = {
   readingTime: number;
   image: BlogImage;
   tags: Tag[];
-  footnote: string;
   children: ReactNode;
 };
 
@@ -71,7 +70,6 @@ function BlogArticle({
   readingTime,
   image,
   tags,
-  footnote,
   children,
 }: Readonly<BlogArticleProps>) {
   const parsedDate = parseLooseDate(publishDate);
@@ -88,15 +86,22 @@ function BlogArticle({
               {title && <h1>{title}</h1>}
               {summary && <h2>{summary}</h2>}
 
-              <p className="hoam-article__meta">
+              <div className="hoam-article__meta">
                 {author && (
                   <span className="hoam-article__author">
                     By{' '}
                     <a
                       href={`/profile/${author.id}`}
                       rel="author"
+                      className="hoam-article__author-link"
                     >
                       {author.name}
+                      <span className="hoam-article__author-avatar">
+                        <img
+                          src="https://placehold.co/20x20"
+                          alt={`The avatar of ${author.name}`}
+                        />
+                      </span>
                     </a>
                   </span>
                 )}
@@ -106,28 +111,38 @@ function BlogArticle({
                 >
                   {stringDate}
                 </time>
-                <span className="hoam-article__reading-time">{readingTime} minute read</span>
-              </p>
-              <div className="hoam-newsletter-banner__social-links">
-                SHARE
-                {socialLinks.map((link) => (
-                  <a
-                    key={link.name}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hoam-newsletter-banner__social-link"
+                <span className="hoam-article__reading-time">
+                  <svg
+                    className="icon"
+                    width="1em"
+                    height="1em"
+                    fill="currentColor"
                   >
-                    <svg
-                      className="icon"
-                      width="1.25em"
-                      height="1.25em"
-                      fill="currentColor"
+                    <use xlinkHref={`/icons/icons.svg#clock`} />
+                  </svg>
+                  {readingTime} minute read
+                </span>
+                <div className="hoam-article__social-links">
+                  SHARE
+                  {socialLinks.map((link) => (
+                    <a
+                      key={link.name}
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hoam-newsletter-banner__social-link"
                     >
-                      <use xlinkHref={`/icons/icons.svg#${link.icon}`} />
-                    </svg>
-                  </a>
-                ))}
+                      <svg
+                        className="icon"
+                        width="1.25em"
+                        height="1.25em"
+                        fill="currentColor"
+                      >
+                        <use xlinkHref={`/icons/icons.svg#${link.icon}`} />
+                      </svg>
+                    </a>
+                  ))}
+                </div>
               </div>
             </header>
           </Wrapper>
@@ -153,7 +168,7 @@ function BlogArticle({
           <Wrapper>
             {tags?.length > 0 ? (
               <p className="hoam-article__tags">
-                <strong>Tags:</strong>
+                <span className="hoam-article__tags-title">Tags: </span>
                 {tags?.map((tag) => (
                   <a
                     key={tag.id}
@@ -165,12 +180,6 @@ function BlogArticle({
                 ))}
               </p>
             ) : null}
-
-            {footnote && (
-              <p className="hoam-article__footnote">
-                <small>{footnote}</small>
-              </p>
-            )}
           </Wrapper>
         </footer>
       </article>

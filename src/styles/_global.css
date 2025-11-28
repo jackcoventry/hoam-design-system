@@ -30,22 +30,22 @@ h6 {
   gap: var(--body-text-spacing, var(--hoam-spacing-4));
 }
 
-/* TODO: move to own file eventually */
-.hoam-form {
-  display: flex;
-  flex-direction: column;
-  gap: var(--hoam-spacing-5);
+.body-text a:link,
+.body-text a:visited {
+  color: var(--hoam-color-moon-700);
+  text-decoration: underline;
 }
 
-.hoam-form__controls {
-  display: grid;
-  gap: var(--hoam-spacing-7);
-  grid-template-columns: auto 1fr;
+.body-text a:hover {
+  color: var(--hoam-color-moon-800);
+  text-decoration: none;
 }
 
-.hoam-form__submit {
-  margin-top: auto;
-  justify-content: center;
+.body-text a:focus {
+  box-shadow:
+    0 0 0 2px white,
+    0 0 0 6px yellow;
+  outline: none;
 }
 
 html {

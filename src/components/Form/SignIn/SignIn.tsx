@@ -94,7 +94,7 @@ function SignInForm({ onSubmit, data, loading, error }: Readonly<SignInFormProps
 
         <Button
           type="submit"
-          className="hoam-form__button"
+          className="hoam-form__submit"
           variant="secondary"
         >
           Sign in

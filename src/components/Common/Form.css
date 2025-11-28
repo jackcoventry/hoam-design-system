@@ -3,7 +3,14 @@
   gap: var(--hoam-spacing-4);
 }
 
-.hoam-form__button {
+.hoam-form__controls {
+  display: grid;
+  gap: var(--hoam-spacing-7);
+  grid-template-columns: auto 1fr;
+}
+
+.hoam-form__submit {
+  margin-top: auto;
   justify-content: center;
 }
 

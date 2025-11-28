@@ -1,4 +1,5 @@
 import BlogArticle from '@/components/BlogArticle/BlogArticle';
+import NewsletterBanner from '@/components/NewsletterBanner/NewsletterBanner';
 import BaseTemplate from '@/templates/Base';
 import { Meta, StoryObj } from '@storybook/react-vite';
 import React from 'react';
@@ -30,22 +31,6 @@ const meta: Meta<typeof BlogArticle> = {
       caption:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.',
     },
-    tags: [
-      {
-        id: '1',
-        name: 'Coffee',
-      },
-      {
-        id: '2',
-        name: 'E-commerce',
-      },
-      {
-        id: '3',
-        name: 'Photography',
-      },
-    ],
-    footnote:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante venenatis dapibus posuere velit aliquet.',
   },
 };
 export default meta;
@@ -64,7 +49,6 @@ const Template: Story = {
         readingTime={args.readingTime}
         image={args.image}
         tags={args.tags}
-        footnote={args.footnote}
       >
         <p>
           Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per
@@ -138,6 +122,10 @@ const Template: Story = {
           Curabitur blandit tempus porttitor. Nullam quis risus eget urna mollis ornare vel eu leo.
         </p>
       </BlogArticle>
+      <NewsletterBanner
+        title="Connect with us"
+        description="Sign up to our newsletter to receive the latest news and updates from our team."
+      />
     </BaseTemplate>
   ),
 };

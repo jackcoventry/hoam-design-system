@@ -195,7 +195,7 @@ function RegisterForm({ onSubmit, data, loading, error }: Readonly<RegisterFormP
 
         <Button
           type="submit"
-          className="hoam-form__button"
+          className="hoam-form__submit"
           variant="secondary"
         >
           Register
