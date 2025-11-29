@@ -1,6 +1,8 @@
+import Breadcrumb from '@/components/Breadcrumb/Breadcrumb';
 import ImageGallery from '@/components/ImageGallery/ImageGallery';
 import ProductInfo from '@/components/ProductInfo/ProductInfo';
 import RecommendedProducts from '@/components/RecommendedProducts/RecommendedProducts';
+import BreadcrumbData from '@/mocks/components/Breadcrumb.json';
 import ImageGalleryMockData from '@/mocks/components/ImageGallery.json';
 import ProductInformationMockData from '@/mocks/components/ProductInformation.json';
 import ProductTileData from '@/mocks/components/ProductTile.json';
@@ -29,6 +31,9 @@ const Template = {
       <BaseTemplate>
         <div className="container">
           <div className="grid gap-lg py-2xl">
+            <div className="span-12">
+              <Breadcrumb items={BreadcrumbData} />
+            </div>
             <div className="span-12 lg:span-6">
               <ImageGallery images={ImageGalleryMockData} />
             </div>
