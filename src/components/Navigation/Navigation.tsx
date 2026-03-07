@@ -17,9 +17,9 @@ import TopNavItem from '@/components/Navigation/MainNavigation/TopNavigationItem
 import MobileNavigation from '@/components/Navigation/MobileNavigation/MobileNavigation';
 import { panelId, topTriggerId } from '@/components/Navigation/Navigation.types';
 import { querySubItemVisibility } from '@/components/Navigation/utils/helpers';
+import { useMockRequest } from '@/hooks/useMockRequest';
 import BasketItemData from '@/mocks/components/Basket';
 import SearchResultsData from '@/mocks/components/SearchResults.json';
-import { useMockRequest } from '@/utils/useMockRequest';
 import React, { useMemo, useRef, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import './Navigation.css';

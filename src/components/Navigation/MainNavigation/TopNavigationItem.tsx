@@ -1,5 +1,4 @@
 import { panelId, topTriggerId } from '@/components/Navigation/Navigation.types';
-import React from 'react';
 
 type TopNavigationItemProps = {
   item: { id: string; label: string; href: string; items?: any[] };

@@ -1,5 +1,4 @@
 import { groupBtnId, groupPanelId, NavItem } from '@/components/Navigation/Navigation.types';
-import React from 'react';
 
 type ThirdLevelItemsProps = {
   parent: NavItem;

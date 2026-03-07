@@ -1,7 +1,6 @@
 import RichLink from '@/components/RichLink/RichLink';
 import MockData from '@/mocks/components/RichLinks.json';
 import { Meta, StoryObj } from '@storybook/react-vite';
-import React from 'react';
 
 const meta: Meta<typeof RichLink> = {
   title: 'Components/Rich Link',

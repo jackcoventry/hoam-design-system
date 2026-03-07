@@ -1,4 +1,4 @@
-import FOCUSABLE_SELECTORS from '@/constants/focusable-selectors';
+import { FOCUSABLE_SELECTORS } from '@/constants/focusable-selectors';
 import { useEffect, useRef } from 'react';
 
 type UseFocusTrapOptions = {
@@ -9,6 +9,7 @@ type UseFocusTrapOptions = {
 
 function getFocusableElements(root: HTMLElement): HTMLElement[] {
   const nodes = Array.from(root.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTORS));
+
   // Only visible, actually focusable
   return nodes.filter(
     (el) =>

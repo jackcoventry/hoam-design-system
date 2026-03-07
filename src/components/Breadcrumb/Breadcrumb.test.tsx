@@ -1,6 +1,6 @@
 import type { NavItem } from '@/components/Navigation/Navigation.types';
 import { render, screen } from '@testing-library/react';
-import React from 'react';
+
 import { describe, expect, it } from 'vitest';
 import Breadcrumb from './Breadcrumb';
 

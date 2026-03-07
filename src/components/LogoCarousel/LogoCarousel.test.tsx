@@ -1,6 +1,6 @@
 import LogoCarousel from '@/components/LogoCarousel/LogoCarousel';
 import { render, screen, waitFor, within } from '@testing-library/react';
-import React from 'react';
+
 import { beforeEach, describe, expect, it } from 'vitest';
 
 beforeEach(() => {

@@ -1,7 +1,6 @@
 import LogoCarousel from '@/components/LogoCarousel/LogoCarousel';
 import LogoCarouselData from '@/mocks/components/LogoCarousel.json';
 import { Meta, StoryObj } from '@storybook/react-vite';
-import React from 'react';
 
 const meta: Meta<typeof LogoCarousel> = {
   title: 'Components/Logo Carousel',

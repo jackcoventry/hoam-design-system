@@ -1,5 +1,3 @@
-import React from 'react';
-
 type NavRootProps = {
   innerRef: React.RefObject<HTMLElement>;
   onLeave: () => void;

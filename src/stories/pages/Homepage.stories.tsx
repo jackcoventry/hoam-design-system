@@ -15,7 +15,6 @@ import LogoCarousel from '@/components/LogoCarousel/LogoCarousel';
 import Navigation from '@/components/Navigation/Navigation';
 import NewsletterBanner from '@/components/NewsletterBanner/NewsletterBanner';
 import PromoSection from '@/components/PromoSection/PromoSection';
-import React from 'react';
 
 const meta: Meta = {
   title: 'Pages/Homepage',
@@ -31,7 +30,7 @@ export default meta;
 const HeroData = [MockSlides[3]];
 
 const Template = {
-  render: (args) => {
+  render: () => {
     return (
       <>
         <NotificationBar messages={NotificationBarData} />

@@ -5,8 +5,8 @@ import SearchForm, {
   SearchResults,
 } from '@/components/Form/SearchForm/SearchForm';
 import Modal from '@/components/Modal/Modal';
+import { useMockRequest } from '@/hooks/useMockRequest';
 import SearchResultsData from '@/mocks/components/SearchResults.json';
-import { useMockRequest } from '@/utils/useMockRequest';
 import { Meta, StoryObj } from '@storybook/react-vite';
 import React, { useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';

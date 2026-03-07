@@ -1,9 +1,9 @@
 import RegisterForm, { RegisterFormSchemaType } from '@/components/Form/RegisterForm/RegisterForm';
+import { useMockRequest } from '@/hooks/useMockRequest';
 import BaseTemplate from '@/templates/Base';
 import { navigateToStory } from '@/utils/navigateToStory';
-import { useMockRequest } from '@/utils/useMockRequest';
 import { Meta } from '@storybook/react-vite';
-import React from 'react';
+
 import { SubmitHandler } from 'react-hook-form';
 
 const meta: Meta = {

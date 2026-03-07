@@ -1,6 +1,5 @@
 import ErrorPanel from '@/components/ErrorPanel/ErrorPanel';
 import { Meta, StoryObj } from '@storybook/react-vite';
-import React from 'react';
 
 const meta: Meta<typeof ErrorPanel> = {
   title: 'Components/Error Panel',

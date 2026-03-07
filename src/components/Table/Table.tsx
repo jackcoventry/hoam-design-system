@@ -1,4 +1,3 @@
-import React from 'react';
 import './Table.css';
 
 function Table({ children }: { children: React.ReactNode }) {

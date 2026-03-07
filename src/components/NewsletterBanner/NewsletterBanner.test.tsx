@@ -1,7 +1,7 @@
 import NewsletterBanner from '@/components/NewsletterBanner/NewsletterBanner';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import React from 'react';
+
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 // Mock the Button component used by NewsletterBanner so we get a plain <button>

@@ -1,7 +1,6 @@
 import Basket from '@/components/Basket/Basket';
 import items from '@/mocks/components/Basket';
 import { Meta, StoryObj } from '@storybook/react-vite';
-import React from 'react';
 
 const meta: Meta<typeof Basket> = {
   title: 'Components/Basket',

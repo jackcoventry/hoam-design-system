@@ -1,5 +1,5 @@
 import { Button } from '@/components/Button/Button';
-import FOCUSABLE_SELECTORS from '@/constants/focusable-selectors';
+import { FOCUSABLE_SELECTORS } from '@/constants/focusable-selectors';
 import React, {
   KeyboardEvent,
   ReactNode,

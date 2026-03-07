@@ -1,7 +1,6 @@
 import PromoSection from '@/components/PromoSection/PromoSection';
 import PromoSectionData from '@/mocks/components/PromoSection.json';
 import { Meta, StoryObj } from '@storybook/react-vite';
-import React from 'react';
 
 const meta: Meta<typeof PromoSection> = {
   title: 'Components/Promo Section',

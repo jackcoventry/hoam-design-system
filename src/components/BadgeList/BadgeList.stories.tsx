@@ -1,6 +1,5 @@
 import BadgeList, { BadgeListItem } from '@/components/BadgeList/BadgeList';
 import { Meta, StoryObj } from '@storybook/react-vite';
-import React from 'react';
 
 const meta: Meta<typeof BadgeList> = {
   title: 'Components/Badge List',

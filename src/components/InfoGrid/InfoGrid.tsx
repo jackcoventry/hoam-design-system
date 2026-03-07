@@ -1,5 +1,5 @@
 import InfoGridItem from '@/components/InfoGrid/InfoGridItem/InfoGridItem';
-import React from 'react';
+
 import './InfoGrid.css';
 
 type InfoGridProps = {

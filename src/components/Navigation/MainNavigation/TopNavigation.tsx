@@ -1,5 +1,3 @@
-import React from 'react';
-
 type TopNavigationProps = {
   children: React.ReactNode;
 };

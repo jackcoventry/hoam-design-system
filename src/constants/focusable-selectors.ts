@@ -1,4 +1,4 @@
-const FOCUSABLE_SELECTORS = [
+export const FOCUSABLE_SELECTORS = [
   'a[href]',
   'area[href]',
   'button:not([disabled])',
@@ -9,5 +9,3 @@ const FOCUSABLE_SELECTORS = [
   'details',
   '[tabindex]:not([tabindex="-1"])',
 ].join(', ');
-
-export default FOCUSABLE_SELECTORS;

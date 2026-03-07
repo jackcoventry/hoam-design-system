@@ -1,5 +1,5 @@
 import { Button } from '@/components/Button/Button';
-import React from 'react';
+
 import './Pagination.css';
 
 type PaginationProps = {

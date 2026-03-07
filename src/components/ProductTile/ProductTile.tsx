@@ -1,6 +1,6 @@
 import BadgeList, { BadgeListItem } from '@/components/BadgeList/BadgeList';
 import { Button } from '@/components/Button/Button';
-import React from 'react';
+
 import './ProductTile.css';
 
 type ProductPrice = {

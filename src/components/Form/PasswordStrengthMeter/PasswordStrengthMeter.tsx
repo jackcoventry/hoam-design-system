@@ -1,4 +1,3 @@
-import React from 'react';
 import './PasswordStrengthMeter.css';
 
 type StrengthLevel = 0 | 1 | 2 | 3 | 4;

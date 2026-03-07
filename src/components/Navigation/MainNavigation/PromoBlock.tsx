@@ -1,5 +1,3 @@
-import React from 'react';
-
 function PromoBlock({ title, subtitle, href, image }) {
   const Element = href ? 'a' : 'div';
   const interactiveProps = href

@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import React from 'react';
+
 import { beforeEach, describe, expect, it, Mock, vi } from 'vitest';
 import Tabs, { TabConfig } from './Tabs';
 
@@ -25,7 +25,7 @@ vi.mock('@/components/Accordion/Accordion', () => {
   };
 });
 
-import useMediaQuery from '@/utils/useMediaQuery';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 
 const mockedUseMediaQuery = useMediaQuery as unknown as Mock;
 

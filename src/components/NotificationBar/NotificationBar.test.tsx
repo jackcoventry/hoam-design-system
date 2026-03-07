@@ -1,5 +1,5 @@
 import { act, fireEvent, render, screen } from '@testing-library/react';
-import React from 'react';
+
 import { afterEach, beforeEach, describe, expect, it, vi, type Mock } from 'vitest';
 import NotificationBar from './NotificationBar';
 
@@ -23,7 +23,7 @@ vi.mock('@/utils/clearIntervalTimeout', () => ({
   },
 }));
 
-const { usePrefersReducedMotion } = await import('@/utils/usePrefersReducedMotion');
+const { usePrefersReducedMotion } = await import('@/hooks/usePrefersReducedMotion');
 
 const MESSAGE = [
   <p key="1">

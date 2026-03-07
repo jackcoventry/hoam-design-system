@@ -1,5 +1,5 @@
 import Accordion, { AccordionItem } from '@/components/Accordion/Accordion';
-import useMediaQuery from '@/utils/useMediaQuery';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 import React, { Activity, KeyboardEvent, Suspense, useRef, useState } from 'react';
 import './Tabs.css';
 

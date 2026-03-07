@@ -1,6 +1,5 @@
 import Tabs, { TabConfig } from '@/components/Tabs/Tabs';
 import { Meta, StoryObj } from '@storybook/react-vite';
-import React from 'react';
 
 const meta: Meta<typeof Tabs> = {
   title: 'Components/Tabs',

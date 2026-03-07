@@ -1,5 +1,4 @@
 import socialLinks from '@/mocks/socialLinks.json';
-import React from 'react';
 
 import './Footer.css';
 

@@ -1,5 +1,5 @@
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { clearIntervalSafe, clearTimeoutSafe } from '@/utils/clearIntervalTimeout';
-import { usePrefersReducedMotion } from '@/utils/usePrefersReducedMotion';
 import React, { CSSProperties, useEffect, useRef, useState } from 'react';
 import './NotificationBar.css';
 

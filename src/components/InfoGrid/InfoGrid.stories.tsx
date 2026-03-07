@@ -1,7 +1,6 @@
 import InfoGrid from '@/components/InfoGrid/InfoGrid';
 import InfoGridItem from '@/components/InfoGrid/InfoGridItem/InfoGridItem';
 import { Meta, StoryObj } from '@storybook/react-vite';
-import React from 'react';
 
 const meta: Meta<typeof InfoGrid> = {
   title: 'Components/Info Grid',

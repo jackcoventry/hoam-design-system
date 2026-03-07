@@ -1,7 +1,7 @@
 // InfoGrid.test.tsx
 import { assertHTMLElement } from '@/utils/test-utils';
 import { render, screen, within } from '@testing-library/react';
-import React from 'react';
+
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import InfoGrid from './InfoGrid';
 import InfoGridItem from './InfoGridItem/InfoGridItem';

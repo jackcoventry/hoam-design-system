@@ -9,8 +9,6 @@ import ProductTileData from '@/mocks/components/ProductTile.json';
 import BaseTemplate from '@/templates/Base';
 import { Meta } from '@storybook/react-vite';
 
-import React from 'react';
-
 const meta: Meta = {
   title: 'Pages/Product Page',
   tags: ['autodocs'],

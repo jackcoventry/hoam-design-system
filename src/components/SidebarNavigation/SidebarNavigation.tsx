@@ -1,6 +1,6 @@
 import Accordion, { AccordionItem } from '@/components/Accordion/Accordion';
 import { Button } from '@/components/Button/Button';
-import useMediaQuery from '@/utils/useMediaQuery';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 import React, { Activity, Suspense, useState } from 'react';
 import './SidebarNavigation.css';
 

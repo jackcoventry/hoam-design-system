@@ -5,7 +5,7 @@ import FooterData from '@/mocks/components/Footer.json';
 import NavigationData from '@/mocks/components/Navigation.json';
 import NotificationBarData from '@/mocks/components/NotificationBar';
 import UserNavigationData from '@/mocks/components/UserNavigation.json';
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 
 type BaseTemplateProps = {
   children: ReactNode;

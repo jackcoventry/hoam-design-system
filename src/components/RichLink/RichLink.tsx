@@ -1,4 +1,3 @@
-import React from 'react';
 import './RichLink.css';
 
 function RichLink({ href, title, image }) {

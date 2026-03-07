@@ -1,4 +1,3 @@
-import React from 'react';
 import './FieldWrapper.css';
 
 function FieldWrapper({ children, error }) {

@@ -1,7 +1,7 @@
 import Message from '@/components/Message/Message';
 import '@testing-library/jest-dom';
 import { fireEvent, render } from '@testing-library/react';
-import React from 'react';
+
 import { describe, expect, it, vi } from 'vitest';
 
 describe('Message', () => {

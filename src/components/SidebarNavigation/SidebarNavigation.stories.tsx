@@ -1,7 +1,6 @@
 import SidebarNavigation from '@/components/SidebarNavigation/SidebarNavigation';
 import SidebarNavigationData from '@/mocks/components/SidebarNavigation.json';
 import { Meta, StoryObj } from '@storybook/react-vite';
-import React from 'react';
 
 const meta: Meta<typeof SidebarNavigation> = {
   title: 'Components/Sidebar Navigation',

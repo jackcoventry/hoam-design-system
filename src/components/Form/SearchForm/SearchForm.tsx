@@ -2,7 +2,7 @@ import { Button } from '@/components/Button/Button';
 import '@/components/Common/Fields.css';
 import '@/components/Common/Loader.css';
 import { zodResolver } from '@hookform/resolvers/zod';
-import React from 'react';
+
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import z from 'zod';
 import './SearchForm.css';

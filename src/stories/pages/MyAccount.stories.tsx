@@ -4,7 +4,6 @@ import RichLinksData from '@/mocks/components/RichLinks.json';
 import SidebarNavigationData from '@/mocks/components/SidebarNavigation.json';
 import BaseTemplate from '@/templates/Base';
 import { Meta } from '@storybook/react-vite';
-import React from 'react';
 
 const meta: Meta = {
   title: 'Pages/Account',

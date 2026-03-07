@@ -1,5 +1,5 @@
 import ProductTile, { ProductTileProps } from '@/components/ProductTile/ProductTile';
-import React from 'react';
+
 import './RecommendedProducts.css';
 
 type RecommendedProductsProps = {

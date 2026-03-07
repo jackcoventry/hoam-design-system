@@ -2,7 +2,6 @@ import BlogArticle from '@/components/BlogArticle/BlogArticle';
 import NewsletterBanner from '@/components/NewsletterBanner/NewsletterBanner';
 import BaseTemplate from '@/templates/Base';
 import { Meta, StoryObj } from '@storybook/react-vite';
-import React from 'react';
 
 const meta: Meta<typeof BlogArticle> = {
   title: 'Pages/Article Page',

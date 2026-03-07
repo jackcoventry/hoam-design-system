@@ -1,7 +1,7 @@
 import { Button } from '@/components/Button/Button';
 import QuantitySelector from '@/components/QuantitySelector/QuantitySelector';
 import { convertNumberToCurrency } from '@/utils/convertNumberToCurrency';
-import React from 'react';
+
 import './Basket.css';
 
 type Thumbnail = {

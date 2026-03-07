@@ -1,4 +1,3 @@
-import React from 'react';
 import './ColorSwatch.css';
 
 // TODO: this might be a demo-only component, consider moving to stories

@@ -1,6 +1,6 @@
 import MobileItem from '@/components/Navigation/MobileItem/MobileItem';
-import useFocusTrap from '@/utils/useFocusTrap';
-import React from 'react';
+import useFocusTrap from '@/hooks/useFocusTrap';
+
 import './MobileNavigation.css';
 
 function MobileNavigation({ items }) {

@@ -12,7 +12,7 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 import '@/components/Common/Dots.css';
-import { usePrefersReducedMotion } from '@/utils/usePrefersReducedMotion';
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import './Hero.css';
 
 type HeroSlideProps = {

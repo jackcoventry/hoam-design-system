@@ -3,7 +3,6 @@ import ProductTile from '@/components/ProductTile/ProductTile';
 import Data from '@/mocks/components/ProductTile.json';
 import BaseTemplate from '@/templates/Base';
 import { Meta } from '@storybook/react-vite';
-import React from 'react';
 
 const meta: Meta = {
   title: 'Pages/Product Listing',

@@ -1,5 +1,5 @@
 import { NavItem } from '@/components/Navigation/Navigation.types';
-import React from 'react';
+
 import './Breadcrumb.css';
 
 type BreadcrumbProps = {

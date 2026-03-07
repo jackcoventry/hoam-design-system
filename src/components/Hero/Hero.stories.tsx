@@ -1,7 +1,6 @@
 import Hero, { HeroSlide } from '@/components/Hero/Hero';
 import MockSlides from '@/mocks/components/Hero.json';
 import { Meta, StoryObj } from '@storybook/react-vite';
-import React from 'react';
 
 const meta: Meta<typeof Hero> = {
   title: 'Components/Hero',
