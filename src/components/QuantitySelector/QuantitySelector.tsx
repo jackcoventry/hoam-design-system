@@ -1,5 +1,6 @@
 import { Button } from '@/components/Button/Button';
 
+import { forwardRef, KeyboardEvent, useEffect, useRef, useState } from 'react';
 import './QuantitySelector.css';
 
 export interface QuantitySelectorProps {
@@ -21,7 +22,7 @@ function clamp(n: number, min: number, max: number) {
   return n;
 }
 
-export const QuantitySelector = React.forwardRef<HTMLInputElement, QuantitySelectorProps>(
+export const QuantitySelector = forwardRef<HTMLInputElement, QuantitySelectorProps>(
   (
     {
       value = 0,
@@ -38,17 +39,17 @@ export const QuantitySelector = React.forwardRef<HTMLInputElement, QuantitySelec
   ) => {
     const ariaMin = Number.isFinite(min) ? min : undefined;
     const ariaMax = Number.isFinite(max) ? max : undefined;
-    const latestValueRef = React.useRef(value);
+    const latestValueRef = useRef(value);
     const atMin = value <= min;
     const atMax = value >= max;
 
-    const [text, setText] = React.useState(String(value));
+    const [text, setText] = useState(String(value));
 
-    React.useEffect(() => {
+    useEffect(() => {
       setText(String(clamp(value, min, max)));
     }, [value, min, max]);
 
-    React.useEffect(() => {
+    useEffect(() => {
       latestValueRef.current = value;
     }, [value]);
 
@@ -60,8 +61,8 @@ export const QuantitySelector = React.forwardRef<HTMLInputElement, QuantitySelec
       apply(latestValueRef.current + dir * multiplier);
 
     // Handles pressing and holding the increment/decrement buttons
-    const pressTimeout = React.useRef<number | null>(null);
-    const pressDirection = React.useRef<1 | -1 | 0>(0);
+    const pressTimeout = useRef<number | null>(null);
+    const pressDirection = useRef<1 | -1 | 0>(0);
 
     const stopPress = () => {
       pressDirection.current = 0;
@@ -91,14 +92,14 @@ export const QuantitySelector = React.forwardRef<HTMLInputElement, QuantitySelec
       onMouseLeave: stopPress,
       onTouchStart: () => startPress(dir),
       onTouchEnd: stopPress,
-      onKeyDown: (e: React.KeyboardEvent<HTMLButtonElement>) => {
+      onKeyDown: (e: KeyboardEvent<HTMLButtonElement>) => {
         // Support keyboard activation on focused buttons
         if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
           e.preventDefault(); // avoid page scroll and rely on our handler
           startPress(dir);
         }
       },
-      onKeyUp: (e: React.KeyboardEvent<HTMLButtonElement>) => {
+      onKeyUp: (e: KeyboardEvent<HTMLButtonElement>) => {
         if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
           e.preventDefault();
           stopPress();
@@ -106,7 +107,7 @@ export const QuantitySelector = React.forwardRef<HTMLInputElement, QuantitySelec
       },
     });
 
-    React.useEffect(() => stopPress, []); // cleanup
+    useEffect(() => stopPress, []); // cleanup
 
     return (
       <div className="hoam-quantity-selector">
@@ -150,5 +151,7 @@ export const QuantitySelector = React.forwardRef<HTMLInputElement, QuantitySelec
     );
   }
 );
+
+QuantitySelector.displayName = 'QuantitySelector';
 
 export default QuantitySelector;

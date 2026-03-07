@@ -53,7 +53,6 @@ type ProductInfoProps = {
 function ProductInfo({
   title,
   description,
-  productId,
   inStock,
   newItem,
   lowStock,

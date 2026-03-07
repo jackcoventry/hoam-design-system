@@ -1,13 +1,11 @@
 import { act, fireEvent, render, screen } from '@testing-library/react';
-
-import { afterEach, beforeEach, describe, expect, it, vi, type Mock } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, MockInstance, vi, type Mock } from 'vitest';
 import NotificationBar from './NotificationBar';
 
-vi.mock('@/utils/usePrefersReducedMotion', () => ({
+vi.mock('@/hooks/usePrefersReducedMotion', () => ({
   usePrefersReducedMotion: vi.fn(() => false),
 }));
 
-// Not strictly necessary to mock these, but it keeps logs quiet
 vi.mock('@/utils/clearIntervalTimeout', () => ({
   clearIntervalSafe: (ref: { current: number | null }) => {
     if (ref.current !== null) {
@@ -42,7 +40,7 @@ const FADE = 500; // fadeTime
 const RESTART = 2000; // restartDelay
 
 describe('NotificationBar (auto-rotates only when messages.length > 1)', () => {
-  let setIntervalSpy: ReturnType<typeof vi.spyOn>;
+  let setIntervalSpy: MockInstance;
 
   beforeEach(() => {
     vi.useFakeTimers();
@@ -99,7 +97,7 @@ describe('NotificationBar (auto-rotates only when messages.length > 1)', () => {
     // Only one link
     expect(screen.getAllByRole('link')).toHaveLength(1);
 
-    await act(async () => {
+    act(() => {
       vi.advanceTimersByTime(INTERVAL);
       vi.advanceTimersByTime(FADE);
     });
@@ -125,7 +123,7 @@ describe('NotificationBar (auto-rotates only when messages.length > 1)', () => {
     fireEvent.mouseEnter(region);
     expect(status).toHaveAttribute('aria-live', 'off');
 
-    await act(async () => {
+    act(() => {
       vi.advanceTimersByTime(INTERVAL * 2);
     });
     expect(screen.getByRole('link', { name: /see status/i })).toBeInTheDocument();
@@ -133,17 +131,17 @@ describe('NotificationBar (auto-rotates only when messages.length > 1)', () => {
     // Schedule resume on mouse leave
     fireEvent.mouseLeave(region);
 
-    await act(async () => {
+    act(() => {
       vi.advanceTimersByTime(RESTART - 1);
     });
     expect(status).toHaveAttribute('aria-live', 'off');
 
-    await act(async () => {
+    act(() => {
       vi.advanceTimersByTime(1);
     });
     expect(status).toHaveAttribute('aria-live', 'polite');
 
-    await act(async () => {
+    act(() => {
       vi.advanceTimersByTime(INTERVAL);
       vi.advanceTimersByTime(FADE);
     });
@@ -155,7 +153,7 @@ describe('NotificationBar (auto-rotates only when messages.length > 1)', () => {
 
     // Blur + restart delay resumes
     fireEvent.blur(region);
-    await act(async () => {
+    act(() => {
       vi.advanceTimersByTime(RESTART);
     });
     expect(status).toHaveAttribute('aria-live', 'polite');
@@ -178,7 +176,7 @@ describe('NotificationBar (auto-rotates only when messages.length > 1)', () => {
     // No tabIndex when rotation is disabled
     expect(region).not.toHaveAttribute('tabindex');
 
-    await act(async () => {
+    act(() => {
       vi.advanceTimersByTime(60_000);
     });
     expect(screen.getByRole('link', { name: /see status/i })).toBeInTheDocument();

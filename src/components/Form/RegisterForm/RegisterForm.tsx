@@ -8,7 +8,7 @@ import PasswordStrengthMeter, {
   calculatePasswordStrength,
 } from '@/components/Form/PasswordStrengthMeter/PasswordStrengthMeter';
 import { zodResolver } from '@hookform/resolvers/zod';
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import z from 'zod';
 
@@ -48,7 +48,7 @@ type RegisterFormProps = {
   error: Error;
 };
 
-function RegisterForm({ onSubmit, data, loading, error }: Readonly<RegisterFormProps>) {
+function RegisterForm({ onSubmit, data, loading }: Readonly<RegisterFormProps>) {
   const {
     control,
     handleSubmit,

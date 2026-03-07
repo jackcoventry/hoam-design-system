@@ -117,8 +117,8 @@ const TemplateForSearchModal: Story = {
     const [open, setOpen] = useState(false);
     const { data, loading, error, run, reset } = useMockRequest<Array<SearchFormResult>>();
 
-    const onSubmit: SubmitHandler<SearchFormSchemaType> = () => {
-      run({
+    const onSubmit: SubmitHandler<SearchFormSchemaType> = async () => {
+      await run({
         delay: 1500,
         response: args.data,
       });

@@ -1,7 +1,13 @@
 import './ColorSwatch.css';
 
-// TODO: this might be a demo-only component, consider moving to stories
-function ColorSwatch({ colors = [] }: { colors?: { name: string; value: string }[] }) {
+export type ColorProps = {
+  name: string;
+  value: string;
+  cssVar?: string;
+  colors: ColorProps[];
+};
+
+function ColorSwatch({ colors = [] }: Readonly<{ colors?: ColorProps[] }>) {
   return (
     <div className="hoam-color-swatch">
       {colors?.map((color) => (

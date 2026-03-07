@@ -1,7 +1,6 @@
 import Tokens from '@/styles/variables.json';
 
 const Template = () => {
-  const typography = ['title', 'body', 'label', 'button'];
   const typographyTokens = Tokens?.filter((token) => token?.type === 'typography');
 
   return typographyTokens?.length > 0 ? (
@@ -19,7 +18,7 @@ const Template = () => {
           </tr>
           {typographyTokens?.map((token) => {
             return (
-              <tr>
+              <tr key={token.name}>
                 <td
                   style={{
                     textAlign: 'left',

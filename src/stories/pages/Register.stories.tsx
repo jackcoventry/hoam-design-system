@@ -18,10 +18,10 @@ export default meta;
 
 const Template = {
   render: () => {
-    const { data, loading, error, run, reset } = useMockRequest<any>();
+    const { data, loading, error, run } = useMockRequest<any>();
 
-    const onSubmit: SubmitHandler<RegisterFormSchemaType> = () => {
-      run({
+    const onSubmit: SubmitHandler<RegisterFormSchemaType> = async () => {
+      await run({
         delay: 500,
         response: {
           message: 'SUCCESS',

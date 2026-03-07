@@ -1,6 +1,6 @@
 import merge from 'deepmerge';
-import { readFile } from 'fs/promises';
 import { glob } from 'glob';
+import { readFile } from 'node:fs/promises';
 import StyleDictionary from 'style-dictionary';
 import { PREFIX } from '../constants/index.js';
 import { resolveReferences } from '../utils/get.js';

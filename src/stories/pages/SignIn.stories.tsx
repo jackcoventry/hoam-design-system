@@ -19,8 +19,8 @@ const Template = {
   render: () => {
     const { data, loading, error, run } = useMockRequest<any>();
 
-    const onSubmit: SubmitHandler<SignInFormSchemaType> = () => {
-      run({
+    const onSubmit: SubmitHandler<SignInFormSchemaType> = async () => {
+      await run({
         delay: 500,
         response: {
           message: 'SUCCESS',

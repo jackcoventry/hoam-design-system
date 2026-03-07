@@ -1,6 +1,12 @@
-import ColorSwatch from '@/components/ColorSwatch/ColorSwatch';
+import ColorSwatch, { ColorProps } from '@/components/ColorSwatch/ColorSwatch';
 
-function ColorItem({ title, subtitle, colors = [] }) {
+type Props = {
+  title: string;
+  subtitle?: string;
+  colors: ColorProps[];
+};
+
+function ColorItem({ title, subtitle, colors = [] }: Readonly<Props>) {
   return (
     <tr className="hoam-table__row">
       <td className="hoam-table__cell">

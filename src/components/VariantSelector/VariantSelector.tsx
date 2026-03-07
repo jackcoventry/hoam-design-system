@@ -1,4 +1,4 @@
-import React, { forwardRef, useId, useMemo, useRef, useState } from 'react';
+import { forwardRef, useId, useMemo, useRef, useState } from 'react';
 import './VariantSelector.css';
 
 type VariantValue = string | number;

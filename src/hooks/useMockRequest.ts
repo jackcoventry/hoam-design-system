@@ -3,7 +3,7 @@ import { useCallback, useState } from 'react';
 type MockOptions<T> = {
   delay?: number;
   shouldFail?: boolean;
-  response?: T | (() => T);
+  response: T | (() => T);
 };
 
 export function useMockRequest<T = unknown>() {

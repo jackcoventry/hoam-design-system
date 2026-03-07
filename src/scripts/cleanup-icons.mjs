@@ -1,5 +1,4 @@
-// Import the necessary modules
-import { promises as fs } from 'fs';
+import { promises as fs } from 'node:fs';
 
 // Array of file paths to delete
 const filesToDelete = ['./design-tokens/_variables.css', './design-tokens/variables.json'];

@@ -1,17 +1,27 @@
+import { ColorProps } from '@/components/ColorSwatch/ColorSwatch';
 import ColorItem from '@/stories/components/ColorItem';
 import DocTable from '@/stories/components/DocTable';
 import Tokens from '@/styles/variables.json';
 import groupBy from '@/utils/group-by';
 
-const TokenList = ({ items = [], title }) => {
+type ListProps = {
+  items: ColorProps[];
+  title: string;
+};
+
+type SetProps = {
+  items: ColorProps[];
+};
+
+const TokenList = ({ items = [], title }: ListProps) => {
   return items?.length > 0 ? (
     <>
       {title && <h2>{title}</h2>}
       <DocTable>
         {items?.map((token) => (
           <ColorItem
-            title={token?.name}
-            subtitle={token?.cssVar}
+            key={token.name}
+            title={token.name}
             colors={[
               {
                 name: token?.value,
@@ -25,14 +35,15 @@ const TokenList = ({ items = [], title }) => {
   ) : null;
 };
 
-const TokenSet = ({ items = [] }) => {
+const TokenSet = ({ items = [] }: SetProps) => {
   return items?.length > 0 ? (
     <DocTable>
       {items?.map((token) => {
         return (
           <ColorItem
+            key={token.name}
             title={token?.name}
-            colors={token?.items}
+            colors={token?.colors}
           />
         );
       })}

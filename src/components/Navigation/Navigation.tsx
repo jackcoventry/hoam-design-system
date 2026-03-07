@@ -87,8 +87,8 @@ export default function Navigation({
 
   const [openBasketModal, setOpenBasketModal] = useState(false);
 
-  const onSubmit: SubmitHandler<SearchFormSchemaType> = () => {
-    run({
+  const onSubmit: SubmitHandler<SearchFormSchemaType> = async () => {
+    await run({
       delay: 1500,
       response: SearchResultsData,
     });

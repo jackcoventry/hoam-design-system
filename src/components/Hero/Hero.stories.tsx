@@ -1,8 +1,13 @@
-import Hero, { HeroSlide } from '@/components/Hero/Hero';
+import { Hero } from '@/components/Hero/Hero';
+import { HeroSlide, HeroSlideProps } from '@/components/Hero/HeroSlide';
 import MockSlides from '@/mocks/components/Hero';
 import { Meta, StoryObj } from '@storybook/react-vite';
 
-const meta: Meta<typeof Hero> = {
+type HeroStoryArgs = React.ComponentProps<typeof Hero> & {
+  data: typeof MockSlides;
+};
+
+const meta: Meta<HeroStoryArgs> = {
   title: 'Components/Hero',
   component: Hero,
   tags: ['autodocs'],
@@ -13,22 +18,22 @@ const meta: Meta<typeof Hero> = {
 
 export default meta;
 
-type Story = StoryObj<typeof Hero>;
+type Story = StoryObj<typeof meta>;
 
 const Template: Story = {
   render: (args) => (
-    <Hero effect={args.data?.length > 2 ? 'slide' : 'fade'}>
-      {args.data?.map((slide) => (
+    <Hero>
+      {args.data?.map((slide: HeroSlideProps) => (
         <HeroSlide
-          key={slide.image}
+          key={slide.image ?? slide.video ?? slide.title}
           title={slide.title}
           subtitle={slide.subtitle}
           text={slide.text}
-          theme={slide.theme}
-          image={slide.image}
-          video={slide.video}
           button={slide.button}
-          position={slide.position}
+          {...(slide.theme === undefined ? {} : { theme: slide.theme })}
+          {...(slide.image === undefined ? {} : { image: slide.image })}
+          {...(slide.video === undefined ? {} : { video: slide.video })}
+          {...(slide.position === undefined ? {} : { position: slide.position })}
         />
       ))}
     </Hero>
