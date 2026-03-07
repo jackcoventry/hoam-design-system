@@ -1,4 +1,4 @@
-import socialLinks from '@/mocks/socialLinks.json';
+import socialLinks from '@/mocks/socialLinks';
 import {
   formatISODate,
   formatReadableDate,

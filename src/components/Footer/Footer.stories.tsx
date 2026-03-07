@@ -1,5 +1,5 @@
 import Footer from '@/components/Footer/Footer';
-import FooterData from '@/mocks/components/Footer.json';
+import FooterData from '@/mocks/components/Footer';
 import { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta: Meta<typeof Footer> = {

@@ -1,5 +1,5 @@
 import ImageGallery from '@/components/ImageGallery/ImageGallery';
-import ImageGalleryMockData from '@/mocks/components/ImageGallery.json';
+import ImageGalleryMockData from '@/mocks/components/ImageGallery';
 import { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta: Meta<typeof ImageGallery> = {

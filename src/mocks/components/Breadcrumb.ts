@@ -1,0 +1,19 @@
+const items = [
+  {
+    id: 'home',
+    label: 'Home',
+    href: '/',
+  },
+  {
+    id: 'shop',
+    label: 'Shop',
+    href: '/shop',
+  },
+  {
+    id: 'sample',
+    label: 'Sample product',
+    href: '/shop/sample-product',
+  },
+];
+
+export default items;

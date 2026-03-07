@@ -52,8 +52,6 @@ export const QuantitySelector = React.forwardRef<HTMLInputElement, QuantitySelec
       latestValueRef.current = value;
     }, [value]);
 
-    React.useEffect(() => stopPress, []); // cleanup
-
     // Takes a new number, clamps it and triggers the onChange callback
     const apply = (next: number) => onChange(clamp(next, min, max));
 
@@ -107,6 +105,8 @@ export const QuantitySelector = React.forwardRef<HTMLInputElement, QuantitySelec
         }
       },
     });
+
+    React.useEffect(() => stopPress, []); // cleanup
 
     return (
       <div className="hoam-quantity-selector">

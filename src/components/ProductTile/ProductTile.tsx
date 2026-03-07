@@ -58,7 +58,7 @@ function ProductTile({
           href={`#${productId}`}
           className="hoam-product-tile__link"
         >
-          <span role="text">{title}</span>
+          <span>{title}</span>
         </a>
       </h2>
       {description && <span className="hoam-product-tile__description">{description}</span>}

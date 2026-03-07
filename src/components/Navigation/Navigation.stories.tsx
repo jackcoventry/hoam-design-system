@@ -1,6 +1,6 @@
 import Navigation from '@/components/Navigation/Navigation';
-import NavigationData from '@/mocks/components/Navigation.json';
-import UserNavigationData from '@/mocks/components/UserNavigation.json';
+import NavigationData from '@/mocks/components/Navigation';
+import UserNavigationData from '@/mocks/components/UserNavigation';
 import { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta: Meta<typeof Navigation> = {

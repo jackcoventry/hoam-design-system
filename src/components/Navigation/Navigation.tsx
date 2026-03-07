@@ -19,7 +19,7 @@ import { panelId, topTriggerId } from '@/components/Navigation/Navigation.types'
 import { querySubItemVisibility } from '@/components/Navigation/utils/helpers';
 import { useMockRequest } from '@/hooks/useMockRequest';
 import BasketItemData from '@/mocks/components/Basket';
-import SearchResultsData from '@/mocks/components/SearchResults.json';
+import SearchResultsData from '@/mocks/components/SearchResults';
 import React, { useMemo, useRef, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import './Navigation.css';

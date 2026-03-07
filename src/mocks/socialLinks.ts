@@ -1,0 +1,19 @@
+const items = [
+  {
+    name: 'Facebook',
+    url: 'https://www.facebook.com/',
+    icon: 'facebook',
+  },
+  {
+    name: 'Instagram',
+    url: 'https://www.instagram.com/',
+    icon: 'instagram',
+  },
+  {
+    name: 'TikTok',
+    url: 'https://www.tiktok.com/',
+    icon: 'tiktok',
+  },
+];
+
+export default items;

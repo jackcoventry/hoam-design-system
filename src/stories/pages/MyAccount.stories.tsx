@@ -1,7 +1,7 @@
 import RichLink from '@/components/RichLink/RichLink';
 import SidebarNavigation from '@/components/SidebarNavigation/SidebarNavigation';
-import RichLinksData from '@/mocks/components/RichLinks.json';
-import SidebarNavigationData from '@/mocks/components/SidebarNavigation.json';
+import RichLinksData from '@/mocks/components/RichLinks';
+import SidebarNavigationData from '@/mocks/components/SidebarNavigation';
 import BaseTemplate from '@/templates/Base';
 import { Meta } from '@storybook/react-vite';
 

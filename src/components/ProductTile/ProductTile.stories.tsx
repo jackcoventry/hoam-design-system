@@ -1,5 +1,5 @@
 import ProductTile from '@/components/ProductTile/ProductTile';
-import Data from '@/mocks/components/ProductTile.json';
+import Data from '@/mocks/components/ProductTile';
 import { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta: Meta<typeof ProductTile> = {

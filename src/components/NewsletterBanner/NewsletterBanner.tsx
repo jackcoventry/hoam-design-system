@@ -1,6 +1,6 @@
 import { Button } from '@/components/Button/Button';
 import '@/components/Common/Dots.css';
-import socialLinks from '@/mocks/socialLinks.json';
+import socialLinks from '@/mocks/socialLinks';
 import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';

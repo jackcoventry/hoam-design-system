@@ -1,6 +1,6 @@
 import Pagination from '@/components/Pagination/Pagination';
 import ProductTile from '@/components/ProductTile/ProductTile';
-import Data from '@/mocks/components/ProductTile.json';
+import Data from '@/mocks/components/ProductTile';
 import BaseTemplate from '@/templates/Base';
 import { Meta } from '@storybook/react-vite';
 

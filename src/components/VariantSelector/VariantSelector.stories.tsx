@@ -1,5 +1,5 @@
 import VariantSelector from '@/components/VariantSelector/VariantSelector';
-import ProductInformationMockData from '@/mocks/components/ProductInformation.json';
+import ProductInformationMockData from '@/mocks/components/ProductInformation';
 import { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta: Meta<typeof VariantSelector> = {

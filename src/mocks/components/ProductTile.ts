@@ -1,0 +1,11 @@
+const items = {
+  title: 'Sample Product',
+  productId: 'sample-product',
+  description: 'A short description of the product.',
+  price: { amount: 100, saleAmount: 80, currency: 'GBP' },
+  inStock: true,
+  newItem: true,
+  lowStock: false,
+};
+
+export default items;

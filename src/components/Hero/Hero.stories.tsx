@@ -1,5 +1,5 @@
 import Hero, { HeroSlide } from '@/components/Hero/Hero';
-import MockSlides from '@/mocks/components/Hero.json';
+import MockSlides from '@/mocks/components/Hero';
 import { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta: Meta<typeof Hero> = {

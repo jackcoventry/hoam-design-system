@@ -2,10 +2,10 @@ import Breadcrumb from '@/components/Breadcrumb/Breadcrumb';
 import ImageGallery from '@/components/ImageGallery/ImageGallery';
 import ProductInfo from '@/components/ProductInfo/ProductInfo';
 import RecommendedProducts from '@/components/RecommendedProducts/RecommendedProducts';
-import BreadcrumbData from '@/mocks/components/Breadcrumb.json';
-import ImageGalleryMockData from '@/mocks/components/ImageGallery.json';
-import ProductInformationMockData from '@/mocks/components/ProductInformation.json';
-import ProductTileData from '@/mocks/components/ProductTile.json';
+import BreadcrumbData from '@/mocks/components/Breadcrumb';
+import ImageGalleryMockData from '@/mocks/components/ImageGallery';
+import ProductInformationMockData from '@/mocks/components/ProductInformation';
+import ProductTileData from '@/mocks/components/ProductTile';
 import BaseTemplate from '@/templates/Base';
 import { Meta } from '@storybook/react-vite';
 

@@ -1,11 +1,11 @@
 import NotificationBar from '@/components/NotificationBar/NotificationBar';
-import FooterData from '@/mocks/components/Footer.json';
-import MockSlides from '@/mocks/components/Hero.json';
-import LogoCarouselData from '@/mocks/components/LogoCarousel.json';
-import NavigationData from '@/mocks/components/Navigation.json';
+import FooterData from '@/mocks/components/Footer';
+import MockSlides from '@/mocks/components/Hero';
+import LogoCarouselData from '@/mocks/components/LogoCarousel';
+import NavigationData from '@/mocks/components/Navigation';
 import NotificationBarData from '@/mocks/components/NotificationBar';
-import PromoSectionData from '@/mocks/components/PromoSection.json';
-import UserNavigationData from '@/mocks/components/UserNavigation.json';
+import PromoSectionData from '@/mocks/components/PromoSection';
+import UserNavigationData from '@/mocks/components/UserNavigation';
 
 import { Meta } from '@storybook/react-vite';
 
