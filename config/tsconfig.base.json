@@ -4,18 +4,24 @@
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "moduleResolution": "Bundler",
-
     "jsx": "react-jsx",
+    "useDefineForClassFields": true,
 
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
+    "noFallthroughCasesInSwitch": true,
+
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
 
     "skipLibCheck": true,
-    "noEmit": true,
-
-    "paths": {
-      "@/*": ["src/*"]
-    }
+    "noEmit": true
   }
 }

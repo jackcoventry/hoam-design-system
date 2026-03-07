@@ -1,4 +1,5 @@
 import type { StorybookConfig } from "@storybook/react-vite";
+import { mergeConfig } from 'vite';
 
 const config: StorybookConfig = {
   stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
@@ -8,13 +9,13 @@ const config: StorybookConfig = {
     options: {},
   },
   async viteFinal(config) {
-    const { alias } = await import("../alias.config.js");
-    config.resolve = config.resolve || {};
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      ...alias,
-    };
-    return config;
+    return mergeConfig(config, {
+      define: {
+        __STORYBOOK__: 'true',
+      },
+    });
   },
 };
 export default config;
+
+

@@ -38,7 +38,8 @@ type AnchorOnlyProps = {
   'onClick' | 'className' | 'children' | 'aria-label'
 >;
 
-type ButtonProps = CommonProps & (ButtonOnlyProps | AnchorOnlyProps);
+export type ButtonProps = CommonProps & (ButtonOnlyProps | AnchorOnlyProps);
+
 const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Readonly<ButtonProps>>(
   function ButtonRoot(props, ref) {
     const {

@@ -6,25 +6,33 @@
   "type": "module",
   "scripts": {
     "test": "npx vitest --project=storybook",
+    "test:run": "vitest run --project=storybook",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "prettier": "prettier . --check",
     "tokens-old": "style-dictionary build --config style-dictionary.json",
     "icon:tokens": "node src/scripts/generate-icons.mjs",
     "icons": "npm run icon:tokens && svg-sprite --config svg.json --log=info \"src/icons/*.svg\"",
     "tokens": "node src/scripts/register-style-dictionary.mjs",
     "dev": "storybook dev -p 6006",
-    "build": "npm run tokens && rollup -c",
-    "prepare": "npm run build",
-    "build-storybook": "storybook build"
+    "build": "npm run tokens && vite build",
+    "build-storybook": "storybook build",
+    "verify": "npm run prettier && npm run lint && npm run typecheck && npm run test:run"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,astro,json,md,css}": [
+      "prettier . --check"
+    ],
+    "*.{js,jsx,ts,tsx,astro}": [
+      "eslint ."
+    ]
   },
   "author": "Jack Coventry",
   "license": "ISC",
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^28.0.6",
-    "@rollup/plugin-node-resolve": "^16.0.1",
-    "@rollup/plugin-typescript": "^12.1.3",
-    "@rollup/plugin-url": "^8.0.2",
-    "@storybook/addon-docs": "^10.0.8",
-    "@storybook/addon-vitest": "^10.0.8",
-    "@storybook/react-vite": "^10.0.8",
+    "@storybook/addon-docs": "^10.2.16",
+    "@storybook/addon-vitest": "^10.2.16",
+    "@storybook/react-vite": "^10.2.16",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/react": "^16.3.0",
     "@types/node": "^24.0.4",
@@ -43,19 +51,20 @@
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.0.0",
-    "eslint-plugin-storybook": "10.0.8",
+    "eslint-plugin-storybook": "10.2.16",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.3.2",
     "playwright": "^1.53.1",
     "prettier": "3.6.2",
     "prettier-plugin-organize-imports": "^4.3.0",
     "prop-types": "^15.8.1",
-    "rollup": "^4.44.1",
-    "rollup-plugin-peer-deps-external": "^2.2.4",
-    "rollup-plugin-postcss": "^4.0.2",
     "sass": "^1.93.2",
-    "storybook": "^10.0.8",
+    "storybook": "^10.2.16",
     "style-dictionary": "^5.0.1",
     "svg-sprite": "^2.0.4",
     "typescript": "^5.8.3",
+    "typescript-eslint": "^8.56.1",
+    "vite-plugin-dts": "^4.5.4",
     "vitest": "^3.2.4"
   },
   "dependencies": {
