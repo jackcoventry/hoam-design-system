@@ -1,3 +1,5 @@
+import type { NavUserItem } from '@/components/Navigation/types/Navigation.types';
+
 const items = [
   {
     id: 'search',
@@ -22,6 +24,6 @@ const items = [
     title: 'My basket',
     action: 'USER_BASKET',
   },
-];
+] satisfies NavUserItem[];
 
 export default items;

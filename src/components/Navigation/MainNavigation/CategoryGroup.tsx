@@ -1,7 +1,8 @@
-import { groupBtnId, groupPanelId, NavItem } from '@/components/Navigation/Navigation.types';
+import type { NavGroupItem } from '@/components/Navigation/types/Navigation.types';
+import { groupBtnId, groupPanelId } from '@/components/Navigation/utils/helpers';
 
 type CategoryGroupProps = {
-  subitem: NavItem;
+  subitem: NavGroupItem;
   open: boolean;
   onHoverOpen: () => void;
   onFocusOpen: () => void;
@@ -16,15 +17,18 @@ function CategoryGroup({
   children,
 }: Readonly<CategoryGroupProps>) {
   const btnId = groupBtnId(subitem.id);
+  const hasChildren = Boolean(children);
+
   return (
     <div
       className="hoam-navigation__group"
       onPointerEnter={onHoverOpen}
     >
-      {children ? (
+      {hasChildren ? (
         <>
           <button
             id={btnId}
+            type="button"
             data-sub-trigger
             aria-expanded={open}
             aria-controls={groupPanelId(subitem.id)}
@@ -33,17 +37,17 @@ function CategoryGroup({
           >
             {subitem.label}
 
-            {children ? (
-              <svg
-                className="icon"
-                width="0.75em"
-                height="0.75em"
-                fill="currentColor"
-              >
-                <use xlinkHref={`/icons/icons.svg#${open ? 'caret-down' : 'caret-right'}`} />
-              </svg>
-            ) : null}
+            <svg
+              className="icon"
+              width="0.75em"
+              height="0.75em"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <use xlinkHref={`/icons/icons.svg#${open ? 'caret-down' : 'caret-right'}`} />
+            </svg>
           </button>
+
           {children}
         </>
       ) : (

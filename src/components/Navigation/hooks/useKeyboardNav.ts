@@ -1,4 +1,3 @@
-import { panelId } from '@/components/Navigation/Navigation.types';
 import {
   focusNextTick,
   moveInList,
@@ -6,141 +5,218 @@ import {
 } from '@/components/Navigation/utils/helpers';
 import { useCallback } from 'react';
 
-export function useKeyboardNav(
-  rootRef: React.RefObject<HTMLElement>,
-  items: Array<{ id: string; items?: any[] }>,
-  setOpenIndex: (n: number | null) => void,
-  setOpenGroupId: (id: string | null) => void,
-  mapArrow: (k: string) => string,
-  subSelectors: {
-    subTriggersOnly: (panelRoot: Element) => HTMLElement[];
-    subInteractive: (panelRoot: Element) => HTMLElement[];
-    thirdList: (container: Element, groupBtnDomId: string) => HTMLElement[];
-  }
-) {
+type NavChildItem = {
+  id: string;
+};
+
+type NavItem = {
+  id: string;
+  items?: NavChildItem[];
+};
+
+type SubSelectors = {
+  subTriggersOnly: (panelRoot: Element) => HTMLElement[];
+  subInteractive: (panelRoot: Element) => HTMLElement[];
+  thirdList: (container: Element, groupBtnDomId: string) => HTMLElement[];
+};
+
+type UseKeyboardNavOptions = {
+  rootRef: React.RefObject<HTMLElement | null>;
+  items: NavItem[];
+  setOpenIndex: (index: number | null) => void;
+  setOpenGroupId: (id: string | null) => void;
+  mapArrow: (key: string) => string;
+  subSelectors: SubSelectors;
+};
+
+const HANDLED_KEYS = new Set(['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End']);
+
+function isHTMLElement(target: EventTarget | null): target is HTMLElement {
+  return target instanceof HTMLElement;
+}
+
+function getRawId(value: string, prefix: string): string | null {
+  return value.startsWith(prefix) ? value.slice(prefix.length) : null;
+}
+
+function focusFirst(items: HTMLElement[]) {
+  focusNextTick(items[0]);
+}
+
+function focusLast(items: HTMLElement[]) {
+  focusNextTick(items.at(-1));
+}
+
+function getPanelElement(el: HTMLElement): HTMLElement | null {
+  return el.closest<HTMLElement>('[id^="panel-"]');
+}
+
+function getPanelTrigger(container: HTMLElement, panelEl: HTMLElement): HTMLElement | null {
+  const labelledBy = panelEl.getAttribute('aria-labelledby');
+  return labelledBy ? container.querySelector<HTMLElement>(`#${labelledBy}`) : null;
+}
+
+export function useKeyboardNav({
+  rootRef,
+  items,
+  setOpenIndex,
+  setOpenGroupId,
+  mapArrow,
+  subSelectors,
+}: UseKeyboardNavOptions) {
   return useCallback(
-    (e: React.KeyboardEvent<HTMLElement>) => {
-      const container = rootRef?.current;
-      const logicalKey = mapArrow(e.key);
-      if (!['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(logicalKey))
-        return;
+    (event: React.KeyboardEvent<HTMLElement>) => {
+      const container = rootRef.current;
+      if (!container) return;
 
-      e.preventDefault();
-      e.stopPropagation();
+      const logicalKey = mapArrow(event.key);
+      if (!HANDLED_KEYS.has(logicalKey)) return;
 
-      const target = e.target as HTMLElement;
-      const isTopTrigger = (el: HTMLElement) => el.matches('[data-top-trigger]');
-      const isTopCyclable = (el: HTMLElement) => el.matches('[data-top-cyclable]');
-      const topItems = querySubItemVisibility<HTMLElement>(container, '[data-top-cyclable]');
+      if (!isHTMLElement(event.target)) return;
+      const target = event.target;
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      const isTopTrigger = target.matches('[data-top-trigger]');
+      const isTopCyclable = target.matches('[data-top-cyclable]');
       const isSubTrigger = target.matches('[data-sub-trigger]');
       const isThirdLink = target.matches('[data-sub-link]');
 
-      // Top level navigation
-      if (isTopCyclable(target)) {
+      if (isTopCyclable) {
+        const topItems = querySubItemVisibility<HTMLElement>(container, '[data-top-cyclable]');
+
         switch (logicalKey) {
           case 'ArrowRight':
-            moveInList(topItems, target, +1);
+            moveInList(topItems, target, 1);
             return;
+
           case 'ArrowLeft':
             moveInList(topItems, target, -1);
             return;
+
           case 'Home':
-            focusNextTick(topItems[0]);
+            focusFirst(topItems);
             return;
+
           case 'End':
-            focusNextTick(topItems[topItems.length - 1]);
+            focusLast(topItems);
             return;
+
           case 'ArrowDown': {
-            // ArrowDown only opens if we're on a real top trigger (not logo/user)
-            if (logicalKey === 'ArrowDown' && isTopTrigger(target)) {
-              const triggerId = target.id; // "trigger-<id>"
-              if (triggerId?.startsWith('trigger-')) {
-                const rawId = triggerId.replace(/^trigger-/, '');
-                const itemIdx = items.findIndex((i) => i.id === rawId);
-                if (itemIdx >= 0 && items[itemIdx]?.items?.length) {
-                  setOpenIndex(itemIdx);
-                  const firstId = items[itemIdx]?.items?.[0]?.id;
-                  setOpenGroupId(firstId ?? null);
-                  requestAnimationFrame(() => {
-                    const panelRoot =
-                      container.querySelector<HTMLElement>(`#panel-${rawId}`) ?? container;
-                    const firstCat =
-                      querySubItemVisibility<HTMLElement>(panelRoot, '[data-sub-trigger]')[0] ??
-                      querySubItemVisibility<HTMLElement>(
-                        panelRoot,
-                        '[data-sub-trigger], [data-sub-link]'
-                      )[0];
-                    firstCat?.focus();
-                  });
-                }
-              }
-              return;
-            }
+            if (!isTopTrigger) return;
+
+            const rawId = getRawId(target.id, 'trigger-');
+            if (!rawId) return;
+
+            const itemIndex = items.findIndex((item) => item.id === rawId);
+            const item = itemIndex >= 0 ? items[itemIndex] : undefined;
+
+            if (!item?.items?.length) return;
+
+            setOpenIndex(itemIndex);
+            setOpenGroupId(item.items[0]?.id ?? null);
+
+            requestAnimationFrame(() => {
+              const panelRoot =
+                container.querySelector<HTMLElement>(`#panel-${rawId}`) ?? container;
+
+              const firstFocusable =
+                querySubItemVisibility<HTMLElement>(panelRoot, '[data-sub-trigger]')[0] ??
+                querySubItemVisibility<HTMLElement>(
+                  panelRoot,
+                  '[data-sub-trigger], [data-sub-link]'
+                )[0];
+
+              firstFocusable?.focus();
+            });
+
+            return;
           }
+
+          default:
+            return;
         }
       }
 
-      // Second level navigation
       if (isSubTrigger) {
-        const panelEl = target.closest('[id^="panel-"]');
+        const panelEl = getPanelElement(target);
         if (!panelEl) return;
+
         const categories = subSelectors.subTriggersOnly(panelEl);
+
         switch (logicalKey) {
           case 'ArrowDown':
-            moveInList(categories, target, +1);
+            moveInList(categories, target, 1);
             return;
+
           case 'ArrowUp':
             moveInList(categories, target, -1);
             return;
+
           case 'Home':
-            focusNextTick(categories[0]);
+            focusFirst(categories);
             return;
+
           case 'End':
-            focusNextTick(categories[categories.length - 1]);
+            focusLast(categories);
             return;
+
           case 'ArrowLeft': {
-            const panelEl = target.closest('[id^="panel-"]');
-            const labelledBy = panelEl?.getAttribute('aria-labelledby');
-            const trigger = labelledBy
-              ? container.querySelector<HTMLElement>(`#${labelledBy}`)
-              : null;
+            const trigger = getPanelTrigger(container, panelEl);
             if (trigger) focusNextTick(trigger);
             return;
           }
+
           case 'ArrowRight': {
-            const domId = target.id; // group-<id>
-            const raw = domId.replace(/^group-/, '');
-            setOpenGroupId(raw);
+            const rawGroupId = getRawId(target.id, 'group-');
+            if (!rawGroupId) return;
+
+            setOpenGroupId(rawGroupId);
+
             requestAnimationFrame(() => {
-              const firstThird = subSelectors.thirdList(container, domId)[0];
-              firstThird?.focus();
+              const firstThirdLevelItem = subSelectors.thirdList(container, target.id)[0];
+              firstThirdLevelItem?.focus();
             });
+
             return;
           }
+
+          default:
+            return;
         }
       }
 
-      // Third and final navigation level
       if (isThirdLink) {
-        const listContainer = target.closest('[id$="-panel"]');
-        const groupId = listContainer?.id?.replace(/-panel$/, '');
+        const listContainer = target.closest<HTMLElement>('[id$="-panel"]');
+        const groupId = listContainer?.id.replace(/-panel$/, '') ?? null;
+        if (!groupId) return;
+
         const siblings = subSelectors.thirdList(container, groupId);
+
         switch (logicalKey) {
           case 'ArrowDown':
-            moveInList(siblings, target, +1);
+            moveInList(siblings, target, 1);
             return;
+
           case 'ArrowUp':
             moveInList(siblings, target, -1);
             return;
+
           case 'Home':
-            focusNextTick(siblings[0]);
+            focusFirst(siblings);
             return;
+
           case 'End':
-            focusNextTick(siblings[siblings.length - 1]);
+            focusLast(siblings);
             return;
+
           case 'ArrowLeft':
             setOpenGroupId(null);
             focusNextTick(document.getElementById(groupId));
+            return;
+
+          default:
             return;
         }
       }

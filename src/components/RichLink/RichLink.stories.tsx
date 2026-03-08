@@ -1,4 +1,4 @@
-import RichLink from '@/components/RichLink/RichLink';
+import { RichLink } from '@/components/RichLink/RichLink';
 import MockData from '@/mocks/components/RichLinks';
 import { Meta, StoryObj } from '@storybook/react-vite';
 
@@ -27,6 +27,7 @@ const Template: Story = {
                   title={item.title}
                   href={item.href}
                   image={item.image}
+                  imageAlt={item.imageAlt}
                 />
               </div>
             );

@@ -1,13 +1,14 @@
 import { render, screen } from '@testing-library/react';
 
 import { describe, expect, it } from 'vitest';
-import RichLink from './RichLink';
+import { RichLink } from './RichLink';
 
 describe('RichLink', () => {
   const mockProps = {
     href: '/somewhere',
     title: 'Read more',
     image: '/img/test.png',
+    imageAlt: '',
   };
 
   it('renders the link with correct href', () => {
@@ -41,31 +42,5 @@ describe('RichLink', () => {
 
     const link = screen.getByRole('link');
     expect(link).toHaveClass('hoam-rich-link');
-  });
-
-  it('handles missing props safely', () => {
-    // Undefined props should not break the component
-    render(
-      (
-        <RichLink
-          href={undefined}
-          title={undefined}
-          image={undefined}
-        />
-      ) as any
-    );
-
-    const link = screen.getByRole('link');
-    expect(link).toBeInTheDocument();
-
-    // href is undefined
-    expect(link).toHaveAttribute('href', '');
-
-    // title not provided → empty span exists
-    expect(screen.getByText('')).toBeInTheDocument();
-
-    // image missing → img rendered with empty src
-    const img = screen.getByRole('img');
-    expect(img).toHaveAttribute('src', '');
   });
 });

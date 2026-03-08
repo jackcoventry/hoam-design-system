@@ -1,4 +1,4 @@
-import { Button } from '@/components/Button/Button';
+import { Button } from '@/components/Button';
 
 import { forwardRef, KeyboardEvent, useEffect, useRef, useState } from 'react';
 import './QuantitySelector.css';

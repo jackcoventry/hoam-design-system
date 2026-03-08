@@ -2,7 +2,6 @@ import { Button } from '@/components/Button/Button';
 import '@/components/Common/Fields.css';
 import '@/components/Common/Loader.css';
 import { zodResolver } from '@hookform/resolvers/zod';
-
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import z from 'zod';
 import './SearchForm.css';
@@ -13,18 +12,16 @@ const SearchFormSchema = z.object({
 
 export type SearchFormSchemaType = z.infer<typeof SearchFormSchema>;
 
-type SearchFormProps = {
-  onSubmit: SubmitHandler<SearchFormSchemaType>;
-  data: SearchFormResult[];
-  loading: boolean;
-  error: Error;
-};
-
 export type SearchFormResult = {
   id?: number;
   title: string;
   url: string;
   preview: string;
+};
+
+type SearchFormProps = {
+  onSubmit: SubmitHandler<SearchFormSchemaType>;
+  loading: boolean;
 };
 
 type SearchResultsProps = {
@@ -49,22 +46,24 @@ function SearchResult({ title, url, preview }: Readonly<SearchFormResult>) {
 export function SearchLoader() {
   return (
     <div className="hoam-search-form__loader">
-      <span className="hoam-loader"></span>
+      <span className="hoam-loader" />
     </div>
   );
 }
 
 export function SearchResults({ items }: Readonly<SearchResultsProps>) {
-  if (items.length === 0)
+  if (items.length === 0) {
     return (
       <div className="hoam-search-form__message">
         <p>No results!</p>
       </div>
     );
+  }
+
   return (
     <ol className="hoam-search-form__results">
-      {items.map((item) => (
-        <li key={item.id}>
+      {items.map((item, index) => (
+        <li key={item.id ?? `${item.url}-${index}`}>
           <SearchResult
             title={item.title}
             preview={item.preview}
@@ -76,7 +75,7 @@ export function SearchResults({ items }: Readonly<SearchResultsProps>) {
   );
 }
 
-function SearchForm({ onSubmit, data, loading, error }: Readonly<SearchFormProps>) {
+function SearchForm({ onSubmit, loading }: Readonly<SearchFormProps>) {
   const {
     control,
     handleSubmit,
@@ -89,29 +88,46 @@ function SearchForm({ onSubmit, data, loading, error }: Readonly<SearchFormProps
     mode: 'all',
   });
 
+  const queryError = errors.q?.message;
+  const inputId = 'hoam-search-form-input';
+
   return (
     <div className="hoam-search-form__wrapper">
       <form
         className="hoam-search-form"
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={(e) => {
+          void handleSubmit(onSubmit)(e);
+        }}
       >
+        <label
+          htmlFor={inputId}
+          className="sr-only"
+        >
+          Search
+        </label>
+
         <Controller
           name="q"
           control={control}
           render={({ field }) => (
             <input
               {...field}
-              placeholder={errors?.q?.message || 'Enter keywords...'}
+              id={inputId}
+              type="search"
+              placeholder={queryError || 'Enter keywords...'}
               className="hoam-text-field"
-              data-valid={errors?.q ? 'false' : 'true'}
+              data-valid={queryError ? 'false' : 'true'}
+              aria-invalid={queryError ? 'true' : 'false'}
               disabled={loading}
             />
           )}
         />
+
         <Button
           type="submit"
           className="hoam-search-form__button"
           variant="secondary"
+          disabled={loading}
         >
           Search
         </Button>

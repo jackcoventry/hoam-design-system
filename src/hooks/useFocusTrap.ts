@@ -1,11 +1,11 @@
 import { FOCUSABLE_SELECTORS } from '@/constants/focusable-selectors';
-import { useEffect, useRef } from 'react';
+import { RefObject, useEffect, useRef } from 'react';
 
-type UseFocusTrapOptions = {
-  containerRef: React.RefObject<HTMLElement>;
+interface UseFocusTrapOptions<T extends HTMLElement = HTMLElement> {
+  containerRef: RefObject<T | null>;
   active: boolean;
   onEscape?: () => void;
-};
+}
 
 function getFocusableElements(root: HTMLElement): HTMLElement[] {
   const nodes = Array.from(root.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTORS));
@@ -31,7 +31,7 @@ function useFocusTrap({ containerRef, active, onEscape }: UseFocusTrapOptions) {
 
     // If focus is outside, move it to the first item
     const focusables = getFocusableElements(container);
-    if (focusables.length && !container.contains(document.activeElement)) {
+    if (focusables[0] && !container.contains(document.activeElement)) {
       focusables[0].focus();
     } else if (!focusables.length) {
       // As a backup make the container focusable
@@ -55,23 +55,23 @@ function useFocusTrap({ containerRef, active, onEscape }: UseFocusTrapOptions) {
       }
 
       const first = items[0];
-      const last = items[items.length - 1];
+      const last = items.at(-1);
       const current = document.activeElement as HTMLElement | null;
 
       // Cycle focus
       if (!e.shiftKey && current === last) {
         e.preventDefault();
-        first.focus();
+        first?.focus();
       } else if (e.shiftKey && (current === first || !container.contains(current))) {
         e.preventDefault();
-        last.focus();
+        last?.focus();
       }
     };
 
     const onFocusIn = (e: FocusEvent) => {
       if (!container.contains(e.target as Node)) {
         const items = getFocusableElements(container);
-        if (items.length) items[0].focus();
+        if (items[0]) items[0].focus();
       }
     };
 

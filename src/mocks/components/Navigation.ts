@@ -1,3 +1,5 @@
+import type { NavTopLevelItem } from '@/components/Navigation/types/Navigation.types';
+
 const items = [
   {
     id: 'shop',
@@ -9,6 +11,7 @@ const items = [
         id: 'all-products',
         label: 'All Products',
         href: '/shop/all-products',
+        layout: 'list',
         items: [
           {
             id: 'coffee',
@@ -20,87 +23,41 @@ const items = [
                 label: 'Espresso Blends',
                 href: '/shop/category/espresso-blends',
               },
-              {
-                id: 'filter-coffee',
-                label: 'Filter Coffee',
-                href: '/shop/category/filter-coffee',
-              },
-              {
-                id: 'single-origin',
-                label: 'Single Origin',
-                href: '/shop/category/single-origin',
-              },
+              { id: 'filter-coffee', label: 'Filter Coffee', href: '/shop/category/filter-coffee' },
+              { id: 'single-origin', label: 'Single Origin', href: '/shop/category/single-origin' },
               {
                 id: 'limited-edition',
                 label: 'Limited Edition Roasts',
                 href: '/shop/category/limited-edition',
               },
-              {
-                id: 'decaf-coffee',
-                label: 'Decaf Coffee',
-                href: '/shop/category/decaf-coffee',
-              },
+              { id: 'decaf-coffee', label: 'Decaf Coffee', href: '/shop/category/decaf-coffee' },
               {
                 id: 'coffee-subscriptions',
                 label: 'Coffee Subscriptions',
                 href: '/shop/category/coffee-subscriptions',
               },
-              {
-                id: 'cold-brew',
-                label: 'Cold Brew',
-                href: '/shop/category/cold-brew',
-              },
+              { id: 'cold-brew', label: 'Cold Brew', href: '/shop/category/cold-brew' },
             ],
           },
-
           {
             id: 'brewing-equipment',
             label: 'Brewing Equipment',
             href: '/shop/all-products/brewing-equipment',
             items: [
-              {
-                id: 'coffee-makers',
-                label: 'Coffee Makers',
-                href: '/shop/category/coffee-makers',
-              },
+              { id: 'coffee-makers', label: 'Coffee Makers', href: '/shop/category/coffee-makers' },
               {
                 id: 'espresso-machines',
                 label: 'Espresso Machines',
                 href: '/shop/category/espresso-machines',
               },
-              {
-                id: 'grinders',
-                label: 'Coffee Grinders',
-                href: '/shop/category/coffee-grinders',
-              },
-              {
-                id: 'kettles',
-                label: 'Kettles',
-                href: '/shop/category/kettles',
-              },
-              {
-                id: 'filters',
-                label: 'Filters & Papers',
-                href: '/shop/category/filters',
-              },
-              {
-                id: 'scales',
-                label: 'Scales & Measuring Tools',
-                href: '/shop/category/scales',
-              },
-              {
-                id: 'cups',
-                label: 'Reusable Cups & Tumblers',
-                href: '/shop/category/cups',
-              },
-              {
-                id: 'accessories',
-                label: 'Accessories',
-                href: '/shop/category/accessories',
-              },
+              { id: 'grinders', label: 'Coffee Grinders', href: '/shop/category/coffee-grinders' },
+              { id: 'kettles', label: 'Kettles', href: '/shop/category/kettles' },
+              { id: 'filters', label: 'Filters & Papers', href: '/shop/category/filters' },
+              { id: 'scales', label: 'Scales & Measuring Tools', href: '/shop/category/scales' },
+              { id: 'cups', label: 'Reusable Cups & Tumblers', href: '/shop/category/cups' },
+              { id: 'accessories', label: 'Accessories', href: '/shop/category/accessories' },
             ],
           },
-
           {
             id: 'gifts',
             label: 'Gifts',
@@ -148,27 +105,14 @@ const items = [
               },
             ],
           },
-
           {
             id: 'merchandise',
             label: 'Merchandise',
             href: '/shop/all-products/merchandise',
             items: [
-              {
-                id: 'mugs',
-                label: 'Mugs',
-                href: '/shop/category/mugs',
-              },
-              {
-                id: 't-shirts',
-                label: 'T-Shirts & Apparel',
-                href: '/shop/category/t-shirts',
-              },
-              {
-                id: 'stickers',
-                label: 'Stickers & Prints',
-                href: '/shop/category/stickers',
-              },
+              { id: 'mugs', label: 'Mugs', href: '/shop/category/mugs' },
+              { id: 't-shirts', label: 'T-Shirts & Apparel', href: '/shop/category/t-shirts' },
+              { id: 'stickers', label: 'Stickers & Prints', href: '/shop/category/stickers' },
               {
                 id: 'coffee-bags',
                 label: 'Reusable Coffee Bags',
@@ -178,7 +122,6 @@ const items = [
           },
         ],
       },
-
       {
         id: 'new-arrivals',
         label: 'New Arrivals',
@@ -205,7 +148,6 @@ const items = [
           },
         ],
       },
-
       {
         id: 'best-sellers',
         label: 'Best Sellers',
@@ -270,22 +212,15 @@ const items = [
         id: 'learn',
         label: 'Learn',
         href: '/learn',
+        layout: 'list',
         items: [
           {
             id: 'brewing-guides',
             label: 'Brewing Guides',
             href: '/learn/brewing-guides',
             items: [
-              {
-                id: 'espresso-guide',
-                label: 'Espresso',
-                href: '/learn/brewing-guides/espresso',
-              },
-              {
-                id: 'pourover-guide',
-                label: 'Pour Over',
-                href: '/learn/brewing-guides/pour-over',
-              },
+              { id: 'espresso-guide', label: 'Espresso', href: '/learn/brewing-guides/espresso' },
+              { id: 'pourover-guide', label: 'Pour Over', href: '/learn/brewing-guides/pour-over' },
               {
                 id: 'french-press-guide',
                 label: 'French Press',
@@ -345,11 +280,7 @@ const items = [
             label: 'Equipment Care',
             href: '/learn/equipment-care',
             items: [
-              {
-                id: 'descaling',
-                label: 'Descaling',
-                href: '/learn/equipment-care/descaling',
-              },
+              { id: 'descaling', label: 'Descaling', href: '/learn/equipment-care/descaling' },
               {
                 id: 'cleaning-routines',
                 label: 'Cleaning Routines',
@@ -380,7 +311,7 @@ const items = [
             ],
           },
           {
-            id: 'sustainability',
+            id: 'sustainability-learn',
             label: 'Sustainability',
             href: '/learn/sustainability',
             items: [
@@ -400,6 +331,6 @@ const items = [
       },
     ],
   },
-];
+] satisfies NavTopLevelItem[];
 
 export default items;

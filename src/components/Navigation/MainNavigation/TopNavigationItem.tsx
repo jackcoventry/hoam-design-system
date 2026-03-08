@@ -1,7 +1,8 @@
-import { panelId, topTriggerId } from '@/components/Navigation/Navigation.types';
+import type { NavTopLevelItem } from '@/components/Navigation/types/Navigation.types';
+import { panelId, topTriggerId } from '@/components/Navigation/utils/helpers';
 
 type TopNavigationItemProps = {
-  item: { id: string; label: string; href: string; items?: any[] };
+  item: NavTopLevelItem;
   isOpen: boolean;
   hasPanel: boolean;
   onFocusOpen: () => void;
@@ -30,12 +31,15 @@ function TopNavigationItem({
         }
       }}
       onFocusCapture={() => {
-        if (!hasPanel) onHoverClose();
+        if (!hasPanel) {
+          onHoverClose();
+        }
       }}
     >
       {hasPanel ? (
         <button
           id={topTriggerId(item.id)}
+          type="button"
           data-top-trigger
           data-top-cyclable
           className="hoam-navigation__link"
@@ -56,6 +60,7 @@ function TopNavigationItem({
           {item.label}
         </a>
       )}
+
       {children}
     </li>
   );

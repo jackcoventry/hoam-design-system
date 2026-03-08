@@ -1,58 +1,86 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 export function useMegaNavState() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
   const [openGroupId, setOpenGroupId] = useState<string | null>(null);
-
-  const hoverTimer = useRef<number | null>(null);
-  const leaveTimer = useRef<number | null>(null);
-
-  // Guard to prevent issue relating to keyboard and hover interactivty clashing
   const [isKeyboarding, setIsKeyboarding] = useState(false);
-  const kbQuietTimer = useRef<number | null>(null);
 
-  const setKeyboarding = () => {
-    setIsKeyboarding(true);
-    if (kbQuietTimer.current) clearTimeout(kbQuietTimer.current);
-    kbQuietTimer.current = setTimeout(() => setIsKeyboarding(false), 400) as unknown as number;
-  };
+  const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const leaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const kbQuietTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const clearHover = () => {
-    if (hoverTimer.current) {
-      clearTimeout(hoverTimer.current);
+  const clearHover = useCallback(() => {
+    if (hoverTimer.current !== null) {
+      globalThis.clearTimeout(hoverTimer.current);
       hoverTimer.current = null;
     }
-  };
+  }, []);
 
-  const clearLeave = () => {
-    if (leaveTimer.current) {
-      clearTimeout(leaveTimer.current);
+  const clearLeave = useCallback(() => {
+    if (leaveTimer.current !== null) {
+      globalThis.clearTimeout(leaveTimer.current);
       leaveTimer.current = null;
     }
-  };
+  }, []);
 
-  const handleTopNavigationOpen = (index: number, delay = 80) => {
-    clearLeave();
-    clearHover();
-    hoverTimer.current = setTimeout(() => {
-      setOpenIndex(index);
-      setOpenGroupId(null);
-    }, delay) as unknown as number;
-  };
+  const clearKeyboardTimer = useCallback(() => {
+    if (kbQuietTimer.current !== null) {
+      globalThis.clearTimeout(kbQuietTimer.current);
+      kbQuietTimer.current = null;
+    }
+  }, []);
 
-  const handleAllNavigationClose = (delay = 150) => {
-    if (isKeyboarding) return;
-    clearHover();
-    clearLeave();
-    leaveTimer.current = setTimeout(() => {
-      setOpenGroupId(null);
-      setOpenIndex(null);
-    }, delay) as unknown as number;
-  };
+  const resetNavigation = useCallback(() => {
+    setOpenIndex(null);
+    setOpenGroupId(null);
+  }, []);
+
+  const setKeyboarding = useCallback(() => {
+    setIsKeyboarding(true);
+    clearKeyboardTimer();
+
+    kbQuietTimer.current = globalThis.setTimeout(() => {
+      setIsKeyboarding(false);
+      kbQuietTimer.current = null;
+    }, 400);
+  }, [clearKeyboardTimer]);
+
+  const handleTopNavigationOpen = useCallback(
+    (index: number, delay = 80) => {
+      clearLeave();
+      clearHover();
+
+      hoverTimer.current = globalThis.setTimeout(() => {
+        setOpenIndex(index);
+        setOpenGroupId(null);
+        hoverTimer.current = null;
+      }, delay);
+    },
+    [clearHover, clearLeave]
+  );
+
+  const handleAllNavigationClose = useCallback(
+    (delay = 150) => {
+      if (isKeyboarding) return;
+
+      clearHover();
+      clearLeave();
+
+      leaveTimer.current = globalThis.setTimeout(() => {
+        resetNavigation();
+        leaveTimer.current = null;
+      }, delay);
+    },
+    [clearHover, clearLeave, isKeyboarding, resetNavigation]
+  );
 
   useEffect(() => {
-    if (openIndex === null) setOpenGroupId(null);
-  }, [openIndex]);
+    return () => {
+      clearHover();
+      clearLeave();
+      clearKeyboardTimer();
+    };
+  }, [clearHover, clearLeave, clearKeyboardTimer]);
 
   return {
     openIndex,
@@ -61,8 +89,10 @@ export function useMegaNavState() {
     setOpenGroupId,
     isKeyboarding,
     setKeyboarding,
+    resetNavigation,
     handleTopNavigationOpen,
     handleAllNavigationClose,
+    clearHover,
     clearLeave,
   };
 }

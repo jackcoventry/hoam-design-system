@@ -1,4 +1,4 @@
-import type { NavItem } from '@/components/Navigation/Navigation.types';
+import type { NavItem } from '@/components/Navigation/types/Navigation.types';
 import { render, screen } from '@testing-library/react';
 
 import { describe, expect, it } from 'vitest';

@@ -1,36 +1,25 @@
-import Basket, { BasketFooter } from '@/components/Basket/Basket';
-import SearchForm, {
-  SearchFormResult,
-  SearchFormSchemaType,
-  SearchLoader,
-  SearchResults,
-} from '@/components/Form/SearchForm/SearchForm';
-import Modal from '@/components/Modal/Modal';
-import { useKeyboardNav } from '@/components/Navigation/hooks/useKeyboardNav';
-import { useMegaNavState } from '@/components/Navigation/hooks/useNavState';
-import CategoryGroup from '@/components/Navigation/MainNavigation/CategoryGroup';
-import Panel from '@/components/Navigation/MainNavigation/Panel';
-import PromoBlock from '@/components/Navigation/MainNavigation/PromoBlock';
-import ThirdLevelList from '@/components/Navigation/MainNavigation/ThirdLevelItems';
-import TopNav from '@/components/Navigation/MainNavigation/TopNavigation';
-import TopNavItem from '@/components/Navigation/MainNavigation/TopNavigationItem';
-import MobileNavigation from '@/components/Navigation/MobileNavigation/MobileNavigation';
-import { panelId, topTriggerId } from '@/components/Navigation/Navigation.types';
-import { querySubItemVisibility } from '@/components/Navigation/utils/helpers';
 import { useMockRequest } from '@/hooks/useMockRequest';
 import BasketItemData from '@/mocks/components/Basket';
 import SearchResultsData from '@/mocks/components/SearchResults';
-import React, { useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
-import './Navigation.css';
-import type { NavGroupItem, NavigationProps } from './Navigation.types';
+
+import DesktopNavigation from '@/components/Navigation/DesktopNavigation/DesktopNavigation';
+import { useMegaNavState } from '@/components/Navigation/hooks/useNavState';
+import { MobileNavigation } from '@/components/Navigation/MobileNavigation/MobileNavigation';
+import NavigationModals from '@/components/Navigation/Modals/NavigationModals';
+
+import type {
+  SearchFormResult,
+  SearchFormSchemaType,
+} from '@/components/Form/SearchForm/SearchForm';
+import type { NavigationProps } from '@/components/Navigation/types/Navigation.types';
 
 export default function Navigation({
   items = [],
   userItems = [],
   variant = 'default',
 }: Readonly<NavigationProps>) {
-  const rootRef = useRef<HTMLElement>(null);
   const {
     openIndex,
     setOpenIndex,
@@ -40,52 +29,15 @@ export default function Navigation({
     handleTopNavigationOpen,
     handleAllNavigationClose,
     clearLeave,
+    resetNavigation,
   } = useMegaNavState();
-  const isDefaultVariant = variant === 'default';
-  const isFixedVariant = variant === 'fixed';
-  const isRTL = typeof document !== 'undefined' && document.dir === 'rtl';
-  const mapArrow = (key: string) =>
-    isRTL && (key === 'ArrowLeft' || key === 'ArrowRight')
-      ? key === 'ArrowRight'
-        ? 'ArrowRight'
-        : 'ArrowLeft'
-      : key;
-
-  const subSelectors = {
-    subTriggersOnly: (panelRoot: Element) =>
-      querySubItemVisibility<HTMLElement>(panelRoot, '[data-sub-trigger]'),
-    subInteractive: (panelRoot: Element) =>
-      querySubItemVisibility<HTMLElement>(panelRoot, '[data-sub-trigger], [data-sub-link]'),
-    thirdList: (container: Element, domId: string) =>
-      querySubItemVisibility<HTMLElement>(container, `#${domId}-panel [data-sub-link]`),
-  };
-
-  const onKeyDown = useKeyboardNav(
-    rootRef,
-    items,
-    setOpenIndex,
-    setOpenGroupId,
-    mapArrow,
-    subSelectors
-  );
 
   const mobileNavigation = useMemo(() => [...items, ...userItems], [items, userItems]);
 
-  const openFirstCategoryVisually = (topIndex: number) => {
-    const firstId = items[topIndex]?.items?.[0]?.id;
-    setOpenGroupId(firstId ?? null);
-  };
-
-  const LOGO = {
-    DEFAULT: '/logo.png',
-    WHITE: '/logo-white.png',
-  };
-  const [logoSrc, setLogoSrc] = useState<string>(isDefaultVariant ? LOGO.DEFAULT : LOGO.WHITE);
-
   const [openSearchModal, setOpenSearchModal] = useState(false);
-  const { data, loading, error, run, reset } = useMockRequest<Array<SearchFormResult>>();
-
   const [openBasketModal, setOpenBasketModal] = useState(false);
+
+  const { data, loading, error, run, reset } = useMockRequest<Array<SearchFormResult>>();
 
   const onSubmit: SubmitHandler<SearchFormSchemaType> = async () => {
     await run({
@@ -106,236 +58,47 @@ export default function Navigation({
     setOpenBasketModal(false);
   };
 
-  const ACTIONS = {
-    USER_SEARCH: (event) => {
-      event.preventDefault();
-      setOpenSearchModal(true);
-    },
-    USER_BASKET: (event) => {
-      event.preventDefault();
-      setOpenBasketModal(true);
-    },
-  };
-
-  // TEMPORARY: Just to give element of realism
-  const basketTotalTemp = BasketItemData?.reduce((acc, item) => {
-    const result = item.price * item.quantity;
-    return result + acc;
-  }, 0);
+  const basketTotal = useMemo(
+    () =>
+      BasketItemData.reduce((acc, item) => {
+        return acc + item.price * item.quantity;
+      }, 0),
+    []
+  );
 
   return (
     <>
       <MobileNavigation items={mobileNavigation} />
 
-      <header
-        ref={rootRef as any}
-        onPointerLeave={() => {
-          handleAllNavigationClose();
-          if (isFixedVariant) setLogoSrc(LOGO.WHITE);
-        }}
-        onPointerEnter={() => {
-          clearLeave();
-          if (isFixedVariant) setLogoSrc(LOGO.DEFAULT);
-        }}
-        onKeyDown={(e) => {
-          setKeyboarding();
-          onKeyDown(e);
-        }}
-        role="none"
-        data-variant={variant}
-        className="hoam-navigation__root"
-      >
-        <div className="hoam-navigation">
-          <div className="container">
-            <div className="grid">
-              <div className="span-12">
-                <div
-                  className="hoam-navigation__inner"
-                  data-open={openIndex !== null || undefined}
-                >
-                  <TopNav>
-                    {items.map((item, index) => {
-                      const hasPanel = !!item.items?.length;
-                      const isOpen = openIndex === index;
+      <DesktopNavigation
+        items={items}
+        userItems={userItems}
+        variant={variant}
+        openIndex={openIndex}
+        resetNavigation={resetNavigation}
+        setOpenIndex={setOpenIndex}
+        openGroupId={openGroupId}
+        setOpenGroupId={setOpenGroupId}
+        setKeyboarding={setKeyboarding}
+        handleTopNavigationOpen={handleTopNavigationOpen}
+        handleAllNavigationClose={handleAllNavigationClose}
+        clearLeave={clearLeave}
+        onOpenSearch={() => setOpenSearchModal(true)}
+        onOpenBasket={() => setOpenBasketModal(true)}
+      />
 
-                      return (
-                        <TopNavItem
-                          key={item.id}
-                          item={item}
-                          isOpen={isOpen}
-                          hasPanel={hasPanel}
-                          onHoverOpen={() => handleTopNavigationOpen(index)}
-                          onHoverClose={() => {
-                            setOpenIndex(null);
-                            setOpenGroupId(null);
-                          }}
-                          onFocusOpen={() => {
-                            handleTopNavigationOpen(index);
-                            openFirstCategoryVisually(index);
-                          }}
-                        >
-                          {hasPanel && (
-                            <Panel
-                              id={panelId(item.id)}
-                              labelledBy={topTriggerId(item.id)}
-                              hidden={!isOpen}
-                              onEnter={() => clearLeave()}
-                              left={
-                                <div className="hoam-navigation__panel-top-level">
-                                  {item?.items?.map((sub: NavGroupItem) => {
-                                    const open = openGroupId === sub.id;
-                                    return (
-                                      <CategoryGroup
-                                        key={sub.id}
-                                        subitem={sub}
-                                        open={open}
-                                        onHoverOpen={() => setOpenGroupId(sub.id)}
-                                        onFocusOpen={() => setOpenGroupId(sub.id)}
-                                      >
-                                        {sub.items?.length ? (
-                                          <ThirdLevelList
-                                            parent={sub}
-                                            items={sub.items}
-                                            open={open}
-                                            layout={sub.layout}
-                                          />
-                                        ) : null}
-                                      </CategoryGroup>
-                                    );
-                                  })}
-                                </div>
-                              }
-                              right={
-                                <aside
-                                  className="hoam-navigation__panel-promo"
-                                  aria-label={`${item.label} highlights`}
-                                >
-                                  <PromoBlock
-                                    title={item.label}
-                                    subtitle="Explore"
-                                    image={item.thumbnail}
-                                    href={`/explore/${item.id}`}
-                                  />
-                                </aside>
-                              }
-                            />
-                          )}
-                        </TopNavItem>
-                      );
-                    })}
-                  </TopNav>
-
-                  <a
-                    href="/"
-                    className="hoam-navigation__logo"
-                    data-top-cyclable
-                    onFocus={() => {
-                      setOpenIndex(null);
-                      setOpenGroupId(null);
-                    }}
-                    onPointerEnter={() => {
-                      setOpenIndex(null);
-                      setOpenGroupId(null);
-                    }}
-                  >
-                    <img
-                      src={logoSrc}
-                      alt="Hoam Logo"
-                    />
-                  </a>
-
-                  {userItems?.length > 0 ? (
-                    <nav
-                      aria-label="User navigation"
-                      onFocusCapture={() => {
-                        setOpenIndex(null);
-                        setOpenGroupId(null);
-                      }}
-                      onPointerEnter={() => {
-                        setOpenIndex(null);
-                        setOpenGroupId(null);
-                      }}
-                    >
-                      <ul
-                        className="hoam-navigation__list"
-                        data-alignment="right"
-                      >
-                        {userItems?.map((userLink) => {
-                          const action = ACTIONS[userLink.action] || null;
-                          return (
-                            <li
-                              key={userLink.id}
-                              className="hoam-navigation__item"
-                            >
-                              <a
-                                href={userLink.href}
-                                className="hoam-navigation__link"
-                                title={userLink.label}
-                                data-top-cyclable
-                                onClick={action}
-                              >
-                                <svg
-                                  className="icon"
-                                  width="1.25em"
-                                  height="1.25em"
-                                  fill="currentColor"
-                                  aria-hidden="true"
-                                >
-                                  <use xlinkHref={`/icons/icons.svg#${userLink.icon}`} />
-                                </svg>
-                                <span className="sr-only">{userLink.label}</span>
-                              </a>
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </nav>
-                  ) : null}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      <Modal
-        isOpen={openSearchModal}
-        onClose={handleSearchModalClose}
-        variant="modal"
-      >
-        <Modal.Header padded={false}>
-          <SearchForm
-            onSubmit={onSubmit}
-            data={data}
-            loading={loading}
-            error={error}
-          />
-        </Modal.Header>
-        <Modal.Body padded={false}>
-          {loading && !error ? <SearchLoader /> : null}
-          {data && !error && !loading ? <SearchResults items={data} /> : null}
-        </Modal.Body>
-      </Modal>
-
-      <Modal
-        isOpen={openBasketModal}
-        onClose={handleBasketModalClose}
-        variant="drawer"
-      >
-        <Modal.Header>
-          <Modal.Title>Your Basket</Modal.Title>
-          <Modal.CloseButton callback={handleBasketModalClose} />
-        </Modal.Header>
-        <Modal.Body>
-          <Basket
-            items={BasketItemData}
-            total={basketTotalTemp}
-          />
-        </Modal.Body>
-        <Modal.Footer>
-          <BasketFooter total={basketTotalTemp} />
-        </Modal.Footer>
-      </Modal>
+      <NavigationModals
+        openSearchModal={openSearchModal}
+        openBasketModal={openBasketModal}
+        onCloseSearch={handleSearchModalClose}
+        onCloseBasket={handleBasketModalClose}
+        searchData={data}
+        searchLoading={loading}
+        searchError={error}
+        onSearchSubmit={onSubmit}
+        basketItems={BasketItemData}
+        basketTotal={basketTotal}
+      />
     </>
   );
 }

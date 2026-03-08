@@ -22,7 +22,7 @@ const Template: Story = {
       <Navigation
         items={NavigationData}
         userItems={UserNavigationData}
-        variant={args.variant}
+        {...(args.variant === undefined ? {} : { variant: args.variant })}
       />
     </div>
   ),

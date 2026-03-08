@@ -4,7 +4,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { Accordion, AccordionHeader, AccordionItem, AccordionPanel } from '@/components/Accordion';
-import { Button } from '@/components/Button/Button';
+import { Button } from '@/components/Button';
 import FieldWrapper from '@/components/Form/FieldWrapper/FieldWrapper';
 import { Select } from '@/components/Form/Select/Select';
 import QuantitySelector from '@/components/QuantitySelector/QuantitySelector';

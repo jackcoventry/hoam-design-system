@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import BadgeList, { BadgeListItem } from './BadgeList';
+import { BadgeList, BadgeListItem } from './BadgeList';
 
 describe('BadgeList / BadgeListItem', () => {
   const originalError = console.error;

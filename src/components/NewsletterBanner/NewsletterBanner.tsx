@@ -2,7 +2,7 @@ import { Button } from '@/components/Button/Button';
 import '@/components/Common/Dots.css';
 import socialLinks from '@/mocks/socialLinks';
 import { zodResolver } from '@hookform/resolvers/zod';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import z from 'zod';
 import './NewsletterBanner.css';
@@ -33,7 +33,7 @@ function NewsletterBanner({ title, description }: Readonly<NewsletterBannerProps
 
   const [submitting, setSubmitting] = useState<boolean>(false);
 
-  const onSubmit: SubmitHandler<NewsletterSignupSchemaType> = (data) => {
+  const onSubmit: SubmitHandler<NewsletterSignupSchemaType> = () => {
     setSubmitting(true);
 
     // TODO: temporary, to mimic server response.

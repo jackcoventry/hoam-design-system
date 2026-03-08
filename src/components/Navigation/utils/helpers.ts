@@ -25,3 +25,8 @@ export const moveInList = (list: HTMLElement[], current: HTMLElement, delta: num
   const next = list[wrapIndex(idx + delta, list.length)];
   focusNextTick(next);
 };
+
+export const topTriggerId = (id: string) => `trigger-${id}`;
+export const panelId = (id: string) => `panel-${id}`;
+export const groupBtnId = (id: string) => `group-${id}`;
+export const groupPanelId = (id: string) => `group-${id}-panel`;

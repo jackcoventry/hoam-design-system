@@ -1,4 +1,4 @@
-import { NavItem } from '@/components/Navigation/Navigation.types';
+import { NavItem } from '@/components/Navigation/types/Navigation.types';
 
 import './Breadcrumb.css';
 

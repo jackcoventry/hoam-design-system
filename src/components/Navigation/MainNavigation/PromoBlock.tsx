@@ -1,4 +1,11 @@
-function PromoBlock({ title, subtitle, href, image }) {
+type Props = {
+  title: string;
+  subtitle: string;
+  href: string;
+  image: string;
+};
+
+export function PromoBlock({ title, subtitle, href, image = '' }: Readonly<Props>) {
   const Element = href ? 'a' : 'div';
   const interactiveProps = href
     ? {
@@ -10,11 +17,9 @@ function PromoBlock({ title, subtitle, href, image }) {
   return (
     <Element
       {...interactiveProps}
-      style={
-        image && {
-          backgroundImage: `url(${image})`,
-        }
-      }
+      style={{
+        backgroundImage: `url(${image})`,
+      }}
       className="hoam-navigation-promo"
     >
       <h4 className="hoam-navigation-promo__subtitle">{subtitle}</h4>
@@ -22,5 +27,3 @@ function PromoBlock({ title, subtitle, href, image }) {
     </Element>
   );
 }
-
-export default PromoBlock;
