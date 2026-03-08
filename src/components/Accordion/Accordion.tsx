@@ -1,26 +1,44 @@
 import clsx from 'clsx';
-import React, { createContext, ReactNode, useContext, useState } from 'react';
+import {
+  Children,
+  createContext,
+  HTMLAttributes,
+  isValidElement,
+  PropsWithChildren,
+  ReactElement,
+  ReactNode,
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+} from 'react';
 import './Accordion.css';
 
-/**
- * Accordion component for displaying collapsible sections.
- * Supports controlled and uncontrolled states, multiple open sections,
- * and provides context for AccordionItem components.
- */
-
 export interface AccordionProps {
-  accordionTitle?: string; // TODO replace with component composition
   allowMultiple?: boolean;
   defaultOpenIds?: string[];
   openIds?: string[];
   onChange?: (openIds: string[]) => void;
   className?: string;
   children: ReactNode;
+  showToggleAll?: boolean;
 }
 
 export interface AccordionItemProps {
   id: string;
   children: ReactNode;
+  className?: string;
+}
+
+export interface AccordionHeaderProps {
+  children: ReactNode;
+  className?: string;
+  disabled?: boolean;
+}
+
+export interface AccordionPanelProps {
+  children: ReactNode;
+  className?: string;
 }
 
 interface AccordionContextType {
@@ -28,102 +46,165 @@ interface AccordionContextType {
   toggle: (id: string) => void;
 }
 
+type AccordionHeaderElement = ReactElement<React.ComponentProps<typeof AccordionHeader>>;
+type AccordionPanelElement = ReactElement<React.ComponentProps<typeof AccordionPanel>>;
+
 const AccordionContext = createContext<AccordionContextType | null>(null);
 
-/**
- * Accordion component
- */
-export const Accordion: React.FC<AccordionProps> = ({
-  accordionTitle,
-  allowMultiple = false,
-  defaultOpenIds = [],
-  openIds: controlledOpenIds,
-  onChange,
-  className = '',
-  children,
-}) => {
-  // Determine controlled vs uncontrolled
-  const isControlled = controlledOpenIds !== undefined;
-  const [internalOpenIds, setInternalOpenIds] = useState<string[]>(defaultOpenIds);
-  const openIds = isControlled ? controlledOpenIds : internalOpenIds;
-
-  const updateOpenIds = (ids: string[]) => {
-    if (isControlled) {
-      onChange?.(ids);
-    } else {
-      setInternalOpenIds(ids);
-    }
-  };
-
-  const toggle = (id: string) => {
-    const isOpen = openIds.includes(id);
-    let next: string[];
-
-    if (isOpen) {
-      next = openIds.filter((i) => i !== id);
-    } else {
-      next = allowMultiple ? [...openIds, id] : [id];
-    }
-    updateOpenIds(next);
-  };
-
-  const itemIds: string[] = React.Children.toArray(children)
-    .filter((c) => React.isValidElement(c) && (c.type as any).displayName === 'AccordionItem')
-    .map((c: any) => c.props.id);
-  const allExpanded = itemIds.length > 0 && itemIds.every((id) => openIds.includes(id));
-
-  const classes = clsx('hoam-accordion', className);
-
-  return (
-    <AccordionContext.Provider value={{ openIds, toggle }}>
-      <div className={classes}>
-        <div className="hoam-accordion__header">
-          {accordionTitle && <h2 className="hoam-accordion__title">{accordionTitle}</h2>}
-          <button
-            type="button"
-            className="hoam-accordion__toggle-all | focusable-only"
-            onClick={() => updateOpenIds(allExpanded ? [] : itemIds)}
-            aria-label={allExpanded ? 'Collapse all sections' : 'Expand all sections'}
-          >
-            {allExpanded ? 'Collapse all' : 'Expand all'}
-          </button>
-        </div>
-
-        {children}
-      </div>
-    </AccordionContext.Provider>
-  );
-};
-
-Accordion.displayName = 'Accordion';
-
-/**
- * AccordionItem component
- */
-const AccordionItem: React.FC<AccordionItemProps> = ({ id, children }) => {
+function useAccordionContext() {
   const ctx = useContext(AccordionContext);
 
   if (!ctx) {
     throw new Error('AccordionItem must be used within Accordion');
   }
 
-  const { openIds, toggle } = ctx;
-  const isOpen = openIds?.includes(id);
+  return ctx;
+}
+
+function isAccordionItemElement(child: ReactNode): child is ReactElement<AccordionItemProps> {
+  return isValidElement(child) && child.type === AccordionItem;
+}
+
+function getAccordionItemParts(children: ReactNode): {
+  header: AccordionHeaderElement;
+  panel: AccordionPanelElement;
+} {
+  const childArray = Children.toArray(children);
+
+  if (childArray.length !== 2) {
+    throw new Error(
+      'AccordionItem must contain exactly two children: <AccordionHeader /> and <AccordionPanel />'
+    );
+  }
+
+  const [headerChild, panelChild] = childArray;
+
+  if (!isValidElement(headerChild) || headerChild.type !== AccordionHeader) {
+    throw new Error('The first child of AccordionItem must be <AccordionHeader />');
+  }
+
+  if (!isValidElement(panelChild) || panelChild.type !== AccordionPanel) {
+    throw new Error('The second child of AccordionItem must be <AccordionPanel />');
+  }
+
+  return {
+    header: headerChild as AccordionHeaderElement,
+    panel: panelChild as AccordionPanelElement,
+  };
+}
+
+export function Accordion({
+  allowMultiple = false,
+  defaultOpenIds = [],
+  openIds: controlledOpenIds,
+  onChange,
+  className = '',
+  children,
+  showToggleAll = true,
+}: Readonly<AccordionProps>) {
+  const isControlled = controlledOpenIds !== undefined;
+  const [internalOpenIds, setInternalOpenIds] = useState<string[]>(() => defaultOpenIds);
+
+  const openIds = isControlled ? controlledOpenIds : internalOpenIds;
+
+  const itemIds = useMemo(
+    () =>
+      Children.toArray(children)
+        .filter(isAccordionItemElement)
+        .map((child) => child.props.id),
+    [children]
+  );
+
+  const updateOpenIds = useCallback(
+    (ids: string[]) => {
+      if (isControlled) {
+        onChange?.(ids);
+      } else {
+        setInternalOpenIds(ids);
+      }
+    },
+    [isControlled, onChange]
+  );
+
+  const toggle = useCallback(
+    (id: string) => {
+      const isOpen = openIds.includes(id);
+
+      let next: string[];
+
+      if (isOpen) {
+        next = openIds.filter((openId) => openId !== id);
+      } else {
+        next = allowMultiple ? [...openIds, id] : [id];
+      }
+
+      updateOpenIds(next);
+    },
+    [allowMultiple, openIds, updateOpenIds]
+  );
+
+  const allExpanded = itemIds.length > 0 && itemIds.every((id) => openIds.includes(id));
+
+  const value = useMemo(() => ({ openIds, toggle }), [openIds, toggle]);
+
+  return (
+    <AccordionContext.Provider value={value}>
+      <div className={clsx('hoam-accordion', className)}>
+        {allowMultiple && showToggleAll && itemIds.length > 1 && (
+          <div className="hoam-accordion__header">
+            <button
+              type="button"
+              className="hoam-accordion__toggle-all"
+              onClick={() => updateOpenIds(allExpanded ? [] : itemIds)}
+              aria-label={
+                allExpanded ? 'Collapse all accordion sections' : 'Expand all accordion sections'
+              }
+            >
+              {allExpanded ? 'Collapse all' : 'Expand all'}
+            </button>
+          </div>
+        )}
+
+        {children}
+      </div>
+    </AccordionContext.Provider>
+  );
+}
+
+Accordion.displayName = 'Accordion';
+
+export function AccordionItem({ id, children, className }: Readonly<AccordionItemProps>) {
+  const { openIds, toggle } = useAccordionContext();
+  const isOpen = openIds.includes(id);
+
+  const { header, panel } = getAccordionItemParts(children);
+  const isDisabled = header.props.disabled ?? false;
+
   const headerId = `accordion-header-${id}`;
   const panelId = `accordion-panel-${id}`;
 
   return (
-    <div className="hoam-accordion__item">
-      <h4 className="hoam-accordion__item-title">
+    <div
+      className={clsx('hoam-accordion__item', className)}
+      data-state={isOpen ? 'open' : 'closed'}
+      data-disabled={isDisabled ? 'true' : 'false'}
+    >
+      <div className="hoam-accordion__item-title">
         <button
           id={headerId}
+          type="button"
           aria-controls={panelId}
           aria-expanded={isOpen}
+          disabled={isDisabled}
           onClick={() => toggle(id)}
-          className="hoam-accordion__item-title-button"
+          className={clsx('hoam-accordion__item-title-button', header.props.className)}
         >
-          {(children as any)?.[0]?.props?.children}
-          <span className="hoam-accordion__icon">
+          <span className="hoam-accordion__item-title-text">{header.props.children}</span>
+
+          <span
+            className="hoam-accordion__icon"
+            aria-hidden="true"
+          >
             <svg
               className="icon"
               width="1.25em"
@@ -134,45 +215,33 @@ const AccordionItem: React.FC<AccordionItemProps> = ({ id, children }) => {
             </svg>
           </span>
         </button>
-      </h4>
-      <div
+      </div>
+
+      <section
         id={panelId}
         aria-labelledby={headerId}
-        hidden={!isOpen}
-        className="hoam-accordion__panel"
+        aria-hidden={!isOpen}
+        className={clsx('hoam-accordion__panel', panel.props.className)}
         data-open={isOpen ? 'true' : 'false'}
       >
-        <div className="hoam-accordion__panel-inner">{(children as any)[1]?.props?.children}</div>
-      </div>
+        <div className="hoam-accordion__panel-inner">{panel.props.children}</div>
+      </section>
     </div>
   );
-};
+}
 
 AccordionItem.displayName = 'AccordionItem';
 
-/**
- * Sub-component to render an Accordion header.
- * Useful for composition or legacy use.
- */
-const AccordionHeader: React.FC<React.ButtonHTMLAttributes<HTMLButtonElement>> = (props) => (
-  <button
-    type="button"
-    {...props}
-  />
-);
+export function AccordionHeader({ children }: Readonly<AccordionHeaderProps>) {
+  return <>{children}</>;
+}
+
 AccordionHeader.displayName = 'AccordionHeader';
 
-/**
- * Sub-component to render an Accordion panel.
- */
-const AccordionPanel: React.FC<React.HTMLAttributes<HTMLDivElement>> = (props) => (
-  <div
-    hidden={props.hidden}
-    aria-labelledby={props['aria-labelledby']}
-    {...props}
-  />
-);
-AccordionPanel.displayName = 'AccordionPanel';
+export function AccordionPanel({
+  children,
+}: Readonly<PropsWithChildren<AccordionPanelProps & HTMLAttributes<HTMLDivElement>>>) {
+  return <>{children}</>;
+}
 
-export default Accordion;
-export { AccordionHeader, AccordionItem, AccordionPanel };
+AccordionPanel.displayName = 'AccordionPanel';

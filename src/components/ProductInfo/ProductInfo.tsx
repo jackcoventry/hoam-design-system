@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import Accordion, { AccordionItem } from '@/components/Accordion/Accordion';
+import { Accordion, AccordionHeader, AccordionItem, AccordionPanel } from '@/components/Accordion';
 import { Button } from '@/components/Button/Button';
 import FieldWrapper from '@/components/Form/FieldWrapper/FieldWrapper';
 import { Select } from '@/components/Form/Select/Select';
@@ -239,10 +239,10 @@ function ProductInfo({
       <div className="hoam-product-info__information | mt-2xl">
         <Accordion defaultOpenIds={['one']}>
           <AccordionItem id="one">
-            <div>
+            <AccordionHeader>
               <strong>Description</strong>
-            </div>
-            <div>
+            </AccordionHeader>
+            <AccordionPanel>
               <div className="body-text">
                 <p>
                   Ut minim mollit officia ad adipiscing velit duis duis fugiat. Reprehenderit
@@ -255,13 +255,13 @@ function ProductInfo({
                   proident ex in velit qui anim.
                 </p>
               </div>
-            </div>
+            </AccordionPanel>
           </AccordionItem>
           <AccordionItem id="two">
-            <div>
+            <AccordionHeader>
               <strong>Returns Policy</strong>
-            </div>
-            <div>
+            </AccordionHeader>
+            <AccordionPanel>
               <div className="body-text">
                 <p>
                   Fugiat esse consequat ad aliquip amet aliquip sed sit voluptate. Enim est culpa
@@ -274,7 +274,7 @@ function ProductInfo({
                   adipiscing sunt.
                 </p>
               </div>
-            </div>
+            </AccordionPanel>
           </AccordionItem>
         </Accordion>
       </div>

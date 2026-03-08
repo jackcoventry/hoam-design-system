@@ -1,4 +1,4 @@
-import Tabs, { TabConfig } from '@/components/Tabs/Tabs';
+import { Tabs, type TabProps } from '@/components/Tabs';
 import { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta: Meta<typeof Tabs> = {
@@ -11,7 +11,7 @@ export default meta;
 
 type Story = StoryObj<typeof Tabs>;
 
-const TABS: TabConfig[] = [
+const TABS: TabProps[] = [
   {
     id: 'home',
     label: 'Home',

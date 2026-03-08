@@ -1,15 +1,15 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { Tabs, type TabProps } from '@/components/Tabs';
 import { beforeEach, describe, expect, it, Mock, vi } from 'vitest';
-import Tabs, { TabConfig } from './Tabs';
 
 vi.mock('@/utils/useMediaQuery', () => ({
   __esModule: true,
   default: vi.fn(),
 }));
 
-vi.mock('@/components/Accordion/Accordion', () => {
+vi.mock('@/components/Accordion', () => {
   const Accordion = ({ children }: { children: React.ReactNode }) => (
     <div data-testid="accordion">{children}</div>
   );
@@ -29,9 +29,7 @@ import { useMediaQuery } from '@/hooks/useMediaQuery';
 
 const mockedUseMediaQuery = useMediaQuery as unknown as Mock;
 
-// --- Test data ----------------------------------------------------------------
-
-const ITEMS: TabConfig[] = [
+const ITEMS: TabProps[] = [
   {
     id: 'one',
     label: 'Tab One',
@@ -234,7 +232,6 @@ describe('<Tabs />', () => {
       <Tabs
         title="Mobile tabs"
         items={ITEMS}
-        layout="horizontal"
       />
     );
 
