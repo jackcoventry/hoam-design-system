@@ -1,9 +1,9 @@
-.hoam-field-wrapper {
+.root {
   display: flex;
   flex-direction: column;
   gap: var(--hoam-spacing-2);
 }
 
-.hoam-field-wrapper-error {
+.error {
   font: var(--hoam-typography-label-1);
 }

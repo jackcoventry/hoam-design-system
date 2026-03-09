@@ -1,17 +1,17 @@
+import styles from '@/components/Form/FieldWrapper/FieldWrapper.module.css';
 import { PropsWithChildren } from 'react';
-import './FieldWrapper.css';
 
 type Props = {
   error?: string | undefined;
 };
 
-function FieldWrapper({ children, error }: PropsWithChildren<Props>) {
+export function FieldWrapper({ children, error }: PropsWithChildren<Props>) {
   return (
-    <div className="hoam-field-wrapper">
-      <div className="hoam-field-wrapper__content">{children}</div>
+    <div className={styles.root}>
+      <div className={styles.content}>{children}</div>
       {error && (
         <div
-          className="hoam-field-wrapper-error"
+          className={styles.error}
           role="alert"
         >
           {error}
@@ -20,5 +20,3 @@ function FieldWrapper({ children, error }: PropsWithChildren<Props>) {
     </div>
   );
 }
-
-export default FieldWrapper;

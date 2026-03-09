@@ -1,10 +1,10 @@
 import { Button } from '@/components/Button/Button';
 import '@/components/Common/Fields.css';
 import '@/components/Common/Loader.css';
+import styles from '@/components/Form/SearchForm/SearchForm.module.css';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import z from 'zod';
-import './SearchForm.css';
 
 const SearchFormSchema = z.object({
   q: z.string().trim().min(1, { message: 'Required' }),
@@ -28,14 +28,14 @@ type SearchResultsProps = {
   items: SearchFormResult[];
 };
 
-function SearchResult({ title, url, preview }: Readonly<SearchFormResult>) {
+export function SearchResult({ title, url, preview }: Readonly<SearchFormResult>) {
   return (
-    <div className="hoam-search-result">
-      <h4 className="hoam-search-result__title">{title}</h4>
-      <p className="hoam-search-result__preview">{preview}</p>
+    <div className={styles.result}>
+      <h4 className={styles.resultTitle}>{title}</h4>
+      <p className={styles.resultPreview}>{preview}</p>
       <a
         href={url}
-        className="hoam-search-result__link"
+        className={styles.resultLink}
       >
         Read more
       </a>
@@ -44,8 +44,9 @@ function SearchResult({ title, url, preview }: Readonly<SearchFormResult>) {
 }
 
 export function SearchLoader() {
+  // TODO: Address utilty classes like hoam-loader
   return (
-    <div className="hoam-search-form__loader">
+    <div className={styles.loader}>
       <span className="hoam-loader" />
     </div>
   );
@@ -54,14 +55,14 @@ export function SearchLoader() {
 export function SearchResults({ items }: Readonly<SearchResultsProps>) {
   if (items.length === 0) {
     return (
-      <div className="hoam-search-form__message">
+      <div className={styles.message}>
         <p>No results!</p>
       </div>
     );
   }
 
   return (
-    <ol className="hoam-search-form__results">
+    <ol className={styles.results}>
       {items.map((item, index) => (
         <li key={item.id ?? `${item.url}-${index}`}>
           <SearchResult
@@ -75,7 +76,7 @@ export function SearchResults({ items }: Readonly<SearchResultsProps>) {
   );
 }
 
-function SearchForm({ onSubmit, loading }: Readonly<SearchFormProps>) {
+export function SearchForm({ onSubmit, loading }: Readonly<SearchFormProps>) {
   const {
     control,
     handleSubmit,
@@ -92,9 +93,9 @@ function SearchForm({ onSubmit, loading }: Readonly<SearchFormProps>) {
   const inputId = 'hoam-search-form-input';
 
   return (
-    <div className="hoam-search-form__wrapper">
+    <div className={styles.wrapper}>
       <form
-        className="hoam-search-form"
+        className={styles.root}
         onSubmit={(event) => {
           void handleSubmit(onSubmit)(event);
         }}
@@ -125,7 +126,7 @@ function SearchForm({ onSubmit, loading }: Readonly<SearchFormProps>) {
 
         <Button
           type="submit"
-          className="hoam-search-form__button"
+          className={styles.button}
           variant="secondary"
           disabled={loading}
         >
@@ -135,5 +136,3 @@ function SearchForm({ onSubmit, loading }: Readonly<SearchFormProps>) {
     </div>
   );
 }
-
-export default SearchForm;

@@ -1,4 +1,4 @@
-import './PasswordStrengthMeter.css';
+import styles from '@/components/Form/PasswordStrengthMeter/PasswordStrengthMeter.module.css';
 
 type StrengthLevel = 0 | 1 | 2 | 3 | 4;
 
@@ -8,7 +8,7 @@ export function calculatePasswordStrength(password: string): StrengthLevel {
   if (password.length >= 8) score++;
   if (password.length >= 12) score++; // extra point for length
   if (/[A-Z]/.test(password)) score++;
-  if (/[0-9]/.test(password)) score++;
+  if (/\d/.test(password)) score++;
   if (/[^A-Za-z0-9]/.test(password)) score++;
 
   if (score > 4) score = 4;
@@ -34,21 +34,21 @@ type PasswordStrengthMeterProps = {
   strength: StrengthLevel;
 };
 
-function PasswordStrengthMeter({ strength }: Readonly<PasswordStrengthMeterProps>) {
+export function PasswordStrengthMeter({ strength }: Readonly<PasswordStrengthMeterProps>) {
   const label = strengthLabel(strength);
   const segments = [0, 1, 2, 3] as const;
 
   return (
-    <div>
+    <div className={styles.root}>
       <div
-        className="hoam-password-strength__track"
+        className={styles.track}
         aria-hidden="true"
       >
         {segments.map((i) => {
           const active = strength > i;
           return (
             <div
-              className="hoam-password-strength__segment"
+              className={styles.segment}
               key={i}
               data-active={active}
               data-strength={i}
@@ -68,5 +68,3 @@ function PasswordStrengthMeter({ strength }: Readonly<PasswordStrengthMeterProps
     </div>
   );
 }
-
-export default PasswordStrengthMeter;

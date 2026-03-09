@@ -1,5 +1,6 @@
-import Basket, { BasketFooter } from '@/components/Basket/Basket';
-import SearchForm, {
+import { Basket, BasketFooter } from '@/components/Basket';
+import {
+  SearchForm,
   SearchFormResult,
   SearchFormSchemaType,
   SearchLoader,

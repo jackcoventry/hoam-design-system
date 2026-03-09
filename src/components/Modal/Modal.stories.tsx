@@ -1,4 +1,5 @@
-import SearchForm, {
+import {
+  SearchForm,
   SearchFormResult,
   SearchFormSchemaType,
   SearchLoader,
