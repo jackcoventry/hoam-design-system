@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { useState } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 
-import { Accordion, AccordionHeader, AccordionItem, AccordionPanel } from './Accordion';
+import { Accordion, AccordionHeader, AccordionItem, AccordionPanel } from '@/components/Accordion';
 
 function renderBasicAccordion(props?: Partial<React.ComponentProps<typeof Accordion>>) {
   return render(

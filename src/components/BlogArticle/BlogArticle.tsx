@@ -1,11 +1,11 @@
-import socialLinks from '@/mocks/socialLinks';
+import styles from '@/components/BlogArticle/BlogArticle.module.css';
+import socialLinks from '@/mocks/socialLinks'; // TODO: Remove mocks from components
 import {
   formatISODate,
   formatReadableDate,
   parseLooseDate,
 } from '@/utils/convertDates/convertDates';
 import { ReactNode } from 'react';
-import './BlogArticle.css';
 
 type BlogImage = {
   src: string;
@@ -23,7 +23,7 @@ type Tag = {
   id: string;
 };
 
-type BlogArticleProps = {
+export type BlogArticleProps = {
   category: string;
   title: string;
   summary: string;
@@ -61,7 +61,7 @@ const Wrapper = ({
   );
 };
 
-function BlogArticle({
+export function BlogArticle({
   category,
   title,
   summary,
@@ -73,30 +73,30 @@ function BlogArticle({
   children,
 }: Readonly<BlogArticleProps>) {
   const parsedDate = parseLooseDate(publishDate);
-  const stringDate = formatReadableDate(parsedDate);
-  const formattedDate = formatISODate(parsedDate);
+  const stringDate = parsedDate ? formatReadableDate(parsedDate) : '';
+  const formattedDate = parsedDate ? formatISODate(parsedDate) : '';
 
   return (
-    <div className="hoam-article__wrapper">
-      <article className="hoam-article">
-        <div className="hoam-article__header-wrapper">
+    <div className={styles.wrapper}>
+      <article className={styles.root}>
+        <div className={styles.headerWrapper}>
           <Wrapper>
-            <header className="hoam-article__header">
-              {category && <p className="hoam-article__header-category">{category}</p>}
+            <header className={styles.header}>
+              {category && <p className={styles.headerCategory}>{category}</p>}
               {title && <h1>{title}</h1>}
               {summary && <h2>{summary}</h2>}
 
-              <div className="hoam-article__meta">
+              <div className={styles.meta}>
                 {author && (
-                  <span className="hoam-article__author">
+                  <span className={styles.author}>
                     By{' '}
                     <a
                       href={`/profile/${author.id}`}
                       rel="author"
-                      className="hoam-article__author-link"
+                      className={styles.authorLink}
                     >
                       {author.name}
-                      <span className="hoam-article__author-avatar">
+                      <span className={styles.authorAvatar}>
                         <img
                           src="https://placehold.co/20x20"
                           alt={`The avatar of ${author.name}`}
@@ -106,12 +106,12 @@ function BlogArticle({
                   </span>
                 )}
                 <time
-                  className="hoam-article__date"
+                  className={styles.date}
                   dateTime={formattedDate}
                 >
                   {stringDate}
                 </time>
-                <span className="hoam-article__reading-time">
+                <span className={styles.readingTime}>
                   <svg
                     className="icon"
                     width="1em"
@@ -122,7 +122,7 @@ function BlogArticle({
                   </svg>
                   {readingTime} minute read
                 </span>
-                <div className="hoam-article__social-links">
+                <div className={styles.socialLinks}>
                   SHARE
                   {socialLinks.map((link) => (
                     <a
@@ -150,30 +150,30 @@ function BlogArticle({
 
         {image && (
           <Wrapper>
-            <figure className="hoam-article__figure">
+            <figure className={styles.figure}>
               <img
                 src={image.src}
                 alt={image.alt}
               />
-              <figcaption className="hoam-article__figcaption">{image.caption}</figcaption>
+              <figcaption className={styles.figcaption}>{image.caption}</figcaption>
             </figure>
           </Wrapper>
         )}
 
         <Wrapper size="small">
-          <section className="hoam-article__body | body-text">{children}</section>
+          <section className={`${styles.body} | ${styles.bodyText}`}>{children}</section>
         </Wrapper>
 
-        <footer className="hoam-article__footer">
+        <footer className={styles.footer}>
           <Wrapper>
             {tags?.length > 0 ? (
-              <p className="hoam-article__tags">
-                <span className="hoam-article__tags-title">Tags: </span>
+              <p className={styles.tags}>
+                <span className={styles.tagsTitle}>Tags: </span>
                 {tags?.map((tag) => (
                   <a
                     key={tag.id}
                     href={`/blog/tag/${tag.id}`}
-                    className="hoam-article__tag"
+                    className={styles.tag}
                   >
                     {tag.name}
                   </a>
@@ -186,5 +186,3 @@ function BlogArticle({
     </div>
   );
 }
-
-export default BlogArticle;

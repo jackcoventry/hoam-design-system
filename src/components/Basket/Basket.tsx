@@ -2,14 +2,14 @@ import { Button } from '@/components/Button/Button';
 import QuantitySelector from '@/components/QuantitySelector/QuantitySelector';
 import { convertNumberToCurrency } from '@/utils/convertNumberToCurrency';
 
-import './Basket.css';
+import styles from '@/components/Basket/Basket.module.css';
 
 type Thumbnail = {
   src: string;
   alt?: string;
 };
 
-type BasketItemProps = {
+export type BasketItemProps = {
   id: string;
   title: string;
   summary: string;
@@ -20,7 +20,12 @@ type BasketItemProps = {
   quantity: number;
 };
 
-function BasketItem({
+export type BasketProps = {
+  items: BasketItemProps[];
+  total: number;
+};
+
+export function BasketItem({
   title,
   price,
   thumbnail,
@@ -31,11 +36,11 @@ function BasketItem({
   const totalPrice = quantity * price;
 
   return (
-    <tr className="hoam-basket__row">
+    <tr className={styles.row}>
       <td>
         <a
           href={url}
-          className="hoam-basket__link"
+          className={styles.link}
         >
           <img
             src={thumbnail.src}
@@ -44,17 +49,15 @@ function BasketItem({
         </a>
       </td>
       <td>
-        <div className="hoam-basket__content">
+        <div className={styles.content}>
           <a
             href={url}
-            className="hoam-basket__link"
+            className={styles.link}
           >
-            <h4 className="hoam-basket__title">{title}</h4>
-            <span className="hoam-basket__summary">
-              {convertNumberToCurrency({ value: price })}
-            </span>
+            <h4 className={styles.title}>{title}</h4>
+            <span className={styles.summary}>{convertNumberToCurrency({ value: price })}</span>
           </a>
-          <div className="hoam-basket__controls">
+          <div className={styles.controls}>
             <Button
               size="small"
               title="Remove item from basket"
@@ -71,7 +74,7 @@ function BasketItem({
         </div>
       </td>
       <td>
-        <div className="hoam-basket__quantity">
+        <div className={styles.quantity}>
           <QuantitySelector
             onChange={onChange}
             value={quantity}
@@ -79,7 +82,7 @@ function BasketItem({
         </div>
       </td>
       <td>
-        <div className="hoam-basket__price">{convertNumberToCurrency({ value: totalPrice })}</div>
+        <div className={styles.price}>{convertNumberToCurrency({ value: totalPrice })}</div>
       </td>
     </tr>
   );
@@ -87,10 +90,10 @@ function BasketItem({
 
 export function BasketFooter({ total = 0 }: Readonly<{ total: number }>) {
   return (
-    <tr className="hoam-basket__footer">
+    <tr className={styles.footer}>
       <td>
-        <div className="hoam-basket__footer-content">
-          <h4 className="hoam-basket__footer-title">
+        <div className={styles.footerContent}>
+          <h4 className={styles.footerTitle}>
             Sub-total: {convertNumberToCurrency({ value: total })}
           </h4>
           <Button>Proceed to Checkout</Button>
@@ -100,15 +103,10 @@ export function BasketFooter({ total = 0 }: Readonly<{ total: number }>) {
   );
 }
 
-type BasketProps = {
-  items: BasketItemProps[];
-  total: number;
-};
-
-function Basket({ items = [] }: Readonly<BasketProps>) {
+export function Basket({ items = [] }: Readonly<BasketProps>) {
   return (
-    <table className="hoam-basket">
-      <tr className="hoam-basket__row">
+    <table className={styles.root}>
+      <tr className={styles.row}>
         <th scope="col">Product</th>
         <th scope="col"></th>
         <th scope="col">Quantity</th>
@@ -133,5 +131,3 @@ function Basket({ items = [] }: Readonly<BasketProps>) {
     </table>
   );
 }
-
-export default Basket;

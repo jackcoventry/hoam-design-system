@@ -5,7 +5,7 @@ import SearchForm, {
   SearchLoader,
   SearchResults,
 } from '@/components/Form/SearchForm/SearchForm';
-import Modal from '@/components/Modal/Modal';
+import { Modal } from '@/components/Modal/Modal';
 import { SubmitHandler } from 'react-hook-form';
 
 type NavigationModalsProps = {

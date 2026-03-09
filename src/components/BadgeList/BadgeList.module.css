@@ -1,10 +1,10 @@
-.hoam-badge-list {
+.root {
   display: flex;
   gap: var(--hoam-spacing-3);
   padding: var(--hoam-spacing-1) 0;
 }
 
-.hoam-badge-list__item {
+.item {
   background-color: var(--hoam-color-neutral-900);
   border-radius: 4px;
   display: inline-flex;
@@ -13,10 +13,10 @@
   text-transform: uppercase;
 }
 
-.hoam-badge-list__item[data-theme="default"] {
+.item[data-theme="default"] {
   border: 1px solid var(--hoam-color-moon-700);
 }
 
-.hoam-badge-list__item[data-theme="alert"] {
+.item[data-theme="alert"] {
   border: 1px solid var(--hoam-color-sun-700);
 }

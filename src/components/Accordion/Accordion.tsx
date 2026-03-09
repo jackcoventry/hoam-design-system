@@ -1,3 +1,4 @@
+import styles from '@/components/Accordion/Accordion.module.css';
 import clsx from 'clsx';
 import {
   Children,
@@ -12,7 +13,6 @@ import {
   useMemo,
   useState,
 } from 'react';
-import './Accordion.css';
 
 export interface AccordionProps {
   allowMultiple?: boolean;
@@ -149,12 +149,12 @@ export function Accordion({
 
   return (
     <AccordionContext.Provider value={value}>
-      <div className={clsx('hoam-accordion', className)}>
+      <div className={clsx(styles.root, className)}>
         {allowMultiple && showToggleAll && itemIds.length > 1 && (
-          <div className="hoam-accordion__header">
+          <div className={styles.header}>
             <button
               type="button"
-              className="hoam-accordion__toggle-all"
+              className={styles.toggleAll}
               onClick={() => updateOpenIds(allExpanded ? [] : itemIds)}
               aria-label={
                 allExpanded ? 'Collapse all accordion sections' : 'Expand all accordion sections'
@@ -185,11 +185,11 @@ export function AccordionItem({ id, children, className }: Readonly<AccordionIte
 
   return (
     <div
-      className={clsx('hoam-accordion__item', className)}
+      className={clsx(styles.item, className)}
       data-state={isOpen ? 'open' : 'closed'}
       data-disabled={isDisabled ? 'true' : 'false'}
     >
-      <div className="hoam-accordion__item-title">
+      <div className={styles.itemTitle}>
         <button
           id={headerId}
           type="button"
@@ -197,12 +197,12 @@ export function AccordionItem({ id, children, className }: Readonly<AccordionIte
           aria-expanded={isOpen}
           disabled={isDisabled}
           onClick={() => toggle(id)}
-          className={clsx('hoam-accordion__item-title-button', header.props.className)}
+          className={clsx(styles.itemTitleButton, header.props.className)}
         >
-          <span className="hoam-accordion__item-title-text">{header.props.children}</span>
+          <span className={styles.itemTitleText}>{header.props.children}</span>
 
           <span
-            className="hoam-accordion__icon"
+            className={styles.icon}
             aria-hidden="true"
           >
             <svg
@@ -221,10 +221,10 @@ export function AccordionItem({ id, children, className }: Readonly<AccordionIte
         id={panelId}
         aria-labelledby={headerId}
         aria-hidden={!isOpen}
-        className={clsx('hoam-accordion__panel', panel.props.className)}
+        className={clsx(styles.panel, panel.props.className)}
         data-open={isOpen ? 'true' : 'false'}
       >
-        <div className="hoam-accordion__panel-inner">{panel.props.children}</div>
+        <div className={styles.panelInner}>{panel.props.children}</div>
       </section>
     </div>
   );

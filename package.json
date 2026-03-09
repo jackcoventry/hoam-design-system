@@ -5,8 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "npx vitest --project=storybook",
-    "test:run": "vitest run --project=storybook",
+    "test": "npx vitest",
+    "test:run": "vitest run",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "prettier": "prettier . --check",
@@ -53,6 +53,7 @@
     "eslint-plugin-react-hooks": "^7.0.0",
     "eslint-plugin-storybook": "10.2.16",
     "husky": "^9.1.7",
+    "jsdom": "^28.1.0",
     "lint-staged": "^16.3.2",
     "playwright": "^1.53.1",
     "prettier": "3.6.2",

@@ -1,36 +1,36 @@
 import { NavPanelLinkItem } from '@/components/Navigation/types/Navigation.types';
 
-import './Breadcrumb.css';
+import styles from '@/components/Breadcrumb/Breadcrumb.module.css';
 
-type BreadcrumbProps = {
+export type BreadcrumbProps = {
   items: NavPanelLinkItem[];
 };
 
-function Breadcrumb({ items }: Readonly<BreadcrumbProps>) {
+export function Breadcrumb({ items }: Readonly<BreadcrumbProps>) {
   if (!items || items?.length === 0) return;
   return (
     <nav
       aria-label="Breadcrumb"
-      className="hoam-breadcrumb"
+      className={styles.root}
     >
-      <ol className="hoam-breadcrumb__list">
+      <ol className={styles.list}>
         {items?.map((item, index) => {
           const isCurrent = index === items.length - 1;
           return (
             <li
               key={item.id}
-              className="hoam-breadcrumb__list-item"
+              className={styles.listItem}
             >
               {isCurrent ? (
                 <span
-                  className="hoam-breadcrumb__item"
+                  className={styles.item}
                   aria-current="page"
                 >
                   {item.label}
                 </span>
               ) : (
                 <a
-                  className="hoam-breadcrumb__item"
+                  className={styles.item}
                   href={item.href}
                 >
                   {item.label}
@@ -43,5 +43,3 @@ function Breadcrumb({ items }: Readonly<BreadcrumbProps>) {
     </nav>
   );
 }
-
-export default Breadcrumb;

@@ -1,5 +1,5 @@
+import styles from '@/components/BadgeList/BadgeList.module.css';
 import { Children, isValidElement, PropsWithChildren, ReactElement, ReactNode } from 'react';
-import './BadgeList.css';
 
 export type BadgeListItemProps = {
   href?: string;
@@ -16,7 +16,7 @@ export function BadgeListItem({
   const Tag = href ? 'a' : 'span';
   return (
     <Tag
-      className="hoam-badge-list__item"
+      className={styles.item}
       {...(href ? { href } : {})}
       data-theme={theme}
     >
@@ -31,7 +31,7 @@ function isBadgeListItemElement(child: ReactNode): child is ReactElement<BadgeLi
 
 export function BadgeList({ children }: Readonly<PropsWithChildren>) {
   return (
-    <div className="hoam-badge-list">
+    <div className={styles.root}>
       {Children.map(children, (child) => {
         if (isBadgeListItemElement(child)) {
           return child;

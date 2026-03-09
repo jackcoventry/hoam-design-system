@@ -1,9 +1,9 @@
-.hoam-breadcrumb {
+.root {
   font: var(--hoam-typography-label-1);
   padding: var(--hoam-spacing-1) 0;
 }
 
-.hoam-breadcrumb__list {
+.list {
   display: flex;
   gap: var(--hoam-spacing-3);
   list-style: none;
@@ -11,22 +11,22 @@
   padding: 0;
 }
 
-.hoam-breadcrumb__list-item:not(:last-child)::after {
+.listItem:not(:last-child)::after {
   content: "/";
   padding-left: var(--hoam-spacing-3);
 }
 
-a.hoam-breadcrumb__item:link,
-a.hoam-breadcrumb__item:visited {
+a.item:link,
+a.item:visited {
   color: var(--hoam-color-moon-800);
 }
 
-a.hoam-breadcrumb__item:hover {
+a.item:hover {
   color: var(--hoam-color-moon-700);
   text-decoration: none;
 }
 
-a.hoam-breadcrumb__item:focus {
+a.item:focus {
   box-shadow:
     0 0 0 2px white,
     0 0 0 6px yellow;

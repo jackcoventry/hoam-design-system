@@ -1,4 +1,4 @@
-import Footer from '@/components/Footer/Footer';
+import { Footer } from '@/components/Footer';
 import FooterData from '@/mocks/components/Footer';
 import { Meta, StoryObj } from '@storybook/react-vite';
 

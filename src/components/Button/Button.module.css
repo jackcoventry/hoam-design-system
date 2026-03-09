@@ -8,7 +8,7 @@
   --hoam-button-font: var(--hoam-typography-button-1);
 }
 
-.hoam-button {
+.root {
   background-color: var(--hoam-button-color-fill);
   border-color: transparent;
   border-style: solid;
@@ -28,7 +28,7 @@
   white-space: nowrap;
 }
 
-.hoam-button[data-size="small"] {
+.root[data-size="small"] {
   --hoam-button-spacing-horizontal: var(--hoam-spacing-3);
   --hoam-button-spacing-vertical: var(--hoam-spacing-2);
   --hoam-button-content-gap: var(--hoam-spacing-2);
@@ -36,42 +36,42 @@
   --hoam-button-font: var(--hoam-typography-label-1);
 }
 
-.hoam-button[data-variant="primary"] {
+.root[data-variant="primary"] {
   --hoam-button-color-fill: var(--hoam-color-moon-700);
   --hoam-button-color-fill-hover: var(--hoam-color-moon-500);
 }
 
-.hoam-button[data-variant="secondary"] {
+.root[data-variant="secondary"] {
   --hoam-button-color-fill: var(--hoam-color-sun-200);
   --hoam-button-color-fill-hover: var(--hoam-color-sun-300);
 }
 
-.hoam-button:not(:disabled):hover {
+.root:not(:disabled):hover {
   background-color: var(--hoam-button-color-fill-hover);
 }
 
-.hoam-button:disabled {
+.root:disabled {
   --hoam-button-color-fill: var(--hoam-color-neutral-700);
   cursor: not-allowed;
 }
 
-.hoam-button:focus-visible {
+.root:focus-visible {
   box-shadow:
     0 0 0 2px white,
     0 0 0 6px yellow;
 }
 
-.hoam-button__icon {
+.icon {
   align-items: center;
   display: inline-flex;
 }
 
-.hoam-button[data-icon-position="left"] .hoam-button__icon,
-.hoam-button[data-icon-position="right"] .hoam-button__content {
+.root[data-icon-position="left"] .icon,
+.root[data-icon-position="right"] .content {
   order: 1;
 }
 
-.hoam-button[data-icon-position="left"] .hoam-button__content,
-.hoam-button[data-icon-position="right"] .hoam-button__icon {
+.root[data-icon-position="left"] .content,
+.root[data-icon-position="right"] .icon {
   order: 2;
 }

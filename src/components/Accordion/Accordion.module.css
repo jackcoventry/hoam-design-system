@@ -1,23 +1,26 @@
-.hoam-accordion__header {
+.root {
+}
+
+.header {
   align-items: center;
   display: flex;
   justify-content: space-between;
 }
 
-.hoam-accordion__item {
+.item {
   padding: var(--hoam-spacing-3) 0;
 }
 
-.hoam-accordion__item:not(:last-child) {
+.item:not(:last-child) {
   border-bottom: 1px solid var(--hoam-color-moon-200);
 }
 
-.hoam-accordion__panel-inner {
+.panelInner {
   overflow: hidden;
   padding: var(--hoam-spacing-3) var(--hoam-spacing-3) 0;
 }
 
-.hoam-accordion__panel {
+.panel {
   display: grid;
   grid-template-rows: 0fr;
   opacity: 0;
@@ -28,8 +31,8 @@
   visibility: hidden;
 }
 
-.hoam-accordion__panel[data-open="true"],
-.hoam-accordion__panel[aria-hidden="false"] {
+.panel[data-open="true"],
+.panel[aria-hidden="false"] {
   grid-template-rows: 1fr;
   opacity: 1;
   transition:
@@ -40,17 +43,17 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hoam-accordion__panel {
+  .panel {
     transition: none;
   }
 }
 
 /* Block pointer events on closed content */
-.hoam-accordion__panel[aria-hidden="true"] * {
+.panel[aria-hidden="true"] * {
   pointer-events: none;
 }
 
-.hoam-accordion__item-title-button {
+.itemTitleButton {
   align-items: center;
   background: none;
   border: none;
@@ -63,7 +66,7 @@
   width: 100%;
 }
 
-.hoam-accordion__toggle-all {
+.toggleAll {
   background: none;
   border: none;
   cursor: pointer;

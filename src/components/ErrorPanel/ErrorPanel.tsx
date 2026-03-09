@@ -1,25 +1,27 @@
-import { Button } from '@/components/Button/Button';
+import { Button } from '@/components/Button';
 
-import './ErrorPanel.css';
+import styles from '@/components/ErrorPanel/ErrorPanel.module.css';
 
-function ErrorPanel({ message }: { message: string }) {
+export type Props = {
+  message: string;
+};
+
+export function ErrorPanel({ message }: Readonly<Props>) {
   return (
-    <div className="hoam-error-panel">
+    <div className={styles.root}>
       <img
         src="/mindfullness.svg"
         alt="An illustration of a woman meditating"
-        className="hoam-error-panel__image"
+        className={styles.image}
       />
-      <h2 className="hoam-error-panel__title">{message}</h2>
+      <h2 className={styles.title}>{message}</h2>
       <Button
         as="a"
         href="/"
-        className="hoam-error-panel__button"
+        className={styles.button}
       >
         Return to homepage
       </Button>
     </div>
   );
 }
-
-export default ErrorPanel;

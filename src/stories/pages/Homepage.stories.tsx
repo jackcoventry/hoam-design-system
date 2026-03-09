@@ -10,7 +10,8 @@ import UserNavigationData from '@/mocks/components/UserNavigation';
 import { Meta } from '@storybook/react-vite';
 
 import Footer from '@/components/Footer/Footer';
-import Hero, { HeroSlide } from '@/components/Hero/Hero';
+import { Hero } from '@/components/Hero/Hero';
+import { HeroSlide } from '@/components/Hero/HeroSlide';
 import LogoCarousel from '@/components/LogoCarousel/LogoCarousel';
 import Navigation from '@/components/Navigation/Navigation';
 import NewsletterBanner from '@/components/NewsletterBanner/NewsletterBanner';

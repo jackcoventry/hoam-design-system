@@ -1,4 +1,4 @@
-import BlogArticle from '@/components/BlogArticle/BlogArticle';
+import { BlogArticle } from '@/components/BlogArticle';
 import NewsletterBanner from '@/components/NewsletterBanner/NewsletterBanner';
 import BaseTemplate from '@/templates/Base';
 import { Meta, StoryObj } from '@storybook/react-vite';

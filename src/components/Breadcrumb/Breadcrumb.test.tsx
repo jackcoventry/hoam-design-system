@@ -1,8 +1,8 @@
-import type { NavItem } from '@/components/Navigation/types/Navigation.types';
+import type { NavPanelLinkItem } from '@/components/Navigation/types/Navigation.types';
 import { render, screen } from '@testing-library/react';
 
+import { Breadcrumb } from '@/components/Breadcrumb';
 import { describe, expect, it } from 'vitest';
-import Breadcrumb from './Breadcrumb';
 
 describe('Breadcrumb', () => {
   it('renders nothing when items is an empty array', () => {
@@ -14,7 +14,7 @@ describe('Breadcrumb', () => {
   });
 
   it('renders a navigation landmark with aria-label "Breadcrumb"', () => {
-    const items: NavItem[] = [
+    const items: NavPanelLinkItem[] = [
       { id: 'home', label: 'Home', href: '/' },
       { id: 'products', label: 'Products', href: '/products' },
       { id: 'coffee', label: 'Coffee', href: '/products/coffee' },
@@ -28,7 +28,7 @@ describe('Breadcrumb', () => {
   });
 
   it('renders all items as list items inside an ordered list', () => {
-    const items: NavItem[] = [
+    const items: NavPanelLinkItem[] = [
       { id: 'home', label: 'Home', href: '/' },
       { id: 'products', label: 'Products', href: '/products' },
       { id: 'coffee', label: 'Coffee', href: '/products/coffee' },
@@ -45,7 +45,7 @@ describe('Breadcrumb', () => {
   });
 
   it('renders all but the last item as links and the last item as a span with aria-current="page"', () => {
-    const items: NavItem[] = [
+    const items: NavPanelLinkItem[] = [
       { id: 'home', label: 'Home', href: '/' },
       { id: 'products', label: 'Products', href: '/products' },
       { id: 'coffee', label: 'Coffee', href: '/products/coffee' },

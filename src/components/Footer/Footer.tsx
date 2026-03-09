@@ -1,27 +1,27 @@
 import socialLinks from '@/mocks/socialLinks';
 
-import './Footer.css';
+import styles from '@/components/Footer/Footer.module.css';
 
 type LinkSection = {
   title: string;
   links: Array<{ label: string; href: string }>;
 };
 
-type FooterProps = {
+export type FooterProps = {
   topLinks?: Array<LinkSection>;
   bottomLinks?: Array<{ label: string; href: string }>;
 };
 
-function Footer({ topLinks = [], bottomLinks = [] }: Readonly<FooterProps>) {
+export function Footer({ topLinks = [], bottomLinks = [] }: Readonly<FooterProps>) {
   return (
-    <footer className="hoam-footer">
+    <footer className={styles.root}>
       <div className="container">
         <div className="grid">
           <div className="span-12 xl:span-2">
             <img
               src="/logo.png"
               alt="HOAM logo"
-              className="hoam-footer__logo"
+              className={styles.logo}
             />
           </div>
           {topLinks.map((section, index) => {
@@ -31,8 +31,8 @@ function Footer({ topLinks = [], bottomLinks = [] }: Readonly<FooterProps>) {
                 key={section.title}
                 className="span-12 xl:span-2"
               >
-                <h4 className="hoam-footer__section-title">{section.title}</h4>
-                <ul className="hoam-footer__list">
+                <h4 className={styles.sectionTitle}>{section.title}</h4>
+                <ul className={styles.list}>
                   {section.links.map((link) => (
                     <li key={link.href}>
                       <a href={link.href}>{link.label}</a>
@@ -43,8 +43,8 @@ function Footer({ topLinks = [], bottomLinks = [] }: Readonly<FooterProps>) {
             );
           })}
           <div className="span-12 xl:span-2">
-            <h4 className="hoam-footer__section-title">Connect with us</h4>
-            <div className="hoam-footer__social-links">
+            <h4 className={styles.sectionTitle}>Connect with us</h4>
+            <div className={styles.socialLinks}>
               {socialLinks.map((link) => (
                 <a
                   key={link.name}
@@ -65,9 +65,9 @@ function Footer({ topLinks = [], bottomLinks = [] }: Readonly<FooterProps>) {
             </div>
           </div>
         </div>
-        <div className="hoam-footer__separator | grid">
+        <div className={`${styles.separator} | grid`}>
           <div className="span-12">
-            <div className="hoam-footer__links">
+            <div className={styles.links}>
               {bottomLinks.map((link) => (
                 <div key={link.href}>
                   <a href={link.href}>{link.label}</a>
@@ -80,5 +80,3 @@ function Footer({ topLinks = [], bottomLinks = [] }: Readonly<FooterProps>) {
     </footer>
   );
 }
-
-export default Footer;

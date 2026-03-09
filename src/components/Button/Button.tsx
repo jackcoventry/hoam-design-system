@@ -1,11 +1,11 @@
 import clsx from 'clsx';
 import React from 'react';
 
-import './Button.css';
+import styles from '@/components/Button/Button.module.css';
 
 // Common props for both button and anchor
 type CommonProps = {
-  className?: string;
+  className?: string | undefined;
   children?: React.ReactNode;
   icon?: string;
   iconPosition?: 'left' | 'right';
@@ -55,7 +55,7 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Readonly<
       ...rest
     } = props;
 
-    const classes = clsx('hoam-button', className);
+    const classes = clsx(styles.root, className);
 
     // If iconOnly and no ariaLabel, fall back to string children
     let computedAriaLabel = ariaLabel;
@@ -80,9 +80,9 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Readonly<
           ref={ref as React.Ref<HTMLAnchorElement>}
           {...anchorRest}
         >
-          {children && !iconOnly && <span className="hoam-button__content">{children}</span>}
+          {children && !iconOnly && <span className={styles.content}>{children}</span>}
           {icon && (
-            <span className="hoam-button__icon">
+            <span className={styles.icon}>
               <svg
                 className="icon"
                 width="1.25em"
@@ -112,9 +112,9 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Readonly<
         ref={ref as React.Ref<HTMLButtonElement>}
         {...buttonRest}
       >
-        {children && !iconOnly && <span className="hoam-button__content">{children}</span>}
+        {children && !iconOnly && <span className={styles.content}>{children}</span>}
         {icon && (
-          <span className="hoam-button__icon">
+          <span className={styles.icon}>
             <svg
               className="icon"
               width="1.25em"
