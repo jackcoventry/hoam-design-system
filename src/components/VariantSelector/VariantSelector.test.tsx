@@ -54,15 +54,12 @@ describe('VariantSelector', () => {
 
   it('is controlled: checked reflects value prop', () => {
     setup({ value: 'white' });
-    const black = screen.getByRole('radio', {
-      name: 'Black',
-    }) as HTMLInputElement;
-    const white = screen.getByRole('radio', {
-      name: 'White',
-    }) as HTMLInputElement;
 
-    expect(black.checked).toBe(false);
-    expect(white.checked).toBe(true);
+    const black = screen.getByRole('radio', { name: 'Black' });
+    const white = screen.getByRole('radio', { name: 'White' });
+
+    expect(black).not.toBeChecked();
+    expect(white).toBeChecked();
   });
 
   it('clicking an option triggers onChange with that value', async () => {
@@ -72,7 +69,7 @@ describe('VariantSelector', () => {
     expect(onChange).toHaveBeenCalledWith('Red'.toLowerCase()); // value is "red"
   });
 
-  it('radiogroup is focusable and delegates focus to selected radio', async () => {
+  it('radiogroup is focusable and delegates focus to selected radio', () => {
     setup({ value: 'white' });
     const group = screen.getByRole('radiogroup');
     // focus group
@@ -84,7 +81,7 @@ describe('VariantSelector', () => {
     expect(group).toHaveAttribute('tabIndex', '0');
   });
 
-  it('when no selection, focusing the group moves focus to first enabled option', async () => {
+  it('when no selection, focusing the group moves focus to first enabled option', () => {
     setup({
       value: null,
       options: [
@@ -106,16 +103,14 @@ describe('VariantSelector', () => {
     // Focus group (delegates to selected "black")
     group.focus();
     const radios = screen.getAllByRole('radio');
-    expect(document.activeElement).toBe(radios[0]); // black
+    expect(document.activeElement).toBe(radios[0]);
 
-    // Press ArrowLeft should wrap to last (red)
+    // Press ArrowLeft should wrap to last
     await user.keyboard('{ArrowLeft}');
-    expect(onChange).toHaveBeenLastCalledWith(options[2].value); // red
+    expect(onChange).toHaveBeenLastCalledWith(options[2]?.value);
 
-    // Long-press simulation: multiple ArrowRight should traverse sequentially and wrap
     await user.keyboard('{ArrowRight}{ArrowRight}{ArrowRight}');
-    // From red -> black -> white -> red
-    expect(onChange).toHaveBeenLastCalledWith(options[2].value); // red again
+    expect(onChange).toHaveBeenLastCalledWith(options[2]?.value);
   });
 
   it('Up/Down arrows work when orientation is vertical', async () => {
@@ -128,11 +123,11 @@ describe('VariantSelector', () => {
 
     // ArrowDown moves forward
     await user.keyboard('{ArrowDown}');
-    expect(onChange).toHaveBeenLastCalledWith(options[1].value); // white
+    expect(onChange).toHaveBeenLastCalledWith(options[1]?.value);
 
-    // ArrowUp moves back (with wrap)
+    // ArrowUp moves back
     await user.keyboard('{ArrowUp}');
-    expect(onChange).toHaveBeenLastCalledWith(options[0].value); // black
+    expect(onChange).toHaveBeenLastCalledWith(options[0]?.value);
   });
 
   it('skips disabled options while navigating', async () => {
@@ -239,15 +234,12 @@ describe('VariantSelector', () => {
 
     render(<Demo />);
 
-    // Tab into first picker -> it should delegate to "White"
     await user.tab();
     expect(screen.getByRole('radio', { name: 'White' })).toHaveFocus();
 
-    // Tab to second picker -> it should delegate to "Red"
     await user.tab();
     expect(screen.getByRole('radio', { name: 'Red' })).toHaveFocus();
 
-    // Shift+Tab should go back to previous picker ("White"), not get trapped
     await user.tab({ shift: true });
     expect(screen.getByRole('radio', { name: 'White' })).toHaveFocus();
   });

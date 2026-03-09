@@ -1,4 +1,4 @@
-import SidebarNavigation from '@/components/SidebarNavigation/SidebarNavigation';
+import { SidebarNavigation } from '@/components/SidebarNavigation/SidebarNavigation';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
@@ -71,7 +71,7 @@ describe('SidebarNavigation', () => {
     expect(screen.getAllByRole('link')).toHaveLength(3);
   });
 
-  it('renders mobile toggle button and hides navigation by default', async () => {
+  it('renders mobile toggle button and hides navigation by default', () => {
     mockUseMediaQuery.mockReturnValue(true); // isMobile = true
 
     render(<SidebarNavigation items={mockItems} />);
@@ -141,7 +141,7 @@ describe('SidebarNavigation', () => {
     mockUseMediaQuery.mockReturnValue(false); // desktop
 
     // Should not throw even if items is undefined
-    render(<SidebarNavigation items={undefined as any} />);
+    render(<SidebarNavigation items={undefined} />);
 
     // Nav still exists but has no links/headings
     expect(screen.getByRole('navigation')).toBeInTheDocument();

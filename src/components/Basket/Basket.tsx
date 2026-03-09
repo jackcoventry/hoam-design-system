@@ -22,7 +22,6 @@ type BasketItemProps = {
 
 function BasketItem({
   title,
-  summary,
   price,
   thumbnail,
   url,
@@ -86,7 +85,7 @@ function BasketItem({
   );
 }
 
-export function BasketFooter({ total = 0 }: { total: number }) {
+export function BasketFooter({ total = 0 }: Readonly<{ total: number }>) {
   return (
     <tr className="hoam-basket__footer">
       <td>

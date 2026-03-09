@@ -80,7 +80,7 @@ describe('NotificationBar (auto-rotates only when messages.length > 1)', () => {
     expect(region).not.toHaveAttribute('tabindex');
   });
 
-  it('auto-rotates when there are 2+ messages (reduced motion off)', async () => {
+  it('auto-rotates when there are 2+ messages (reduced motion off)', () => {
     render(
       <NotificationBar
         messages={MESSAGES}
@@ -108,7 +108,7 @@ describe('NotificationBar (auto-rotates only when messages.length > 1)', () => {
     expect(screen.getAllByRole('link')).toHaveLength(1);
   });
 
-  it('pauses on hover/focus and resumes after blur/leave + restart delay', async () => {
+  it('pauses on hover/focus and resumes after blur/leave + restart delay', () => {
     render(
       <NotificationBar
         messages={MESSAGES}
@@ -159,7 +159,7 @@ describe('NotificationBar (auto-rotates only when messages.length > 1)', () => {
     expect(status).toHaveAttribute('aria-live', 'polite');
   });
 
-  it('with prefers-reduced-motion=true: does not rotate even with multiple messages; no tabIndex', async () => {
+  it('with prefers-reduced-motion=true: does not rotate even with multiple messages; no tabIndex', () => {
     (usePrefersReducedMotion as unknown as Mock).mockReturnValue(true);
 
     render(
@@ -183,7 +183,7 @@ describe('NotificationBar (auto-rotates only when messages.length > 1)', () => {
     expect(screen.getAllByRole('link')).toHaveLength(1);
   });
 
-  it('does not schedule timers when messages.length is 0', async () => {
+  it('does not schedule timers when messages.length is 0', () => {
     render(
       <NotificationBar
         messages={[]}

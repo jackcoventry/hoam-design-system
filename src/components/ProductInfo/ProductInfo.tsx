@@ -10,8 +10,8 @@ import { Select } from '@/components/Form/Select/Select';
 import QuantitySelector from '@/components/QuantitySelector/QuantitySelector';
 import VariantSelector from '@/components/VariantSelector/VariantSelector';
 
+import { BadgeList, BadgeListItem } from '@/components/BadgeList/BadgeList';
 import { convertNumberToCurrency } from '@/utils/convertNumberToCurrency';
-import BadgeList, { BadgeListItem } from '../BadgeList/BadgeList';
 import './ProductInfo.css';
 
 const ProductInformationSchema = z.object({
@@ -66,15 +66,23 @@ function ProductInfo({
   const tshirtOptionsByCategory = Object.values(
     tshirtOptions.reduce(
       (acc, option) => {
-        if (!acc[option.category]) {
-          acc[option.category] = { name: option.category, options: [] };
-        }
-        acc[option.category].options.push(option);
+        const category = option.category ?? 'Other';
+        acc[category] ??= { name: category, options: [] };
+        acc[category].options.push(option);
         return acc;
       },
-      {} as Record<string, { name: string; options: typeof tshirtOptions }>
+      {} as Record<string, { name: string; options: ProductOption[] }>
     )
   );
+
+  const defaultColor = colorOptions[0];
+  const defaultSize = sizeOptions[0];
+  const defaultImage = imageOptions[0];
+  const defaultTshirt = tshirtOptions[0];
+
+  if (!defaultColor || !defaultSize || !defaultImage || !defaultTshirt) {
+    throw new Error('ProductInfo requires at least one option for color, size, image, and tshirt.');
+  }
 
   const {
     control,
@@ -83,10 +91,10 @@ function ProductInfo({
   } = useForm<ProductInformationSchemaType>({
     resolver: zodResolver(ProductInformationSchema),
     defaultValues: {
-      color: colorOptions[0].value,
-      size: sizeOptions[0].value,
-      image: imageOptions[0].value,
-      tshirt: data.options.tshirt[0].value,
+      color: defaultColor.value,
+      size: defaultSize.value,
+      image: defaultImage.value,
+      tshirt: defaultTshirt.value,
       quantity: 1,
     },
     mode: 'all',
@@ -131,7 +139,9 @@ function ProductInfo({
       </div>
 
       <form
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={(event) => {
+          void handleSubmit(onSubmit)(event);
+        }}
         className="hoam-form"
       >
         <FieldWrapper error={errors?.color?.message}>

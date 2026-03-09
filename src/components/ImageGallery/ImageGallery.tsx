@@ -1,6 +1,6 @@
 import { Button } from '@/components/Button/Button';
 import getTokenByName from '@/utils/getTokenByName';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { Swiper as SwiperCore } from 'swiper';
 import { A11y, FreeMode, Keyboard, Navigation, Pagination, Thumbs } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -16,7 +16,19 @@ import 'swiper/css/thumbs';
 import '@/components/Common/Dots.css';
 import './ImageGallery.css';
 
-function ImageGallery({ images = [] }) {
+type ImageProps = {
+  id: string;
+  thumb?: string;
+  src: string;
+  alt?: string;
+  title?: string;
+};
+
+export type Props = {
+  images?: ImageProps[];
+};
+
+function ImageGallery({ images = [] }: Readonly<Props>) {
   const prevRef = useRef<HTMLButtonElement | null>(null);
   const nextRef = useRef<HTMLButtonElement | null>(null);
   const pagRef = useRef<HTMLDivElement | null>(null);

@@ -1,14 +1,15 @@
+import { useState } from 'react';
 import './Message.css';
 
-type MessageProps = {
+export type MessageProps = {
   onClose?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   status: 'info' | 'warning' | 'error' | 'success';
-  text?: string;
+  text: string;
   title: string;
 };
 
 function Message({ status = 'info', text, title, onClose }: Readonly<MessageProps>) {
-  const [isOpen, setIsOpen] = React.useState(true);
+  const [isOpen, setIsOpen] = useState(true);
 
   const handleClose = (e: React.MouseEvent<HTMLButtonElement>) => {
     setIsOpen(false);

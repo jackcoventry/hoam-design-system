@@ -2,8 +2,13 @@ import { Button } from '@/components/Button/Button';
 import Tokens from '@/design-tokens/icons.json';
 import { useState } from 'react';
 
-const CopyButton = ({ icon }) => {
-  const [copied, setStatus] = useState(false);
+type Props = {
+  icon: string;
+};
+
+const CopyButton = ({ icon }: Props) => {
+  const [copied, setCopied] = useState(false);
+
   const copyCodeBlock = () => {
     navigator.clipboard
       .writeText(
@@ -20,13 +25,13 @@ const CopyButton = ({ icon }) => {
       )
       .then(
         () => {
-          setStatus(true);
+          setCopied(true);
           setTimeout(() => {
-            setStatus();
+            setCopied(false);
           }, 3000);
         },
         () => {
-          setStatus();
+          setCopied(false);
         }
       );
   };
@@ -44,46 +49,44 @@ const CopyButton = ({ icon }) => {
 };
 
 const Template = () => (
-  <>
-    <div className="container">
-      <div className="grid">
-        <div className="g-col-12">
-          <h1>Icons</h1>
-        </div>
-        <div className="g-col-12">
-          <table>
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Example</th>
-                <th>Usage</th>
+  <div className="container">
+    <div className="grid">
+      <div className="g-col-12">
+        <h1>Icons</h1>
+      </div>
+      <div className="g-col-12">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Example</th>
+              <th>Usage</th>
+            </tr>
+          </thead>
+          <tbody>
+            {Tokens?.icons?.map((e) => (
+              <tr key={e}>
+                <td>{e}</td>
+                <td>
+                  <svg
+                    className="icon"
+                    width="1em"
+                    height="1em"
+                    fill="currentColor"
+                  >
+                    <use xlinkHref={`/icons/icons.svg#${e}`} />
+                  </svg>
+                </td>
+                <td>
+                  <CopyButton icon={e} />
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {Tokens?.icons?.map((e) => (
-                <tr key={e}>
-                  <td>{e}</td>
-                  <td>
-                    <svg
-                      className="icon"
-                      width="1em"
-                      height="1em"
-                      fill="currentColor"
-                    >
-                      <use xlinkHref={`/icons/icons.svg#${e}`} />
-                    </svg>
-                  </td>
-                  <td>
-                    <CopyButton icon={e} />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
-  </>
+  </div>
 );
 
 export default {

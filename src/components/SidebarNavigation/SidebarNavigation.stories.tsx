@@ -1,4 +1,4 @@
-import SidebarNavigation from '@/components/SidebarNavigation/SidebarNavigation';
+import { SidebarNavigation } from '@/components/SidebarNavigation/SidebarNavigation';
 import SidebarNavigationData from '@/mocks/components/SidebarNavigation';
 import { Meta, StoryObj } from '@storybook/react-vite';
 

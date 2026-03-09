@@ -1,70 +1,70 @@
 import { Select } from '@/components/Form/Select/Select';
-import { Meta, StoryObj } from '@storybook/react-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { useState } from 'react';
 
-const meta: Meta<typeof Select> = {
+const meta = {
   title: 'Components/Form/Select',
   component: Select,
   tags: ['autodocs'],
-  args: {},
-};
+  args: {
+    value: '',
+    onChange: () => {},
+  },
+} satisfies Meta<typeof Select>;
 
 export default meta;
 
-type Story = StoryObj<typeof Select>;
+type Story = StoryObj<typeof meta>;
 
-export const Default = {
-  render: () => {
-    const [value, setValue] = React.useState('');
-
-    function onChange(id: string) {
-      setValue(id);
-    }
-
-    return (
-      <div>
-        <Select
-          label="T-Shirt Size"
-          value={value}
-          onChange={onChange}
-        >
-          <Select.Placeholder>Select size</Select.Placeholder>
-          <Select.Option value="m-s">Small</Select.Option>
-          <Select.Option value="m-m">Medium</Select.Option>
-          <Select.Option value="w-l">Large</Select.Option>
-        </Select>
-      </div>
-    );
-  },
-  args: {},
+type SelectStoryWrapperProps = {
+  children: React.ReactNode;
+  label?: string;
 };
 
-export const SelectWithOptGroup = {
-  render: () => {
-    const [value, setValue] = React.useState('');
+function SelectStoryWrapper({
+  children,
+  label = 'T-Shirt Size',
+}: Readonly<SelectStoryWrapperProps>) {
+  const [value, setValue] = useState('');
 
-    function onChange(id: string) {
-      setValue(id);
-    }
+  return (
+    <div>
+      <Select
+        label={label}
+        value={value}
+        onChange={(nextValue) => {
+          if (typeof nextValue === 'string') {
+            setValue(nextValue);
+          }
+        }}
+      >
+        <Select.Placeholder>Select size</Select.Placeholder>
+        {children}
+      </Select>
+    </div>
+  );
+}
 
-    return (
-      <div>
-        <Select
-          label="T-Shirt Size"
-          value={value}
-          onChange={onChange}
-        >
-          <Select.Placeholder>Select size</Select.Placeholder>
-          <Select.OptGroup label="Men">
-            <Select.Option value="m-s">Small</Select.Option>
-            <Select.Option value="m-m">Medium</Select.Option>
-          </Select.OptGroup>
-          <Select.OptGroup label="Women">
-            <Select.Option value="w-s">Small</Select.Option>
-            <Select.Option value="w-m">Medium</Select.Option>
-          </Select.OptGroup>
-        </Select>
-      </div>
-    );
-  },
-  args: {},
+export const Default: Story = {
+  render: () => (
+    <SelectStoryWrapper>
+      <Select.Option value="m-s">Small</Select.Option>
+      <Select.Option value="m-m">Medium</Select.Option>
+      <Select.Option value="w-l">Large</Select.Option>
+    </SelectStoryWrapper>
+  ),
+};
+
+export const SelectWithOptGroup: Story = {
+  render: () => (
+    <SelectStoryWrapper>
+      <Select.OptGroup label="Men">
+        <Select.Option value="m-s">Small</Select.Option>
+        <Select.Option value="m-m">Medium</Select.Option>
+      </Select.OptGroup>
+      <Select.OptGroup label="Women">
+        <Select.Option value="w-l">Large</Select.Option>
+      </Select.OptGroup>
+    </SelectStoryWrapper>
+  ),
 };

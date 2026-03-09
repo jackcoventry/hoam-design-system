@@ -5,7 +5,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 
 import { ModalStackProvider, useModalStack } from './ModalStackContext';
 
-function TestModal({ id, active }: { id: string; active: boolean }) {
+function TestModal({ id, active }: Readonly<{ id: string; active: boolean }>) {
   const { isTopMost } = useModalStack(id, active);
   return (
     <div

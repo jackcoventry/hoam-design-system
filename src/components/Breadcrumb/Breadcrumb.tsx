@@ -1,9 +1,9 @@
-import { NavItem } from '@/components/Navigation/types/Navigation.types';
+import { NavPanelLinkItem } from '@/components/Navigation/types/Navigation.types';
 
 import './Breadcrumb.css';
 
 type BreadcrumbProps = {
-  items: NavItem[];
+  items: NavPanelLinkItem[];
 };
 
 function Breadcrumb({ items }: Readonly<BreadcrumbProps>) {

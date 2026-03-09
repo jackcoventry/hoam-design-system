@@ -4,7 +4,11 @@ import { PromoBlock } from '@/components/Navigation/MainNavigation/PromoBlock';
 import ThirdLevelList from '@/components/Navigation/MainNavigation/ThirdLevelItems';
 import TopNav from '@/components/Navigation/MainNavigation/TopNavigation';
 import TopNavItem from '@/components/Navigation/MainNavigation/TopNavigationItem';
-import type { NavTopLevelItem } from '@/components/Navigation/types/Navigation.types';
+import type {
+  NavGroupItem,
+  NavPanelItem,
+  NavTopLevelItem,
+} from '@/components/Navigation/types/Navigation.types';
 import { panelId, topTriggerId } from '@/components/Navigation/utils/helpers';
 
 type DesktopNavigationItemsProps = {
@@ -17,6 +21,10 @@ type DesktopNavigationItemsProps = {
   onOpenFirstCategory: (topIndex: number) => void;
   onResetNavigation: () => void;
 };
+
+function isNavGroupItem(item: NavPanelItem): item is NavGroupItem {
+  return 'layout' in item && 'items' in item;
+}
 
 export default function DesktopNavigationItems({
   items,
@@ -56,6 +64,23 @@ export default function DesktopNavigationItems({
                 left={
                   <div className="hoam-navigation__panel-top-level">
                     {item.items?.map((sub) => {
+                      if (!isNavGroupItem(sub)) {
+                        return (
+                          <div
+                            key={sub.id}
+                            className="hoam-navigation__group"
+                          >
+                            <a
+                              href={sub.href}
+                              className="hoam-navigation__group-top-link"
+                              data-sub-trigger
+                            >
+                              {sub.label}
+                            </a>
+                          </div>
+                        );
+                      }
+
                       const open = openGroupId === sub.id;
 
                       return (
@@ -66,7 +91,7 @@ export default function DesktopNavigationItems({
                           onHoverOpen={() => setOpenGroupId(sub.id)}
                           onFocusOpen={() => setOpenGroupId(sub.id)}
                         >
-                          {sub.items?.length ? (
+                          {sub.items.length > 0 ? (
                             <ThirdLevelList
                               parent={sub}
                               items={sub.items}
@@ -80,17 +105,19 @@ export default function DesktopNavigationItems({
                   </div>
                 }
                 right={
-                  <aside
-                    className="hoam-navigation__panel-promo"
-                    aria-label={`${item.label} highlights`}
-                  >
-                    <PromoBlock
-                      title={item.label}
-                      subtitle="Explore"
-                      image={item.thumbnail}
-                      href={`/explore/${item.id}`}
-                    />
-                  </aside>
+                  item.thumbnail ? (
+                    <aside
+                      className="hoam-navigation__panel-promo"
+                      aria-label={`${item.label} highlights`}
+                    >
+                      <PromoBlock
+                        title={item.label}
+                        subtitle="Explore"
+                        image={item.thumbnail}
+                        href={`/explore/${item.id}`}
+                      />
+                    </aside>
+                  ) : null
                 }
               />
             ) : null}

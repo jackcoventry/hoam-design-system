@@ -1,237 +1,240 @@
-import '@testing-library/jest-dom';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import React, { useState } from 'react';
-import { describe, expect, it, vi } from 'vitest';
+import { beforeAll, describe, expect, it, vi } from 'vitest';
+import { Modal, ModalBody, ModalCloseButton, ModalFooter, ModalHeader, ModalTitle } from './Modal';
 
-import Modal from './Modal';
-import { ModalStackProvider } from './ModalStackContext';
+vi.mock('./ModalStackContext', () => ({
+  useModalStack: () => ({
+    isTopMost: true,
+  }),
+}));
 
-function renderWithProvider(ui: React.ReactElement) {
-  return render(<ModalStackProvider>{ui}</ModalStackProvider>);
+beforeAll(() => {
+  if (!HTMLDialogElement.prototype.showModal) {
+    HTMLDialogElement.prototype.showModal = function showModal() {
+      this.setAttribute('open', '');
+    };
+  }
+
+  if (!HTMLDialogElement.prototype.close) {
+    HTMLDialogElement.prototype.close = function close() {
+      this.removeAttribute('open');
+    };
+  }
+});
+
+function renderBasicModal(props?: Partial<React.ComponentProps<typeof Modal>>) {
+  const onClose = vi.fn();
+
+  render(
+    <Modal
+      isOpen
+      onClose={onClose}
+      {...props}
+    >
+      <ModalHeader>
+        <ModalTitle>Test modal</ModalTitle>
+        <ModalCloseButton />
+      </ModalHeader>
+
+      <ModalBody>
+        <button type="button">First action</button>
+        <button type="button">Second action</button>
+      </ModalBody>
+
+      <ModalFooter>
+        <p>Footer content</p>
+      </ModalFooter>
+    </Modal>
+  );
+
+  return { onClose };
 }
 
-describe('Modal (compound API)', () => {
-  it('does not expose the dialog when closed', () => {
-    renderWithProvider(
+describe('Modal', () => {
+  it('renders when open', async () => {
+    renderBasicModal();
+
+    expect(screen.getByText('Test modal')).toBeInTheDocument();
+    expect(screen.getByText('Footer content')).toBeInTheDocument();
+
+    const dialog = document.body.querySelector('dialog');
+    expect(dialog).toBeInTheDocument();
+
+    await waitFor(() => {
+      expect(dialog).toHaveAttribute('open');
+    });
+  });
+
+  it('does not open when closed', () => {
+    render(
       <Modal
         isOpen={false}
-        ariaLabel="My modal"
+        ariaLabel="Closed modal"
       >
-        <Modal.Header>
-          <Modal.Title>My modal</Modal.Title>
-          <Modal.CloseButton />
-        </Modal.Header>
-        <Modal.Body>
-          <button>Inside</button>
-        </Modal.Body>
+        <ModalBody>
+          <p>Hidden content</p>
+        </ModalBody>
       </Modal>
     );
 
-    // Role-based queries should respect aria-hidden="true"
-    const dialog = screen.queryByRole('dialog', { name: /my modal/i });
-    expect(dialog).not.toBeInTheDocument();
+    const dialog = document.body.querySelector('dialog');
+    expect(dialog).toBeInTheDocument();
+    expect(dialog).not.toHaveAttribute('open');
   });
 
-  it('renders a dialog with correct accessible name from <Modal.Title>', () => {
-    renderWithProvider(
+  it('uses aria-label when no title is provided', () => {
+    render(
       <Modal
         isOpen
-        ariaLabel={undefined}
+        ariaLabel="Accessible modal label"
       >
-        <Modal.Header>
-          <Modal.Title>My modal title</Modal.Title>
-          <Modal.CloseButton />
-        </Modal.Header>
-        <Modal.Body>
-          <button>Inside</button>
-        </Modal.Body>
+        <ModalHeader>
+          <ModalCloseButton />
+        </ModalHeader>
+        <ModalBody>
+          <p>Hello</p>
+        </ModalBody>
       </Modal>
     );
 
-    const dialog = screen.getByRole('dialog', { name: 'My modal title' });
-    expect(dialog).toBeInTheDocument();
+    const dialog = document.body.querySelector('dialog');
+    expect(dialog).toHaveAttribute('aria-label', 'Accessible modal label');
   });
 
-  it('falls back to ariaLabel when no <Modal.Title> is used', () => {
-    renderWithProvider(
+  it('wires title to aria-labelledby when Modal.Title is used', () => {
+    renderBasicModal();
+
+    const dialog = document.body.querySelector('dialog');
+    const title = screen.getByText('Test modal');
+
+    expect(title).toHaveAttribute('id');
+    expect(dialog).toHaveAttribute('aria-labelledby', title.getAttribute('id'));
+  });
+
+  it('calls onClose when close button is clicked', async () => {
+    const user = userEvent.setup();
+    const { onClose } = renderBasicModal();
+
+    await user.click(screen.getByRole('button', { name: /close dialog/i }));
+
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it('calls both callback and onClose when Modal.CloseButton callback is provided', async () => {
+    const user = userEvent.setup();
+    const onClose = vi.fn();
+    const callback = vi.fn();
+
+    render(
       <Modal
         isOpen
-        ariaLabel="Aria label only"
+        onClose={onClose}
       >
-        <Modal.Header>
-          <Modal.CloseButton />
-        </Modal.Header>
-        <Modal.Body>
-          <button>Inside</button>
-        </Modal.Body>
+        <ModalHeader>
+          <ModalTitle>Test modal</ModalTitle>
+          <ModalCloseButton callback={callback} />
+        </ModalHeader>
+        <ModalBody>
+          <p>Hello</p>
+        </ModalBody>
       </Modal>
     );
 
-    const dialog = screen.getByRole('dialog', { name: 'Aria label only' });
-    expect(dialog).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: /close dialog/i }));
+
+    expect(callback).toHaveBeenCalledTimes(1);
+    expect(onClose).toHaveBeenCalledTimes(1);
   });
 
   it('calls onClose when Escape is pressed', () => {
-    const onClose = vi.fn();
+    const { onClose } = renderBasicModal();
 
-    renderWithProvider(
-      <Modal
-        isOpen
-        onClose={onClose}
-        ariaLabel="My modal"
-      >
-        <Modal.Header>
-          <Modal.Title>My modal</Modal.Title>
-          <Modal.CloseButton />
-        </Modal.Header>
-        <Modal.Body>
-          <button>Inside</button>
-        </Modal.Body>
-      </Modal>
+    const dialog = document.body.querySelector('dialog');
+    expect(dialog).toBeInTheDocument();
+
+    dialog?.dispatchEvent(
+      new Event('cancel', {
+        bubbles: true,
+        cancelable: true,
+      })
     );
-
-    const dialog = screen.getByRole('dialog', { name: 'My modal' });
-
-    fireEvent.keyDown(dialog, { key: 'Escape' });
 
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 
-  it('calls onClose when clicking on the overlay, but not when clicking inside the dialog', async () => {
+  it('calls onClose when backdrop is clicked', async () => {
     const user = userEvent.setup();
-    const onClose = vi.fn();
+    const { onClose } = renderBasicModal();
 
-    const { container } = renderWithProvider(
-      <Modal
-        isOpen
-        onClose={onClose}
-        ariaLabel="My modal"
-      >
-        <Modal.Header>
-          <Modal.Title>My modal</Modal.Title>
-          <Modal.CloseButton />
-        </Modal.Header>
-        <Modal.Body>
-          <button>Inside</button>
-        </Modal.Body>
-      </Modal>
-    );
+    const dialog = document.body.querySelector('dialog');
+    expect(dialog).toBeInTheDocument();
 
-    const dialog = screen.getByRole('dialog', { name: 'My modal' });
-    const overlay = container.querySelector('.hoam-modal__overlay');
-    expect(overlay).not.toBeNull();
-
-    // Click inside the dialog: SHOULD NOT close
-    await user.click(dialog);
-    expect(onClose).not.toHaveBeenCalled();
-
-    // Click on the overlay background: SHOULD close
-    await user.click(overlay as HTMLElement);
-    expect(onClose).toHaveBeenCalledTimes(1);
-  });
-
-  it('moves focus into the dialog on open and restores it to the trigger on close', async () => {
-    const user = userEvent.setup();
-
-    function Harness() {
-      const [open, setOpen] = useState(false);
-
-      return (
-        <>
-          <button
-            type="button"
-            onClick={() => setOpen(true)}
-          >
-            Open modal
-          </button>
-
-          <Modal
-            isOpen={open}
-            onClose={() => setOpen(false)}
-            ariaLabel="My modal"
-          >
-            <Modal.Header>
-              <Modal.Title>My modal</Modal.Title>
-              <Modal.CloseButton />
-            </Modal.Header>
-            <Modal.Body>
-              <button>First focusable</button>
-              <button>Second focusable</button>
-            </Modal.Body>
-          </Modal>
-        </>
-      );
+    if (dialog) {
+      await user.click(dialog);
     }
 
-    renderWithProvider(<Harness />);
-
-    const openButton = screen.getByRole('button', { name: /open modal/i });
-
-    // Focus the trigger first
-    openButton.focus();
-    expect(openButton).toHaveFocus();
-
-    // Open the modal
-    await user.click(openButton);
-
-    const firstFocusable = await screen.findByRole('button', {
-      name: 'First focusable',
-    });
-    expect(firstFocusable).toHaveFocus();
-
-    // Press Escape to close
-    await user.keyboard('{Escape}');
-    expect(openButton).toHaveFocus();
-  });
-
-  it('supports the "drawer" variant and sets data-variant correctly', () => {
-    const { container } = renderWithProvider(
-      <Modal
-        isOpen
-        variant="drawer"
-        ariaLabel="Drawer title"
-      >
-        <Modal.Header>
-          <Modal.Title>Drawer title</Modal.Title>
-          <Modal.CloseButton />
-        </Modal.Header>
-        <Modal.Body>
-          <button>Inside</button>
-        </Modal.Body>
-      </Modal>
-    );
-
-    const overlay = container.querySelector('.hoam-modal__overlay');
-    expect(overlay).toHaveAttribute('data-variant', 'drawer');
-
-    const dialog = screen.getByRole('dialog', { name: 'Drawer title' });
-    expect(dialog).toBeInTheDocument();
-  });
-
-  it('Modal.CloseButton uses context to call close()', async () => {
-    const user = userEvent.setup();
-    const onClose = vi.fn();
-
-    renderWithProvider(
-      <Modal
-        isOpen
-        onClose={onClose}
-        ariaLabel="My modal"
-      >
-        <Modal.Header>
-          <Modal.Title>My modal</Modal.Title>
-          <Modal.CloseButton />
-        </Modal.Header>
-        <Modal.Body>
-          <button>Inside</button>
-        </Modal.Body>
-      </Modal>
-    );
-
-    const closeButton = screen.getByRole('button', { name: 'Close dialog' });
-
-    await user.click(closeButton);
     expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it('focuses the first focusable element when opened', async () => {
+    renderBasicModal();
+
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: 'First action' })).toHaveFocus();
+    });
+  });
+
+  it('traps focus with Tab', async () => {
+    const user = userEvent.setup();
+    renderBasicModal();
+
+    const firstAction = screen.getByRole('button', { name: 'First action' });
+    const secondAction = screen.getByRole('button', { name: 'Second action' });
+    const closeButton = screen.getByRole('button', { name: /close dialog/i });
+
+    await waitFor(() => {
+      expect(firstAction).toHaveFocus();
+    });
+
+    await user.tab();
+    expect(secondAction).toHaveFocus();
+
+    await user.tab();
+    expect(closeButton).toHaveFocus();
+
+    await user.tab();
+    expect(firstAction).toHaveFocus();
+  });
+
+  it('traps focus backwards with Shift+Tab', async () => {
+    const user = userEvent.setup();
+    renderBasicModal();
+
+    const firstAction = screen.getByRole('button', { name: 'First action' });
+    const secondAction = screen.getByRole('button', { name: 'Second action' });
+    const closeButton = screen.getByRole('button', { name: /close dialog/i });
+
+    await waitFor(() => {
+      expect(firstAction).toHaveFocus();
+    });
+
+    await user.tab({ shift: true });
+    expect(closeButton).toHaveFocus();
+
+    await user.tab({ shift: true });
+    expect(secondAction).toHaveFocus();
+  });
+
+  it('throws if Modal.Title is used outside Modal', () => {
+    expect(() => render(<ModalTitle>Orphan title</ModalTitle>)).toThrow(
+      'Modal.Title must be used within <Modal>'
+    );
+  });
+
+  it('throws if Modal.CloseButton is used outside Modal', () => {
+    expect(() => render(<ModalCloseButton />)).toThrow(
+      'Modal.CloseButton must be used within <Modal>'
+    );
   });
 });

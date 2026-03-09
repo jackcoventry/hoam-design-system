@@ -9,7 +9,7 @@ type CommonProps = {
   children?: React.ReactNode;
   icon?: string;
   iconPosition?: 'left' | 'right';
-  variant?: 'primary' | 'secondary';
+  variant?: 'primary' | 'secondary' | 'tertiary';
   iconOnly?: boolean;
   ariaLabel?: string;
   size?: 'default' | 'small';
@@ -64,7 +64,7 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Readonly<
     }
 
     if (props.as === 'a') {
-      const { href, target, rel, onClick, ...anchorRest } = rest as AnchorOnlyProps;
+      const { href, target, rel, ...anchorRest } = rest as AnchorOnlyProps;
       const relSafe = target === '_blank' ? rel || 'noopener noreferrer' : rel;
 
       return (

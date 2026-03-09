@@ -4,189 +4,215 @@ import SearchForm, {
   SearchLoader,
   SearchResults,
 } from '@/components/Form/SearchForm/SearchForm';
-import Modal from '@/components/Modal/Modal';
+import type { ModalRootProps } from '@/components/Modal/Modal';
+import { Modal } from '@/components/Modal/Modal';
 import { useMockRequest } from '@/hooks/useMockRequest';
 import SearchResultsData from '@/mocks/components/SearchResults';
-import { Meta, StoryObj } from '@storybook/react-vite';
-import React, { useState } from 'react';
-import { SubmitHandler } from 'react-hook-form';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import { useState } from 'react';
+import type { SubmitHandler } from 'react-hook-form';
 
 const meta: Meta<typeof Modal> = {
   title: 'Components/Modal',
   component: Modal,
   tags: ['autodocs'],
-  args: {},
 };
+
 export default meta;
 
 type Story = StoryObj<typeof Modal>;
 
-const Template: Story = {
-  render: (props) => {
-    const [open, setOpen] = useState(false);
+function BasicModalStory(props: Readonly<ModalRootProps>) {
+  const [open, setOpen] = useState(false);
 
-    return (
-      <div>
-        <button onClick={() => setOpen(true)}>Open modal</button>
-        <Modal
-          isOpen={open}
-          onClose={() => setOpen(false)}
-          ariaLabel="My simple modal"
-          variant={props.variant}
-        >
-          <Modal.Header>
-            <Modal.Title>My simple modal</Modal.Title>
-            <Modal.CloseButton />
-          </Modal.Header>
+  return (
+    <div>
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+      >
+        Open modal
+      </button>
 
-          <Modal.Body>
-            <p>Hello from the modal</p>
-          </Modal.Body>
+      <Modal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        ariaLabel="My simple modal"
+        {...(props.variant === undefined ? {} : { variant: props.variant })}
+      >
+        <Modal.Header>
+          <Modal.Title>My simple modal</Modal.Title>
+          <Modal.CloseButton />
+        </Modal.Header>
 
-          <Modal.Footer>
-            <p>Footer!</p>
-          </Modal.Footer>
-        </Modal>
-      </div>
-    );
-  },
+        <Modal.Body>
+          <p>Hello from the modal</p>
+        </Modal.Body>
+
+        <Modal.Footer>
+          <p>Footer!</p>
+        </Modal.Footer>
+      </Modal>
+    </div>
+  );
+}
+
+function NoTitleModalStory() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div>
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+      >
+        Open modal
+      </button>
+
+      <Modal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        ariaLabel="My simple modal"
+      >
+        <Modal.Header>
+          <Modal.CloseButton />
+        </Modal.Header>
+
+        <Modal.Body>
+          <p>Hello from the modal</p>
+        </Modal.Body>
+      </Modal>
+    </div>
+  );
+}
+
+function CustomHeaderModalStory() {
+  const [open, setOpen] = useState(false);
+
+  const confirmDelete = () => {};
+
+  return (
+    <div>
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+      >
+        Open modal
+      </button>
+
+      <Modal
+        isOpen={open}
+        onClose={() => setOpen(false)}
+        variant="modal"
+      >
+        <Modal.Header>
+          <Modal.Title>
+            Delete <strong>“My Project”</strong>?
+          </Modal.Title>
+
+          <Modal.CloseButton ariaLabel="Close delete confirmation" />
+        </Modal.Header>
+
+        <Modal.Body>
+          <p>This action cannot be undone.</p>
+          <button
+            type="button"
+            onClick={confirmDelete}
+          >
+            Delete project
+          </button>
+        </Modal.Body>
+      </Modal>
+    </div>
+  );
+}
+
+type SearchModalStoryProps = {
+  data: SearchFormResult[];
 };
 
-const TemplateNoTitle: Story = {
-  render: () => {
-    const [open, setOpen] = useState(false);
+function SearchModalStory({ data }: Readonly<SearchModalStoryProps>) {
+  const [open, setOpen] = useState(false);
+  const { data: results, loading, error, run, reset } = useMockRequest<Array<SearchFormResult>>();
 
-    return (
-      <div>
-        <button onClick={() => setOpen(true)}>Open modal</button>
-        <Modal
-          isOpen={open}
-          onClose={() => setOpen(false)}
-          ariaLabel="My simple modal"
-        >
-          <Modal.Header>
-            <Modal.CloseButton />
-          </Modal.Header>
+  const onSubmit: SubmitHandler<SearchFormSchemaType> = async () => {
+    await run({
+      delay: 1500,
+      response: data,
+    });
+  };
 
-          <Modal.Body>
-            <p>Hello from the modal</p>
-          </Modal.Body>
-        </Modal>
-      </div>
-    );
-  },
-};
+  const safeError = error instanceof Error ? error : undefined;
 
-const TemplateForCustomHeader: Story = {
-  render: () => {
-    const [open, setOpen] = useState(false);
-    const confirmDelete = () => {};
-    return (
-      <div>
-        <button onClick={() => setOpen(true)}>Open modal</button>
-        <Modal
-          isOpen={open}
-          onClose={() => setOpen(false)}
-          variant="modal"
-        >
-          <Modal.Header>
-            <Modal.Title>
-              Delete <strong>“My Project”</strong>?
-            </Modal.Title>
+  const handleClose = () => {
+    setOpen(false);
 
-            <Modal.CloseButton ariaLabel="Close delete confirmation" />
-          </Modal.Header>
+    setTimeout(() => {
+      reset();
+    }, 500);
+  };
 
-          <Modal.Body>
-            <p>This action cannot be undone.</p>
-            <button
-              type="button"
-              onClick={confirmDelete}
+  return (
+    <div>
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+      >
+        Open Search
+      </button>
+
+      <Modal
+        isOpen={open}
+        onClose={handleClose}
+        variant="modal"
+      >
+        <Modal.Header padded={false}>
+          <SearchForm
+            onSubmit={onSubmit}
+            loading={loading}
+          />
+        </Modal.Header>
+
+        <Modal.Body padded={false}>
+          {loading && !safeError ? <SearchLoader /> : null}
+          {safeError ? (
+            <div
+              role="alert"
+              style={{ padding: '1rem' }}
             >
-              Delete project
-            </button>
-          </Modal.Body>
-        </Modal>
-      </div>
-    );
-  },
+              <p>{safeError.message}</p>
+            </div>
+          ) : null}
+          {results && !safeError && !loading ? <SearchResults items={results} /> : null}
+        </Modal.Body>
+      </Modal>
+    </div>
+  );
+}
+
+export const Default: Story = {
+  render: (args) => <BasicModalStory {...args} />,
 };
 
-const TemplateForSearchModal: Story = {
-  render: (args) => {
-    const [open, setOpen] = useState(false);
-    const { data, loading, error, run, reset } = useMockRequest<Array<SearchFormResult>>();
-
-    const onSubmit: SubmitHandler<SearchFormSchemaType> = async () => {
-      await run({
-        delay: 1500,
-        response: args.data,
-      });
-    };
-
-    const handleClose = () => {
-      setOpen(false);
-
-      setTimeout(() => {
-        reset();
-      }, 500);
-    };
-
-    return (
-      <div>
-        <button onClick={() => setOpen(true)}>Open Search</button>
-        <Modal
-          isOpen={open}
-          onClose={handleClose}
-          variant="modal"
-        >
-          <Modal.Header padded={false}>
-            <SearchForm
-              onSubmit={onSubmit}
-              data={data}
-              loading={loading}
-              error={error}
-            />
-          </Modal.Header>
-          <Modal.Body padded={false}>
-            {loading && !error ? <SearchLoader /> : null}
-            {data && !error && !loading ? <SearchResults items={data} /> : null}
-          </Modal.Body>
-        </Modal>
-      </div>
-    );
-  },
+export const NoTitle: Story = {
+  render: () => <NoTitleModalStory />,
 };
 
-export const Default = { ...Template, args: {} };
-export const NoTitle = {
-  ...TemplateNoTitle,
-  args: {
-    showTitle: false,
-  },
-};
-export const Drawer = {
-  ...Template,
+export const Drawer: Story = {
+  render: (args) => <BasicModalStory {...args} />,
   args: {
     variant: 'drawer',
   },
 };
 
-export const CustomHeader = {
-  ...TemplateForCustomHeader,
-  args: {},
+export const CustomHeader: Story = {
+  render: () => <CustomHeaderModalStory />,
 };
 
-export const CustomSearchForm = {
-  ...TemplateForSearchModal,
-  args: {
-    data: SearchResultsData,
-  },
+export const CustomSearchForm: Story = {
+  render: () => <SearchModalStory data={SearchResultsData} />,
 };
 
-export const CustomSearchFormNoResults = {
-  ...TemplateForSearchModal,
-  args: {
-    data: [],
-  },
+export const CustomSearchFormNoResults: Story = {
+  render: () => <SearchModalStory data={[]} />,
 };

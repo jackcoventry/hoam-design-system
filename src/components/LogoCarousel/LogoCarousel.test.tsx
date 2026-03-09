@@ -7,7 +7,7 @@ beforeEach(() => {
   // Ensure a clean DOM between tests
   document.body.innerHTML = '';
 
-  (globalThis as any).requestAnimationFrame = (cb: FrameRequestCallback) => {
+  globalThis.requestAnimationFrame = (cb: FrameRequestCallback) => {
     cb(0);
     return 1 as unknown as number;
   };
@@ -57,6 +57,11 @@ describe('LogoCarousel', () => {
       />
     );
     const list = screen.getAllByRole('list')[0];
+
+    if (!list) {
+      throw new Error('List element not found');
+    }
+
     const items = within(list).getAllByRole('listitem');
     expect(items).toHaveLength(sampleItems.length);
     sampleItems.forEach(({ alt }) => {
@@ -84,12 +89,17 @@ describe('LogoCarousel', () => {
       />
     );
     const rail = document.querySelector('.hoam-logo-carousel__rail');
-    const sequences = rail.querySelectorAll('.hoam-logo-carousel__sequence');
-    expect(sequences.length).toBeGreaterThanOrEqual(2);
-    // Only the first sequence is exposed to screen readers; clones are aria-hidden
-    expect(sequences[0].getAttribute('aria-hidden')).toBeNull();
-    for (let i = 1; i < sequences.length; i++) {
-      expect(sequences[i].getAttribute('aria-hidden')).toBe('true');
+    const sequences = rail?.querySelectorAll('.hoam-logo-carousel__sequence');
+
+    if (sequences) {
+      expect(sequences?.length).toBeGreaterThanOrEqual(2);
+      // Only the first sequence is exposed to screen readers; clones are aria-hidden
+      expect(sequences[0]?.getAttribute('aria-hidden')).toBeNull();
+      for (let i = 1; i < sequences.length; i++) {
+        expect(sequences[i]?.getAttribute('aria-hidden')).toBe('true');
+      }
+    } else {
+      throw new Error('Sequences element not found');
     }
   });
 
@@ -103,6 +113,10 @@ describe('LogoCarousel', () => {
     const container = screen.getByLabelText('Logos');
     const rail = container.querySelector('.hoam-logo-carousel__rail');
 
+    if (!rail) {
+      throw new Error('Rail element not found');
+    }
+
     // Force a large container so two sequences are not enough
     mockContainerWidth(container, 1000); // container width = 1000px
     mockRailScrollWidth(rail, 300); // each sequence is around 300px
@@ -112,7 +126,6 @@ describe('LogoCarousel', () => {
 
     await waitFor(() => {
       const sequences = rail.querySelectorAll('.hoam-logo-carousel__sequence').length;
-      // Needs at least ceil((2*1000)/300) = 7 sequences to satisfy rail >= 2000px
       expect(sequences).toBeGreaterThanOrEqual(7);
     });
   });
@@ -127,8 +140,12 @@ describe('LogoCarousel', () => {
     const container = screen.getByLabelText('Wide Logos');
     const rail = container.querySelector('.hoam-logo-carousel__rail');
 
-    mockContainerWidth(container, 800); // container width = 800px
-    mockRailScrollWidth(rail, /* per-sequence */ 2000); // sequence already > 2× container
+    if (!rail) {
+      throw new Error('Rail element not found');
+    }
+
+    mockContainerWidth(container, 800);
+    mockRailScrollWidth(rail, 2000);
 
     forceAllImagesLoaded(container);
 
@@ -148,6 +165,10 @@ describe('LogoCarousel', () => {
     );
     const container = screen.getByLabelText('Screen reader Check');
     const rail = container.querySelector('.hoam-logo-carousel__rail');
+
+    if (!rail) {
+      throw new Error('Rail element not found');
+    }
 
     mockContainerWidth(container, 1000);
     mockRailScrollWidth(rail, 500);

@@ -1,12 +1,12 @@
 import { Button } from '@/components/Button/Button';
+import FieldWrapper from '@/components/Form/FieldWrapper/FieldWrapper';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import z from 'zod';
+
 import '@/components/Common/Fields.css';
 import '@/components/Common/Form.css';
 import '@/components/Common/Loader.css';
-import FieldWrapper from '@/components/Form/FieldWrapper/FieldWrapper';
-import { zodResolver } from '@hookform/resolvers/zod';
-import React, { useEffect, useState } from 'react';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import z from 'zod';
 
 const SignInFormSchema = z.object({
   email_address: z.email().trim().min(1, { message: 'Enter a valid email address!' }),
@@ -20,12 +20,12 @@ export type SignInFormResult = {
 
 type SignInFormProps = {
   onSubmit: SubmitHandler<SignInFormSchemaType>;
-  data: SignInFormResult;
   loading: boolean;
-  error: Error;
+  data?: SignInFormResult | null;
+  error?: Error | null;
 };
 
-function SignInForm({ onSubmit, data, loading, error }: Readonly<SignInFormProps>) {
+export function SignInForm({ onSubmit, data, loading }: Readonly<SignInFormProps>) {
   const {
     control,
     handleSubmit,
@@ -39,13 +39,7 @@ function SignInForm({ onSubmit, data, loading, error }: Readonly<SignInFormProps
     mode: 'all',
   });
 
-  const [submitComplete, setSubmitComplete] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (data?.message === 'SUCCESS') {
-      setSubmitComplete(true);
-    }
-  }, [data]);
+  const submitComplete = data?.message === 'SUCCESS';
 
   return submitComplete ? (
     <div className="hoam-form__wrapper">
@@ -55,11 +49,13 @@ function SignInForm({ onSubmit, data, loading, error }: Readonly<SignInFormProps
     <div className="hoam-form__wrapper">
       <form
         className="hoam-form"
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={(event) => {
+          void handleSubmit(onSubmit)(event);
+        }}
       >
         <h2 className="hoam-form__title">Sign in</h2>
 
-        <FieldWrapper error={errors?.email_address?.message}>
+        <FieldWrapper error={errors.email_address?.message}>
           <Controller
             name="email_address"
             control={control}
@@ -68,14 +64,14 @@ function SignInForm({ onSubmit, data, loading, error }: Readonly<SignInFormProps
                 {...field}
                 placeholder="Enter your email address"
                 className="hoam-text-field"
-                data-valid={errors?.email_address ? 'false' : 'true'}
+                data-valid={errors.email_address ? 'false' : 'true'}
                 disabled={loading}
               />
             )}
           />
         </FieldWrapper>
 
-        <FieldWrapper error={errors?.password?.message}>
+        <FieldWrapper error={errors.password?.message}>
           <Controller
             name="password"
             control={control}
@@ -85,7 +81,7 @@ function SignInForm({ onSubmit, data, loading, error }: Readonly<SignInFormProps
                 type="password"
                 placeholder="Enter your password"
                 className="hoam-text-field"
-                data-valid={errors?.password ? 'false' : 'true'}
+                data-valid={errors.password ? 'false' : 'true'}
                 disabled={loading}
               />
             )}
@@ -103,5 +99,3 @@ function SignInForm({ onSubmit, data, loading, error }: Readonly<SignInFormProps
     </div>
   );
 }
-
-export default SignInForm;

@@ -2,18 +2,19 @@ import { Button } from '@/components/Button/Button';
 import { FOCUSABLE_SELECTORS } from '@/constants/focusable-selectors';
 import React, {
   KeyboardEvent,
-  ReactNode,
+  PropsWithChildren,
   useCallback,
   useContext,
   useEffect,
   useId,
+  useMemo,
   useRef,
 } from 'react';
 import { createPortal } from 'react-dom';
 import './Modal.css';
 import { useModalStack } from './ModalStackContext';
 
-type ModalVariant = 'modal' | 'drawer';
+export type ModalVariant = 'modal' | 'drawer';
 
 type ModalContextValue = {
   titleId: string;
@@ -24,22 +25,31 @@ const ModalContext = React.createContext<ModalContextValue | null>(null);
 
 function useModalContext(componentName: string): ModalContextValue {
   const ctx = useContext(ModalContext);
+
   if (!ctx) {
     throw new Error(`${componentName} must be used within <Modal>`);
   }
+
   return ctx;
 }
 
-type ModalRootProps = {
+export type ModalRootProps = {
   isOpen: boolean;
   onClose?: () => void;
-  children: ReactNode;
-  /**
-   * Optional accessible name fallback when no <Modal.Title> is used.
-   */
   ariaLabel?: string;
   id?: string;
   variant?: ModalVariant;
+};
+
+export type ModalSectionProps = PropsWithChildren<{
+  padded?: boolean;
+}>;
+
+export type ModalTitleProps = PropsWithChildren;
+
+export type ModalCloseButtonProps = {
+  ariaLabel?: string;
+  callback?: () => void;
 };
 
 function ModalRoot({
@@ -49,8 +59,8 @@ function ModalRoot({
   ariaLabel,
   id,
   variant = 'modal',
-}: ModalRootProps) {
-  const dialogRef = useRef<HTMLDivElement | null>(null);
+}: Readonly<PropsWithChildren<ModalRootProps>>) {
+  const dialogRef = useRef<HTMLDialogElement | null>(null);
   const lastFocusedRef = useRef<HTMLElement | null>(null);
 
   const instanceId = useId();
@@ -58,8 +68,13 @@ function ModalRoot({
 
   const { isTopMost } = useModalStack(instanceId, isOpen);
 
+  const close = useCallback(() => {
+    onClose?.();
+  }, [onClose]);
+
   const getFocusableElements = useCallback((): HTMLElement[] => {
     if (!dialogRef.current) return [];
+
     return Array.from(dialogRef.current.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTORS)).filter(
       (el) => !el.hasAttribute('disabled') && el.tabIndex !== -1
     );
@@ -67,145 +82,149 @@ function ModalRoot({
 
   const focusFirstElement = useCallback(() => {
     const items = getFocusableElements();
+
     if (items.length > 0) {
-      items[0].focus();
+      items[0]?.focus();
     } else {
       dialogRef.current?.focus();
     }
   }, [getFocusableElements]);
 
-  // Move focus into the dialog when it opens and is top-most
   useEffect(() => {
-    if (!isOpen || !isTopMost) return;
+    const dialog = dialogRef.current;
+    if (!dialog) return;
 
-    lastFocusedRef.current = document.activeElement as HTMLElement | null;
+    if (isOpen && isTopMost) {
+      lastFocusedRef.current = document.activeElement as HTMLElement | null;
 
-    const raf = requestAnimationFrame(() => {
-      focusFirstElement();
-    });
+      if (!dialog.open) {
+        dialog.showModal();
+      }
 
-    return () => cancelAnimationFrame(raf);
-  }, [isOpen, isTopMost, focusFirstElement]);
+      const raf = requestAnimationFrame(() => {
+        focusFirstElement();
+      });
 
-  // Restore focus when closed
+      return () => {
+        cancelAnimationFrame(raf);
+      };
+    }
+
+    if (dialog.open) {
+      dialog.close();
+    }
+
+    return undefined;
+  }, [focusFirstElement, isOpen, isTopMost]);
+
   useEffect(() => {
     if (!isOpen && lastFocusedRef.current) {
       lastFocusedRef.current.focus();
     }
   }, [isOpen]);
 
-  const handleKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+  const handleKeyDown = (event: KeyboardEvent<HTMLDialogElement>) => {
     if (!isOpen || !isTopMost) return;
 
-    if (e.key === 'Escape') {
-      e.preventDefault();
-      onClose?.();
+    if (event.key !== 'Tab') return;
+
+    const items = getFocusableElements();
+
+    if (items.length === 0) {
+      event.preventDefault();
       return;
     }
 
-    if (e.key === 'Tab') {
-      const items = getFocusableElements();
-      if (items.length === 0) {
-        e.preventDefault();
-        return;
-      }
+    const currentIndex = items.indexOf(document.activeElement as HTMLElement);
+    const lastIndex = items.length - 1;
 
-      const currentIndex = items.indexOf(document.activeElement as HTMLElement);
-      const lastIndex = items.length - 1;
-      let nextIndex;
+    const nextIndex = event.shiftKey
+      ? currentIndex <= 0
+        ? lastIndex
+        : currentIndex - 1
+      : currentIndex === lastIndex
+        ? 0
+        : currentIndex + 1;
 
-      if (e.shiftKey) {
-        nextIndex = currentIndex <= 0 ? lastIndex : currentIndex - 1;
-      } else {
-        nextIndex = currentIndex === lastIndex ? 0 : currentIndex + 1;
-      }
-
-      e.preventDefault();
-      items[nextIndex].focus();
-    }
+    event.preventDefault();
+    items[nextIndex]?.focus();
   };
 
-  const handleOverlayClick = (event: React.MouseEvent<HTMLDivElement>) => {
+  const handleCancel = (event: React.SyntheticEvent<HTMLDialogElement, Event>) => {
     if (!isOpen || !isTopMost) return;
+
+    event.preventDefault();
+    close();
+  };
+
+  const handleDialogClick = (event: React.MouseEvent<HTMLDialogElement>) => {
+    if (!isOpen || !isTopMost) return;
+
     if (event.target === event.currentTarget) {
-      onClose?.();
+      close();
     }
   };
 
-  if (typeof document === 'undefined') return null; // SSR / tests safety
+  const contextValue = useMemo<ModalContextValue>(
+    () => ({
+      titleId,
+      close,
+    }),
+    [titleId, close]
+  );
 
-  const close = () => onClose?.();
-  const variantAttr = variant ?? 'modal';
-  const contextValue: ModalContextValue = {
-    titleId,
-    close,
-  };
-
-  const ariaLabelledBy = ariaLabel ? undefined : titleId;
+  if (typeof document === 'undefined') return null;
 
   return createPortal(
-    <div
+    /* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */
+    <dialog
+      ref={dialogRef}
       id={id}
       className="hoam-modal"
       data-open={isOpen ? 'true' : 'false'}
-      data-variant={variantAttr}
-      onClick={handleOverlayClick}
-      role="none"
+      data-variant={variant}
+      aria-label={ariaLabel}
+      aria-labelledby={ariaLabel ? undefined : titleId}
+      onCancel={handleCancel}
+      onClick={handleDialogClick}
+      onKeyDown={handleKeyDown}
     >
-      <div
-        ref={dialogRef}
-        className="hoam-modal__dialog"
-        role="dialog"
-        aria-modal="true"
-        aria-hidden={isOpen ? undefined : true}
-        aria-label={ariaLabel}
-        aria-labelledby={ariaLabelledBy}
-        tabIndex={-1}
-        onKeyDown={handleKeyDown}
-      >
+      <div className="hoam-modal__dialog">
         <ModalContext.Provider value={contextValue}>{children}</ModalContext.Provider>
       </div>
-    </div>,
+    </dialog>,
     document.body
   );
 }
 
-/**
- * <Modal.Header> — structural wrapper for the header area
- */
-function ModalHeader({ children, padded = true }: { children: ReactNode; padded?: Boolean }) {
+function ModalHeader({ children, padded = true }: Readonly<ModalSectionProps>) {
   return (
     <header
       className="hoam-modal__header"
-      data-padded={padded}
+      data-padded={padded ? 'true' : 'false'}
     >
       {children}
     </header>
   );
 }
 
-/**
- * <Modal.Title> — accessible title, wires up aria-labelledby via titleId
- */
-function ModalTitle({ children }: { children: ReactNode }) {
+function ModalTitle({ children }: Readonly<ModalTitleProps>) {
   const { titleId } = useModalContext('Modal.Title');
+
   return <h2 id={titleId}>{children}</h2>;
 }
 
-/**
- * <Modal.CloseButton> — standardised close button hooked into Modal.close()
- */
-type ModalCloseButtonProps = {
-  ariaLabel?: string;
-  callback?: () => void;
-};
-
-function ModalCloseButton({ ariaLabel = 'Close dialog', callback }: ModalCloseButtonProps) {
+function ModalCloseButton({
+  ariaLabel = 'Close dialog',
+  callback,
+}: Readonly<ModalCloseButtonProps>) {
   const { close } = useModalContext('Modal.CloseButton');
+
   const handleClose = () => {
     callback?.();
     close();
   };
+
   return (
     <Button
       type="button"
@@ -218,38 +237,28 @@ function ModalCloseButton({ ariaLabel = 'Close dialog', callback }: ModalCloseBu
   );
 }
 
-/**
- * <Modal.Body> — content area
- */
-function ModalBody({ children, padded = true }: { children: ReactNode; padded?: Boolean }) {
+function ModalBody({ children, padded = true }: Readonly<ModalSectionProps>) {
   return (
     <div
       className="hoam-modal__body"
-      data-padded={padded}
+      data-padded={padded ? 'true' : 'false'}
     >
       {children}
     </div>
   );
 }
 
-/**
- * <Modal.Footer> — structural wrapper for the footer area
- */
-function ModalFooter({ children, padded = true }: { children: ReactNode; padded?: Boolean }) {
+function ModalFooter({ children, padded = true }: Readonly<ModalSectionProps>) {
   return (
     <footer
       className="hoam-modal__footer"
-      data-padded={padded}
+      data-padded={padded ? 'true' : 'false'}
     >
       {children}
     </footer>
   );
 }
 
-/**
- * Compound export:
- *   <Modal.Root> with <Modal.Header>, <Modal.Title>, <Modal.CloseButton>, <Modal.Body>, <Modal.Footer>
- */
 const Modal = Object.assign(ModalRoot, {
   Header: ModalHeader,
   Title: ModalTitle,
@@ -258,5 +267,4 @@ const Modal = Object.assign(ModalRoot, {
   Footer: ModalFooter,
 });
 
-export default Modal;
-export { ModalBody, ModalCloseButton, ModalFooter, ModalHeader, ModalRoot, ModalTitle };
+export { Modal, ModalBody, ModalCloseButton, ModalFooter, ModalHeader, ModalRoot, ModalTitle };

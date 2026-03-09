@@ -55,7 +55,9 @@ function NewsletterBanner({ title, description }: Readonly<NewsletterBannerProps
           <div className="span-12 lg:span-6 xl:span-4 lg:start-4 xl:start-5">
             <form
               className="hoam-newsletter-banner__form"
-              onSubmit={handleSubmit(onSubmit)}
+              onSubmit={(event) => {
+                void handleSubmit(onSubmit)(event);
+              }}
             >
               <Controller
                 name="email"

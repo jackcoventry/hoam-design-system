@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-import Message from '@/components/Message/Message';
+import Message, { MessageProps } from '@/components/Message/Message';
 
 const meta = {
   title: 'Components/Message',
@@ -18,9 +18,10 @@ const meta = {
 } satisfies Meta<typeof Message>;
 
 export default meta;
+
 type Story = StoryObj<typeof meta>;
 
-const Template = (args) => {
+const Template = (args: MessageProps) => {
   return (
     <div style={{ width: '600px' }}>
       <Message

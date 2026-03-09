@@ -1,24 +1,29 @@
-import * as React from 'react';
+import {
+  ChangeEvent,
+  ForwardedRef,
+  forwardRef,
+  OptgroupHTMLAttributes,
+  OptionHTMLAttributes,
+  ReactNode,
+  SelectHTMLAttributes,
+  useId,
+} from 'react';
 import './Select.css';
 
-/**
- * For single options, the value will be a string.
- * For multi-select, it should be an array of strings.
- */
-type OnChangeValue<M extends boolean> = M extends true ? string[] : string;
+export type OnChangeValue<M extends boolean> = M extends true ? string[] : string;
 
 export interface SelectProps<M extends boolean = false>
   extends Omit<
-    React.SelectHTMLAttributes<HTMLSelectElement>,
+    SelectHTMLAttributes<HTMLSelectElement>,
     'onChange' | 'value' | 'defaultValue' | 'multiple'
   > {
   value: OnChangeValue<M>;
-  onChange?: (value: OnChangeValue<M>, event: React.ChangeEvent<HTMLSelectElement>) => void;
+  onChange: (value: OnChangeValue<M>, event: ChangeEvent<HTMLSelectElement>) => void;
   multiple?: M;
   label?: string;
 }
 
-const SelectRoot = React.forwardRef(function Select<M extends boolean = false>(
+const SelectRoot = forwardRef(function Select<M extends boolean = false>(
   {
     id,
     name,
@@ -31,32 +36,34 @@ const SelectRoot = React.forwardRef(function Select<M extends boolean = false>(
     children,
     ...rest
   }: SelectProps<M>,
-  ref: React.ForwardedRef<HTMLSelectElement>
+  ref: ForwardedRef<HTMLSelectElement>
 ) {
-  const autoId = React.useId();
-  const labelId = React.useId();
+  const autoId = useId();
   const actualId = id ?? autoId;
 
-  const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
     if (!onChange) return;
+
     if (multiple) {
       const vals = Array.from(e.target.selectedOptions).map((o) => o.value);
       onChange(vals as OnChangeValue<M>, e);
-    } else {
-      onChange(e.target.value as OnChangeValue<M>, e);
+      return;
     }
+
+    onChange(e.target.value as OnChangeValue<M>, e);
   };
+
+  const displayValue = Array.isArray(value) ? value.join(', ') : value;
 
   return (
     <div className="hoam-select">
       {label && (
         <label
           className="hoam-select__label"
-          id={labelId}
           htmlFor={actualId}
         >
           <span className="hoam-select__label-text">{label}</span>
-          <span className="hoam-select__label-value">{value}</span>
+          <span className="hoam-select__label-value">{displayValue}</span>
         </label>
       )}
 
@@ -65,11 +72,10 @@ const SelectRoot = React.forwardRef(function Select<M extends boolean = false>(
         className="hoam-select__input"
         name={name}
         ref={ref}
-        aria-labelledby={label ? labelId : undefined}
         required={required}
         disabled={disabled}
         multiple={Boolean(multiple)}
-        value={value as any}
+        value={value}
         onChange={handleChange}
         {...rest}
       >
@@ -79,14 +85,16 @@ const SelectRoot = React.forwardRef(function Select<M extends boolean = false>(
   );
 });
 
+SelectRoot.displayName = 'Select';
+
 export interface SelectOptionProps
-  extends Omit<React.OptionHTMLAttributes<HTMLOptionElement>, 'label' | 'value'> {
+  extends Omit<OptionHTMLAttributes<HTMLOptionElement>, 'label' | 'value'> {
   value: string;
-  label?: string; // shown if no children
-  children?: React.ReactNode;
+  label?: string;
+  children?: ReactNode;
 }
 
-const Option = React.forwardRef<HTMLOptionElement, SelectOptionProps>(
+const Option = forwardRef<HTMLOptionElement, SelectOptionProps>(
   ({ value, label, children, ...rest }, ref) => (
     <option
       ref={ref}
@@ -98,12 +106,14 @@ const Option = React.forwardRef<HTMLOptionElement, SelectOptionProps>(
   )
 );
 
-export interface SelectOptGroupProps extends React.OptgroupHTMLAttributes<HTMLOptGroupElement> {
+Option.displayName = 'Option';
+
+export interface SelectOptGroupProps extends OptgroupHTMLAttributes<HTMLOptGroupElement> {
   label: string;
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
 
-const OptGroup = React.forwardRef<HTMLOptGroupElement, SelectOptGroupProps>(
+const OptGroup = forwardRef<HTMLOptGroupElement, SelectOptGroupProps>(
   ({ label, children, ...rest }, ref) => (
     <optgroup
       ref={ref}
@@ -115,8 +125,10 @@ const OptGroup = React.forwardRef<HTMLOptGroupElement, SelectOptGroupProps>(
   )
 );
 
+OptGroup.displayName = 'OptGroup';
+
 export interface SelectPlaceholderProps {
-  children: React.ReactNode;
+  children: ReactNode;
   value?: string;
 }
 

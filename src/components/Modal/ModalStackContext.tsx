@@ -1,4 +1,4 @@
-import React, {
+import {
   createContext,
   ReactNode,
   useCallback,
@@ -21,7 +21,7 @@ type ModalStackProviderProps = {
   children: ReactNode;
 };
 
-export function ModalStackProvider({ children }: ModalStackProviderProps) {
+export function ModalStackProvider({ children }: Readonly<ModalStackProviderProps>) {
   const [stack, setStack] = useState<string[]>([]);
   const prevOverflowRef = useRef<string>('');
 
@@ -39,7 +39,7 @@ export function ModalStackProvider({ children }: ModalStackProviderProps) {
   const isTop = useCallback(
     (id: string) => {
       if (stack.length === 0) return false;
-      return stack[stack.length - 1] === id;
+      return stack.at(-1) === id;
     },
     [stack]
   );
@@ -88,7 +88,7 @@ export function useModalStack(id: string, active: boolean) {
     return () => {
       unregister(id);
     };
-  }, [active, id, register, unregister]);
+  }, [active, ctx, id, register, unregister]);
 
   const isTopMost = ctx?.isTop ? ctx.isTop(id) : true;
 

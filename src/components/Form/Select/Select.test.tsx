@@ -1,264 +1,261 @@
-import { Select } from '@/components/Form/Select/Select';
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { createRef } from 'react';
+import { describe, expect, it, vi } from 'vitest';
 
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { Select } from './Select';
 
-describe('<Select /> (single)', () => {
-  const user = userEvent.setup();
-
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
-  it('renders a label and wires aria-labelledby', () => {
+describe('Select', () => {
+  it('renders a label and the current single value', () => {
     render(
       <Select
-        label="Favourite colour"
-        value=""
-        onChange={() => {}}
+        label="Colour"
+        value="black"
+        onChange={vi.fn()}
       >
-        <Select.Placeholder>Choose</Select.Placeholder>
+        <Select.Option value="black">Black</Select.Option>
+        <Select.Option value="white">White</Select.Option>
+      </Select>
+    );
+
+    expect(screen.getByText('Colour')).toBeInTheDocument();
+    expect(screen.getByText('black')).toBeInTheDocument();
+
+    const select = screen.getByRole('combobox', { name: /colour/i });
+    expect(select).toHaveValue('black');
+  });
+
+  it('calls onChange with the new string value for single select', () => {
+    const onChange = vi.fn();
+
+    render(
+      <Select
+        label="Colour"
+        value="black"
+        onChange={onChange}
+      >
+        <Select.Option value="black">Black</Select.Option>
+        <Select.Option value="white">White</Select.Option>
+      </Select>
+    );
+
+    const select = screen.getByRole('combobox', { name: /colour/i });
+
+    fireEvent.change(select, { target: { value: 'white' } });
+
+    expect(onChange).toHaveBeenCalledTimes(1);
+
+    const [value, event] = onChange.mock.calls[0] as [string, React.ChangeEvent<HTMLSelectElement>];
+
+    expect(value).toBe('white');
+    expect(event.target.value).toBe('white');
+  });
+
+  it('renders the joined value for multi-select', () => {
+    render(
+      <Select
+        label="Colours"
+        value={['black', 'white']}
+        multiple
+        onChange={vi.fn()}
+      >
+        <Select.Option value="black">Black</Select.Option>
+        <Select.Option value="white">White</Select.Option>
         <Select.Option value="red">Red</Select.Option>
       </Select>
     );
 
-    // Label is visible
-    const label = screen.getByText('Favourite colour');
-    expect(label.tagName.toLowerCase()).toBe('label');
+    expect(screen.getByText('Colours')).toBeInTheDocument();
+    expect(screen.getByText('black, white')).toBeInTheDocument();
 
-    // The <select> is labelled by the label
-    const select = screen.getByLabelText('Favourite colour');
+    const select = screen.getByRole('listbox', { name: /colours/i });
     expect(select).toBeInTheDocument();
-    // Sanity: has role combobox in single-select mode
-    expect(select).toHaveAttribute('aria-labelledby');
   });
 
-  it('shows placeholder only when value is an empty string', () => {
-    const { rerender } = render(
+  it('calls onChange with an array of selected values for multi-select', () => {
+    const onChange = vi.fn();
+
+    render(
       <Select
-        label="Colour"
-        value=""
-        onChange={() => {}}
+        label="Colours"
+        value={['black']}
+        multiple
+        onChange={onChange}
       >
-        <Select.Placeholder>Choose a colour</Select.Placeholder>
+        <Select.Option value="black">Black</Select.Option>
+        <Select.Option value="white">White</Select.Option>
         <Select.Option value="red">Red</Select.Option>
       </Select>
     );
 
-    // The placeholder is present as the selected (hidden+disabled) option
-    const placeholderOption = screen.getByRole('option', { name: 'Choose a colour' });
-    expect(placeholderOption).toBeInTheDocument();
-    expect(placeholderOption).toHaveAttribute('disabled');
-    expect(placeholderOption).toHaveAttribute('hidden');
+    const select = screen.getByRole('listbox', { name: /colours/i });
 
-    // When value is non-empty, placeholder should still exist in DOM only if kept in children,
-    // but will no longer be selected. Here we keep children as-is, so we just ensure selection moves.
-    rerender(
-      <Select
-        label="Colour"
-        value="red"
-        onChange={() => {}}
-      >
-        <Select.Placeholder>Choose a colour</Select.Placeholder>
-        <Select.Option value="red">Red</Select.Option>
-      </Select>
-    );
+    const options = screen.getAllByRole('option');
+    const black = options.find((option) => option.textContent === 'Black');
+    const white = options.find((option) => option.textContent === 'White');
 
-    const select = screen.getByLabelText('Colour') as HTMLSelectElement;
-    expect(select.value).toBe('red');
+    if (!(black instanceof HTMLOptionElement) || !(white instanceof HTMLOptionElement)) {
+      throw new TypeError('Expected option elements for Black and White');
+    }
+
+    black.selected = true;
+    white.selected = true;
+
+    fireEvent.change(select, {
+      target: {
+        selectedOptions: [black, white],
+      },
+    });
+
+    expect(onChange).toHaveBeenCalledTimes(1);
+
+    const [value] = onChange.mock.calls[0] as [string[], React.ChangeEvent<HTMLSelectElement>];
+
+    expect(value).toEqual(['black', 'white']);
   });
 
-  it('calls onChange with a single string in single-select mode', async () => {
-    const handleChange = vi.fn();
+  it('renders placeholder text', () => {
     render(
       <Select
         label="Colour"
         value=""
-        onChange={handleChange}
+        onChange={vi.fn()}
       >
         <Select.Placeholder>Choose a colour</Select.Placeholder>
-        <Select.Option value="red">Red</Select.Option>
-        <Select.Option value="green">Green</Select.Option>
+        <Select.Option value="black">Black</Select.Option>
+        <Select.Option value="white">White</Select.Option>
       </Select>
     );
 
-    const select = screen.getByLabelText('Colour');
-    await user.selectOptions(select, 'green');
-
-    expect(handleChange).toHaveBeenCalledTimes(1);
-    const [valueArg, eventArg] = handleChange.mock.calls[0];
-    expect(valueArg).toBe('green');
-    expect(eventArg).toBeInstanceOf(Object);
+    expect(screen.getByText('Choose a colour')).toBeInTheDocument();
   });
 
-  it('supports composition: Option text fallback order (children > label > value)', () => {
+  it('renders option groups and options', () => {
     render(
       <Select
-        label="X"
-        value=""
-        onChange={() => {}}
+        label="Colour"
+        value="black"
+        onChange={vi.fn()}
       >
-        <Select.Placeholder>Pick one</Select.Placeholder>
-        <Select.Option
-          value="a"
-          label="Alpha"
-        />
-        <Select.Option value="b">Bravo</Select.Option>
-        <Select.Option value="c" />
+        <Select.OptGroup label="Dark">
+          <Select.Option value="black">Black</Select.Option>
+        </Select.OptGroup>
+        <Select.OptGroup label="Light">
+          <Select.Option value="white">White</Select.Option>
+        </Select.OptGroup>
       </Select>
     );
 
-    // 'a' renders "Alpha" from label
-    expect(screen.getByRole('option', { name: 'Alpha' })).toBeInTheDocument();
-    // 'b' renders children
-    expect(screen.getByRole('option', { name: 'Bravo' })).toBeInTheDocument();
-    // 'c' falls back to value "c"
-    expect(screen.getByRole('option', { name: 'c' })).toBeInTheDocument();
+    expect(screen.getByRole('group', { name: 'Dark' })).toBeInTheDocument();
+    expect(screen.getByRole('group', { name: 'Light' })).toBeInTheDocument();
+    expect(screen.getByRole('option', { name: 'Black' })).toBeInTheDocument();
+    expect(screen.getByRole('option', { name: 'White' })).toBeInTheDocument();
   });
 
-  it('forwards ref to the native <select>', () => {
-    const ref = React.createRef<HTMLSelectElement>();
+  it('forwards the ref to the select element', () => {
+    const ref = createRef<HTMLSelectElement>();
+
     render(
       <Select
-        label="Ref test"
-        value=""
-        onChange={() => {}}
         ref={ref}
+        label="Colour"
+        value="black"
+        onChange={vi.fn()}
       >
-        <Select.Placeholder>—</Select.Placeholder>
-        <Select.Option value="x">X</Select.Option>
+        <Select.Option value="black">Black</Select.Option>
       </Select>
     );
+
+    const select = screen.getByRole('combobox', { name: /colour/i });
+
     expect(ref.current).toBeInstanceOf(HTMLSelectElement);
-    // Can call .focus() via ref
-    ref.current!.focus();
-    expect(ref.current).toHaveFocus();
+    expect(ref.current).toBe(select);
   });
 
-  it('passes through standard select attributes (required, disabled, name, id)', () => {
+  it('passes through disabled and required props', () => {
     render(
       <Select
-        id="custom-id"
-        name="mySelect"
-        required
+        label="Colour"
+        value="black"
+        onChange={vi.fn()}
         disabled
-        label="Attrs"
-        value=""
-        onChange={() => {}}
+        required
       >
-        <Select.Placeholder>—</Select.Placeholder>
-        <Select.Option value="x">X</Select.Option>
+        <Select.Option value="black">Black</Select.Option>
       </Select>
     );
 
-    const select = screen.getByLabelText('Attrs');
-    expect(select).toHaveAttribute('id', 'custom-id');
-    expect(select).toHaveAttribute('name', 'mySelect');
-    expect(select).toBeRequired();
+    const select = screen.getByRole('combobox', { name: /colour/i });
+
     expect(select).toBeDisabled();
+    expect(select).toBeRequired();
   });
 
-  it('renders optgroups correctly', () => {
+  it('uses the provided id and associates the label', () => {
     render(
       <Select
-        label="Sizes"
-        value=""
-        onChange={() => {}}
+        id="colour-select"
+        label="Colour"
+        value="black"
+        onChange={vi.fn()}
       >
-        <Select.Placeholder>Select size</Select.Placeholder>
-        <Select.OptGroup label="Men">
-          <Select.Option value="m-s">Small</Select.Option>
-          <Select.Option value="m-m">Medium</Select.Option>
-        </Select.OptGroup>
-        <Select.OptGroup label="Women">
-          <Select.Option value="w-s">Small</Select.Option>
-          <Select.Option value="w-m">Medium</Select.Option>
-        </Select.OptGroup>
+        <Select.Option value="black">Black</Select.Option>
       </Select>
     );
 
-    // Two optgroups are present
-    const groups = screen.getAllByRole('group');
-    expect(groups.length).toBe(2);
+    const select = screen.getByRole('combobox', { name: /colour/i });
 
-    // Options are reachable
-    expect(screen.getByRole('option', { name: 'Small' })).toBeInTheDocument();
-    expect(screen.getByRole('option', { name: 'Medium' })).toBeInTheDocument();
+    expect(select).toHaveAttribute('id', 'colour-select');
+
+    const label = screen.getByText('Colour').closest('label');
+    expect(label).toHaveAttribute('for', 'colour-select');
   });
-});
 
-describe('<Select /> (multiple)', () => {
-  const user = userEvent.setup();
-
-  it('calls onChange with string[] when multiple', async () => {
-    const handleChange = vi.fn();
-
+  it('renders option label when children are not provided', () => {
     render(
       <Select
-        label="Sizes"
-        multiple
-        value={[]}
-        onChange={handleChange}
-        size={4}
+        label="Colour"
+        value="black"
+        onChange={vi.fn()}
       >
-        <Select.Option value="S">Small</Select.Option>
-        <Select.Option value="M">Medium</Select.Option>
-        <Select.Option value="L">Large</Select.Option>
-        <Select.Option value="XL">Extra Large</Select.Option>
+        <Select.Option
+          value="black"
+          label="Black label"
+        />
       </Select>
     );
 
-    const select = screen.getByLabelText('Sizes');
-
-    // Select multiple values
-    await user.selectOptions(select, ['M', 'XL']);
-
-    expect(handleChange).toHaveBeenCalledTimes(1);
-    const [vals] = handleChange.mock.calls[0];
-    expect(vals).toEqual(['M', 'XL']);
+    expect(screen.getByRole('option', { name: 'Black label' })).toBeInTheDocument();
   });
 
-  it('reflects controlled value array in the DOM', () => {
-    const { rerender } = render(
+  it('falls back to option value when neither children nor label are provided', () => {
+    render(
       <Select
-        label="Pick"
-        multiple
-        value={['S', 'L']}
-        onChange={() => {}}
-        size={4}
+        label="Colour"
+        value="black"
+        onChange={vi.fn()}
       >
-        <Select.Option value="S">Small</Select.Option>
-        <Select.Option value="M">Medium</Select.Option>
-        <Select.Option value="L">Large</Select.Option>
+        <Select.Option value="black" />
       </Select>
     );
 
-    const s = screen.getByRole('option', { name: 'Small' }) as HTMLOptionElement;
-    const m = screen.getByRole('option', { name: 'Medium' }) as HTMLOptionElement;
-    const l = screen.getByRole('option', { name: 'Large' }) as HTMLOptionElement;
+    expect(screen.getByRole('option', { name: 'black' })).toBeInTheDocument();
+  });
 
-    expect(s.selected).toBe(true);
-    expect(m.selected).toBe(false);
-    expect(l.selected).toBe(true);
-
-    // Update selection via controlled props
-    rerender(
+  it('does not throw if onChange is omitted', () => {
+    render(
       <Select
-        label="Pick"
-        multiple
-        value={['M']}
-        onChange={() => {}}
-        size={4}
+        label="Colour"
+        value="black"
       >
-        <Select.Option value="S">Small</Select.Option>
-        <Select.Option value="M">Medium</Select.Option>
-        <Select.Option value="L">Large</Select.Option>
+        <Select.Option value="black">Black</Select.Option>
+        <Select.Option value="white">White</Select.Option>
       </Select>
     );
 
-    expect(s.selected).toBe(false);
-    expect(m.selected).toBe(true);
-    expect(l.selected).toBe(false);
+    const select = screen.getByRole('combobox', { name: /colour/i });
+
+    expect(() => {
+      fireEvent.change(select, { target: { value: 'white' } });
+    }).not.toThrow();
   });
 });

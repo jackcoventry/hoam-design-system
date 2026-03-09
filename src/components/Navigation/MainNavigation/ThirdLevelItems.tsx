@@ -1,13 +1,13 @@
 import type {
+  NavBranchItem,
   NavGroupItem,
-  NavLeafItem,
   NavigationLayout,
 } from '@/components/Navigation/types/Navigation.types';
 import { groupBtnId, groupPanelId } from '@/components/Navigation/utils/helpers';
 
 type ThirdLevelItemsProps = {
   parent: NavGroupItem;
-  items: NavLeafItem[];
+  items: NavBranchItem[];
   open: boolean;
   layout?: NavigationLayout;
 };
@@ -63,21 +63,29 @@ function ThirdLevelItems({ parent, items, open, layout = 'list' }: Readonly<Thir
                   key={item.id}
                 >
                   <div className="hoam-navigation__panel-group-section">
-                    <a
-                      href={item.href}
-                      data-sub-link
-                      tabIndex={open ? 0 : -1}
-                      className="hoam-navigation__panel-group-header"
-                    >
-                      {item.thumbnail ? (
-                        <img
-                          src={item.thumbnail}
-                          alt={item.label}
-                        />
-                      ) : null}
+                    {item.href ? (
+                      <a
+                        href={item.href}
+                        data-sub-link
+                        tabIndex={open ? 0 : -1}
+                        className="hoam-navigation__panel-group-header"
+                      >
+                        {item.label}
+                      </a>
+                    ) : (
+                      <span className="hoam-navigation__panel-group-header">{item.label}</span>
+                    )}
 
-                      {item.label}
-                    </a>
+                    {item.items.map((child) => (
+                      <a
+                        href={child.href}
+                        key={child.id}
+                        data-sub-link
+                        tabIndex={open ? 0 : -1}
+                      >
+                        {child.label}
+                      </a>
+                    ))}
                   </div>
                 </div>
               ))}
@@ -89,14 +97,29 @@ function ThirdLevelItems({ parent, items, open, layout = 'list' }: Readonly<Thir
               key={item.id}
               className="hoam-navigation__panel-group-section"
             >
-              <a
-                href={item.href}
-                data-sub-link
-                tabIndex={open ? 0 : -1}
-                className="hoam-navigation__panel-group-header"
-              >
-                {item.label}
-              </a>
+              {item.href ? (
+                <a
+                  href={item.href}
+                  data-sub-link
+                  tabIndex={open ? 0 : -1}
+                  className="hoam-navigation__panel-group-header"
+                >
+                  {item.label}
+                </a>
+              ) : (
+                <span className="hoam-navigation__panel-group-header">{item.label}</span>
+              )}
+
+              {item.items.map((child) => (
+                <a
+                  href={child.href}
+                  key={child.id}
+                  data-sub-link
+                  tabIndex={open ? 0 : -1}
+                >
+                  {child.label}
+                </a>
+              ))}
             </div>
           ))
         )}

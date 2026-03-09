@@ -95,8 +95,8 @@ function SearchForm({ onSubmit, loading }: Readonly<SearchFormProps>) {
     <div className="hoam-search-form__wrapper">
       <form
         className="hoam-search-form"
-        onSubmit={(e) => {
-          void handleSubmit(onSubmit)(e);
+        onSubmit={(event) => {
+          void handleSubmit(onSubmit)(event);
         }}
       >
         <label

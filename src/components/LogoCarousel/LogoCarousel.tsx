@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import './LogoCarousel.css';
 
 type LogoCarouselItem = { id: number; src: string; alt?: string };
@@ -50,7 +50,7 @@ export default function LogoCarousel({
         image.addEventListener('error', done, { once: true });
       }
     });
-  }, [items]);
+  }, [items, repeat]);
 
   // Build N sequences; first gets aria, others hidden
   const sequences = Array.from({ length: repeat }, (_, i) => (

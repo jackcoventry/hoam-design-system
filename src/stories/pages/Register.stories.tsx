@@ -1,4 +1,7 @@
-import RegisterForm, { RegisterFormSchemaType } from '@/components/Form/RegisterForm/RegisterForm';
+import RegisterForm, {
+  RegisterFormResult,
+  RegisterFormSchemaType,
+} from '@/components/Form/RegisterForm/RegisterForm';
 import { useMockRequest } from '@/hooks/useMockRequest';
 import BaseTemplate from '@/templates/Base';
 import { navigateToStory } from '@/utils/navigateToStory';
@@ -18,7 +21,7 @@ export default meta;
 
 const Template = {
   render: () => {
-    const { data, loading, error, run } = useMockRequest<any>();
+    const { data, loading, error, run } = useMockRequest<RegisterFormResult>();
 
     const onSubmit: SubmitHandler<RegisterFormSchemaType> = async () => {
       await run({

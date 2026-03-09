@@ -1,13 +1,17 @@
-export function clearIntervalSafe(ref: React.RefObject<number | null>) {
+import type React from 'react';
+
+type TimerRef<T> = React.RefObject<T | null>;
+
+export function clearTimeoutSafe(ref: TimerRef<ReturnType<typeof globalThis.setTimeout>>) {
   if (ref.current !== null) {
-    clearInterval(ref.current);
+    globalThis.clearTimeout(ref.current);
     ref.current = null;
   }
 }
 
-export function clearTimeoutSafe(ref: React.RefObject<number | null>) {
+export function clearIntervalSafe(ref: TimerRef<ReturnType<typeof globalThis.setInterval>>) {
   if (ref.current !== null) {
-    clearTimeout(ref.current);
+    globalThis.clearInterval(ref.current);
     ref.current = null;
   }
 }

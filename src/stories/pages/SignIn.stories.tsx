@@ -1,4 +1,8 @@
-import SignInForm, { SignInFormSchemaType } from '@/components/Form/SignIn/SignIn';
+import {
+  SignInForm,
+  SignInFormResult,
+  SignInFormSchemaType,
+} from '@/components/Form/SignIn/SignIn';
 import { useMockRequest } from '@/hooks/useMockRequest';
 import BaseTemplate from '@/templates/Base';
 import { navigateToStory } from '@/utils/navigateToStory';
@@ -17,7 +21,7 @@ export default meta;
 
 const Template = {
   render: () => {
-    const { data, loading, error, run } = useMockRequest<any>();
+    const { data, loading, error, run } = useMockRequest<SignInFormResult>();
 
     const onSubmit: SubmitHandler<SignInFormSchemaType> = async () => {
       await run({

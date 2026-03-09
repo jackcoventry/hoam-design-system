@@ -4,7 +4,7 @@ import {
   formatReadableDate,
   parseLooseDate,
 } from '@/utils/convertDates/convertDates';
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import './BlogArticle.css';
 
 type BlogImage = {

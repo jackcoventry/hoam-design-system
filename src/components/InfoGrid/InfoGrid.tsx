@@ -1,12 +1,17 @@
-import InfoGridItem from '@/components/InfoGrid/InfoGridItem/InfoGridItem';
+import InfoGridItem, { InfoGridItemProps } from '@/components/InfoGrid/InfoGridItem/InfoGridItem';
 
+import { Children, isValidElement, ReactElement, ReactNode } from 'react';
 import './InfoGrid.css';
 
 type InfoGridProps = {
   title: string;
   description?: string;
-  children: React.ReactNode | React.ReactNode[];
+  children: ReactNode | ReactNode[];
 };
+
+function isInfoGridItemElement(child: ReactNode): child is ReactElement<InfoGridItemProps> {
+  return isValidElement(child) && child.type === InfoGridItem;
+}
 
 function InfoGrid({ title, description, children }: Readonly<InfoGridProps>) {
   return (
@@ -21,11 +26,11 @@ function InfoGrid({ title, description, children }: Readonly<InfoGridProps>) {
       </div>
       <div className="container">
         <div className="grid">
-          {React.Children.map(children, (child, index) => {
+          {Children.map(children, (child, index) => {
             if (
-              React.isValidElement(child) &&
+              isValidElement(child) &&
               index < 3 && // Keep to 3 children or below for now
-              (child as React.ReactElement<any>).type === InfoGridItem
+              isInfoGridItemElement(child)
             ) {
               return <div className="span-12 lg:span-4">{child}</div>;
             } else {

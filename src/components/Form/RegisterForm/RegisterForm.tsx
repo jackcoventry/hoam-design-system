@@ -8,8 +8,7 @@ import PasswordStrengthMeter, {
   calculatePasswordStrength,
 } from '@/components/Form/PasswordStrengthMeter/PasswordStrengthMeter';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useMemo, useState } from 'react';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import z from 'zod';
 
 const RegisterFormSchema = z
@@ -22,7 +21,7 @@ const RegisterFormSchema = z
       .min(8, 'Password must be at least 8 characters long')
       .regex(/[A-Z]/, 'Must contain at least one uppercase letter')
       .regex(/[a-z]/, 'Must contain at least one lowercase letter')
-      .regex(/[0-9]/, 'Must contain at least one digit')
+      .regex(/\d/, 'Must contain at least one digit')
       .regex(/[^A-Za-z0-9]/, 'Must contain at least one special character'),
     confirmPassword: z.string(),
   })
@@ -43,9 +42,9 @@ export type RegisterFormResult = {
 
 type RegisterFormProps = {
   onSubmit: SubmitHandler<RegisterFormSchemaType>;
-  data: RegisterFormResult;
   loading: boolean;
-  error: Error;
+  data?: RegisterFormResult | null;
+  error?: Error | null;
 };
 
 function RegisterForm({ onSubmit, data, loading }: Readonly<RegisterFormProps>) {
@@ -53,7 +52,6 @@ function RegisterForm({ onSubmit, data, loading }: Readonly<RegisterFormProps>) 
     control,
     handleSubmit,
     formState: { errors },
-    watch,
   } = useForm<RegisterFormSchemaType>({
     resolver: zodResolver(RegisterFormSchema),
     defaultValues: {
@@ -66,16 +64,15 @@ function RegisterForm({ onSubmit, data, loading }: Readonly<RegisterFormProps>) 
     mode: 'all',
   });
 
-  const [submitComplete, setSubmitComplete] = useState<boolean>(false);
+  const submitComplete = data?.message === 'SUCCESS';
 
-  useEffect(() => {
-    if (data?.message === 'SUCCESS') {
-      setSubmitComplete(true);
-    }
-  }, [data]);
+  const password = useWatch({
+    control,
+    name: 'password',
+    defaultValue: '',
+  });
 
-  const password = watch('password', '');
-  const passwordStrength = useMemo(() => calculatePasswordStrength(password), [password]);
+  const passwordStrength = calculatePasswordStrength(password);
 
   return submitComplete ? (
     <div className="hoam-form__wrapper">
@@ -85,7 +82,9 @@ function RegisterForm({ onSubmit, data, loading }: Readonly<RegisterFormProps>) 
     <div className="hoam-form__wrapper">
       <form
         className="hoam-form"
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={(event) => {
+          void handleSubmit(onSubmit)(event);
+        }}
       >
         <h2 className="hoam-form__title">Register</h2>
 

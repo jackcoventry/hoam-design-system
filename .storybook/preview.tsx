@@ -1,7 +1,7 @@
 
 import type { Preview, Decorator } from '@storybook/react-vite';
 import { ModalStackProvider } from '../src/components/Modal/ModalStackContext';
-import { themes } from "storybook/theming";
+import { create } from "storybook/theming";
 
 import "@/styles/_variables.css";
 import "@/styles/_reset.css";
@@ -15,6 +15,11 @@ const withModalStack: Decorator = (Story) => (
   </ModalStackProvider>
 );
 
+const hoamTheme = create({
+  base: 'light',
+  brandTitle: 'HOAM',
+});
+
 const preview: Preview = {
   parameters: {
     controls: {
@@ -24,7 +29,7 @@ const preview: Preview = {
       },
     },
     docs: {
-      theme: themes.hoam,
+      theme: hoamTheme,
     },
   },
   decorators: [withModalStack],

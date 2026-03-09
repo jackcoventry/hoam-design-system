@@ -8,14 +8,14 @@ type ItemProps = {
   id: string;
   label: string;
   href?: string;
-  items: ItemProps[];
+  items?: ItemProps[];
 };
 
 type Props = {
-  items: ItemProps[];
+  items?: ItemProps[] | undefined;
 };
 
-export function SidebarNavigation({ items }: Readonly<Props>) {
+export function SidebarNavigation({ items = [] }: Readonly<Props>) {
   const isMobile = useMediaQuery('(max-width: 600px)');
   const [isOpen, setIsOpen] = useState<boolean>(false);
 

@@ -61,13 +61,13 @@ export const QuantitySelector = forwardRef<HTMLInputElement, QuantitySelectorPro
       apply(latestValueRef.current + dir * multiplier);
 
     // Handles pressing and holding the increment/decrement buttons
-    const pressTimeout = useRef<number | null>(null);
+    const pressTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
     const pressDirection = useRef<1 | -1 | 0>(0);
 
     const stopPress = () => {
       pressDirection.current = 0;
       if (pressTimeout.current) {
-        window.clearTimeout(pressTimeout.current);
+        globalThis.clearTimeout(pressTimeout.current);
         pressTimeout.current = null;
       }
     };
@@ -76,14 +76,14 @@ export const QuantitySelector = forwardRef<HTMLInputElement, QuantitySelectorPro
       if (pressDirection.current !== dir) return; // stopped or changed
       update(dir);
       const nextDelay = Math.max(50, delay - 10); // accelerate a bit
-      pressTimeout.current = window.setTimeout(() => pressTick(dir, nextDelay), nextDelay);
+      pressTimeout.current = globalThis.setTimeout(() => pressTick(dir, nextDelay), nextDelay);
     };
 
     const startPress = (dir: 1 | -1) => {
       stopPress();
       pressDirection.current = dir;
       update(dir);
-      pressTimeout.current = window.setTimeout(() => pressTick(dir, 140), 300);
+      pressTimeout.current = globalThis.setTimeout(() => pressTick(dir, 140), 300);
     };
 
     const createButtonHandlers = (dir: 1 | -1) => ({

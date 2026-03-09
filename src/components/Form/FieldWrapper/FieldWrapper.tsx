@@ -1,6 +1,11 @@
+import { PropsWithChildren } from 'react';
 import './FieldWrapper.css';
 
-function FieldWrapper({ children, error }) {
+type Props = {
+  error?: string | undefined;
+};
+
+function FieldWrapper({ children, error }: PropsWithChildren<Props>) {
   return (
     <div className="hoam-field-wrapper">
       <div className="hoam-field-wrapper__content">{children}</div>
