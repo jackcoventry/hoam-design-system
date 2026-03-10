@@ -1,8 +1,8 @@
-import { HeroSlider } from './HeroSlider';
+import { HeroSlider } from '@/components/Hero/HeroSlider';
 
 import '@/components/Common/Dots.css';
+import styles from '@/components/Hero/Hero.module.css';
 import React, { Children } from 'react';
-import './Hero.css';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -17,7 +17,7 @@ type Props = {
 
 export function Hero({ children, ...rest }: Readonly<Props>) {
   return (
-    <div className="hoam-hero">
+    <div className={styles.root}>
       {Children.count(children) > 1 ? <HeroSlider {...rest}>{children}</HeroSlider> : children}
     </div>
   );

@@ -1,4 +1,24 @@
-.hoam-text-field {
+.root {
+  display: grid;
+  gap: var(--hoam-spacing-4);
+}
+
+.controls {
+  display: grid;
+  gap: var(--hoam-spacing-7);
+  grid-template-columns: auto 1fr;
+}
+
+.submit {
+  margin-top: auto;
+  justify-content: center;
+}
+
+.title {
+  font: var(--hoam-typography-title-3);
+}
+
+.textField {
   border-radius: 5px;
   border: 1px solid var(--hoam-color-moon-400);
   font: var(--hoam-typography-label-1);
@@ -6,18 +26,18 @@
   width: 100%;
 }
 
-.hoam-text-field:focus-visible {
+.textField:focus-visible {
   box-shadow:
     0 0 0 2px white,
     0 0 0 6px yellow;
   outline: none;
 }
 
-.hoam-text-field[data-valid="false"] {
+.textField[data-valid="false"] {
   border: 1px solid var(--hoam-color-semantic-error);
 }
 
-.hoam-text-field[data-valid="false"]:focus-visible {
+.textField[data-valid="false"]:focus-visible {
   box-shadow:
     0 0 0 2px white,
     0 0 0 6px var(--hoam-color-semantic-error);

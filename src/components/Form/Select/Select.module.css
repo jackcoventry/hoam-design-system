@@ -1,24 +1,24 @@
-.hoam-select {
+.root {
   display: flex;
   flex-direction: column;
   gap: var(--hoam-spacing-2);
 }
 
-.hoam-select__label {
+.label {
   cursor: pointer;
   display: inline-flex;
   gap: var(--hoam-spacing-2);
 }
 
-.hoam-select__label-text {
+.labelText {
   font: var(--hoam-typography-label-1);
 }
 
-.hoam-select__label-value {
+.labelValue {
   font: var(--hoam-typography-label-2);
 }
 
-.hoam-select__input {
+.input {
   appearance: none;
   background-color: var(--hoam-color-neutral-900);
   background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16"><path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/></svg>');
@@ -32,7 +32,7 @@
 }
 
 /* TODO: Reuse this focus state across all form elements */
-.hoam-select__input:focus-visible {
+.input:focus-visible {
   outline: 3px solid var(--hoam-color-sun-700);
   outline-offset: 6px;
 }

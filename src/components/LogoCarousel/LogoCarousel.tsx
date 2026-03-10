@@ -1,15 +1,15 @@
+import styles from '@/components/LogoCarousel/LogoCarousel.module.css';
 import { useLayoutEffect, useRef, useState } from 'react';
-import './LogoCarousel.css';
 
 type LogoCarouselItem = { id: number; src: string; alt?: string };
-type LogoCarouselProps = {
+export type LogoCarouselProps = {
   title?: string;
   items: LogoCarouselItem[];
   pauseOnHover?: boolean;
   ariaLabel?: string;
 };
 
-export default function LogoCarousel({
+export function LogoCarousel({
   title,
   items,
   pauseOnHover = true,
@@ -55,13 +55,13 @@ export default function LogoCarousel({
   // Build N sequences; first gets aria, others hidden
   const sequences = Array.from({ length: repeat }, (_, i) => (
     <ul
-      className={`hoam-logo-carousel__sequence ${i > 0 ? 'hoam-logo-carousel__sequence--clone' : ''}`}
+      className={`${styles.sequence} ${i > 0 ? styles.sequenceClone : ''}`}
       aria-hidden={i > 0 || undefined}
       key={i}
     >
       {items.map((it) => (
         <li
-          className="hoam-logo-carousel__item"
+          className={styles.item}
           key={`${i}-${it.id}`}
         >
           <img
@@ -78,7 +78,7 @@ export default function LogoCarousel({
   return (
     <div
       ref={containerRef}
-      className="hoam-logo-carousel"
+      className={styles.root}
       data-pause={pauseOnHover ? 'true' : 'false'}
       aria-label={ariaLabel}
     >
@@ -86,8 +86,8 @@ export default function LogoCarousel({
         {title && (
           <div className="grid">
             <div className="span-12">
-              <div className="hoam-logo-carousel__content">
-                <h2 className="hoam-logo-carousel__title">{title}</h2>
+              <div className={styles.content}>
+                <h2 className={styles.title}>{title}</h2>
               </div>
             </div>
           </div>
@@ -95,7 +95,7 @@ export default function LogoCarousel({
       </div>
       <div
         ref={railRef}
-        className="hoam-logo-carousel__rail"
+        className={styles.rail}
       >
         {sequences}
       </div>

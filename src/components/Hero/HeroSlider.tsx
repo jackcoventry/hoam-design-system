@@ -1,5 +1,7 @@
 import { Button } from '@/components/Button/Button';
-import React, { useEffect, useRef } from 'react';
+import styles from '@/components/Hero/Hero.module.css';
+import { HeroSlide, HeroSlideProps } from '@/components/Hero/HeroSlide';
+import React, { isValidElement, ReactElement, ReactNode, useEffect, useRef } from 'react';
 import type { Swiper as SwiperCore } from 'swiper';
 import { A11y, Autoplay, EffectFade, Keyboard, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -9,6 +11,10 @@ type HeroSliderProps = {
   effect?: string;
   children: React.ReactNode;
 };
+
+function isHeroSlideElement(child: ReactNode): child is ReactElement<HeroSlideProps> {
+  return isValidElement(child) && child.type === HeroSlide;
+}
 
 export function HeroSlider({
   delay = 2500,
@@ -34,12 +40,12 @@ export function HeroSlider({
       ...(swiper.params.pagination as object),
       el: pagRef.current,
       clickable: true,
-      bulletClass: 'hoam-dots__bullet',
-      bulletActiveClass: 'hoam-dots__bullet:active',
+      bulletClass: styles.bullet || '',
+      bulletActiveClass: styles.bulletActive || '',
       // Has to return string
       renderBullet: (index, className) =>
         `<button type="button" class="${className}" aria-label="Go to slide ${index + 1}">
-           <span class="hoam-dots__bullet-inner">${index + 1}</span>
+           <span class="styles.bullet-inner">${index + 1}</span>
          </button>`,
     };
   };
@@ -71,7 +77,7 @@ export function HeroSlider({
       <Button
         ref={prevRef}
         type="button"
-        className="hoam-hero__nav-btn"
+        className={styles.navBtn}
         data-direction="left"
         aria-label="Previous slide"
         icon="arrow-left"
@@ -80,13 +86,13 @@ export function HeroSlider({
       <Button
         ref={nextRef}
         type="button"
-        className="hoam-hero__nav-btn"
+        className={styles.navBtn}
         data-direction="right"
         aria-label="Next slide"
         icon="arrow-right"
         iconOnly
       />
-      <div className="hoam-hero__controls">
+      <div className={styles.controls}>
         <div
           ref={pagRef}
           className="hoam-dots"
@@ -109,7 +115,7 @@ export function HeroSlider({
         onSwiper={(s) => (swiperRef.current = s)}
       >
         {React.Children.map(children, (child) => {
-          if (React.isValidElement(child) && (child as React.ReactElement).type === HeroSlide) {
+          if (isHeroSlideElement(child)) {
             return <SwiperSlide>{child}</SwiperSlide>;
           } else {
             console.error('Hero component only accepts child of type HeroSlide');

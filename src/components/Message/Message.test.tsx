@@ -1,4 +1,4 @@
-import Message from '@/components/Message/Message';
+import { Message } from '@/components/Message';
 import '@testing-library/jest-dom';
 import { fireEvent, render } from '@testing-library/react';
 

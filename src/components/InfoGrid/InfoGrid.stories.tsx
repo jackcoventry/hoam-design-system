@@ -1,5 +1,5 @@
-import InfoGrid from '@/components/InfoGrid/InfoGrid';
-import InfoGridItem from '@/components/InfoGrid/InfoGridItem/InfoGridItem';
+import { InfoGrid } from '@/components/InfoGrid/InfoGrid';
+import { InfoGridItem } from '@/components/InfoGrid/InfoGridItem/InfoGridItem';
 import { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta: Meta<typeof InfoGrid> = {

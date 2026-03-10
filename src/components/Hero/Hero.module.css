@@ -1,5 +1,5 @@
 .swiper,
-.hoam-hero {
+.root {
   height: 100dvh;
   width: 100%;
 
@@ -21,14 +21,14 @@
   width: 100%;
 }
 
-.hoam-hero {
+.root {
   align-items: center;
   display: flex;
   justify-content: center;
   position: relative;
 }
 
-.hoam-hero__slide {
+.slide {
   align-items: center;
   background-color: var(--hoam-color-neutral-900);
   background-position: center right;
@@ -43,7 +43,7 @@
   }
 }
 
-.hoam-hero__content {
+.content {
   display: flex;
   flex-direction: column;
   gap: var(--hoam-spacing-3);
@@ -58,26 +58,26 @@
   }
 }
 
-.hoam-hero__content-link {
+.contentLink {
   display: inline-flex;
   justify-content: center;
   padding-top: var(--hoam-spacing-5);
 }
 
 /* TODO: tokenize */
-.hoam-hero__subtitle {
+.subtitle {
   font: var(--hoam-typography-body-1);
   letter-spacing: 0.25rem;
   text-transform: uppercase;
 }
 
-.hoam-hero__text {
+.text {
   font: var(--hoam-typography-title-2);
 }
 
-[data-theme="light"] .hoam-hero__title,
-[data-theme="light"] .hoam-hero__subtitle,
-[data-theme="light"] .hoam-hero__text {
+[data-theme="light"] .title,
+[data-theme="light"] .subtitle,
+[data-theme="light"] .text {
   color: var(--hoam-color-neutral-900);
 }
 
@@ -89,28 +89,28 @@
   justify-content: center;
 }
 
-.hoam-hero__video {
+.video {
   position: absolute;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.hoam-hero__nav-btn {
+.navBtn {
   position: absolute;
   /* TODO: tokenize */
   z-index: 100;
 }
 
-.hoam-hero__nav-btn[data-direction="right"] {
+.navBtn[data-direction="right"] {
   right: 0;
 }
 
-.hoam-hero__nav-btn[data-direction="left"] {
+.navBtn[data-direction="left"] {
   left: 0;
 }
 
-.hoam-hero__controls {
+.controls {
   bottom: var(--hoam-spacing-3);
   position: absolute;
   z-index: 100;

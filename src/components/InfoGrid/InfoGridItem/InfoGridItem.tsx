@@ -1,15 +1,16 @@
-import './InfoGridItem.css';
+import styles from '@/components/InfoGrid/InfoGridItem/InfoGridItem.module.css';
+import clsx from 'clsx';
 
 export type InfoGridItemProps = {
   title: string;
-  description: string;
+  description?: string | undefined;
   icon: string;
 };
 
-function InfoGridItem({ title, description, icon }: Readonly<InfoGridItemProps>) {
+export function InfoGridItem({ title, description, icon }: Readonly<InfoGridItemProps>) {
   return (
-    <div className="hoam-info-grid-item | mb-lg lg:mb-0">
-      <span className="hoam-info-grid-item__icon">
+    <div className={clsx(styles.root, 'mb-lg lg:mb-0')}>
+      <span className={styles.icon}>
         <svg
           className="icon"
           width="3em"
@@ -19,10 +20,8 @@ function InfoGridItem({ title, description, icon }: Readonly<InfoGridItemProps>)
           <use xlinkHref={`/icons/icons.svg#${icon}`} />
         </svg>
       </span>
-      <h3 className="hoam-info-grid-item__title">{title}</h3>
-      <p className="hoam-info-grid-item__description">{description}</p>
+      <h3 className={styles.title}>{title}</h3>
+      <p className={styles.description}>{description}</p>
     </div>
   );
 }
-
-export default InfoGridItem;

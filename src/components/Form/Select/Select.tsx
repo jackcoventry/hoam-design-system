@@ -1,3 +1,4 @@
+import styles from '@/components/Form/Select.Select.module.css';
 import {
   ChangeEvent,
   ForwardedRef,
@@ -8,7 +9,6 @@ import {
   SelectHTMLAttributes,
   useId,
 } from 'react';
-import './Select.css';
 
 export type OnChangeValue<M extends boolean> = M extends true ? string[] : string;
 
@@ -56,20 +56,20 @@ const SelectRoot = forwardRef(function Select<M extends boolean = false>(
   const displayValue = Array.isArray(value) ? value.join(', ') : value;
 
   return (
-    <div className="hoam-select">
+    <div className={styles.root}>
       {label && (
         <label
-          className="hoam-select__label"
+          className={styles.label}
           htmlFor={actualId}
         >
-          <span className="hoam-select__label-text">{label}</span>
-          <span className="hoam-select__label-value">{displayValue}</span>
+          <span className={styles.labelText}>{label}</span>
+          <span className={styles.labelValue}>{displayValue}</span>
         </label>
       )}
 
       <select
         id={actualId}
-        className="hoam-select__input"
+        className={styles.input}
         name={name}
         ref={ref}
         required={required}

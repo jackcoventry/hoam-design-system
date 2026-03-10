@@ -1,5 +1,4 @@
 import { Button } from '@/components/Button/Button';
-import '@/components/Common/Fields.css';
 import '@/components/Common/Loader.css';
 import styles from '@/components/Form/SearchForm/SearchForm.module.css';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -19,12 +18,12 @@ export type SearchFormResult = {
   preview: string;
 };
 
-type SearchFormProps = {
+export type SearchFormProps = {
   onSubmit: SubmitHandler<SearchFormSchemaType>;
   loading: boolean;
 };
 
-type SearchResultsProps = {
+export type SearchResultsProps = {
   items: SearchFormResult[];
 };
 

@@ -1,14 +1,15 @@
+import styles from '@/components/Message/Message.module.css';
+import clsx from 'clsx';
 import { useState } from 'react';
-import './Message.css';
 
 export type MessageProps = {
   onClose?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   status: 'info' | 'warning' | 'error' | 'success';
-  text: string;
+  text?: string | undefined;
   title: string;
 };
 
-function Message({ status = 'info', text, title, onClose }: Readonly<MessageProps>) {
+export function Message({ status = 'info', text, title, onClose }: Readonly<MessageProps>) {
   const [isOpen, setIsOpen] = useState(true);
 
   const handleClose = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -18,23 +19,23 @@ function Message({ status = 'info', text, title, onClose }: Readonly<MessageProp
 
   return (
     <div
-      className="hoam-message"
+      className={styles.root}
       data-status={status}
       data-open={isOpen}
       role="alert"
     >
-      <div className="hoam-message__content">
-        {title && <h2 className="hoam-message__title">{title}</h2>}
+      <div className={styles.content}>
+        {title && <h2 className={styles.title}>{title}</h2>}
         {text && (
-          <div className="hoam-message__text | body-text">
+          <div className={clsx(styles.text, 'body-text')}>
             <p>{text}</p>
           </div>
         )}
       </div>
       {onClose && (
-        <div className="hoam-message__close-wrapper">
+        <div className={styles.closeWrapper}>
           <button
-            className="hoam-message__close"
+            className={styles.close}
             aria-label="Close message"
             onClick={handleClose}
           >
@@ -52,5 +53,3 @@ function Message({ status = 'info', text, title, onClose }: Readonly<MessageProp
     </div>
   );
 }
-
-export default Message;

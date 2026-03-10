@@ -1,12 +1,11 @@
 import { Button } from '@/components/Button/Button';
-import FieldWrapper from '@/components/Form/FieldWrapper/FieldWrapper';
+import { FieldWrapper } from '@/components/Form/FieldWrapper/FieldWrapper';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import z from 'zod';
 
-import '@/components/Common/Fields.css';
-import '@/components/Common/Form.css';
 import '@/components/Common/Loader.css';
+import styles from '@/components/Form/Form.module.css';
 
 const SignInFormSchema = z.object({
   email_address: z.email().trim().min(1, { message: 'Enter a valid email address!' }),
@@ -18,7 +17,7 @@ export type SignInFormResult = {
   message: string;
 };
 
-type SignInFormProps = {
+export type SignInFormProps = {
   onSubmit: SubmitHandler<SignInFormSchemaType>;
   loading: boolean;
   data?: SignInFormResult | null;
@@ -42,18 +41,18 @@ export function SignInForm({ onSubmit, data, loading }: Readonly<SignInFormProps
   const submitComplete = data?.message === 'SUCCESS';
 
   return submitComplete ? (
-    <div className="hoam-form__wrapper">
-      <h1 className="hoam-form__title">Success! Redirecting now...</h1>
+    <div className={styles.wrapper}>
+      <h1 className={styles.title}>Success! Redirecting now...</h1>
     </div>
   ) : (
-    <div className="hoam-form__wrapper">
+    <div className={styles.wrapper}>
       <form
-        className="hoam-form"
+        className={styles.root}
         onSubmit={(event) => {
           void handleSubmit(onSubmit)(event);
         }}
       >
-        <h2 className="hoam-form__title">Sign in</h2>
+        <h2 className={styles.title}>Sign in</h2>
 
         <FieldWrapper error={errors.email_address?.message}>
           <Controller
@@ -63,7 +62,7 @@ export function SignInForm({ onSubmit, data, loading }: Readonly<SignInFormProps
               <input
                 {...field}
                 placeholder="Enter your email address"
-                className="hoam-text-field"
+                className={styles.textField}
                 data-valid={errors.email_address ? 'false' : 'true'}
                 disabled={loading}
               />
@@ -80,7 +79,7 @@ export function SignInForm({ onSubmit, data, loading }: Readonly<SignInFormProps
                 {...field}
                 type="password"
                 placeholder="Enter your password"
-                className="hoam-text-field"
+                className={styles.textField}
                 data-valid={errors.password ? 'false' : 'true'}
                 disabled={loading}
               />
@@ -90,7 +89,7 @@ export function SignInForm({ onSubmit, data, loading }: Readonly<SignInFormProps
 
         <Button
           type="submit"
-          className="hoam-form__submit"
+          className={styles.submit}
           variant="secondary"
         >
           Sign in

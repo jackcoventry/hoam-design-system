@@ -1,11 +1,13 @@
-import InfoGridItem, { InfoGridItemProps } from '@/components/InfoGrid/InfoGridItem/InfoGridItem';
+import type { InfoGridItemProps } from '@/components/InfoGrid/InfoGridItem/InfoGridItem';
+import { InfoGridItem } from '@/components/InfoGrid/InfoGridItem/InfoGridItem';
 
+import styles from '@/components/InfoGrid/InfoGrid.module.css';
+import clsx from 'clsx';
 import { Children, isValidElement, ReactElement, ReactNode } from 'react';
-import './InfoGrid.css';
 
-type InfoGridProps = {
+export type InfoGridProps = {
   title: string;
-  description?: string;
+  description?: string | undefined;
   children: ReactNode | ReactNode[];
 };
 
@@ -13,17 +15,18 @@ function isInfoGridItemElement(child: ReactNode): child is ReactElement<InfoGrid
   return isValidElement(child) && child.type === InfoGridItem;
 }
 
-function InfoGrid({ title, description, children }: Readonly<InfoGridProps>) {
+export function InfoGrid({ title, description, children }: Readonly<InfoGridProps>) {
   return (
-    <div className="hoam-info-grid">
+    <div className={styles.root}>
       <div className="container">
         <div className="grid">
-          <div className="hoam-info-grid__content | span-12 lg:span-6 lg:start-4 body-text">
-            {title && <h2 className="hoam-info-grid__title">{title}</h2>}
+          <div className={clsx(styles.content, 'span-12 lg:span-6 lg:start-4 body-text')}>
+            {title && <h2 className={styles.title}>{title}</h2>}
             {description && <p>{description}</p>}
           </div>
         </div>
       </div>
+      {/* TODO: Remove grid */}
       <div className="container">
         <div className="grid">
           {Children.map(children, (child, index) => {
@@ -42,5 +45,3 @@ function InfoGrid({ title, description, children }: Readonly<InfoGridProps>) {
     </div>
   );
 }
-
-export default InfoGrid;

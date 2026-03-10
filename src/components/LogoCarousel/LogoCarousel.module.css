@@ -4,17 +4,17 @@
   --hoam-logo-height: clamp(100px, 10vw, 200px);
 }
 
-.hoam-logo-carousel__content {
+.content {
   margin-bottom: var(--hoam-spacing-6);
   text-align: center;
 }
 
-.hoam-logo-carousel__title {
+.title {
   color: var(--hoam-color-neutral-900);
   font: var(--hoam-typography-title-2);
 }
 
-.hoam-logo-carousel {
+.root {
   background-color: var(--hoam-color-neutral-100);
   overflow: hidden;
   padding: var(--hoam-spacing-10) 0;
@@ -22,7 +22,7 @@
   width: 100%;
 }
 
-.hoam-logo-carousel__rail {
+.rail {
   animation: hoam-marquee var(--hoam-logo-carousel-duration) linear infinite;
   display: flex;
   width: max-content;
@@ -38,11 +38,11 @@
   }
 }
 
-.hoam-logo-carousel[data-pause="true"]:hover .hoam-logo-carousel__rail {
+.root[data-pause="true"]:hover .rail {
   animation-play-state: paused;
 }
 
-.hoam-logo-carousel__sequence {
+.sequence {
   display: inline-flex;
   gap: var(--hoam-logo-carousel-gap);
   list-style: none;
@@ -51,18 +51,18 @@
   white-space: nowrap;
 }
 
-.hoam-logo-carousel__sequence--clone {
+.sequenceClone {
   margin-left: var(--hoam-logo-carousel-gap);
 }
 
-.hoam-logo-carousel__item {
+.item {
   align-items: center;
   display: inline-flex;
   flex: 0 0 auto;
   width: auto;
 }
 
-.hoam-logo-carousel__item img {
+.item img {
   display: block;
   max-height: var(--hoam-logo-height);
   object-fit: contain;
@@ -71,7 +71,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hoam-logo-carousel__rail {
+  .rail {
     animation: none !important;
     transform: none !important;
   }

@@ -1,4 +1,5 @@
 import { Button } from '@/components/Button';
+import styles from '@/components/Hero/Hero.module.css';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 
 export type HeroSlideProps = {
@@ -25,13 +26,13 @@ export function HeroSlide({
   const prefersReducedMotion = usePrefersReducedMotion();
   const videoProps = {
     muted: true,
-    className: 'hoam-hero__video',
+    className: styles.video,
     ...(!prefersReducedMotion && { autoPlay: true, loop: true }),
   };
 
   return (
     <div
-      className="hoam-hero__slide"
+      className={styles.slide}
       data-position={position}
       data-theme={theme}
       style={{
@@ -47,11 +48,11 @@ export function HeroSlide({
           />
         </video>
       )}
-      <div className="hoam-hero__content">
-        <p className="hoam-hero__subtitle">{subtitle}</p>
-        <h1 className="hoam-hero__title">{title}</h1>
-        <p className="hoam-hero__text">{text}</p>
-        <div className="hoam-hero__content-link">
+      <div className={styles.content}>
+        <p className={styles.subtitle}>{subtitle}</p>
+        <h1 className={styles.title}>{title}</h1>
+        <p className={styles.text}>{text}</p>
+        <div className={styles.contentLink}>
           <Button variant={theme === 'default' ? 'primary' : 'secondary'}>
             {button?.text || 'Read more'}
           </Button>

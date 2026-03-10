@@ -1,9 +1,8 @@
 import { Button } from '@/components/Button/Button';
-import '@/components/Common/Fields.css';
-import '@/components/Common/Form.css';
 import '@/components/Common/Loader.css';
 import { FieldLabel } from '@/components/Form/FieldLabel/FieldLabel';
 import { FieldWrapper } from '@/components/Form/FieldWrapper/FieldWrapper';
+import styles from '@/components/Form/Form.module.css';
 import {
   PasswordStrengthMeter,
   calculatePasswordStrength,
@@ -41,14 +40,14 @@ export type RegisterFormResult = {
   message: string;
 };
 
-type RegisterFormProps = {
+export type RegisterFormProps = {
   onSubmit: SubmitHandler<RegisterFormSchemaType>;
   loading: boolean;
   data?: RegisterFormResult | null;
   error?: Error | null;
 };
 
-function RegisterForm({ onSubmit, data, loading }: Readonly<RegisterFormProps>) {
+export function RegisterForm({ onSubmit, data, loading }: Readonly<RegisterFormProps>) {
   const {
     control,
     handleSubmit,
@@ -76,18 +75,18 @@ function RegisterForm({ onSubmit, data, loading }: Readonly<RegisterFormProps>) 
   const passwordStrength = calculatePasswordStrength(password);
 
   return submitComplete ? (
-    <div className="hoam-form__wrapper">
-      <h1 className="hoam-form__title">Success! Redirecting now...</h1>
+    <div className={styles.wrapper}>
+      <h1 className={styles.title}>Success! Redirecting now...</h1>
     </div>
   ) : (
-    <div className="hoam-form__wrapper">
+    <div className={styles.wrapper}>
       <form
-        className="hoam-form"
+        className={styles.root}
         onSubmit={(event) => {
           void handleSubmit(onSubmit)(event);
         }}
       >
-        <h2 className="hoam-form__title">Register</h2>
+        <h2 className={styles.title}>Register</h2>
 
         <section>
           <FieldLabel htmlFor="firstName">First Name</FieldLabel>
@@ -100,7 +99,7 @@ function RegisterForm({ onSubmit, data, loading }: Readonly<RegisterFormProps>) 
                   {...field}
                   id="firstName"
                   placeholder="Enter your first name"
-                  className="hoam-text-field"
+                  className={styles.textField}
                   data-valid={errors?.firstName ? 'false' : 'true'}
                   disabled={loading}
                 />
@@ -120,7 +119,7 @@ function RegisterForm({ onSubmit, data, loading }: Readonly<RegisterFormProps>) 
                   {...field}
                   id="lastName"
                   placeholder="Enter your last name"
-                  className="hoam-text-field"
+                  className={styles.textField}
                   data-valid={errors?.lastName ? 'false' : 'true'}
                   disabled={loading}
                 />
@@ -140,7 +139,7 @@ function RegisterForm({ onSubmit, data, loading }: Readonly<RegisterFormProps>) 
                   {...field}
                   id="email"
                   placeholder="Enter your email address"
-                  className="hoam-text-field"
+                  className={styles.textField}
                   data-valid={errors?.email ? 'false' : 'true'}
                   disabled={loading}
                 />
@@ -163,7 +162,7 @@ function RegisterForm({ onSubmit, data, loading }: Readonly<RegisterFormProps>) 
                   type="password"
                   id="password"
                   placeholder="Enter your password"
-                  className="hoam-text-field"
+                  className={styles.textField}
                   data-valid={errors?.password ? 'false' : 'true'}
                   disabled={loading}
                 />
@@ -184,7 +183,7 @@ function RegisterForm({ onSubmit, data, loading }: Readonly<RegisterFormProps>) 
                   type="password"
                   id="confirmPassword"
                   placeholder="Confirm your password"
-                  className="hoam-text-field"
+                  className={styles.textField}
                   data-valid={errors?.confirmPassword ? 'false' : 'true'}
                   disabled={loading}
                 />
@@ -195,7 +194,7 @@ function RegisterForm({ onSubmit, data, loading }: Readonly<RegisterFormProps>) 
 
         <Button
           type="submit"
-          className="hoam-form__submit"
+          className={styles.submit}
           variant="secondary"
         >
           Register
@@ -204,5 +203,3 @@ function RegisterForm({ onSubmit, data, loading }: Readonly<RegisterFormProps>) 
     </div>
   );
 }
-
-export default RegisterForm;

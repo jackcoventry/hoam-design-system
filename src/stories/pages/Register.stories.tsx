@@ -1,4 +1,5 @@
-import RegisterForm, {
+import {
+  RegisterForm,
   RegisterFormResult,
   RegisterFormSchemaType,
 } from '@/components/Form/RegisterForm/RegisterForm';
