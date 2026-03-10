@@ -1,4 +1,4 @@
-import Navigation from '@/components/Navigation/Navigation';
+import { Navigation } from '@/components/Navigation/Navigation';
 import NavigationData from '@/mocks/components/Navigation';
 import UserNavigationData from '@/mocks/components/UserNavigation';
 import { Meta, StoryObj } from '@storybook/react-vite';

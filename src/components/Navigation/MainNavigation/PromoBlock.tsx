@@ -1,3 +1,5 @@
+import styles from '@/components/Navigation/Navigation.module.css';
+
 type Props = {
   title: string;
   subtitle: string;
@@ -20,10 +22,10 @@ export function PromoBlock({ title, subtitle, href, image = '' }: Readonly<Props
       style={{
         backgroundImage: `url(${image})`,
       }}
-      className="hoam-navigation-promo"
+      className={styles.promo}
     >
-      <h4 className="hoam-navigation-promo__subtitle">{subtitle}</h4>
-      <h3 className="hoam-navigation-promo__title">{title}</h3>
+      <h4 className={styles.promoSubtitle}>{subtitle}</h4>
+      <h3 className={styles.promoTitle}>{title}</h3>
     </Element>
   );
 }

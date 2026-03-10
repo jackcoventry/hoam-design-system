@@ -1,8 +1,8 @@
-import MobileNavigationItem from '@/components/Navigation/MobileNavigation/MobileNavigationItem';
-import type { NavTreeItem } from '@/components/Navigation/types/Navigation.types';
+import { MobileNavigationItem } from '@/components/Navigation';
+import styles from '@/components/Navigation/MobileNavigation/MobileNavigation.module.css';
+import type { NavTreeItem } from '@/components/Navigation/types';
 import useFocusTrap from '@/hooks/useFocusTrap';
 import { useId, useRef, useState } from 'react';
-import './MobileNavigation.css';
 
 type MobileNavigationProps = {
   items: NavTreeItem[];
@@ -21,17 +21,17 @@ export function MobileNavigation({ items }: Readonly<MobileNavigationProps>) {
 
   return (
     <header
-      className="hoam-mobile-navigation"
+      className={styles.root}
       ref={navigationRef}
     >
-      <div className="hoam-mobile-navigation__wrapper">
+      <div className={styles.wrapper}>
         <div className="container-fluid">
           <div className="grid">
             <div className="span-12">
-              <div className="hoam-mobile-navigation__inner">
+              <div className={styles.inner}>
                 <a
                   href="/"
-                  className="hoam-mobile-navigation__logo"
+                  className={styles.logo}
                 >
                   <img
                     src="/logo.png"
@@ -41,7 +41,7 @@ export function MobileNavigation({ items }: Readonly<MobileNavigationProps>) {
 
                 <button
                   type="button"
-                  className="hoam-mobile-navigation__toggle"
+                  className={styles.toggle}
                   aria-expanded={isOpen}
                   aria-controls={menuId}
                   aria-label={isOpen ? 'Close menu' : 'Open menu'}
@@ -66,10 +66,10 @@ export function MobileNavigation({ items }: Readonly<MobileNavigationProps>) {
       <div
         id={menuId}
         data-state={isOpen ? 'open' : 'closed'}
-        className="hoam-mobile-navigation__mobile-menu"
+        className={styles.mobileMenu}
       >
         <nav aria-label="Main navigation">
-          <ul className="hoam-mobile-navigation__list">
+          <ul className={styles.list}>
             {items.map((item) => (
               <MobileNavigationItem
                 key={item.id}

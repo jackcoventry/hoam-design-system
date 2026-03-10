@@ -4,18 +4,20 @@ import SearchResultsData from '@/mocks/components/SearchResults';
 import { useMemo, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 
-import DesktopNavigation from '@/components/Navigation/DesktopNavigation/DesktopNavigation';
-import { useMegaNavState } from '@/components/Navigation/hooks/useNavState';
-import { MobileNavigation } from '@/components/Navigation/MobileNavigation/MobileNavigation';
-import NavigationModals from '@/components/Navigation/Modals/NavigationModals';
+import {
+  DesktopNavigation,
+  MobileNavigation,
+  NavigationModals,
+  useMegaNavState,
+} from '@/components/Navigation';
 
 import type {
   SearchFormResult,
   SearchFormSchemaType,
 } from '@/components/Form/SearchForm/SearchForm';
-import type { NavigationProps } from '@/components/Navigation/types/Navigation.types';
+import type { NavigationProps } from '@/components/Navigation/types';
 
-export default function Navigation({
+export function Navigation({
   items = [],
   userItems = [],
   variant = 'default',

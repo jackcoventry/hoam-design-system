@@ -1,4 +1,6 @@
 import { Button } from '@/components/Button/Button';
+import { useModalStack } from '@/components/Modal';
+import styles from '@/components/Modal/Modal.module.css';
 import { FOCUSABLE_SELECTORS } from '@/constants/focusable-selectors';
 import React, {
   KeyboardEvent,
@@ -11,8 +13,6 @@ import React, {
   useRef,
 } from 'react';
 import { createPortal } from 'react-dom';
-import './Modal.css';
-import { useModalStack } from './ModalStackContext';
 
 export type ModalVariant = 'modal' | 'drawer';
 
@@ -180,7 +180,7 @@ function ModalRoot({
     <dialog
       ref={dialogRef}
       id={id}
-      className="hoam-modal"
+      className={styles.root}
       data-open={isOpen ? 'true' : 'false'}
       data-variant={variant}
       aria-label={ariaLabel}
@@ -189,7 +189,7 @@ function ModalRoot({
       onClick={handleDialogClick}
       onKeyDown={handleKeyDown}
     >
-      <div className="hoam-modal__dialog">
+      <div className={styles.dialog}>
         <ModalContext.Provider value={contextValue}>{children}</ModalContext.Provider>
       </div>
     </dialog>,
@@ -200,7 +200,7 @@ function ModalRoot({
 function ModalHeader({ children, padded = true }: Readonly<ModalSectionProps>) {
   return (
     <header
-      className="hoam-modal__header"
+      className={styles.header}
       data-padded={padded ? 'true' : 'false'}
     >
       {children}
@@ -230,7 +230,7 @@ function ModalCloseButton({
       type="button"
       onClick={handleClose}
       aria-label={ariaLabel}
-      className="hoam-modal__close-button"
+      className={styles.closeButton}
       iconOnly
       icon="close"
     />
@@ -240,7 +240,7 @@ function ModalCloseButton({
 function ModalBody({ children, padded = true }: Readonly<ModalSectionProps>) {
   return (
     <div
-      className="hoam-modal__body"
+      className={styles.body}
       data-padded={padded ? 'true' : 'false'}
     >
       {children}
@@ -251,7 +251,7 @@ function ModalBody({ children, padded = true }: Readonly<ModalSectionProps>) {
 function ModalFooter({ children, padded = true }: Readonly<ModalSectionProps>) {
   return (
     <footer
-      className="hoam-modal__footer"
+      className={styles.footer}
       data-padded={padded ? 'true' : 'false'}
     >
       {children}

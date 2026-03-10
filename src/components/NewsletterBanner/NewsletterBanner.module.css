@@ -1,34 +1,34 @@
-.hoam-newsletter-banner {
+.root {
   background-color: var(--hoam-color-moon-600);
   padding: var(--hoam-spacing-8) var(--hoam-spacing-2);
 }
 
-.hoam-newsletter-banner__content {
+.content {
   text-align: center;
 }
 
-.hoam-newsletter-banner__wrapper {
+.wrapper {
   display: flex;
   flex-direction: column;
   gap: var(--hoam-spacing-5);
 }
 
-.hoam-newsletter-banner__title {
+.title {
   font: var(--hoam-typography-title-2);
 }
 
-.hoam-newsletter-banner__social-links {
+.socialLinks {
   display: flex;
   justify-content: center;
   gap: var(--hoam-spacing-4);
 }
 
-.hoam-newsletter-banner__social-links a {
+.socialLinks a {
   color: var(--hoam-color-neutral-100);
   font-size: var(--hoam-font-size-24);
 }
 
-.hoam-newsletter-banner__form {
+.form {
   display: flex;
   flex-direction: column;
   justify-content: center;

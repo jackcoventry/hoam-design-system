@@ -1,3 +1,4 @@
+import styles from '@/components/Navigation/Navigation.module.css';
 import type { FocusEventHandler, PointerEventHandler } from 'react';
 
 type DesktopNavigationLogoProps = {
@@ -5,7 +6,7 @@ type DesktopNavigationLogoProps = {
   onResetNavigation: () => void;
 };
 
-export default function DesktopNavigationLogo({
+export function DesktopNavigationLogo({
   logoSrc,
   onResetNavigation,
 }: Readonly<DesktopNavigationLogoProps>) {
@@ -20,7 +21,7 @@ export default function DesktopNavigationLogo({
   return (
     <a
       href="/"
-      className="hoam-navigation__logo"
+      className={styles.logo}
       data-top-cyclable
       onFocus={handleFocus}
       onPointerEnter={handlePointerEnter}

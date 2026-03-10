@@ -5,8 +5,8 @@ import {
   SearchLoader,
   SearchResults,
 } from '@/components/Form/SearchForm/SearchForm';
-import type { ModalRootProps } from '@/components/Modal/Modal';
-import { Modal } from '@/components/Modal/Modal';
+import type { ModalRootProps } from '@/components/Modal';
+import { Modal } from '@/components/Modal';
 import { useMockRequest } from '@/hooks/useMockRequest';
 import SearchResultsData from '@/mocks/components/SearchResults';
 import type { Meta, StoryObj } from '@storybook/react-vite';

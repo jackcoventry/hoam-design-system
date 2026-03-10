@@ -1,4 +1,4 @@
-import type { NavPanelLinkItem } from '@/components/Navigation/types/Navigation.types';
+import type { NavPanelLinkItem } from '@/components/Navigation/Navigation';
 import { render, screen } from '@testing-library/react';
 
 import { Breadcrumb } from '@/components/Breadcrumb';

@@ -1,4 +1,6 @@
-type NavRootProps = {
+import styles from '@/components/Navigation/Navigation.module.css';
+
+export type NavRootProps = {
   innerRef: React.RefObject<HTMLElement>;
   onLeave: () => void;
   onEnter: () => void;
@@ -6,7 +8,13 @@ type NavRootProps = {
   children: React.ReactNode;
 };
 
-function NavRoot({ innerRef, onLeave, onEnter, onKeyDown, children }: Readonly<NavRootProps>) {
+export function NavRoot({
+  innerRef,
+  onLeave,
+  onEnter,
+  onKeyDown,
+  children,
+}: Readonly<NavRootProps>) {
   return (
     <header
       ref={innerRef}
@@ -15,9 +23,7 @@ function NavRoot({ innerRef, onLeave, onEnter, onKeyDown, children }: Readonly<N
       onKeyDown={onKeyDown}
       role="none"
     >
-      <div className="hoam-navigation">{children}</div>
+      <div className={styles.root}>{children}</div>
     </header>
   );
 }
-
-export default NavRoot;

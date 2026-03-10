@@ -9,7 +9,7 @@ import {
 import { Modal } from '@/components/Modal/Modal';
 import { SubmitHandler } from 'react-hook-form';
 
-type NavigationModalsProps = {
+export type NavigationModalsProps = {
   openSearchModal: boolean;
   openBasketModal: boolean;
   onCloseSearch: () => void;
@@ -22,7 +22,7 @@ type NavigationModalsProps = {
   basketTotal: number;
 };
 
-export default function NavigationModals({
+export function NavigationModals({
   openSearchModal,
   openBasketModal,
   onCloseSearch,
@@ -55,15 +55,6 @@ export default function NavigationModals({
           {searchLoading && !safeSearchError ? <SearchLoader /> : null}
           {safeSearchData.length > 0 && !safeSearchError && !searchLoading ? (
             <SearchResults items={safeSearchData} />
-          ) : null}
-
-          {safeSearchError ? (
-            <div
-              className="hoam-search-form__message"
-              role="alert"
-            >
-              <p>{safeSearchError.message}</p>
-            </div>
           ) : null}
         </Modal.Body>
       </Modal>

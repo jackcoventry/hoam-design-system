@@ -1,5 +1,5 @@
 import { Breadcrumb } from '@/components/Breadcrumb/Breadcrumb';
-import { NavPanelLinkItem } from '@/components/Navigation/types/Navigation.types';
+import { NavPanelLinkItem } from '@/components/Navigation/Navigation';
 import BreadcrumbData from '@/mocks/components/Breadcrumb';
 import { Meta, StoryObj } from '@storybook/react-vite';
 

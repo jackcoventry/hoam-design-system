@@ -1,17 +1,16 @@
-import CategoryGroup from '@/components/Navigation/MainNavigation/CategoryGroup';
-import Panel from '@/components/Navigation/MainNavigation/Panel';
-import { PromoBlock } from '@/components/Navigation/MainNavigation/PromoBlock';
-import ThirdLevelList from '@/components/Navigation/MainNavigation/ThirdLevelItems';
-import TopNav from '@/components/Navigation/MainNavigation/TopNavigation';
-import TopNavItem from '@/components/Navigation/MainNavigation/TopNavigationItem';
-import type {
-  NavGroupItem,
-  NavPanelItem,
-  NavTopLevelItem,
-} from '@/components/Navigation/types/Navigation.types';
-import { panelId, topTriggerId } from '@/components/Navigation/utils/helpers';
+import {
+  CategoryGroup,
+  Panel,
+  PromoBlock,
+  ThirdLevelItems,
+  TopNavigation,
+  TopNavigationItem,
+} from '@/components/Navigation';
+import styles from '@/components/Navigation/Navigation.module.css';
+import { panelId, topTriggerId } from '@/components/Navigation/helpers';
+import type { NavGroupItem, NavPanelItem, NavTopLevelItem } from '@/components/Navigation/types';
 
-type DesktopNavigationItemsProps = {
+export type DesktopNavigationItemsProps = {
   items: NavTopLevelItem[];
   openIndex: number | null;
   openGroupId: string | null;
@@ -26,7 +25,7 @@ function isNavGroupItem(item: NavPanelItem): item is NavGroupItem {
   return 'layout' in item && 'items' in item;
 }
 
-export default function DesktopNavigationItems({
+export function DesktopNavigationItems({
   items,
   openIndex,
   openGroupId,
@@ -37,13 +36,13 @@ export default function DesktopNavigationItems({
   onResetNavigation,
 }: Readonly<DesktopNavigationItemsProps>) {
   return (
-    <TopNav>
+    <TopNavigation>
       {items.map((item, index) => {
         const hasPanel = Boolean(item.items?.length);
         const isOpen = openIndex === index;
 
         return (
-          <TopNavItem
+          <TopNavigationItem
             key={item.id}
             item={item}
             isOpen={isOpen}
@@ -62,17 +61,17 @@ export default function DesktopNavigationItems({
                 hidden={!isOpen}
                 onEnter={() => clearLeave()}
                 left={
-                  <div className="hoam-navigation__panel-top-level">
+                  <div className={styles.panelTopLevel}>
                     {item.items?.map((sub) => {
                       if (!isNavGroupItem(sub)) {
                         return (
                           <div
                             key={sub.id}
-                            className="hoam-navigation__group"
+                            className={styles.group}
                           >
                             <a
                               href={sub.href}
-                              className="hoam-navigation__group-top-link"
+                              className={styles.groupTopLink}
                               data-sub-trigger
                             >
                               {sub.label}
@@ -92,7 +91,7 @@ export default function DesktopNavigationItems({
                           onFocusOpen={() => setOpenGroupId(sub.id)}
                         >
                           {sub.items.length > 0 ? (
-                            <ThirdLevelList
+                            <ThirdLevelItems
                               parent={sub}
                               items={sub.items}
                               open={open}
@@ -107,7 +106,7 @@ export default function DesktopNavigationItems({
                 right={
                   item.thumbnail ? (
                     <aside
-                      className="hoam-navigation__panel-promo"
+                      className={styles.promo}
                       aria-label={`${item.label} highlights`}
                     >
                       <PromoBlock
@@ -121,9 +120,9 @@ export default function DesktopNavigationItems({
                 }
               />
             ) : null}
-          </TopNavItem>
+          </TopNavigationItem>
         );
       })}
-    </TopNav>
+    </TopNavigation>
   );
 }

@@ -1,4 +1,4 @@
-import NotificationBar from '@/components/NotificationBar/NotificationBar';
+import { NotificationBar } from '@/components/NotificationBar';
 import NotificationBarData from '@/mocks/components/NotificationBar';
 import { Meta, StoryObj } from '@storybook/react-vite';
 

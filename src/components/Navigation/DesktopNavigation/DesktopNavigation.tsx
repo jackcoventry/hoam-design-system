@@ -1,17 +1,15 @@
-import DesktopNavigationActions from '@/components/Navigation/DesktopNavigation/DesktopNavigationActions';
-import DesktopNavigationItems from '@/components/Navigation/DesktopNavigation/DesktopNavigationItems';
-import DesktopNavigationLogo from '@/components/Navigation/DesktopNavigation/DesktopNavigationLogo';
-import { useKeyboardNav } from '@/components/Navigation/hooks/useKeyboardNav';
-import type {
-  NavTopLevelItem,
-  NavUserItem,
-  NavigationProps,
-} from '@/components/Navigation/types/Navigation.types';
-import { querySubItemVisibility } from '@/components/Navigation/utils/helpers';
+import {
+  DesktopNavigationActions,
+  DesktopNavigationItems,
+  DesktopNavigationLogo,
+  useKeyboardNav,
+} from '@/components/Navigation';
+import styles from '@/components/Navigation/Navigation.module.css';
+import { querySubItemVisibility } from '@/components/Navigation/helpers';
+import type { NavTopLevelItem, NavUserItem, NavigationProps } from '@/components/Navigation/types';
 import { useCallback, useMemo, useRef, useState } from 'react';
-import '../Navigation.css';
 
-type DesktopNavigationProps = {
+export type DesktopNavigationProps = {
   items: NavTopLevelItem[];
   userItems: NavUserItem[];
   variant: NavigationProps['variant'];
@@ -28,7 +26,7 @@ type DesktopNavigationProps = {
   resetNavigation: () => void;
 };
 
-export default function DesktopNavigation({
+export function DesktopNavigation({
   items = [],
   userItems = [],
   variant = 'default',
@@ -123,14 +121,13 @@ export default function DesktopNavigation({
       }}
       role="none"
       data-variant={variant}
-      className="hoam-navigation__root"
     >
-      <div className="hoam-navigation">
+      <div className={styles.root}>
         <div className="container">
           <div className="grid">
             <div className="span-12">
               <div
-                className="hoam-navigation__inner"
+                className={styles.inner}
                 data-open={openIndex === null ? 'false' : 'true'}
               >
                 <DesktopNavigationItems

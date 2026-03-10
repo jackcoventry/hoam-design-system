@@ -1,15 +1,17 @@
-import { Button } from '@/components/Button/Button';
+import { Button } from '@/components/Button';
 import '@/components/Common/Dots.css';
+import formStyles from '@/components/Form/Form.module.css';
+import styles from '@/components/NewsletterBanner/NewsletterBanner.module.css';
 import socialLinks from '@/mocks/socialLinks';
 import { zodResolver } from '@hookform/resolvers/zod';
+import clsx from 'clsx';
 import { useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import z from 'zod';
-import './NewsletterBanner.css';
 
-type NewsletterBannerProps = {
+export type NewsletterBannerProps = {
   title: string;
-  description?: string;
+  description?: string | undefined;
 };
 
 const NewsletterSignupSchema = z.object({
@@ -18,7 +20,7 @@ const NewsletterSignupSchema = z.object({
 
 type NewsletterSignupSchemaType = z.infer<typeof NewsletterSignupSchema>;
 
-function NewsletterBanner({ title, description }: Readonly<NewsletterBannerProps>) {
+export function NewsletterBanner({ title, description }: Readonly<NewsletterBannerProps>) {
   const {
     control,
     handleSubmit,
@@ -43,18 +45,18 @@ function NewsletterBanner({ title, description }: Readonly<NewsletterBannerProps
   };
 
   return (
-    <section className="hoam-newsletter-banner">
-      <div className="hoam-newsletter-banner__wrapper | container">
+    <section className={styles.root}>
+      <div className={clsx(styles.wrapper, 'container')}>
         <div className="grid">
-          <div className="hoam-newsletter-banner__content | span-12 lg:span-6 lg:start-4 body-text">
-            {title && <h2 className="hoam-newsletter-banner__title">{title}</h2>}
+          <div className={clsx(styles.content, 'span-12 lg:span-6 lg:start-4 body-text')}>
+            {title && <h2 className={styles.title}>{title}</h2>}
             {description && <p>{description}</p>}
           </div>
         </div>
         <div className="grid">
           <div className="span-12 lg:span-6 xl:span-4 lg:start-4 xl:start-5">
             <form
-              className="hoam-newsletter-banner__form"
+              className={styles.form}
               onSubmit={(event) => {
                 void handleSubmit(onSubmit)(event);
               }}
@@ -67,7 +69,7 @@ function NewsletterBanner({ title, description }: Readonly<NewsletterBannerProps
                     {...field}
                     type="email"
                     placeholder={errors?.email?.message || 'Enter your email'}
-                    className="hoam-text-field"
+                    className={formStyles.textField}
                     data-valid={errors?.email ? 'false' : 'true'}
                     disabled={submitting}
                   />
@@ -76,7 +78,7 @@ function NewsletterBanner({ title, description }: Readonly<NewsletterBannerProps
 
               <Button
                 type="submit"
-                className="hoam-newsletter-banner__button"
+                className={styles.button}
                 variant="secondary"
               >
                 {submitting ? 'Sending...' : 'Subscribe'}
@@ -86,14 +88,14 @@ function NewsletterBanner({ title, description }: Readonly<NewsletterBannerProps
         </div>
         <div className="grid">
           <div className="span-12 lg:span-6 lg:start-4">
-            <div className="hoam-newsletter-banner__social-links">
+            <div className={styles.socialLinks}>
               {socialLinks.map((link) => (
                 <a
                   key={link.name}
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hoam-newsletter-banner__social-link"
+                  className={styles.socialLink}
                 >
                   <svg
                     className="icon"
@@ -112,5 +114,3 @@ function NewsletterBanner({ title, description }: Readonly<NewsletterBannerProps
     </section>
   );
 }
-
-export default NewsletterBanner;

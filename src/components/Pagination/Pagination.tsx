@@ -1,16 +1,16 @@
-import { Button } from '@/components/Button/Button';
+import { Button } from '@/components/Button';
 
-import './Pagination.css';
+import styles from '@/components/Pagination/Pagination.module.css';
 
-type PaginationProps = {
+export type PaginationProps = {
   pageCount?: number;
   currentPage?: number;
 };
 
-function Pagination({ pageCount = 6, currentPage = 1 }: Readonly<PaginationProps>) {
+export function Pagination({ pageCount = 6, currentPage = 1 }: Readonly<PaginationProps>) {
   return (
-    <div className="hoam-pagination">
-      <ul className="hoam-pagination__list">
+    <div className={styles.root}>
+      <ul className={styles.list}>
         <li>
           <Button
             icon="arrow-left"
@@ -20,10 +20,7 @@ function Pagination({ pageCount = 6, currentPage = 1 }: Readonly<PaginationProps
           </Button>
         </li>
         {Array.from({ length: pageCount }, (_, i) => i + 1).map((page) => (
-          <li
-            className="hoam-pagination__pages"
-            key={page}
-          >
+          <li key={page}>
             <Button variant={page === currentPage ? 'primary' : 'secondary'}>{page}</Button>
           </li>
         ))}
@@ -39,5 +36,3 @@ function Pagination({ pageCount = 6, currentPage = 1 }: Readonly<PaginationProps
     </div>
   );
 }
-
-export default Pagination;

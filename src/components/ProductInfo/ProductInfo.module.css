@@ -1,20 +1,20 @@
-.hoam-product-info__content {
+.content {
   display: flex;
   flex-direction: column;
   gap: var(--hoam-spacing-4);
   margin-bottom: var(--hoam-spacing-6);
 }
 
-.hoam-product-info__description {
+.description {
   font: var(--hoam-typography-body-1);
 }
 
-.hoam-product-info__price-previous {
+.pricePrevious {
   color: var(--hoam-color-neutral-500);
   font: var(--hoam-typography-title-5);
   text-decoration: line-through;
 }
 
-.hoam-product-info__title {
+.title {
   font: var(--hoam-typography-title-2);
 }

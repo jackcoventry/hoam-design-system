@@ -1,4 +1,5 @@
-import type { NavTreeItem } from '@/components/Navigation/types/Navigation.types';
+import styles from '@/components/Navigation/MobileNavigation/MobileNavigation.module.css';
+import type { NavTreeItem } from '@/components/Navigation/types';
 import { useMemo, useState } from 'react';
 
 type MobileNavigationItemProps = {
@@ -13,7 +14,7 @@ function hasHref(item: NavTreeItem): item is NavTreeItem & { href: string } {
   return 'href' in item && typeof item.href === 'string' && item.href.length > 0;
 }
 
-function MobileNavigationItem({ item }: Readonly<MobileNavigationItemProps>) {
+export function MobileNavigationItem({ item }: Readonly<MobileNavigationItemProps>) {
   const [isOpen, setIsOpen] = useState(false);
 
   const ids = useMemo(() => {
@@ -28,7 +29,7 @@ function MobileNavigationItem({ item }: Readonly<MobileNavigationItemProps>) {
   const itemHasHref = hasHref(item);
 
   return (
-    <li className="hoam-mobile-navigation__item">
+    <li className={styles.item}>
       {itemHasChildren ? (
         <>
           <button
@@ -36,7 +37,7 @@ function MobileNavigationItem({ item }: Readonly<MobileNavigationItemProps>) {
             type="button"
             aria-controls={ids.panel}
             aria-expanded={isOpen}
-            className="hoam-mobile-navigation__link"
+            className={styles.link}
             onClick={() => setIsOpen((prev) => !prev)}
           >
             <span>{item.label}</span>
@@ -55,13 +56,13 @@ function MobileNavigationItem({ item }: Readonly<MobileNavigationItemProps>) {
             <ul
               id={ids.panel}
               aria-labelledby={ids.button}
-              className="hoam-mobile-navigation__panel"
+              className={styles.panel}
             >
               {itemHasHref ? (
-                <li className="hoam-mobile-navigation__subitem">
+                <li className={styles.subitem}>
                   <a
                     href={item.href}
-                    className="hoam-mobile-navigation__sublink"
+                    className={styles.sublink}
                   >
                     {item.label}
                   </a>
@@ -80,15 +81,13 @@ function MobileNavigationItem({ item }: Readonly<MobileNavigationItemProps>) {
       ) : itemHasHref ? (
         <a
           href={item.href}
-          className="hoam-mobile-navigation__link"
+          className={styles.link}
         >
           {item.label}
         </a>
       ) : (
-        <span className="hoam-mobile-navigation__link">{item.label}</span>
+        <span className={styles.link}>{item.label}</span>
       )}
     </li>
   );
 }
-
-export default MobileNavigationItem;

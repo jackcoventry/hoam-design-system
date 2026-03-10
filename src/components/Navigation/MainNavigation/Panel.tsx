@@ -1,4 +1,6 @@
-type PanelProps = {
+import styles from '@/components/Navigation/Navigation.module.css';
+
+export type PanelProps = {
   id: string;
   labelledBy: string;
   hidden: boolean;
@@ -7,11 +9,11 @@ type PanelProps = {
   right: React.ReactNode;
 };
 
-function Panel({ id, labelledBy, hidden, onEnter, left, right }: Readonly<PanelProps>) {
+export function Panel({ id, labelledBy, hidden, onEnter, left, right }: Readonly<PanelProps>) {
   return (
     <div
       id={id}
-      className="hoam-navigation__panel"
+      className={styles.panel}
       aria-labelledby={labelledBy}
       hidden={hidden}
       onPointerEnter={onEnter}
@@ -25,5 +27,3 @@ function Panel({ id, labelledBy, hidden, onEnter, left, right }: Readonly<PanelP
     </div>
   );
 }
-
-export default Panel;

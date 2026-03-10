@@ -1,9 +1,9 @@
+import styles from '@/components/NotificationBar/NotificationBar.module.css';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { clearIntervalSafe, clearTimeoutSafe } from '@/utils/clearIntervalTimeout';
 import React, { CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
-import './NotificationBar.css';
 
-type NotificationBarProps = {
+export type NotificationBarProps = {
   messages: React.ReactNode[];
   ariaLabel?: string;
 };
@@ -12,7 +12,7 @@ const INTERVAL = 5000;
 const RESTART_DELAY = 2000;
 const FADE_TIME = 500;
 
-function NotificationBar({
+export function NotificationBar({
   messages,
   ariaLabel = 'Notifications',
 }: Readonly<NotificationBarProps>) {
@@ -116,7 +116,7 @@ function NotificationBar({
   return (
     <section
       aria-label={ariaLabel}
-      className="hoam-notification-bar"
+      className={styles.root}
       {...interactiveProps}
     >
       <output
@@ -129,5 +129,3 @@ function NotificationBar({
     </section>
   );
 }
-
-export default NotificationBar;

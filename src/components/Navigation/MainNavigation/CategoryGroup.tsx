@@ -1,7 +1,8 @@
-import type { NavGroupItem } from '@/components/Navigation/types/Navigation.types';
-import { groupBtnId, groupPanelId } from '@/components/Navigation/utils/helpers';
+import styles from '@/components/Navigation/Navigation.module.css';
+import { groupBtnId, groupPanelId } from '@/components/Navigation/helpers';
+import type { NavGroupItem } from '@/components/Navigation/types';
 
-type CategoryGroupProps = {
+export type CategoryGroupProps = {
   subitem: NavGroupItem;
   open: boolean;
   onHoverOpen: () => void;
@@ -9,7 +10,7 @@ type CategoryGroupProps = {
   children?: React.ReactNode;
 };
 
-function CategoryGroup({
+export function CategoryGroup({
   subitem,
   open,
   onHoverOpen,
@@ -21,7 +22,7 @@ function CategoryGroup({
 
   return (
     <div
-      className="hoam-navigation__group"
+      className={styles.group}
       onPointerEnter={onHoverOpen}
     >
       {hasChildren ? (
@@ -33,7 +34,7 @@ function CategoryGroup({
             aria-expanded={open}
             aria-controls={groupPanelId(subitem.id)}
             onFocus={onFocusOpen}
-            className="hoam-navigation__group-top-link"
+            className={styles.groupTopLink}
           >
             {subitem.label}
 
@@ -53,7 +54,7 @@ function CategoryGroup({
       ) : (
         <a
           href={subitem.href}
-          className="hoam-navigation__group-top-link"
+          className={styles.groupTopLink}
           data-sub-trigger
         >
           {subitem.label}
@@ -62,5 +63,3 @@ function CategoryGroup({
     </div>
   );
 }
-
-export default CategoryGroup;

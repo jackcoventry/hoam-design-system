@@ -3,7 +3,7 @@
   --hoam-link-height: 80px;
 }
 
-.hoam-navigation {
+.root {
   display: none;
   height: auto;
 }
@@ -30,18 +30,18 @@
 }
 
 @media (min-width: 1200px) {
-  .hoam-navigation {
+  .root {
     display: block;
   }
 }
 
-.hoam-navigation__inner {
+.inner {
   display: grid;
   gap: var(--hoam-spacing-2);
   grid-template-columns: 1fr 120px 1fr;
 }
 
-.hoam-navigation__link {
+.link {
   align-items: center;
   background: none;
   border: none;
@@ -54,13 +54,13 @@
   text-decoration: none;
 }
 
-.hoam-navigation__link:hover,
-.hoam-navigation__link:focus {
+.link:hover,
+.link:focus {
   color: var(--hoam-color-moon-900);
   text-decoration: underline;
 }
 
-.hoam-navigation__list {
+.list {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -68,17 +68,17 @@
   gap: var(--hoam-spacing-2);
 }
 
-.hoam-navigation__list[data-alignment="right"] {
+.list[data-alignment="right"] {
   justify-content: flex-end;
 }
 
-.hoam-navigation__logo {
+.logo {
   align-items: center;
   display: inline-flex;
   width: 120px;
 }
 
-.hoam-navigation__panel {
+.panel {
   background-color: var(--hoam-color-moon-100);
   box-shadow:
     0 10px 20px rgba(0, 0, 0, 0.19),
@@ -91,14 +91,14 @@
   width: 100dvw;
 }
 
-.hoam-navigation__panel-top-level {
+.panelTopLevel {
   height: var(--hoam-navigation-height);
   padding: var(--hoam-spacing-4) 0;
   position: relative;
   width: 30%;
 }
 
-.hoam-navigation__panel-sub-level {
+.panelSubLevel {
   background-color: var(--hoam-color-moon-200);
   height: var(--hoam-navigation-height);
   left: 100%;
@@ -109,17 +109,17 @@
   width: 233.333%; /* This should be 2.33 times the width of the parent to fill space correctly */
 }
 
-.hoam-navigation__panel-promo {
+.panelPromo {
   background-color: orange;
   height: 100%;
 }
 
-.hoam-navigation__panel[hidden],
-.hoam-navigation__panel-sub-level[hidden] {
+.panel[hidden],
+.panelSubLevel[hidden] {
   display: none;
 }
 
-.hoam-navigation__group-top-link {
+.groupTopLink {
   align-items: center;
   background: none;
   background-color: none;
@@ -134,57 +134,57 @@
   width: 100%;
 }
 
-.hoam-navigation__group-top-link:hover,
-.hoam-navigation__group-top-link:focus-visible {
+.groupTopLink:hover,
+.groupTopLink:focus-visible {
   background-color: var(--hoam-color-neutral-900);
 }
 
-.hoam-navigation__panel-sub-level[data-layout="list"] .hoam-navigation__panel-group {
+.panelSubLevel[data-layout="list"] .panelGroup {
   columns: 3;
   column-gap: var(--hoam-spacing-4);
 }
 
-.hoam-navigation__panel-sub-level[data-layout="list"] .hoam-navigation__panel-group-section {
+.panelSubLevel[data-layout="list"] .panelGroupSection {
   break-inside: avoid;
   display: flex;
   flex-direction: column;
 }
 
-.hoam-navigation__panel-group-section {
+.panelGroupSection {
   margin-bottom: var(--hoam-spacing-4);
 }
 
-.hoam-navigation__panel-sub-level[data-layout="thumbnail"] .hoam-navigation__panel-group-header {
+.panelSubLevel[data-layout="thumbnail"] .panelGroupSection {
   display: flex;
   flex-direction: column;
   gap: var(--hoam-spacing-2);
 }
 
-.hoam-navigation__panel-group-section a[data-sub-link] {
+.panelGroupSection a[data-sub-link] {
   color: var(--hoam-color-moon-800);
   font: var(--hoam-typography-label-1);
   text-decoration: none;
 }
 
-.hoam-navigation__panel-group-section a[data-sub-link]:hover {
+.panelGroupSection a[data-sub-link]:hover {
   color: var(--hoam-color-moon-900);
   text-decoration: underline;
 }
 
-a.hoam-navigation__panel-group-header[data-sub-link] {
+a.panelGroupSection[data-sub-link] {
   font: var(--hoam-typography-label-2);
   padding-bottom: var(--hoam-spacing-2);
   text-transform: uppercase;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hoam-navigation__panel,
-  .hoam-navigation__panel-sub-level {
+  .panel,
+  .panelSubLevel {
     transition: none !important;
   }
 }
 
-.hoam-navigation-promo {
+.promo {
   background-position: center;
   background-size: cover;
   color: var(--hoam-color-neutral-900);
@@ -194,11 +194,11 @@ a.hoam-navigation__panel-group-header[data-sub-link] {
   text-decoration: none;
 }
 
-.hoam-navigation-promo__subtitle {
+.promoSubtitle {
   font: var(--hoam-typography-label-2);
   text-transform: uppercase;
 }
 
-.hoam-navigation-promo__title {
+.promoTitle {
   font: var(--hoam-typography-title-2);
 }

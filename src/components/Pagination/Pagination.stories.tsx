@@ -1,7 +1,8 @@
-import Pagination from '@/components/Pagination/Pagination';
+import type { PaginationProps } from '@/components/Pagination';
+import { Pagination } from '@/components/Pagination';
 import { Meta, StoryObj } from '@storybook/react-vite';
 
-const meta: Meta<typeof Pagination> = {
+const meta: Meta<PaginationProps> = {
   title: 'Components/Pagination',
   component: Pagination,
   tags: ['autodocs'],

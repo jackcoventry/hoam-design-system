@@ -1,7 +1,8 @@
-import type { NavTopLevelItem } from '@/components/Navigation/types/Navigation.types';
-import { panelId, topTriggerId } from '@/components/Navigation/utils/helpers';
+import styles from '@/components/Navigation/Navigation.module.css';
+import { panelId, topTriggerId } from '@/components/Navigation/helpers';
+import type { NavTopLevelItem } from '@/components/Navigation/types';
 
-type TopNavigationItemProps = {
+export type TopNavigationItemProps = {
   item: NavTopLevelItem;
   isOpen: boolean;
   hasPanel: boolean;
@@ -11,7 +12,7 @@ type TopNavigationItemProps = {
   children?: React.ReactNode;
 };
 
-function TopNavigationItem({
+export function TopNavigationItem({
   item,
   isOpen,
   hasPanel,
@@ -22,7 +23,7 @@ function TopNavigationItem({
 }: Readonly<TopNavigationItemProps>) {
   return (
     <li
-      className="hoam-navigation__item"
+      className={styles.item}
       onPointerEnter={() => {
         if (hasPanel) {
           onHoverOpen();
@@ -42,7 +43,7 @@ function TopNavigationItem({
           type="button"
           data-top-trigger
           data-top-cyclable
-          className="hoam-navigation__link"
+          className={styles.link}
           aria-expanded={isOpen}
           aria-controls={panelId(item.id)}
           onFocus={onFocusOpen}
@@ -54,7 +55,7 @@ function TopNavigationItem({
           id={topTriggerId(item.id)}
           data-top-trigger
           data-top-cyclable
-          className="hoam-navigation__link"
+          className={styles.link}
           href={item.href}
         >
           {item.label}
@@ -65,5 +66,3 @@ function TopNavigationItem({
     </li>
   );
 }
-
-export default TopNavigationItem;

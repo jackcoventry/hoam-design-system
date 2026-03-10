@@ -5,14 +5,15 @@ import { z } from 'zod';
 
 import { Accordion, AccordionHeader, AccordionItem, AccordionPanel } from '@/components/Accordion';
 import { Button } from '@/components/Button';
-import FieldWrapper from '@/components/Form/FieldWrapper/FieldWrapper';
+import { FieldWrapper } from '@/components/Form/FieldWrapper';
 import { Select } from '@/components/Form/Select/Select';
 import QuantitySelector from '@/components/QuantitySelector/QuantitySelector';
 import VariantSelector from '@/components/VariantSelector/VariantSelector';
 
-import { BadgeList, BadgeListItem } from '@/components/BadgeList/BadgeList';
+import { BadgeList, BadgeListItem } from '@/components/BadgeList';
+import styles from '@/components/ProductInfo/ProductInfo.module.css';
 import { convertNumberToCurrency } from '@/utils/convertNumberToCurrency';
-import './ProductInfo.css';
+import clsx from 'clsx';
 
 const ProductInformationSchema = z.object({
   color: z.string(),
@@ -32,7 +33,7 @@ type ProductOption = {
   disabled?: boolean;
 };
 
-type ProductInfoProps = {
+export type ProductInfoProps = {
   title: string;
   description?: string;
   productId: string;
@@ -50,7 +51,7 @@ type ProductInfoProps = {
   };
 };
 
-function ProductInfo({
+export function ProductInfo({
   title,
   description,
   inStock,
@@ -118,14 +119,13 @@ function ProductInfo({
   });
 
   return (
-    <div className="hoam-product-info">
-      <div className="hoam-product-info__content">
-        <h1 className="hoam-product-info__title">{title}</h1>
-        <h2 className="hoam-product-info__price">
+    <div className={styles.root}>
+      <div className={styles.content}>
+        <h1 className={styles.title}>{title}</h1>
+        <h2 className={styles.price}>
           {salePriceString ? (
             <>
-              {salePriceString}{' '}
-              <span className="hoam-product-info__price-previous">{priceString}</span>
+              {salePriceString} <span className={styles.pricePrevious}>{priceString}</span>
             </>
           ) : (
             priceString
@@ -135,14 +135,13 @@ function ProductInfo({
           <BadgeList>{newItem && <BadgeListItem>NEW</BadgeListItem>}</BadgeList>
         ) : null}
 
-        {description && <p className="hoam-product-info__description">{description}</p>}
+        {description && <p className={styles.description}>{description}</p>}
       </div>
 
       <form
         onSubmit={(event) => {
           void handleSubmit(onSubmit)(event);
         }}
-        className="hoam-form"
       >
         <FieldWrapper error={errors?.color?.message}>
           <Controller
@@ -224,7 +223,7 @@ function ProductInfo({
           />
         </FieldWrapper>
 
-        <div className="hoam-form__controls">
+        <div>
           <Controller
             name="quantity"
             control={control}
@@ -239,14 +238,13 @@ function ProductInfo({
           <Button
             type="submit"
             disabled={!inStock || Boolean(errors?.quantity?.message) || submitting}
-            className="hoam-form__submit"
           >
             {submitting ? 'Added!' : 'Add to cart'}
           </Button>
         </div>
       </form>
 
-      <div className="hoam-product-info__information | mt-2xl">
+      <div className={clsx(styles.information, 'mt-2xl')}>
         <Accordion defaultOpenIds={['one']}>
           <AccordionItem id="one">
             <AccordionHeader>
@@ -291,5 +289,3 @@ function ProductInfo({
     </div>
   );
 }
-
-export default ProductInfo;

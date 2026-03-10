@@ -1,4 +1,4 @@
-.hoam-notification-bar {
+.root {
   background-color: var(--hoam-color-moon-200);
   font: var(--hoam-typography-label-2);
   padding: var(--hoam-spacing-3);
@@ -6,12 +6,12 @@
   text-transform: uppercase;
 }
 
-.hoam-notification-bar a:link,
-.hoam-notification-bar a:visited {
+.root a:link,
+.root a:visited {
   color: var(--hoam-color-moon-700);
   text-decoration: none;
 }
 
-.hoam-notification-bar a:hover {
+.root a:hover {
   text-decoration: underline;
 }

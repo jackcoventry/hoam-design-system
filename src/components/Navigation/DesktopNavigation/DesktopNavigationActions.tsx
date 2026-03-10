@@ -1,17 +1,18 @@
-import type { NavigationProps } from '@/components/Navigation/types/Navigation.types';
+import styles from '@/components/Navigation/Navigation.module.css';
+import type { NavigationProps } from '@/components/Navigation/types';
 import type { FocusEventHandler, MouseEvent, PointerEventHandler } from 'react';
 
 type UserItem = NonNullable<NavigationProps['userItems']>[number];
 type UserAction = NonNullable<UserItem['action']>;
 
-type DesktopNavigationActionsProps = {
+export type DesktopNavigationActionsProps = {
   userItems: NavigationProps['userItems'];
   onResetNavigation: () => void;
   onOpenSearch: () => void;
   onOpenBasket: () => void;
 };
 
-export default function DesktopNavigationActions({
+export function DesktopNavigationActions({
   userItems = [],
   onResetNavigation,
   onOpenSearch,
@@ -45,17 +46,17 @@ export default function DesktopNavigationActions({
       onPointerEnter={handlePointerEnter}
     >
       <ul
-        className="hoam-navigation__list"
+        className={styles.list}
         data-alignment="right"
       >
         {userItems.map((userLink) => (
           <li
             key={userLink.id}
-            className="hoam-navigation__item"
+            className={styles.item}
           >
             <a
               href={userLink.href}
-              className="hoam-navigation__link"
+              className={styles.link}
               title={userLink.label}
               data-top-cyclable
               onClick={userLink.action ? actions[userLink.action] : undefined}
