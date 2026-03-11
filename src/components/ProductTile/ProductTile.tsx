@@ -1,4 +1,5 @@
-import { BadgeList, BadgeListItem, Button } from '@/components';
+import { BadgeList, BadgeListItem } from '@/components/BadgeList';
+import { Button } from '@/components/Button';
 
 import styles from '@/components/ProductTile/ProductTile.module.css';
 

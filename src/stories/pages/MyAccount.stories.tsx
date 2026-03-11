@@ -1,4 +1,5 @@
-import { RichLink, SidebarNavigation } from '@/components';
+import { RichLink } from '@/components/RichLink';
+import { SidebarNavigation } from '@/components/SidebarNavigation';
 import RichLinksData from '@/mocks/components/RichLinks';
 import SidebarNavigationData from '@/mocks/components/SidebarNavigation';
 import BaseTemplate from '@/templates/Base';

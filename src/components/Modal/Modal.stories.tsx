@@ -1,13 +1,12 @@
-import type { ModalRootProps } from '@/components';
 import {
-  Modal,
   SearchForm,
-  SearchFormResult,
-  SearchFormSchemaType,
+  type SearchFormResult,
+  type SearchFormSchemaType,
   SearchLoader,
   SearchResults,
-} from '@/components';
-import { useMockRequest } from '@/hooks';
+} from '@/components/Form/SearchForm';
+import { Modal, type ModalRootProps } from '@/components/Modal';
+import { useMockRequest } from '@/hooks/useMockRequest';
 import SearchResultsData from '@/mocks/components/SearchResults';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';

@@ -1,8 +1,11 @@
-import { VariantSelector, type VariantSelectorProps } from '@/components/VariantSelector';
+import {
+  VariantSelector,
+  VariantValue,
+  type VariantSelectorProps,
+} from '@/components/VariantSelector';
 import ProductInformationMockData from '@/mocks/components/ProductInformation';
 import { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
-import { VariantValue } from './VariantSelector';
 
 const meta: Meta<typeof VariantSelector> = {
   title: 'Components/Variant Selector',

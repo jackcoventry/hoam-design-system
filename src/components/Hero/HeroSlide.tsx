@@ -1,6 +1,6 @@
-import { Button } from '@/components';
+import { Button } from '@/components/Button';
 import styles from '@/components/Hero/Hero.module.css';
-import { usePrefersReducedMotion } from '@/hooks';
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 
 export type HeroSlideProps = {
   title: string;

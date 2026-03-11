@@ -1,4 +1,4 @@
-import { Basket, BasketFooter } from '@/components';
+import { Basket, BasketFooter } from '@/components/Basket';
 import items from '@/mocks/components/Basket';
 import BaseTemplate from '@/templates/Base';
 import { Meta } from '@storybook/react-vite';

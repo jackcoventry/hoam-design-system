@@ -1,7 +1,7 @@
 import { assertHTMLElement } from '@/utils/test-utils';
 import { render, screen, within } from '@testing-library/react';
 
-import { InfoGrid, InfoGridItem } from '@/components';
+import { InfoGrid, InfoGridItem } from '@/components/InfoGrid';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 function makeItem(i: number, icon = 'coffee') {

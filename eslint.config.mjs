@@ -80,5 +80,33 @@ export default defineConfig(
       '@typescript-eslint/no-unsafe-return': 'off',
       '@typescript-eslint/no-unsafe-argument': 'off',
     },
+  },
+  {
+    files: [
+      'src/components/**/*.{ts,tsx}',
+      'src/hooks/**/*.{ts,tsx}',
+      'src/**/*.stories.{ts,tsx}',
+      'src/**/*.test.{ts,tsx}',
+      'src/**/*.spec.{ts,tsx}',
+    ],
+    rules: {
+      'no-restricted-imports': [
+        'warn',
+        {
+          paths: [
+            {
+              name: '@/components',
+              message:
+                'Use a direct import inside library code, stories, and tests instead of the components barrel.',
+            },
+            {
+              name: '@/hooks',
+              message:
+                'Use a direct import inside library code, stories, and tests instead of the hooks barrel.',
+            },
+          ],
+        },
+      ],
+    },
   }
 );

@@ -1,5 +1,4 @@
-import type { InfoGridItemProps } from '@/components';
-import { InfoGridItem } from '@/components';
+import { InfoGridItem, type InfoGridItemProps } from '@/components/InfoGrid';
 
 import styles from '@/components/InfoGrid/InfoGrid.module.css';
 import clsx from 'clsx';

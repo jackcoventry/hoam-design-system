@@ -3,7 +3,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 
 import { beforeEach, describe, expect, it } from 'vitest';
 
-import { ModalStackProvider, useModalStack } from '@/components';
+import { ModalStackProvider, useModalStack } from '@/components/Modal/ModalStackContext';
 
 function TestModal({ id, active }: Readonly<{ id: string; active: boolean }>) {
   const { isTopMost } = useModalStack(id, active);

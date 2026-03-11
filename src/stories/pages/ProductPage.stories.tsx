@@ -1,4 +1,7 @@
-import { Breadcrumb, ImageGallery, ProductInfo, RecommendedProducts } from '@/components';
+import { Breadcrumb } from '@/components/Breadcrumb';
+import { ImageGallery } from '@/components/ImageGallery';
+import { ProductInfo } from '@/components/ProductInfo';
+import { RecommendedProducts } from '@/components/RecommendedProducts';
 import BreadcrumbData from '@/mocks/components/Breadcrumb';
 import ImageGalleryMockData from '@/mocks/components/ImageGallery';
 import ProductInformationMockData from '@/mocks/components/ProductInformation';

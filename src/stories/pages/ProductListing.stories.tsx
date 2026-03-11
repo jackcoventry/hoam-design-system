@@ -1,4 +1,5 @@
-import { Pagination, ProductTile } from '@/components';
+import { Pagination } from '@/components/Pagination';
+import { ProductTile } from '@/components/ProductTile';
 import Data from '@/mocks/components/ProductTile';
 import BaseTemplate from '@/templates/Base';
 import { Meta } from '@storybook/react-vite';

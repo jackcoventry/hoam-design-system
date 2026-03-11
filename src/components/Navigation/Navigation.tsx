@@ -1,4 +1,5 @@
-import { useMegaNavState, useMockRequest } from '@/hooks';
+import { useMockRequest } from '@/hooks/useMockRequest';
+import { useMegaNavState } from '@/hooks/useNavState';
 import BasketItemData from '@/mocks/components/Basket';
 import SearchResultsData from '@/mocks/components/SearchResults';
 import { useMemo, useState } from 'react';

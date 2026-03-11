@@ -1,11 +1,6 @@
-import {
-  Accordion,
-  AccordionHeader,
-  AccordionItem,
-  AccordionPanel,
-  DesktopTabs,
-} from '@/components';
-import { useMediaQuery } from '@/hooks';
+import { Accordion, AccordionHeader, AccordionItem, AccordionPanel } from '@/components/Accordion';
+import { DesktopTabs } from '@/components/Tabs';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 
 type Layout = 'horizontal' | 'vertical' | undefined;
 type Mode = 'manual' | 'automatic' | undefined;
