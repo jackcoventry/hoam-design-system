@@ -1,5 +1,6 @@
-import styles from '@/components/Navigation/Navigation.module.css';
 import type { FocusEventHandler, PointerEventHandler } from 'react';
+
+import styles from '@/components/Navigation/Navigation.module.css';
 
 type DesktopNavigationLogoProps = {
   logoSrc: string;

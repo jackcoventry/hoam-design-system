@@ -1,8 +1,9 @@
-import { Message } from '@/components/Message';
-import '@testing-library/jest-dom';
 import { fireEvent, render } from '@testing-library/react';
-
 import { describe, expect, it, vi } from 'vitest';
+
+import { Message } from '@/components/Message';
+
+import '@testing-library/jest-dom';
 
 describe('Message', () => {
   it('renders with required props', () => {

@@ -1,6 +1,7 @@
-import { Accordion, AccordionHeader, AccordionItem, AccordionPanel } from '@/components/Accordion';
-import { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
+import { Meta, StoryObj } from '@storybook/react-vite';
+
+import { Accordion, AccordionHeader, AccordionItem, AccordionPanel } from '@/components/Accordion';
 
 const meta: Meta<typeof Accordion> = {
   title: 'Components/Accordion',

@@ -1,7 +1,8 @@
-import { Basket, BasketFooter } from '@/components/Basket';
-import items from '@/mocks/components/Basket';
-import BaseTemplate from '@/templates/Base';
 import { Meta } from '@storybook/react-vite';
+
+import { Basket, BasketFooter } from '@/components/Basket';
+import BaseTemplate from '@/templates/Base';
+import items from '@/mocks/components/Basket';
 
 const meta: Meta = {
   title: 'Pages/Basket',

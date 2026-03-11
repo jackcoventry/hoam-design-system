@@ -1,8 +1,8 @@
 import { ColorProps } from '@/components/ColorSwatch/ColorSwatch';
+import groupBy from '@/utils/group-by';
+import Tokens from '@/styles/variables.json';
 import ColorItem from '@/stories/components/ColorItem';
 import DocTable from '@/stories/components/DocTable';
-import Tokens from '@/styles/variables.json';
-import groupBy from '@/utils/group-by';
 
 type ListProps = {
   items: ColorProps[];

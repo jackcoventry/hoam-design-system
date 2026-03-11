@@ -1,7 +1,8 @@
 
-import type { Preview, Decorator } from '@storybook/react-vite';
-import { ModalStackProvider } from '../src/components/Modal/ModalStackContext';
+import type { Decorator,Preview } from '@storybook/react-vite';
 import { create } from "storybook/theming";
+
+import { ModalStackProvider } from '../src/components/Modal/ModalStackContext';
 
 import "@/styles/_variables.css";
 import "@/styles/_reset.css";

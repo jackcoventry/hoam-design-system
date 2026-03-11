@@ -1,7 +1,9 @@
-import styles from '@/components/NotificationBar/NotificationBar.module.css';
+import React, { CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
+
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { clearIntervalSafe, clearTimeoutSafe } from '@/utils/clearIntervalTimeout';
-import React, { CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
+
+import styles from '@/components/NotificationBar/NotificationBar.module.css';
 
 export type NotificationBarProps = {
   messages: React.ReactNode[];

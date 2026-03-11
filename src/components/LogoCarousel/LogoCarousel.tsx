@@ -1,5 +1,6 @@
-import styles from '@/components/LogoCarousel/LogoCarousel.module.css';
 import { useLayoutEffect, useRef, useState } from 'react';
+
+import styles from '@/components/LogoCarousel/LogoCarousel.module.css';
 
 type LogoCarouselItem = { id: number; src: string; alt?: string };
 export type LogoCarouselProps = {

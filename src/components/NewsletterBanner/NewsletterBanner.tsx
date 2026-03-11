@@ -1,13 +1,15 @@
+import { useState } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import clsx from 'clsx';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import z from 'zod';
+
 import { Button } from '@/components/Button';
+import socialLinks from '@/mocks/socialLinks';
+
 import '@/components/Common/Dots.css';
 import formStyles from '@/components/Form/Form.module.css';
 import styles from '@/components/NewsletterBanner/NewsletterBanner.module.css';
-import socialLinks from '@/mocks/socialLinks';
-import { zodResolver } from '@hookform/resolvers/zod';
-import clsx from 'clsx';
-import { useState } from 'react';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import z from 'zod';
 
 export type NewsletterBannerProps = {
   title: string;

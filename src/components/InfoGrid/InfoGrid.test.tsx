@@ -1,8 +1,8 @@
-import { assertHTMLElement } from '@/utils/test-utils';
 import { render, screen, within } from '@testing-library/react';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { InfoGrid, InfoGridItem } from '@/components/InfoGrid';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { assertHTMLElement } from '@/utils/test-utils';
 
 function makeItem(i: number, icon = 'coffee') {
   return (
@@ -116,10 +116,10 @@ describe('InfoGrid', () => {
       .closest('.hoam-info-grid-item');
     expect(item).not.toBeNull();
 
-    const svgUse = item.querySelector('use');
+    const svgUse = item?.querySelector('use');
     expect(svgUse).not.toBeNull();
 
-    const xlinkHref = svgUse.getAttribute('xlink:href') ?? svgUse.getAttribute('href');
+    const xlinkHref = svgUse?.getAttribute('xlink:href') ?? svgUse?.getAttribute('href');
     expect(xlinkHref).toBe('/icons/icons.svg#coffee');
   });
 

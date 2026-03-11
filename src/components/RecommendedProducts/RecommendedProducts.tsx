@@ -1,7 +1,8 @@
+import clsx from 'clsx';
+
 import { ProductTile, type ProductTileProps } from '@/components/ProductTile';
 
 import styles from '@/components/RecommendedProducts/RecommendedProducts.module.css';
-import clsx from 'clsx';
 
 export type RecommendedProductsProps = {
   title: string;

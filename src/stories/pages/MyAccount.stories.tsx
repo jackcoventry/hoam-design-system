@@ -1,9 +1,10 @@
+import { Meta } from '@storybook/react-vite';
+
 import { RichLink } from '@/components/RichLink';
 import { SidebarNavigation } from '@/components/SidebarNavigation';
+import BaseTemplate from '@/templates/Base';
 import RichLinksData from '@/mocks/components/RichLinks';
 import SidebarNavigationData from '@/mocks/components/SidebarNavigation';
-import BaseTemplate from '@/templates/Base';
-import { Meta } from '@storybook/react-vite';
 
 const meta: Meta = {
   title: 'Pages/Account',
@@ -42,6 +43,7 @@ const Template = {
                         title={item.title}
                         href={item.href}
                         image={item.image}
+                        imageAlt={item.imageAlt}
                       />
                     </div>
                   );

@@ -6,9 +6,10 @@ import {
   TopNavigation,
   TopNavigationItem,
 } from '@/components/Navigation';
-import styles from '@/components/Navigation/Navigation.module.css';
 import { panelId, topTriggerId } from '@/components/Navigation/helpers';
 import type { NavGroupItem, NavPanelItem, NavTopLevelItem } from '@/components/Navigation/types';
+
+import styles from '@/components/Navigation/Navigation.module.css';
 
 export type DesktopNavigationItemsProps = {
   items: NavTopLevelItem[];

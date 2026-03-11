@@ -1,7 +1,7 @@
 export {
   SearchForm,
-  SearchLoader,
-  SearchResults,
   type SearchFormResult,
   type SearchFormSchemaType,
+  SearchLoader,
+  SearchResults,
 } from './SearchForm';

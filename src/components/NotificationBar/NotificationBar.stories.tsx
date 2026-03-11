@@ -1,6 +1,7 @@
+import { Meta, StoryObj } from '@storybook/react-vite';
+
 import { NotificationBar } from '@/components/NotificationBar';
 import NotificationBarData from '@/mocks/components/NotificationBar';
-import { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta: Meta<typeof NotificationBar> = {
   title: 'Components/Notification Bar',

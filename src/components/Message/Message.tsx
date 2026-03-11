@@ -1,6 +1,7 @@
-import styles from '@/components/Message/Message.module.css';
-import clsx from 'clsx';
 import { useState } from 'react';
+import clsx from 'clsx';
+
+import styles from '@/components/Message/Message.module.css';
 
 export type MessageProps = {
   onClose?: (e: React.MouseEvent<HTMLButtonElement>) => void;

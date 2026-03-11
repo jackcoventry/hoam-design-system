@@ -1,10 +1,12 @@
-import { Button } from '@/components/Button/Button';
-import styles from '@/components/Hero/Hero.module.css';
-import { HeroSlide, HeroSlideProps } from '@/components/Hero/HeroSlide';
 import React, { isValidElement, ReactElement, ReactNode, useEffect, useRef } from 'react';
 import type { Swiper as SwiperCore } from 'swiper';
 import { A11y, Autoplay, EffectFade, Keyboard, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
+
+import { Button } from '@/components/Button/Button';
+import { HeroSlide, HeroSlideProps } from '@/components/Hero/HeroSlide';
+
+import styles from '@/components/Hero/Hero.module.css';
 
 type HeroSliderProps = {
   delay?: number;

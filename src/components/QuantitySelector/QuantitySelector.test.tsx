@@ -1,6 +1,6 @@
+import { createRef } from 'react';
 import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { createRef } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { QuantitySelector, type QuantitySelectorProps } from '@/components/QuantitySelector';

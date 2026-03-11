@@ -1,9 +1,13 @@
-import { Button } from '@/components/Button/Button';
-import getTokenByName from '@/utils/getTokenByName';
 import { useEffect, useRef, useState } from 'react';
 import type { Swiper as SwiperCore } from 'swiper';
 import { A11y, FreeMode, Keyboard, Navigation, Pagination, Thumbs } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
+
+import { Button } from '@/components/Button/Button';
+import getTokenByName from '@/utils/getTokenByName';
+
+import '@/components/Common/Dots.css';
+import './ImageGallery.css'; // TODO: Refactor to css modules, might need to refactor entire component
 
 // Import Swiper styles
 import 'swiper/css';
@@ -12,9 +16,6 @@ import 'swiper/css/free-mode';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/thumbs';
-
-import '@/components/Common/Dots.css';
-import './ImageGallery.css'; // TODO: Refactor to css modules, might need to refactor entire component
 
 type ImageProps = {
   id: string | number;

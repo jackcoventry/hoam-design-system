@@ -1,3 +1,5 @@
+import { SubmitHandler } from 'react-hook-form';
+
 import { Basket, BasketFooter } from '@/components/Basket';
 import {
   SearchForm,
@@ -7,7 +9,6 @@ import {
   SearchResults,
 } from '@/components/Form';
 import { Modal } from '@/components/Modal';
-import { SubmitHandler } from 'react-hook-form';
 
 export type NavigationModalsProps = {
   openSearchModal: boolean;

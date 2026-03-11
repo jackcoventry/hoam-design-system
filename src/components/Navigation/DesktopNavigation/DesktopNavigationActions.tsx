@@ -1,6 +1,8 @@
-import styles from '@/components/Navigation/Navigation.module.css';
-import type { NavigationProps } from '@/components/Navigation/types';
 import type { FocusEventHandler, MouseEvent, PointerEventHandler } from 'react';
+
+import type { NavigationProps } from '@/components/Navigation/types';
+
+import styles from '@/components/Navigation/Navigation.module.css';
 
 type UserItem = NonNullable<NavigationProps['userItems']>[number];
 type UserAction = NonNullable<UserItem['action']>;

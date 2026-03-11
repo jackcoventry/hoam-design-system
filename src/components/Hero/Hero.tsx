@@ -1,8 +1,9 @@
+import React, { Children } from 'react';
+
 import { HeroSlider } from '@/components/Hero/HeroSlider';
 
 import '@/components/Common/Dots.css';
 import styles from '@/components/Hero/Hero.module.css';
-import React, { Children } from 'react';
 
 // Import Swiper styles
 import 'swiper/css';

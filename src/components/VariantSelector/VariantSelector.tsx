@@ -1,6 +1,7 @@
-import styles from '@/components/VariantSelector/VariantSelector.module.css';
-import clsx from 'clsx';
 import { forwardRef, useId, useMemo, useRef, useState } from 'react';
+import clsx from 'clsx';
+
+import styles from '@/components/VariantSelector/VariantSelector.module.css';
 
 export type VariantValue = string | number;
 

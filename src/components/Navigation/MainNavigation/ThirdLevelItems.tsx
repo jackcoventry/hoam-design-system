@@ -1,6 +1,7 @@
-import styles from '@/components/Navigation/Navigation.module.css';
 import { groupBtnId, groupPanelId } from '@/components/Navigation/helpers';
 import type { NavBranchItem, NavGroupItem, NavigationLayout } from '@/components/Navigation/types';
+
+import styles from '@/components/Navigation/Navigation.module.css';
 
 export type ThirdLevelItemsProps = {
   parent: NavGroupItem;

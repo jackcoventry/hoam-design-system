@@ -1,15 +1,17 @@
-import { Button } from '@/components/Button/Button';
-import '@/components/Common/Loader.css';
-import {
-  FieldLabel,
-  FieldWrapper,
-  PasswordStrengthMeter,
-  calculatePasswordStrength,
-} from '@/components/Form';
-import styles from '@/components/Form/Form.module.css';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import z from 'zod';
+
+import { Button } from '@/components/Button/Button';
+import {
+  calculatePasswordStrength,
+  FieldLabel,
+  FieldWrapper,
+  PasswordStrengthMeter,
+} from '@/components/Form';
+
+import '@/components/Common/Loader.css';
+import styles from '@/components/Form/Form.module.css';
 
 const RegisterFormSchema = z
   .object({

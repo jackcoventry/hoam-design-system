@@ -1,8 +1,9 @@
+import { Children, isValidElement, ReactElement, ReactNode } from 'react';
+import clsx from 'clsx';
+
 import { InfoGridItem, type InfoGridItemProps } from '@/components/InfoGrid';
 
 import styles from '@/components/InfoGrid/InfoGrid.module.css';
-import clsx from 'clsx';
-import { Children, isValidElement, ReactElement, ReactNode } from 'react';
 
 export type InfoGridProps = {
   title: string;

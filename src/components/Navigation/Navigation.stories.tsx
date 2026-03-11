@@ -1,7 +1,8 @@
+import { Meta, StoryObj } from '@storybook/react-vite';
+
 import { Navigation } from '@/components/Navigation';
 import NavigationData from '@/mocks/components/Navigation';
 import UserNavigationData from '@/mocks/components/UserNavigation';
-import { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta: Meta<typeof Navigation> = {
   title: 'Components/Navigation',

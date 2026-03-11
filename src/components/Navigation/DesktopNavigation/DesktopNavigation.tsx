@@ -1,13 +1,15 @@
+import { useCallback, useMemo, useRef, useState } from 'react';
+
 import {
   DesktopNavigationActions,
   DesktopNavigationItems,
   DesktopNavigationLogo,
 } from '@/components/Navigation';
-import styles from '@/components/Navigation/Navigation.module.css';
 import { querySubItemVisibility } from '@/components/Navigation/helpers';
-import type { NavTopLevelItem, NavUserItem, NavigationProps } from '@/components/Navigation/types';
+import type { NavigationProps,NavTopLevelItem, NavUserItem } from '@/components/Navigation/types';
 import { useKeyboardNav } from '@/hooks/useKeyboardNav';
-import { useCallback, useMemo, useRef, useState } from 'react';
+
+import styles from '@/components/Navigation/Navigation.module.css';
 
 export type DesktopNavigationProps = {
   items: NavTopLevelItem[];

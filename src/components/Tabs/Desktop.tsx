@@ -1,6 +1,8 @@
-import { type TabsProps } from '@/components/Tabs';
-import styles from '@/components/Tabs/Tabs.module.css';
 import { Activity, KeyboardEvent, Suspense, useRef, useState } from 'react';
+
+import { type TabsProps } from '@/components/Tabs';
+
+import styles from '@/components/Tabs/Tabs.module.css';
 
 export function DesktopTabs({
   title,

@@ -1,4 +1,5 @@
 import { Button } from '@/components/Button';
+
 import styles from '@/components/PromoSection/PromoSection.module.css';
 
 export type PromoSectionProps = {

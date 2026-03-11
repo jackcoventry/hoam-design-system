@@ -1,8 +1,10 @@
-import styles from '@/components/Navigation/MobileNavigation/MobileNavigation.module.css';
+import { useId, useRef, useState } from 'react';
+
 import { MobileNavigationItem } from '@/components/Navigation/MobileNavigation/MobileNavigationItem';
 import type { NavTreeItem } from '@/components/Navigation/types';
 import { useFocusTrap } from '@/hooks/useFocusTrap';
-import { useId, useRef, useState } from 'react';
+
+import styles from '@/components/Navigation/MobileNavigation/MobileNavigation.module.css';
 
 type MobileNavigationProps = {
   items: NavTreeItem[];

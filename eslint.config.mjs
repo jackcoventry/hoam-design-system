@@ -1,9 +1,10 @@
 import js from '@eslint/js';
+import { defineConfig } from 'eslint/config';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
 import react from 'eslint-plugin-react';
 import reactHooks from 'eslint-plugin-react-hooks';
+import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import storybook from 'eslint-plugin-storybook';
-import { defineConfig } from 'eslint/config';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
@@ -33,6 +34,47 @@ export default defineConfig(
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   jsxA11yRecommended,
   ...storybook.configs['flat/recommended'],
+
+  {
+    plugins: {
+      'simple-import-sort': simpleImportSort,
+    },
+    rules: {
+      'sort-imports': 'off',
+      'import/order': 'off',
+
+      'simple-import-sort/imports': [
+        'warn',
+        {
+          groups: [
+            // React + packages
+            [String.raw`^react$`, String.raw`^react-dom$`, String.raw`^@?\w`],
+
+            // Aliases
+            [
+              String.raw`^@/components`,
+              String.raw`^@/hooks`,
+              String.raw`^@/templates`,
+              String.raw`^@/utils`,
+              String.raw`^@/styles`,
+              String.raw`^@/`,
+            ],
+
+            // Parent imports
+            [String.raw`^\.\.(?!/?$)`, String.raw`^\.\./?$`],
+
+            // Same folder
+            [String.raw`^\./(?=.*/)(?!/?$)`, String.raw`^\.(?!/?$)`, String.raw`^\./?$`],
+
+            // Styles
+            [String.raw`^.+\.(css|scss)$`],
+          ],
+        },
+      ],
+
+      'simple-import-sort/exports': 'warn',
+    },
+  },
 
   {
     files: ['**/*.{ts,tsx,js,jsx,mjs,cjs}'],

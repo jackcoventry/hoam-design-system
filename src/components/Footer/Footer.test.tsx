@@ -1,7 +1,7 @@
 import { render, screen, within } from '@testing-library/react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { Footer } from '@/components/Footer';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 vi.mock('@/mocks/socialLinks.json', () => ({
   default: [

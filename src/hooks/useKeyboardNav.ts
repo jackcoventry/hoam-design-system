@@ -1,5 +1,6 @@
-import { focusNextTick, moveInList, querySubItemVisibility } from '@/components/Navigation/helpers';
 import { useCallback } from 'react';
+
+import { focusNextTick, moveInList, querySubItemVisibility } from '@/components/Navigation/helpers';
 
 type NavChildItem = {
   id: string;

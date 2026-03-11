@@ -1,5 +1,6 @@
-import styles from '@/components/BadgeList/BadgeList.module.css';
 import { Children, isValidElement, PropsWithChildren, ReactElement, ReactNode } from 'react';
+
+import styles from '@/components/BadgeList/BadgeList.module.css';
 
 export type BadgeListItemProps = {
   href?: string;

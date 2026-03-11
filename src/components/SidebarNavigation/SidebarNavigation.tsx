@@ -1,8 +1,10 @@
+import { Activity, Suspense, useState } from 'react';
+
 import { Accordion, AccordionHeader, AccordionItem, AccordionPanel } from '@/components/Accordion';
 import { Button } from '@/components/Button';
-import styles from '@/components/SidebarNavigation/SidebarNavigation.module.css';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
-import { Activity, Suspense, useState } from 'react';
+
+import styles from '@/components/SidebarNavigation/SidebarNavigation.module.css';
 
 type ItemProps = {
   id: string;

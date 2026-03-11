@@ -1,6 +1,7 @@
-import { QuantitySelector } from '@/components/QuantitySelector';
-import { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
+import { Meta, StoryObj } from '@storybook/react-vite';
+
+import { QuantitySelector } from '@/components/QuantitySelector';
 
 const meta: Meta<typeof QuantitySelector> = {
   title: 'Components/Quantity Selector',

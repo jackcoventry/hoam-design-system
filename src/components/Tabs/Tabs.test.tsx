@@ -1,9 +1,9 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
-import { Tabs, type TabProps } from '@/components/Tabs';
-import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { beforeEach, describe, expect, it, Mock, vi } from 'vitest';
+
+import { type TabProps,Tabs } from '@/components/Tabs';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 
 vi.mock('@/utils/useMediaQuery', () => ({
   __esModule: true,

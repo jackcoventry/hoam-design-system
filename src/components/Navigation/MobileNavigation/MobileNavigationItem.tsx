@@ -1,6 +1,8 @@
-import styles from '@/components/Navigation/MobileNavigation/MobileNavigation.module.css';
-import type { NavTreeItem } from '@/components/Navigation/types';
 import { useMemo, useState } from 'react';
+
+import type { NavTreeItem } from '@/components/Navigation/types';
+
+import styles from '@/components/Navigation/MobileNavigation/MobileNavigation.module.css';
 
 type MobileNavigationItemProps = {
   item: NavTreeItem;

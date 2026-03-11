@@ -1,20 +1,21 @@
 import { Button } from '@/components/Button';
-import styles from '@/components/Hero/Hero.module.css';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
+
+import styles from '@/components/Hero/Hero.module.css';
 
 export type HeroSlideProps = {
   title: string;
   subtitle: string;
   text: string;
-  image?: string;
-  video?: string;
-  theme?: string;
-  position?: string;
+  image?: string | undefined;
+  video?: string | undefined;
+  theme?: string | undefined;
+  position?: string | undefined;
   button: { url: string; text?: string };
 };
 
 export function HeroSlide({
-  title,
+  title = '',
   subtitle,
   text,
   image = '',

@@ -1,6 +1,7 @@
+import { Meta, StoryObj } from '@storybook/react-vite';
+
 import { Footer } from '@/components/Footer';
 import FooterData from '@/mocks/components/Footer';
-import { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta: Meta<typeof Footer> = {
   title: 'Components/Footer',

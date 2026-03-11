@@ -1,5 +1,6 @@
-import { FOCUSABLE_SELECTORS } from '@/constants/focusable-selectors';
 import { RefObject, useEffect, useRef } from 'react';
+
+import { FOCUSABLE_SELECTORS } from '@/constants/focusable-selectors';
 
 interface UseFocusTrapOptions<T extends HTMLElement = HTMLElement> {
   containerRef: RefObject<T | null>;

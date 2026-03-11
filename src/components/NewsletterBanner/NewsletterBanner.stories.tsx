@@ -1,5 +1,6 @@
-import { NewsletterBanner } from '@/components/NewsletterBanner';
 import { Meta, StoryObj } from '@storybook/react-vite';
+
+import { NewsletterBanner } from '@/components/NewsletterBanner';
 
 const meta: Meta<typeof NewsletterBanner> = {
   title: 'Components/Newsletter Banner',

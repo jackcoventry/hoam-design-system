@@ -1,10 +1,4 @@
-import FooterData from '@/mocks/components/Footer';
-import MockSlides from '@/mocks/components/Hero';
-import LogoCarouselData from '@/mocks/components/LogoCarousel';
-import NavigationData from '@/mocks/components/Navigation';
-import NotificationBarData from '@/mocks/components/NotificationBar';
-import PromoSectionData from '@/mocks/components/PromoSection';
-import UserNavigationData from '@/mocks/components/UserNavigation';
+import { Meta } from '@storybook/react-vite';
 
 import { Footer } from '@/components/Footer';
 import { Hero, HeroSlide } from '@/components/Hero';
@@ -13,7 +7,13 @@ import { Navigation } from '@/components/Navigation';
 import { NewsletterBanner } from '@/components/NewsletterBanner';
 import { NotificationBar } from '@/components/NotificationBar';
 import { PromoSection } from '@/components/PromoSection';
-import { Meta } from '@storybook/react-vite';
+import FooterData from '@/mocks/components/Footer';
+import MockSlides from '@/mocks/components/Hero';
+import LogoCarouselData from '@/mocks/components/LogoCarousel';
+import NavigationData from '@/mocks/components/Navigation';
+import NotificationBarData from '@/mocks/components/NotificationBar';
+import PromoSectionData from '@/mocks/components/PromoSection';
+import UserNavigationData from '@/mocks/components/UserNavigation';
 
 const meta: Meta = {
   title: 'Pages/Homepage',
@@ -40,19 +40,22 @@ const Template = {
         />
 
         <Hero>
-          {HeroData.map((slide) => (
-            <HeroSlide
-              key={slide.image}
-              title={slide.title}
-              subtitle={slide.subtitle}
-              text={slide.text}
-              theme={slide.theme}
-              image={slide.image}
-              video={slide.video}
-              button={slide.button}
-              position={slide.position}
-            />
-          ))}
+          {HeroData.map((slide) => {
+            if (!slide) return null;
+            return (
+              <HeroSlide
+                key={slide.image}
+                title={slide.title}
+                subtitle={slide.subtitle}
+                text={slide.text}
+                theme={slide.theme}
+                image={slide.image}
+                video={slide.video}
+                button={slide.button}
+                position={slide.position}
+              />
+            );
+          })}
         </Hero>
         <PromoSection
           title={PromoSectionData.title}

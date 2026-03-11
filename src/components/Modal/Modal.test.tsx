@@ -1,3 +1,7 @@
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { beforeAll, describe, expect, it, vi } from 'vitest';
+
 import {
   Modal,
   ModalBody,
@@ -6,9 +10,6 @@ import {
   ModalHeader,
   ModalTitle,
 } from '@/components/Modal';
-import { render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { beforeAll, describe, expect, it, vi } from 'vitest';
 
 vi.mock('./ModalStackContext', () => ({
   useModalStack: () => ({

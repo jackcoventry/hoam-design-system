@@ -1,5 +1,3 @@
-import styles from '@/components/Accordion/Accordion.module.css';
-import clsx from 'clsx';
 import {
   Children,
   createContext,
@@ -13,6 +11,9 @@ import {
   useMemo,
   useState,
 } from 'react';
+import clsx from 'clsx';
+
+import styles from '@/components/Accordion/Accordion.module.css';
 
 export interface AccordionProps {
   allowMultiple?: boolean;

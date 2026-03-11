@@ -1,6 +1,7 @@
+import { useState } from 'react';
+
 import { Button } from '@/components/Button/Button';
 import Tokens from '@/design-tokens/icons.json';
-import { useState } from 'react';
 
 type Props = {
   icon: string;

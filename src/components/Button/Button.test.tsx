@@ -1,7 +1,8 @@
-import { Button } from '@/components/Button';
-import { fireEvent, render, screen } from '@testing-library/react';
 import { createRef } from 'react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
+
+import { Button } from '@/components/Button';
 
 describe('Polymorphic Button component', () => {
   it('renders as a native <button> by default', () => {

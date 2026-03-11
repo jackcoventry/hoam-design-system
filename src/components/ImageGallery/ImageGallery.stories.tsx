@@ -1,6 +1,7 @@
+import { Meta, StoryObj } from '@storybook/react-vite';
+
 import { ImageGallery } from '@/components/ImageGallery';
 import ImageGalleryMockData from '@/mocks/components/ImageGallery';
-import { Meta, StoryObj } from '@storybook/react-vite';
 
 const meta: Meta<typeof ImageGallery> = {
   title: 'Components/Image Gallery',

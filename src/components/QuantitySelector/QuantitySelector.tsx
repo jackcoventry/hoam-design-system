@@ -1,7 +1,8 @@
+import { forwardRef, KeyboardEvent, useEffect, useRef, useState } from 'react';
+
 import { Button } from '@/components/Button';
 
 import styles from '@/components/QuantitySelector/QuantitySelector.module.css';
-import { forwardRef, KeyboardEvent, useEffect, useRef, useState } from 'react';
 
 export interface QuantitySelectorProps {
   value: number;

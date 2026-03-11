@@ -1,8 +1,9 @@
-import { type VariantOption, VariantSelector } from '@/components/VariantSelector';
+import React from 'react';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import React from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+
+import { type VariantOption, VariantSelector } from '@/components/VariantSelector';
 
 function setup({
   value = null as string | number | null,

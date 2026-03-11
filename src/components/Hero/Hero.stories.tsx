@@ -1,7 +1,8 @@
+import { Meta, StoryObj } from '@storybook/react-vite';
+
 import { Hero } from '@/components/Hero/Hero';
 import { HeroSlide, HeroSlideProps } from '@/components/Hero/HeroSlide';
 import MockSlides from '@/mocks/components/Hero';
-import { Meta, StoryObj } from '@storybook/react-vite';
 
 type HeroStoryArgs = React.ComponentProps<typeof Hero> & {
   data: typeof MockSlides;

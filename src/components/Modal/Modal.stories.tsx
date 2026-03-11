@@ -1,3 +1,7 @@
+import { useState } from 'react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
+import type { SubmitHandler } from 'react-hook-form';
+
 import {
   SearchForm,
   type SearchFormResult,
@@ -8,9 +12,6 @@ import {
 import { Modal, type ModalRootProps } from '@/components/Modal';
 import { useMockRequest } from '@/hooks/useMockRequest';
 import SearchResultsData from '@/mocks/components/SearchResults';
-import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useState } from 'react';
-import type { SubmitHandler } from 'react-hook-form';
 
 const meta: Meta<typeof Modal> = {
   title: 'Components/Modal',

@@ -1,16 +1,18 @@
+import { useState } from 'react';
+import { zodResolver } from '@hookform/resolvers/zod';
+import clsx from 'clsx';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { z } from 'zod';
+
 import { Accordion, AccordionHeader, AccordionItem, AccordionPanel } from '@/components/Accordion';
 import { BadgeList, BadgeListItem } from '@/components/BadgeList';
 import { Button } from '@/components/Button';
 import { FieldWrapper, Select } from '@/components/Form';
-import styles from '@/components/ProductInfo/ProductInfo.module.css';
 import { QuantitySelector } from '@/components/QuantitySelector';
 import { VariantSelector } from '@/components/VariantSelector';
 import { convertNumberToCurrency } from '@/utils/convertNumberToCurrency';
-import { zodResolver } from '@hookform/resolvers/zod';
-import clsx from 'clsx';
-import { useState } from 'react';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { z } from 'zod';
+
+import styles from '@/components/ProductInfo/ProductInfo.module.css';
 
 const ProductInformationSchema = z.object({
   color: z.string(),

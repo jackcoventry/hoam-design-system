@@ -1,8 +1,8 @@
-import type { NavPanelLinkItem } from '@/components/Navigation/Navigation';
 import { render, screen } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
 
 import { Breadcrumb } from '@/components/Breadcrumb';
-import { describe, expect, it } from 'vitest';
+import type { NavPanelLinkItem } from '@/components/Navigation/Navigation';
 
 describe('Breadcrumb', () => {
   it('renders nothing when items is an empty array', () => {

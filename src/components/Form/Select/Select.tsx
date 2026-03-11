@@ -1,4 +1,3 @@
-import styles from '@/components/Form/Select/Select.module.css';
 import {
   ChangeEvent,
   ForwardedRef,
@@ -9,6 +8,8 @@ import {
   SelectHTMLAttributes,
   useId,
 } from 'react';
+
+import styles from '@/components/Form/Select/Select.module.css';
 
 export type OnChangeValue<M extends boolean> = M extends true ? string[] : string;
 

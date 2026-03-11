@@ -1,6 +1,7 @@
-import styles from '@/components/Navigation/Navigation.module.css';
 import { panelId, topTriggerId } from '@/components/Navigation/helpers';
 import type { NavTopLevelItem } from '@/components/Navigation/types';
+
+import styles from '@/components/Navigation/Navigation.module.css';
 
 export type TopNavigationItemProps = {
   item: NavTopLevelItem;

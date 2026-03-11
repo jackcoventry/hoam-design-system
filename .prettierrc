@@ -14,7 +14,7 @@
   "quoteProps": "as-needed",
   "singleAttributePerLine": true,
   "embeddedLanguageFormatting": "auto",
-  "plugins": ["prettier-plugin-organize-imports"],
+  "plugins": [],
   "organizeImportsSkipDestructiveCodeActions": true,
   "overrides": [
     {

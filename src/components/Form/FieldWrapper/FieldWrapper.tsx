@@ -1,5 +1,6 @@
-import styles from '@/components/Form/FieldWrapper/FieldWrapper.module.css';
 import { PropsWithChildren } from 'react';
+
+import styles from '@/components/Form/FieldWrapper/FieldWrapper.module.css';
 
 type Props = {
   error?: string | undefined;

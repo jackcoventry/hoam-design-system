@@ -1,8 +1,9 @@
-import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
+import { describe, expect, it, vi } from 'vitest';
 
 import { PromoSection } from '@/components/PromoSection';
-import { describe, expect, it, vi } from 'vitest';
+
+import '@testing-library/jest-dom';
 
 vi.mock('@/components/Button', () => {
   return {

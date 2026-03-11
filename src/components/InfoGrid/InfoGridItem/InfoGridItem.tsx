@@ -1,5 +1,6 @@
-import styles from '@/components/InfoGrid/InfoGridItem/InfoGridItem.module.css';
 import clsx from 'clsx';
+
+import styles from '@/components/InfoGrid/InfoGridItem/InfoGridItem.module.css';
 
 export type InfoGridItemProps = {
   title: string;

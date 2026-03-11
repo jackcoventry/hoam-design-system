@@ -1,11 +1,13 @@
-import styles from '@/components/BlogArticle/BlogArticle.module.css';
-import socialLinks from '@/mocks/socialLinks'; // TODO: Remove mocks from components
+import { ReactNode } from 'react';
+
 import {
   formatISODate,
   formatReadableDate,
   parseLooseDate,
 } from '@/utils/convertDates/convertDates';
-import { ReactNode } from 'react';
+import socialLinks from '@/mocks/socialLinks'; // TODO: Remove mocks from components
+
+import styles from '@/components/BlogArticle/BlogArticle.module.css';
 
 type BlogImage = {
   src: string;

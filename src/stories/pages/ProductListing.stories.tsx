@@ -1,8 +1,9 @@
+import { Meta } from '@storybook/react-vite';
+
 import { Pagination } from '@/components/Pagination';
 import { ProductTile } from '@/components/ProductTile';
-import Data from '@/mocks/components/ProductTile';
 import BaseTemplate from '@/templates/Base';
-import { Meta } from '@storybook/react-vite';
+import Data from '@/mocks/components/ProductTile';
 
 const meta: Meta = {
   title: 'Pages/Product Listing',

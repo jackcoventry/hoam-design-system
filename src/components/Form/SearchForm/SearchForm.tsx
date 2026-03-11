@@ -1,9 +1,11 @@
-import { Button } from '@/components/Button/Button';
-import '@/components/Common/Loader.css';
-import styles from '@/components/Form/SearchForm/SearchForm.module.css';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import z from 'zod';
+
+import { Button } from '@/components/Button/Button';
+
+import '@/components/Common/Loader.css';
+import styles from '@/components/Form/SearchForm/SearchForm.module.css';
 
 const SearchFormSchema = z.object({
   q: z.string().trim().min(1, { message: 'Required' }),

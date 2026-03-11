@@ -1,9 +1,8 @@
-import { SidebarNavigation } from '@/components/SidebarNavigation';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
 import { beforeEach, describe, expect, it, Mock, vi } from 'vitest';
 
+import { SidebarNavigation } from '@/components/SidebarNavigation';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 
 // Mock the media query hook so we can force "mobile" vs "desktop"

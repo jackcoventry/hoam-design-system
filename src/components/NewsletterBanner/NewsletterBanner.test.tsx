@@ -1,8 +1,8 @@
-import { NewsletterBanner } from '@/components/NewsletterBanner';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+
+import { NewsletterBanner } from '@/components/NewsletterBanner';
 
 // Mock the Button component used by NewsletterBanner so we get a plain <button>
 vi.mock('@/components/Button/Button', () => {

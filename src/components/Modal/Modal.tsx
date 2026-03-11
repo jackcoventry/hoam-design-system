@@ -1,7 +1,3 @@
-import { useModalStack } from '@/components//Modal/ModalStackContext';
-import { Button } from '@/components/Button';
-import styles from '@/components/Modal/Modal.module.css';
-import { FOCUSABLE_SELECTORS } from '@/constants/focusable-selectors';
 import React, {
   KeyboardEvent,
   PropsWithChildren,
@@ -13,6 +9,12 @@ import React, {
   useRef,
 } from 'react';
 import { createPortal } from 'react-dom';
+
+import { useModalStack } from '@/components//Modal/ModalStackContext';
+import { Button } from '@/components/Button';
+import { FOCUSABLE_SELECTORS } from '@/constants/focusable-selectors';
+
+import styles from '@/components/Modal/Modal.module.css';
 
 export type ModalVariant = 'modal' | 'drawer';
 

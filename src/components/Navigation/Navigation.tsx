@@ -1,14 +1,13 @@
+import { useMemo, useState } from 'react';
+import { SubmitHandler } from 'react-hook-form';
+
+import type { SearchFormResult, SearchFormSchemaType } from '@/components/Form';
+import { DesktopNavigation, MobileNavigation, NavigationModals } from '@/components/Navigation';
+import type { NavigationProps } from '@/components/Navigation/types';
 import { useMockRequest } from '@/hooks/useMockRequest';
 import { useMegaNavState } from '@/hooks/useNavState';
 import BasketItemData from '@/mocks/components/Basket';
 import SearchResultsData from '@/mocks/components/SearchResults';
-import { useMemo, useState } from 'react';
-import { SubmitHandler } from 'react-hook-form';
-
-import { DesktopNavigation, MobileNavigation, NavigationModals } from '@/components/Navigation';
-
-import type { SearchFormResult, SearchFormSchemaType } from '@/components/Form';
-import type { NavigationProps } from '@/components/Navigation/types';
 
 export function Navigation({
   items = [],
