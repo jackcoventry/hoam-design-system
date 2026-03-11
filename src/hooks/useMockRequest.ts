@@ -1,17 +1,31 @@
 import { useCallback, useState } from 'react';
 
-type MockOptions<T> = {
+export type MockResponse<T> = T | (() => T);
+
+export type MockOptions<T> = {
   delay?: number;
   shouldFail?: boolean;
-  response: T | (() => T);
+  response: MockResponse<T>;
 };
 
-export function useMockRequest<T = unknown>() {
+export type UseMockRequestReturn<T> = {
+  data: T | null;
+  loading: boolean;
+  error: Error | null;
+  run: (options: MockOptions<T>) => Promise<T>;
+  reset: () => void;
+};
+
+function resolveMockResponse<T>(response: MockResponse<T>): T {
+  return typeof response === 'function' ? (response as () => T)() : response;
+}
+
+export function useMockRequest<T = unknown>(): UseMockRequestReturn<T> {
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
-  const run = useCallback(async (options: MockOptions<T>) => {
+  const run = useCallback<UseMockRequestReturn<T>['run']>((options) => {
     const { delay = 1000, shouldFail = false, response } = options;
 
     setLoading(true);
@@ -27,7 +41,7 @@ export function useMockRequest<T = unknown>() {
           return;
         }
 
-        const result = typeof response === 'function' ? (response as () => T)() : response;
+        const result = resolveMockResponse(response);
 
         setData(result);
         setLoading(false);
@@ -36,7 +50,7 @@ export function useMockRequest<T = unknown>() {
     });
   }, []);
 
-  const reset = useCallback(() => {
+  const reset = useCallback((): void => {
     setData(null);
     setError(null);
     setLoading(false);

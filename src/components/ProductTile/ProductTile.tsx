@@ -1,7 +1,6 @@
-import { BadgeList, BadgeListItem } from '@/components/BadgeList';
-import { Button } from '@/components/Button';
+import { BadgeList, BadgeListItem, Button } from '@/components';
 
-import styles from '@/components/ProductTitle/ProductTile.module.css';
+import styles from '@/components/ProductTile/ProductTile.module.css';
 
 type ProductPrice = {
   amount: number;

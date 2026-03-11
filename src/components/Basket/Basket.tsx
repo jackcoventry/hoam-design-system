@@ -1,5 +1,4 @@
-import { Button } from '@/components/Button/Button';
-import QuantitySelector from '@/components/QuantitySelector/QuantitySelector';
+import { Button, QuantitySelector } from '@/components';
 import { convertNumberToCurrency } from '@/utils/convertNumberToCurrency';
 
 import styles from '@/components/Basket/Basket.module.css';

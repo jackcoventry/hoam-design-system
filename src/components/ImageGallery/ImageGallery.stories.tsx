@@ -1,4 +1,4 @@
-import ImageGallery from '@/components/ImageGallery/ImageGallery';
+import { ImageGallery } from '@/components/ImageGallery';
 import ImageGalleryMockData from '@/mocks/components/ImageGallery';
 import { Meta, StoryObj } from '@storybook/react-vite';
 

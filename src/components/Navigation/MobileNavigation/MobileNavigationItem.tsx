@@ -7,7 +7,7 @@ type MobileNavigationItemProps = {
 };
 
 function hasChildren(item: NavTreeItem): item is NavTreeItem & { items: NavTreeItem[] } {
-  return 'items' in item && Array.isArray(item.items) && item.items.length > 0;
+  return 'items' in item && Array.isArray(item?.items) && item?.items?.length > 0;
 }
 
 function hasHref(item: NavTreeItem): item is NavTreeItem & { href: string } {
@@ -69,7 +69,7 @@ export function MobileNavigationItem({ item }: Readonly<MobileNavigationItemProp
                 </li>
               ) : null}
 
-              {item.items.map((child) => (
+              {item?.items?.map((child) => (
                 <MobileNavigationItem
                   key={child.id}
                   item={child}

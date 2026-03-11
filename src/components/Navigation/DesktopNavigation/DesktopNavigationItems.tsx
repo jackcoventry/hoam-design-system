@@ -38,7 +38,7 @@ export function DesktopNavigationItems({
   return (
     <TopNavigation>
       {items.map((item, index) => {
-        const hasPanel = Boolean(item.items?.length);
+        const hasPanel = Boolean(item?.items?.length);
         const isOpen = openIndex === index;
 
         return (
@@ -62,7 +62,7 @@ export function DesktopNavigationItems({
                 onEnter={() => clearLeave()}
                 left={
                   <div className={styles.panelTopLevel}>
-                    {item.items?.map((sub) => {
+                    {item?.items?.map((sub) => {
                       if (!isNavGroupItem(sub)) {
                         return (
                           <div

@@ -1,7 +1,11 @@
-import { Accordion, AccordionHeader, AccordionItem, AccordionPanel } from '@/components/Accordion';
-import { DesktopTabs } from '@/components/Tabs';
-import { useMediaQuery } from '@/hooks/useMediaQuery';
-import './Tabs.css';
+import {
+  Accordion,
+  AccordionHeader,
+  AccordionItem,
+  AccordionPanel,
+  DesktopTabs,
+} from '@/components';
+import { useMediaQuery } from '@/hooks';
 
 type Layout = 'horizontal' | 'vertical' | undefined;
 type Mode = 'manual' | 'automatic' | undefined;

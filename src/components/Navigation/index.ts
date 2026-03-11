@@ -17,6 +17,3 @@ export { MobileNavigation } from '@/components/Navigation/MobileNavigation/Mobil
 export { MobileNavigationItem } from '@/components/Navigation/MobileNavigation/MobileNavigationItem';
 
 export { NavigationModals } from '@/components/Navigation/Modals/NavigationModals';
-
-export { useKeyboardNav } from '@/components/Navigation/hooks/useKeyboardNav';
-export { useMegaNavState } from '@/components/Navigation/hooks/useNavState';

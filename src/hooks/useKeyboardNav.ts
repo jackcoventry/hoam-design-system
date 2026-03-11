@@ -111,7 +111,7 @@ export function useKeyboardNav({
             if (!item?.items?.length) return;
 
             setOpenIndex(itemIndex);
-            setOpenGroupId(item.items[0]?.id ?? null);
+            setOpenGroupId(item?.items[0]?.id ?? null);
 
             requestAnimationFrame(() => {
               const panelRoot =

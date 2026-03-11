@@ -1,4 +1,4 @@
-import styles from '@/components/Form/Select.Select.module.css';
+import styles from '@/components/Form/Select/Select.module.css';
 import {
   ChangeEvent,
   ForwardedRef,

@@ -59,7 +59,7 @@ export function ThirdLevelItems({
         {layout === 'thumbnail' ? (
           <div className="container-fluid">
             <div className="grid">
-              {items.map((item) => (
+              {items?.map((item) => (
                 <div
                   className="span-12 md:span-4"
                   key={item.id}
@@ -78,7 +78,7 @@ export function ThirdLevelItems({
                       <span className={styles.panelGroupHeader}>{item.label}</span>
                     )}
 
-                    {item.items.map((child) => (
+                    {item?.items?.map((child) => (
                       <a
                         href={child.href}
                         key={child.id}
@@ -112,7 +112,7 @@ export function ThirdLevelItems({
                 <span className={styles.panelGroupHeader}>{item.label}</span>
               )}
 
-              {item.items.map((child) => (
+              {item?.items?.map((child) => (
                 <a
                   href={child.href}
                   key={child.id}

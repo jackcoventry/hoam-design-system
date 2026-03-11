@@ -1,5 +1,4 @@
-import Pagination from '@/components/Pagination/Pagination';
-import ProductTile from '@/components/ProductTile/ProductTile';
+import { Pagination, ProductTile } from '@/components';
 import Data from '@/mocks/components/ProductTile';
 import BaseTemplate from '@/templates/Base';
 import { Meta } from '@storybook/react-vite';
@@ -17,7 +16,7 @@ export default meta;
 const productArray = [1, 2, 3];
 
 const Template = {
-  render: (args) => (
+  render: (args: any) => (
     <BaseTemplate>
       <div className="container">
         <div className="grid gap-lg mb-2xl">

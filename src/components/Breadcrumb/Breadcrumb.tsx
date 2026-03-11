@@ -1,4 +1,4 @@
-import { NavPanelLinkItem } from '@/components/Navigation/Navigation';
+import { NavPanelLinkItem } from '@/components/Navigation/types';
 
 import styles from '@/components/Breadcrumb/Breadcrumb.module.css';
 

@@ -1,5 +1,4 @@
-import { BlogArticle } from '@/components/BlogArticle';
-import NewsletterBanner from '@/components/NewsletterBanner/NewsletterBanner';
+import { BlogArticle, NewsletterBanner } from '@/components';
 import BaseTemplate from '@/templates/Base';
 import { Meta, StoryObj } from '@storybook/react-vite';
 

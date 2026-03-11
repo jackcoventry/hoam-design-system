@@ -1,7 +1,4 @@
-import Breadcrumb from '@/components/Breadcrumb/Breadcrumb';
-import ImageGallery from '@/components/ImageGallery/ImageGallery';
-import ProductInfo from '@/components/ProductInfo/ProductInfo';
-import RecommendedProducts from '@/components/RecommendedProducts/RecommendedProducts';
+import { Breadcrumb, ImageGallery, ProductInfo, RecommendedProducts } from '@/components';
 import BreadcrumbData from '@/mocks/components/Breadcrumb';
 import ImageGalleryMockData from '@/mocks/components/ImageGallery';
 import ProductInformationMockData from '@/mocks/components/ProductInformation';
@@ -24,7 +21,7 @@ const meta: Meta = {
 export default meta;
 
 const Template = {
-  render: (args) => {
+  render: (args: any) => {
     return (
       <BaseTemplate>
         <div className="container">

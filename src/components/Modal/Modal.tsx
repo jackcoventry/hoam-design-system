@@ -1,5 +1,4 @@
-import { Button } from '@/components/Button/Button';
-import { useModalStack } from '@/components/Modal';
+import { Button, useModalStack } from '@/components';
 import styles from '@/components/Modal/Modal.module.css';
 import { FOCUSABLE_SELECTORS } from '@/constants/focusable-selectors';
 import React, {

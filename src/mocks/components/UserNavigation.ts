@@ -1,4 +1,4 @@
-import type { NavUserItem } from '@/components/Navigation/Navigation';
+import type { NavUserItem } from '@/components/Navigation/types';
 
 const items = [
   {

@@ -1,5 +1,5 @@
-import { SignInForm, SignInFormResult, SignInFormSchemaType } from '@/components/Form';
-import { useMockRequest } from '@/hooks/useMockRequest';
+import { SignInForm, SignInFormResult, SignInFormSchemaType } from '@/components';
+import { useMockRequest } from '@/hooks';
 import BaseTemplate from '@/templates/Base';
 import { navigateToStory } from '@/utils/navigateToStory';
 import { Meta } from '@storybook/react-vite';
@@ -15,40 +15,42 @@ const meta: Meta = {
 };
 export default meta;
 
-const Template = {
-  render: () => {
-    const { data, loading, error, run } = useMockRequest<SignInFormResult>();
+function StoryTemplate() {
+  const { data, loading, error, run } = useMockRequest<SignInFormResult>();
 
-    const onSubmit: SubmitHandler<SignInFormSchemaType> = async () => {
-      await run({
-        delay: 500,
-        response: {
-          message: 'SUCCESS',
-        },
-      });
+  const onSubmit: SubmitHandler<SignInFormSchemaType> = async () => {
+    await run({
+      delay: 500,
+      response: {
+        message: 'SUCCESS',
+      },
+    });
 
-      setTimeout(() => {
-        navigateToStory('Pages/Homepage', 'Default');
-      }, 3000);
-    };
+    setTimeout(() => {
+      navigateToStory('Pages/Homepage', 'Default');
+    }, 3000);
+  };
 
-    return (
-      <BaseTemplate>
-        <div className="container | py-2xl">
-          <div className="grid">
-            <div className="span-12 lg:span-4 lg:start-5">
-              <SignInForm
-                onSubmit={onSubmit}
-                data={data}
-                loading={loading}
-                error={error}
-              />
-            </div>
+  return (
+    <BaseTemplate>
+      <div className="container | py-2xl">
+        <div className="grid">
+          <div className="span-12 lg:span-4 lg:start-5">
+            <SignInForm
+              onSubmit={onSubmit}
+              data={data}
+              loading={loading}
+              error={error}
+            />
           </div>
         </div>
-      </BaseTemplate>
-    );
-  },
+      </div>
+    </BaseTemplate>
+  );
+}
+
+const Template = {
+  render: StoryTemplate,
 };
 
 export const Default = { ...Template, args: {} };

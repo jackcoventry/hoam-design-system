@@ -1,4 +1,4 @@
-import { LogoCarousel } from '@/components/LogoCarousel';
+import { LogoCarousel } from '@/components';
 import { render, screen, waitFor, within } from '@testing-library/react';
 
 import { beforeEach, describe, expect, it } from 'vitest';

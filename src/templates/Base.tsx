@@ -1,6 +1,4 @@
-import Footer from '@/components/Footer/Footer';
-import Navigation from '@/components/Navigation/Navigation';
-import NotificationBar from '@/components/NotificationBar/NotificationBar';
+import { Footer, Navigation, NotificationBar } from '@/components';
 import FooterData from '@/mocks/components/Footer';
 import NavigationData from '@/mocks/components/Navigation';
 import NotificationBarData from '@/mocks/components/NotificationBar';

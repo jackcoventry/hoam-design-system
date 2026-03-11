@@ -1,10 +1,8 @@
-// InfoGrid.test.tsx
 import { assertHTMLElement } from '@/utils/test-utils';
 import { render, screen, within } from '@testing-library/react';
 
+import { InfoGrid, InfoGridItem } from '@/components';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import InfoGrid from './InfoGrid';
-import InfoGridItem from './InfoGridItem/InfoGridItem';
 
 function makeItem(i: number, icon = 'coffee') {
   return (

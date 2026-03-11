@@ -19,7 +19,7 @@ function getFocusableElements(root: HTMLElement): HTMLElement[] {
   );
 }
 
-function useFocusTrap({ containerRef, active, onEscape }: UseFocusTrapOptions) {
+export function useFocusTrap({ containerRef, active, onEscape }: UseFocusTrapOptions) {
   const lastFocusedRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
@@ -86,5 +86,3 @@ function useFocusTrap({ containerRef, active, onEscape }: UseFocusTrapOptions) {
     };
   }, [active, containerRef, onEscape]);
 }
-
-export default useFocusTrap;

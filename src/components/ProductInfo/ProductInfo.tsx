@@ -3,13 +3,20 @@ import { useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { Accordion, AccordionHeader, AccordionItem, AccordionPanel } from '@/components/Accordion';
-import { Button } from '@/components/Button';
-import { FieldWrapper, Select } from '@/components/Form';
-import { QuantitySelector } from '@/components/QuantitySelector';
-import { VariantSelector } from '@/components/VariantSelector';
+import {
+  Accordion,
+  AccordionHeader,
+  AccordionItem,
+  AccordionPanel,
+  BadgeList,
+  BadgeListItem,
+  Button,
+  FieldWrapper,
+  QuantitySelector,
+  Select,
+  VariantSelector,
+} from '@/components';
 
-import { BadgeList, BadgeListItem } from '@/components/BadgeList';
 import styles from '@/components/ProductInfo/ProductInfo.module.css';
 import { convertNumberToCurrency } from '@/utils/convertNumberToCurrency';
 import clsx from 'clsx';

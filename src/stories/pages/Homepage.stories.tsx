@@ -1,4 +1,3 @@
-import NotificationBar from '@/components/NotificationBar/NotificationBar';
 import FooterData from '@/mocks/components/Footer';
 import MockSlides from '@/mocks/components/Hero';
 import LogoCarouselData from '@/mocks/components/LogoCarousel';
@@ -9,13 +8,16 @@ import UserNavigationData from '@/mocks/components/UserNavigation';
 
 import { Meta } from '@storybook/react-vite';
 
-import Footer from '@/components/Footer/Footer';
-import { Hero } from '@/components/Hero/Hero';
-import { HeroSlide } from '@/components/Hero/HeroSlide';
-import LogoCarousel from '@/components/LogoCarousel/LogoCarousel';
-import Navigation from '@/components/Navigation/Navigation';
-import NewsletterBanner from '@/components/NewsletterBanner/NewsletterBanner';
-import PromoSection from '@/components/PromoSection/PromoSection';
+import {
+  Footer,
+  Hero,
+  HeroSlide,
+  LogoCarousel,
+  Navigation,
+  NewsletterBanner,
+  NotificationBar,
+  PromoSection,
+} from '@/components';
 
 const meta: Meta = {
   title: 'Pages/Homepage',

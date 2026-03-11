@@ -43,7 +43,7 @@ export type RegisterFormResult = {
 export type RegisterFormProps = {
   onSubmit: SubmitHandler<RegisterFormSchemaType>;
   loading: boolean;
-  data?: RegisterFormResult | null;
+  data?: RegisterFormResult | null | undefined;
   error?: Error | null;
 };
 

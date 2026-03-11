@@ -11,11 +11,11 @@ import 'swiper/css/effect-fade';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-type Props = {
+export type HeroProps = {
   children: React.ReactNode[];
 };
 
-export function Hero({ children, ...rest }: Readonly<Props>) {
+export function Hero({ children, ...rest }: Readonly<HeroProps>) {
   return (
     <div className={styles.root}>
       {Children.count(children) > 1 ? <HeroSlider {...rest}>{children}</HeroSlider> : children}

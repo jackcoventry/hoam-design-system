@@ -1,7 +1,6 @@
-import { Accordion, AccordionHeader, AccordionItem, AccordionPanel } from '@/components/Accordion';
-import { Button } from '@/components/Button';
+import { Accordion, AccordionHeader, AccordionItem, AccordionPanel, Button } from '@/components';
 import styles from '@/components/SidebarNavigation/SidebarNavigation.module.css';
-import { useMediaQuery } from '@/hooks/useMediaQuery';
+import { useMediaQuery } from '@/hooks';
 import { Activity, Suspense, useState } from 'react';
 
 type ItemProps = {

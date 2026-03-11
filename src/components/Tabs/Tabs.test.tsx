@@ -25,7 +25,7 @@ vi.mock('@/components/Accordion', () => {
   };
 });
 
-import { useMediaQuery } from '@/hooks/useMediaQuery';
+import { useMediaQuery } from '@/hooks';
 
 const mockedUseMediaQuery = useMediaQuery as unknown as Mock;
 

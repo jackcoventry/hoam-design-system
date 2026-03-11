@@ -45,8 +45,8 @@ export interface NavUserItem {
   label: string;
   href: string;
   icon: string;
-  title?: string;
-  action?: NavUserAction;
+  title?: string | undefined;
+  action?: NavUserAction | undefined;
 }
 
 export type NavTreeItem = NavTopLevelItem | NavPanelItem | NavBranchItem | NavLeafItem;

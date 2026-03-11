@@ -14,21 +14,21 @@ import 'swiper/css/pagination';
 import 'swiper/css/thumbs';
 
 import '@/components/Common/Dots.css';
-import './ImageGallery.css';
+import './ImageGallery.css'; // TODO: Refactor to css modules, might need to refactor entire component
 
 type ImageProps = {
-  id: string;
+  id: string | number;
   thumb?: string;
   src: string;
   alt?: string;
   title?: string;
 };
 
-export type Props = {
+export type ImageGalleryProps = {
   images?: ImageProps[];
 };
 
-function ImageGallery({ images = [] }: Readonly<Props>) {
+export function ImageGallery({ images = [] }: Readonly<ImageGalleryProps>) {
   const prevRef = useRef<HTMLButtonElement | null>(null);
   const nextRef = useRef<HTMLButtonElement | null>(null);
   const pagRef = useRef<HTMLDivElement | null>(null);
@@ -166,5 +166,3 @@ function ImageGallery({ images = [] }: Readonly<Props>) {
     </div>
   );
 }
-
-export default ImageGallery;
