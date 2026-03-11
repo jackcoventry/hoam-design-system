@@ -1,26 +1,26 @@
-.hoam-sidebar-navigation__link {
+.link {
   color: var(--hoam-color-moon-900);
   font: var(--hoam-typography-body-1);
   text-decoration: none;
 }
 
-.hoam-sidebar-navigation__link:hover {
+.link:hover {
   color: var(--hoam-color-moon-700);
   text-decoration: underline;
 }
 
-.hoam-sidebar-navigation__list {
+.list {
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
-.hoam-sidebar-navigation__section-title {
+.sectionTitle {
   font: var(--hoam-typography-title-3);
   margin-bottom: var(--hoam-spacing-1);
 }
 
-.hoam-sidebar-navigation__top-level-item {
+.topLevelItem {
   border-bottom: 1px solid var(--hoam-color-moon-200);
   margin-bottom: var(--hoam-spacing-6);
   padding-bottom: var(--hoam-spacing-6);

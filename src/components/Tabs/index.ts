@@ -1,4 +1,4 @@
-export { Tabs } from './Tabs';
-export type { TabProps, TabsProps } from './Tabs';
+export { Tabs } from '@/components/Tabs/Tabs';
+export type { TabProps, TabsProps } from '@/components/Tabs/Tabs';
 
-export { DesktopTabs } from './Desktop';
+export { DesktopTabs } from '@/components/Tabs/Desktop';

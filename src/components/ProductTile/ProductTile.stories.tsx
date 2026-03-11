@@ -1,4 +1,4 @@
-import ProductTile from '@/components/ProductTile/ProductTile';
+import { ProductTile } from '@/components/ProductTile';
 import Data from '@/mocks/components/ProductTile';
 import { Meta, StoryObj } from '@storybook/react-vite';
 

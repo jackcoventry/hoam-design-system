@@ -1,5 +1,6 @@
+import { type TabsProps } from '@/components/Tabs';
+import styles from '@/components/Tabs/Tabs.module.css';
 import { Activity, KeyboardEvent, Suspense, useRef, useState } from 'react';
-import { type TabsProps } from './Tabs';
 
 export function DesktopTabs({
   title,
@@ -84,7 +85,7 @@ export function DesktopTabs({
 
   return (
     <div
-      className="hoam-tabs"
+      className={styles.root}
       data-layout={layout}
       data-mode={mode}
     >
@@ -92,7 +93,7 @@ export function DesktopTabs({
         role="tablist"
         aria-label={title}
         aria-orientation={isVertical ? 'vertical' : 'horizontal'}
-        className="hoam-tabs__list"
+        className={styles.list}
       >
         {items?.map((tab, index) => {
           const id = tab.id;
@@ -113,7 +114,7 @@ export function DesktopTabs({
               }}
               onClick={() => setActiveTab(id)}
               onKeyDown={(event) => handleTabKeyDown(event, index, id)}
-              className="hoam-tabs__control"
+              className={styles.control}
             >
               {tab.label}
             </button>
@@ -135,7 +136,7 @@ export function DesktopTabs({
                 id={`hoam-panel-${id}`}
                 aria-labelledby={`hoam-tab-${id}`}
                 hidden={!isActive}
-                className="hoam-tabs__panel"
+                className={styles.panel}
               >
                 {tab.content}
               </section>

@@ -1,9 +1,9 @@
-.hoam-quantity-selector__inner {
+.inner {
   display: inline-flex;
   align-items: center;
 }
 
-.hoam-quantity-selector__input {
+.input {
   width: 60px;
   text-align: center;
   border: none;
@@ -11,7 +11,7 @@
   font: var(--hoam-typography-body-1);
 }
 
-.hoam-quantity-selector__label {
+.label {
   display: flex;
   font: var(--hoam-typography-label-1);
   margin-bottom: var(--hoam-spacing-2);

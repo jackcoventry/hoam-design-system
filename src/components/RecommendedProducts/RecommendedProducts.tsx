@@ -1,16 +1,21 @@
-import ProductTile, { ProductTileProps } from '@/components/ProductTile/ProductTile';
+import { ProductTile, type ProductTileProps } from '@/components/ProductTile';
 
-import './RecommendedProducts.css';
+import styles from '@/components/RecommendedProducts/RecommendedProducts.module.css';
+import clsx from 'clsx';
 
-type RecommendedProductsProps = {
+export type RecommendedProductsProps = {
   title: string;
   description?: string;
   products: ProductTileProps[];
 };
 
-function RecommendedProducts({ title, description, products }: Readonly<RecommendedProductsProps>) {
+export function RecommendedProducts({
+  title,
+  description,
+  products,
+}: Readonly<RecommendedProductsProps>) {
   return (
-    <div className="hoam-recommended-products | py-2xl">
+    <div className={clsx(styles.root, 'py-2xl')}>
       {title && (
         <div className="container">
           <div className="grid gap-lg mb-xl">
@@ -40,5 +45,3 @@ function RecommendedProducts({ title, description, products }: Readonly<Recommen
     </div>
   );
 }
-
-export default RecommendedProducts;

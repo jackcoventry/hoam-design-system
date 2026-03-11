@@ -1,4 +1,4 @@
-.hoam-rich-link {
+.root {
   aspect-ratio: 16/9;
   border-radius: 5px;
   display: flex;
@@ -6,7 +6,7 @@
   position: relative;
 }
 
-.hoam-rich-link::after {
+.root::after {
   background-color: var(--hoam-color-neutral-100);
   content: "";
   display: block;
@@ -18,7 +18,7 @@
   width: 100%;
 }
 
-.hoam-rich-link:focus-within {
+.root:focus-within {
   /* TODO: this should be a utility */
   box-shadow:
     0 0 0 2px white,
@@ -26,11 +26,11 @@
   outline: none;
 }
 
-.hoam-rich-link:hover .hoam-rich-link__image {
+.root:hover .image {
   transform: scale(1.1);
 }
 
-.hoam-rich-link__image {
+.image {
   display: block;
   height: auto;
   object-fit: cover;
@@ -40,7 +40,7 @@
   width: 100%;
 }
 
-.hoam-rich-link__text {
+.text {
   bottom: var(--hoam-spacing-4);
   color: var(--hoam-color-moon-100);
   font: var(--hoam-typography-body-1);

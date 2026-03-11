@@ -5,10 +5,9 @@ import { z } from 'zod';
 
 import { Accordion, AccordionHeader, AccordionItem, AccordionPanel } from '@/components/Accordion';
 import { Button } from '@/components/Button';
-import { FieldWrapper } from '@/components/Form/FieldWrapper';
-import { Select } from '@/components/Form/Select/Select';
-import QuantitySelector from '@/components/QuantitySelector/QuantitySelector';
-import VariantSelector from '@/components/VariantSelector/VariantSelector';
+import { FieldWrapper, Select } from '@/components/Form';
+import { QuantitySelector } from '@/components/QuantitySelector';
+import { VariantSelector } from '@/components/VariantSelector';
 
 import { BadgeList, BadgeListItem } from '@/components/BadgeList';
 import styles from '@/components/ProductInfo/ProductInfo.module.css';

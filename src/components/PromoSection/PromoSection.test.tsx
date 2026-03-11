@@ -1,10 +1,10 @@
 import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 
+import { PromoSection } from '@/components/PromoSection';
 import { describe, expect, it, vi } from 'vitest';
-import PromoSection from './PromoSection';
 
-vi.mock('@/components/Button/Button', () => {
+vi.mock('@/components/Button', () => {
   return {
     Button: ({ children, className }: { children: React.ReactNode; className?: string }) => (
       <button
@@ -28,6 +28,7 @@ const baseProps = {
 
 function getOrderIndex(el: Element) {
   const grid = el.ownerDocument.querySelector('.grid');
+  if (!grid) return null;
   const children = Array.from(grid.children);
   return children.indexOf(el);
 }
@@ -96,7 +97,7 @@ describe('<PromoSection />', () => {
     expect(screen.queryByTestId('hoam-button')).not.toBeInTheDocument();
   });
 
-  it('orders image then text when alignment="left" )', () => {
+  it('orders image then text when alignment="left"', () => {
     render(
       <PromoSection
         title={baseProps.title}
@@ -112,16 +113,27 @@ describe('<PromoSection />', () => {
     const img = screen.getByRole('img', { name: baseProps.title });
     const imageWrapper = img.closest('.span-12');
     expect(imageWrapper).toBeInTheDocument();
+    if (!imageWrapper) throw new Error('Expected image wrapper to exist');
 
-    const content = screen.getByText(baseProps.description).closest('.span-12'); // text outer div
+    const content = screen.getByText(baseProps.description).closest('.span-12');
     expect(content).toBeInTheDocument();
+    if (!content) throw new Error('Expected content wrapper to exist');
 
     const grid = imageWrapper.ownerDocument.querySelector('.grid');
+    expect(grid).toBeInTheDocument();
+    if (!grid) throw new Error('Expected grid container to exist');
+
     const spacer = Array.from(grid.children).find((el) => el.classList.contains('lg:span-1'));
+    expect(spacer).toBeInTheDocument();
+    if (!spacer) throw new Error('Expected spacer element to exist');
 
     const imageIndex = getOrderIndex(imageWrapper);
     const spacerIndex = getOrderIndex(spacer);
     const contentIndex = getOrderIndex(content);
+
+    if (imageIndex === null || spacerIndex === null || contentIndex === null) {
+      throw new Error('Expected all order indices to exist');
+    }
 
     expect(imageIndex).toBeLessThan(spacerIndex);
     expect(spacerIndex).toBeLessThan(contentIndex);
@@ -142,14 +154,28 @@ describe('<PromoSection />', () => {
 
     const img = screen.getByRole('img', { name: baseProps.title });
     const imageWrapper = img.closest('.span-12');
+    expect(imageWrapper).toBeInTheDocument();
+    if (!imageWrapper) throw new Error('Expected image wrapper to exist');
+
     const content = screen.getByText(baseProps.description).closest('.span-12');
+    expect(content).toBeInTheDocument();
+    if (!content) throw new Error('Expected content wrapper to exist');
 
     const grid = imageWrapper.ownerDocument.querySelector('.grid');
+    expect(grid).toBeInTheDocument();
+    if (!grid) throw new Error('Expected grid container to exist');
+
     const spacer = Array.from(grid.children).find((el) => el.classList.contains('lg:span-1'));
+    expect(spacer).toBeInTheDocument();
+    if (!spacer) throw new Error('Expected spacer element to exist');
 
     const contentIndex = getOrderIndex(content);
     const spacerIndex = getOrderIndex(spacer);
     const imageIndex = getOrderIndex(imageWrapper);
+
+    if (imageIndex === null || spacerIndex === null || contentIndex === null) {
+      throw new Error('Expected all order indices to exist');
+    }
 
     expect(contentIndex).toBeLessThan(spacerIndex);
     expect(spacerIndex).toBeLessThan(imageIndex);

@@ -11,10 +11,7 @@ import {
   useMegaNavState,
 } from '@/components/Navigation';
 
-import type {
-  SearchFormResult,
-  SearchFormSchemaType,
-} from '@/components/Form/SearchForm/SearchForm';
+import type { SearchFormResult, SearchFormSchemaType } from '@/components/Form';
 import type { NavigationProps } from '@/components/Navigation/types';
 
 export function Navigation({

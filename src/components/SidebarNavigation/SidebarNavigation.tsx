@@ -1,21 +1,21 @@
 import { Accordion, AccordionHeader, AccordionItem, AccordionPanel } from '@/components/Accordion';
-import { Button } from '@/components/Button/Button';
+import { Button } from '@/components/Button';
+import styles from '@/components/SidebarNavigation/SidebarNavigation.module.css';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { Activity, Suspense, useState } from 'react';
-import './SidebarNavigation.css';
 
 type ItemProps = {
   id: string;
-  label: string;
   href?: string;
   items?: ItemProps[];
+  label: string;
 };
 
-type Props = {
+export type SidebarNavigationProps = {
   items?: ItemProps[] | undefined;
 };
 
-export function SidebarNavigation({ items = [] }: Readonly<Props>) {
+export function SidebarNavigation({ items = [] }: Readonly<SidebarNavigationProps>) {
   const isMobile = useMediaQuery('(max-width: 600px)');
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -38,16 +38,14 @@ export function SidebarNavigation({ items = [] }: Readonly<Props>) {
                     key={item.id}
                     id={item.id}
                   >
-                    <AccordionHeader className="hoam-sidebar-navigation__section-title">
-                      {item.label}
-                    </AccordionHeader>
+                    <AccordionHeader className={styles.sectionTitle}>{item.label}</AccordionHeader>
                     <AccordionPanel>
-                      <ul className="hoam-sidebar-navigation__list">
+                      <ul className={styles.list}>
                         {item?.items?.map((child: ItemProps) => (
                           <li key={child.id}>
                             <a
                               href={child.href}
-                              className="hoam-sidebar-navigation__link"
+                              className={styles.link}
                             >
                               {child.label}
                             </a>
@@ -66,20 +64,20 @@ export function SidebarNavigation({ items = [] }: Readonly<Props>) {
   }
 
   return (
-    <nav className="hoam-sidebar-navigation">
-      <ul className="hoam-sidebar-navigation__list">
+    <nav className={styles.root}>
+      <ul className={styles.list}>
         {items?.map((item: ItemProps) => (
           <li
             key={item.id}
-            className="hoam-sidebar-navigation__top-level-item"
+            className={styles.topLevelItem}
           >
-            <h2 className="hoam-sidebar-navigation__section-title">{item.label}</h2>
-            <ul className="hoam-sidebar-navigation__list">
+            <h2 className={styles.sectionTitle}>{item.label}</h2>
+            <ul className={styles.list}>
               {item?.items?.map((child) => (
                 <li key={child.id}>
                   <a
                     href={child.href}
-                    className="hoam-sidebar-navigation__link"
+                    className={styles.link}
                   >
                     {child.label}
                   </a>

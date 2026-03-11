@@ -1,8 +1,4 @@
-import {
-  RegisterForm,
-  RegisterFormResult,
-  RegisterFormSchemaType,
-} from '@/components/Form/RegisterForm/RegisterForm';
+import { RegisterForm, RegisterFormResult, RegisterFormSchemaType } from '@/components/Form';
 import { useMockRequest } from '@/hooks/useMockRequest';
 import BaseTemplate from '@/templates/Base';
 import { navigateToStory } from '@/utils/navigateToStory';

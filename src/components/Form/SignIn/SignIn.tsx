@@ -1,5 +1,5 @@
 import { Button } from '@/components/Button/Button';
-import { FieldWrapper } from '@/components/Form/FieldWrapper/FieldWrapper';
+import { FieldWrapper } from '@/components/Form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import z from 'zod';

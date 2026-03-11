@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { createRef } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { QuantitySelector, type QuantitySelectorProps } from './QuantitySelector';
+import { QuantitySelector, type QuantitySelectorProps } from '@/components/QuantitySelector';
 
 type SetupProps = Partial<QuantitySelectorProps>;
 

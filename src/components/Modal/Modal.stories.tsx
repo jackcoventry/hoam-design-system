@@ -4,7 +4,7 @@ import {
   SearchFormSchemaType,
   SearchLoader,
   SearchResults,
-} from '@/components/Form/SearchForm/SearchForm';
+} from '@/components/Form';
 import type { ModalRootProps } from '@/components/Modal';
 import { Modal } from '@/components/Modal';
 import { useMockRequest } from '@/hooks/useMockRequest';

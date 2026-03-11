@@ -1,7 +1,7 @@
 import { Button } from '@/components/Button';
 
+import styles from '@/components/QuantitySelector/QuantitySelector.module.css';
 import { forwardRef, KeyboardEvent, useEffect, useRef, useState } from 'react';
-import './QuantitySelector.css';
 
 export interface QuantitySelectorProps {
   value: number;
@@ -16,6 +16,7 @@ export interface QuantitySelectorProps {
 }
 
 // Ensures a number stays between the min and max bounds.
+// TODO: This can be reused
 function clamp(n: number, min: number, max: number) {
   if (Number.isFinite(min)) n = Math.max(n, min);
   if (Number.isFinite(max)) n = Math.min(n, max);
@@ -110,10 +111,10 @@ export const QuantitySelector = forwardRef<HTMLInputElement, QuantitySelectorPro
     useEffect(() => stopPress, []); // cleanup
 
     return (
-      <div className="hoam-quantity-selector">
-        {ariaLabel && <span className="hoam-quantity-selector__label">{ariaLabel}</span>}
+      <div className={styles.root}>
+        {ariaLabel && <span className={styles.label}>{ariaLabel}</span>}
 
-        <div className="hoam-quantity-selector__inner">
+        <div className={styles.inner}>
           <Button
             ariaLabel={decrementLabel}
             disabled={atMin}
@@ -135,7 +136,7 @@ export const QuantitySelector = forwardRef<HTMLInputElement, QuantitySelectorPro
             aria-valuenow={value}
             aria-valuemin={ariaMin}
             aria-valuemax={ariaMax}
-            className="hoam-quantity-selector__input"
+            className={styles.input}
           />
           <Button
             ariaLabel={incrementLabel}
@@ -153,5 +154,3 @@ export const QuantitySelector = forwardRef<HTMLInputElement, QuantitySelectorPro
 );
 
 QuantitySelector.displayName = 'QuantitySelector';
-
-export default QuantitySelector;

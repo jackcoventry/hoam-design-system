@@ -1,8 +1,9 @@
-import './Table.css';
+import styles from '@/components/Table/Table.module.css';
+import { PropsWithChildren } from 'react';
 
-function Table({ children }: { children: React.ReactNode }) {
+function Table({ children }: Readonly<PropsWithChildren>) {
   return (
-    <table className="hoam-table">
+    <table className={styles.root}>
       <tbody>{children}</tbody>
     </table>
   );

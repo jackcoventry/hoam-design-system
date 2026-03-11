@@ -1,4 +1,4 @@
-import { SidebarNavigation } from '@/components/SidebarNavigation/SidebarNavigation';
+import { SidebarNavigation } from '@/components/SidebarNavigation';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 

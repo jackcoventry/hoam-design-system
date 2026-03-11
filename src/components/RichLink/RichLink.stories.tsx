@@ -1,4 +1,4 @@
-import { RichLink } from '@/components/RichLink/RichLink';
+import { RichLink } from '@/components/RichLink';
 import MockData from '@/mocks/components/RichLinks';
 import { Meta, StoryObj } from '@storybook/react-vite';
 

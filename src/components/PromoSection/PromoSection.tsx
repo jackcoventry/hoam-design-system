@@ -1,18 +1,17 @@
-import { Button } from '@/components/Button/Button';
+import { Button } from '@/components/Button';
+import styles from '@/components/PromoSection/PromoSection.module.css';
 
-import './PromoSection.css';
-
-type PromoSectionProps = {
+export type PromoSectionProps = {
   title: string;
-  subtitle?: string;
-  description?: string;
-  linkUrl?: string;
-  linkText?: string;
-  imageUrl?: string;
-  alignment?: string;
+  subtitle?: string | undefined;
+  description?: string | undefined;
+  linkUrl?: string | undefined;
+  linkText?: string | undefined;
+  imageUrl?: string | undefined;
+  alignment?: string | undefined;
 };
 
-function PromoSection({
+export function PromoSection({
   title,
   subtitle,
   description,
@@ -26,24 +25,24 @@ function PromoSection({
       <img
         src={imageUrl}
         alt={title}
-        className="hoam-promo-section__image"
+        className={styles.image}
       />
     </div>
   );
 
   const contentText = () => (
     <div className="span-12 lg:span-6">
-      <div className="hoam-promo-section__content">
-        {subtitle && <h3 className="hoam-promo-section__subtitle">{subtitle}</h3>}
-        {title && <h2 className="hoam-promo-section__title">{title}</h2>}
-        {description && <p className="hoam-promo-section__description">{description}</p>}
-        {linkUrl && linkText && <Button className="hoam-promo-section__button">{linkText}</Button>}
+      <div className={styles.content}>
+        {subtitle && <h3 className={styles.subtitle}>{subtitle}</h3>}
+        {title && <h2 className={styles.title}>{title}</h2>}
+        {description && <p className={styles.description}>{description}</p>}
+        {linkUrl && linkText && <Button className={styles.button}>{linkText}</Button>}
       </div>
     </div>
   );
 
   return (
-    <div className="hoam-promo-section">
+    <div className={styles.root}>
       <div className="container">
         <div className="grid">
           {alignment === 'left' ? (
@@ -66,5 +65,3 @@ function PromoSection({
     </div>
   );
 }
-
-export default PromoSection;

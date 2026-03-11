@@ -19,7 +19,7 @@ export interface AccordionProps {
   defaultOpenIds?: string[];
   openIds?: string[];
   onChange?: (openIds: string[]) => void;
-  className?: string;
+  className?: string | undefined;
   children: ReactNode;
   showToggleAll?: boolean;
 }
@@ -32,7 +32,7 @@ export interface AccordionItemProps {
 
 export interface AccordionHeaderProps {
   children: ReactNode;
-  className?: string;
+  className?: string | undefined;
   disabled?: boolean;
 }
 

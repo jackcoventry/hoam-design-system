@@ -1,6 +1,8 @@
-import VariantSelector from '@/components/VariantSelector/VariantSelector';
+import { VariantSelector, type VariantSelectorProps } from '@/components/VariantSelector';
 import ProductInformationMockData from '@/mocks/components/ProductInformation';
 import { Meta, StoryObj } from '@storybook/react-vite';
+import { useState } from 'react';
+import { VariantValue } from './VariantSelector';
 
 const meta: Meta<typeof VariantSelector> = {
   title: 'Components/Variant Selector',
@@ -13,27 +15,29 @@ export default meta;
 
 type Story = StoryObj<typeof VariantSelector>;
 
+function StoryTemplate(args: Readonly<VariantSelectorProps>) {
+  const [active, setActive] = useState<VariantValue>('');
+
+  function onChange(value: VariantValue) {
+    setActive(value);
+  }
+
+  return (
+    <div>
+      <VariantSelector
+        {...args}
+        onChange={onChange}
+        value={active}
+        options={args.options}
+        variant={args.variant}
+        label="Option"
+      />
+    </div>
+  );
+}
+
 const Template: Story = {
-  render: (args) => {
-    const [active, setActive] = React.useState('');
-
-    function onChange(id: string) {
-      setActive(id);
-    }
-
-    return (
-      <div>
-        <VariantSelector
-          {...args}
-          onChange={onChange}
-          value={active}
-          options={args.options}
-          variant={args.variant}
-          label="Option"
-        />
-      </div>
-    );
-  },
+  render: StoryTemplate,
 };
 
 export const Label = {

@@ -1,7 +1,7 @@
-import { BadgeList, BadgeListItem } from '@/components/BadgeList/BadgeList';
-import { Button } from '@/components/Button/Button';
+import { BadgeList, BadgeListItem } from '@/components/BadgeList';
+import { Button } from '@/components/Button';
 
-import './ProductTile.css';
+import styles from '@/components/ProductTitle/ProductTile.module.css';
 
 type ProductPrice = {
   amount: number;
@@ -28,7 +28,7 @@ function formatPrice(value = 0, currency = 'GBP') {
   return result;
 }
 
-function ProductTile({
+export function ProductTile({
   title,
   productId,
   description,
@@ -38,10 +38,10 @@ function ProductTile({
   newItem,
 }: Readonly<ProductTileProps>) {
   return (
-    <div className="hoam-product-tile">
-      <div className="hoam-product-tile__image-wrapper">
+    <div className={styles.root}>
+      <div className={styles.imageWrapper}>
         {newItem || lowStock ? (
-          <div className="hoam-product-tile__badges">
+          <div className={styles.badges}>
             <BadgeList>{newItem && <BadgeListItem>NEW</BadgeListItem>}</BadgeList>
           </div>
         ) : null}
@@ -49,29 +49,29 @@ function ProductTile({
           <img
             src="https://images.unsplash.com/photo-1685384338018-1774719d5b69?auto=format&fit=crop&q=80&w=600&h=600"
             alt={title}
-            className="hoam-product-tile__image"
+            className={styles.image}
           />
         </figure>
       </div>
-      <h2 className="hoam-product-tile__title">
+      <h2 className={styles.title}>
         <a
           href={`#${productId}`}
-          className="hoam-product-tile__link"
+          className={styles.link}
         >
           <span>{title}</span>
         </a>
       </h2>
-      {description && <span className="hoam-product-tile__description">{description}</span>}
+      {description && <span className={styles.description}>{description}</span>}
       <p>
         <span
-          className="hoam-product-tile__price"
+          className={styles.price}
           data-price-status="current"
         >
           {formatPrice(price?.saleAmount || price?.amount, price?.currency)}
         </span>
         {!!price?.saleAmount && (
           <span
-            className="hoam-product-tile__price"
+            className={styles.price}
             data-price-status="previous"
           >
             {formatPrice(price?.amount, price?.currency)}
@@ -81,7 +81,7 @@ function ProductTile({
       <div>
         <Button
           disabled={!inStock}
-          className="hoam-product-tile__button"
+          className={styles.button}
         >
           {inStock ? 'Add to cart' : 'Out of stock'}
         </Button>
@@ -89,5 +89,3 @@ function ProductTile({
     </div>
   );
 }
-
-export default ProductTile;

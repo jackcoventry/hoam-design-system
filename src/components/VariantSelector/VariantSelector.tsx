@@ -1,7 +1,8 @@
+import styles from '@/components/VariantSelector/VariantSelector.module.css';
+import clsx from 'clsx';
 import { forwardRef, useId, useMemo, useRef, useState } from 'react';
-import './VariantSelector.css';
 
-type VariantValue = string | number;
+export type VariantValue = string | number;
 
 export type VariantOption = {
   label: string;
@@ -15,11 +16,11 @@ export type VariantSelectorProps = {
   value: VariantValue | null;
   onChange: (value: VariantValue) => void;
   options: VariantOption[];
-  label?: string;
+  label?: string | undefined;
   required?: boolean;
-  orientation?: 'horizontal' | 'vertical';
+  orientation?: 'horizontal' | 'vertical' | undefined;
   wrap?: boolean; // whether arrow navigation circles around or stops at end
-  variant?: 'color' | 'image' | 'label';
+  variant?: 'color' | 'image' | 'label' | undefined;
 };
 
 function focusNextTick(fn: () => void) {
@@ -73,7 +74,7 @@ export const VariantSelector = forwardRef<HTMLInputElement, VariantSelectorProps
           if (i >= len) i = 0;
         }
         if (i < 0 || i >= len) return from; // no wrap: stop at edges
-        if (!options[i].disabled) return i;
+        if (!options[i]?.disabled) return i;
       }
       return from;
     }
@@ -84,7 +85,8 @@ export const VariantSelector = forwardRef<HTMLInputElement, VariantSelectorProps
         start === -1 ? options.findIndex((o) => !o.disabled) : nextEnabledIndex(start, move);
 
       if (target !== -1 && target !== start) {
-        const targetVal = options[target].value;
+        const targetVal = options[target]?.value;
+        if (!targetVal) return null;
         onChange(targetVal);
         focusNextTick(() => inputRefs.current[target]?.focus());
       }
@@ -100,22 +102,22 @@ export const VariantSelector = forwardRef<HTMLInputElement, VariantSelectorProps
     return (
       <fieldset
         aria-required={required || undefined}
-        className="hoam-variant-selector"
+        className={styles.root}
       >
         {label ? (
-          <div className="hoam-variant-selector__label">
+          <div className={styles.label}>
             <legend
-              className="hoam-variant-selector__legend"
+              className={styles.legend}
               id={legendId}
             >
               {label}
             </legend>
-            <span className="hoam-variant-selector__selected">{getLabelFromValue(value)}</span>
+            <span className={styles.selected}>{getLabelFromValue(value)}</span>
           </div>
         ) : null}
 
         <div
-          className="hoam-variant-selector__items"
+          className={styles.items}
           ref={groupRef}
           role="radiogroup"
           aria-orientation={orientation}
@@ -139,7 +141,7 @@ export const VariantSelector = forwardRef<HTMLInputElement, VariantSelectorProps
           // When focus leaves the entire group, restore tabIndex=0
           onBlurCapture={(e) => {
             const next = e.relatedTarget as Node | null;
-            const stillInside = next && groupRef.current && groupRef.current.contains(next);
+            const stillInside = next && groupRef.current?.contains(next);
             if (!stillInside && groupTabIndex !== 0) {
               setGroupTabIndex(0);
             }
@@ -170,7 +172,7 @@ export const VariantSelector = forwardRef<HTMLInputElement, VariantSelectorProps
             return (
               <label
                 key={opt.value}
-                className="hoam-variant-selector__item"
+                className={styles.item}
               >
                 <input
                   ref={setRef}
@@ -182,25 +184,25 @@ export const VariantSelector = forwardRef<HTMLInputElement, VariantSelectorProps
                   required={required}
                   onChange={() => onChange(opt.value)}
                   aria-label={opt.label}
-                  className="hoam-variant-selector__radio | sr-only"
+                  className={clsx(styles.radio, 'sr-only')}
                 />
-                <span className="hoam-variant-selector__visual">
+                <span className={styles.visual}>
                   <span
-                    className="hoam-variant-selector__indicator"
+                    className={styles.indicator}
                     style={{
                       backgroundColor:
-                        variant === 'color' ? opt.displayValue.toString() : undefined,
+                        variant === 'color' ? opt?.displayValue?.toString() : undefined,
                     }}
                   >
                     {variant === 'image' ? (
                       <img
-                        src={opt.displayValue.toString()}
+                        src={opt?.displayValue?.toString()}
                         alt={opt.label}
-                        className="hoam-variant-selector__image"
+                        className={styles.image}
                       />
                     ) : null}
                     {variant === 'label' && (
-                      <span className="hoam-variant-selector__indicator-text">{opt.label}</span>
+                      <span className={styles.indicatorText}>{opt.label}</span>
                     )}
                   </span>
                 </span>
@@ -214,5 +216,3 @@ export const VariantSelector = forwardRef<HTMLInputElement, VariantSelectorProps
 );
 
 VariantSelector.displayName = 'VariantSelector';
-
-export default VariantSelector;

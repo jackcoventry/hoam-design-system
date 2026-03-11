@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 
+import { RichLink } from '@/components/RichLink';
 import { describe, expect, it } from 'vitest';
-import { RichLink } from './RichLink';
 
 describe('RichLink', () => {
   const mockProps = {

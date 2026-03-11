@@ -1,4 +1,4 @@
-import PromoSection from '@/components/PromoSection/PromoSection';
+import { PromoSection } from '@/components/PromoSection';
 import PromoSectionData from '@/mocks/components/PromoSection';
 import { Meta, StoryObj } from '@storybook/react-vite';
 

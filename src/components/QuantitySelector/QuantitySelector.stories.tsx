@@ -1,5 +1,6 @@
-import QuantitySelector from '@/components/QuantitySelector/QuantitySelector';
+import { QuantitySelector } from '@/components/QuantitySelector';
 import { Meta, StoryObj } from '@storybook/react-vite';
+import { useState } from 'react';
 
 const meta: Meta<typeof QuantitySelector> = {
   title: 'Components/Quantity Selector',
@@ -12,25 +13,27 @@ export default meta;
 
 type Story = StoryObj<typeof QuantitySelector>;
 
+function StoryTemplate(args: any) {
+  const [qty, setQty] = useState(0);
+
+  function onChange(value: number) {
+    setQty(value);
+  }
+
+  return (
+    <div>
+      <QuantitySelector
+        {...args}
+        onChange={onChange}
+        value={qty}
+        max={13}
+      />
+    </div>
+  );
+}
+
 const Template: Story = {
-  render: (args) => {
-    const [qty, setQty] = React.useState(0);
-
-    function onChange(value: number) {
-      setQty(value);
-    }
-
-    return (
-      <div>
-        <QuantitySelector
-          {...args}
-          onChange={onChange}
-          value={qty}
-          max={13}
-        />
-      </div>
-    );
-  },
+  render: StoryTemplate,
 };
 
 export const Default = { ...Template, args: {} };

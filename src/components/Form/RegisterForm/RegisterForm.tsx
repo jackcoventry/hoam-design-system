@@ -1,12 +1,12 @@
 import { Button } from '@/components/Button/Button';
 import '@/components/Common/Loader.css';
-import { FieldLabel } from '@/components/Form/FieldLabel/FieldLabel';
-import { FieldWrapper } from '@/components/Form/FieldWrapper/FieldWrapper';
-import styles from '@/components/Form/Form.module.css';
 import {
+  FieldLabel,
+  FieldWrapper,
   PasswordStrengthMeter,
   calculatePasswordStrength,
-} from '@/components/Form/PasswordStrengthMeter';
+} from '@/components/Form';
+import styles from '@/components/Form/Form.module.css';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import z from 'zod';

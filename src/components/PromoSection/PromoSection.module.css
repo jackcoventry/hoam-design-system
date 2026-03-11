@@ -1,13 +1,13 @@
-.hoam-promo-section {
+.root {
   background-color: var(--hoam-color-moon-600);
   padding: var(--hoam-spacing-8) var(--hoam-spacing-2);
 }
 
-.hoam-promo-section__button {
+.button {
   margin: 0 auto;
 }
 
-.hoam-promo-section__content {
+.content {
   align-items: center;
   display: flex;
   flex-direction: column;
@@ -17,19 +17,19 @@
   text-align: center;
 }
 
-.hoam-promo-section__description {
+.description {
   font: var(--hoam-typography-body-1);
 }
 
-.hoam-promo-section__image {
+.image {
   width: 100%;
 }
 
-.hoam-promo-section__title {
+.title {
   font: var(--hoam-typography-title-2);
 }
 
-.hoam-promo-section__subtitle {
+.subtitle {
   font: var(--hoam-typography-body-1);
   letter-spacing: 0.25rem;
   text-transform: uppercase;

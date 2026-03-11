@@ -1,8 +1,4 @@
-import {
-  SignInForm,
-  SignInFormResult,
-  SignInFormSchemaType,
-} from '@/components/Form/SignIn/SignIn';
+import { SignInForm, SignInFormResult, SignInFormSchemaType } from '@/components/Form';
 import { useMockRequest } from '@/hooks/useMockRequest';
 import BaseTemplate from '@/templates/Base';
 import { navigateToStory } from '@/utils/navigateToStory';

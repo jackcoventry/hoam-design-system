@@ -1,4 +1,4 @@
-import './RichLink.css';
+import styles from '@/components/RichLink/RichLink.module.css';
 
 export type RichLinkProps = {
   href: string;
@@ -11,13 +11,13 @@ export function RichLink({ href, title, image, imageAlt = '' }: Readonly<RichLin
   return (
     <a
       href={href}
-      className="hoam-rich-link"
+      className={styles.root}
     >
-      <span className="hoam-rich-link__text">{title}</span>
+      <span className={styles.text}>{title}</span>
       <img
         src={image}
         alt={imageAlt}
-        className="hoam-rich-link__image"
+        className={styles.image}
       />
     </a>
   );
