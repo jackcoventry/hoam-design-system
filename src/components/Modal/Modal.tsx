@@ -10,8 +10,8 @@ import React, {
 } from 'react';
 import { createPortal } from 'react-dom';
 
-import { useModalStack } from '@/components//Modal/ModalStackContext';
 import { Button } from '@/components/Button';
+import { useModalStack } from '@/components/Modal/ModalStackContext';
 import { FOCUSABLE_SELECTORS } from '@/constants/focusable-selectors';
 
 import styles from '@/components/Modal/Modal.module.css';

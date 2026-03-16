@@ -2,8 +2,8 @@ import { Accordion, AccordionHeader, AccordionItem, AccordionPanel } from '@/com
 import { DesktopTabs } from '@/components/Tabs';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 
-type Layout = 'horizontal' | 'vertical' | undefined;
-type Mode = 'manual' | 'automatic' | undefined;
+type Layout = 'horizontal' | 'vertical';
+type Mode = 'manual' | 'automatic';
 
 export type TabProps = {
   id: string;
@@ -18,28 +18,36 @@ export type TabsProps = {
   mode?: Mode;
 };
 
-export function Tabs(props: Readonly<TabsProps>) {
+export function Tabs({ title, items, layout, mode }: Readonly<TabsProps>) {
   const isMobile = useMediaQuery('(max-width: 600px)');
 
   if (isMobile) {
     return (
-      <div>
-        <Accordion>
-          {props?.items?.map((tab) => {
-            return (
-              <AccordionItem
-                key={tab.id}
-                id={tab.id}
-              >
-                <AccordionHeader>{tab.label}</AccordionHeader>
-                <AccordionPanel>{tab.content}</AccordionPanel>
-              </AccordionItem>
-            );
-          })}
+      <section aria-label={title}>
+        <Accordion
+          className="hoam-tabs-mobile"
+          showToggleAll={false}
+        >
+          {items.map((tab) => (
+            <AccordionItem
+              key={tab.id}
+              id={tab.id}
+            >
+              <AccordionHeader>{tab.label}</AccordionHeader>
+              <AccordionPanel>{tab.content}</AccordionPanel>
+            </AccordionItem>
+          ))}
         </Accordion>
-      </div>
+      </section>
     );
   }
 
-  return <DesktopTabs {...props} />;
+  return (
+    <DesktopTabs
+      title={title}
+      items={items}
+      {...(layout === undefined ? {} : { layout })}
+      {...(mode === undefined ? {} : { mode })}
+    />
+  );
 }

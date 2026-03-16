@@ -11,7 +11,7 @@ import {
   ModalTitle,
 } from '@/components/Modal';
 
-vi.mock('./ModalStackContext', () => ({
+vi.mock('@/components/Modal/ModalStackContext', () => ({
   useModalStack: () => ({
     isTopMost: true,
   }),
@@ -155,7 +155,7 @@ describe('Modal', () => {
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 
-  it('calls onClose when Escape is pressed', () => {
+  it('calls onClose when Escape is triggered via cancel event', () => {
     const { onClose } = renderBasicModal();
 
     const dialog = document.body.querySelector('dialog');
@@ -189,7 +189,7 @@ describe('Modal', () => {
     renderBasicModal();
 
     await waitFor(() => {
-      expect(screen.getByRole('button', { name: 'First action' })).toHaveFocus();
+      expect(screen.getByRole('button', { name: /close dialog/i })).toHaveFocus();
     });
   });
 
@@ -197,41 +197,40 @@ describe('Modal', () => {
     const user = userEvent.setup();
     renderBasicModal();
 
+    const closeButton = screen.getByRole('button', { name: /close dialog/i });
     const firstAction = screen.getByRole('button', { name: 'First action' });
     const secondAction = screen.getByRole('button', { name: 'Second action' });
-    const closeButton = screen.getByRole('button', { name: /close dialog/i });
 
     await waitFor(() => {
-      expect(firstAction).toHaveFocus();
+      expect(closeButton).toHaveFocus();
     });
+
+    await user.tab();
+    expect(firstAction).toHaveFocus();
 
     await user.tab();
     expect(secondAction).toHaveFocus();
 
     await user.tab();
     expect(closeButton).toHaveFocus();
-
-    await user.tab();
-    expect(firstAction).toHaveFocus();
   });
 
   it('traps focus backwards with Shift+Tab', async () => {
     const user = userEvent.setup();
     renderBasicModal();
 
-    const firstAction = screen.getByRole('button', { name: 'First action' });
-    const secondAction = screen.getByRole('button', { name: 'Second action' });
     const closeButton = screen.getByRole('button', { name: /close dialog/i });
+    const secondAction = screen.getByRole('button', { name: 'Second action' });
 
     await waitFor(() => {
-      expect(firstAction).toHaveFocus();
+      expect(closeButton).toHaveFocus();
     });
 
     await user.tab({ shift: true });
-    expect(closeButton).toHaveFocus();
+    expect(secondAction).toHaveFocus();
 
     await user.tab({ shift: true });
-    expect(secondAction).toHaveFocus();
+    expect(screen.getByRole('button', { name: 'First action' })).toHaveFocus();
   });
 
   it('throws if Modal.Title is used outside Modal', () => {

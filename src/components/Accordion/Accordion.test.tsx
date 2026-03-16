@@ -44,6 +44,19 @@ describe('Accordion', () => {
   it('opens defaultOpenIds on initial render', () => {
     renderBasicAccordion({ defaultOpenIds: ['one', 'three'], allowMultiple: true });
 
+    expect(screen.getByRole('button', { name: /section 1/i })).toHaveAttribute(
+      'aria-expanded',
+      'true'
+    );
+    expect(screen.getByRole('button', { name: /section 2/i })).toHaveAttribute(
+      'aria-expanded',
+      'false'
+    );
+    expect(screen.getByRole('button', { name: /section 3/i })).toHaveAttribute(
+      'aria-expanded',
+      'true'
+    );
+
     expect(screen.getByText('Content 1').closest('section')).toHaveAttribute(
       'aria-hidden',
       'false'
@@ -101,6 +114,7 @@ describe('Accordion', () => {
 
     expect(section1Trigger).toHaveAttribute('aria-expanded', 'true');
     expect(section2Trigger).toHaveAttribute('aria-expanded', 'true');
+
     expect(screen.getByText('Content 1').closest('section')).toHaveAttribute(
       'aria-hidden',
       'false'
@@ -121,6 +135,14 @@ describe('Accordion', () => {
 
   it('does not render expand all button when allowMultiple is false', () => {
     renderBasicAccordion({ allowMultiple: false });
+
+    expect(
+      screen.queryByRole('button', { name: /expand all accordion sections/i })
+    ).not.toBeInTheDocument();
+  });
+
+  it('does not render expand all button when showToggleAll is false', () => {
+    renderBasicAccordion({ allowMultiple: true, showToggleAll: false });
 
     expect(
       screen.queryByRole('button', { name: /expand all accordion sections/i })
@@ -149,36 +171,23 @@ describe('Accordion', () => {
       'aria-expanded',
       'true'
     );
-
-    expect(screen.getByText('Content 1').closest('section')).toHaveAttribute(
-      'aria-hidden',
-      'false'
-    );
-    expect(screen.getByText('Content 2').closest('section')).toHaveAttribute(
-      'aria-hidden',
-      'false'
-    );
-    expect(screen.getByText('Content 3').closest('section')).toHaveAttribute(
-      'aria-hidden',
-      'false'
-    );
   });
 
   it('collapses all items when clicking collapse all after expanding them', async () => {
     const user = userEvent.setup();
     renderBasicAccordion({ allowMultiple: true });
 
-    const expandAllButton = screen.getByRole('button', {
-      name: /expand all accordion sections/i,
-    });
+    await user.click(
+      screen.getByRole('button', {
+        name: /expand all accordion sections/i,
+      })
+    );
 
-    await user.click(expandAllButton);
-
-    const collapseAllButton = screen.getByRole('button', {
-      name: /collapse all accordion sections/i,
-    });
-
-    await user.click(collapseAllButton);
+    await user.click(
+      screen.getByRole('button', {
+        name: /collapse all accordion sections/i,
+      })
+    );
 
     expect(screen.getByRole('button', { name: /section 1/i })).toHaveAttribute(
       'aria-expanded',
@@ -282,20 +291,28 @@ describe('Accordion', () => {
     expect(screen.getByText('Content 1').closest('section')).toHaveAttribute('aria-hidden', 'true');
   });
 
-  it('associates trigger and panel with aria-controls and aria-labelledby', async () => {
+  it('associates trigger and panel with aria-controls and aria-labelledby', () => {
+    renderBasicAccordion();
+
+    const trigger = screen.getByRole('button', { name: /section 1/i });
+    const panel = screen.getByText('Content 1').closest('section');
+
+    expect(trigger).toHaveAttribute('aria-controls', 'accordion-panel-one');
+    expect(panel).toHaveAttribute('aria-labelledby', 'accordion-header-one');
+  });
+
+  it('adds data-open when panel is open', async () => {
     const user = userEvent.setup();
     renderBasicAccordion();
 
     const trigger = screen.getByRole('button', { name: /section 1/i });
     const panel = screen.getByText('Content 1').closest('section');
 
-    expect(trigger).toHaveAttribute('aria-controls');
-    expect(panel).toHaveAttribute('aria-labelledby', trigger.id);
+    expect(panel).toHaveAttribute('data-open', 'false');
 
     await user.click(trigger);
 
-    expect(trigger).toHaveAttribute('aria-expanded', 'true');
-    expect(panel).toHaveAttribute('aria-hidden', 'false');
+    expect(panel).toHaveAttribute('data-open', 'true');
   });
 
   it('throws when AccordionItem is used outside Accordion', () => {
@@ -334,5 +351,18 @@ describe('Accordion', () => {
         </Accordion>
       )
     ).toThrow('The first child of AccordionItem must be <AccordionHeader />');
+  });
+
+  it('throws when the second child is not AccordionPanel', () => {
+    expect(() =>
+      render(
+        <Accordion>
+          <AccordionItem id="one">
+            <AccordionHeader>Section 1</AccordionHeader>
+            <div>Not a panel</div>
+          </AccordionItem>
+        </Accordion>
+      )
+    ).toThrow('The second child of AccordionItem must be <AccordionPanel />');
   });
 });

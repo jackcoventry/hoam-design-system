@@ -61,7 +61,7 @@ function groupColorTokens(tokens: RawToken[]): ColorGroup[] {
       sets: Object.entries(sets)
         .map(([setName, items]) => ({
           name: setName,
-          items: items.sort((a, b) => a.name.localeCompare(b.name)),
+          items: items.slice().sort((a: ColorToken, b: ColorToken) => a.name.localeCompare(b.name)),
         }))
         .sort((a, b) => a.name.localeCompare(b.name)),
     }))

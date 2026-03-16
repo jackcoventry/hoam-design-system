@@ -1,6 +1,6 @@
 import {
   createContext,
-  ReactNode,
+  type ReactNode,
   useCallback,
   useContext,
   useEffect,
@@ -24,10 +24,14 @@ type ModalStackProviderProps = {
 export function ModalStackProvider({ children }: Readonly<ModalStackProviderProps>) {
   const [stack, setStack] = useState<string[]>([]);
   const prevOverflowRef = useRef<string>('');
+  const previousStackLengthRef = useRef(0);
 
   const register = useCallback((id: string) => {
     setStack((prev) => {
-      if (prev.includes(id)) return prev;
+      if (prev.includes(id)) {
+        return prev;
+      }
+
       return [...prev, id];
     });
   }, []);
@@ -38,26 +42,42 @@ export function ModalStackProvider({ children }: Readonly<ModalStackProviderProp
 
   const isTop = useCallback(
     (id: string) => {
-      if (stack.length === 0) return false;
+      if (stack.length === 0) {
+        return false;
+      }
+
       return stack.at(-1) === id;
     },
     [stack]
   );
 
-  // Centralised scroll lock: lock when at least one modal is open
   useEffect(() => {
-    if (stack.length === 0) {
-      document.body.style.overflow = prevOverflowRef.current;
-      return;
-    }
+    const previousLength = previousStackLengthRef.current;
+    const currentLength = stack.length;
 
-    if (stack.length === 1) {
+    // Transition: 0 -> 1+ (lock scroll and remember previous value)
+    if (previousLength === 0 && currentLength > 0) {
       prevOverflowRef.current = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
     }
+
+    // Transition: 1+ -> 0 (restore previous value)
+    if (previousLength > 0 && currentLength === 0) {
+      document.body.style.overflow = prevOverflowRef.current;
+    }
+
+    previousStackLengthRef.current = currentLength;
   }, [stack.length]);
 
-  const value = useMemo(
+  useEffect(() => {
+    return () => {
+      if (previousStackLengthRef.current > 0) {
+        document.body.style.overflow = prevOverflowRef.current;
+      }
+    };
+  }, []);
+
+  const value = useMemo<ModalStackContextValue>(
     () => ({
       register,
       unregister,
@@ -71,9 +91,9 @@ export function ModalStackProvider({ children }: Readonly<ModalStackProviderProp
 
 /**
  * Hook for a modal to participate in the global stack
- * - Registers/unregisters when active; i.e. when isOpen changes
+ * - Registers/unregisters when active
  * - Returns whether this modal is currently the top-most one
- * - If no provider is present, falls back to a single modal
+ * - Falls back to a single modal when no provider is present
  */
 export function useModalStack(id: string, active: boolean) {
   const ctx = useContext(ModalStackContext);
@@ -82,13 +102,16 @@ export function useModalStack(id: string, active: boolean) {
   const unregister = ctx?.unregister;
 
   useEffect(() => {
-    if (!ctx || !active || !register || !unregister) return;
+    if (!active || !register || !unregister) {
+      return;
+    }
 
     register(id);
+
     return () => {
       unregister(id);
     };
-  }, [active, ctx, id, register, unregister]);
+  }, [active, id, register, unregister]);
 
   const isTopMost = ctx?.isTop ? ctx.isTop(id) : true;
 

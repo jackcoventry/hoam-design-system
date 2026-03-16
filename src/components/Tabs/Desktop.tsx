@@ -1,45 +1,44 @@
-import { Activity, KeyboardEvent, Suspense, useRef, useState } from 'react';
+import { Activity, type KeyboardEvent, useRef, useState } from 'react';
 
-import { type TabsProps } from '@/components/Tabs';
+import type { TabsProps } from '@/components/Tabs';
 
 import styles from '@/components/Tabs/Tabs.module.css';
 
 export function DesktopTabs({
   title,
-  items = [],
+  items,
   layout = 'vertical',
   mode = 'manual',
 }: Readonly<TabsProps>) {
   const firstId = items[0]?.id ?? null;
   const [activeTab, setActiveTab] = useState<string | null>(firstId);
+
   const isVertical = layout === 'vertical';
   const isAutomatic = mode === 'automatic';
 
   const tabRefs = useRef<Record<string, HTMLButtonElement | null>>({});
 
-  if (!firstId || !items.length) return null;
+  if (!firstId || items.length === 0) {
+    return null;
+  }
 
-  const focusTabByIndex = (index: number, opts?: { activate?: boolean }) => {
-    if (!items.length) return;
-
+  const focusTabByIndex = (index: number, options?: { activate?: boolean }) => {
     const normalisedIndex = (index + items.length) % items.length;
     const item = items[normalisedIndex];
 
     if (!item) {
-      throw new Error('Invalid index');
+      return;
     }
 
-    const id = item.id;
-    const btn = tabRefs.current[id];
-    btn?.focus();
+    tabRefs.current[item.id]?.focus();
 
-    if (opts?.activate) {
-      setActiveTab(id);
+    if (options?.activate) {
+      setActiveTab(item.id);
     }
   };
 
   const handleTabKeyDown = (event: KeyboardEvent<HTMLButtonElement>, index: number, id: string) => {
-    const key = event.key;
+    const { key } = event;
 
     if (key === 'Home') {
       event.preventDefault();
@@ -59,6 +58,7 @@ export function DesktopTabs({
         focusTabByIndex(index - 1, { activate: isAutomatic });
         return;
       }
+
       if (key === 'ArrowDown') {
         event.preventDefault();
         focusTabByIndex(index + 1, { activate: isAutomatic });
@@ -70,6 +70,7 @@ export function DesktopTabs({
         focusTabByIndex(index - 1, { activate: isAutomatic });
         return;
       }
+
       if (key === 'ArrowRight') {
         event.preventDefault();
         focusTabByIndex(index + 1, { activate: isAutomatic });
@@ -83,8 +84,6 @@ export function DesktopTabs({
     }
   };
 
-  if (!items.length) return null;
-
   return (
     <div
       className={styles.root}
@@ -97,25 +96,24 @@ export function DesktopTabs({
         aria-orientation={isVertical ? 'vertical' : 'horizontal'}
         className={styles.list}
       >
-        {items?.map((tab, index) => {
-          const id = tab.id;
-          const isActive = activeTab === id;
+        {items.map((tab, index) => {
+          const isActive = activeTab === tab.id;
 
           return (
             <button
-              key={id}
-              id={`hoam-tab-${id}`}
+              key={tab.id}
+              id={`hoam-tab-${tab.id}`}
               role="tab"
               type="button"
-              aria-selected={isActive || undefined}
-              aria-controls={`hoam-panel-${id}`}
-              data-active={isActive}
+              aria-selected={isActive}
+              aria-controls={`hoam-panel-${tab.id}`}
+              data-active={isActive ? 'true' : 'false'}
               tabIndex={isActive ? 0 : -1}
-              ref={(el) => {
-                tabRefs.current[id] = el;
+              ref={(element) => {
+                tabRefs.current[tab.id] = element;
               }}
-              onClick={() => setActiveTab(id)}
-              onKeyDown={(event) => handleTabKeyDown(event, index, id)}
+              onClick={() => setActiveTab(tab.id)}
+              onKeyDown={(event) => handleTabKeyDown(event, index, tab.id)}
               className={styles.control}
             >
               {tab.label}
@@ -123,29 +121,27 @@ export function DesktopTabs({
           );
         })}
       </div>
-      <Suspense fallback={<h1>Loading...</h1>}>
-        {items?.map((tab) => {
-          const id = tab.id;
-          const isActive = activeTab === id;
 
-          return (
-            <Activity
-              key={id}
-              mode={isActive ? 'visible' : 'hidden'}
+      {items.map((tab) => {
+        const isActive = activeTab === tab.id;
+
+        return (
+          <Activity
+            key={tab.id}
+            mode={isActive ? 'visible' : 'hidden'}
+          >
+            <section
+              role="tabpanel"
+              id={`hoam-panel-${tab.id}`}
+              aria-labelledby={`hoam-tab-${tab.id}`}
+              hidden={!isActive}
+              className={styles.panel}
             >
-              <section
-                role="tabpanel"
-                id={`hoam-panel-${id}`}
-                aria-labelledby={`hoam-tab-${id}`}
-                hidden={!isActive}
-                className={styles.panel}
-              >
-                {tab.content}
-              </section>
-            </Activity>
-          );
-        })}
-      </Suspense>
+              {tab.content}
+            </section>
+          </Activity>
+        );
+      })}
     </div>
   );
 }
