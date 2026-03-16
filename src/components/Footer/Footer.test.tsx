@@ -97,14 +97,14 @@ describe('<Footer />', () => {
     ];
 
     links.forEach((a, idx) => {
-      expect(a).toHaveAttribute('href', expected[idx].url);
+      expect(a).toHaveAttribute('href', expected[idx]?.url);
       expect(a).toHaveAttribute('target', '_blank');
       expect(a).toHaveAttribute('rel', 'noopener noreferrer');
 
       const useEl = a.querySelector('use');
       expect(useEl).toBeTruthy();
       expect(useEl?.getAttribute('xlink:href') ?? useEl?.getAttribute('xlinkHref')).toBe(
-        `/icons/icons.svg#${expected[idx].icon}`
+        `/icons/icons.svg#${expected[idx]?.icon}`
       );
     });
   });

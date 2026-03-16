@@ -1,4 +1,4 @@
-import type { NavTopLevelItem } from '@/components/Navigation/Navigation';
+import type { NavTopLevelItem } from '@/components/Navigation/types';
 
 const items = [
   {

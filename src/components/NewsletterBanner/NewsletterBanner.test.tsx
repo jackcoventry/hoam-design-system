@@ -117,7 +117,7 @@ describe('NewsletterBanner', () => {
     for (const a of links) {
       expect(a).toHaveAttribute('target', '_blank');
       expect(a).toHaveAttribute('rel');
-      expect(a.getAttribute('rel').toLowerCase()).toContain('noopener');
+      expect(a?.getAttribute('rel')?.toLowerCase()).toContain('noopener');
     }
   });
 

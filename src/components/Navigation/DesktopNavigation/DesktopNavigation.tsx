@@ -6,7 +6,7 @@ import {
   DesktopNavigationLogo,
 } from '@/components/Navigation';
 import { querySubItemVisibility } from '@/components/Navigation/helpers';
-import type { NavigationProps,NavTopLevelItem, NavUserItem } from '@/components/Navigation/types';
+import type { NavigationProps, NavTopLevelItem, NavUserItem } from '@/components/Navigation/types';
 import { useKeyboardNav } from '@/hooks/useKeyboardNav';
 
 import styles from '@/components/Navigation/Navigation.module.css';

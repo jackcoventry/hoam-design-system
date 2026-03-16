@@ -93,10 +93,8 @@ export function DesktopNavigationItems({
                         >
                           {sub.items.length > 0 ? (
                             <ThirdLevelItems
-                              parent={sub}
-                              items={sub.items}
+                              group={sub}
                               open={open}
-                              layout={sub.layout}
                             />
                           ) : null}
                         </CategoryGroup>

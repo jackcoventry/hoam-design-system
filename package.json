@@ -13,11 +13,11 @@
     "tokens-old": "style-dictionary build --config style-dictionary.json",
     "icon:tokens": "node src/scripts/generate-icons.mjs",
     "icons": "npm run icon:tokens && svg-sprite --config svg.json --log=info \"src/icons/*.svg\"",
-    "tokens": "node src/scripts/register-style-dictionary.mjs",
+    "tokens": "tsx src/scripts/register-style-dictionary.ts",
     "dev": "storybook dev -p 6006",
     "build": "npm run tokens && vite build",
     "build-storybook": "storybook build",
-    "verify": "npm run prettier && npm run lint && npm run typecheck && npm run test:run"
+    "verify": "npm run build && npm run prettier && npm run lint && npm run typecheck && npm run test:run"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,astro,json,md,css}": [
@@ -63,6 +63,7 @@
     "storybook": "^10.2.16",
     "style-dictionary": "^5.0.1",
     "svg-sprite": "^2.0.4",
+    "tsx": "^4.21.0",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.56.1",
     "vite-plugin-dts": "^4.5.4",

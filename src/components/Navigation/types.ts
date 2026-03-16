@@ -6,7 +6,6 @@ export interface NavLeafItem {
   label: string;
   href: string;
   description?: string;
-  thumbnail?: string;
 }
 
 export interface NavBranchItem {
@@ -16,13 +15,30 @@ export interface NavBranchItem {
   items: NavLeafItem[];
 }
 
-export interface NavGroupItem {
+export interface NavThumbnailItem {
+  id: string;
+  label: string;
+  href: string;
+  thumbnail: string;
+}
+
+export interface NavListGroupItem {
   id: string;
   label: string;
   href?: string;
-  layout: NavigationLayout;
+  layout: 'list';
   items: NavBranchItem[];
 }
+
+export interface NavThumbnailGroupItem {
+  id: string;
+  label: string;
+  href?: string;
+  layout: 'thumbnail';
+  items: NavThumbnailItem[];
+}
+
+export type NavGroupItem = NavListGroupItem | NavThumbnailGroupItem;
 
 export interface NavPanelLinkItem {
   id: string;
@@ -45,11 +61,16 @@ export interface NavUserItem {
   label: string;
   href: string;
   icon: string;
-  title?: string | undefined;
-  action?: NavUserAction | undefined;
+  title?: string;
+  action?: NavUserAction;
 }
 
-export type NavTreeItem = NavTopLevelItem | NavPanelItem | NavBranchItem | NavLeafItem;
+export type NavTreeItem =
+  | NavTopLevelItem
+  | NavPanelItem
+  | NavBranchItem
+  | NavLeafItem
+  | NavThumbnailItem;
 
 export interface NavigationProps {
   items?: NavTopLevelItem[];

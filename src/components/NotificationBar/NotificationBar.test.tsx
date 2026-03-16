@@ -1,5 +1,5 @@
 import { act, fireEvent, render, screen } from '@testing-library/react';
-import { afterEach, beforeEach, describe, expect, it, type Mock,MockInstance, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, type Mock, MockInstance, vi } from 'vitest';
 
 import { NotificationBar } from '@/components/NotificationBar';
 

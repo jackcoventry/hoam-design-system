@@ -15,7 +15,6 @@
   "singleAttributePerLine": true,
   "embeddedLanguageFormatting": "auto",
   "plugins": [],
-  "organizeImportsSkipDestructiveCodeActions": true,
   "overrides": [
     {
       "files": ["*.css", "*.scss"],

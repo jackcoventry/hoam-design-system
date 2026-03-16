@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
 import { Breadcrumb } from '@/components/Breadcrumb';
-import type { NavPanelLinkItem } from '@/components/Navigation/Navigation';
+import type { NavPanelLinkItem } from '@/components/Navigation/types';
 
 describe('Breadcrumb', () => {
   it('renders nothing when items is an empty array', () => {

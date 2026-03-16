@@ -1,130 +1,108 @@
 import { groupBtnId, groupPanelId } from '@/components/Navigation/helpers';
-import type { NavBranchItem, NavGroupItem, NavigationLayout } from '@/components/Navigation/types';
+import type { NavBranchItem, NavGroupItem, NavThumbnailItem } from '@/components/Navigation/types';
 
-import styles from '@/components/Navigation/Navigation.module.css';
-
-export type ThirdLevelItemsProps = {
-  parent: NavGroupItem;
-  items: NavBranchItem[];
+type ThirdLevelItemsProps = {
+  group: NavGroupItem;
   open: boolean;
-  layout?: NavigationLayout;
 };
 
-export function ThirdLevelItems({
-  parent,
-  items,
-  open,
-  layout = 'list',
-}: Readonly<ThirdLevelItemsProps>) {
+export function ThirdLevelItems({ group, open }: Readonly<ThirdLevelItemsProps>) {
   return (
     <div
-      id={groupPanelId(parent.id)}
-      className={styles.panelSubLevel}
-      aria-labelledby={groupBtnId(parent.id)}
+      id={groupPanelId(group.id)}
+      className="hoam-navigation__panel-sub-level"
+      aria-labelledby={groupBtnId(group.id)}
       hidden={!open}
-      data-layout={layout}
+      data-layout={group.layout}
     >
-      <div className={styles.panelGroup}>
-        {layout === 'thumbnail' ? (
+      <div className="hoam-navigation__panel-group">
+        {group.layout === 'thumbnail' ? (
           <div className="container-fluid">
             <div className="grid">
               <div className="span-12">
-                <div className={styles.panelGroupSection}>
-                  {parent.href ? (
+                <div className="hoam-navigation__panel-group-section">
+                  {group.href ? (
                     <a
-                      href={parent.href}
+                      href={group.href}
                       data-sub-link
-                      className={styles.panelGroupHeader}
+                      className="hoam-navigation__panel-group-header"
                     >
-                      {parent.label}
+                      {group.label}
                     </a>
                   ) : null}
                 </div>
               </div>
             </div>
-          </div>
-        ) : (
-          <div className={styles.panelGroupSection}>
-            {parent.href ? (
-              <a
-                href={parent.href}
-                data-sub-link
-                className={styles.panelGroupHeader}
-              >
-                {parent.label}
-              </a>
-            ) : null}
-          </div>
-        )}
 
-        {layout === 'thumbnail' ? (
-          <div className="container-fluid">
             <div className="grid">
-              {items?.map((item) => (
+              {group.items.map((item: NavThumbnailItem) => (
                 <div
                   className="span-12 md:span-4"
                   key={item.id}
                 >
-                  <div className={styles.panelGroupSection}>
-                    {item.href ? (
-                      <a
-                        href={item.href}
-                        data-sub-link
-                        tabIndex={open ? 0 : -1}
-                        className={styles.panelGroupHeader}
-                      >
-                        {item.label}
-                      </a>
-                    ) : (
-                      <span className={styles.panelGroupHeader}>{item.label}</span>
-                    )}
-
-                    {item?.items?.map((child) => (
-                      <a
-                        href={child.href}
-                        key={child.id}
-                        data-sub-link
-                        tabIndex={open ? 0 : -1}
-                      >
-                        {child.label}
-                      </a>
-                    ))}
+                  <div className="hoam-navigation__panel-group-section">
+                    <a
+                      href={item.href}
+                      data-sub-link
+                      tabIndex={open ? 0 : -1}
+                      className="hoam-navigation__panel-group-header"
+                    >
+                      <img
+                        src={item.thumbnail}
+                        alt={item.label}
+                      />
+                      {item.label}
+                    </a>
                   </div>
                 </div>
               ))}
             </div>
           </div>
         ) : (
-          items.map((item) => (
-            <div
-              key={item.id}
-              className={styles.panelGroupSection}
-            >
-              {item.href ? (
+          <>
+            <div className="hoam-navigation__panel-group-section">
+              {group.href ? (
                 <a
-                  href={item.href}
+                  href={group.href}
                   data-sub-link
-                  tabIndex={open ? 0 : -1}
-                  className={styles.panelGroupHeader}
+                  className="hoam-navigation__panel-group-header"
                 >
-                  {item.label}
+                  {group.label}
                 </a>
-              ) : (
-                <span className={styles.panelGroupHeader}>{item.label}</span>
-              )}
-
-              {item?.items?.map((child) => (
-                <a
-                  href={child.href}
-                  key={child.id}
-                  data-sub-link
-                  tabIndex={open ? 0 : -1}
-                >
-                  {child.label}
-                </a>
-              ))}
+              ) : null}
             </div>
-          ))
+
+            {group.items.map((item: NavBranchItem) => (
+              <div
+                key={item.id}
+                className="hoam-navigation__panel-group-section"
+              >
+                {item.href ? (
+                  <a
+                    href={item.href}
+                    data-sub-link
+                    tabIndex={open ? 0 : -1}
+                    className="hoam-navigation__panel-group-header"
+                  >
+                    {item.label}
+                  </a>
+                ) : (
+                  <span className="hoam-navigation__panel-group-header">{item.label}</span>
+                )}
+
+                {item.items.map((child) => (
+                  <a
+                    href={child.href}
+                    key={child.id}
+                    data-sub-link
+                    tabIndex={open ? 0 : -1}
+                  >
+                    {child.label}
+                  </a>
+                ))}
+              </div>
+            ))}
+          </>
         )}
       </div>
     </div>

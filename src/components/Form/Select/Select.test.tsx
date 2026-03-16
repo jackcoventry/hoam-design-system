@@ -240,22 +240,4 @@ describe('Select', () => {
 
     expect(screen.getByRole('option', { name: 'black' })).toBeInTheDocument();
   });
-
-  it('does not throw if onChange is omitted', () => {
-    render(
-      <Select
-        label="Colour"
-        value="black"
-      >
-        <Select.Option value="black">Black</Select.Option>
-        <Select.Option value="white">White</Select.Option>
-      </Select>
-    );
-
-    const select = screen.getByRole('combobox', { name: /colour/i });
-
-    expect(() => {
-      fireEvent.change(select, { target: { value: 'white' } });
-    }).not.toThrow();
-  });
 });

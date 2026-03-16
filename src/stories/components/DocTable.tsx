@@ -1,7 +1,5 @@
-import Table from '@/components/Table/Table';
+import { Table } from '@/components/Table';
 
-function DocTable({ children }: { children: React.ReactNode }) {
+export function DocTable({ children }: Readonly<{ children: React.ReactNode }>) {
   return <Table>{children}</Table>;
 }
-
-export default DocTable;

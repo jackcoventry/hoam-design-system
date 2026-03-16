@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react-vite';
 
-import { type TabProps,Tabs } from '@/components/Tabs';
+import { type TabProps, Tabs } from '@/components/Tabs';
 
 const meta: Meta<typeof Tabs> = {
   title: 'Components/Tabs',

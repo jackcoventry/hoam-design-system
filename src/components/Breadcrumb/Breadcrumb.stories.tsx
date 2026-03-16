@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react-vite';
 
-import { Breadcrumb } from '@/components/Breadcrumb/Breadcrumb';
-import { NavPanelLinkItem } from '@/components/Navigation/Navigation';
+import { Breadcrumb } from '@/components/Breadcrumb';
+import type { NavPanelLinkItem } from '@/components/Navigation/types';
 import BreadcrumbData from '@/mocks/components/Breadcrumb';
 
 const meta: Meta<typeof Breadcrumb> = {
