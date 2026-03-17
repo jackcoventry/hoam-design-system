@@ -2,8 +2,8 @@ import { Accordion, AccordionHeader, AccordionItem, AccordionPanel } from '@/com
 import { DesktopTabs } from '@/components/Tabs';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 
-type Layout = 'horizontal' | 'vertical';
-type Mode = 'manual' | 'automatic';
+type Layout = 'horizontal' | 'vertical' | undefined;
+type Mode = 'manual' | 'automatic' | undefined;
 
 export type TabProps = {
   id: string;

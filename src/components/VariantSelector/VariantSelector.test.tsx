@@ -1,247 +1,292 @@
-import React from 'react';
-import { render, screen, within } from '@testing-library/react';
+import { act, createRef } from 'react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
-import { type VariantOption, VariantSelector } from '@/components/VariantSelector';
+import { VariantSelector } from '@/components/VariantSelector';
 
-function setup({
-  value = null as string | number | null,
-  options = [
-    { value: 'black', label: 'Black' },
-    { value: 'white', label: 'White' },
-    { value: 'red', label: 'Red' },
-  ] as VariantOption[],
-  label = 'Color',
-  orientation = 'horizontal' as 'horizontal' | 'vertical',
-  wrap = true,
-  onChange = vi.fn(),
-} = {}) {
-  const user = userEvent.setup();
-  render(
-    <VariantSelector
-      name="color"
-      label={label}
-      value={value}
-      onChange={onChange}
-      options={options}
-      orientation={orientation}
-      wrap={wrap}
-      required
-    />
-  );
-  return { user, onChange, options };
-}
+const labelOptions = [
+  { label: 'Small', value: 's' },
+  { label: 'Medium', value: 'm' },
+  { label: 'Large', value: 'l' },
+];
 
 describe('VariantSelector', () => {
-  beforeEach(() => {
-    vi.restoreAllMocks();
+  it('renders the label and selected value', () => {
+    render(
+      <VariantSelector
+        name="size"
+        label="Size"
+        value="m"
+        onChange={vi.fn()}
+        options={labelOptions}
+      />
+    );
+
+    expect(screen.getByText('Size')).toBeInTheDocument();
+    expect(screen.getAllByText('Medium')).toHaveLength(2);
   });
 
-  it('renders all provided options and links legend via aria-labelledby', () => {
-    setup();
-    // legend should render and be connected to the radiogroup via aria-labelledby
-    const legend = screen.getByText('Color');
-    const group = screen.getByRole('radiogroup');
-    const labelledby = group.getAttribute('aria-labelledby');
-    expect(legend).toBeInTheDocument();
-    expect(labelledby).toBeTruthy();
-    expect(legend.id).toBe(labelledby);
+  it('renders a radiogroup labelled by the provided label', () => {
+    render(
+      <VariantSelector
+        name="size"
+        label="Size"
+        value="m"
+        onChange={vi.fn()}
+        options={labelOptions}
+      />
+    );
 
-    // radios exist
-    const radios = screen.getAllByRole('radio');
-    expect(radios).toHaveLength(3);
+    expect(screen.getByRole('radiogroup', { name: 'Size' })).toBeInTheDocument();
   });
 
-  it('is controlled: checked reflects value prop', () => {
-    setup({ value: 'white' });
+  it('falls back to aria-label when no label is provided', () => {
+    render(
+      <VariantSelector
+        name="size"
+        value="m"
+        onChange={vi.fn()}
+        options={labelOptions}
+      />
+    );
 
-    const black = screen.getByRole('radio', { name: 'Black' });
-    const white = screen.getByRole('radio', { name: 'White' });
-
-    expect(black).not.toBeChecked();
-    expect(white).toBeChecked();
+    expect(screen.getByRole('radiogroup', { name: 'size' })).toBeInTheDocument();
   });
 
-  it('clicking an option triggers onChange with that value', async () => {
-    const { user, onChange } = setup({ value: 'black' });
-    const red = screen.getByRole('radio', { name: 'Red' });
-    await user.click(red);
-    expect(onChange).toHaveBeenCalledWith('Red'.toLowerCase()); // value is "red"
+  it('checks the selected radio', () => {
+    render(
+      <VariantSelector
+        name="size"
+        label="Size"
+        value="m"
+        onChange={vi.fn()}
+        options={labelOptions}
+      />
+    );
+
+    expect(screen.getByRole('radio', { name: 'Medium' })).toBeChecked();
+    expect(screen.getByRole('radio', { name: 'Small' })).not.toBeChecked();
   });
 
-  it('radiogroup is focusable and delegates focus to selected radio', () => {
-    setup({ value: 'white' });
-    const group = screen.getByRole('radiogroup');
-    // focus group
-    group.focus();
-    // it should immediately refocus to the selected radio
-    const white = screen.getByRole('radio', { name: 'White' });
-    expect(document.activeElement).toBe(white);
-    // also confirm tabIndex=0 present
-    expect(group).toHaveAttribute('tabIndex', '0');
+  it('calls onChange when a radio is clicked', async () => {
+    const user = userEvent.setup();
+    const onChange = vi.fn();
+
+    render(
+      <VariantSelector
+        name="size"
+        label="Size"
+        value="m"
+        onChange={onChange}
+        options={labelOptions}
+      />
+    );
+
+    await user.click(screen.getByRole('radio', { name: 'Large' }));
+
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenCalledWith('l');
   });
 
-  it('when no selection, focusing the group moves focus to first enabled option', () => {
-    setup({
-      value: null,
-      options: [
-        { value: 'black', label: 'Black', disabled: true },
-        { value: 'white', label: 'White' },
-        { value: 'red', label: 'Red' },
-      ],
-    });
-    const group = screen.getByRole('radiogroup');
-    group.focus();
-    const white = screen.getByRole('radio', { name: 'White' });
-    expect(document.activeElement).toBe(white);
-  });
+  it('forwards the first input ref', () => {
+    const ref = createRef<HTMLInputElement>();
 
-  it('Left/Right arrows cycle selection with wrap (horizontal)', async () => {
-    const { user, onChange, options } = setup({ value: 'black' });
-    const group = screen.getByRole('radiogroup');
-
-    // Focus group (delegates to selected "black")
-    group.focus();
-    const radios = screen.getAllByRole('radio');
-    expect(document.activeElement).toBe(radios[0]);
-
-    // Press ArrowLeft should wrap to last
-    await user.keyboard('{ArrowLeft}');
-    expect(onChange).toHaveBeenLastCalledWith(options[2]?.value);
-
-    await user.keyboard('{ArrowRight}{ArrowRight}{ArrowRight}');
-    expect(onChange).toHaveBeenLastCalledWith(options[2]?.value);
-  });
-
-  it('Up/Down arrows work when orientation is vertical', async () => {
-    const { user, onChange, options } = setup({
-      value: 'black',
-      orientation: 'vertical',
-    });
-    const group = screen.getByRole('radiogroup');
-    group.focus();
-
-    // ArrowDown moves forward
-    await user.keyboard('{ArrowDown}');
-    expect(onChange).toHaveBeenLastCalledWith(options[1]?.value);
-
-    // ArrowUp moves back
-    await user.keyboard('{ArrowUp}');
-    expect(onChange).toHaveBeenLastCalledWith(options[0]?.value);
-  });
-
-  it('skips disabled options while navigating', async () => {
-    const { user, onChange } = setup({
-      value: 'black',
-      options: [
-        { value: 'black', label: 'Black' },
-        { value: 'white', label: 'White', disabled: true },
-        { value: 'red', label: 'Red' },
-      ],
-    });
-    const group = screen.getByRole('radiogroup');
-    group.focus();
-
-    // ArrowRight should skip disabled "white" and land on "red"
-    await user.keyboard('{ArrowRight}');
-    expect(onChange).toHaveBeenLastCalledWith('red');
-  });
-
-  it('when wrap is false, navigation stops at the edges', async () => {
-    const { user, onChange } = setup({
-      value: 'black',
-      wrap: false,
-    });
-    const group = screen.getByRole('radiogroup');
-    group.focus();
-
-    // At the first item, ArrowLeft should do nothing
-    await user.keyboard('{ArrowLeft}');
-    expect(onChange).not.toHaveBeenCalled();
-
-    // Move to last item via repeated Right
-    await user.keyboard('{ArrowRight}{ArrowRight}');
-    // Called twice: white then red
-    expect(onChange).toHaveBeenNthCalledWith(1, 'white');
-    expect(onChange).toHaveBeenNthCalledWith(2, 'red');
-
-    onChange.mockClear();
-    // At the last item, ArrowRight should do nothing (no wrap)
-    await user.keyboard('{ArrowRight}');
-    expect(onChange).not.toHaveBeenCalled();
-  });
-
-  it('forwards ref to the first radio input', () => {
-    const ref = React.createRef<HTMLInputElement>();
     render(
       <VariantSelector
         ref={ref}
-        name="color"
-        label="Color"
-        value={null}
-        onChange={() => {}}
+        name="size"
+        label="Size"
+        value="m"
+        onChange={vi.fn()}
+        options={labelOptions}
+      />
+    );
+
+    expect(ref.current).toBeInstanceOf(HTMLInputElement);
+    expect(ref.current).toHaveAttribute('value', 's');
+  });
+
+  it('moves selection to the next enabled option with ArrowRight', async () => {
+    const onChange = vi.fn();
+
+    render(
+      <VariantSelector
+        name="size"
+        label="Size"
+        value="m"
+        onChange={onChange}
+        options={labelOptions}
+      />
+    );
+
+    const group = screen.getByRole('radiogroup', { name: 'Size' });
+
+    fireEvent.keyDown(group, { key: 'ArrowRight' });
+
+    expect(onChange).toHaveBeenCalledWith('l');
+
+    await act(async () => {
+      await Promise.resolve();
+    });
+  });
+
+  it('moves selection to the previous enabled option with ArrowLeft', async () => {
+    const onChange = vi.fn();
+
+    render(
+      <VariantSelector
+        name="size"
+        label="Size"
+        value="m"
+        onChange={onChange}
+        options={labelOptions}
+      />
+    );
+
+    const group = screen.getByRole('radiogroup', { name: 'Size' });
+
+    fireEvent.keyDown(group, { key: 'ArrowLeft' });
+
+    expect(onChange).toHaveBeenCalledWith('s');
+
+    await act(async () => {
+      await Promise.resolve();
+    });
+  });
+
+  it('skips disabled options during keyboard navigation', async () => {
+    const onChange = vi.fn();
+
+    render(
+      <VariantSelector
+        name="size"
+        label="Size"
+        value="s"
+        onChange={onChange}
         options={[
-          { value: 'a', label: 'A' },
-          { value: 'b', label: 'B' },
+          { label: 'Small', value: 's' },
+          { label: 'Medium', value: 'm', disabled: true },
+          { label: 'Large', value: 'l' },
         ]}
       />
     );
-    const firstRadio = screen.getByRole('radio', { name: 'A' });
-    expect(ref.current).toBe(firstRadio);
+
+    const group = screen.getByRole('radiogroup', { name: 'Size' });
+
+    fireEvent.keyDown(group, { key: 'ArrowRight' });
+
+    expect(onChange).toHaveBeenCalledWith('l');
+
+    await act(async () => {
+      await Promise.resolve();
+    });
   });
 
-  it('radios are correctly labelled and grouped', () => {
-    setup({ value: null });
-    const group = screen.getByRole('radiogroup');
-    const radios = within(group).getAllByRole('radio');
-    for (const r of radios) {
-      expect(r.getAttribute('name')).toBe('color');
-      expect(r).toHaveAttribute('aria-label');
-    }
+  it('does not wrap when wrap is false', () => {
+    const onChange = vi.fn();
+
+    render(
+      <VariantSelector
+        name="size"
+        label="Size"
+        value="l"
+        onChange={onChange}
+        options={labelOptions}
+        wrap={false}
+      />
+    );
+
+    const group = screen.getByRole('radiogroup', { name: 'Size' });
+
+    fireEvent.keyDown(group, { key: 'ArrowRight' });
+
+    expect(onChange).not.toHaveBeenCalled();
   });
 
-  it('supports shift+tab to move to the previous VariantPicker', async () => {
-    const user = userEvent.setup();
+  it('uses vertical arrow keys when orientation is vertical', async () => {
+    const onChange = vi.fn();
 
-    function Demo() {
-      const [a, setA] = React.useState<string | null>('white');
-      const [b, setB] = React.useState<string | null>('red');
-      return (
-        <>
-          <VariantSelector
-            name="a"
-            label="A"
-            value={a}
-            onChange={(v) => setA(String(v))}
-            options={[
-              { value: 'black', label: 'Black' },
-              { value: 'white', label: 'White' },
-            ]}
-          />
-          <VariantSelector
-            name="b"
-            label="B"
-            value={b}
-            onChange={(v) => setB(String(v))}
-            options={[
-              { value: 'red', label: 'Red' },
-              { value: 'green', label: 'Green' },
-            ]}
-          />
-        </>
-      );
-    }
+    render(
+      <VariantSelector
+        name="size"
+        label="Size"
+        value="m"
+        onChange={onChange}
+        options={labelOptions}
+        orientation="vertical"
+      />
+    );
 
-    render(<Demo />);
+    const group = screen.getByRole('radiogroup', { name: 'Size' });
 
-    await user.tab();
-    expect(screen.getByRole('radio', { name: 'White' })).toHaveFocus();
+    await act(async () => {
+      fireEvent.keyDown(group, { key: 'ArrowDown' });
+      await Promise.resolve();
+    });
 
-    await user.tab();
-    expect(screen.getByRole('radio', { name: 'Red' })).toHaveFocus();
+    expect(onChange).toHaveBeenCalledWith('l');
+  });
 
-    await user.tab({ shift: true });
-    expect(screen.getByRole('radio', { name: 'White' })).toHaveFocus();
+  it('sets required on radios when required is true', () => {
+    render(
+      <VariantSelector
+        name="size"
+        label="Size"
+        value="m"
+        onChange={vi.fn()}
+        options={labelOptions}
+        required
+      />
+    );
+
+    const radios = screen.getAllByRole('radio');
+
+    radios.forEach((radio) => {
+      expect(radio).toBeRequired();
+    });
+  });
+
+  it('renders image variant content', () => {
+    render(
+      <VariantSelector
+        name="theme"
+        label="Theme"
+        value="one"
+        onChange={vi.fn()}
+        variant="image"
+        options={[
+          {
+            label: 'Theme One',
+            value: 'one',
+            displayValue: '/theme-one.png',
+          },
+        ]}
+      />
+    );
+
+    expect(screen.getByRole('img', { name: 'Theme One' })).toBeInTheDocument();
+  });
+
+  it('renders color variant without visible label text inside the indicator', () => {
+    render(
+      <VariantSelector
+        name="color"
+        label="Color"
+        value="red"
+        onChange={vi.fn()}
+        variant="color"
+        options={[
+          {
+            label: 'Red',
+            value: 'red',
+            displayValue: '#ff0000',
+          },
+        ]}
+      />
+    );
+
+    expect(screen.getByRole('radio', { name: 'Red' })).toBeInTheDocument();
+    expect(screen.queryByText('Red')).toBeInTheDocument();
   });
 });

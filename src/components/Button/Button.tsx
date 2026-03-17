@@ -1,9 +1,8 @@
-import React from 'react';
+import React, { type AnchorHTMLAttributes, type ButtonHTMLAttributes } from 'react';
 import clsx from 'clsx';
 
 import styles from '@/components/Button/Button.module.css';
 
-// Common props for both button and anchor
 type CommonProps = {
   className?: string | undefined;
   children?: React.ReactNode;
@@ -21,7 +20,7 @@ type ButtonOnlyProps = {
   disabled?: boolean;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 } & Omit<
-  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  ButtonHTMLAttributes<HTMLButtonElement>,
   'type' | 'onClick' | 'disabled' | 'className' | 'children' | 'aria-label'
 >;
 
@@ -31,11 +30,10 @@ type AnchorOnlyProps = {
   target?: React.HTMLAttributeAnchorTarget;
   rel?: string;
   onClick?: React.MouseEventHandler<HTMLAnchorElement>;
-  // Disallow button-only props on anchors
   type?: never;
   disabled?: never;
 } & Omit<
-  React.AnchorHTMLAttributes<HTMLAnchorElement>,
+  AnchorHTMLAttributes<HTMLAnchorElement>,
   'onClick' | 'className' | 'children' | 'aria-label'
 >;
 
@@ -57,8 +55,8 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Readonly<
 
     const classes = clsx(styles.root, className);
 
-    // If iconOnly and no ariaLabel, fall back to string children
     let computedAriaLabel = ariaLabel;
+
     if (!computedAriaLabel && iconOnly && typeof children === 'string') {
       computedAriaLabel = children;
     }
@@ -80,19 +78,21 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Readonly<
           ref={ref as React.Ref<HTMLAnchorElement>}
           {...anchorRest}
         >
-          {children && !iconOnly && <span className={styles.content}>{children}</span>}
-          {icon && (
+          {children && !iconOnly ? <span className={styles.content}>{children}</span> : null}
+
+          {icon ? (
             <span className={styles.icon}>
               <svg
                 className="icon"
                 width="1.25em"
                 height="1.25em"
                 fill="currentColor"
+                aria-hidden="true"
               >
                 <use xlinkHref={`/icons/icons.svg#${icon}`} />
               </svg>
             </span>
-          )}
+          ) : null}
         </a>
       );
     }
@@ -112,22 +112,26 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Readonly<
         ref={ref as React.Ref<HTMLButtonElement>}
         {...buttonRest}
       >
-        {children && !iconOnly && <span className={styles.content}>{children}</span>}
-        {icon && (
+        {children && !iconOnly ? <span className={styles.content}>{children}</span> : null}
+
+        {icon ? (
           <span className={styles.icon}>
             <svg
               className="icon"
               width="1.25em"
               height="1.25em"
               fill="currentColor"
+              aria-hidden="true"
             >
               <use xlinkHref={`/icons/icons.svg#${icon}`} />
             </svg>
           </span>
-        )}
+        ) : null}
       </button>
     );
   }
 );
+
+Button.displayName = 'Button';
 
 export { Button };

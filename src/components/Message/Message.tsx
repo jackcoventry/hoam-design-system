@@ -6,7 +6,7 @@ import styles from '@/components/Message/Message.module.css';
 export type MessageProps = {
   onClose?: (event: MouseEvent<HTMLButtonElement>) => void;
   status: 'info' | 'warning' | 'error' | 'success';
-  text?: string;
+  text?: string | undefined;
   title: string;
 };
 

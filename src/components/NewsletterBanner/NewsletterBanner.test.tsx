@@ -1,16 +1,19 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { act } from 'react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { NewsletterBanner } from '@/components/NewsletterBanner';
 
-describe('NewsletterBanner', () => {
-  beforeEach(() => {
-    vi.useFakeTimers();
-  });
+vi.mock('@/mocks/socialLinks', () => ({
+  default: [
+    { name: 'Twitter', url: 'https://example.com/twitter', icon: 'twitter' },
+    { name: 'Instagram', url: 'https://example.com/instagram', icon: 'instagram' },
+  ],
+}));
 
+describe('NewsletterBanner', () => {
   afterEach(() => {
-    vi.runOnlyPendingTimers();
     vi.useRealTimers();
     vi.restoreAllMocks();
   });
@@ -34,14 +37,15 @@ describe('NewsletterBanner', () => {
     expect(screen.getByText('Get updates, articles, and product news.')).toBeInTheDocument();
   });
 
-  it('renders the subscribe button', () => {
+  it('renders the email input and subscribe button', () => {
     render(<NewsletterBanner title="Join our newsletter" />);
 
+    expect(screen.getByLabelText('Email address')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Subscribe' })).toBeInTheDocument();
   });
 
-  it('shows a validation message for an invalid email', async () => {
-    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+  it('shows validation feedback for an invalid email', async () => {
+    const user = userEvent.setup();
 
     render(<NewsletterBanner title="Join our newsletter" />);
 
@@ -58,32 +62,44 @@ describe('NewsletterBanner', () => {
   });
 
   it('shows sending state and disables input during submission', async () => {
-    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    vi.useFakeTimers();
 
     render(<NewsletterBanner title="Join our newsletter" />);
 
     const input = screen.getByLabelText('Email address');
-    const button = screen.getByRole('button', { name: 'Subscribe' });
+    const form = input.closest('form');
 
-    await user.type(input, 'test@example.com');
-    await user.click(button);
+    expect(form).not.toBeNull();
+
+    fireEvent.change(input, { target: { value: 'test@example.com' } });
+
+    await act(async () => {
+      fireEvent.submit(form!);
+      await Promise.resolve();
+    });
 
     expect(screen.getByRole('button', { name: 'Sending...' })).toBeInTheDocument();
     expect(input).toBeDisabled();
 
-    await vi.advanceTimersByTimeAsync(2000);
-
-    await waitFor(() => {
-      expect(screen.getByRole('button', { name: 'Subscribe' })).toBeInTheDocument();
-      expect(input).not.toBeDisabled();
+    await act(async () => {
+      vi.advanceTimersByTime(2000);
+      await Promise.resolve();
     });
+
+    expect(screen.getByRole('button', { name: 'Subscribe' })).toBeInTheDocument();
+    expect(input).not.toBeDisabled();
   });
 
   it('renders social links', () => {
     render(<NewsletterBanner title="Join our newsletter" />);
 
-    const links = screen.getAllByRole('link');
-
-    expect(links.length).toBeGreaterThan(0);
+    expect(screen.getByRole('link', { name: 'Twitter' })).toHaveAttribute(
+      'href',
+      'https://example.com/twitter'
+    );
+    expect(screen.getByRole('link', { name: 'Instagram' })).toHaveAttribute(
+      'href',
+      'https://example.com/instagram'
+    );
   });
 });

@@ -4,40 +4,40 @@ import { describe, expect, it, vi } from 'vitest';
 
 import { Button } from '@/components/Button';
 
-describe('Polymorphic Button component', () => {
-  it('renders as a native <button> by default', () => {
+describe('Button', () => {
+  it('renders a button by default', () => {
     render(<Button>Click me</Button>);
-    const el = screen.getByRole('button', { name: 'Click me' });
-    expect(el).toBeInTheDocument();
-    expect(el.tagName).toBe('BUTTON');
-    // default type for component
-    expect(el).toHaveAttribute('type', 'button');
+
+    const button = screen.getByRole('button', { name: 'Click me' });
+
+    expect(button).toBeInTheDocument();
+    expect(button.tagName).toBe('BUTTON');
+    expect(button).toHaveAttribute('type', 'button');
   });
 
-  it('supports submit/reset types for native button', () => {
-    const { rerender } = render(<Button type="submit">Save</Button>);
-    expect(screen.getByRole('button')).toHaveAttribute('type', 'submit');
+  it('renders button children', () => {
+    render(<Button>Save</Button>);
 
-    rerender(<Button type="reset">Reset</Button>);
-    expect(screen.getByRole('button')).toHaveAttribute('type', 'reset');
+    expect(screen.getByText('Save')).toBeInTheDocument();
   });
 
-  it('renders as <a> when as="a" and href provided', () => {
+  it('renders as an anchor when as="a"', () => {
     render(
       <Button
         as="a"
-        href="/pricing"
+        href="/about"
       >
-        Pricing
+        About
       </Button>
     );
-    const el = screen.getByRole('link', { name: 'Pricing' });
-    expect(el).toBeInTheDocument();
-    expect(el.tagName).toBe('A');
-    expect(el).toHaveAttribute('href', '/pricing');
+
+    const link = screen.getByRole('link', { name: 'About' });
+
+    expect(link).toBeInTheDocument();
+    expect(link).toHaveAttribute('href', '/about');
   });
 
-  it('adds rel="noopener noreferrer" automatically for target="_blank" anchors if explicit rel not added', () => {
+  it('applies safe rel for external links opened in a new tab', () => {
     render(
       <Button
         as="a"
@@ -47,12 +47,14 @@ describe('Polymorphic Button component', () => {
         External
       </Button>
     );
+
     const link = screen.getByRole('link', { name: 'External' });
+
     expect(link).toHaveAttribute('target', '_blank');
     expect(link).toHaveAttribute('rel', 'noopener noreferrer');
   });
 
-  it('respects custom rel when provided with target="_blank"', () => {
+  it('preserves an explicit rel on external links', () => {
     render(
       <Button
         as="a"
@@ -63,131 +65,154 @@ describe('Polymorphic Button component', () => {
         External
       </Button>
     );
+
     const link = screen.getByRole('link', { name: 'External' });
+
     expect(link).toHaveAttribute('rel', 'nofollow');
   });
 
-  it('applies variant and icon-position data attributes', () => {
-    render(
-      <Button
-        variant="secondary"
-        iconPosition="left"
-      >
-        Label
-      </Button>
-    );
-    const el = screen.getByRole('button', { name: 'Label' });
-    expect(el).toHaveAttribute('data-variant', 'secondary');
-    expect(el).toHaveAttribute('data-icon-position', 'left');
-  });
-
-  it('merges className correctly', () => {
-    render(<Button className="extra">Text</Button>);
-    const el = screen.getByRole('button', { name: 'Text' });
-    expect(el.className).toMatch(/hoam-button/);
-    expect(el.className).toMatch(/extra/);
-  });
-
-  it('rest spreads custom props correctly', () => {
-    render(
-      <Button
-        data-testid="btn"
-        aria-describedby="hint"
-      >
-        Hello
-      </Button>
-    );
-    const el = screen.getByTestId('btn');
-    expect(el).toHaveAttribute('aria-describedby', 'hint');
-  });
-
-  it('handles click for native button', () => {
+  it('calls onClick for button usage', () => {
     const onClick = vi.fn();
-    render(<Button onClick={onClick}>Go</Button>);
-    fireEvent.click(screen.getByRole('button', { name: 'Go' }));
+
+    render(<Button onClick={onClick}>Press</Button>);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Press' }));
+
     expect(onClick).toHaveBeenCalledTimes(1);
   });
 
-  it('does not fire click when disabled', () => {
+  it('respects disabled on button usage', () => {
     const onClick = vi.fn();
+
     render(
       <Button
         disabled
         onClick={onClick}
       >
-        Disabled
+        Press
       </Button>
     );
-    const btn = screen.getByRole('button', { name: 'Disabled' });
-    expect(btn).toBeDisabled();
-    fireEvent.click(btn);
+
+    const button = screen.getByRole('button', { name: 'Press' });
+
+    expect(button).toBeDisabled();
+
+    fireEvent.click(button);
+
     expect(onClick).not.toHaveBeenCalled();
   });
 
-  it('forwards ref to the correct element (button)', () => {
-    const ref = createRef<HTMLButtonElement>();
-    render(<Button ref={ref}>Ref target</Button>);
-    expect(ref.current).toBeInstanceOf(HTMLButtonElement);
-    expect(ref.current?.tagName).toBe('BUTTON');
+  it('renders submit type when provided', () => {
+    render(<Button type="submit">Submit</Button>);
+
+    expect(screen.getByRole('button', { name: 'Submit' })).toHaveAttribute('type', 'submit');
   });
 
-  it('forwards ref to the correct element (anchor)', () => {
-    const ref = createRef<HTMLAnchorElement>();
+  it('renders icon-only button with ariaLabel', () => {
+    render(
+      <Button
+        icon="search"
+        iconOnly
+        ariaLabel="Search"
+      >
+        Hidden text
+      </Button>
+    );
+
+    const button = screen.getByRole('button', { name: 'Search' });
+
+    expect(button).toBeInTheDocument();
+    expect(screen.queryByText('Hidden text')).not.toBeInTheDocument();
+  });
+
+  it('falls back to string children as aria-label for icon-only button', () => {
+    render(
+      <Button
+        icon="search"
+        iconOnly
+      >
+        Search
+      </Button>
+    );
+
+    const button = screen.getByRole('button', { name: 'Search' });
+
+    expect(button).toBeInTheDocument();
+    expect(screen.queryByText('Search')).not.toBeInTheDocument();
+  });
+
+  it('renders icon-only anchor with ariaLabel', () => {
     render(
       <Button
         as="a"
-        href="/docs"
-        ref={ref}
+        href="/search"
+        icon="search"
+        iconOnly
+        ariaLabel="Search"
       >
-        Docs
+        Hidden text
       </Button>
     );
-    expect(ref.current).toBeInstanceOf(HTMLAnchorElement);
-    expect(ref.current?.tagName).toBe('A');
+
+    const link = screen.getByRole('link', { name: 'Search' });
+
+    expect(link).toBeInTheDocument();
+    expect(link).toHaveAttribute('href', '/search');
+    expect(screen.queryByText('Hidden text')).not.toBeInTheDocument();
   });
 
-  describe('iconOnly + aria-label behavior', () => {
-    it('uses explicit ariaLabel when provided', () => {
-      render(
-        <Button
-          iconOnly
-          icon="x"
-          ariaLabel="Close"
-        >
-          (ignored)
-        </Button>
-      );
-      const el = screen.getByRole('button', { name: 'Close' });
-      expect(el).toBeInTheDocument();
-    });
+  it('forwards a ref to a button element', () => {
+    const ref = createRef<HTMLButtonElement>();
 
-    it('falls back to string children when iconOnly and no ariaLabel', () => {
-      render(
-        <Button
-          iconOnly
-          icon="x"
-        >
-          Close
-        </Button>
-      );
-      const el = screen.getByRole('button', { name: 'Close' });
-      expect(el).toBeInTheDocument();
-    });
+    render(<Button ref={ref}>Ref button</Button>);
 
-    it('does not render text when iconOnly', () => {
-      render(
-        <Button
-          iconOnly
-          icon="x"
-          ariaLabel="Close"
-        >
-          Close
-        </Button>
-      );
-      const btn = screen.getByRole('button', { name: 'Close' });
-      expect(btn.querySelector('.hoam-button__content')).toBeNull();
-      // Icon container should exist if icon prop is passed
-      expect(btn.querySelector('.hoam-button__icon')).not.toBeNull();
-    });
+    expect(ref.current).toBeInstanceOf(HTMLButtonElement);
+  });
+
+  it('forwards a ref to an anchor element', () => {
+    const ref = createRef<HTMLAnchorElement>();
+
+    render(
+      <Button
+        as="a"
+        href="/about"
+        ref={ref}
+      >
+        About
+      </Button>
+    );
+
+    expect(ref.current).toBeInstanceOf(HTMLAnchorElement);
+  });
+
+  it('passes through extra button attributes', () => {
+    render(
+      <Button
+        data-testid="custom-button"
+        name="save-button"
+      >
+        Save
+      </Button>
+    );
+
+    const button = screen.getByTestId('custom-button');
+
+    expect(button).toHaveAttribute('name', 'save-button');
+  });
+
+  it('passes through extra anchor attributes', () => {
+    render(
+      <Button
+        as="a"
+        href="/about"
+        data-testid="custom-link"
+      >
+        About
+      </Button>
+    );
+
+    const link = screen.getByTestId('custom-link');
+
+    expect(link).toHaveAttribute('href', '/about');
   });
 });

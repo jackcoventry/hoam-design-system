@@ -17,6 +17,7 @@ export function InfoGridItem({ title, description, icon }: Readonly<InfoGridItem
           width="3em"
           height="3em"
           fill="currentColor"
+          aria-hidden="true"
         >
           <use xlinkHref={`/icons/icons.svg#${icon}`} />
         </svg>

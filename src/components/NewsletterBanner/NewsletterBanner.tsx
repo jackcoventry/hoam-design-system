@@ -13,7 +13,7 @@ import styles from '@/components/NewsletterBanner/NewsletterBanner.module.css';
 
 export type NewsletterBannerProps = {
   title: string;
-  description?: string;
+  description?: string | undefined;
 };
 
 const SUBMIT_DELAY_MS = 2000;
@@ -111,6 +111,7 @@ export function NewsletterBanner({ title, description }: Readonly<NewsletterBann
                   target="_blank"
                   rel="noopener noreferrer"
                   className={styles.socialLink}
+                  aria-label={link.name}
                 >
                   <svg
                     className="icon"

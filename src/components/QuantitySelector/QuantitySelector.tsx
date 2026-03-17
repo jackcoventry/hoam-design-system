@@ -1,4 +1,4 @@
-import { forwardRef, KeyboardEvent, useEffect, useRef, useState } from 'react';
+import { forwardRef, type KeyboardEvent, useEffect, useRef, useState } from 'react';
 
 import { Button } from '@/components/Button';
 
@@ -16,11 +16,15 @@ export interface QuantitySelectorProps {
   decrementLabel?: string;
 }
 
-// Ensures a number stays between the min and max bounds.
-// TODO: This can be reused
 function clamp(n: number, min: number, max: number) {
-  if (Number.isFinite(min)) n = Math.max(n, min);
-  if (Number.isFinite(max)) n = Math.min(n, max);
+  if (Number.isFinite(min)) {
+    n = Math.max(n, min);
+  }
+
+  if (Number.isFinite(max)) {
+    n = Math.min(n, max);
+  }
+
   return n;
 }
 
@@ -55,19 +59,20 @@ export const QuantitySelector = forwardRef<HTMLInputElement, QuantitySelectorPro
       latestValueRef.current = value;
     }, [value]);
 
-    // Takes a new number, clamps it and triggers the onChange callback
-    const apply = (next: number) => onChange(clamp(next, min, max));
+    const apply = (next: number) => {
+      onChange(clamp(next, min, max));
+    };
 
-    // Updates the value by a delta, optionally multiplied
-    const update = (dir: 1 | -1, multiplier = 1) =>
+    const update = (dir: 1 | -1, multiplier = 1) => {
       apply(latestValueRef.current + dir * multiplier);
+    };
 
-    // Handles pressing and holding the increment/decrement buttons
-    const pressTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const pressTimeout = useRef<ReturnType<typeof globalThis.setTimeout> | null>(null);
     const pressDirection = useRef<1 | -1 | 0>(0);
 
     const stopPress = () => {
       pressDirection.current = 0;
+
       if (pressTimeout.current) {
         globalThis.clearTimeout(pressTimeout.current);
         pressTimeout.current = null;
@@ -75,17 +80,27 @@ export const QuantitySelector = forwardRef<HTMLInputElement, QuantitySelectorPro
     };
 
     const pressTick = (dir: 1 | -1, delay: number) => {
-      if (pressDirection.current !== dir) return; // stopped or changed
+      if (pressDirection.current !== dir) {
+        return;
+      }
+
       update(dir);
-      const nextDelay = Math.max(50, delay - 10); // accelerate a bit
-      pressTimeout.current = globalThis.setTimeout(() => pressTick(dir, nextDelay), nextDelay);
+
+      const nextDelay = Math.max(50, delay - 10);
+
+      pressTimeout.current = globalThis.setTimeout(() => {
+        pressTick(dir, nextDelay);
+      }, nextDelay);
     };
 
     const startPress = (dir: 1 | -1) => {
       stopPress();
       pressDirection.current = dir;
       update(dir);
-      pressTimeout.current = globalThis.setTimeout(() => pressTick(dir, 140), 300);
+
+      pressTimeout.current = globalThis.setTimeout(() => {
+        pressTick(dir, 140);
+      }, 300);
     };
 
     const createButtonHandlers = (dir: 1 | -1) => ({
@@ -94,26 +109,29 @@ export const QuantitySelector = forwardRef<HTMLInputElement, QuantitySelectorPro
       onMouseLeave: stopPress,
       onTouchStart: () => startPress(dir),
       onTouchEnd: stopPress,
-      onKeyDown: (e: KeyboardEvent<HTMLButtonElement>) => {
-        // Support keyboard activation on focused buttons
-        if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
-          e.preventDefault(); // avoid page scroll and rely on our handler
+      onKeyDown: (event: KeyboardEvent<HTMLButtonElement>) => {
+        if (event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar') {
+          event.preventDefault();
           startPress(dir);
         }
       },
-      onKeyUp: (e: KeyboardEvent<HTMLButtonElement>) => {
-        if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar') {
-          e.preventDefault();
+      onKeyUp: (event: KeyboardEvent<HTMLButtonElement>) => {
+        if (event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar') {
+          event.preventDefault();
           stopPress();
         }
       },
     });
 
-    useEffect(() => stopPress, []); // cleanup
+    useEffect(() => {
+      return () => {
+        stopPress();
+      };
+    }, []);
 
     return (
       <div className={styles.root}>
-        {ariaLabel && <span className={styles.label}>{ariaLabel}</span>}
+        {ariaLabel ? <span className={styles.label}>{ariaLabel}</span> : null}
 
         <div className={styles.inner}>
           <Button
@@ -124,6 +142,7 @@ export const QuantitySelector = forwardRef<HTMLInputElement, QuantitySelectorPro
           >
             −
           </Button>
+
           <input
             ref={ref}
             id={id}
@@ -139,6 +158,7 @@ export const QuantitySelector = forwardRef<HTMLInputElement, QuantitySelectorPro
             aria-valuemax={ariaMax}
             className={styles.input}
           />
+
           <Button
             ariaLabel={incrementLabel}
             disabled={atMax}

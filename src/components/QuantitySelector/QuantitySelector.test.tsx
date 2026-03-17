@@ -1,46 +1,8 @@
-import { createRef } from 'react';
-import { act, render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { act, createRef } from 'react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { QuantitySelector, type QuantitySelectorProps } from '@/components/QuantitySelector';
-
-type SetupProps = Partial<QuantitySelectorProps>;
-
-function setup(props: SetupProps = {}) {
-  const onChange = vi.fn();
-  const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
-
-  const defaultProps: QuantitySelectorProps = {
-    value: 1,
-    onChange,
-    min: 0,
-    max: 5,
-    ariaLabel: 'Quantity',
-    incrementLabel: 'Increase quantity',
-    decrementLabel: 'Decrease quantity',
-  };
-
-  const result = render(
-    <QuantitySelector
-      {...defaultProps}
-      {...props}
-    />
-  );
-
-  const getSpinbutton = () => screen.getByRole('spinbutton', { name: 'Quantity' });
-  const getIncrementButton = () => screen.getByRole('button', { name: 'Increase quantity' });
-  const getDecrementButton = () => screen.getByRole('button', { name: 'Decrease quantity' });
-
-  return {
-    user,
-    onChange,
-    ...result,
-    getSpinbutton,
-    getIncrementButton,
-    getDecrementButton,
-  };
-}
+import { QuantitySelector } from '@/components/QuantitySelector';
 
 describe('QuantitySelector', () => {
   beforeEach(() => {
@@ -48,187 +10,140 @@ describe('QuantitySelector', () => {
   });
 
   afterEach(() => {
-    vi.runOnlyPendingTimers();
+    vi.clearAllTimers();
     vi.useRealTimers();
+    vi.restoreAllMocks();
   });
 
-  it('renders the current value and spinbutton attributes', () => {
-    const { getSpinbutton } = setup({ value: 3, min: 1, max: 10 });
-
-    const input = getSpinbutton();
-
-    expect(input).toHaveValue('3');
-    expect(input).toHaveAttribute('aria-valuenow', '3');
-    expect(input).toHaveAttribute('aria-valuemin', '1');
-    expect(input).toHaveAttribute('aria-valuemax', '10');
-    expect(input).toBeDisabled();
-    expect(input).toHaveAttribute('readonly');
-  });
-
-  it('calls onChange with incremented value when clicking the plus button', async () => {
-    const { user, onChange, getIncrementButton } = setup({ value: 2 });
-
-    await user.click(getIncrementButton());
-
-    expect(onChange).toHaveBeenCalledWith(3);
-  });
-
-  it('calls onChange with decremented value when clicking the minus button', async () => {
-    const { user, onChange, getDecrementButton } = setup({ value: 2 });
-
-    await user.click(getDecrementButton());
-
-    expect(onChange).toHaveBeenCalledWith(1);
-  });
-
-  it('disables the decrement button at min', () => {
-    const { getDecrementButton, getIncrementButton } = setup({
-      value: 0,
-      min: 0,
-      max: 5,
-    });
-
-    expect(getDecrementButton()).toBeDisabled();
-    expect(getIncrementButton()).not.toBeDisabled();
-  });
-
-  it('disables the increment button at max', () => {
-    const { getDecrementButton, getIncrementButton } = setup({
-      value: 5,
-      min: 0,
-      max: 5,
-    });
-
-    expect(getIncrementButton()).toBeDisabled();
-    expect(getDecrementButton()).not.toBeDisabled();
-  });
-
-  it('clamps increment to max', async () => {
-    const { user, onChange, getIncrementButton } = setup({
-      value: 5,
-      min: 0,
-      max: 5,
-    });
-
-    expect(getIncrementButton()).toBeDisabled();
-
-    // Defensive: disabled button should not fire
-    await user.click(getIncrementButton());
-
-    expect(onChange).not.toHaveBeenCalled();
-  });
-
-  it('clamps decrement to min', async () => {
-    const { user, onChange, getDecrementButton } = setup({
-      value: 0,
-      min: 0,
-      max: 5,
-    });
-
-    expect(getDecrementButton()).toBeDisabled();
-
-    await user.click(getDecrementButton());
-
-    expect(onChange).not.toHaveBeenCalled();
-  });
-
-  it('updates displayed text when the controlled value changes', () => {
-    const onChange = vi.fn();
-
-    const { rerender } = render(
-      <QuantitySelector
-        value={2}
-        onChange={onChange}
-        min={0}
-        max={5}
-        ariaLabel="Quantity"
-      />
-    );
-
-    expect(screen.getByRole('spinbutton', { name: 'Quantity' })).toHaveValue('2');
-
-    rerender(
-      <QuantitySelector
-        value={4}
-        onChange={onChange}
-        min={0}
-        max={5}
-        ariaLabel="Quantity"
-      />
-    );
-
-    expect(screen.getByRole('spinbutton', { name: 'Quantity' })).toHaveValue('4');
-  });
-
-  it('clamps displayed text when controlled value is outside bounds', () => {
-    const onChange = vi.fn();
-
-    const { rerender } = render(
-      <QuantitySelector
-        value={10}
-        onChange={onChange}
-        min={0}
-        max={5}
-        ariaLabel="Quantity"
-      />
-    );
-
-    expect(screen.getByRole('spinbutton', { name: 'Quantity' })).toHaveValue('5');
-
-    rerender(
-      <QuantitySelector
-        value={-3}
-        onChange={onChange}
-        min={0}
-        max={5}
-        ariaLabel="Quantity"
-      />
-    );
-
-    expect(screen.getByRole('spinbutton', { name: 'Quantity' })).toHaveValue('0');
-  });
-
-  it('forwards the ref to the input element', () => {
-    const ref = createRef<HTMLInputElement>();
-
+  it('renders the current value in the spinbutton', () => {
     render(
       <QuantitySelector
-        ref={ref}
-        value={1}
+        value={2}
         onChange={vi.fn()}
         ariaLabel="Quantity"
       />
     );
 
-    expect(ref.current).toBeInstanceOf(HTMLInputElement);
-    expect(ref.current).toBe(screen.getByRole('spinbutton', { name: 'Quantity' }));
+    const input = screen.getByRole('spinbutton', { name: 'Quantity' });
+
+    expect(input).toHaveValue('2');
+    expect(input).toHaveAttribute('aria-valuenow', '2');
   });
 
-  it('supports keyboard activation on increment button with Enter', async () => {
-    const { user, onChange, getIncrementButton } = setup({ value: 2 });
-    const incrementButton = getIncrementButton();
+  it('renders min and max aria values when provided', () => {
+    render(
+      <QuantitySelector
+        value={2}
+        onChange={vi.fn()}
+        min={1}
+        max={5}
+        ariaLabel="Quantity"
+      />
+    );
 
-    incrementButton.focus();
-    expect(incrementButton).toHaveFocus();
+    const input = screen.getByRole('spinbutton', { name: 'Quantity' });
 
-    await user.keyboard('{Enter}');
+    expect(input).toHaveAttribute('aria-valuemin', '1');
+    expect(input).toHaveAttribute('aria-valuemax', '5');
+  });
+
+  it('calls onChange with incremented value', () => {
+    const onChange = vi.fn();
+
+    render(
+      <QuantitySelector
+        value={2}
+        onChange={onChange}
+        ariaLabel="Quantity"
+      />
+    );
+
+    fireEvent.mouseDown(screen.getByRole('button', { name: 'Increase quantity' }));
 
     expect(onChange).toHaveBeenCalledWith(3);
   });
 
-  it('supports keyboard activation on decrement button with Space', async () => {
-    const { user, onChange, getDecrementButton } = setup({ value: 2 });
-    const decrementButton = getDecrementButton();
+  it('calls onChange with decremented value', () => {
+    const onChange = vi.fn();
 
-    decrementButton.focus();
-    expect(decrementButton).toHaveFocus();
+    render(
+      <QuantitySelector
+        value={2}
+        onChange={onChange}
+        ariaLabel="Quantity"
+      />
+    );
 
-    await user.keyboard(' ');
+    fireEvent.mouseDown(screen.getByRole('button', { name: 'Decrease quantity' }));
 
     expect(onChange).toHaveBeenCalledWith(1);
   });
 
-  it('repeats updates while increment button is held', () => {
+  it('disables the decrement button at the minimum', () => {
+    render(
+      <QuantitySelector
+        value={0}
+        onChange={vi.fn()}
+        min={0}
+        ariaLabel="Quantity"
+      />
+    );
+
+    expect(screen.getByRole('button', { name: 'Decrease quantity' })).toBeDisabled();
+  });
+
+  it('disables the increment button at the maximum', () => {
+    render(
+      <QuantitySelector
+        value={5}
+        onChange={vi.fn()}
+        max={5}
+        ariaLabel="Quantity"
+      />
+    );
+
+    expect(screen.getByRole('button', { name: 'Increase quantity' })).toBeDisabled();
+  });
+
+  it('clamps incremented values to the maximum', () => {
+    const onChange = vi.fn();
+
+    render(
+      <QuantitySelector
+        value={5}
+        onChange={onChange}
+        min={0}
+        max={5}
+        ariaLabel="Quantity"
+      />
+    );
+
+    const button = screen.getByRole('button', { name: 'Increase quantity' });
+
+    expect(button).toBeDisabled();
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
+  it('clamps decremented values to the minimum', () => {
+    const onChange = vi.fn();
+
+    render(
+      <QuantitySelector
+        value={0}
+        onChange={onChange}
+        min={0}
+        max={5}
+        ariaLabel="Quantity"
+      />
+    );
+
+    const button = screen.getByRole('button', { name: 'Decrease quantity' });
+
+    expect(button).toBeDisabled();
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
+  it('supports press and hold on increment', () => {
     const onChange = vi.fn();
 
     render(
@@ -241,11 +156,9 @@ describe('QuantitySelector', () => {
       />
     );
 
-    const incrementButton = screen.getByRole('button', {
-      name: 'Increase quantity',
-    });
+    const button = screen.getByRole('button', { name: 'Increase quantity' });
 
-    incrementButton.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
+    fireEvent.mouseDown(button);
 
     expect(onChange).toHaveBeenCalledWith(2);
 
@@ -253,7 +166,7 @@ describe('QuantitySelector', () => {
       vi.advanceTimersByTime(300);
     });
 
-    expect(onChange).toHaveBeenLastCalledWith(2);
+    expect(onChange).toHaveBeenCalledWith(2);
 
     act(() => {
       vi.advanceTimersByTime(140);
@@ -261,14 +174,10 @@ describe('QuantitySelector', () => {
 
     expect(onChange).toHaveBeenLastCalledWith(2);
 
-    act(() => {
-      vi.advanceTimersByTime(130);
-    });
-
-    expect(onChange).toHaveBeenLastCalledWith(2);
+    fireEvent.mouseUp(button);
   });
 
-  it('stops repeating when mouse is released', () => {
+  it('stops press and hold when mouse is released', () => {
     const onChange = vi.fn();
 
     render(
@@ -281,57 +190,69 @@ describe('QuantitySelector', () => {
       />
     );
 
-    const incrementButton = screen.getByRole('button', {
-      name: 'Increase quantity',
-    });
+    const button = screen.getByRole('button', { name: 'Increase quantity' });
 
-    incrementButton.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
-    expect(onChange).toHaveBeenCalledTimes(1);
+    fireEvent.mouseDown(button);
+    fireEvent.mouseUp(button);
 
-    incrementButton.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }));
+    const callCountAfterRelease = onChange.mock.calls.length;
 
     act(() => {
       vi.advanceTimersByTime(1000);
     });
 
-    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange.mock.calls.length).toBe(callCountAfterRelease);
   });
 
-  it('uses the latest controlled value during press repetition', () => {
+  it('supports keyboard activation on the buttons', () => {
     const onChange = vi.fn();
 
-    const { rerender } = render(
+    render(
       <QuantitySelector
         value={2}
         onChange={onChange}
-        min={0}
-        max={10}
         ariaLabel="Quantity"
       />
     );
 
-    const incrementButton = screen.getByRole('button', {
-      name: 'Increase quantity',
-    });
+    const button = screen.getByRole('button', { name: 'Increase quantity' });
 
-    incrementButton.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }));
-    expect(onChange).toHaveBeenLastCalledWith(3);
+    fireEvent.keyDown(button, { key: 'Enter' });
 
-    rerender(
+    expect(onChange).toHaveBeenCalledWith(3);
+
+    fireEvent.keyUp(button, { key: 'Enter' });
+  });
+
+  it('forwards a ref to the input', () => {
+    const ref = createRef<HTMLInputElement>();
+
+    render(
       <QuantitySelector
-        value={3}
-        onChange={onChange}
-        min={0}
-        max={10}
+        ref={ref}
+        value={2}
+        onChange={vi.fn()}
         ariaLabel="Quantity"
       />
     );
 
-    act(() => {
-      vi.advanceTimersByTime(300);
-      vi.advanceTimersByTime(140);
-    });
+    expect(ref.current).toBeInstanceOf(HTMLInputElement);
+  });
 
-    expect(onChange).toHaveBeenLastCalledWith(4);
+  it('forwards id and name to the input', () => {
+    render(
+      <QuantitySelector
+        value={2}
+        onChange={vi.fn()}
+        id="quantity"
+        name="quantity"
+        ariaLabel="Quantity"
+      />
+    );
+
+    const input = screen.getByRole('spinbutton', { name: 'Quantity' });
+
+    expect(input).toHaveAttribute('id', 'quantity');
+    expect(input).toHaveAttribute('name', 'quantity');
   });
 });

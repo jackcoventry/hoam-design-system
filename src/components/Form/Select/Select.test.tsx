@@ -105,19 +105,38 @@ describe('Select', () => {
       </Select>
     );
 
-    const select = screen.getByRole('listbox');
-    const options = screen.getAllByRole('option');
+    const selectElement = screen.getByRole('listbox');
 
-    options[1].selected = true; // de
-    options[2].selected = true; // fr
+    if (!(selectElement instanceof HTMLSelectElement)) {
+      throw new TypeError('Expected a select element');
+    }
 
-    fireEvent.change(select);
+    const secondOption = selectElement.options.item(1);
+    const thirdOption = selectElement.options.item(2);
+
+    if (!(secondOption instanceof HTMLOptionElement)) {
+      throw new TypeError('Expected second option to exist');
+    }
+
+    if (!(thirdOption instanceof HTMLOptionElement)) {
+      throw new TypeError('Expected third option to exist');
+    }
+
+    secondOption.selected = true;
+    thirdOption.selected = true;
+
+    fireEvent.change(selectElement);
 
     expect(onChange).toHaveBeenCalledTimes(1);
 
-    const [value, event] = onChange.mock.calls[0] as [string[], Event];
-    expect(value).toEqual(['de', 'fr']);
-    expect(event).toBeTruthy();
+    const firstCall = onChange.mock.calls[0];
+
+    if (!firstCall) {
+      throw new TypeError('Expected onChange to be called');
+    }
+
+    expect(firstCall[0]).toEqual(['de', 'fr']);
+    expect(firstCall[1]).toBeTruthy();
   });
 
   it('renders placeholder option', () => {
