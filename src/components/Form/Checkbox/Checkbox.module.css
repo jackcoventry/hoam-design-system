@@ -1,4 +1,4 @@
-.root {
+.wrapper {
   --checkbox-box-size: 1.25rem;
   --checkbox-radius: 0.25rem;
   --checkbox-border-color: rgba(0, 0, 0, 0.28);
@@ -13,6 +13,11 @@
   --checkbox-transition-easing: ease;
   --checkbox-disabled-opacity: 0.55;
 
+  display: grid;
+  gap: var(--checkbox-text-gap);
+}
+
+.root {
   display: inline-flex;
   align-items: flex-start;
   gap: var(--checkbox-label-gap);
@@ -130,6 +135,7 @@
 }
 
 .description {
+  margin-inline-start: calc(var(--checkbox-box-size) + var(--checkbox-label-gap));
   font-size: 0.875rem;
   line-height: 1.4;
   opacity: 0.8;

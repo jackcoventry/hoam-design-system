@@ -1,4 +1,5 @@
 import { type ReactNode, useId } from 'react';
+import clsx from 'clsx';
 
 import styles from './CheckboxGroup.module.css';
 
@@ -9,10 +10,6 @@ export interface CheckboxGroupProps {
   children: ReactNode;
   className?: string;
   required?: boolean;
-}
-
-function cx(...values: Array<string | false | null | undefined>) {
-  return values.filter(Boolean).join(' ');
 }
 
 export function CheckboxGroup({
@@ -31,7 +28,7 @@ export function CheckboxGroup({
 
   return (
     <fieldset
-      className={cx(styles.root, className)}
+      className={clsx(styles.root, className)}
       aria-describedby={describedBy}
     >
       <legend className={styles.legend}>

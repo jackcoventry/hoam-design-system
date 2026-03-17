@@ -24,7 +24,8 @@ describe('ProgressBar', () => {
         value={35}
       />
     );
-    expect(screen.getByText('35%')).toBeInTheDocument();
+
+    expect(screen.getByText('35%', { selector: 'span' })).toBeInTheDocument();
   });
 
   it('supports indeterminate mode', () => {
