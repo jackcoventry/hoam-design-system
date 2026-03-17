@@ -22,7 +22,7 @@ export function Skeleton({
   className,
   style,
   ...rest
-}: SkeletonProps) {
+}: Readonly<SkeletonProps>) {
   const resolvedHeight =
     height ?? (variant === 'text' ? '1em' : variant === 'circular' ? '2.5rem' : '1rem');
 

@@ -1,0 +1,31 @@
+.root {
+  --progress-height: 0.5rem;
+  --progress-radius: 999px;
+  --progress-track-color: rgba(0, 0, 0, 0.12);
+  --progress-fill-color: currentColor;
+  --progress-transition-duration: 200ms;
+
+  display: grid;
+  gap: 0.5rem;
+}
+
+.track {
+  width: 100%;
+  height: var(--progress-height);
+  overflow: hidden;
+  background: var(--progress-track-color);
+  border-radius: var(--progress-radius);
+}
+
+.fill {
+  width: 0;
+  height: 100%;
+  background: var(--progress-fill-color);
+  border-radius: inherit;
+  transition: width var(--progress-transition-duration) ease;
+}
+
+.value {
+  font-size: 0.875rem;
+  line-height: 1.2;
+}
