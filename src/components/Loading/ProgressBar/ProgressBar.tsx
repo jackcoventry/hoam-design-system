@@ -1,17 +1,22 @@
+import { useId } from 'react';
+import clsx from 'clsx';
+
 import styles from './ProgressBar.module.css';
 
 export interface ProgressBarProps {
-  value: number;
+  value?: number;
   min?: number;
   max?: number;
   label?: string;
   showValue?: boolean;
   className?: string;
-  valueLabelFormat?: (percentage: number, value: number) => string;
+  labelClassName?: string;
+  valueClassName?: string;
+  formatValueText?: (percentage: number, value: number, min: number, max: number) => string;
 }
 
-function cx(...values: Array<string | false | null | undefined>) {
-  return values.filter(Boolean).join(' ');
+function clamp(value: number, min: number, max: number) {
+  return Math.min(Math.max(value, min), max);
 }
 
 export function ProgressBar({
@@ -21,40 +26,64 @@ export function ProgressBar({
   label = 'Loading progress',
   showValue = true,
   className,
-  valueLabelFormat,
+  labelClassName,
+  valueClassName,
+  formatValueText,
 }: Readonly<ProgressBarProps>) {
-  const safeRange = max - min;
-  const clampedValue = Math.min(Math.max(value, min), max);
-  const percentage = safeRange <= 0 ? 0 : ((clampedValue - min) / safeRange) * 100;
-  const valueText = valueLabelFormat
-    ? valueLabelFormat(percentage, clampedValue)
-    : `${Math.round(percentage)}%`;
+  const generatedId = useId();
+  const labelId = `${generatedId}-label`;
+
+  const hasValue = typeof value === 'number';
+  const safeMax = max <= min ? min + 1 : max;
+  const clampedValue = hasValue ? clamp(value, min, safeMax) : 0;
+
+  const percentage =
+    hasValue && safeMax > min ? ((clampedValue - min) / (safeMax - min)) * 100 : undefined;
+
+  const valueText =
+    hasValue && percentage !== undefined
+      ? formatValueText
+        ? formatValueText(percentage, clampedValue, min, safeMax)
+        : `${Math.round(percentage)}%`
+      : 'In progress';
 
   return (
-    <div className={cx(styles.root, className)}>
-      <div
-        className={styles.track}
-        role="progressbar"
-        aria-label={label}
-        aria-valuemin={min}
-        aria-valuemax={max}
-        aria-valuenow={clampedValue}
-        aria-valuetext={valueText}
-      >
-        <div
-          className={styles.fill}
-          style={{ width: `${percentage}%` }}
-        />
+    <div className={clsx(styles.root, className)}>
+      <div className={styles.header}>
+        <span
+          id={labelId}
+          className={clsx(styles.label, labelClassName)}
+        >
+          {label}
+        </span>
+
+        {showValue ? (
+          <span
+            className={clsx(styles.valueText, valueClassName)}
+            aria-live="off"
+          >
+            {valueText}
+          </span>
+        ) : null}
       </div>
 
-      {showValue ? (
-        <span
-          className={styles.value}
-          aria-hidden="true"
+      {hasValue ? (
+        <progress
+          className={styles.progress}
+          value={clampedValue}
+          max={safeMax}
+          aria-labelledby={labelId}
         >
           {valueText}
-        </span>
-      ) : null}
+        </progress>
+      ) : (
+        <progress
+          className={clsx(styles.progress, styles.indeterminate)}
+          aria-labelledby={labelId}
+        >
+          {valueText}
+        </progress>
+      )}
     </div>
   );
 }

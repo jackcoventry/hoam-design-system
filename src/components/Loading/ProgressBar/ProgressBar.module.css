@@ -3,29 +3,97 @@
   --progress-radius: 999px;
   --progress-track-color: rgba(0, 0, 0, 0.12);
   --progress-fill-color: currentColor;
-  --progress-transition-duration: 200ms;
+  --progress-label-gap: 0.5rem;
+  --progress-value-font-size: 0.875rem;
+  --progress-label-font-size: 0.875rem;
+  --progress-indeterminate-duration: 1.2s;
 
   display: grid;
-  gap: 0.5rem;
+  gap: var(--progress-label-gap);
 }
 
-.track {
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.label {
+  font-size: var(--progress-label-font-size);
+  line-height: 1.2;
+}
+
+.valueText {
+  font-size: var(--progress-value-font-size);
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.progress {
   width: 100%;
   height: var(--progress-height);
+  appearance: none;
+  -webkit-appearance: none;
+  border: 0;
   overflow: hidden;
+  border-radius: var(--progress-radius);
+  background: transparent;
+}
+
+/* WebKit/Blink */
+.progress::-webkit-progress-bar {
   background: var(--progress-track-color);
   border-radius: var(--progress-radius);
 }
 
-.fill {
-  width: 0;
-  height: 100%;
+.progress::-webkit-progress-value {
   background: var(--progress-fill-color);
-  border-radius: inherit;
-  transition: width var(--progress-transition-duration) ease;
+  border-radius: var(--progress-radius);
+  transition: width 200ms ease;
 }
 
-.value {
-  font-size: 0.875rem;
-  line-height: 1.2;
+/* Firefox */
+.progress::-moz-progress-bar {
+  background: var(--progress-fill-color);
+  border-radius: var(--progress-radius);
+  transition: width 200ms ease;
+}
+
+/*
+  Native indeterminate styling is inconsistent, so we layer a lightweight
+  animated sheen on the host element for a clearer fallback.
+*/
+.indeterminate {
+  position: relative;
+  background: var(--progress-track-color);
+}
+
+.indeterminate::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 35%;
+  border-radius: inherit;
+  background: var(--progress-fill-color);
+  animation: progress-indeterminate var(--progress-indeterminate-duration) linear infinite;
+}
+
+@keyframes progress-indeterminate {
+  from {
+    transform: translateX(-120%);
+  }
+
+  to {
+    transform: translateX(320%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .indeterminate::before,
+  .progress::-webkit-progress-value,
+  .progress::-moz-progress-bar {
+    animation: none;
+    transition: none;
+  }
 }

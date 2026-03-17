@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import type { HTMLAttributes } from 'react';
 
 import styles from './Skeleton.module.css';
@@ -9,10 +10,6 @@ export interface SkeletonProps extends HTMLAttributes<HTMLSpanElement> {
   height?: number | string;
   variant?: SkeletonVariant;
   className?: string;
-}
-
-function cx(...values: Array<string | false | null | undefined>) {
-  return values.filter(Boolean).join(' ');
 }
 
 export function Skeleton({
@@ -28,7 +25,7 @@ export function Skeleton({
 
   return (
     <span
-      className={cx(styles.root, styles[variant], className)}
+      className={clsx(styles.root, styles[variant], className)}
       style={{
         width,
         height: resolvedHeight,
