@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { Switch } from './Switch';
+import { Switch } from '@/components/Switch';
 
 describe('Switch', () => {
   it('renders an accessible switch with a label', () => {
