@@ -10,6 +10,7 @@ export * from './Form';
 export * from './Hero';
 export * from './ImageGallery';
 export * from './InfoGrid';
+export * from './Loading';
 export * from './LogoCarousel';
 export * from './Message';
 export * from './Modal';
