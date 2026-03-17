@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import z from 'zod';
 
-import { Button } from '@/components/Button/Button';
+import { Button } from '@/components/Button';
 import {
   calculatePasswordStrength,
   FieldLabel,

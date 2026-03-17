@@ -11,7 +11,7 @@ export const isVisible = (el: Element) => {
 export const querySubItemVisibility = <T extends HTMLElement>(
   root: Element | Document,
   sel: string
-) => Array.from(root.querySelectorAll<T>(sel)).filter(isVisible);
+) => Array.from(root?.querySelectorAll<T>(sel)).filter(isVisible);
 
 export const focusNextTick = (el?: HTMLElement | null) => {
   if (el) requestAnimationFrame(() => el.focus());

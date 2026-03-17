@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 
-import { ModalStackProvider, useModalStack } from './ModalStackContext';
+import { ModalStackProvider, useModalStack } from '@/components/Modal/ModalStackContext';
 
 type TestModalProps = {
   id: string;

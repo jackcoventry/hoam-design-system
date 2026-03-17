@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react-vite';
 
-import { Hero } from '@/components/Hero/Hero';
+import { Hero } from '@/components/Hero';
 import { HeroSlide, HeroSlideProps } from '@/components/Hero/HeroSlide';
 import MockSlides from '@/mocks/components/Hero';
 
@@ -41,7 +41,7 @@ const Template: Story = {
   ),
 };
 
-export const Default = { ...Template, args: {} };
+export const Default = { ...Template };
 export const Single = {
   ...Template,
   args: {

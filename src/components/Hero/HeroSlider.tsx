@@ -1,9 +1,9 @@
-import React, { isValidElement, ReactElement, ReactNode, useEffect, useRef } from 'react';
+import { Children, isValidElement, ReactElement, ReactNode, useEffect, useRef } from 'react';
 import type { Swiper as SwiperCore } from 'swiper';
 import { A11y, Autoplay, EffectFade, Keyboard, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import { Button } from '@/components/Button/Button';
+import { Button } from '@/components/Button';
 import { HeroSlide, HeroSlideProps } from '@/components/Hero/HeroSlide';
 
 import styles from '@/components/Hero/Hero.module.css';
@@ -27,6 +27,7 @@ export function HeroSlider({
   const nextRef = useRef<HTMLButtonElement | null>(null);
   const pagRef = useRef<HTMLDivElement | null>(null);
   const swiperRef = useRef<SwiperCore | null>(null);
+  const childArray = Children.toArray(children);
 
   const handleBeforeInit = (swiper: SwiperCore) => {
     swiperRef.current = swiper;
@@ -38,17 +39,24 @@ export function HeroSlider({
       nextEl: nextRef.current,
     };
 
+    const bulletClass = styles.bullet;
+    const bulletActiveClass = styles.bulletActive;
+    const bulletInnerClass = styles.bulletInner;
+
+    if (!bulletClass || !bulletActiveClass || !bulletInnerClass) {
+      throw new TypeError('Hero pagination classes are missing from Hero.module.css');
+    }
+
     swiper.params.pagination = {
       ...(swiper.params.pagination as object),
       el: pagRef.current,
       clickable: true,
-      bulletClass: styles.bullet || '',
-      bulletActiveClass: styles.bulletActive || '',
-      // Has to return string
+      bulletClass,
+      bulletActiveClass,
       renderBullet: (index, className) =>
         `<button type="button" class="${className}" aria-label="Go to slide ${index + 1}">
-           <span class="styles.bullet-inner">${index + 1}</span>
-         </button>`,
+       <span class="${bulletInnerClass}">${index + 1}</span>
+     </button>`,
     };
   };
 
@@ -73,6 +81,8 @@ export function HeroSlider({
       swiper.pagination?.update();
     }
   }, []);
+
+  if (childArray.length === 0) return null;
 
   return (
     <>
@@ -116,9 +126,9 @@ export function HeroSlider({
         onBeforeInit={handleBeforeInit}
         onSwiper={(s) => (swiperRef.current = s)}
       >
-        {React.Children.map(children, (child) => {
+        {Children?.map(children, (child) => {
           if (isHeroSlideElement(child)) {
-            return <SwiperSlide>{child}</SwiperSlide>;
+            return <SwiperSlide key={child.key ?? undefined}>{child}</SwiperSlide>;
           } else {
             console.error('Hero component only accepts child of type HeroSlide');
           }

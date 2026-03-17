@@ -9,7 +9,7 @@ interface UseFocusTrapOptions<T extends HTMLElement = HTMLElement> {
 }
 
 function getFocusableElements(root: HTMLElement): HTMLElement[] {
-  const nodes = Array.from(root.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTORS));
+  const nodes = Array.from(root?.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTORS));
 
   // Only visible, actually focusable
   return nodes.filter(

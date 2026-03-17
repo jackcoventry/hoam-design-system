@@ -77,7 +77,7 @@ function ModalRoot({
   const getFocusableElements = useCallback((): HTMLElement[] => {
     if (!dialogRef.current) return [];
 
-    return Array.from(dialogRef.current.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTORS)).filter(
+    return Array.from(dialogRef.current?.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTORS)).filter(
       (el) => !el.hasAttribute('disabled') && el.tabIndex !== -1
     );
   }, []);

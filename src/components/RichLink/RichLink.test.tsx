@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
-import { RichLink } from './RichLink';
+import { RichLink } from '@/components/RichLink';
 
 describe('RichLink', () => {
   it('renders a link with the correct href', () => {

@@ -3,7 +3,7 @@ import type { Swiper as SwiperCore } from 'swiper';
 import { A11y, FreeMode, Keyboard, Navigation, Pagination, Thumbs } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-import { Button } from '@/components/Button/Button';
+import { Button } from '@/components/Button';
 import getTokenByName from '@/utils/getTokenByName';
 
 import '@/components/Common/Dots.css';

@@ -19,7 +19,7 @@ export type HeroProps = {
 export function Hero({ children, ...rest }: Readonly<HeroProps>) {
   return (
     <div className={styles.root}>
-      {Children.count(children) > 1 ? <HeroSlider {...rest}>{children}</HeroSlider> : children}
+      {Children?.count(children) > 1 ? <HeroSlider {...rest}>{children}</HeroSlider> : children}
     </div>
   );
 }

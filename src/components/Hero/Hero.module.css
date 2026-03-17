@@ -21,6 +21,13 @@
   width: 100%;
 }
 
+.bullet {
+}
+.bulletActive {
+}
+.bulletInner {
+}
+
 .root {
   align-items: center;
   display: flex;
