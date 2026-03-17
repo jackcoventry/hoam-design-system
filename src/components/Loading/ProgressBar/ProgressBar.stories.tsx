@@ -44,6 +44,6 @@ export const CustomValueText: Story = {
   args: {
     value: 64,
     label: 'Processing images',
-    formatValueText: (percentage) => `${Math.round(percentage)} complete`,
+    formatValueText: (percentage) => `${Math.round(percentage)}/100 complete`,
   },
 };

@@ -60,10 +60,6 @@
   transition: width 200ms ease;
 }
 
-/*
-  Native indeterminate styling is inconsistent, so we layer a lightweight
-  animated sheen on the host element for a clearer fallback.
-*/
 .indeterminate {
   position: relative;
   background: var(--progress-track-color);

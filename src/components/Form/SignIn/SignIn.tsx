@@ -5,7 +5,6 @@ import z from 'zod';
 import { Button } from '@/components/Button';
 import { FieldWrapper } from '@/components/Form';
 
-import '@/components/Common/Loader.css';
 import styles from '@/components/Form/Form.module.css';
 
 const SignInFormSchema = z.object({

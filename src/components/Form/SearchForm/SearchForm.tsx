@@ -3,8 +3,8 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import z from 'zod';
 
 import { Button } from '@/components/Button';
+import { Spinner } from '@/components/Loading';
 
-import '@/components/Common/Loader.css';
 import styles from '@/components/Form/SearchForm/SearchForm.module.css';
 
 const SearchFormSchema = z.object({
@@ -48,7 +48,7 @@ export function SearchLoader() {
   // TODO: Address utilty classes like hoam-loader
   return (
     <div className={styles.loader}>
-      <span className="hoam-loader" />
+      <Spinner />
     </div>
   );
 }
