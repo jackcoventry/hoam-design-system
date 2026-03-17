@@ -2,70 +2,59 @@ import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
 import { Breadcrumb } from '@/components/Breadcrumb';
-import type { NavPanelLinkItem } from '@/components/Navigation/types';
+
+const mockItems = [
+  { id: 'home', label: 'Home', href: '/' },
+  { id: 'blog', label: 'Blog', href: '/blog' },
+  { id: 'article', label: 'Article', href: '/blog/article' },
+];
 
 describe('Breadcrumb', () => {
-  it('renders nothing when items is an empty array', () => {
+  it('renders nothing when items are empty', () => {
     const { container } = render(<Breadcrumb items={[]} />);
 
-    expect(screen.queryByRole('navigation', { name: /Breadcrumb/i })).not.toBeInTheDocument();
-
-    expect(container.firstChild).toBeNull();
+    expect(container).toBeEmptyDOMElement();
   });
 
-  it('renders a navigation landmark with aria-label "Breadcrumb"', () => {
-    const items: NavPanelLinkItem[] = [
-      { id: 'home', label: 'Home', href: '/' },
-      { id: 'products', label: 'Products', href: '/products' },
-      { id: 'coffee', label: 'Coffee', href: '/products/coffee' },
-    ];
+  it('renders a navigation landmark', () => {
+    render(<Breadcrumb items={mockItems} />);
 
-    render(<Breadcrumb items={items} />);
-
-    const nav = screen.getByRole('navigation', { name: 'Breadcrumb' });
-    expect(nav).toBeInTheDocument();
-    expect(nav).toHaveClass('hoam-breadcrumb');
+    expect(screen.getByRole('navigation', { name: 'Breadcrumb' })).toBeInTheDocument();
   });
 
-  it('renders all items as list items inside an ordered list', () => {
-    const items: NavPanelLinkItem[] = [
-      { id: 'home', label: 'Home', href: '/' },
-      { id: 'products', label: 'Products', href: '/products' },
-      { id: 'coffee', label: 'Coffee', href: '/products/coffee' },
-    ];
+  it('renders breadcrumb links for all but the last item', () => {
+    render(<Breadcrumb items={mockItems} />);
 
-    render(<Breadcrumb items={items} />);
+    const links = screen.getAllByRole('link');
 
-    const list = screen.getByRole('list');
+    expect(links).toHaveLength(2);
+    expect(links[0]).toHaveTextContent('Home');
+    expect(links[1]).toHaveTextContent('Blog');
+  });
+
+  it('renders the last item as the current page', () => {
+    render(<Breadcrumb items={mockItems} />);
+
+    const current = screen.getByText('Article');
+
+    expect(current).toHaveAttribute('aria-current', 'page');
+    expect(current.tagName).toBe('SPAN');
+  });
+
+  it('renders correct href attributes', () => {
+    render(<Breadcrumb items={mockItems} />);
+
+    expect(screen.getByRole('link', { name: 'Home' })).toHaveAttribute('href', '/');
+    expect(screen.getByRole('link', { name: 'Blog' })).toHaveAttribute('href', '/blog');
+  });
+
+  it('renders items in order', () => {
+    render(<Breadcrumb items={mockItems} />);
+
     const listItems = screen.getAllByRole('listitem');
 
-    expect(list).toHaveClass('hoam-breadcrumb__list');
-    expect(listItems).toHaveLength(items.length);
-    listItems.forEach((li) => expect(li).toHaveClass('hoam-breadcrumb__list-item'));
-  });
-
-  it('renders all but the last item as links and the last item as a span with aria-current="page"', () => {
-    const items: NavPanelLinkItem[] = [
-      { id: 'home', label: 'Home', href: '/' },
-      { id: 'products', label: 'Products', href: '/products' },
-      { id: 'coffee', label: 'Coffee', href: '/products/coffee' },
-    ];
-
-    render(<Breadcrumb items={items} />);
-
-    const homeLink = screen.getByRole('link', { name: 'Home' });
-    const productsLink = screen.getByRole('link', { name: 'Products' });
-
-    expect(homeLink).toHaveClass('hoam-breadcrumb__item');
-    expect(homeLink).toHaveAttribute('href', '/');
-
-    expect(productsLink).toHaveClass('hoam-breadcrumb__item');
-    expect(productsLink).toHaveAttribute('href', '/products');
-
-    // Current / last item should not be a link
-    const current = screen.getByText('Coffee');
-    expect(current.tagName).toBe('SPAN');
-    expect(current).toHaveClass('hoam-breadcrumb__item');
-    expect(current).toHaveAttribute('aria-current', 'page');
+    expect(listItems[0]).toHaveTextContent('Home');
+    expect(listItems[1]).toHaveTextContent('Blog');
+    expect(listItems[2]).toHaveTextContent('Article');
   });
 });

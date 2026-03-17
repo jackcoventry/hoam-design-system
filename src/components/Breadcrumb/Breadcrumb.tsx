@@ -7,15 +7,19 @@ export type BreadcrumbProps = {
 };
 
 export function Breadcrumb({ items }: Readonly<BreadcrumbProps>) {
-  if (!items || items?.length === 0) return;
+  if (!items || items.length === 0) return null;
+
+  const lastIndex = items.length - 1;
+
   return (
     <nav
       aria-label="Breadcrumb"
       className={styles.root}
     >
       <ol className={styles.list}>
-        {items?.map((item, index) => {
-          const isCurrent = index === items.length - 1;
+        {items.map((item, index) => {
+          const isCurrent = index === lastIndex;
+
           return (
             <li
               key={item.id}

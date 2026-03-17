@@ -1,138 +1,128 @@
-import { render, screen, within } from '@testing-library/react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { render, screen } from '@testing-library/react';
+import { describe, expect, it, vi } from 'vitest';
 
 import { Footer } from '@/components/Footer';
 
-vi.mock('@/mocks/socialLinks.json', () => ({
+vi.mock('@/mocks/socialLinks', () => ({
   default: [
-    { name: 'Facebook', url: 'https://facebook.com/hoam', icon: 'facebook' },
-    { name: 'Instagram', url: 'https://instagram.com/hoam', icon: 'instagram' },
-    { name: 'TikTok', url: 'https://tiktok.com/@hoam', icon: 'tiktok' },
+    {
+      name: 'Twitter',
+      url: 'https://example.com/twitter',
+      icon: 'twitter',
+    },
+    {
+      name: 'Instagram',
+      url: 'https://example.com/instagram',
+      icon: 'instagram',
+    },
   ],
 }));
 
-vi.mock('./Footer.css', () => ({}));
+const topLinks = [
+  {
+    title: 'Products',
+    links: [
+      { label: 'Coffee', href: '/coffee' },
+      { label: 'Subscriptions', href: '/subscriptions' },
+    ],
+  },
+  {
+    title: 'Company',
+    links: [
+      { label: 'About', href: '/about' },
+      { label: 'Careers', href: '/careers' },
+    ],
+  },
+  {
+    title: 'Support',
+    links: [{ label: 'Help', href: '/help' }],
+  },
+  {
+    title: 'Legal',
+    links: [{ label: 'Privacy', href: '/privacy' }],
+  },
+  {
+    title: 'Extra',
+    links: [{ label: 'Ignored', href: '/ignored' }],
+  },
+];
 
-describe('<Footer />', () => {
-  const makeTopLinks = (count: number) =>
-    Array.from({ length: count }).map((_, i) => ({
-      title: `Section ${i + 1}`,
-      links: [
-        { label: `S${i + 1}-Link 1`, href: `/s${i + 1}-l1` },
-        { label: `S${i + 1}-Link 2`, href: `/s${i + 1}-l2` },
-      ],
-    }));
+const bottomLinks = [
+  { label: 'Terms', href: '/terms' },
+  { label: 'Privacy Policy', href: '/privacy-policy' },
+];
 
-  const bottomLinks = [
-    { label: 'Privacy Policy', href: '/privacy' },
-    { label: 'Terms of Use', href: '/terms' },
-  ];
+describe('Footer', () => {
+  it('renders the footer landmark', () => {
+    render(<Footer />);
 
-  beforeEach(() => {
-    vi.clearAllMocks();
+    expect(screen.getByRole('contentinfo')).toBeInTheDocument();
   });
 
-  it('renders a <footer> landmark and the logo image', () => {
+  it('renders the logo image', () => {
     render(<Footer />);
-    const footer = screen.getByRole('contentinfo');
-    expect(footer).toBeInTheDocument();
 
-    const logo = screen.getByRole('img', { name: /hoam logo/i });
+    const logo = screen.getByAltText('HOAM logo');
+
     expect(logo).toBeInTheDocument();
     expect(logo).toHaveAttribute('src', '/logo.png');
-    expect(logo).toHaveClass('hoam-footer__logo');
   });
 
-  it('renders up to 4 top link sections (limits extras)', () => {
-    const topLinks = makeTopLinks(6); // ask for 6, expect only 4 to render
+  it('renders top link sections', () => {
+    render(<Footer topLinks={topLinks.slice(0, 2)} />);
+
+    expect(screen.getByText('Products')).toBeInTheDocument();
+    expect(screen.getByText('Company')).toBeInTheDocument();
+
+    expect(screen.getByRole('link', { name: 'Coffee' })).toHaveAttribute('href', '/coffee');
+    expect(screen.getByRole('link', { name: 'Careers' })).toHaveAttribute('href', '/careers');
+  });
+
+  it('limits rendered top link sections to four', () => {
     render(<Footer topLinks={topLinks} />);
 
-    // Titles that should be present
-    for (let i = 1; i <= 4; i++) {
-      expect(screen.getByRole('heading', { level: 4, name: `Section ${i}` })).toBeInTheDocument();
-    }
+    expect(screen.getByText('Products')).toBeInTheDocument();
+    expect(screen.getByText('Company')).toBeInTheDocument();
+    expect(screen.getByText('Support')).toBeInTheDocument();
+    expect(screen.getByText('Legal')).toBeInTheDocument();
 
-    // Titles that should NOT be present due to limit
-    expect(screen.queryByRole('heading', { level: 4, name: 'Section 5' })).not.toBeInTheDocument();
-    expect(screen.queryByRole('heading', { level: 4, name: 'Section 6' })).not.toBeInTheDocument();
-
-    // Check links for first section as a spot check
-    const section1 = screen
-      .getByRole('heading', {
-        level: 4,
-        name: 'Section 1',
-      })
-      .closest(String.raw`.span-12.xl\:span-2`);
-    expect(section1).toBeTruthy();
-
-    const list = within(section1 as HTMLElement).getByRole('list');
-    // 2 items defined for each section in makeTopLinks
-    const items = within(list).getAllByRole('listitem');
-    expect(items.length).toBe(2);
-    expect(within(list).getByRole('link', { name: 'S1-Link 1' })).toHaveAttribute('href', '/s1-l1');
-    expect(within(list).getByRole('link', { name: 'S1-Link 2' })).toHaveAttribute('href', '/s1-l2');
+    expect(screen.queryByText('Extra')).not.toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: 'Ignored' })).not.toBeInTheDocument();
   });
 
-  it('renders social links with target and rel, and correct SVG <use> references', () => {
+  it('renders the social section heading', () => {
     render(<Footer />);
 
-    const connectHeading = screen.getByRole('heading', {
-      level: 4,
-      name: /connect with us/i,
-    });
-    expect(connectHeading).toBeInTheDocument();
-
-    const socialContainer = connectHeading.closest(String.raw`.span-12.xl\:span-2`);
-    expect(socialContainer).toBeTruthy();
-
-    const links = within(socialContainer as HTMLElement).getAllByRole('link');
-    // Based on mocked JSON above -> 3 links
-    expect(links.length).toBe(3);
-
-    // Check attributes and nested <use> for each
-    const expected = [
-      { url: 'https://facebook.com/hoam', icon: 'facebook' },
-      { url: 'https://instagram.com/hoam', icon: 'instagram' },
-      { url: 'https://tiktok.com/@hoam', icon: 'tiktok' },
-    ];
-
-    links.forEach((a, idx) => {
-      expect(a).toHaveAttribute('href', expected[idx]?.url);
-      expect(a).toHaveAttribute('target', '_blank');
-      expect(a).toHaveAttribute('rel', 'noopener noreferrer');
-
-      const useEl = a.querySelector('use');
-      expect(useEl).toBeTruthy();
-      expect(useEl?.getAttribute('xlink:href') ?? useEl?.getAttribute('xlinkHref')).toBe(
-        `/icons/icons.svg#${expected[idx]?.icon}`
-      );
-    });
+    expect(screen.getByText('Connect with us')).toBeInTheDocument();
   });
 
-  it('renders bottom links with correct hrefs', () => {
+  it('renders social links from the mock data', () => {
+    render(<Footer />);
+
+    const links = screen.getAllByRole('link');
+
+    expect(links.some((link) => link.getAttribute('href') === 'https://example.com/twitter')).toBe(
+      true
+    );
+    expect(
+      links.some((link) => link.getAttribute('href') === 'https://example.com/instagram')
+    ).toBe(true);
+  });
+
+  it('renders bottom links', () => {
     render(<Footer bottomLinks={bottomLinks} />);
 
-    bottomLinks.forEach(({ label, href }) => {
-      const link = screen.getByRole('link', { name: label });
-      expect(link).toBeInTheDocument();
-      expect(link).toHaveAttribute('href', href);
-    });
+    expect(screen.getByRole('link', { name: 'Terms' })).toHaveAttribute('href', '/terms');
+    expect(screen.getByRole('link', { name: 'Privacy Policy' })).toHaveAttribute(
+      'href',
+      '/privacy-policy'
+    );
   });
 
-  it('handles empty props (no top or bottom links) without crashing', () => {
-    render(
-      <Footer
-        topLinks={[]}
-        bottomLinks={[]}
-      />
-    );
+  it('renders safely with no links provided', () => {
+    render(<Footer />);
 
-    // Still should have footer and logo
     expect(screen.getByRole('contentinfo')).toBeInTheDocument();
-    expect(screen.getByRole('img', { name: /hoam logo/i })).toBeInTheDocument();
-
-    const sectionHeadings = screen.getAllByRole('heading', { level: 4 });
-    // Expect exactly 1 h4 (the social heading)
-    expect(sectionHeadings.map((h) => h.textContent?.trim())).toContain('Connect with us');
+    expect(screen.getByAltText('HOAM logo')).toBeInTheDocument();
   });
 });

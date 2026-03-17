@@ -2,13 +2,28 @@ import { useLayoutEffect, useRef, useState } from 'react';
 
 import styles from '@/components/LogoCarousel/LogoCarousel.module.css';
 
-type LogoCarouselItem = { id: number; src: string; alt?: string };
+type LogoCarouselItem = {
+  id: number;
+  src: string;
+  alt?: string;
+};
+
 export type LogoCarouselProps = {
   title?: string;
   items: LogoCarouselItem[];
   pauseOnHover?: boolean;
   ariaLabel?: string;
 };
+
+const MIN_REPEAT = 2;
+
+function getRepeatCount(containerWidth: number, sequenceWidth: number): number {
+  if (containerWidth <= 0 || sequenceWidth <= 0) {
+    return MIN_REPEAT;
+  }
+
+  return Math.max(MIN_REPEAT, Math.ceil((containerWidth * 2) / sequenceWidth));
+}
 
 export function LogoCarousel({
   title,
@@ -18,56 +33,81 @@ export function LogoCarousel({
 }: Readonly<LogoCarouselProps>) {
   const containerRef = useRef<HTMLDivElement>(null);
   const railRef = useRef<HTMLDivElement>(null);
-  const [repeat, setRepeat] = useState(2);
+  const [repeat, setRepeat] = useState(MIN_REPEAT);
 
   useLayoutEffect(() => {
     const container = containerRef.current;
     const rail = railRef.current;
-    if (!container || !rail) return;
 
-    const imgs = Array.from(rail.querySelectorAll('img'));
-    let pending = imgs.length;
-    if (!imgs.length) return;
+    if (!container || !rail) {
+      return;
+    }
 
-    const done = () => {
+    const firstSequence = rail.querySelector(`.${styles.sequence}`);
+
+    if (!firstSequence) {
+      return;
+    }
+
+    const images = Array.from(firstSequence.querySelectorAll('img'));
+
+    if (images.length === 0) {
+      return;
+    }
+
+    let pending = images.length;
+    const cleanupFns: Array<() => void> = [];
+
+    const measure = () => {
+      const nextRepeat = getRepeatCount(container.clientWidth, firstSequence.scrollWidth);
+      setRepeat((current) => (current === nextRepeat ? current : nextRepeat));
+    };
+
+    const onImageReady = () => {
       pending -= 1;
+
       if (pending === 0) {
-        requestAnimationFrame(() => {
-          let r = repeat;
-          // This is just a guard against runaway loop
-          for (let safe = 0; safe < 20; safe++) {
-            if (rail.scrollWidth >= container.clientWidth * 2) break;
-            r += 1;
-            setRepeat(r);
-          }
-        });
+        measure();
       }
     };
 
-    imgs.forEach((image) => {
-      if (image.complete) done();
-      else {
-        image.addEventListener('load', done, { once: true });
-        image.addEventListener('error', done, { once: true });
+    images.forEach((image) => {
+      if (image.complete) {
+        onImageReady();
+        return;
       }
-    });
-  }, [items, repeat]);
 
-  // Build N sequences; first gets aria, others hidden
-  const sequences = Array.from({ length: repeat }, (_, i) => (
+      const handleLoad = () => onImageReady();
+      const handleError = () => onImageReady();
+
+      image.addEventListener('load', handleLoad, { once: true });
+      image.addEventListener('error', handleError, { once: true });
+
+      cleanupFns.push(() => {
+        image.removeEventListener('load', handleLoad);
+        image.removeEventListener('error', handleError);
+      });
+    });
+
+    return () => {
+      cleanupFns.forEach((cleanup) => cleanup());
+    };
+  }, [items]);
+
+  const sequences = Array.from({ length: repeat }, (_, index) => (
     <ul
-      className={`${styles.sequence} ${i > 0 ? styles.sequenceClone : ''}`}
-      aria-hidden={i > 0 || undefined}
-      key={i}
+      key={index}
+      className={`${styles.sequence} ${index > 0 ? styles.sequenceClone : ''}`}
+      aria-hidden={index > 0 || undefined}
     >
-      {items.map((it) => (
+      {items.map((item) => (
         <li
+          key={`${index}-${item.id}`}
           className={styles.item}
-          key={`${i}-${it.id}`}
         >
           <img
-            src={it.src}
-            alt={it.alt || `Logo ${it.id}`}
+            src={item.src}
+            alt={item.alt || `Logo ${item.id}`}
             loading="eager"
             decoding="async"
           />
@@ -84,7 +124,7 @@ export function LogoCarousel({
       aria-label={ariaLabel}
     >
       <div className="container">
-        {title && (
+        {title ? (
           <div className="grid">
             <div className="span-12">
               <div className={styles.content}>
@@ -92,8 +132,9 @@ export function LogoCarousel({
               </div>
             </div>
           </div>
-        )}
+        ) : null}
       </div>
+
       <div
         ref={railRef}
         className={styles.rail}

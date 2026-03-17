@@ -1,6 +1,14 @@
-import { Children, isValidElement, PropsWithChildren, ReactElement, ReactNode } from 'react';
+import {
+  Children,
+  isValidElement,
+  type PropsWithChildren,
+  type ReactElement,
+  type ReactNode,
+} from 'react';
 
 import styles from '@/components/BadgeList/BadgeList.module.css';
+
+const INVALID_CHILD_MESSAGE = 'BadgeList component only accepts children of type BadgeListItem';
 
 export type BadgeListItemProps = {
   href?: string;
@@ -12,34 +20,48 @@ export function BadgeListItem({
   href,
   theme = 'default',
 }: PropsWithChildren<BadgeListItemProps>) {
-  if (!children) return;
+  if (!children) {
+    return null;
+  }
 
-  const Tag = href ? 'a' : 'span';
+  if (href) {
+    return (
+      <a
+        href={href}
+        className={styles.item}
+        data-theme={theme}
+      >
+        {children}
+      </a>
+    );
+  }
+
   return (
-    <Tag
+    <span
       className={styles.item}
-      {...(href ? { href } : {})}
       data-theme={theme}
     >
       {children}
-    </Tag>
+    </span>
   );
 }
 
-function isBadgeListItemElement(child: ReactNode): child is ReactElement<BadgeListItemProps> {
+function isBadgeListItemElement(
+  child: ReactNode
+): child is ReactElement<PropsWithChildren<BadgeListItemProps>> {
   return isValidElement(child) && child.type === BadgeListItem;
 }
 
 export function BadgeList({ children }: Readonly<PropsWithChildren>) {
-  return (
-    <div className={styles.root}>
-      {Children.map(children, (child) => {
-        if (isBadgeListItemElement(child)) {
-          return child;
-        } else {
-          console.error('BadgeList component only accepts child of type BadgeListItem');
-        }
-      })}
-    </div>
-  );
+  const items = Children.map(children, (child) => {
+    if (isBadgeListItemElement(child)) {
+      return child;
+    }
+
+    // TODO: remove or add behind dev flag
+    console.error(INVALID_CHILD_MESSAGE);
+    return null;
+  });
+
+  return <div className={styles.root}>{items}</div>;
 }

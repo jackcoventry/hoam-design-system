@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import clsx from 'clsx';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
 import z from 'zod';
 
 import { Button } from '@/components/Button';
@@ -13,8 +13,10 @@ import styles from '@/components/NewsletterBanner/NewsletterBanner.module.css';
 
 export type NewsletterBannerProps = {
   title: string;
-  description?: string | undefined;
+  description?: string;
 };
+
+const SUBMIT_DELAY_MS = 2000;
 
 const NewsletterSignupSchema = z.object({
   email: z.email('Please enter a valid email!'),
@@ -35,15 +37,16 @@ export function NewsletterBanner({ title, description }: Readonly<NewsletterBann
     mode: 'all',
   });
 
-  const [submitting, setSubmitting] = useState<boolean>(false);
+  const [submitting, setSubmitting] = useState(false);
 
-  const onSubmit: SubmitHandler<NewsletterSignupSchemaType> = () => {
+  const onSubmit: SubmitHandler<NewsletterSignupSchemaType> = async () => {
     setSubmitting(true);
 
-    // TODO: temporary, to mimic server response.
-    setTimeout(() => {
-      setSubmitting(false);
-    }, 2000);
+    await new Promise((resolve) => {
+      setTimeout(resolve, SUBMIT_DELAY_MS);
+    });
+
+    setSubmitting(false);
   };
 
   return (
@@ -51,10 +54,11 @@ export function NewsletterBanner({ title, description }: Readonly<NewsletterBann
       <div className={clsx(styles.wrapper, 'container')}>
         <div className="grid">
           <div className={clsx(styles.content, 'span-12 lg:span-6 lg:start-4 body-text')}>
-            {title && <h2 className={styles.title}>{title}</h2>}
-            {description && <p>{description}</p>}
+            <h2 className={styles.title}>{title}</h2>
+            {description ? <p>{description}</p> : null}
           </div>
         </div>
+
         <div className="grid">
           <div className="span-12 lg:span-6 xl:span-4 lg:start-4 xl:start-5">
             <form
@@ -63,16 +67,24 @@ export function NewsletterBanner({ title, description }: Readonly<NewsletterBann
                 void handleSubmit(onSubmit)(event);
               }}
             >
+              <label
+                htmlFor="newsletter-email"
+                className="sr-only"
+              >
+                Email address
+              </label>
+
               <Controller
                 name="email"
                 control={control}
                 render={({ field }) => (
                   <input
                     {...field}
+                    id="newsletter-email"
                     type="email"
-                    placeholder={errors?.email?.message || 'Enter your email'}
+                    placeholder={errors.email?.message || 'Enter your email'}
                     className={formStyles.textField}
-                    data-valid={errors?.email ? 'false' : 'true'}
+                    data-valid={errors.email ? 'false' : 'true'}
                     disabled={submitting}
                   />
                 )}
@@ -88,6 +100,7 @@ export function NewsletterBanner({ title, description }: Readonly<NewsletterBann
             </form>
           </div>
         </div>
+
         <div className="grid">
           <div className="span-12 lg:span-6 lg:start-4">
             <div className={styles.socialLinks}>

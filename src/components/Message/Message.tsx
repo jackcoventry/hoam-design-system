@@ -1,22 +1,22 @@
-import { useState } from 'react';
+import { type MouseEvent, useState } from 'react';
 import clsx from 'clsx';
 
 import styles from '@/components/Message/Message.module.css';
 
 export type MessageProps = {
-  onClose?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onClose?: (event: MouseEvent<HTMLButtonElement>) => void;
   status: 'info' | 'warning' | 'error' | 'success';
-  text?: string | undefined;
+  text?: string;
   title: string;
 };
 
-export function Message({ status = 'info', text, title, onClose }: Readonly<MessageProps>) {
+export function Message({ status, text, title, onClose }: Readonly<MessageProps>) {
   const [isOpen, setIsOpen] = useState(true);
 
-  const handleClose = (e: React.MouseEvent<HTMLButtonElement>) => {
+  function handleClose(event: MouseEvent<HTMLButtonElement>) {
     setIsOpen(false);
-    onClose?.(e);
-  };
+    onClose?.(event);
+  }
 
   return (
     <div
@@ -26,14 +26,16 @@ export function Message({ status = 'info', text, title, onClose }: Readonly<Mess
       role="alert"
     >
       <div className={styles.content}>
-        {title && <h2 className={styles.title}>{title}</h2>}
-        {text && (
+        <h2 className={styles.title}>{title}</h2>
+
+        {text ? (
           <div className={clsx(styles.text, 'body-text')}>
             <p>{text}</p>
           </div>
-        )}
+        ) : null}
       </div>
-      {onClose && (
+
+      {onClose ? (
         <div className={styles.closeWrapper}>
           <button
             className={styles.close}
@@ -50,7 +52,7 @@ export function Message({ status = 'info', text, title, onClose }: Readonly<Mess
             </svg>
           </button>
         </div>
-      )}
+      ) : null}
     </div>
   );
 }

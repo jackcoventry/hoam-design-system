@@ -3,7 +3,7 @@ import styles from '@/components/RichLink/RichLink.module.css';
 export type RichLinkProps = {
   href: string;
   image: string;
-  imageAlt: string;
+  imageAlt?: string;
   title: string;
 };
 

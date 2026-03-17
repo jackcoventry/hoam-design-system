@@ -1,4 +1,4 @@
-import React, { CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
+import { type CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
 
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { clearIntervalSafe, clearTimeoutSafe } from '@/utils/clearIntervalTimeout';
@@ -37,10 +37,7 @@ export function NotificationBar({
   const currentMessage = messages[safeIndex] ?? null;
 
   const advance = useCallback(() => {
-    if (messages.length <= 1) return;
-
-    if (prefersReducedMotion) {
-      setIndex((currentIndex) => (currentIndex + 1) % messages.length);
+    if (messages.length <= 1) {
       return;
     }
 
@@ -54,7 +51,7 @@ export function NotificationBar({
       },
       Math.max(1, FADE_TIME)
     );
-  }, [messages.length, prefersReducedMotion]);
+  }, [messages.length]);
 
   useEffect(() => {
     clearIntervalSafe(intervalRef);
@@ -76,15 +73,19 @@ export function NotificationBar({
     };
   }, []);
 
-  const stopTemporarily = () => {
-    if (!canRotate) return;
+  function stopTemporarily() {
+    if (!canRotate) {
+      return;
+    }
 
     clearTimeoutSafe(resumeTimeoutRef);
     setUserPaused(true);
-  };
+  }
 
-  const scheduleResume = () => {
-    if (!canRotate) return;
+  function scheduleResume() {
+    if (!canRotate) {
+      return;
+    }
 
     clearTimeoutSafe(resumeTimeoutRef);
     resumeTimeoutRef.current = globalThis.setTimeout(
@@ -93,7 +94,7 @@ export function NotificationBar({
       },
       Math.max(500, RESTART_DELAY)
     );
-  };
+  }
 
   const fadeStyle: CSSProperties =
     canRotate && !prefersReducedMotion

@@ -8,11 +8,15 @@ type LinkSection = {
 };
 
 export type FooterProps = {
-  topLinks?: Array<LinkSection>;
+  topLinks?: LinkSection[];
   bottomLinks?: Array<{ label: string; href: string }>;
 };
 
+const MAX_TOP_SECTIONS = 4;
+
 export function Footer({ topLinks = [], bottomLinks = [] }: Readonly<FooterProps>) {
+  const visibleTopLinks = topLinks.slice(0, MAX_TOP_SECTIONS);
+
   return (
     <footer className={styles.root}>
       <div className="container">
@@ -24,26 +28,27 @@ export function Footer({ topLinks = [], bottomLinks = [] }: Readonly<FooterProps
               className={styles.logo}
             />
           </div>
-          {topLinks.map((section, index) => {
-            if (index >= 4) return null; // Limit to 3 sections for layout purposes
-            return (
-              <div
-                key={section.title}
-                className="span-12 xl:span-2"
-              >
-                <h4 className={styles.sectionTitle}>{section.title}</h4>
-                <ul className={styles.list}>
-                  {section.links.map((link) => (
-                    <li key={link.href}>
-                      <a href={link.href}>{link.label}</a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            );
-          })}
+
+          {visibleTopLinks.map((section) => (
+            <div
+              key={section.title}
+              className="span-12 xl:span-2"
+            >
+              <h4 className={styles.sectionTitle}>{section.title}</h4>
+
+              <ul className={styles.list}>
+                {section.links.map((link) => (
+                  <li key={link.href}>
+                    <a href={link.href}>{link.label}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+
           <div className="span-12 xl:span-2">
             <h4 className={styles.sectionTitle}>Connect with us</h4>
+
             <div className={styles.socialLinks}>
               {socialLinks.map((link) => (
                 <a
@@ -65,6 +70,7 @@ export function Footer({ topLinks = [], bottomLinks = [] }: Readonly<FooterProps
             </div>
           </div>
         </div>
+
         <div className={`${styles.separator} | grid`}>
           <div className="span-12">
             <div className={styles.links}>

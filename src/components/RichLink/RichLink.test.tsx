@@ -1,46 +1,70 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
-import { RichLink } from '@/components/RichLink';
+import { RichLink } from './RichLink';
 
 describe('RichLink', () => {
-  const mockProps = {
-    href: '/somewhere',
-    title: 'Read more',
-    image: '/img/test.png',
-    imageAlt: '',
-  };
+  it('renders a link with the correct href', () => {
+    render(
+      <RichLink
+        href="/articles/design-systems"
+        title="Design systems"
+        image="/images/design-systems.jpg"
+        imageAlt="Abstract design system illustration"
+      />
+    );
 
-  it('renders the link with correct href', () => {
-    render(<RichLink {...mockProps} />);
+    const link = screen.getByRole('link', {
+      name: 'Design systems Abstract design system illustration',
+    });
 
-    const link = screen.getByRole('link', { name: /read more/i });
-    expect(link).toBeInTheDocument();
-    expect(link).toHaveAttribute('href', '/somewhere');
+    expect(link).toHaveAttribute('href', '/articles/design-systems');
   });
 
-  it('renders the title inside a span', () => {
-    render(<RichLink {...mockProps} />);
+  it('renders the title text', () => {
+    render(
+      <RichLink
+        href="/articles/design-systems"
+        title="Design systems"
+        image="/images/design-systems.jpg"
+        imageAlt="Abstract design system illustration"
+      />
+    );
 
-    const text = screen.getByText('Read more');
-    expect(text).toBeInTheDocument();
-    expect(text).toHaveClass('hoam-rich-link__text');
+    expect(screen.getByText('Design systems')).toBeInTheDocument();
   });
 
-  it('renders the image with the correct src', () => {
-    render(<RichLink {...mockProps} />);
+  it('renders the image with the provided alt text', () => {
+    render(
+      <RichLink
+        href="/articles/design-systems"
+        title="Design systems"
+        image="/images/design-systems.jpg"
+        imageAlt="Abstract design system illustration"
+      />
+    );
 
-    const img = screen.getByRole('img');
-    expect(img).toBeInTheDocument();
-    expect(img).toHaveAttribute('src', '/img/test.png');
-    expect(img).toHaveAttribute('alt', '');
-    expect(img).toHaveClass('hoam-rich-link__image');
+    const image = screen.getByAltText('Abstract design system illustration');
+
+    expect(image).toBeInTheDocument();
+    expect(image).toHaveAttribute('src', '/images/design-systems.jpg');
   });
 
-  it('applies the correct CSS class to the root element', () => {
-    render(<RichLink {...mockProps} />);
+  it('uses an empty alt attribute when imageAlt is not provided', () => {
+    const { container } = render(
+      <RichLink
+        href="/articles/design-systems"
+        title="Design systems"
+        image="/images/design-systems.jpg"
+      />
+    );
 
-    const link = screen.getByRole('link');
-    expect(link).toHaveClass('hoam-rich-link');
+    const link = screen.getByRole('link', { name: 'Design systems' });
+    const image = container.querySelector('img');
+
+    expect(link).toHaveAttribute('href', '/articles/design-systems');
+    expect(image).toBeInTheDocument();
+    expect(image).toHaveAttribute('src', '/images/design-systems.jpg');
+    expect(image).toHaveAttribute('alt', '');
   });
 });

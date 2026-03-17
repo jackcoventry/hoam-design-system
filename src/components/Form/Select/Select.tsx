@@ -1,11 +1,11 @@
 import {
-  ChangeEvent,
-  ForwardedRef,
+  type ChangeEvent,
+  type ForwardedRef,
   forwardRef,
-  OptgroupHTMLAttributes,
-  OptionHTMLAttributes,
-  ReactNode,
-  SelectHTMLAttributes,
+  type OptgroupHTMLAttributes,
+  type OptionHTMLAttributes,
+  type ReactNode,
+  type SelectHTMLAttributes,
   useId,
 } from 'react';
 
@@ -42,31 +42,37 @@ const SelectRoot = forwardRef(function Select<M extends boolean = false>(
   const autoId = useId();
   const actualId = id ?? autoId;
 
-  const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    if (!onChange) return;
-
+  function handleChange(event: ChangeEvent<HTMLSelectElement>) {
     if (multiple) {
-      const vals = Array.from(e.target.selectedOptions).map((o) => o.value);
-      onChange(vals as OnChangeValue<M>, e);
+      const values = Array.from(event.target.selectedOptions).map((option) => option.value);
+      onChange(values as OnChangeValue<M>, event);
       return;
     }
 
-    onChange(e.target.value as OnChangeValue<M>, e);
-  };
+    onChange(event.target.value as OnChangeValue<M>, event);
+  }
 
   const displayValue = Array.isArray(value) ? value.join(', ') : value;
 
   return (
     <div className={styles.root}>
-      {label && (
-        <label
-          className={styles.label}
-          htmlFor={actualId}
-        >
-          <span className={styles.labelText}>{label}</span>
-          <span className={styles.labelValue}>{displayValue}</span>
-        </label>
-      )}
+      {label ? (
+        <div className={styles.labelRow}>
+          <label
+            className={styles.label}
+            htmlFor={actualId}
+          >
+            <span className={styles.labelText}>{label}</span>
+          </label>
+
+          <span
+            className={styles.labelValue}
+            aria-hidden="true"
+          >
+            {displayValue}
+          </span>
+        </div>
+      ) : null}
 
       <select
         id={actualId}

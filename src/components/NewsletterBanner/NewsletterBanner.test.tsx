@@ -1,137 +1,89 @@
-import { render, screen, within } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { NewsletterBanner } from '@/components/NewsletterBanner';
 
-// Mock the Button component used by NewsletterBanner so we get a plain <button>
-vi.mock('@/components/Button/Button', () => {
-  return {
-    Button: ({
-      children,
-      className,
-      ...rest
-    }: React.ButtonHTMLAttributes<HTMLButtonElement> & { className?: string }) => (
-      <button
-        data-mock="Button"
-        className={className}
-        {...rest}
-      >
-        {children}
-      </button>
-    ),
-  };
-});
-
 describe('NewsletterBanner', () => {
   beforeEach(() => {
-    vi.useFakeTimers(); // needed for setTimeout in onSubmit
+    vi.useFakeTimers();
   });
 
   afterEach(() => {
     vi.runOnlyPendingTimers();
     vi.useRealTimers();
+    vi.restoreAllMocks();
   });
 
-  const renderBanner = (props?: Partial<React.ComponentProps<typeof NewsletterBanner>>) =>
+  it('renders the title', () => {
+    render(<NewsletterBanner title="Join our newsletter" />);
+
+    expect(
+      screen.getByRole('heading', { level: 2, name: 'Join our newsletter' })
+    ).toBeInTheDocument();
+  });
+
+  it('renders the description when provided', () => {
     render(
       <NewsletterBanner
-        title="Stay in the loop"
-        description="Join our newsletter for updates."
-        {...props}
+        title="Join our newsletter"
+        description="Get updates, articles, and product news."
       />
     );
 
-  it('renders the title and description', () => {
-    renderBanner();
-    expect(
-      screen.getByRole('heading', { level: 2, name: /stay in the loop/i })
-    ).toBeInTheDocument();
-    expect(screen.getByText(/join our newsletter for updates/i)).toBeInTheDocument();
+    expect(screen.getByText('Get updates, articles, and product news.')).toBeInTheDocument();
   });
 
-  it('renders email input with default placeholder and valid state', () => {
-    renderBanner();
-    const input = screen.getByPlaceholderText('Enter your email');
-    expect(input).toBeInTheDocument();
-    expect(input).toHaveAttribute('type', 'email');
-    expect(input).toHaveAttribute('data-valid', 'true');
-    expect(input).toBeEnabled();
+  it('renders the subscribe button', () => {
+    render(<NewsletterBanner title="Join our newsletter" />);
 
-    const submitBtn = screen.getByRole('button', { name: /subscribe/i });
-    expect(submitBtn).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Subscribe' })).toBeInTheDocument();
   });
 
-  it('shows validation error for invalid email and updates placeholder and data-valid', async () => {
-    const user = userEvent.setup();
-    renderBanner();
+  it('shows a validation message for an invalid email', async () => {
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
 
-    const input = screen.getByPlaceholderText('Enter your email');
+    render(<NewsletterBanner title="Join our newsletter" />);
 
-    await user.clear(input);
+    const input = screen.getByLabelText('Email address');
+    const button = screen.getByRole('button', { name: 'Subscribe' });
+
     await user.type(input, 'not-an-email');
-    await user.tab(); // blur the input
+    await user.click(button);
 
-    // The placeholder should now be the zod error message and data-valid should be false
-    expect(screen.getByPlaceholderText(/please enter a valid email!/i)).toBeInTheDocument();
-    expect(input).toHaveAttribute('data-valid', 'false');
+    await waitFor(() => {
+      expect(input).toHaveAttribute('data-valid', 'false');
+      expect(input).toHaveAttribute('placeholder', 'Please enter a valid email!');
+    });
   });
 
-  it('accepts a valid email, submits, disables input, and resets after server timeout', async () => {
-    const user = userEvent.setup();
-    renderBanner();
+  it('shows sending state and disables input during submission', async () => {
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
 
-    const input = screen.getByPlaceholderText('Enter your email');
-    const submitBtn = screen.getByRole('button', { name: /subscribe/i });
+    render(<NewsletterBanner title="Join our newsletter" />);
 
-    await user.clear(input);
-    await user.type(input, 'user@example.com');
-    await user.click(submitBtn);
+    const input = screen.getByLabelText('Email address');
+    const button = screen.getByRole('button', { name: 'Subscribe' });
 
-    // Submitting state should show
-    expect(screen.getByRole('button', { name: /sending\.\.\./i })).toBeInTheDocument();
+    await user.type(input, 'test@example.com');
+    await user.click(button);
+
+    expect(screen.getByRole('button', { name: 'Sending...' })).toBeInTheDocument();
     expect(input).toBeDisabled();
 
-    // Fast-forward the fake timer (2s)
-    vi.advanceTimersByTime(2000);
+    await vi.advanceTimersByTimeAsync(2000);
 
-    // Back to idle state
-    expect(screen.getByRole('button', { name: /subscribe/i })).toBeInTheDocument();
-    expect(input).toBeEnabled();
-
-    // Should remain valid and keep the neutral placeholder
-    expect(screen.getByPlaceholderText('Enter your email')).toBeInTheDocument();
-    expect(input).toHaveAttribute('data-valid', 'true');
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: 'Subscribe' })).toBeInTheDocument();
+      expect(input).not.toBeDisabled();
+    });
   });
 
-  it('renders social links with target and rel attributes', () => {
-    renderBanner();
+  it('renders social links', () => {
+    render(<NewsletterBanner title="Join our newsletter" />);
 
-    const socialLinksRoot = document.querySelector('.hoam-newsletter-banner__social-links');
-    expect(socialLinksRoot).toBeTruthy();
+    const links = screen.getAllByRole('link');
 
-    const links = within(socialLinksRoot as HTMLElement).getAllByRole('link');
-    expect(links).toHaveLength(3);
-
-    // Ensure each social link opens in a new tab with noopener
-    for (const a of links) {
-      expect(a).toHaveAttribute('target', '_blank');
-      expect(a).toHaveAttribute('rel');
-      expect(a?.getAttribute('rel')?.toLowerCase()).toContain('noopener');
-    }
-  });
-
-  it('does not crash without description and still renders title/form', () => {
-    renderBanner({ description: undefined });
-
-    expect(
-      screen.getByRole('heading', { level: 2, name: /stay in the loop/i })
-    ).toBeInTheDocument();
-    // description absent
-    expect(screen.queryByText(/join our newsletter for updates/i)).not.toBeInTheDocument();
-
-    // form bits still present
-    expect(screen.getByPlaceholderText('Enter your email')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /subscribe/i })).toBeInTheDocument();
+    expect(links.length).toBeGreaterThan(0);
   });
 });

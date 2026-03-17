@@ -1,32 +1,48 @@
+import { type ReactNode } from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { beforeEach, describe, expect, it, Mock, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { SidebarNavigation } from '@/components/SidebarNavigation';
-import { useMediaQuery } from '@/hooks/useMediaQuery';
 
-// Mock the media query hook so we can force "mobile" vs "desktop"
-vi.mock('@/utils/useMediaQuery', () => ({
-  __esModule: true,
-  default: vi.fn(),
+const mockUseMediaQuery = vi.fn<(query: string) => boolean>();
+
+vi.mock('@/hooks/useMediaQuery', () => ({
+  useMediaQuery: (query: string) => mockUseMediaQuery(query),
 }));
 
-const mockUseMediaQuery = useMediaQuery as unknown as Mock;
+vi.mock('@/components/Button', () => ({
+  Button: ({ children, onClick }: { children: ReactNode; onClick?: () => void }) => (
+    <button onClick={onClick}>{children}</button>
+  ),
+}));
 
-// Some simple mock data
-const mockItems = [
+vi.mock('@/components/Accordion', () => ({
+  Accordion: ({ children }: { children: ReactNode }) => (
+    <div data-testid="accordion">{children}</div>
+  ),
+  AccordionItem: ({ children }: { children: ReactNode }) => (
+    <div data-testid="accordion-item">{children}</div>
+  ),
+  AccordionHeader: ({ children, className }: { children: ReactNode; className?: string }) => (
+    <h2 className={className}>{children}</h2>
+  ),
+  AccordionPanel: ({ children }: { children: ReactNode }) => <div>{children}</div>,
+}));
+
+const items = [
   {
-    id: 'account',
-    label: 'Account',
+    id: 'section-1',
+    label: 'Section One',
     items: [
-      { id: 'profile', label: 'Profile', href: '/account/profile' },
-      { id: 'security', label: 'Security', href: '/account/security' },
+      { id: 'child-1', label: 'Overview', href: '/overview' },
+      { id: 'child-2', label: 'Getting Started', href: '/getting-started' },
     ],
   },
   {
-    id: 'orders',
-    label: 'Orders',
-    items: [{ id: 'order-history', label: 'Order history', href: '/account/orders' }],
+    id: 'section-2',
+    label: 'Section Two',
+    items: [{ id: 'child-3', label: 'Components', href: '/components' }],
   },
 ];
 
@@ -36,115 +52,76 @@ describe('SidebarNavigation', () => {
   });
 
   it('renders desktop navigation when not on mobile', () => {
-    mockUseMediaQuery.mockReturnValue(false); // isMobile = false
+    mockUseMediaQuery.mockReturnValue(false);
 
-    render(<SidebarNavigation items={mockItems} />);
+    render(<SidebarNavigation items={items} />);
 
-    // Should render a <nav> with all headings and links
-    const nav = screen.getByRole('navigation');
-    expect(nav).toBeInTheDocument();
+    expect(screen.getByRole('navigation', { name: 'Sidebar navigation' })).toBeInTheDocument();
 
-    // No "Show navigation" / "Hide navigation" toggle button on desktop
-    expect(screen.queryByRole('button', { name: /show navigation/i })).not.toBeInTheDocument();
-    expect(screen.queryByRole('button', { name: /hide navigation/i })).not.toBeInTheDocument();
+    expect(screen.getByText('Section One')).toBeInTheDocument();
+    expect(screen.getByText('Section Two')).toBeInTheDocument();
 
-    // Section headings appear
-    expect(screen.getByRole('heading', { level: 2, name: 'Account' })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { level: 2, name: 'Orders' })).toBeInTheDocument();
-
-    // Links appear
-    expect(screen.getByRole('link', { name: 'Profile' })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'Overview' })).toHaveAttribute('href', '/overview');
+    expect(screen.getByRole('link', { name: 'Getting Started' })).toHaveAttribute(
       'href',
-      '/account/profile'
+      '/getting-started'
     );
-    expect(screen.getByRole('link', { name: 'Security' })).toHaveAttribute(
-      'href',
-      '/account/security'
-    );
-    expect(screen.getByRole('link', { name: 'Order history' })).toHaveAttribute(
-      'href',
-      '/account/orders'
-    );
+    expect(screen.getByRole('link', { name: 'Components' })).toHaveAttribute('href', '/components');
 
-    // Total links = 3
-    expect(screen.getAllByRole('link')).toHaveLength(3);
+    expect(
+      screen.queryByRole('button', { name: /show navigation|hide navigation/i })
+    ).not.toBeInTheDocument();
   });
 
-  it('renders mobile toggle button and hides navigation by default', () => {
-    mockUseMediaQuery.mockReturnValue(true); // isMobile = true
+  it('renders mobile toggle button when on mobile', () => {
+    mockUseMediaQuery.mockReturnValue(true);
 
-    render(<SidebarNavigation items={mockItems} />);
+    render(<SidebarNavigation items={items} />);
 
-    // Toggle button shows "Show navigation" initially
-    const toggle = screen.getByRole('button', { name: /show navigation/i });
-    expect(toggle).toBeInTheDocument();
-
-    // Navigation items should not be visible initially
-    expect(screen.queryByText('Account')).not.toBeInTheDocument();
-    expect(screen.queryByText('Orders')).not.toBeInTheDocument();
-    expect(screen.queryByRole('link', { name: 'Profile' })).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Show navigation' })).toBeInTheDocument();
   });
 
-  it('shows navigation when the mobile toggle button is clicked', async () => {
-    mockUseMediaQuery.mockReturnValue(true); // isMobile = true
+  it('toggles the mobile button text when clicked', async () => {
     const user = userEvent.setup();
+    mockUseMediaQuery.mockReturnValue(true);
 
-    render(<SidebarNavigation items={mockItems} />);
+    render(<SidebarNavigation items={items} />);
 
-    const toggle = screen.getByRole('button', { name: /show navigation/i });
+    const button = screen.getByRole('button', { name: 'Show navigation' });
 
-    // Click to open
-    await user.click(toggle);
+    await user.click(button);
 
-    // Button label updates
-    expect(screen.getByRole('button', { name: /hide navigation/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Hide navigation' })).toBeInTheDocument();
 
-    // Accordion content should now be visible
-    expect(screen.getByRole('heading', { level: 2, name: 'Account' })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { level: 2, name: 'Orders' })).toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: 'Hide navigation' }));
 
-    // Links should now be visible
-    expect(screen.getByRole('link', { name: 'Profile' })).toHaveAttribute(
-      'href',
-      '/account/profile'
-    );
-    expect(screen.getByRole('link', { name: 'Order history' })).toHaveAttribute(
-      'href',
-      '/account/orders'
-    );
+    expect(screen.getByRole('button', { name: 'Show navigation' })).toBeInTheDocument();
   });
 
-  it('hides navigation again when the mobile toggle button is clicked twice', async () => {
-    mockUseMediaQuery.mockReturnValue(true); // isMobile = true
+  it('renders accordion content in mobile mode after opening the navigation', async () => {
     const user = userEvent.setup();
+    mockUseMediaQuery.mockReturnValue(true);
 
-    render(<SidebarNavigation items={mockItems} />);
+    render(<SidebarNavigation items={items} />);
 
-    const toggle = screen.getByRole('button', { name: /show navigation/i });
+    expect(screen.getByTestId('accordion')).toBeInTheDocument();
+    expect(screen.getAllByTestId('accordion-item')).toHaveLength(2);
 
-    // Open
-    await user.click(toggle);
-    // Close
-    await user.click(screen.getByRole('button', { name: /hide navigation/i }));
+    await user.click(screen.getByRole('button', { name: 'Show navigation' }));
 
-    // Back to initial label
-    expect(screen.getByRole('button', { name: /show navigation/i })).toBeInTheDocument();
+    expect(screen.getByText('Section One')).toBeInTheDocument();
+    expect(screen.getByText('Section Two')).toBeInTheDocument();
 
-    // Content hidden again
-    expect(screen.queryByText('Account')).not.toBeInTheDocument();
-    expect(screen.queryByText('Orders')).not.toBeInTheDocument();
-    expect(screen.queryByRole('link', { name: 'Profile' })).not.toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Overview' })).toHaveAttribute('href', '/overview');
+    expect(screen.getByRole('link', { name: 'Components' })).toHaveAttribute('href', '/components');
   });
 
-  it('handles empty or undefined items without crashing', () => {
-    mockUseMediaQuery.mockReturnValue(false); // desktop
+  it('renders no links when items is empty', () => {
+    mockUseMediaQuery.mockReturnValue(false);
 
-    // Should not throw even if items is undefined
-    render(<SidebarNavigation items={undefined} />);
+    render(<SidebarNavigation items={[]} />);
 
-    // Nav still exists but has no links/headings
-    expect(screen.getByRole('navigation')).toBeInTheDocument();
-    expect(screen.queryByRole('link')).toBeNull();
-    expect(screen.queryByRole('heading')).toBeNull();
+    expect(screen.getByRole('navigation', { name: 'Sidebar navigation' })).toBeInTheDocument();
+    expect(screen.queryAllByRole('link')).toHaveLength(0);
   });
 });

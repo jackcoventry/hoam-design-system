@@ -1,88 +1,115 @@
-import { fireEvent, render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 
 import { Message } from '@/components/Message';
 
-import '@testing-library/jest-dom';
-
 describe('Message', () => {
-  it('renders with required props', () => {
-    const { getByRole, getByText } = render(
+  it('renders the title', () => {
+    render(
       <Message
         status="info"
-        title="Test Title"
+        title="Important update"
       />
     );
-    expect(getByRole('alert')).toBeInTheDocument();
-    expect(getByText('Test Title')).toBeInTheDocument();
+
+    expect(screen.getByRole('heading', { level: 2, name: 'Important update' })).toBeInTheDocument();
   });
 
-  it('renders title in h2', () => {
-    const { getByRole } = render(
-      <Message
-        status="info"
-        title="Heading"
-      />
-    );
-    const heading = getByRole('heading', { level: 2 });
-    expect(heading).toHaveTextContent('Heading');
-  });
-
-  it('renders text when provided', () => {
-    const { getByText } = render(
+  it('renders the text when provided', () => {
+    render(
       <Message
         status="success"
-        title="Success"
-        text="Success Message"
+        title="Saved"
+        text="Your changes have been saved."
       />
     );
-    expect(getByText('Success Message')).toBeInTheDocument();
+
+    expect(screen.getByText('Your changes have been saved.')).toBeInTheDocument();
   });
 
-  it('renders close button when onClose is provided', () => {
-    const { getByRole } = render(
+  it('does not render body text when text is not provided', () => {
+    render(
       <Message
         status="warning"
-        title="Warning"
-        onClose={() => {}}
+        title="Heads up"
       />
     );
-    expect(getByRole('button', { name: /close message/i })).toBeInTheDocument();
+
+    expect(screen.queryByText(/heads up/i)).toBeInTheDocument();
+    expect(screen.queryByText(/your changes have been saved/i)).not.toBeInTheDocument();
   });
 
-  it('does not render close button when onClose is not provided', () => {
-    const { queryByRole } = render(
+  it('sets the status and open data attributes', () => {
+    render(
       <Message
         status="error"
-        title="Error"
+        title="Something went wrong"
       />
     );
-    expect(queryByRole('button', { name: /close message/i })).toBeNull();
+
+    const alert = screen.getByRole('alert');
+
+    expect(alert).toHaveAttribute('data-status', 'error');
+    expect(alert).toHaveAttribute('data-open', 'true');
   });
 
-  it('calls onClose and hides message when close button is clicked', () => {
-    const onClose = vi.fn();
-    const { getByRole, container } = render(
+  it('renders a close button only when onClose is provided', () => {
+    const { rerender } = render(
+      <Message
+        status="info"
+        title="No close button"
+      />
+    );
+
+    expect(screen.queryByRole('button', { name: 'Close message' })).not.toBeInTheDocument();
+
+    rerender(
       <Message
         status="info"
         title="Closable"
+        onClose={vi.fn()}
+      />
+    );
+
+    expect(screen.getByRole('button', { name: 'Close message' })).toBeInTheDocument();
+  });
+
+  it('sets data-open to false when closed', async () => {
+    const user = userEvent.setup();
+
+    render(
+      <Message
+        status="info"
+        title="Closable"
+        onClose={vi.fn()}
+      />
+    );
+
+    const alert = screen.getByRole('alert');
+    const closeButton = screen.getByRole('button', { name: 'Close message' });
+
+    expect(alert).toHaveAttribute('data-open', 'true');
+
+    await user.click(closeButton);
+
+    expect(alert).toHaveAttribute('data-open', 'false');
+  });
+
+  it('calls onClose when the close button is clicked', async () => {
+    const user = userEvent.setup();
+    const onClose = vi.fn();
+
+    render(
+      <Message
+        status="success"
+        title="Dismissible"
         onClose={onClose}
       />
     );
-    const button = getByRole('button', { name: /close message/i });
-    fireEvent.click(button);
-    expect(onClose).toHaveBeenCalledTimes(1);
-    // data-open should be false after close
-    expect(container.querySelector('.hoam-message')?.getAttribute('data-open')).toBe('false');
-  });
 
-  it('sets data-status attribute according to status prop', () => {
-    const { container } = render(
-      <Message
-        status="error"
-        title="Error"
-      />
-    );
-    expect(container.querySelector('.hoam-message')?.getAttribute('data-status')).toBe('error');
+    await user.click(screen.getByRole('button', { name: 'Close message' }));
+
+    expect(onClose).toHaveBeenCalledTimes(1);
   });
 });

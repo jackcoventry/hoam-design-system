@@ -14,50 +14,54 @@ type ItemProps = {
 };
 
 export type SidebarNavigationProps = {
-  items?: ItemProps[] | undefined;
+  items?: ItemProps[];
 };
 
 export function SidebarNavigation({ items = [] }: Readonly<SidebarNavigationProps>) {
   const isMobile = useMediaQuery('(max-width: 600px)');
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState(false);
+
+  function handleToggle() {
+    setIsOpen((current) => !current);
+  }
 
   if (isMobile) {
     return (
       <>
         <Button
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={handleToggle}
           size="small"
           icon={isOpen ? 'caret-down' : 'caret-right'}
         >
           {isOpen ? 'Hide navigation' : 'Show navigation'}
         </Button>
+
         <Suspense fallback={<h1>Loading...</h1>}>
           <Activity mode={isOpen ? 'visible' : 'hidden'}>
             <Accordion>
-              {items?.map((item) => {
-                return (
-                  <AccordionItem
-                    key={item.id}
-                    id={item.id}
-                  >
-                    <AccordionHeader className={styles.sectionTitle}>{item.label}</AccordionHeader>
-                    <AccordionPanel>
-                      <ul className={styles.list}>
-                        {item?.items?.map((child: ItemProps) => (
-                          <li key={child.id}>
-                            <a
-                              href={child.href}
-                              className={styles.link}
-                            >
-                              {child.label}
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
-                    </AccordionPanel>
-                  </AccordionItem>
-                );
-              })}
+              {items.map((item) => (
+                <AccordionItem
+                  key={item.id}
+                  id={item.id}
+                >
+                  <AccordionHeader className={styles.sectionTitle}>{item.label}</AccordionHeader>
+
+                  <AccordionPanel>
+                    <ul className={styles.list}>
+                      {item.items?.map((child) => (
+                        <li key={child.id}>
+                          <a
+                            href={child.href}
+                            className={styles.link}
+                          >
+                            {child.label}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </AccordionPanel>
+                </AccordionItem>
+              ))}
             </Accordion>
           </Activity>
         </Suspense>
@@ -66,16 +70,20 @@ export function SidebarNavigation({ items = [] }: Readonly<SidebarNavigationProp
   }
 
   return (
-    <nav className={styles.root}>
+    <nav
+      className={styles.root}
+      aria-label="Sidebar navigation"
+    >
       <ul className={styles.list}>
-        {items?.map((item: ItemProps) => (
+        {items.map((item) => (
           <li
             key={item.id}
             className={styles.topLevelItem}
           >
             <h2 className={styles.sectionTitle}>{item.label}</h2>
+
             <ul className={styles.list}>
-              {item?.items?.map((child) => (
+              {item.items?.map((child) => (
                 <li key={child.id}>
                   <a
                     href={child.href}
