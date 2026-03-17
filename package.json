@@ -31,6 +31,7 @@
   "author": "Jack Coventry",
   "license": "ISC",
   "devDependencies": {
+    "@storybook/addon-a11y": "^10.2.19",
     "@storybook/addon-docs": "^10.2.19",
     "@storybook/addon-vitest": "^10.2.19",
     "@storybook/react-vite": "^10.2.19",
