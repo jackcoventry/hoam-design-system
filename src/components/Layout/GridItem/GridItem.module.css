@@ -1,0 +1,29 @@
+.root {
+  grid-column: var(--gi-start, auto) / span var(--gi-span);
+}
+
+@media (min-width: 40rem) {
+  .root {
+    grid-column: var(--gi-start-sm, var(--gi-start, auto)) / span var(--gi-span-sm, var(--gi-span));
+  }
+}
+
+@media (min-width: 48rem) {
+  .root {
+    grid-column: var(--gi-start-md, var(--gi-start-sm, var(--gi-start, auto))) / span var(--gi-span-md, var(--gi-span-sm, var(--gi-span)));
+  }
+}
+
+@media (min-width: 64rem) {
+  .root {
+    grid-column: var(--gi-start-lg, var(--gi-start-md, var(--gi-start-sm, var(--gi-start, auto)))) / span
+      var(--gi-span-lg, var(--gi-span-md, var(--gi-span-sm, var(--gi-span))));
+  }
+}
+
+@media (min-width: 80rem) {
+  .root {
+    grid-column: var(--gi-start-xl, var(--gi-start-lg, var(--gi-start-md, var(--gi-start-sm, var(--gi-start, auto))))) / span
+      var(--gi-span-xl, var(--gi-span-lg, var(--gi-span-md, var(--gi-span-sm, var(--gi-span)))));
+  }
+}

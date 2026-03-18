@@ -1,0 +1,21 @@
+.root {
+  margin-inline: auto;
+  padding-inline: var(--space-4, 1rem);
+  width: 100%;
+}
+
+.root[data-width="narrow"] {
+  max-width: 60rem;
+}
+
+.root[data-width="default"] {
+  max-width: 75rem;
+}
+
+.root[data-width="wide"] {
+  max-width: 90rem;
+}
+
+.root[data-width="full"] {
+  max-width: none;
+}

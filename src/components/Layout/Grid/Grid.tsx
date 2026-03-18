@@ -1,0 +1,55 @@
+import clsx from 'clsx';
+import type { CSSProperties, HTMLAttributes, ReactNode } from 'react';
+
+import styles from '@/components/Layout/Grid/Grid.module.css';
+
+export type GridGap = 'none' | 'sm' | 'md' | 'lg' | 'xl';
+
+export type GridProps = HTMLAttributes<HTMLDivElement> & {
+  children: ReactNode;
+  cols?: number;
+  gap?: GridGap;
+  rowGap?: GridGap;
+};
+
+function mapGapToVar(gap: GridGap): string {
+  switch (gap) {
+    case 'none':
+      return '0px';
+    case 'sm':
+      return 'var(--space-2, 0.5rem)';
+    case 'md':
+      return 'var(--space-4, 1rem)';
+    case 'lg':
+      return 'var(--space-6, 1.5rem)';
+    case 'xl':
+      return 'var(--space-8, 2rem)';
+    default:
+      return 'var(--space-4, 1rem)';
+  }
+}
+
+export function Grid({
+  children,
+  className,
+  cols = 12,
+  gap = 'md',
+  rowGap,
+  ...rest
+}: Readonly<GridProps>) {
+  const style = {
+    '--grid-cols': String(cols),
+    '--grid-gap': mapGapToVar(gap),
+    '--grid-row-gap': mapGapToVar(rowGap ?? gap),
+  } as CSSProperties;
+
+  return (
+    <div
+      className={clsx(styles.root, className)}
+      style={style}
+      {...rest}
+    >
+      {children}
+    </div>
+  );
+}
