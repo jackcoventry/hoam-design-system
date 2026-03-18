@@ -1,3 +1,5 @@
+import { Container, Grid, GridItem } from '@/components/Layout';
+
 import styles from '@/components/Navigation/Navigation.module.css';
 
 export type PanelProps = {
@@ -18,12 +20,22 @@ export function Panel({ id, labelledBy, hidden, onEnter, left, right }: Readonly
       hidden={hidden}
       onPointerEnter={onEnter}
     >
-      <div className="container">
-        <div className="grid">
-          <div className="span-12 lg:span-8">{left}</div>
-          <div className="span-12 lg:span-4">{right}</div>
-        </div>
-      </div>
+      <Container>
+        <Grid>
+          <GridItem
+            span={12}
+            spanLg={8}
+          >
+            {left}
+          </GridItem>
+          <GridItem
+            span={12}
+            spanLg={4}
+          >
+            {right}
+          </GridItem>
+        </Grid>
+      </Container>
     </div>
   );
 }

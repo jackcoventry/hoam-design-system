@@ -4,7 +4,7 @@ import type { CSSProperties, HTMLAttributes, ReactNode } from 'react';
 import styles from '@/components/Layout/GridItem/GridItem.module.css';
 
 export type GridItemProps = HTMLAttributes<HTMLDivElement> & {
-  children: ReactNode;
+  children?: ReactNode;
   span?: number;
   spanSm?: number;
   spanMd?: number;

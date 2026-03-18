@@ -1,5 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react-vite';
 
+import { Container, Grid, GridItem } from '@/components/Layout';
 import { RichLink } from '@/components/RichLink';
 import MockData from '@/mocks/components/RichLinks';
 
@@ -16,12 +17,14 @@ type Story = StoryObj<typeof RichLink>;
 const Template: Story = {
   render: () => {
     return (
-      <div className="container">
-        <div className="grid">
+      <Container>
+        <Grid>
           {MockData?.map((item) => {
             return (
-              <div
-                className="span-12 md:span-6 lg:span-4"
+              <GridItem
+                span={12}
+                spanMd={6}
+                spanLg={4}
                 key={item.href}
               >
                 <RichLink
@@ -30,11 +33,11 @@ const Template: Story = {
                   image={item.image}
                   imageAlt={item.imageAlt}
                 />
-              </div>
+              </GridItem>
             );
           })}
-        </div>
-      </div>
+        </Grid>
+      </Container>
     );
   },
 };

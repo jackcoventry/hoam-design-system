@@ -1,4 +1,5 @@
 import { Button } from '@/components/Button';
+import { Container, Grid, GridItem } from '@/components/Layout';
 
 import styles from '@/components/PromoSection/PromoSection.module.css';
 
@@ -22,47 +23,53 @@ export function PromoSection({
   alignment = 'left',
 }: Readonly<PromoSectionProps>) {
   const contentImage = () => (
-    <div className="span-12 lg:span-5">
+    <GridItem
+      span={12}
+      spanLg={5}
+    >
       <img
         src={imageUrl}
         alt={title}
         className={styles.image}
       />
-    </div>
+    </GridItem>
   );
 
   const contentText = () => (
-    <div className="span-12 lg:span-6">
+    <GridItem
+      span={12}
+      spanLg={6}
+    >
       <div className={styles.content}>
         {subtitle && <h3 className={styles.subtitle}>{subtitle}</h3>}
         {title && <h2 className={styles.title}>{title}</h2>}
         {description && <p className={styles.description}>{description}</p>}
         {linkUrl && linkText && <Button className={styles.button}>{linkText}</Button>}
       </div>
-    </div>
+    </GridItem>
   );
 
   return (
     <div className={styles.root}>
-      <div className="container">
-        <div className="grid">
+      <Container>
+        <Grid>
           {alignment === 'left' ? (
             <>
               {contentImage()}
               {/* spacer */}
-              <div className="lg:span-1" />
+              <GridItem spanLg={1} />
               {contentText()}
             </>
           ) : (
             <>
               {contentText()}
               {/* spacer */}
-              <div className="lg:span-1" />
+              <GridItem spanLg={1} />
               {contentImage()}
             </>
           )}
-        </div>
-      </div>
+        </Grid>
+      </Container>
     </div>
   );
 }

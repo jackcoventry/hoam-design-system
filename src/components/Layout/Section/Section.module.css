@@ -1,0 +1,23 @@
+.root[data-space="none"] {
+  padding-block: 0;
+}
+
+.root[data-space="sm"] {
+  padding-block: var(--space-4, 1rem);
+}
+
+.root[data-space="md"] {
+  padding-block: var(--space-6, 1.5rem);
+}
+
+.root[data-space="lg"] {
+  padding-block: var(--space-8, 2rem);
+}
+
+.root[data-space="xl"] {
+  padding-block: var(--space-12, 3rem);
+}
+
+.root[data-space="2xl"] {
+  padding-block: var(--space-16, 4rem);
+}

@@ -1,5 +1,6 @@
 import { useId, useRef, useState } from 'react';
 
+import { Container, Grid, GridItem } from '@/components/Layout';
 import { MobileNavigationItem } from '@/components/Navigation/MobileNavigation/MobileNavigationItem';
 import type { NavTreeItem } from '@/components/Navigation/types';
 import { useFocusTrap } from '@/hooks/useFocusTrap';
@@ -27,9 +28,9 @@ export function MobileNavigation({ items }: Readonly<MobileNavigationProps>) {
       ref={navigationRef}
     >
       <div className={styles.wrapper}>
-        <div className="container-fluid">
-          <div className="grid">
-            <div className="span-12">
+        <Container width="full">
+          <Grid>
+            <GridItem span={12}>
               <div className={styles.inner}>
                 <a
                   href="/"
@@ -60,9 +61,9 @@ export function MobileNavigation({ items }: Readonly<MobileNavigationProps>) {
                   </svg>
                 </button>
               </div>
-            </div>
-          </div>
-        </div>
+            </GridItem>
+          </Grid>
+        </Container>
       </div>
 
       <div

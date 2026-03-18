@@ -1,3 +1,4 @@
+import { Container, Grid, GridItem } from '@/components/Layout';
 import { groupBtnId, groupPanelId } from '@/components/Navigation/helpers';
 import type { NavBranchItem, NavGroupItem, NavThumbnailItem } from '@/components/Navigation/types';
 
@@ -17,9 +18,9 @@ export function ThirdLevelItems({ group, open }: Readonly<ThirdLevelItemsProps>)
     >
       <div className="hoam-navigation__panel-group">
         {group.layout === 'thumbnail' ? (
-          <div className="container-fluid">
-            <div className="grid">
-              <div className="span-12">
+          <Container width="full">
+            <Grid>
+              <GridItem span={12}>
                 <div className="hoam-navigation__panel-group-section">
                   {group.href ? (
                     <a
@@ -31,13 +32,14 @@ export function ThirdLevelItems({ group, open }: Readonly<ThirdLevelItemsProps>)
                     </a>
                   ) : null}
                 </div>
-              </div>
-            </div>
+              </GridItem>
+            </Grid>
 
-            <div className="grid">
+            <Grid>
               {group.items.map((item: NavThumbnailItem) => (
-                <div
-                  className="span-12 md:span-4"
+                <GridItem
+                  span={12}
+                  spanMd={4}
                   key={item.id}
                 >
                   <div className="hoam-navigation__panel-group-section">
@@ -54,10 +56,10 @@ export function ThirdLevelItems({ group, open }: Readonly<ThirdLevelItemsProps>)
                       {item.label}
                     </a>
                   </div>
-                </div>
+                </GridItem>
               ))}
-            </div>
-          </div>
+            </Grid>
+          </Container>
         ) : (
           <>
             <div className="hoam-navigation__panel-group-section">

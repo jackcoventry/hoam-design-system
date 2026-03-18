@@ -1,5 +1,7 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 
+import { Container, Grid, GridItem } from '@/components/Layout';
+
 import styles from '@/components/LogoCarousel/LogoCarousel.module.css';
 
 type LogoCarouselItem = {
@@ -123,17 +125,17 @@ export function LogoCarousel({
       data-pause={pauseOnHover ? 'true' : 'false'}
       aria-label={ariaLabel}
     >
-      <div className="container">
+      <Container>
         {title ? (
-          <div className="grid">
-            <div className="span-12">
+          <Grid>
+            <GridItem span={12}>
               <div className={styles.content}>
                 <h2 className={styles.title}>{title}</h2>
               </div>
-            </div>
-          </div>
+            </GridItem>
+          </Grid>
         ) : null}
-      </div>
+      </Container>
 
       <div
         ref={railRef}

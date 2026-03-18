@@ -1,5 +1,4 @@
-import clsx from 'clsx';
-
+import { Container, Grid, GridItem, Section } from '@/components/Layout';
 import { ProductTile, type ProductTileProps } from '@/components/ProductTile';
 
 import styles from '@/components/RecommendedProducts/RecommendedProducts.module.css';
@@ -16,33 +15,37 @@ export function RecommendedProducts({
   products,
 }: Readonly<RecommendedProductsProps>) {
   return (
-    <div className={clsx(styles.root, 'py-2xl')}>
+    <Section
+      space="2xl"
+      className={styles.root}
+    >
       {title && (
-        <div className="container">
-          <div className="grid gap-lg mb-xl">
-            <div className="span-12">
+        <Container>
+          <Grid>
+            <GridItem span={12}>
               <h2>{title}</h2>
               {description && <p>{description}</p>}
-            </div>
-          </div>
-        </div>
+            </GridItem>
+          </Grid>
+        </Container>
       )}
 
-      <div className="container">
-        <div className="grid gap-lg">
+      <Container>
+        <Grid className="grid gap-lg">
           {products?.map((product, index) => {
             const id = `${product.productId}-${index}`;
             return (
-              <div
+              <GridItem
+                span={12}
+                spanLg={4}
                 key={id}
-                className="span-12 lg:span-4"
               >
                 <ProductTile {...product} />
-              </div>
+              </GridItem>
             );
           })}
-        </div>
-      </div>
-    </div>
+        </Grid>
+      </Container>
+    </Section>
   );
 }

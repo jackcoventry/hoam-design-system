@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useRef, useState } from 'react';
 
+import { Container, Grid, GridItem } from '@/components/Layout';
 import {
   DesktopNavigationActions,
   DesktopNavigationItems,
@@ -125,9 +126,9 @@ export function DesktopNavigation({
       data-variant={variant}
     >
       <div className={styles.root}>
-        <div className="container">
-          <div className="grid">
-            <div className="span-12">
+        <Container>
+          <Grid>
+            <GridItem span={12}>
               <div
                 className={styles.inner}
                 data-open={openIndex === null ? 'false' : 'true'}
@@ -155,9 +156,9 @@ export function DesktopNavigation({
                   onOpenBasket={onOpenBasket}
                 />
               </div>
-            </div>
-          </div>
-        </div>
+            </GridItem>
+          </Grid>
+        </Container>
       </div>
     </header>
   );
