@@ -1,6 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react-vite';
 
 import { Navigation } from '@/components/Navigation';
+import BasketItemData from '@/mocks/components/Basket';
 import NavigationData from '@/mocks/components/Navigation';
 import UserNavigationData from '@/mocks/components/UserNavigation';
 
@@ -23,6 +24,7 @@ const Template: Story = {
       <Navigation
         items={NavigationData}
         userItems={UserNavigationData}
+        basketItemData={BasketItemData}
         {...(args.variant === undefined ? {} : { variant: args.variant })}
       />
     </div>

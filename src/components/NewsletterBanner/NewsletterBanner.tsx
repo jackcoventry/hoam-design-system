@@ -5,7 +5,7 @@ import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
 import z from 'zod';
 
 import { Button } from '@/components/Button';
-import socialLinks from '@/mocks/socialLinks';
+import type { SocialLink } from '@/components/Footer';
 
 import '@/components/Common/Dots.css';
 import formStyles from '@/components/Form/Form.module.css';
@@ -14,6 +14,7 @@ import styles from '@/components/NewsletterBanner/NewsletterBanner.module.css';
 export type NewsletterBannerProps = {
   title: string;
   description?: string | undefined;
+  socialLinks?: Array<SocialLink>;
 };
 
 const SUBMIT_DELAY_MS = 2000;

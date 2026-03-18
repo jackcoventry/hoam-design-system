@@ -1,6 +1,10 @@
-import socialLinks from '@/mocks/socialLinks';
-
 import styles from '@/components/Footer/Footer.module.css';
+
+export type SocialLink = {
+  name: string;
+  url: string;
+  icon: string;
+};
 
 type LinkSection = {
   title: string;
@@ -10,11 +14,16 @@ type LinkSection = {
 export type FooterProps = {
   topLinks?: LinkSection[];
   bottomLinks?: Array<{ label: string; href: string }>;
+  socialLinks?: Array<SocialLink>;
 };
 
 const MAX_TOP_SECTIONS = 4;
 
-export function Footer({ topLinks = [], bottomLinks = [] }: Readonly<FooterProps>) {
+export function Footer({
+  topLinks = [],
+  bottomLinks = [],
+  socialLinks = [],
+}: Readonly<FooterProps>) {
   const visibleTopLinks = topLinks.slice(0, MAX_TOP_SECTIONS);
 
   return (

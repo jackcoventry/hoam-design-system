@@ -6,13 +6,13 @@ import { DesktopNavigation, MobileNavigation, NavigationModals } from '@/compone
 import type { NavigationProps } from '@/components/Navigation/types';
 import { useMockRequest } from '@/hooks/useMockRequest';
 import { useMegaNavState } from '@/hooks/useNavState';
-import BasketItemData from '@/mocks/components/Basket';
 import SearchResultsData from '@/mocks/components/SearchResults';
 
 export function Navigation({
   items = [],
   userItems = [],
   variant = 'default',
+  basketItemData = [],
 }: Readonly<NavigationProps>) {
   const {
     openIndex,
@@ -31,6 +31,7 @@ export function Navigation({
   const [openSearchModal, setOpenSearchModal] = useState(false);
   const [openBasketModal, setOpenBasketModal] = useState(false);
 
+  // TODO: Remove mockRequest as a hook, the service should be the mock part
   const { data, loading, error, run, reset } = useMockRequest<Array<SearchFormResult>>();
 
   const onSubmit: SubmitHandler<SearchFormSchemaType> = async () => {
@@ -52,13 +53,9 @@ export function Navigation({
     setOpenBasketModal(false);
   };
 
-  const basketTotal = useMemo(
-    () =>
-      BasketItemData.reduce((acc, item) => {
-        return acc + item.price * item.quantity;
-      }, 0),
-    []
-  );
+  const basketTotal = basketItemData.reduce((acc, item) => {
+    return acc + item.price * item.quantity;
+  }, 0);
 
   return (
     <>
@@ -90,7 +87,7 @@ export function Navigation({
         searchLoading={loading}
         searchError={error}
         onSearchSubmit={onSubmit}
-        basketItems={BasketItemData}
+        basketItems={basketItemData}
         basketTotal={basketTotal}
       />
     </>

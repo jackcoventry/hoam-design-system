@@ -2,6 +2,7 @@ import { Meta, StoryObj } from '@storybook/react-vite';
 
 import { Footer } from '@/components/Footer';
 import FooterData from '@/mocks/components/Footer';
+import SocialLinks from '@/mocks/socialLinks';
 
 const meta: Meta<typeof Footer> = {
   title: 'Components/Footer',
@@ -19,6 +20,7 @@ const Template: Story = {
       <Footer
         topLinks={FooterData.topLinks}
         bottomLinks={FooterData.bottomLinks}
+        socialLinks={SocialLinks}
       />
     </div>
   ),

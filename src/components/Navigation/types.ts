@@ -1,3 +1,5 @@
+import { BasketItemProps } from '../Basket';
+
 export type NavigationLayout = 'list' | 'thumbnail';
 export type NavUserAction = 'USER_SEARCH' | 'USER_BASKET';
 
@@ -76,4 +78,5 @@ export interface NavigationProps {
   items?: NavTopLevelItem[];
   userItems?: NavUserItem[];
   variant?: 'default' | 'fixed';
+  basketItemData?: Array<BasketItemProps>;
 }

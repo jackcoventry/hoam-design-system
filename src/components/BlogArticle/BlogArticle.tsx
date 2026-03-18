@@ -1,11 +1,11 @@
 import { ReactNode } from 'react';
 
+import type { SocialLink } from '@/components/Footer';
 import {
   formatISODate,
   formatReadableDate,
   parseLooseDate,
 } from '@/utils/convertDates/convertDates';
-import socialLinks from '@/mocks/socialLinks'; // TODO: Remove mocks from components
 
 import styles from '@/components/BlogArticle/BlogArticle.module.css';
 
@@ -35,6 +35,7 @@ export type BlogArticleProps = {
   image: BlogImage;
   tags: Tag[];
   children: ReactNode;
+  socialLinks: Array<SocialLink>;
 };
 
 type WrapperSizes = 'default' | 'small';
@@ -72,6 +73,7 @@ export function BlogArticle({
   readingTime,
   image,
   tags,
+  socialLinks = [],
   children,
 }: Readonly<BlogArticleProps>) {
   const parsedDate = parseLooseDate(publishDate);
@@ -100,7 +102,7 @@ export function BlogArticle({
                       {author.name}
                       <span className={styles.authorAvatar}>
                         <img
-                          src="https://placehold.co/20x20"
+                          src="https://placehold.co/20x20" // TODO: this should be dynamic
                           alt={`The avatar of ${author.name}`}
                         />
                       </span>
