@@ -1,3 +1,5 @@
+import { Container, Grid, GridItem } from '../Layout';
+
 import styles from '@/components/Footer/Footer.module.css';
 
 export type SocialLink = {
@@ -28,20 +30,24 @@ export function Footer({
 
   return (
     <footer className={styles.root}>
-      <div className="container">
-        <div className="grid">
-          <div className="span-12 xl:span-2">
+      <Container>
+        <Grid>
+          <GridItem
+            span={12}
+            spanXl={2}
+          >
             <img
               src="/logo.png"
               alt="HOAM logo"
               className={styles.logo}
             />
-          </div>
+          </GridItem>
 
           {visibleTopLinks.map((section) => (
-            <div
+            <GridItem
               key={section.title}
-              className="span-12 xl:span-2"
+              span={12}
+              spanXl={2}
             >
               <h4 className={styles.sectionTitle}>{section.title}</h4>
 
@@ -52,10 +58,13 @@ export function Footer({
                   </li>
                 ))}
               </ul>
-            </div>
+            </GridItem>
           ))}
 
-          <div className="span-12 xl:span-2">
+          <GridItem
+            span={12}
+            spanXl={2}
+          >
             <h4 className={styles.sectionTitle}>Connect with us</h4>
 
             <div className={styles.socialLinks}>
@@ -77,11 +86,11 @@ export function Footer({
                 </a>
               ))}
             </div>
-          </div>
-        </div>
+          </GridItem>
+        </Grid>
 
-        <div className={`${styles.separator} | grid`}>
-          <div className="span-12">
+        <Grid className={styles.separator}>
+          <GridItem span={12}>
             <div className={styles.links}>
               {bottomLinks.map((link) => (
                 <div key={link.href}>
@@ -89,9 +98,9 @@ export function Footer({
                 </div>
               ))}
             </div>
-          </div>
-        </div>
-      </div>
+          </GridItem>
+        </Grid>
+      </Container>
     </footer>
   );
 }

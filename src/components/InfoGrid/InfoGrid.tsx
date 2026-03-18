@@ -3,6 +3,9 @@ import clsx from 'clsx';
 
 import { InfoGridItem, type InfoGridItemProps } from '@/components/InfoGrid';
 
+import { Container, Grid, GridItem } from '../Layout';
+
+import bodyText from '@/components/common/BodyText.module.css';
 import styles from '@/components/InfoGrid/InfoGrid.module.css';
 
 export type InfoGridProps = {
@@ -21,27 +24,39 @@ function isInfoGridItemElement(child: ReactNode): child is ReactElement<InfoGrid
 export function InfoGrid({ title, description, children }: Readonly<InfoGridProps>) {
   return (
     <div className={styles.root}>
-      <div className="container">
-        <div className="grid">
-          <div className={clsx(styles.content, 'span-12 lg:span-6 lg:start-4 body-text')}>
+      <Container>
+        <Grid>
+          <GridItem
+            className={clsx(styles.content, bodyText.root)}
+            span={12}
+            spanLg={6}
+            startLg={4}
+          >
             <h2 className={styles.title}>{title}</h2>
             {description ? <p>{description}</p> : null}
-          </div>
-        </div>
-      </div>
+          </GridItem>
+        </Grid>
+      </Container>
 
-      <div className="container">
-        <div className="grid">
+      <Container>
+        <Grid>
           {Children.map(children, (child, index) => {
             if (index < MAX_ITEMS && isInfoGridItemElement(child)) {
-              return <div className="span-12 lg:span-4">{child}</div>;
+              return (
+                <GridItem
+                  span={12}
+                  spanLg={4}
+                >
+                  {child}
+                </GridItem>
+              );
             }
 
             console.error(INVALID_CHILD_MESSAGE);
             return null;
           })}
-        </div>
-      </div>
+        </Grid>
+      </Container>
     </div>
   );
 }

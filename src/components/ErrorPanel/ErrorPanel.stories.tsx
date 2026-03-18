@@ -1,6 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react-vite';
 
 import { ErrorPanel } from '@/components/ErrorPanel';
+import { Container, Grid, GridItem } from '@/components/Layout';
 
 const meta: Meta<typeof ErrorPanel> = {
   title: 'Components/Error Panel',
@@ -14,13 +15,19 @@ type Story = StoryObj<typeof ErrorPanel>;
 
 const Template: Story = {
   render: () => (
-    <div className="container">
-      <div className="grid">
-        <div className="span-12 md:span-8 md:start-3 lg:span-6 lg:start-4">
+    <Container>
+      <Grid>
+        <GridItem
+          span={12}
+          spanMd={8}
+          startMd={3}
+          spanLg={6}
+          startLg={4}
+        >
           <ErrorPanel message="Relax! Something went wrong!" />
-        </div>
-      </div>
-    </div>
+        </GridItem>
+      </Grid>
+    </Container>
   ),
 };
 

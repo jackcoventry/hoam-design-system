@@ -12,6 +12,7 @@ import { QuantitySelector } from '@/components/QuantitySelector';
 import { VariantSelector } from '@/components/VariantSelector';
 import { convertNumberToCurrency } from '@/utils/convertNumberToCurrency';
 
+import bodyText from '@/components/Common/BodyText.module.css';
 import styles from '@/components/ProductInfo/ProductInfo.module.css';
 
 const ProductInformationSchema = z.object({
@@ -250,7 +251,7 @@ export function ProductInfo({
               <strong>Description</strong>
             </AccordionHeader>
             <AccordionPanel>
-              <div className="body-text">
+              <div className={bodyText.root}>
                 <p>
                   Ut minim mollit officia ad adipiscing velit duis duis fugiat. Reprehenderit
                   voluptate dolore laboris esse in adipiscing adipiscing voluptate anim laboris qui
@@ -269,7 +270,7 @@ export function ProductInfo({
               <strong>Returns Policy</strong>
             </AccordionHeader>
             <AccordionPanel>
-              <div className="body-text">
+              <div className={bodyText.root}>
                 <p>
                   Fugiat esse consequat ad aliquip amet aliquip sed sit voluptate. Enim est culpa
                   labore pariatur aliquip culpa mollit excepteur officia ea magna. Mollit ipsum nisi

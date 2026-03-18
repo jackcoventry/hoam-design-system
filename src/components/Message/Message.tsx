@@ -1,6 +1,7 @@
 import { type MouseEvent, useState } from 'react';
 import clsx from 'clsx';
 
+import bodyText from '@/components/Common/BodyText.module.css';
 import styles from '@/components/Message/Message.module.css';
 
 export type MessageProps = {
@@ -29,7 +30,7 @@ export function Message({ status, text, title, onClose }: Readonly<MessageProps>
         <h2 className={styles.title}>{title}</h2>
 
         {text ? (
-          <div className={clsx(styles.text, 'body-text')}>
+          <div className={clsx(styles.text, bodyText.root)}>
             <p>{text}</p>
           </div>
         ) : null}

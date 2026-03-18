@@ -1,7 +1,9 @@
+import bodyText from '@/components/Common/BodyText.module.css';
+
 const Template = () => {
   return (
     <section>
-      <article className="body-text">
+      <article className={bodyText.root}>
         <h1>Body text example</h1>
         <h2>Subheading</h2>
         <p>This is a paragraph with body text styling.</p>

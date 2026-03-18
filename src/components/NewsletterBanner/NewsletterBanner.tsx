@@ -8,6 +8,7 @@ import { Button } from '@/components/Button';
 import type { SocialLink } from '@/components/Footer';
 
 import '@/components/Common/Dots.css';
+import bodyText from '@/components/Common/BodyText.module.css';
 import formStyles from '@/components/Form/Form.module.css';
 import styles from '@/components/NewsletterBanner/NewsletterBanner.module.css';
 
@@ -25,7 +26,11 @@ const NewsletterSignupSchema = z.object({
 
 type NewsletterSignupSchemaType = z.infer<typeof NewsletterSignupSchema>;
 
-export function NewsletterBanner({ title, description }: Readonly<NewsletterBannerProps>) {
+export function NewsletterBanner({
+  title,
+  description,
+  socialLinks,
+}: Readonly<NewsletterBannerProps>) {
   const {
     control,
     handleSubmit,
@@ -54,7 +59,7 @@ export function NewsletterBanner({ title, description }: Readonly<NewsletterBann
     <section className={styles.root}>
       <div className={clsx(styles.wrapper, 'container')}>
         <div className="grid">
-          <div className={clsx(styles.content, 'span-12 lg:span-6 lg:start-4 body-text')}>
+          <div className={clsx(styles.content, bodyText.root, 'span-12 lg:span-6 lg:start-4')}>
             <h2 className={styles.title}>{title}</h2>
             {description ? <p>{description}</p> : null}
           </div>
@@ -105,7 +110,7 @@ export function NewsletterBanner({ title, description }: Readonly<NewsletterBann
         <div className="grid">
           <div className="span-12 lg:span-6 lg:start-4">
             <div className={styles.socialLinks}>
-              {socialLinks.map((link) => (
+              {socialLinks?.map((link) => (
                 <a
                   key={link.name}
                   href={link.url}

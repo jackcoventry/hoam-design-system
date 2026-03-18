@@ -24,30 +24,6 @@ h6 {
   font: var(--hoam-typography-title-6);
 }
 
-.body-text {
-  display: grid;
-  font: var(--hoam-typography-body-1);
-  gap: var(--body-text-spacing, var(--hoam-spacing-4));
-}
-
-.body-text a:link,
-.body-text a:visited {
-  color: var(--hoam-color-moon-700);
-  text-decoration: underline;
-}
-
-.body-text a:hover {
-  color: var(--hoam-color-moon-800);
-  text-decoration: none;
-}
-
-.body-text a:focus {
-  box-shadow:
-    0 0 0 2px white,
-    0 0 0 6px yellow;
-  outline: none;
-}
-
 html {
   background-color: var(--hoam-color-moon-100);
 }

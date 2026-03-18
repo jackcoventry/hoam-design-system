@@ -3,6 +3,7 @@ import { Meta, StoryObj } from '@storybook/react-vite';
 import { BlogArticle } from '@/components/BlogArticle';
 import { NewsletterBanner } from '@/components/NewsletterBanner';
 import BaseTemplate from '@/templates/Base';
+import SocialLinks from '@/mocks/socialLinks';
 
 const meta: Meta<typeof BlogArticle> = {
   title: 'Pages/Article Page',
@@ -31,6 +32,7 @@ const meta: Meta<typeof BlogArticle> = {
       caption:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.',
     },
+    socialLinks: SocialLinks,
   },
 };
 export default meta;
@@ -49,6 +51,7 @@ const Template: Story = {
         readingTime={args.readingTime}
         image={args.image}
         tags={args.tags}
+        socialLinks={args.socialLinks}
       >
         <p>
           Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per
