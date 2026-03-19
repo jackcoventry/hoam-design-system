@@ -7,7 +7,7 @@ const mockParseLooseDate = vi.fn<(value: string) => Date | null>();
 const mockFormatReadableDate = vi.fn<(value: Date) => string>();
 const mockFormatISODate = vi.fn<(value: Date) => string>();
 
-vi.mock('@/utils/convertDates/convertDates', () => ({
+vi.mock('@/utils/convertDates', () => ({
   parseLooseDate: (value: string): Date | null => mockParseLooseDate(value),
   formatReadableDate: (value: Date): string => mockFormatReadableDate(value),
   formatISODate: (value: Date): string => mockFormatISODate(value),
@@ -170,10 +170,13 @@ describe('BlogArticle', () => {
   it('renders empty date values when the publish date cannot be parsed', () => {
     mockParseLooseDate.mockReturnValue(null);
 
-    render(<BlogArticle {...defaultProps} />);
+    const { container } = render(<BlogArticle {...defaultProps} />);
 
-    const timeElement = screen.getByText('', { selector: 'time' });
+    const timeElement = container.querySelector('time');
+
+    expect(timeElement).not.toBeNull();
     expect(timeElement).toHaveAttribute('dateTime', '');
+    expect(timeElement).toHaveTextContent('');
 
     expect(mockFormatReadableDate).not.toHaveBeenCalled();
     expect(mockFormatISODate).not.toHaveBeenCalled();
