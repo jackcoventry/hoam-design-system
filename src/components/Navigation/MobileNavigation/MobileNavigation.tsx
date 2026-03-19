@@ -51,7 +51,6 @@ export function MobileNavigation({ items }: Readonly<MobileNavigationProps>) {
                   onClick={() => setIsOpen((prev) => !prev)}
                 >
                   <svg
-                    className="icon"
                     width="1.25em"
                     height="1.25em"
                     fill="currentColor"

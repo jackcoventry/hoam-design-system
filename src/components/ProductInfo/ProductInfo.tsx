@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import clsx from 'clsx';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -244,7 +243,7 @@ export function ProductInfo({
         </div>
       </form>
 
-      <div className={clsx(styles.information, 'mt-2xl')}>
+      <div className={styles.information}>
         <Accordion defaultOpenIds={['one']}>
           <AccordionItem id="one">
             <AccordionHeader>

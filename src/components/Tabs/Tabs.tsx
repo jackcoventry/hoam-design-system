@@ -24,10 +24,7 @@ export function Tabs({ title, items, layout, mode }: Readonly<TabsProps>) {
   if (isMobile) {
     return (
       <section aria-label={title}>
-        <Accordion
-          className="hoam-tabs-mobile"
-          showToggleAll={false}
-        >
+        <Accordion showToggleAll={false}>
           {items.map((tab) => (
             <AccordionItem
               key={tab.id}

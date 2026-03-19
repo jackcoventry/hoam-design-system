@@ -117,7 +117,6 @@ export function SearchForm({ onSubmit, loading }: Readonly<SearchFormProps>) {
               id={inputId}
               type="search"
               placeholder={queryError || 'Enter keywords...'}
-              className="hoam-text-field"
               data-valid={queryError ? 'false' : 'true'}
               aria-invalid={queryError ? 'true' : 'false'}
               disabled={loading}

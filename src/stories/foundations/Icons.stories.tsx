@@ -43,7 +43,6 @@ const CopyButton = ({ icon }: Props) => {
       type="button"
       onClick={copyCodeBlock}
       variant={copied ? 'tertiary' : 'primary'}
-      className="w-full"
     >
       {copied ? 'Copied!' : 'Copy'}
     </Button>
@@ -56,7 +55,7 @@ const Template = () => (
       <GridItem span={12}>
         <h1>Icons</h1>
       </GridItem>
-      <GridItem className="g-col-12">
+      <GridItem>
         <table>
           <thead>
             <tr>
@@ -71,7 +70,6 @@ const Template = () => (
                 <td>{e}</td>
                 <td>
                   <svg
-                    className="icon"
                     width="1em"
                     height="1em"
                     fill="currentColor"

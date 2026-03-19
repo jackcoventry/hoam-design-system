@@ -1,6 +1,6 @@
 import { Meta } from '@storybook/react-vite';
 
-import { Container, Grid, GridItem, Section } from '@/components/Layout';
+import { Container, Grid, GridItem, Section, Stack } from '@/components/Layout';
 import { RichLink } from '@/components/RichLink';
 import { SidebarNavigation } from '@/components/SidebarNavigation';
 import BaseTemplate from '@/templates/Base';
@@ -39,28 +39,30 @@ const Template = {
               spanLg={8}
               startLg={5}
             >
-              <h2 className="pb-2xl">Welcome back!</h2>
-              <Container width="full">
-                <Grid>
-                  {RichLinksData?.map((item) => {
-                    return (
-                      <GridItem
-                        key={item.href}
-                        span={12}
-                        spanMd={6}
-                        spanLg={4}
-                      >
-                        <RichLink
-                          title={item.title}
-                          href={item.href}
-                          image={item.image}
-                          imageAlt={item.imageAlt}
-                        />
-                      </GridItem>
-                    );
-                  })}
-                </Grid>
-              </Container>
+              <Stack gap="xl">
+                <h2>Welcome back!</h2>
+                <Container width="full">
+                  <Grid>
+                    {RichLinksData?.map((item) => {
+                      return (
+                        <GridItem
+                          key={item.href}
+                          span={12}
+                          spanMd={6}
+                          spanLg={4}
+                        >
+                          <RichLink
+                            title={item.title}
+                            href={item.href}
+                            image={item.image}
+                            imageAlt={item.imageAlt}
+                          />
+                        </GridItem>
+                      );
+                    })}
+                  </Grid>
+                </Container>
+              </Stack>
             </GridItem>
           </Grid>
         </Section>
