@@ -97,11 +97,16 @@ describe('Footer', () => {
   });
 
   it('renders social links from the mock data', () => {
-    render(<Footer />);
+    const socialLinks = [
+      { name: 'Facebook', url: 'https://example.com/facebook', icon: 'facebook' },
+      { name: 'Instagram', url: 'https://example.com/instagram', icon: 'instagram' },
+    ];
+
+    render(<Footer socialLinks={socialLinks} />);
 
     const links = screen.getAllByRole('link');
 
-    expect(links.some((link) => link.getAttribute('href') === 'https://example.com/twitter')).toBe(
+    expect(links.some((link) => link.getAttribute('href') === 'https://example.com/facebook')).toBe(
       true
     );
     expect(

@@ -31,7 +31,7 @@ export function RecommendedProducts({
       )}
 
       <Container>
-        <Grid className="grid gap-lg">
+        <Grid>
           {products?.map((product, index) => {
             const id = `${product.productId}-${index}`;
             return (

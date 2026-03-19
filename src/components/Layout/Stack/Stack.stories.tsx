@@ -7,6 +7,7 @@ const meta = {
   component: Stack,
   tags: ['autodocs'],
   args: {
+    children: null,
     gap: 'md',
     align: 'stretch',
   },
@@ -16,7 +17,11 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-function Item({ children }: Readonly<{ children: React.ReactNode }>) {
+function Item({
+  label,
+}: Readonly<{
+  label: string;
+}>) {
   return (
     <div
       style={{
@@ -24,56 +29,81 @@ function Item({ children }: Readonly<{ children: React.ReactNode }>) {
         padding: '0.75rem',
       }}
     >
-      {children}
+      {label}
     </div>
   );
 }
 
-export const Default: Story = {
-  render: (args) => (
-    <Stack {...args}>
-      <Item>Heading</Item>
-      <Item>Description</Item>
-      <Item>Button</Item>
-    </Stack>
+export const GapReference: Story = {
+  render: () => (
+    <div style={{ display: 'grid', gap: '2rem' }}>
+      <Stack gap="xs">
+        <Item label='gap="xs" / item 1' />
+        <Item label='gap="xs" / item 2' />
+        <Item label='gap="xs" / item 3' />
+      </Stack>
+
+      <Stack gap="sm">
+        <Item label='gap="sm" / item 1' />
+        <Item label='gap="sm" / item 2' />
+        <Item label='gap="sm" / item 3' />
+      </Stack>
+
+      <Stack gap="md">
+        <Item label='gap="md" / item 1' />
+        <Item label='gap="md" / item 2' />
+        <Item label='gap="md" / item 3' />
+      </Stack>
+
+      <Stack gap="lg">
+        <Item label='gap="lg" / item 1' />
+        <Item label='gap="lg" / item 2' />
+        <Item label='gap="lg" / item 3' />
+      </Stack>
+
+      <Stack gap="xl">
+        <Item label='gap="xl" / item 1' />
+        <Item label='gap="xl" / item 2' />
+        <Item label='gap="xl" / item 3' />
+      </Stack>
+    </div>
   ),
 };
 
-export const SmallGap: Story = {
-  args: {
-    gap: 'sm',
-  },
-  render: (args) => (
-    <Stack {...args}>
-      <Item>One</Item>
-      <Item>Two</Item>
-      <Item>Three</Item>
-    </Stack>
-  ),
-};
+export const AlignReference: Story = {
+  render: () => (
+    <div style={{ display: 'grid', gap: '2rem' }}>
+      <Stack
+        gap="md"
+        align="start"
+      >
+        <Item label='align="start"' />
+        <Item label='align="start"' />
+      </Stack>
 
-export const LargeGap: Story = {
-  args: {
-    gap: 'xl',
-  },
-  render: (args) => (
-    <Stack {...args}>
-      <Item>One</Item>
-      <Item>Two</Item>
-      <Item>Three</Item>
-    </Stack>
-  ),
-};
+      <Stack
+        gap="md"
+        align="center"
+      >
+        <Item label='align="center"' />
+        <Item label='align="center"' />
+      </Stack>
 
-export const CenterAligned: Story = {
-  args: {
-    align: 'center',
-  },
-  render: (args) => (
-    <Stack {...args}>
-      <Item>Short</Item>
-      <Item>Medium width content</Item>
-      <Item>Another item</Item>
-    </Stack>
+      <Stack
+        gap="md"
+        align="end"
+      >
+        <Item label='align="end"' />
+        <Item label='align="end"' />
+      </Stack>
+
+      <Stack
+        gap="md"
+        align="stretch"
+      >
+        <Item label='align="stretch"' />
+        <Item label='align="stretch"' />
+      </Stack>
+    </div>
   ),
 };

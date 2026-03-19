@@ -7,6 +7,7 @@ const meta = {
   component: Container,
   tags: ['autodocs'],
   args: {
+    children: null,
     width: 'default',
   },
 } satisfies Meta<typeof Container>;
@@ -15,7 +16,11 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-function DemoBlock() {
+function DemoContent({
+  label,
+}: Readonly<{
+  label: string;
+}>) {
   return (
     <div
       style={{
@@ -23,48 +28,39 @@ function DemoBlock() {
         padding: '1rem',
       }}
     >
-      Container content
+      {label}
     </div>
   );
 }
 
-export const Default: Story = {
-  render: (args) => (
-    <Container {...args}>
-      <DemoBlock />
+export const Narrow: Story = {
+  render: () => (
+    <Container width="narrow">
+      <DemoContent label='width="narrow"' />
     </Container>
   ),
 };
 
-export const Narrow: Story = {
-  args: {
-    width: 'narrow',
-  },
-  render: (args) => (
-    <Container {...args}>
-      <DemoBlock />
+export const Default: Story = {
+  render: () => (
+    <Container width="default">
+      <DemoContent label='width="default"' />
     </Container>
   ),
 };
 
 export const Wide: Story = {
-  args: {
-    width: 'wide',
-  },
-  render: (args) => (
-    <Container {...args}>
-      <DemoBlock />
+  render: () => (
+    <Container width="wide">
+      <DemoContent label='width="wide"' />
     </Container>
   ),
 };
 
 export const Full: Story = {
-  args: {
-    width: 'full',
-  },
-  render: (args) => (
-    <Container {...args}>
-      <DemoBlock />
+  render: () => (
+    <Container width="full">
+      <DemoContent label='width="full"' />
     </Container>
   ),
 };

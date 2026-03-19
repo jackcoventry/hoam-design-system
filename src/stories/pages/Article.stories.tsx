@@ -128,6 +128,7 @@ const Template: Story = {
       <NewsletterBanner
         title="Connect with us"
         description="Sign up to our newsletter to receive the latest news and updates from our team."
+        socialLinks={SocialLinks}
       />
     </BaseTemplate>
   ),

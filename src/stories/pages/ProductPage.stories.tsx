@@ -2,6 +2,7 @@ import { Meta } from '@storybook/react-vite';
 
 import { Breadcrumb } from '@/components/Breadcrumb';
 import { ImageGallery } from '@/components/ImageGallery';
+import { Container, Grid, GridItem } from '@/components/Layout';
 import { ProductInfo } from '@/components/ProductInfo';
 import { RecommendedProducts } from '@/components/RecommendedProducts';
 import BaseTemplate from '@/templates/Base';
@@ -28,27 +29,39 @@ const Template = {
   render: (args: any) => {
     return (
       <BaseTemplate>
-        <div className="container">
-          <div className="grid gap-lg py-2xl">
-            <div className="span-12">
+        <Container>
+          <Grid gap="lg">
+            <GridItem span={12}>
               <Breadcrumb items={BreadcrumbData} />
-            </div>
-            <div className="span-12 lg:span-6">
+            </GridItem>
+          </Grid>
+          <Grid gap="lg">
+            <GridItem span={12}>
+              <Breadcrumb items={BreadcrumbData} />
+            </GridItem>
+            <GridItem
+              span={12}
+              spanLg={6}
+            >
               <ImageGallery images={ImageGalleryMockData} />
-            </div>
-            <div className="span-12 lg:start-8 lg:span-5">
+            </GridItem>
+            <GridItem
+              span={12}
+              spanLg={5}
+              startLg={8}
+            >
               <ProductInfo
                 {...args}
                 data={ProductInformationMockData}
               />
-            </div>
-          </div>
+            </GridItem>
+          </Grid>
 
           <RecommendedProducts
             title="Recommended products"
             products={[ProductTileData, ProductTileData, ProductTileData]}
           />
-        </div>
+        </Container>
       </BaseTemplate>
     );
   },

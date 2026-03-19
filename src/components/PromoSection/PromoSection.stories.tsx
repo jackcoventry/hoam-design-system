@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react-vite';
 
-import { PromoSection } from '@/components/PromoSection';
+import { PromoSection, PromoSectionProps } from '@/components/PromoSection';
 import PromoSectionData from '@/mocks/components/PromoSection';
 
 const meta: Meta<typeof PromoSection> = {
@@ -8,7 +8,7 @@ const meta: Meta<typeof PromoSection> = {
   component: PromoSection,
   tags: ['autodocs'],
   args: {
-    ...PromoSectionData,
+    ...(PromoSectionData as PromoSectionProps),
   },
 };
 export default meta;

@@ -1,6 +1,7 @@
 import { Meta } from '@storybook/react-vite';
 
 import { Basket, BasketFooter } from '@/components/Basket';
+import { Container, Grid, GridItem, Section } from '@/components/Layout';
 import BaseTemplate from '@/templates/Base';
 import items from '@/mocks/components/Basket';
 
@@ -22,19 +23,24 @@ const Template = {
     }, 0);
     return (
       <BaseTemplate>
-        <div className="container | py-2xl">
-          <div className="grid">
-            <div className="span-12 lg:span-10 lg:start-2">
-              <h1>Your basket</h1>
-              <Basket
-                items={items}
-                total={total}
-              />
-
-              <BasketFooter total={total} />
-            </div>
-          </div>
-        </div>
+        <Section space="2xl">
+          <Container>
+            <Grid>
+              <GridItem
+                span={12}
+                spanLg={10}
+                startLg={2}
+              >
+                <h1>Your basket</h1>
+                <Basket
+                  items={items}
+                  total={total}
+                />
+                <BasketFooter total={total} />
+              </GridItem>
+            </Grid>
+          </Container>
+        </Section>
       </BaseTemplate>
     );
   },

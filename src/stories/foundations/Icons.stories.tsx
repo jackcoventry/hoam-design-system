@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import { Button } from '@/components/Button/Button';
+import { Container, Grid, GridItem } from '@/components/Layout';
 import Tokens from '@/design-tokens/icons.json';
 
 type Props = {
@@ -50,12 +51,12 @@ const CopyButton = ({ icon }: Props) => {
 };
 
 const Template = () => (
-  <div className="container">
-    <div className="grid">
-      <div className="g-col-12">
+  <Container>
+    <Grid>
+      <GridItem span={12}>
         <h1>Icons</h1>
-      </div>
-      <div className="g-col-12">
+      </GridItem>
+      <GridItem className="g-col-12">
         <table>
           <thead>
             <tr>
@@ -85,9 +86,9 @@ const Template = () => (
             ))}
           </tbody>
         </table>
-      </div>
-    </div>
-  </div>
+      </GridItem>
+    </Grid>
+  </Container>
 );
 
 export default {

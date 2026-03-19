@@ -6,7 +6,7 @@ import { LogoCarousel } from '@/components/LogoCarousel';
 import { Navigation } from '@/components/Navigation';
 import { NewsletterBanner } from '@/components/NewsletterBanner';
 import { NotificationBar } from '@/components/NotificationBar';
-import { PromoSection } from '@/components/PromoSection';
+import { PromoSection, PromoSectionProps } from '@/components/PromoSection';
 import FooterData from '@/mocks/components/Footer';
 import MockSlides from '@/mocks/components/Hero';
 import LogoCarouselData from '@/mocks/components/LogoCarousel';
@@ -14,6 +14,7 @@ import NavigationData from '@/mocks/components/Navigation';
 import NotificationBarData from '@/mocks/components/NotificationBar';
 import PromoSectionData from '@/mocks/components/PromoSection';
 import UserNavigationData from '@/mocks/components/UserNavigation';
+import SocialLinks from '@/mocks/socialLinks';
 
 const meta: Meta = {
   title: 'Pages/Homepage',
@@ -30,6 +31,7 @@ const HeroData = [MockSlides[3]];
 
 const Template = {
   render: () => {
+    const promoSectionData = PromoSectionData as PromoSectionProps;
     return (
       <>
         <NotificationBar messages={NotificationBarData} />
@@ -58,13 +60,13 @@ const Template = {
           })}
         </Hero>
         <PromoSection
-          title={PromoSectionData.title}
-          description={PromoSectionData.description}
-          subtitle={PromoSectionData.subtitle}
-          linkUrl={PromoSectionData.linkUrl}
-          linkText={PromoSectionData.linkText}
-          imageUrl={PromoSectionData.imageUrl}
-          alignment={PromoSectionData.alignment}
+          title={promoSectionData.title}
+          description={promoSectionData.description}
+          subtitle={promoSectionData.subtitle}
+          linkUrl={promoSectionData.linkUrl}
+          linkText={promoSectionData.linkText}
+          imageUrl={promoSectionData.imageUrl}
+          alignment={promoSectionData.alignment}
         />
         <LogoCarousel
           title="As featured in"
@@ -77,6 +79,7 @@ const Template = {
         <Footer
           topLinks={FooterData.topLinks}
           bottomLinks={FooterData.bottomLinks}
+          socialLinks={SocialLinks}
         />
       </>
     );

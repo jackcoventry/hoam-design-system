@@ -10,7 +10,7 @@ export type PromoSectionProps = {
   linkUrl?: string | undefined;
   linkText?: string | undefined;
   imageUrl?: string | undefined;
-  alignment?: string | undefined;
+  alignment?: 'left' | 'right' | undefined;
 };
 
 export function PromoSection({
@@ -22,7 +22,7 @@ export function PromoSection({
   imageUrl,
   alignment = 'left',
 }: Readonly<PromoSectionProps>) {
-  const contentImage = () => (
+  const imageBlock = imageUrl ? (
     <GridItem
       span={12}
       spanLg={5}
@@ -33,20 +33,35 @@ export function PromoSection({
         className={styles.image}
       />
     </GridItem>
-  );
+  ) : null;
 
-  const contentText = () => (
+  const textBlock = (
     <GridItem
       span={12}
       spanLg={6}
     >
       <div className={styles.content}>
-        {subtitle && <h3 className={styles.subtitle}>{subtitle}</h3>}
-        {title && <h2 className={styles.title}>{title}</h2>}
-        {description && <p className={styles.description}>{description}</p>}
-        {linkUrl && linkText && <Button className={styles.button}>{linkText}</Button>}
+        {subtitle ? <h3 className={styles.subtitle}>{subtitle}</h3> : null}
+        <h2 className={styles.title}>{title}</h2>
+        {description ? <p className={styles.description}>{description}</p> : null}
+        {linkUrl && linkText ? (
+          <Button
+            as="a"
+            href={linkUrl}
+            className={styles.button}
+          >
+            {linkText}
+          </Button>
+        ) : null}
       </div>
     </GridItem>
+  );
+
+  const spacer = (
+    <GridItem
+      spanLg={1}
+      aria-hidden="true"
+    />
   );
 
   return (
@@ -55,17 +70,15 @@ export function PromoSection({
         <Grid>
           {alignment === 'left' ? (
             <>
-              {contentImage()}
-              {/* spacer */}
-              <GridItem spanLg={1} />
-              {contentText()}
+              {imageBlock}
+              {imageBlock ? spacer : null}
+              {textBlock}
             </>
           ) : (
             <>
-              {contentText()}
-              {/* spacer */}
-              <GridItem spanLg={1} />
-              {contentImage()}
+              {textBlock}
+              {imageBlock ? spacer : null}
+              {imageBlock}
             </>
           )}
         </Grid>

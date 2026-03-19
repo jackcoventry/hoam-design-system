@@ -7,7 +7,7 @@ import { NewsletterBanner } from '@/components/NewsletterBanner';
 
 vi.mock('@/mocks/socialLinks', () => ({
   default: [
-    { name: 'Twitter', url: 'https://example.com/twitter', icon: 'twitter' },
+    { name: 'Facebook', url: 'https://example.com/facebook', icon: 'facebook' },
     { name: 'Instagram', url: 'https://example.com/instagram', icon: 'instagram' },
   ],
 }));
@@ -91,15 +91,31 @@ describe('NewsletterBanner', () => {
   });
 
   it('renders social links', () => {
-    render(<NewsletterBanner title="Join our newsletter" />);
+    const socialLinks = [
+      { name: 'Facebook', url: 'https://example.com/facebook', icon: 'facebook' },
+      { name: 'Instagram', url: 'https://example.com/instagram', icon: 'instagram' },
+    ];
 
-    expect(screen.getByRole('link', { name: 'Twitter' })).toHaveAttribute(
+    render(
+      <NewsletterBanner
+        title="Join our newsletter"
+        socialLinks={socialLinks}
+      />
+    );
+
+    expect(screen.getByRole('link', { name: 'Facebook' })).toHaveAttribute(
       'href',
-      'https://example.com/twitter'
+      'https://example.com/facebook'
     );
     expect(screen.getByRole('link', { name: 'Instagram' })).toHaveAttribute(
       'href',
       'https://example.com/instagram'
     );
+  });
+
+  it('does not render social links when not provided', () => {
+    render(<NewsletterBanner title="Join our newsletter" />);
+
+    expect(screen.queryByRole('link')).not.toBeInTheDocument();
   });
 });

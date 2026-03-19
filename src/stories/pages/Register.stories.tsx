@@ -6,6 +6,7 @@ import {
   type RegisterFormResult,
   type RegisterFormSchemaType,
 } from '@/components/Form/RegisterForm/RegisterForm';
+import { Container, Grid, GridItem, Section } from '@/components/Layout';
 import { useMockRequest } from '@/hooks/useMockRequest';
 import BaseTemplate from '@/templates/Base';
 import { navigateToStory } from '@/utils/navigateToStory';
@@ -38,18 +39,24 @@ function StoryTemplate() {
 
   return (
     <BaseTemplate>
-      <div className="container | py-2xl">
-        <div className="grid">
-          <div className="span-12 lg:span-4 lg:start-5">
-            <RegisterForm
-              onSubmit={onSubmit}
-              data={data}
-              loading={loading}
-              error={error}
-            />
-          </div>
-        </div>
-      </div>
+      <Section>
+        <Container>
+          <Grid>
+            <GridItem
+              span={12}
+              spanLg={4}
+              startLg={5}
+            >
+              <RegisterForm
+                onSubmit={onSubmit}
+                data={data}
+                loading={loading}
+                error={error}
+              />
+            </GridItem>
+          </Grid>
+        </Container>
+      </Section>
     </BaseTemplate>
   );
 }

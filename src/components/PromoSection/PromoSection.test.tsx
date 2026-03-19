@@ -1,13 +1,32 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
+import type { ReactNode } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 
 import { PromoSection } from '@/components/PromoSection';
 
 import '@testing-library/jest-dom';
 
-vi.mock('@/components/Button', () => {
-  return {
-    Button: ({ children, className }: { children: React.ReactNode; className?: string }) => (
+vi.mock('@/components/Button', () => ({
+  Button: ({
+    children,
+    className,
+    as,
+    href,
+  }: {
+    children: ReactNode;
+    className?: string;
+    as?: 'a' | 'button';
+    href?: string;
+  }) =>
+    as === 'a' ? (
+      <a
+        data-testid="hoam-button"
+        className={className}
+        href={href}
+      >
+        {children}
+      </a>
+    ) : (
       <button
         data-testid="hoam-button"
         className={className}
@@ -15,8 +34,31 @@ vi.mock('@/components/Button', () => {
         {children}
       </button>
     ),
-  };
-});
+}));
+
+vi.mock('@/components/Layout', () => ({
+  Container: ({ children }: { children: ReactNode }) => (
+    <div data-testid="container">{children}</div>
+  ),
+  Grid: ({ children }: { children: ReactNode }) => <div data-testid="grid">{children}</div>,
+  GridItem: ({
+    children,
+    span,
+    spanLg,
+  }: {
+    children?: ReactNode;
+    span?: number;
+    spanLg?: number;
+  }) => (
+    <div
+      data-testid="grid-item"
+      data-span={span}
+      data-span-lg={spanLg}
+    >
+      {children}
+    </div>
+  ),
+}));
 
 const baseProps = {
   title: 'Big Promo',
@@ -25,14 +67,7 @@ const baseProps = {
   linkUrl: '/promo',
   linkText: 'Shop now',
   imageUrl: 'https://example.com/promo.jpg',
-};
-
-function getOrderIndex(el: Element) {
-  const grid = el.ownerDocument.querySelector('.grid');
-  if (!grid) return null;
-  const children = Array.from(grid.children);
-  return children.indexOf(el);
-}
+} as const;
 
 describe('<PromoSection />', () => {
   it('renders the required title and image with correct alt text', () => {
@@ -43,7 +78,6 @@ describe('<PromoSection />', () => {
       />
     );
 
-    // Title (h2)
     expect(screen.getByRole('heading', { level: 2, name: 'Big Promo' })).toBeInTheDocument();
 
     const img = screen.getByRole('img', { name: 'Big Promo' });
@@ -65,7 +99,7 @@ describe('<PromoSection />', () => {
     expect(screen.getByText(baseProps.description)).toBeInTheDocument();
   });
 
-  it('renders Button only when both linkUrl and linkText are provided', () => {
+  it('renders a link button only when both linkUrl and linkText are provided', () => {
     const { rerender } = render(
       <PromoSection
         title={baseProps.title}
@@ -74,10 +108,12 @@ describe('<PromoSection />', () => {
         linkText={baseProps.linkText}
       />
     );
-    expect(screen.getByTestId('hoam-button')).toBeInTheDocument();
-    expect(screen.getByText(baseProps.linkText)).toBeInTheDocument();
 
-    // Missing linkText
+    const button = screen.getByTestId('hoam-button');
+    expect(button).toBeInTheDocument();
+    expect(button).toHaveTextContent(baseProps.linkText);
+    expect(button).toHaveAttribute('href', baseProps.linkUrl);
+
     rerender(
       <PromoSection
         title={baseProps.title}
@@ -87,7 +123,6 @@ describe('<PromoSection />', () => {
     );
     expect(screen.queryByTestId('hoam-button')).not.toBeInTheDocument();
 
-    // Missing linkUrl
     rerender(
       <PromoSection
         title={baseProps.title}
@@ -98,7 +133,7 @@ describe('<PromoSection />', () => {
     expect(screen.queryByTestId('hoam-button')).not.toBeInTheDocument();
   });
 
-  it('orders image then text when alignment="left"', () => {
+  it('orders image then spacer then text when alignment="left"', () => {
     render(
       <PromoSection
         title={baseProps.title}
@@ -111,36 +146,33 @@ describe('<PromoSection />', () => {
       />
     );
 
-    const img = screen.getByRole('img', { name: baseProps.title });
-    const imageWrapper = img.closest('.span-12');
-    expect(imageWrapper).toBeInTheDocument();
-    if (!imageWrapper) throw new Error('Expected image wrapper to exist');
+    const grid = screen.getByTestId('grid');
+    const items = within(grid).getAllByTestId('grid-item');
 
-    const content = screen.getByText(baseProps.description).closest('.span-12');
-    expect(content).toBeInTheDocument();
-    if (!content) throw new Error('Expected content wrapper to exist');
+    expect(items).toHaveLength(3);
 
-    const grid = imageWrapper.ownerDocument.querySelector('.grid');
-    expect(grid).toBeInTheDocument();
-    if (!grid) throw new Error('Expected grid container to exist');
+    const first = items[0];
+    const second = items[1];
+    const third = items[2];
 
-    const spacer = Array.from(grid.children).find((el) => el.classList.contains('lg:span-1'));
-    expect(spacer).toBeInTheDocument();
-    if (!spacer) throw new Error('Expected spacer element to exist');
-
-    const imageIndex = getOrderIndex(imageWrapper);
-    const spacerIndex = getOrderIndex(spacer);
-    const contentIndex = getOrderIndex(content);
-
-    if (imageIndex === null || spacerIndex === null || contentIndex === null) {
-      throw new Error('Expected all order indices to exist');
+    if (!first || !second || !third) {
+      throw new TypeError('Expected three grid items');
     }
 
-    expect(imageIndex).toBeLessThan(spacerIndex);
-    expect(spacerIndex).toBeLessThan(contentIndex);
+    expect(within(first).getByRole('img', { name: baseProps.title })).toBeInTheDocument();
+    expect(second).toBeEmptyDOMElement();
+    expect(
+      within(third).getByRole('heading', { level: 2, name: baseProps.title })
+    ).toBeInTheDocument();
+
+    expect(first).toHaveAttribute('data-span', '12');
+    expect(first).toHaveAttribute('data-span-lg', '5');
+    expect(second).toHaveAttribute('data-span-lg', '1');
+    expect(third).toHaveAttribute('data-span', '12');
+    expect(third).toHaveAttribute('data-span-lg', '6');
   });
 
-  it('orders text then image when alignment="right"', () => {
+  it('orders text then spacer then image when alignment="right"', () => {
     render(
       <PromoSection
         title={baseProps.title}
@@ -153,33 +185,30 @@ describe('<PromoSection />', () => {
       />
     );
 
-    const img = screen.getByRole('img', { name: baseProps.title });
-    const imageWrapper = img.closest('.span-12');
-    expect(imageWrapper).toBeInTheDocument();
-    if (!imageWrapper) throw new Error('Expected image wrapper to exist');
+    const grid = screen.getByTestId('grid');
+    const items = within(grid).getAllByTestId('grid-item');
 
-    const content = screen.getByText(baseProps.description).closest('.span-12');
-    expect(content).toBeInTheDocument();
-    if (!content) throw new Error('Expected content wrapper to exist');
+    expect(items).toHaveLength(3);
 
-    const grid = imageWrapper.ownerDocument.querySelector('.grid');
-    expect(grid).toBeInTheDocument();
-    if (!grid) throw new Error('Expected grid container to exist');
+    const first = items[0];
+    const second = items[1];
+    const third = items[2];
 
-    const spacer = Array.from(grid.children).find((el) => el.classList.contains('lg:span-1'));
-    expect(spacer).toBeInTheDocument();
-    if (!spacer) throw new Error('Expected spacer element to exist');
-
-    const contentIndex = getOrderIndex(content);
-    const spacerIndex = getOrderIndex(spacer);
-    const imageIndex = getOrderIndex(imageWrapper);
-
-    if (imageIndex === null || spacerIndex === null || contentIndex === null) {
-      throw new Error('Expected all order indices to exist');
+    if (!first || !second || !third) {
+      throw new TypeError('Expected three grid items');
     }
 
-    expect(contentIndex).toBeLessThan(spacerIndex);
-    expect(spacerIndex).toBeLessThan(imageIndex);
+    expect(
+      within(first).getByRole('heading', { level: 2, name: baseProps.title })
+    ).toBeInTheDocument();
+    expect(second).toBeEmptyDOMElement();
+    expect(within(third).getByRole('img', { name: baseProps.title })).toBeInTheDocument();
+
+    expect(first).toHaveAttribute('data-span', '12');
+    expect(first).toHaveAttribute('data-span-lg', '6');
+    expect(second).toHaveAttribute('data-span-lg', '1');
+    expect(third).toHaveAttribute('data-span', '12');
+    expect(third).toHaveAttribute('data-span-lg', '5');
   });
 
   it('does not render optional elements when not provided', () => {
@@ -190,15 +219,35 @@ describe('<PromoSection />', () => {
       />
     );
 
-    // Subtitle and description not rendered
     expect(screen.queryByRole('heading', { level: 3 })).not.toBeInTheDocument();
     expect(screen.queryByText(baseProps.description)).not.toBeInTheDocument();
-
-    // No button should be rendered
     expect(screen.queryByTestId('hoam-button')).not.toBeInTheDocument();
 
-    // Title and image still present
     expect(screen.getByRole('heading', { level: 2, name: 'Only Title' })).toBeInTheDocument();
     expect(screen.getByRole('img', { name: 'Only Title' })).toBeInTheDocument();
+  });
+
+  it('does not render image or spacer when imageUrl is not provided', () => {
+    render(
+      <PromoSection
+        title="Text Only"
+        subtitle="Subtitle"
+        description="Description"
+        alignment="left"
+      />
+    );
+
+    const grid = screen.getByTestId('grid');
+    const items = within(grid).getAllByTestId('grid-item');
+
+    const first = items[0];
+
+    if (!first) {
+      throw new TypeError('Expected at least one grid item');
+    }
+
+    expect(items).toHaveLength(1);
+    expect(screen.queryByRole('img')).not.toBeInTheDocument();
+    expect(within(first).getByRole('heading', { level: 2, name: 'Text Only' })).toBeInTheDocument();
   });
 });

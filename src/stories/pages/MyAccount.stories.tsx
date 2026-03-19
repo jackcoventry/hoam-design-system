@@ -1,5 +1,6 @@
 import { Meta } from '@storybook/react-vite';
 
+import { Container, Grid, GridItem, Section } from '@/components/Layout';
 import { RichLink } from '@/components/RichLink';
 import { SidebarNavigation } from '@/components/SidebarNavigation';
 import BaseTemplate from '@/templates/Base';
@@ -19,40 +20,51 @@ export default meta;
 const Template = {
   render: () => (
     <BaseTemplate>
-      <div className="container">
-        <div className="grid">
-          <div className="span-12">
+      <Container>
+        <Grid>
+          <GridItem span={12}>
             <h1>My Account</h1>
-          </div>
-        </div>
-        <div className="grid | py-2xl">
-          <div className="span-12 lg:span-3">
-            <SidebarNavigation items={SidebarNavigationData} />
-          </div>
-          <div className="span-12 lg:span-8 lg:start-5">
-            <h2 className="pb-2xl">Welcome back!</h2>
-            <div className="container-fluid">
-              <div className="grid">
-                {RichLinksData?.map((item) => {
-                  return (
-                    <div
-                      className="span-12 md:span-6 lg:span-4"
-                      key={item.href}
-                    >
-                      <RichLink
-                        title={item.title}
-                        href={item.href}
-                        image={item.image}
-                        imageAlt={item.imageAlt}
-                      />
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+          </GridItem>
+        </Grid>
+        <Section space="2xl">
+          <Grid>
+            <GridItem
+              span={12}
+              spanLg={3}
+            >
+              <SidebarNavigation items={SidebarNavigationData} />
+            </GridItem>
+            <GridItem
+              span={12}
+              spanLg={8}
+              startLg={5}
+            >
+              <h2 className="pb-2xl">Welcome back!</h2>
+              <Container width="full">
+                <Grid>
+                  {RichLinksData?.map((item) => {
+                    return (
+                      <GridItem
+                        key={item.href}
+                        span={12}
+                        spanMd={6}
+                        spanLg={4}
+                      >
+                        <RichLink
+                          title={item.title}
+                          href={item.href}
+                          image={item.image}
+                          imageAlt={item.imageAlt}
+                        />
+                      </GridItem>
+                    );
+                  })}
+                </Grid>
+              </Container>
+            </GridItem>
+          </Grid>
+        </Section>
+      </Container>
     </BaseTemplate>
   ),
 };

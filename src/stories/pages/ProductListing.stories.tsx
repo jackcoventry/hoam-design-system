@@ -1,5 +1,6 @@
 import { Meta } from '@storybook/react-vite';
 
+import { Container, Grid, GridItem, Stack } from '@/components/Layout';
 import { Pagination } from '@/components/Pagination';
 import { ProductTile } from '@/components/ProductTile';
 import BaseTemplate from '@/templates/Base';
@@ -20,37 +21,42 @@ const productArray = [1, 2, 3];
 const Template = {
   render: (args: any) => (
     <BaseTemplate>
-      <div className="container">
-        <div className="grid gap-lg mb-2xl">
-          {productArray.map((product) => (
-            <div
-              className="span-12 lg:span-4"
-              key={product}
-            >
-              <ProductTile {...args} />
-            </div>
-          ))}
-        </div>
-        <div className="grid gap-lg mb-xl">
-          {productArray.map((product) => (
-            <div
-              className="span-12 lg:span-4"
-              key={product}
-            >
-              <ProductTile {...args} />
-            </div>
-          ))}
-        </div>
+      <Container>
+        <Stack gap="xl">
+          <Grid gap="lg">
+            {productArray.map((product) => (
+              <GridItem
+                span={12}
+                spanLg={4}
+                key={product}
+              >
+                <ProductTile {...args} />
+              </GridItem>
+            ))}
+          </Grid>
 
-        <div className="grid pt-2xl">
-          <div className="span-12">
-            <Pagination
-              pageCount={5}
-              currentPage={2}
-            />
-          </div>
-        </div>
-      </div>
+          <Grid gap="lg">
+            {productArray.map((product) => (
+              <GridItem
+                span={12}
+                spanLg={4}
+                key={product}
+              >
+                <ProductTile {...args} />
+              </GridItem>
+            ))}
+          </Grid>
+
+          <Grid>
+            <GridItem span={12}>
+              <Pagination
+                pageCount={5}
+                currentPage={2}
+              />
+            </GridItem>
+          </Grid>
+        </Stack>
+      </Container>
     </BaseTemplate>
   ),
 };
