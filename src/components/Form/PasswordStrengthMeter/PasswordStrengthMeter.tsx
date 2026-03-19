@@ -1,3 +1,5 @@
+import { VisuallyHidden } from '@/components/Common/VisuallyHidden';
+
 import styles from '@/components/Form/PasswordStrengthMeter/PasswordStrengthMeter.module.css';
 
 type StrengthLevel = 0 | 1 | 2 | 3 | 4;
@@ -57,13 +59,9 @@ export function PasswordStrengthMeter({ strength }: Readonly<PasswordStrengthMet
         })}
       </div>
       {strength ? (
-        <div
-          aria-live="polite"
-          aria-hidden="true"
-          className="sr-only"
-        >
-          {label}
-        </div>
+        <VisuallyHidden>
+          <div aria-live="polite">{label}</div>
+        </VisuallyHidden>
       ) : null}
     </div>
   );

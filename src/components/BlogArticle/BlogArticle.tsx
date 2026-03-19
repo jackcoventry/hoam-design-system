@@ -2,11 +2,7 @@ import { ReactNode } from 'react';
 
 import type { SocialLink } from '@/components/Footer';
 import { Container, Grid, GridItem } from '@/components/Layout';
-import {
-  formatISODate,
-  formatReadableDate,
-  parseLooseDate,
-} from '@/utils/convertDates/convertDates';
+import { formatISODate, formatReadableDate, parseLooseDate } from '@/utils/convertDates';
 
 import styles from '@/components/BlogArticle/BlogArticle.module.css';
 
@@ -116,6 +112,7 @@ export function BlogArticle({
                           target="_blank"
                           rel="noopener noreferrer"
                           className="hoam-newsletter-banner__social-link"
+                          aria-label={`Share on ${link.name}`}
                         >
                           <svg
                             className="icon"

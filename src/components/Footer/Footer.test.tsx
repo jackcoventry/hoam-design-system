@@ -6,9 +6,9 @@ import { Footer } from '@/components/Footer';
 vi.mock('@/mocks/socialLinks', () => ({
   default: [
     {
-      name: 'Twitter',
-      url: 'https://example.com/twitter',
-      icon: 'twitter',
+      name: 'Facebook',
+      url: 'https://example.com/facebook',
+      icon: 'facebook',
     },
     {
       name: 'Instagram',

@@ -16,7 +16,7 @@ export type BasketItemProps = {
   price: number;
   thumbnail: Thumbnail;
   url: string;
-  onChange: () => void;
+  onChange: (value: number) => void;
   quantity: number;
 };
 
@@ -44,7 +44,7 @@ export function BasketItem({
         >
           <img
             src={thumbnail.src}
-            alt={thumbnail.alt}
+            alt={thumbnail.alt ?? ''}
           />
         </a>
       </td>
@@ -106,28 +106,32 @@ export function BasketFooter({ total = 0 }: Readonly<{ total: number }>) {
 export function Basket({ items = [] }: Readonly<BasketProps>) {
   return (
     <table className={styles.root}>
-      <tr className={styles.row}>
-        <th scope="col">Product</th>
-        <th scope="col"></th>
-        <th scope="col">Quantity</th>
-        <th scope="col">Price</th>
-      </tr>
-      {items?.map((item) => {
-        const { id, title, summary, price, thumbnail, url, onChange, quantity } = item;
-        return (
-          <BasketItem
-            key={id}
-            id={id}
-            title={title}
-            summary={summary}
-            price={price}
-            thumbnail={thumbnail}
-            url={url}
-            onChange={onChange}
-            quantity={quantity}
-          />
-        );
-      })}
+      <thead>
+        <tr className={styles.row}>
+          <th scope="col">Product</th>
+          <th scope="col"></th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        {items?.map((item) => {
+          const { id, title, summary, price, thumbnail, url, onChange, quantity } = item;
+          return (
+            <BasketItem
+              key={id}
+              id={id}
+              title={title}
+              summary={summary}
+              price={price}
+              thumbnail={thumbnail}
+              url={url}
+              onChange={onChange}
+              quantity={quantity}
+            />
+          );
+        })}
+      </tbody>
     </table>
   );
 }
