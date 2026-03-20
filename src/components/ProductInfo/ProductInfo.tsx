@@ -34,7 +34,7 @@ type ProductOption = {
 
 export type ProductInfoProps = {
   title: string;
-  description?: string;
+  description?: string | undefined;
   productId: string;
   price: { amount: number; saleAmount: number; currency: string };
   inStock: boolean;
@@ -101,8 +101,7 @@ export function ProductInfo({
   });
   const [submitting, setSubmitting] = useState<boolean>(false);
 
-  const onSubmit: SubmitHandler<ProductInformationSchemaType> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<ProductInformationSchemaType> = () => {
     setSubmitting(true);
 
     // TODO: temporary, to mimic server response.

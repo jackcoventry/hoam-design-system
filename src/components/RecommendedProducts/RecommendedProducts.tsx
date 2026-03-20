@@ -5,7 +5,7 @@ import styles from '@/components/RecommendedProducts/RecommendedProducts.module.
 
 export type RecommendedProductsProps = {
   title: string;
-  description?: string;
+  description?: string | undefined;
   products: ProductTileProps[];
 };
 

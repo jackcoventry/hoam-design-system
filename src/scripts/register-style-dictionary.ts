@@ -3,7 +3,7 @@ import { glob } from 'glob';
 import { readFile } from 'node:fs/promises';
 import StyleDictionary from 'style-dictionary';
 
-import { resolveReferences } from '../utils/get';
+import { resolveReferences } from '@/utils/get';
 
 const PREFIX = 'hoam';
 
