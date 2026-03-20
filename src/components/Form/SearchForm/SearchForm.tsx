@@ -45,7 +45,6 @@ export function SearchResult({ title, url, preview }: Readonly<SearchFormResult>
 }
 
 export function SearchLoader() {
-  // TODO: Address utilty classes like hoam-loader
   return (
     <div className={styles.loader}>
       <Spinner />

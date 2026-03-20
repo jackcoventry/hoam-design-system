@@ -3,21 +3,21 @@
 }
 
 .root[data-space="sm"] {
-  padding-block: var(--space-4, 1rem);
+  padding-block: var(--hoam-spacing-4, 1rem);
 }
 
 .root[data-space="md"] {
-  padding-block: var(--space-6, 1.5rem);
+  padding-block: var(--hoam-spacing-6, 1.5rem);
 }
 
 .root[data-space="lg"] {
-  padding-block: var(--space-8, 2rem);
+  padding-block: var(--hoam-spacing-8, 2rem);
 }
 
 .root[data-space="xl"] {
-  padding-block: var(--space-12, 3rem);
+  padding-block: var(--hoam-spacing-12, 3rem);
 }
 
 .root[data-space="2xl"] {
-  padding-block: var(--space-16, 4rem);
+  padding-block: var(--hoam-spacing-16, 4rem);
 }

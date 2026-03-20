@@ -26,8 +26,8 @@ describe('Grid', () => {
     const element = container.firstChild as HTMLElement;
 
     expect(element.style.getPropertyValue('--grid-cols')).toBe('12');
-    expect(element.style.getPropertyValue('--grid-gap')).toBe('var(--space-4, 1rem)');
-    expect(element.style.getPropertyValue('--grid-row-gap')).toBe('var(--space-4, 1rem)');
+    expect(element.style.getPropertyValue('--grid-gap')).toBe('var(--hoam-spacing-4, 1rem)');
+    expect(element.style.getPropertyValue('--grid-row-gap')).toBe('var(--hoam-spacing-4, 1rem)');
   });
 
   it('applies custom cols and gap', () => {
@@ -43,8 +43,8 @@ describe('Grid', () => {
     const element = container.firstChild as HTMLElement;
 
     expect(element.style.getPropertyValue('--grid-cols')).toBe('6');
-    expect(element.style.getPropertyValue('--grid-gap')).toBe('var(--space-8, 2rem)');
-    expect(element.style.getPropertyValue('--grid-row-gap')).toBe('var(--space-8, 2rem)');
+    expect(element.style.getPropertyValue('--grid-gap')).toBe('var(--hoam-spacing-8, 2rem)');
+    expect(element.style.getPropertyValue('--grid-row-gap')).toBe('var(--hoam-spacing-8, 2rem)');
   });
 
   it('applies a custom rowGap', () => {
@@ -59,8 +59,8 @@ describe('Grid', () => {
 
     const element = container.firstChild as HTMLElement;
 
-    expect(element.style.getPropertyValue('--grid-gap')).toBe('var(--space-2, 0.5rem)');
-    expect(element.style.getPropertyValue('--grid-row-gap')).toBe('var(--space-6, 1.5rem)');
+    expect(element.style.getPropertyValue('--grid-gap')).toBe('var(--hoam-spacing-2, 0.5rem)');
+    expect(element.style.getPropertyValue('--grid-row-gap')).toBe('var(--hoam-spacing-6, 1.5rem)');
   });
 
   it('forwards className', () => {

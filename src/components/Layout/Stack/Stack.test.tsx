@@ -25,7 +25,7 @@ describe('Stack', () => {
 
     const element = container.firstChild as HTMLElement;
 
-    expect(element.style.getPropertyValue('--stack-gap')).toBe('var(--space-4, 1rem)');
+    expect(element.style.getPropertyValue('--stack-gap')).toBe('var(--hoam-spacing-4, 1rem)');
     expect(element.style.getPropertyValue('--stack-align')).toBe('stretch');
   });
 
@@ -41,7 +41,7 @@ describe('Stack', () => {
 
     const element = container.firstChild as HTMLElement;
 
-    expect(element.style.getPropertyValue('--stack-gap')).toBe('var(--space-8, 2rem)');
+    expect(element.style.getPropertyValue('--stack-gap')).toBe('var(--hoam-spacing-8, 2rem)');
     expect(element.style.getPropertyValue('--stack-align')).toBe('center');
   });
 

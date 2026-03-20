@@ -5,11 +5,11 @@ import { ImageGallery } from '@/components/ImageGallery';
 import { Container, Grid, GridItem } from '@/components/Layout';
 import { ProductInfo } from '@/components/ProductInfo';
 import { RecommendedProducts } from '@/components/RecommendedProducts';
-import BaseTemplate from '@/templates/Base';
 import BreadcrumbData from '@/mocks/components/Breadcrumb';
 import ImageGalleryMockData from '@/mocks/components/ImageGallery';
 import ProductInformationMockData from '@/mocks/components/ProductInformation';
 import ProductTileData from '@/mocks/components/ProductTile';
+import BaseTemplate from '@/stories/templates/Base';
 
 const meta: Meta = {
   title: 'Pages/Product Page',

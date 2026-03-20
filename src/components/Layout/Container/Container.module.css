@@ -1,6 +1,6 @@
 .root {
   margin-inline: auto;
-  padding-inline: var(--space-4, 1rem);
+  padding-inline: var(--hoam-spacing-4, 1rem);
   width: 100%;
 }
 

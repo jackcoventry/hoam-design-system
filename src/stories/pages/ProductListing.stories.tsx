@@ -3,8 +3,8 @@ import { Meta } from '@storybook/react-vite';
 import { Container, Grid, GridItem, Stack } from '@/components/Layout';
 import { Pagination } from '@/components/Pagination';
 import { ProductTile } from '@/components/ProductTile';
-import BaseTemplate from '@/templates/Base';
 import Data from '@/mocks/components/ProductTile';
+import BaseTemplate from '@/stories/templates/Base';
 
 const meta: Meta = {
   title: 'Pages/Product Listing',

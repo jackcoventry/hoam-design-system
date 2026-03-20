@@ -3,9 +3,9 @@ import { Meta } from '@storybook/react-vite';
 import { Container, Grid, GridItem, Section, Stack } from '@/components/Layout';
 import { RichLink } from '@/components/RichLink';
 import { SidebarNavigation } from '@/components/SidebarNavigation';
-import BaseTemplate from '@/templates/Base';
 import RichLinksData from '@/mocks/components/RichLinks';
 import SidebarNavigationData from '@/mocks/components/SidebarNavigation';
+import BaseTemplate from '@/stories/templates/Base';
 
 const meta: Meta = {
   title: 'Pages/Account',

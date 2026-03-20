@@ -8,8 +8,8 @@ import {
 } from '@/components/Form/SignIn/SignIn';
 import { Container, Grid, GridItem, Section } from '@/components/Layout';
 import { useMockRequest } from '@/hooks/useMockRequest';
-import BaseTemplate from '@/templates/Base';
 import { navigateToStory } from '@/utils/navigateToStory';
+import BaseTemplate from '@/stories/templates/Base';
 
 const meta: Meta = {
   title: 'Pages/Sign In',

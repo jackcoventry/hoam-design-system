@@ -17,15 +17,15 @@ function mapGapToVar(gap: GridGap): string {
     case 'none':
       return '0px';
     case 'sm':
-      return 'var(--space-2, 0.5rem)';
+      return 'var(--hoam-spacing-2, 0.5rem)';
     case 'md':
-      return 'var(--space-4, 1rem)';
+      return 'var(--hoam-spacing-4, 1rem)';
     case 'lg':
-      return 'var(--space-6, 1.5rem)';
+      return 'var(--hoam-spacing-6, 1.5rem)';
     case 'xl':
-      return 'var(--space-8, 2rem)';
+      return 'var(--hoam-spacing-8, 2rem)';
     default:
-      return 'var(--space-4, 1rem)';
+      return 'var(--hoam-spacing-4, 1rem)';
   }
 }
 
