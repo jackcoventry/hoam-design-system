@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { Message, MessageProps } from '@/components/Message';
+import { log } from '@/utils/logger';
 
 const meta = {
   title: 'Components/Message',
@@ -68,7 +69,7 @@ export const SuccessMessage: Story = {
 export const Closeable: Story = {
   render: () => {
     const handleOnClose = () => {
-      console.log('Message closed');
+      log('Message closed');
     };
     return (
       <div style={{ width: '600px' }}>

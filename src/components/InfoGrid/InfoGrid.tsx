@@ -2,6 +2,7 @@ import { Children, isValidElement, type ReactElement, type ReactNode } from 'rea
 import clsx from 'clsx';
 
 import { InfoGridItem, type InfoGridItemProps } from '@/components/InfoGrid';
+import { warn } from '@/utils/logger';
 
 import { Container, Grid, GridItem } from '../Layout';
 
@@ -52,7 +53,7 @@ export function InfoGrid({ title, description, children }: Readonly<InfoGridProp
               );
             }
 
-            console.error(INVALID_CHILD_MESSAGE);
+            warn(INVALID_CHILD_MESSAGE);
             return null;
           })}
         </Grid>

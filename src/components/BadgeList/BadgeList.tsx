@@ -6,6 +6,8 @@ import {
   type ReactNode,
 } from 'react';
 
+import { warn } from '@/utils/logger';
+
 import styles from '@/components/BadgeList/BadgeList.module.css';
 
 const INVALID_CHILD_MESSAGE = 'BadgeList component only accepts children of type BadgeListItem';
@@ -58,8 +60,7 @@ export function BadgeList({ children }: Readonly<PropsWithChildren>) {
       return child;
     }
 
-    // TODO: remove or add behind dev flag
-    console.error(INVALID_CHILD_MESSAGE);
+    warn(INVALID_CHILD_MESSAGE);
     return null;
   });
 
