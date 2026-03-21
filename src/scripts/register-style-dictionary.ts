@@ -1,13 +1,29 @@
 import merge from 'deepmerge';
 import { glob } from 'glob';
-import { readFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import StyleDictionary from 'style-dictionary';
 
 import { resolveReferences } from '@/utils/get';
+import type {
+  Token,
+  TokenBase,
+  TokenExtensions,
+  TokenOriginalValues,
+  TypographyToken,
+} from '@/design-tokens/types';
 
 const PREFIX = 'hoam';
 
 type TokenRecord = Record<string, unknown>;
+
+type RawTypographyValue = {
+  fontFamily?: unknown;
+  fontSize?: unknown;
+  fontWeight?: unknown;
+  lineHeight?: unknown;
+};
 
 type StyleDictionaryToken = {
   name: string;
@@ -15,12 +31,7 @@ type StyleDictionaryToken = {
   $type?: string;
   $value?: unknown;
   original?: {
-    $value?: {
-      fontFamily?: unknown;
-      fontSize?: unknown;
-      fontWeight?: unknown;
-      lineHeight?: unknown;
-    };
+    $value?: RawTypographyValue;
   };
   attributes?: {
     group?: string | null;
@@ -28,23 +39,16 @@ type StyleDictionaryToken = {
   };
 };
 
-type FlatToken = {
-  name: string;
-  cssVar: string;
-  type: string | null;
-  value: unknown;
-  group: string | null;
-  set: string | null;
-  originalValues?: {
-    fontFamily: string | null;
-    fontSize: string | number | null;
-    fontWeight: string | number | null;
-    lineHeight: string | number | null;
-  };
+type StyleDictionaryDictionary = {
+  allTokens: StyleDictionaryToken[];
+};
+
+type StyleDictionaryFormatArgs = {
+  dictionary: StyleDictionaryDictionary;
 };
 
 function isRecord(value: unknown): value is TokenRecord {
-  return typeof value === 'object' && value !== null;
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
 function getRecordValue(obj: TokenRecord, key: string): unknown {
@@ -65,14 +69,32 @@ function getNodeAtPath(obj: unknown, path: string[]): TokenRecord | undefined {
   return isRecord(current) ? current : undefined;
 }
 
+function getLeafExtensions(rawTokens: TokenRecord, path: string[]): TokenExtensions | null {
+  const node = getNodeAtPath(rawTokens, path);
+
+  if (!node) {
+    return null;
+  }
+
+  const extensions = getRecordValue(node, '$extensions');
+  return isRecord(extensions) ? (extensions as TokenExtensions) : null;
+}
+
 function findGroup(rawTokens: TokenRecord, path: string[]): string | null {
   for (let i = path.length - 1; i >= 0; i--) {
     const node = getNodeAtPath(rawTokens, path.slice(0, i));
 
-    if (!node) continue;
+    if (!node) {
+      continue;
+    }
 
-    const extensions = getNodeAtPath(node, ['$extensions']);
-    const group = extensions ? getRecordValue(extensions, '$group') : undefined;
+    const extensions = getRecordValue(node, '$extensions');
+
+    if (!isRecord(extensions)) {
+      continue;
+    }
+
+    const group = getRecordValue(extensions, '$group');
 
     if (typeof group === 'string') {
       return group;
@@ -124,6 +146,72 @@ function extractFontFamily(value: unknown): string | null {
   return null;
 }
 
+function buildBaseToken(token: StyleDictionaryToken, rawTokens: TokenRecord): TokenBase {
+  const leafExtensions = getLeafExtensions(rawTokens, token.path);
+
+  return {
+    name: `${PREFIX}-${token.name}`,
+    cssVar: `--${PREFIX}-${token.name}`,
+    type: token.$type ?? null,
+    value: token.$value ?? null,
+    group: token.attributes?.group ?? null,
+    set: token.attributes?.set ?? null,
+    ...(leafExtensions ? { extensions: leafExtensions } : {}),
+  };
+}
+
+function buildTypographyOriginalValues(
+  token: StyleDictionaryToken,
+  rawTokens: TokenRecord
+): TokenOriginalValues {
+  const originalTypography = token.original?.$value;
+
+  return {
+    fontFamily: extractFontFamily(resolveReferences(originalTypography?.fontFamily, rawTokens)),
+    fontSize: extractResolvedValue(resolveReferences(originalTypography?.fontSize, rawTokens)),
+    fontWeight: extractResolvedValue(resolveReferences(originalTypography?.fontWeight, rawTokens)),
+    lineHeight: extractResolvedValue(resolveReferences(originalTypography?.lineHeight, rawTokens)),
+  };
+}
+
+function buildFlatToken(token: StyleDictionaryToken, rawTokens: TokenRecord): Token {
+  const baseToken = buildBaseToken(token, rawTokens);
+
+  if (token.$type !== 'typography') {
+    return baseToken;
+  }
+
+  const typographyToken: TypographyToken = {
+    ...baseToken,
+    type: 'typography',
+    originalValues: buildTypographyOriginalValues(token, rawTokens),
+  };
+
+  return typographyToken;
+}
+
+StyleDictionary.registerFormat({
+  name: 'custom/json/flat-with-meta',
+  format: (args: StyleDictionaryFormatArgs) => {
+    const flat: Token[] = args.dictionary.allTokens.map((token) =>
+      buildFlatToken(token, rawTokens)
+    );
+
+    return JSON.stringify(flat, null, 2);
+  },
+});
+
+StyleDictionary.registerFormat({
+  name: 'custom/types/flat-tokens',
+  format: () => {
+    return `import type { Token } from '@/design-tokens/types';
+
+declare const tokens: Token[];
+export default tokens;
+`;
+  },
+});
+
 const tokenFiles = await glob('src/design-tokens/**/*.json');
 
 console.log('📦 Tokens found:', tokenFiles);
@@ -154,54 +242,27 @@ StyleDictionary.registerTransform({
   },
 });
 
-StyleDictionary.registerFormat({
-  name: 'custom/json/flat-with-meta',
-  format: (args) => {
-    const dictionary = args.dictionary as { allTokens: StyleDictionaryToken[] };
-    const allTokens = dictionary.allTokens;
-
-    const flat: FlatToken[] = allTokens.map((token) => {
-      const baseToken: FlatToken = {
-        name: `${PREFIX}-${token.name}`,
-        cssVar: `--${PREFIX}-${token.name}`,
-        type: token.$type ?? null,
-        value: token.$value ?? null,
-        group: token.attributes?.group ?? null,
-        set: token.attributes?.set ?? null,
-      };
-
-      if (token.$type !== 'typography') {
-        return baseToken;
-      }
-
-      const originalTypography = token.original?.$value;
-
-      return {
-        ...baseToken,
-        originalValues: {
-          fontFamily: extractFontFamily(
-            resolveReferences(originalTypography?.fontFamily, rawTokens)
-          ),
-          fontSize: extractResolvedValue(
-            resolveReferences(originalTypography?.fontSize, rawTokens)
-          ),
-          fontWeight: extractResolvedValue(
-            resolveReferences(originalTypography?.fontWeight, rawTokens)
-          ),
-          lineHeight: extractResolvedValue(
-            resolveReferences(originalTypography?.lineHeight, rawTokens)
-          ),
-        },
-      };
-    });
-
-    return JSON.stringify(flat, null, 2);
-  },
-});
-
 const rawConfig = await readFile(new URL('../../style-dictionary.json', import.meta.url), 'utf-8');
 
 const config = JSON.parse(rawConfig) as ConstructorParameters<typeof StyleDictionary>[0];
 const sd = new StyleDictionary(config);
 
 await sd.buildAllPlatforms();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const outputDir = resolve(__dirname, '../../src/design-tokens/build');
+const declarationPath = resolve(outputDir, 'variables.d.ts');
+
+await mkdir(outputDir, { recursive: true });
+await writeFile(
+  declarationPath,
+  `import type { Token } from '@/design-tokens/types';
+
+declare const tokens: Token[];
+export default tokens;
+`,
+  'utf8'
+);
+
+console.log(`📝 Type declaration written: ${declarationPath}`);

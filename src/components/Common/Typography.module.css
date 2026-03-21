@@ -1,0 +1,23 @@
+.title {
+  font: var(--hoam-typography-title-1);
+}
+
+.subtitle {
+  font: var(--hoam-typography-title-2);
+}
+
+.heading {
+  font: var(--hoam-typography-title-3);
+}
+
+.body {
+  font: var(--hoam-typography-body-1);
+}
+
+.button {
+  font: var(--hoam-typography-button-1);
+}
+
+.label {
+  font: var(--hoam-typography-label-1);
+}

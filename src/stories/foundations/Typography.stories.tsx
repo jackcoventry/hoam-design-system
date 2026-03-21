@@ -1,11 +1,16 @@
 import Tokens from '@/styles/variables.json';
+import type { TypographyToken } from '@/design-tokens/types';
+
+import typography from '@/components/Common/Typography.module.css';
 
 const Template = () => {
-  const typographyTokens = Tokens?.filter((token) => token?.type === 'typography');
+  const typographyTokens: TypographyToken[] = Tokens?.filter(
+    (token) => token?.type === 'typography'
+  );
 
   return typographyTokens?.length > 0 ? (
     <>
-      <h1>Typography</h1>
+      <h1 className={typography.subtitle}>Typography</h1>
       <table style={{ width: '100%' }}>
         <tbody>
           <tr>
@@ -17,21 +22,24 @@ const Template = () => {
             <th style={{ textAlign: 'center' }}>Line Height</th>
           </tr>
           {typographyTokens?.map((token) => {
+            const title =
+              typeof token.extensions?.$name === 'string' ? token.extensions.$name : token.cssVar;
+
             return (
               <tr key={token.name}>
                 <td
                   style={{
                     textAlign: 'left',
-                    font: `var(${token?.cssVar}`,
+                    font: `var(${token.cssVar})`,
                   }}
                 >
-                  {token?.cssVar}
+                  {title}
                 </td>
-                <td style={{ textAlign: 'center' }}>{token?.value}</td>
-                <td style={{ textAlign: 'center' }}>{token?.originalValues?.fontFamily}</td>
-                <td style={{ textAlign: 'center' }}>{token?.originalValues?.fontSize}</td>
-                <td style={{ textAlign: 'center' }}>{token?.originalValues?.fontWeight}</td>
-                <td style={{ textAlign: 'center' }}>{token?.originalValues?.lineHeight}</td>
+                <td style={{ textAlign: 'center' }}>{String(token.value)}</td>
+                <td style={{ textAlign: 'center' }}>{token.originalValues?.fontFamily}</td>
+                <td style={{ textAlign: 'center' }}>{token.originalValues?.fontSize}</td>
+                <td style={{ textAlign: 'center' }}>{token.originalValues?.fontWeight}</td>
+                <td style={{ textAlign: 'center' }}>{token.originalValues?.lineHeight}</td>
               </tr>
             );
           })}

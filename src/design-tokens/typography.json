@@ -4,7 +4,7 @@
       "1": {
         "$type": "fontFamily",
         "$value": [
-          "Dela Gothic One",
+          "Boldonse",
           "system-ui",
           "-apple-system",
           "Segoe UI",
@@ -16,7 +16,7 @@
       "2": {
         "$type": "fontFamily",
         "$value": [
-          "Outfit",
+          "DM Serif Text",
           "system-ui",
           "-apple-system",
           "Segoe UI",
@@ -28,7 +28,7 @@
       "3": {
         "$type": "fontFamily",
         "$value": [
-          "Outfit",
+          "Roboto",
           "system-ui",
           "-apple-system",
           "Segoe UI",
@@ -53,19 +53,15 @@
       },
       "3": {
         "$type": "dimension",
-        "$value": "24px"
+        "$value": "clamp(1rem, min(20vmin, 7vw), 2rem)"
       },
       "4": {
         "$type": "dimension",
-        "$value": "32px"
+        "$value": "clamp(1rem, min(20vmin, 7vw), 3rem)"
       },
       "5": {
         "$type": "dimension",
-        "$value": "40px"
-      },
-      "6": {
-        "$type": "dimension",
-        "$value": "110px"
+        "$value": "clamp(1rem, min(20vmin, 7vw), 6rem)"
       }
     },
     "line-height": {
@@ -80,6 +76,9 @@
       },
       "4": {
         "$value": 1.1
+      },
+      "5": {
+        "$value": 2
       }
     },
     "letter-spacing": {
@@ -95,9 +94,13 @@
     "weight": {
       "1": {
         "$type": "fontWeight",
-        "$value": 400
+        "$value": 300
       },
       "2": {
+        "$type": "fontWeight",
+        "$value": 400
+      },
+      "3": {
         "$type": "fontWeight",
         "$value": 700
       }
@@ -106,25 +109,26 @@
       "$type": "typography",
       "1": {
         "$value": {
-          "fontFamily": "{typography.family.2}",
+          "fontFamily": "{typography.family.1}",
           "fontWeight": "{typography.weight.2}",
-          "fontSize": "{typography.size.6}",
-          "lineHeight": "{typography.line-height.4}"
+          "fontSize": "{typography.size.5}",
+          "lineHeight": "{typography.line-height.2}"
         },
         "$extensions": {
           "$targetElement": "h1",
-          "$name": "Title 1"
+          "$name": "Title"
         }
       },
       "2": {
         "$value": {
           "fontFamily": "{typography.family.2}",
           "fontWeight": "{typography.weight.1}",
-          "fontSize": "{typography.size.5}",
+          "fontSize": "{typography.size.4}",
           "lineHeight": "{typography.line-height.4}"
         },
         "$extensions": {
-          "$targetElement": "h2"
+          "$targetElement": "h2",
+          "$name": "Subtitle"
         }
       },
       "3": {
@@ -135,29 +139,8 @@
           "lineHeight": "{typography.line-height.1}"
         },
         "$extensions": {
-          "$targetElement": "h3"
-        }
-      },
-      "4": {
-        "$value": {
-          "fontFamily": "{typography.family.2}",
-          "fontWeight": "{typography.weight.2}",
-          "fontSize": "{typography.size.2}",
-          "lineHeight": "{typography.line-height.1}"
-        },
-        "$extensions": {
-          "$targetElement": "h4"
-        }
-      },
-      "5": {
-        "$value": {
-          "fontFamily": "{typography.family.2}",
-          "fontWeight": "{typography.weight.1}",
-          "fontSize": "{typography.size.2}",
-          "lineHeight": "{typography.line-height.1}"
-        },
-        "$extensions": {
-          "$targetElement": "h5"
+          "$targetElement": "h3",
+          "$name": "Heading"
         }
       }
     },
@@ -165,13 +148,14 @@
       "$type": "typography",
       "1": {
         "$value": {
-          "fontFamily": "{typography.family.2}",
+          "fontFamily": "{typography.family.3}",
           "fontWeight": "{typography.weight.1}",
           "fontSize": "{typography.size.2}",
           "lineHeight": "{typography.line-height.1}"
         },
         "$extensions": {
-          "$targetElement": "p"
+          "$targetElement": "p",
+          "$name": "Body text"
         }
       }
     },
@@ -179,10 +163,13 @@
       "$type": "typography",
       "1": {
         "$value": {
-          "fontFamily": "{typography.family.2}",
+          "fontFamily": "{typography.family.1}",
           "fontWeight": "{typography.weight.1}",
           "fontSize": "{typography.size.2}",
           "lineHeight": "{typography.line-height.1}"
+        },
+        "$extensions": {
+          "$name": "Button"
         }
       }
     },
@@ -190,18 +177,13 @@
       "$type": "typography",
       "1": {
         "$value": {
-          "fontFamily": "{typography.family.2}",
+          "fontFamily": "{typography.family.3}",
           "fontWeight": "{typography.weight.1}",
           "fontSize": "{typography.size.1}",
           "lineHeight": "{typography.line-height.1}"
-        }
-      },
-      "2": {
-        "$value": {
-          "fontFamily": "{typography.family.2}",
-          "fontWeight": "{typography.weight.2}",
-          "fontSize": "{typography.size.1}",
-          "lineHeight": "{typography.line-height.1}"
+        },
+        "$extensions": {
+          "$name": "Label"
         }
       }
     }
