@@ -1,16 +1,10 @@
 import react from '@vitejs/plugin-react';
 import path from 'node:path';
-import dts from 'vite-plugin-dts';
 import { defineConfig } from 'vitest/config';
 
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
-  plugins: [
-    react(),
-    dts({
-      include: ['src'],
-    }),
-  ],
+  plugins: [react()],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

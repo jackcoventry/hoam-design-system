@@ -1,9 +1,25 @@
 import react from '@vitejs/plugin-react';
 import path from 'node:path';
 import { defineConfig } from 'vite';
+import dts from 'vite-plugin-dts';
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    dts({
+      tsconfigPath: './tsconfig.build.json',
+      entryRoot: 'src',
+      insertTypesEntry: true,
+      exclude: [
+        '**/*.test.*',
+        '**/*.spec.*',
+        '**/*.stories.*',
+        'src/scripts/**',
+        '.storybook/**',
+        'config/**',
+      ],
+    }),
+  ],
 
   resolve: {
     alias: {
@@ -14,10 +30,10 @@ export default defineConfig({
   build: {
     lib: {
       entry: path.resolve(__dirname, 'src/index.ts'),
-      name: 'HoamDesignSystem',
       formats: ['es'],
       fileName: 'index',
     },
+    cssCodeSplit: false,
     rollupOptions: {
       external: ['react', 'react-dom', 'react/jsx-runtime'],
     },
