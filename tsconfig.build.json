@@ -13,6 +13,7 @@
     "**/*.spec.*",
     "**/*.stories.*",
     "src/scripts/**",
+    "src/mocks/**",
     ".storybook/**",
     "config/**",
     "vite.config.ts",

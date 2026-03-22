@@ -2,9 +2,9 @@
   "name": "hoam-design-system",
   "version": "0.0.1",
   "description": "",
+  "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "type": "module",
   "files": [
     "dist"
   ],
@@ -15,6 +15,9 @@
     },
     "./styles.css": "./dist/index.css"
   },
+  "sideEffects": [
+    "**/*.css"
+  ],
   "scripts": {
     "test": "vitest",
     "test:run": "vitest run",
@@ -92,5 +95,10 @@
   "peerDependencies": {
     "react": "^18 || ^19",
     "react-dom": "^18 || ^19"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": false
+    }
   }
 }

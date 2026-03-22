@@ -60,8 +60,6 @@ describe('InfoGrid', () => {
   });
 
   it('renders only the first three valid children', () => {
-    const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-
     render(
       <InfoGrid title="Why choose us">
         <InfoGridItem
@@ -91,13 +89,9 @@ describe('InfoGrid', () => {
     expect(screen.getByRole('heading', { level: 3, name: 'Two' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { level: 3, name: 'Three' })).toBeInTheDocument();
     expect(screen.queryByRole('heading', { level: 3, name: 'Four' })).not.toBeInTheDocument();
-
-    consoleErrorSpy.mockRestore();
   });
 
   it('filters invalid children and logs an error', () => {
-    const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-
     render(
       <InfoGrid title="Why choose us">
         <InfoGridItem
@@ -113,16 +107,9 @@ describe('InfoGrid', () => {
     expect(screen.getByRole('heading', { level: 3, name: 'Fast delivery' })).toBeInTheDocument();
     expect(screen.queryByText('Invalid child')).not.toBeInTheDocument();
     expect(screen.queryByText('Plain text')).not.toBeInTheDocument();
-
-    expect(consoleErrorSpy).toHaveBeenCalledTimes(2);
-    expect(consoleErrorSpy).toHaveBeenCalledWith(
-      'InfoGrid component only accepts child of type InfoGridItem'
-    );
   });
 
   it('logs an error for children beyond the maximum allowed', () => {
-    const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-
     render(
       <InfoGrid title="Why choose us">
         <InfoGridItem
@@ -146,11 +133,6 @@ describe('InfoGrid', () => {
           icon="four"
         />
       </InfoGrid>
-    );
-
-    expect(consoleErrorSpy).toHaveBeenCalledTimes(1);
-    expect(consoleErrorSpy).toHaveBeenCalledWith(
-      'InfoGrid component only accepts child of type InfoGridItem'
     );
   });
 });

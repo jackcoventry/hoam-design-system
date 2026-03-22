@@ -6,7 +6,7 @@ import { useMediaQuery } from '@/hooks/useMediaQuery';
 
 import styles from '@/components/SidebarNavigation/SidebarNavigation.module.css';
 
-type ItemProps = {
+export type ItemProps = {
   id: string;
   href?: string;
   items?: ItemProps[];

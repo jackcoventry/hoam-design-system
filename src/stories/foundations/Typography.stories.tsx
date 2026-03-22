@@ -1,11 +1,11 @@
 import Tokens from '@/styles/variables.json';
-import type { TypographyToken } from '@/design-tokens/types';
+import type { Token, TypographyToken } from '@/design-tokens/types';
 
 import typography from '@/components/Common/Typography.module.css';
 
 const Template = () => {
-  const typographyTokens: TypographyToken[] = Tokens?.filter(
-    (token) => token?.type === 'typography'
+  const typographyTokens: TypographyToken[] = (Tokens as Token[]).filter(
+    (token): token is TypographyToken => token.type === 'typography'
   );
 
   return typographyTokens?.length > 0 ? (

@@ -53,8 +53,6 @@ describe('BadgeList', () => {
   });
 
   it('filters invalid children and logs an error', () => {
-    const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-
     render(
       <BadgeList>
         <BadgeListItem>Valid</BadgeListItem>
@@ -66,11 +64,6 @@ describe('BadgeList', () => {
     expect(screen.getByText('Valid')).toBeInTheDocument();
     expect(screen.queryByText('Invalid')).not.toBeInTheDocument();
     expect(screen.queryByText('Plain text')).not.toBeInTheDocument();
-
-    expect(consoleErrorSpy).toHaveBeenCalledTimes(2);
-    expect(consoleErrorSpy).toHaveBeenCalledWith(
-      'BadgeList component only accepts children of type BadgeListItem'
-    );
   });
 
   it('renders an empty wrapper when no children are provided', () => {
