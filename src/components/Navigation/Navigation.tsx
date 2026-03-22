@@ -1,18 +1,20 @@
 import { useMemo, useState } from 'react';
-import { SubmitHandler } from 'react-hook-form';
 
-import type { SearchFormResult, SearchFormSchemaType } from '@/components/Form';
-import { DesktopNavigation, MobileNavigation, NavigationModals } from '@/components/Navigation';
+import {
+  BasketModal,
+  DesktopNavigation,
+  MobileNavigation,
+  SearchModal,
+} from '@/components/Navigation';
 import type { NavigationProps } from '@/components/Navigation/types';
-import { useMockRequest } from '@/hooks/useMockRequest';
 import { useMegaNavState } from '@/hooks/useNavState';
-import SearchResultsData from '@/mocks/components/SearchResults';
 
 export function Navigation({
   items = [],
   userItems = [],
   variant = 'default',
-  basketItemData = [],
+  searchEndpoint = '',
+  basketEndpoint = '',
 }: Readonly<NavigationProps>) {
   const {
     openIndex,
@@ -31,31 +33,13 @@ export function Navigation({
   const [openSearchModal, setOpenSearchModal] = useState(false);
   const [openBasketModal, setOpenBasketModal] = useState(false);
 
-  // TODO: Remove mockRequest as a hook, the service should be the mock part
-  const { data, loading, error, run, reset } = useMockRequest<Array<SearchFormResult>>();
-
-  const onSubmit: SubmitHandler<SearchFormSchemaType> = async () => {
-    await run({
-      delay: 1500,
-      response: SearchResultsData,
-    });
-  };
-
   const handleSearchModalClose = () => {
     setOpenSearchModal(false);
-
-    setTimeout(() => {
-      reset();
-    }, 500);
   };
 
   const handleBasketModalClose = () => {
     setOpenBasketModal(false);
   };
-
-  const basketTotal = basketItemData.reduce((acc, item) => {
-    return acc + item.price * item.quantity;
-  }, 0);
 
   return (
     <>
@@ -78,17 +62,18 @@ export function Navigation({
         onOpenBasket={() => setOpenBasketModal(true)}
       />
 
-      <NavigationModals
-        openSearchModal={openSearchModal}
-        openBasketModal={openBasketModal}
-        onCloseSearch={handleSearchModalClose}
-        onCloseBasket={handleBasketModalClose}
-        searchData={data}
-        searchLoading={loading}
-        searchError={error}
-        onSearchSubmit={onSubmit}
-        basketItems={basketItemData}
-        basketTotal={basketTotal}
+      <SearchModal
+        endpoint={searchEndpoint}
+        open={openSearchModal}
+        onClose={handleSearchModalClose}
+        variant="modal"
+      />
+
+      <BasketModal
+        endpoint={basketEndpoint}
+        open={openBasketModal}
+        onClose={handleBasketModalClose}
+        variant="drawer"
       />
     </>
   );

@@ -21,7 +21,7 @@ export type BasketItemProps = {
 };
 
 export type BasketProps = {
-  items: BasketItemProps[];
+  items?: BasketItemProps[] | null;
   total: number;
 };
 

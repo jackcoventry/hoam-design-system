@@ -18,6 +18,8 @@ function BaseTemplate({ children }: Readonly<BaseTemplateProps>) {
         items={NavigationData}
         userItems={UserNavigationData}
         variant="default"
+        searchEndpoint="/"
+        basketEndpoint="/"
       />
       <main id="content">{children}</main>
       <Footer

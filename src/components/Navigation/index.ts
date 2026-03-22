@@ -11,5 +11,6 @@ export { TopNavigation } from '@/components/Navigation/MainNavigation/TopNavigat
 export { TopNavigationItem } from '@/components/Navigation/MainNavigation/TopNavigationItem';
 export { MobileNavigation } from '@/components/Navigation/MobileNavigation/MobileNavigation';
 export { MobileNavigationItem } from '@/components/Navigation/MobileNavigation/MobileNavigationItem';
-export { NavigationModals } from '@/components/Navigation/Modals/NavigationModals';
+export { BasketModal } from '@/components/Navigation/Modals/BasketModal';
+export { SearchModal } from '@/components/Navigation/Modals/SearchModal';
 export { Navigation } from '@/components/Navigation/Navigation';

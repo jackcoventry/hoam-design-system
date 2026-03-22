@@ -39,6 +39,8 @@ const Template = {
           items={NavigationData}
           userItems={UserNavigationData}
           variant="default"
+          searchEndpoint="/"
+          basketEndpoint="/"
         />
 
         <Hero>
