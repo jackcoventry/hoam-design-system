@@ -1,6 +1,9 @@
+import { clsx } from 'clsx';
+
 import { NavPanelLinkItem } from '@/components/Navigation/types';
 
 import styles from '@/components/Breadcrumb/Breadcrumb.module.css';
+import utils from '@/components/Common/Util.module.css';
 
 export type BreadcrumbProps = {
   items: NavPanelLinkItem[];
@@ -34,7 +37,7 @@ export function Breadcrumb({ items }: Readonly<BreadcrumbProps>) {
                 </span>
               ) : (
                 <a
-                  className={styles.item}
+                  className={clsx(styles.item, utils.focus)}
                   href={item.href}
                 >
                   {item.label}

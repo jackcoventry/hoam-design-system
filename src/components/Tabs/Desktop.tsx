@@ -1,7 +1,9 @@
 import { Activity, type KeyboardEvent, useRef, useState } from 'react';
+import clsx from 'clsx';
 
 import type { TabsProps } from '@/components/Tabs';
 
+import utils from '@/components/Common/Util.module.css';
 import styles from '@/components/Tabs/Tabs.module.css';
 
 export function DesktopTabs({
@@ -114,7 +116,7 @@ export function DesktopTabs({
               }}
               onClick={() => setActiveTab(tab.id)}
               onKeyDown={(event) => handleTabKeyDown(event, index, tab.id)}
-              className={styles.control}
+              className={clsx(styles.control, utils.focus)}
             >
               {tab.label}
             </button>

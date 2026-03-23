@@ -1,6 +1,6 @@
 .root {
   aspect-ratio: 16/9;
-  border-radius: 5px;
+  border-radius: var(--hoam-border-radius-small);
   display: flex;
   overflow: hidden;
   position: relative;
@@ -16,14 +16,6 @@
   position: absolute;
   top: 0;
   width: 100%;
-}
-
-.root:focus-within {
-  /* TODO: this should be a utility */
-  box-shadow:
-    0 0 0 2px white,
-    0 0 0 6px yellow;
-  outline: none;
 }
 
 .root:hover .image {

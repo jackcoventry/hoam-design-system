@@ -20,7 +20,7 @@
 }
 
 .circular {
-  border-radius: 999px;
+  border-radius: var(--hoam-border-radius-full);
 }
 
 @keyframes skeleton-shimmer {

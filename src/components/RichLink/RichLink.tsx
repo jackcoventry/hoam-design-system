@@ -1,3 +1,6 @@
+import clsx from 'clsx';
+
+import utils from '@/components/Common/Util.module.css';
 import styles from '@/components/RichLink/RichLink.module.css';
 
 export type RichLinkProps = {
@@ -11,7 +14,7 @@ export function RichLink({ href, title, image, imageAlt = '' }: Readonly<RichLin
   return (
     <a
       href={href}
-      className={styles.root}
+      className={clsx(styles.root, utils.focus)}
     >
       <span className={styles.text}>{title}</span>
       <img

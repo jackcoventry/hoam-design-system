@@ -1,0 +1,11 @@
+{
+  "border": {
+    "default-size": {
+      "$type": "border",
+      "$value": {
+        "width": "1px",
+        "style": "solid"
+      }
+    }
+  }
+}

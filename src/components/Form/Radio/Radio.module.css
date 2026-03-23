@@ -52,8 +52,8 @@
   width: var(--radio-size);
   height: var(--radio-size);
   background: var(--radio-bg);
-  border: 1px solid var(--radio-border-color);
-  border-radius: 999px;
+  border: var(--hoam-border-default-size) var(--radio-border-color);
+  border-radius: var(--hoam-border-radius-full);
   transition:
     border-color var(--radio-transition-duration) var(--radio-transition-easing),
     opacity var(--radio-transition-duration) var(--radio-transition-easing);
@@ -63,7 +63,7 @@
   width: var(--radio-dot-size);
   height: var(--radio-dot-size);
   background: var(--radio-selected-bg);
-  border-radius: 999px;
+  border-radius: var(--hoam-border-radius-full);
   transform: scale(0);
   opacity: 0;
   transition:

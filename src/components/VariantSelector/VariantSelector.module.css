@@ -34,7 +34,7 @@
 
 .indicator {
   align-items: center;
-  border-radius: 4px;
+  border-radius: var(--hoam-border-radius-small);
   border: 3px solid var(--hoam-color-neutral-900);
   box-shadow:
     0 0 0 1px rgba(0, 0, 0, 0.1),
@@ -47,7 +47,7 @@
 }
 
 .item:hover .indicator {
-  outline: 1px solid var(--hoam-color-moon-500);
+  outline: var(--hoam-border-default-size) var(--hoam-color-moon-500);
 }
 
 .radio:focus-visible + .visual {

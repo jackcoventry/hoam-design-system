@@ -1,0 +1,8 @@
+{
+  "border-radius": {
+    "small": {
+      "$type": "dimension",
+      "$value": "4px"
+    }
+  }
+}

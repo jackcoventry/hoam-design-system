@@ -8,7 +8,7 @@
 
 .icon {
   background-color: var(--hoam-color-sun-400);
-  border-radius: 100%;
+  border-radius: var(--hoam-border-radius-full);
   display: inline-flex;
   margin: 0 auto;
 }

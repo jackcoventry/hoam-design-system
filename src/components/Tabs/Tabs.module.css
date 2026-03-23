@@ -25,14 +25,11 @@
 }
 
 .control:focus-visible {
-  box-shadow:
-    0 0 0 2px white,
-    0 0 0 6px yellow;
   z-index: 1;
 }
 
 .control:not(:first-child) {
-  border-top: 1px solid var(--hoam-color-moon-300);
+  border-top: var(--hoam-border-default-size) var(--hoam-color-moon-300);
 }
 
 .control[data-active="true"] {

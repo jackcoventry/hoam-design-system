@@ -42,7 +42,7 @@
 }
 
 .root[data-variant="modal"] .dialog {
-  border-radius: 5px;
+  border-radius: var(--hoam-border-radius-small);
   max-height: calc(100dvh - var(--hoam-spacing-6));
   max-width: 1200px;
   width: fit-content;
@@ -87,7 +87,7 @@
 }
 
 .header:has(+ .body:not(:empty)) {
-  border-bottom: 1px solid var(--hoam-color-moon-300);
+  border-bottom: var(--hoam-border-default-size) var(--hoam-color-moon-300);
 }
 
 .body {
@@ -95,7 +95,7 @@
 }
 
 .body:has(+ .footer:not(:empty)) {
-  border-bottom: 1px solid var(--hoam-color-moon-300);
+  border-bottom: var(--hoam-border-default-size) var(--hoam-color-moon-300);
 }
 
 .header[data-padded="true"],

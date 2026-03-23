@@ -25,10 +25,3 @@ a.item:hover {
   color: var(--hoam-color-moon-700);
   text-decoration: none;
 }
-
-a.item:focus {
-  box-shadow:
-    0 0 0 2px white,
-    0 0 0 6px yellow;
-  outline: none;
-}

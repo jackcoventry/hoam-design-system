@@ -44,7 +44,7 @@
 }
 
 .result {
-  border-radius: 5px;
+  border-radius: var(--hoam-border-radius-small);
   display: flex;
   flex-direction: column;
   gap: var(--hoam-spacing-2);

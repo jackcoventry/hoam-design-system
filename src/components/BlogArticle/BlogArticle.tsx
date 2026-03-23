@@ -1,10 +1,12 @@
 import { ReactNode } from 'react';
+import clsx from 'clsx';
 
 import type { SocialLink } from '@/components/Footer';
 import { Container, Grid, GridItem } from '@/components/Layout';
 import { formatISODate, formatReadableDate, parseLooseDate } from '@/utils/convertDates';
 
 import styles from '@/components/BlogArticle/BlogArticle.module.css';
+import utils from '@/components/Common/Util.module.css';
 
 type BlogImage = {
   src: string;
@@ -180,7 +182,7 @@ export function BlogArticle({
                       <a
                         key={tag.id}
                         href={`/blog/tag/${tag.id}`}
-                        className={styles.tag}
+                        className={clsx(styles.tag, utils.focus)}
                       >
                         {tag.name}
                       </a>

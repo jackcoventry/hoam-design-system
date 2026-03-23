@@ -210,6 +210,8 @@ describe('ProductInfo', () => {
         ],
       },
     },
+    onSubmit: () => {},
+    isSubmitting: false,
   };
 
   beforeEach(() => {

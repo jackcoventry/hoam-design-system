@@ -21,7 +21,7 @@
 }
 
 .topLevelItem {
-  border-bottom: 1px solid var(--hoam-color-moon-200);
+  border-bottom: var(--hoam-border-default-size) var(--hoam-color-moon-200);
   margin-bottom: var(--hoam-spacing-6);
   padding-bottom: var(--hoam-spacing-6);
 }

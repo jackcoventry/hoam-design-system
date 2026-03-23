@@ -1,6 +1,5 @@
-import { useMemo, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { Accordion, AccordionHeader, AccordionItem, AccordionPanel } from '@/components/Accordion';

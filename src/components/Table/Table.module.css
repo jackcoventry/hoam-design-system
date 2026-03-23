@@ -5,7 +5,7 @@
 }
 
 .row {
-  border-bottom: 1px solid grey;
+  border-bottom: var(--hoam-border-default-size) grey;
   vertical-align: top;
 }
 

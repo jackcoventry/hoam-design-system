@@ -22,7 +22,7 @@
 .authorAvatar {
   --hoam-author-avatar-size: 20px;
 
-  border-radius: 100%;
+  border-radius: var(--hoam-border-radius-full);
   height: var(--hoam-author-avatar-size);
   overflow: hidden;
   width: var(--hoam-author-avatar-size);
@@ -81,8 +81,8 @@
 }
 
 .tag {
-  border: 1px solid var(--hoam-color-moon-800);
-  border-radius: 5px;
+  border: var(--hoam-border-default-size) var(--hoam-color-moon-800);
+  border-radius: var(--hoam-border-radius-small);
   color: var(--hoam-color-moon-900);
   font: var(--hoam-typography-label-1);
   padding: var(--hoam-spacing-1) var(--hoam-spacing-2);
@@ -91,13 +91,6 @@
 
 .tag:hover {
   background-color: var(--hoam-color-sun-400);
-}
-
-.tag:focus {
-  box-shadow:
-    0 0 0 2px white,
-    0 0 0 6px yellow;
-  outline: none;
 }
 
 .tagsTitle {

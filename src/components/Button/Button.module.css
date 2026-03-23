@@ -1,7 +1,7 @@
 :root {
   --hoam-button-spacing-horizontal: var(--hoam-spacing-5);
   --hoam-button-spacing-vertical: var(--hoam-spacing-3);
-  --hoam-button-border-radius: 5px;
+  --hoam-button-border-radius: var(--hoam-border-radius-small);
   --hoam-button-content-gap: var(--hoam-spacing-2);
   --hoam-button-min-height: 50px;
   --hoam-button-font: var(--hoam-typography-button-1);
@@ -13,7 +13,6 @@
   border-style: solid;
   border-width: 0;
   border-radius: var(--hoam-button-border-radius);
-  box-shadow: 0 0 0 0 transparent;
   color: var(--hoam-color-neutral-100);
   cursor: pointer;
   display: flex;

@@ -10,7 +10,7 @@
 .hoam-dots__bullet {
   --hoam-hero-pagination-size: 18px;
   background: none;
-  border: 1px solid var(--hoam-color-sun-700);
+  border: var(--hoam-border-default-size) var(--hoam-color-sun-700);
   border-radius: 100%;
   cursor: pointer;
   height: var(--hoam-hero-pagination-size);
