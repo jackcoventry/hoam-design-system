@@ -7,3 +7,6 @@ coverage
 *.lock
 *.md
 *.svg
+src/design-tokens/icons.ts
+src/styles/_variables.css
+src/styles/variables.json

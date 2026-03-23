@@ -98,8 +98,8 @@ describe('Footer', () => {
 
   it('renders social links from the mock data', () => {
     const socialLinks = [
-      { name: 'Facebook', url: 'https://example.com/facebook', icon: 'facebook' },
-      { name: 'Instagram', url: 'https://example.com/instagram', icon: 'instagram' },
+      { label: 'Facebook', href: 'https://example.com/facebook', icon: 'facebook' },
+      { label: 'Instagram', href: 'https://example.com/instagram', icon: 'instagram' },
     ];
 
     render(<Footer socialLinks={socialLinks} />);

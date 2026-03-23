@@ -7,8 +7,8 @@ import { NewsletterBanner } from '@/components/NewsletterBanner';
 
 vi.mock('@/mocks/socialLinks', () => ({
   default: [
-    { name: 'Facebook', url: 'https://example.com/facebook', icon: 'facebook' },
-    { name: 'Instagram', url: 'https://example.com/instagram', icon: 'instagram' },
+    { label: 'Facebook', href: 'https://example.com/facebook', icon: 'facebook' },
+    { label: 'Instagram', href: 'https://example.com/instagram', icon: 'instagram' },
   ],
 }));
 
@@ -92,8 +92,8 @@ describe('NewsletterBanner', () => {
 
   it('renders social links', () => {
     const socialLinks = [
-      { name: 'Facebook', url: 'https://example.com/facebook', icon: 'facebook' },
-      { name: 'Instagram', url: 'https://example.com/instagram', icon: 'instagram' },
+      { label: 'Facebook', href: 'https://example.com/facebook', icon: 'facebook' },
+      { label: 'Instagram', href: 'https://example.com/instagram', icon: 'instagram' },
     ];
 
     render(

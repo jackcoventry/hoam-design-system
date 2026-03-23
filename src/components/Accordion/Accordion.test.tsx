@@ -128,25 +128,19 @@ describe('Accordion', () => {
   it('renders expand all button only when allowMultiple is true and there is more than one item', () => {
     renderBasicAccordion({ allowMultiple: true });
 
-    expect(
-      screen.getByRole('button', { name: /expand all accordion sections/i })
-    ).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /expand all items/i })).toBeInTheDocument();
   });
 
   it('does not render expand all button when allowMultiple is false', () => {
     renderBasicAccordion({ allowMultiple: false });
 
-    expect(
-      screen.queryByRole('button', { name: /expand all accordion sections/i })
-    ).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /expand all items/i })).not.toBeInTheDocument();
   });
 
   it('does not render expand all button when showToggleAll is false', () => {
     renderBasicAccordion({ allowMultiple: true, showToggleAll: false });
 
-    expect(
-      screen.queryByRole('button', { name: /expand all accordion sections/i })
-    ).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /expand all items/i })).not.toBeInTheDocument();
   });
 
   it('expands all items when clicking expand all', async () => {
@@ -154,7 +148,7 @@ describe('Accordion', () => {
     renderBasicAccordion({ allowMultiple: true });
 
     const toggleAllButton = screen.getByRole('button', {
-      name: /expand all accordion sections/i,
+      name: /expand all items/i,
     });
 
     await user.click(toggleAllButton);
@@ -179,13 +173,13 @@ describe('Accordion', () => {
 
     await user.click(
       screen.getByRole('button', {
-        name: /expand all accordion sections/i,
+        name: /expand all items/i,
       })
     );
 
     await user.click(
       screen.getByRole('button', {
-        name: /collapse all accordion sections/i,
+        name: /collapse all items/i,
       })
     );
 

@@ -47,8 +47,8 @@ describe('BlogArticle', () => {
       { id: 'testing', name: 'Testing' },
     ],
     socialLinks: [
-      { name: 'Facebook', url: 'https://facebook.com/example', icon: 'facebook' },
-      { name: 'LinkedIn', url: 'https://linkedin.com/in/example', icon: 'linkedin' },
+      { label: 'Facebook', href: 'https://facebook.com/example', icon: 'facebook' },
+      { label: 'LinkedIn', href: 'https://linkedin.com/in/example', icon: 'linkedin' },
     ],
     children: (
       <>

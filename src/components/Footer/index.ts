@@ -1,2 +1,2 @@
-export type { FooterProps, SocialLink } from './Footer';
+export type { FooterProps, Link } from './Footer';
 export { Footer } from './Footer';

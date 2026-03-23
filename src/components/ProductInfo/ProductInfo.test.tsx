@@ -214,13 +214,7 @@ describe('ProductInfo', () => {
     isSubmitting: false,
   };
 
-  beforeEach(() => {
-    vi.useFakeTimers();
-  });
-
   afterEach(() => {
-    vi.runOnlyPendingTimers();
-    vi.useRealTimers();
     vi.restoreAllMocks();
   });
 
@@ -228,7 +222,6 @@ describe('ProductInfo', () => {
     render(<ProductInfo {...defaultProps} />);
 
     expect(screen.getByRole('heading', { level: 1, name: 'HOAM T-Shirt' })).toBeInTheDocument();
-
     expect(screen.getByText('A heavyweight cotton t-shirt.')).toBeInTheDocument();
     expect(screen.getByText('GBP-20.00')).toBeInTheDocument();
     expect(screen.getByText('GBP-30.00')).toBeInTheDocument();
@@ -306,8 +299,26 @@ describe('ProductInfo', () => {
     expect(screen.getByRole('button', { name: 'Add to cart' })).toBeDisabled();
   });
 
-  it('shows Added! temporarily after submit and then resets', async () => {
-    const { container } = render(<ProductInfo {...defaultProps} />);
+  it('renders Added! and disables the submit button when isSubmitting is true', () => {
+    render(
+      <ProductInfo
+        {...defaultProps}
+        isSubmitting
+      />
+    );
+
+    expect(screen.getByRole('button', { name: 'Added!' })).toBeDisabled();
+    expect(screen.queryByRole('button', { name: 'Add to cart' })).not.toBeInTheDocument();
+  });
+
+  it('submits the default form values', async () => {
+    const handleSubmit = vi.fn();
+    const { container } = render(
+      <ProductInfo
+        {...defaultProps}
+        onSubmit={handleSubmit}
+      />
+    );
 
     const form = container.querySelector('form');
     if (!form) {
@@ -319,13 +330,17 @@ describe('ProductInfo', () => {
       await Promise.resolve();
     });
 
-    expect(screen.getByRole('button', { name: 'Added!' })).toBeDisabled();
-
-    act(() => {
-      vi.advanceTimersByTime(2000);
-    });
-
-    expect(screen.getByRole('button', { name: 'Add to cart' })).toBeEnabled();
+    expect(handleSubmit).toHaveBeenCalledTimes(1);
+    expect(handleSubmit).toHaveBeenCalledWith(
+      {
+        color: 'black',
+        size: 's',
+        image: 'front',
+        tshirt: 's-black',
+        quantity: 1,
+      },
+      expect.anything()
+    );
   });
 
   it('uses default form values initially', () => {
