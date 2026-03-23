@@ -9,7 +9,7 @@
 }
 
 .item:not(:last-child) {
-  border-bottom: var(--hoam-border-default-size) var(--hoam-color-moon-200);
+  border-bottom: var(--hoam-border-size-default) var(--hoam-color-moon-200);
 }
 
 .panelInner {

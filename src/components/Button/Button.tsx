@@ -1,4 +1,15 @@
-import React, { type AnchorHTMLAttributes, type ButtonHTMLAttributes } from 'react';
+import {
+  type AnchorHTMLAttributes,
+  type ButtonHTMLAttributes,
+  type ComponentType,
+  forwardRef,
+  type ForwardRefExoticComponent,
+  type HTMLAttributeAnchorTarget,
+  type MouseEventHandler,
+  type ReactNode,
+  type Ref,
+  type RefAttributes,
+} from 'react';
 import clsx from 'clsx';
 
 import styles from '@/components/Button/Button.module.css';
@@ -6,41 +17,119 @@ import utils from '@/components/Common/Util.module.css';
 
 type CommonProps = {
   className?: string | undefined;
-  children?: React.ReactNode;
-  icon?: string;
-  iconPosition?: 'left' | 'right';
-  variant?: 'primary' | 'secondary' | 'tertiary';
-  iconOnly?: boolean;
-  ariaLabel?: string;
-  size?: 'default' | 'small';
+  children?: ReactNode | undefined;
+  icon?: string | undefined;
+  iconPosition?: 'left' | 'right' | undefined;
+  variant?: 'primary' | 'secondary' | 'tertiary' | undefined;
+  iconOnly?: boolean | undefined;
+  'aria-label'?: string | undefined;
+  size?: 'default' | 'small' | undefined;
 };
 
-type ButtonOnlyProps = {
-  as?: 'button';
-  type?: 'button' | 'submit' | 'reset';
-  disabled?: boolean;
-  onClick?: React.MouseEventHandler<HTMLButtonElement>;
-} & Omit<
-  ButtonHTMLAttributes<HTMLButtonElement>,
-  'type' | 'onClick' | 'disabled' | 'className' | 'children' | 'aria-label'
->;
+type ButtonElementProps = {
+  as?: 'button' | undefined;
+} & Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'as' | 'className' | 'children' | 'aria-label'>;
 
-type AnchorOnlyProps = {
+type AnchorElementProps = {
   as: 'a';
   href: string;
-  target?: React.HTMLAttributeAnchorTarget;
-  rel?: string;
-  onClick?: React.MouseEventHandler<HTMLAnchorElement>;
   type?: never;
   disabled?: never;
 } & Omit<
   AnchorHTMLAttributes<HTMLAnchorElement>,
-  'onClick' | 'className' | 'children' | 'aria-label'
+  'as' | 'className' | 'children' | 'aria-label' | 'href' | 'type'
 >;
 
-export type ButtonProps = CommonProps & (ButtonOnlyProps | AnchorOnlyProps);
+type LinkComponentProps = {
+  href: string;
+  className?: string | undefined;
+  children?: ReactNode | undefined;
+  target?: HTMLAttributeAnchorTarget | undefined;
+  rel?: string | undefined;
+  onClick?: MouseEventHandler<HTMLElement> | undefined;
+  'aria-label'?: string | undefined;
+  'data-icon-position'?: 'left' | 'right' | undefined;
+  'data-variant'?: 'primary' | 'secondary' | 'tertiary' | undefined;
+  'data-size'?: 'default' | 'small' | undefined;
+};
 
-const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Readonly<ButtonProps>>(
+type LinkComponentType =
+  | ComponentType<LinkComponentProps>
+  | ForwardRefExoticComponent<LinkComponentProps & RefAttributes<HTMLAnchorElement>>;
+
+type CustomLinkElementProps = {
+  as: LinkComponentType;
+  href: string;
+  target?: HTMLAttributeAnchorTarget | undefined;
+  rel?: string | undefined;
+  onClick?: MouseEventHandler<HTMLElement> | undefined;
+  type?: never;
+  disabled?: never;
+};
+
+type ElementProps = ButtonElementProps | AnchorElementProps | CustomLinkElementProps;
+
+export type ButtonProps = CommonProps & ElementProps;
+
+type ButtonContentProps = {
+  children?: ReactNode | undefined;
+  icon?: string | undefined;
+  iconOnly?: boolean | undefined;
+};
+
+function isAnchorElementProps(props: ElementProps): props is AnchorElementProps {
+  return props.as === 'a';
+}
+
+function isCustomLinkElementProps(props: ElementProps): props is CustomLinkElementProps {
+  return props.as !== undefined && props.as !== 'button' && props.as !== 'a';
+}
+
+function getSafeRel(
+  target: HTMLAttributeAnchorTarget | undefined,
+  rel: string | undefined
+): string | undefined {
+  return target === '_blank' ? (rel ?? 'noopener noreferrer') : rel;
+}
+
+function omitKeys<T extends object, const K extends readonly (keyof T)[]>(
+  obj: T,
+  keys: K
+): Omit<T, K[number]> {
+  const clone = { ...obj };
+
+  for (const key of keys) {
+    delete (clone as Record<PropertyKey, unknown>)[key];
+  }
+
+  return clone as Omit<T, K[number]>;
+}
+
+function ButtonContent({ children, icon, iconOnly = false }: Readonly<ButtonContentProps>) {
+  const hasContent = children !== null && children !== undefined;
+
+  return (
+    <>
+      {!iconOnly && hasContent ? <span className={styles.content}>{children}</span> : null}
+
+      {icon ? (
+        <span className={styles.icon}>
+          <svg
+            className="icon"
+            width="1.25em"
+            height="1.25em"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <use xlinkHref={`/icons/icons.svg#${icon}`} />
+          </svg>
+        </span>
+      ) : null}
+    </>
+  );
+}
+
+const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, Readonly<ButtonProps>>(
   function ButtonRoot(props, ref) {
     const {
       className = '',
@@ -49,9 +138,9 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Readonly<
       iconPosition = 'right',
       variant = 'primary',
       iconOnly = false,
-      ariaLabel,
       size = 'default',
-      ...rest
+      'aria-label': ariaLabel,
+      ...elementProps
     } = props;
 
     const classes = clsx(styles.root, utils.focus, className);
@@ -62,72 +151,69 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Readonly<
       computedAriaLabel = children;
     }
 
-    if (props.as === 'a') {
-      const { href, target, rel, ...anchorRest } = rest as AnchorOnlyProps;
-      const relSafe = target === '_blank' ? rel || 'noopener noreferrer' : rel;
+    const commonVisualProps = {
+      className: classes,
+      'data-icon-position': iconPosition,
+      'data-variant': variant,
+      'data-size': size,
+      'aria-label': computedAriaLabel,
+    };
+
+    const content = (
+      <ButtonContent
+        icon={icon}
+        iconOnly={iconOnly}
+      >
+        {children}
+      </ButtonContent>
+    );
+
+    if (isAnchorElementProps(elementProps)) {
+      const relSafe = getSafeRel(elementProps.target, elementProps.rel);
+      const anchorRest = omitKeys(elementProps, ['as', 'href', 'target', 'rel'] as const);
 
       return (
         <a
-          className={classes}
-          data-icon-position={iconPosition}
-          data-variant={variant}
-          data-size={size}
-          aria-label={computedAriaLabel}
-          href={href}
-          target={target}
-          rel={relSafe}
-          ref={ref as React.Ref<HTMLAnchorElement>}
           {...anchorRest}
+          {...commonVisualProps}
+          href={elementProps.href}
+          target={elementProps.target}
+          rel={relSafe}
+          ref={ref as Ref<HTMLAnchorElement>}
         >
-          {children && !iconOnly ? <span className={styles.content}>{children}</span> : null}
-
-          {icon ? (
-            <span className={styles.icon}>
-              <svg
-                className="icon"
-                width="1.25em"
-                height="1.25em"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <use xlinkHref={`/icons/icons.svg#${icon}`} />
-              </svg>
-            </span>
-          ) : null}
+          {content}
         </a>
       );
     }
 
-    const { type = 'button', disabled = false, onClick, ...buttonRest } = rest as ButtonOnlyProps;
+    if (isCustomLinkElementProps(elementProps)) {
+      const LinkComponent = elementProps.as;
+      const relSafe = getSafeRel(elementProps.target, elementProps.rel);
+
+      return (
+        <LinkComponent
+          {...commonVisualProps}
+          href={elementProps.href}
+          target={elementProps.target}
+          rel={relSafe}
+          onClick={elementProps.onClick}
+        >
+          {content}
+        </LinkComponent>
+      );
+    }
+
+    const buttonRest = omitKeys(elementProps, ['as', 'type'] as const);
+    const type = elementProps.type ?? 'button';
 
     return (
       <button
-        className={classes}
-        data-icon-position={iconPosition}
-        data-variant={variant}
-        data-size={size}
-        onClick={onClick}
-        aria-label={computedAriaLabel}
-        type={type}
-        disabled={disabled}
-        ref={ref as React.Ref<HTMLButtonElement>}
         {...buttonRest}
+        {...commonVisualProps}
+        type={type}
+        ref={ref as Ref<HTMLButtonElement>}
       >
-        {children && !iconOnly ? <span className={styles.content}>{children}</span> : null}
-
-        {icon ? (
-          <span className={styles.icon}>
-            <svg
-              className="icon"
-              width="1.25em"
-              height="1.25em"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <use xlinkHref={`/icons/icons.svg#${icon}`} />
-            </svg>
-          </span>
-        ) : null}
+        {content}
       </button>
     );
   }

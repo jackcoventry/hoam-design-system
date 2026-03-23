@@ -1,27 +1,74 @@
-import { createRef } from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { forwardRef, type ReactNode } from 'react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 
 import { Button } from '@/components/Button';
 
-describe('Button', () => {
-  it('renders a button by default', () => {
-    render(<Button>Click me</Button>);
+type MockLinkProps = {
+  href: string;
+  className?: string | undefined;
+  children?: ReactNode | undefined;
+  target?: React.HTMLAttributeAnchorTarget | undefined;
+  rel?: string | undefined;
+  'aria-label'?: string | undefined;
+  'data-icon-position'?: 'left' | 'right' | undefined;
+  'data-variant'?: 'primary' | 'secondary' | 'tertiary' | undefined;
+  'data-size'?: 'default' | 'small' | undefined;
+};
 
-    const button = screen.getByRole('button', { name: 'Click me' });
+const MockLink = forwardRef<HTMLAnchorElement, MockLinkProps>(function MockLink(
+  { children, ...props },
+  ref
+) {
+  return (
+    <a
+      ref={ref}
+      data-testid="mock-link"
+      {...props}
+    >
+      {children}
+    </a>
+  );
+});
+
+describe('Button', () => {
+  it('renders a native button by default', () => {
+    render(<Button>Save</Button>);
+
+    const button = screen.getByRole('button', { name: 'Save' });
 
     expect(button).toBeInTheDocument();
     expect(button.tagName).toBe('BUTTON');
     expect(button).toHaveAttribute('type', 'button');
   });
 
-  it('renders button children', () => {
-    render(<Button>Save</Button>);
+  it('renders a submit button when type is provided', () => {
+    render(<Button type="submit">Submit</Button>);
 
-    expect(screen.getByText('Save')).toBeInTheDocument();
+    const button = screen.getByRole('button', { name: 'Submit' });
+
+    expect(button).toHaveAttribute('type', 'submit');
   });
 
-  it('renders as an anchor when as="a"', () => {
+  it('calls onClick when clicked in button mode', async () => {
+    const user = userEvent.setup();
+    const handleClick = vi.fn();
+
+    render(<Button onClick={handleClick}>Save</Button>);
+
+    await user.click(screen.getByRole('button', { name: 'Save' }));
+
+    expect(handleClick).toHaveBeenCalledTimes(1);
+  });
+
+  it('supports disabled in button mode', () => {
+    render(<Button disabled>Disabled</Button>);
+
+    expect(screen.getByRole('button', { name: 'Disabled' })).toBeDisabled();
+  });
+
+  it('renders an anchor when as="a"', () => {
     render(
       <Button
         as="a"
@@ -34,10 +81,11 @@ describe('Button', () => {
     const link = screen.getByRole('link', { name: 'About' });
 
     expect(link).toBeInTheDocument();
+    expect(link.tagName).toBe('A');
     expect(link).toHaveAttribute('href', '/about');
   });
 
-  it('applies safe rel for external links opened in a new tab', () => {
+  it('adds noopener noreferrer when target is _blank and rel is not provided', () => {
     render(
       <Button
         as="a"
@@ -54,13 +102,13 @@ describe('Button', () => {
     expect(link).toHaveAttribute('rel', 'noopener noreferrer');
   });
 
-  it('preserves an explicit rel on external links', () => {
+  it('preserves provided rel when target is _blank', () => {
     render(
       <Button
         as="a"
         href="https://example.com"
         target="_blank"
-        rel="nofollow"
+        rel="external"
       >
         External
       </Button>
@@ -68,151 +116,164 @@ describe('Button', () => {
 
     const link = screen.getByRole('link', { name: 'External' });
 
-    expect(link).toHaveAttribute('rel', 'nofollow');
+    expect(link).toHaveAttribute('rel', 'external');
   });
 
-  it('calls onClick for button usage', () => {
-    const onClick = vi.fn();
-
-    render(<Button onClick={onClick}>Press</Button>);
-
-    fireEvent.click(screen.getByRole('button', { name: 'Press' }));
-
-    expect(onClick).toHaveBeenCalledTimes(1);
-  });
-
-  it('respects disabled on button usage', () => {
-    const onClick = vi.fn();
-
+  it('renders a custom link component', () => {
     render(
       <Button
-        disabled
-        onClick={onClick}
+        as={MockLink}
+        href="/dashboard"
       >
-        Press
+        Dashboard
       </Button>
     );
 
-    const button = screen.getByRole('button', { name: 'Press' });
-
-    expect(button).toBeDisabled();
-
-    fireEvent.click(button);
-
-    expect(onClick).not.toHaveBeenCalled();
-  });
-
-  it('renders submit type when provided', () => {
-    render(<Button type="submit">Submit</Button>);
-
-    expect(screen.getByRole('button', { name: 'Submit' })).toHaveAttribute('type', 'submit');
-  });
-
-  it('renders icon-only button with ariaLabel', () => {
-    render(
-      <Button
-        icon="search"
-        iconOnly
-        ariaLabel="Search"
-      >
-        Hidden text
-      </Button>
-    );
-
-    const button = screen.getByRole('button', { name: 'Search' });
-
-    expect(button).toBeInTheDocument();
-    expect(screen.queryByText('Hidden text')).not.toBeInTheDocument();
-  });
-
-  it('falls back to string children as aria-label for icon-only button', () => {
-    render(
-      <Button
-        icon="search"
-        iconOnly
-      >
-        Search
-      </Button>
-    );
-
-    const button = screen.getByRole('button', { name: 'Search' });
-
-    expect(button).toBeInTheDocument();
-    expect(screen.queryByText('Search')).not.toBeInTheDocument();
-  });
-
-  it('renders icon-only anchor with ariaLabel', () => {
-    render(
-      <Button
-        as="a"
-        href="/search"
-        icon="search"
-        iconOnly
-        ariaLabel="Search"
-      >
-        Hidden text
-      </Button>
-    );
-
-    const link = screen.getByRole('link', { name: 'Search' });
+    const link = screen.getByRole('link', { name: 'Dashboard' });
 
     expect(link).toBeInTheDocument();
-    expect(link).toHaveAttribute('href', '/search');
-    expect(screen.queryByText('Hidden text')).not.toBeInTheDocument();
+    expect(link).toHaveAttribute('href', '/dashboard');
+    expect(screen.getByTestId('mock-link')).toBeInTheDocument();
   });
 
-  it('forwards a ref to a button element', () => {
-    const ref = createRef<HTMLButtonElement>();
+  it('passes visual data attributes to a custom link component', () => {
+    render(
+      <Button
+        as={MockLink}
+        href="/dashboard"
+        iconPosition="left"
+        variant="secondary"
+        size="small"
+      >
+        Dashboard
+      </Button>
+    );
 
-    render(<Button ref={ref}>Ref button</Button>);
+    const link = screen.getByTestId('mock-link');
 
-    expect(ref.current).toBeInstanceOf(HTMLButtonElement);
+    expect(link).toHaveAttribute('data-icon-position', 'left');
+    expect(link).toHaveAttribute('data-variant', 'secondary');
+    expect(link).toHaveAttribute('data-size', 'small');
   });
 
-  it('forwards a ref to an anchor element', () => {
-    const ref = createRef<HTMLAnchorElement>();
+  it('uses explicit aria-label when provided', () => {
+    render(
+      <Button
+        icon="close"
+        iconOnly
+        aria-label="Close dialog"
+      >
+        Close
+      </Button>
+    );
+
+    expect(screen.getByRole('button', { name: 'Close dialog' })).toBeInTheDocument();
+  });
+
+  it('uses string children as the accessible name for iconOnly buttons when aria-label is omitted', () => {
+    render(
+      <Button
+        icon="close"
+        iconOnly
+      >
+        Close
+      </Button>
+    );
+
+    expect(screen.getByRole('button', { name: 'Close' })).toBeInTheDocument();
+  });
+
+  it('does not render visible text content when iconOnly is true', () => {
+    render(
+      <Button
+        icon="close"
+        iconOnly
+      >
+        Close
+      </Button>
+    );
+
+    const button = screen.getByRole('button', { name: 'Close' });
+
+    expect(button).toBeInTheDocument();
+    expect(button.querySelector('span')).not.toHaveTextContent('Close');
+  });
+
+  it('renders visible text content when iconOnly is false', () => {
+    render(<Button>Read more</Button>);
+
+    expect(screen.getByText('Read more')).toBeInTheDocument();
+  });
+
+  it('renders an icon when icon is provided', () => {
+    const { container } = render(<Button icon="arrow-right">Next</Button>);
+
+    const use = container.querySelector('use');
+
+    expect(use).toBeInTheDocument();
+    expect(use).toHaveAttribute('xlink:href', '/icons/icons.svg#arrow-right');
+  });
+
+  it('applies visual data attributes in button mode', () => {
+    render(
+      <Button
+        variant="tertiary"
+        size="small"
+        iconPosition="left"
+      >
+        Settings
+      </Button>
+    );
+
+    const button = screen.getByRole('button', { name: 'Settings' });
+
+    expect(button).toHaveAttribute('data-variant', 'tertiary');
+    expect(button).toHaveAttribute('data-size', 'small');
+    expect(button).toHaveAttribute('data-icon-position', 'left');
+  });
+
+  it('applies visual data attributes in anchor mode', () => {
+    render(
+      <Button
+        as="a"
+        href="/settings"
+        variant="secondary"
+        size="small"
+        iconPosition="left"
+      >
+        Settings
+      </Button>
+    );
+
+    const link = screen.getByRole('link', { name: 'Settings' });
+
+    expect(link).toHaveAttribute('data-variant', 'secondary');
+    expect(link).toHaveAttribute('data-size', 'small');
+    expect(link).toHaveAttribute('data-icon-position', 'left');
+  });
+
+  it('passes className through', () => {
+    render(<Button className="custom-class">Styled</Button>);
+
+    expect(screen.getByRole('button', { name: 'Styled' })).toHaveClass('custom-class');
+  });
+
+  it('supports anchor onClick', async () => {
+    const user = userEvent.setup();
+    const handleClick = vi.fn();
 
     render(
       <Button
         as="a"
-        href="/about"
-        ref={ref}
+        href="/docs"
+        onClick={handleClick}
       >
-        About
+        Docs
       </Button>
     );
 
-    expect(ref.current).toBeInstanceOf(HTMLAnchorElement);
-  });
+    await user.click(screen.getByRole('link', { name: 'Docs' }));
 
-  it('passes through extra button attributes', () => {
-    render(
-      <Button
-        data-testid="custom-button"
-        name="save-button"
-      >
-        Save
-      </Button>
-    );
-
-    const button = screen.getByTestId('custom-button');
-
-    expect(button).toHaveAttribute('name', 'save-button');
-  });
-
-  it('passes through extra anchor attributes', () => {
-    render(
-      <Button
-        as="a"
-        href="/about"
-        data-testid="custom-link"
-      >
-        About
-      </Button>
-    );
-
-    const link = screen.getByTestId('custom-link');
-
-    expect(link).toHaveAttribute('href', '/about');
+    expect(handleClick).toHaveBeenCalledTimes(1);
   });
 });

@@ -87,7 +87,7 @@
 }
 
 .header:has(+ .body:not(:empty)) {
-  border-bottom: var(--hoam-border-default-size) var(--hoam-color-moon-300);
+  border-bottom: var(--hoam-border-size-default) var(--hoam-color-moon-300);
 }
 
 .body {
@@ -95,7 +95,7 @@
 }
 
 .body:has(+ .footer:not(:empty)) {
-  border-bottom: var(--hoam-border-default-size) var(--hoam-color-moon-300);
+  border-bottom: var(--hoam-border-size-default) var(--hoam-color-moon-300);
 }
 
 .header[data-padded="true"],

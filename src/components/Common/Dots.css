@@ -1,7 +1,7 @@
 .hoam-dots {
   align-content: center;
   background-color: rgba(255, 255, 255, 0.5);
-  border-radius: 50px;
+  border-radius: var(--hoam-border-radius-full);
   display: flex;
   gap: var(--hoam-spacing-2);
   padding: var(--hoam-spacing-3);
@@ -10,8 +10,8 @@
 .hoam-dots__bullet {
   --hoam-hero-pagination-size: 18px;
   background: none;
-  border: var(--hoam-border-default-size) var(--hoam-color-sun-700);
-  border-radius: 100%;
+  border: var(--hoam-border-size-default) var(--hoam-color-sun-700);
+  border-radius: var(--hoam-border-radius-full);
   cursor: pointer;
   height: var(--hoam-hero-pagination-size);
   overflow: hidden;

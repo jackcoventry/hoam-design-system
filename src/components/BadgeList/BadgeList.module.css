@@ -15,9 +15,9 @@
 }
 
 .item[data-theme="default"] {
-  border: var(--hoam-border-default-size) var(--hoam-color-moon-700);
+  border: var(--hoam-border-size-default) var(--hoam-color-moon-700);
 }
 
 .item[data-theme="alert"] {
-  border: var(--hoam-border-default-size) var(--hoam-color-sun-700);
+  border: var(--hoam-border-size-default) var(--hoam-color-sun-700);
 }

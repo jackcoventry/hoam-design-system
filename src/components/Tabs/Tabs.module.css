@@ -29,7 +29,7 @@
 }
 
 .control:not(:first-child) {
-  border-top: var(--hoam-border-default-size) var(--hoam-color-moon-300);
+  border-top: var(--hoam-border-size-default) var(--hoam-color-moon-300);
 }
 
 .control[data-active="true"] {

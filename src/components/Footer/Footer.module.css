@@ -56,7 +56,7 @@
 }
 
 .separator {
-  border-top: var(--hoam-border-default-size) var(--hoam-color-moon-300);
+  border-top: var(--hoam-border-size-default) var(--hoam-color-moon-300);
   margin-top: var(--hoam-spacing-8);
   padding-top: var(--hoam-spacing-6);
 }

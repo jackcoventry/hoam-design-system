@@ -1,10 +1,26 @@
 {
   "border": {
-    "default-size": {
-      "$type": "border",
-      "$value": {
-        "width": "1px",
-        "style": "solid"
+    "size": {
+      "default": {
+        "$type": "border",
+        "$value": {
+          "width": "1px",
+          "style": "solid"
+        }
+      },
+      "medium": {
+        "$type": "border",
+        "$value": {
+          "width": "3px",
+          "style": "solid"
+        }
+      },
+      "large": {
+        "$type": "border",
+        "$value": {
+          "width": "5px",
+          "style": "solid"
+        }
       }
     }
   }

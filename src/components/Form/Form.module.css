@@ -20,12 +20,12 @@
 
 .textField {
   border-radius: var(--hoam-border-radius-small);
-  border: var(--hoam-border-default-size) var(--hoam-color-moon-400);
+  border: var(--hoam-border-size-default) var(--hoam-color-moon-400);
   font: var(--hoam-typography-label-1);
   padding: var(--hoam-spacing-3) var(--hoam-spacing-4);
   width: 100%;
 }
 
 .textField[data-valid="false"] {
-  border: var(--hoam-border-default-size) var(--hoam-color-semantic-error);
+  border: var(--hoam-border-size-default) var(--hoam-color-semantic-error);
 }

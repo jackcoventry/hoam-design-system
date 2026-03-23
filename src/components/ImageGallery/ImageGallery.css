@@ -85,5 +85,5 @@
 }
 
 .hoam-image-gallery__thumbs .swiper-slide.swiper-slide-thumb-active {
-  border: 4px solid var(--hoam-color-sun-300);
+  border: var(--hoam-border-size-large) var(--hoam-color-sun-300);
 }

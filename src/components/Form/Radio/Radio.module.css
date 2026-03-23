@@ -52,7 +52,7 @@
   width: var(--radio-size);
   height: var(--radio-size);
   background: var(--radio-bg);
-  border: var(--hoam-border-default-size) var(--radio-border-color);
+  border: var(--hoam-border-size-default) var(--radio-border-color);
   border-radius: var(--hoam-border-radius-full);
   transition:
     border-color var(--radio-transition-duration) var(--radio-transition-easing),

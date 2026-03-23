@@ -54,7 +54,7 @@
   width: var(--checkbox-box-size);
   height: var(--checkbox-box-size);
   background: var(--checkbox-bg);
-  border: var(--hoam-border-default-size) var(--checkbox-border-color);
+  border: var(--hoam-border-size-default) var(--checkbox-border-color);
   border-radius: var(--checkbox-radius);
   transition:
     background-color var(--checkbox-transition-duration) var(--checkbox-transition-easing),

@@ -81,7 +81,7 @@
 }
 
 .tag {
-  border: var(--hoam-border-default-size) var(--hoam-color-moon-800);
+  border: var(--hoam-border-size-default) var(--hoam-color-moon-800);
   border-radius: var(--hoam-border-radius-small);
   color: var(--hoam-color-moon-900);
   font: var(--hoam-typography-label-1);
