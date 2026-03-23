@@ -11,9 +11,16 @@ export type MessageProps = {
   status: 'info' | 'warning' | 'error' | 'success';
   text?: string | undefined;
   title: string;
+  closeMessage?: string;
 };
 
-export function Message({ status, text, title, onClose }: Readonly<MessageProps>) {
+export function Message({
+  status,
+  text,
+  title,
+  onClose,
+  closeMessage = 'Close message',
+}: Readonly<MessageProps>) {
   const [isOpen, setIsOpen] = useState(true);
 
   function handleClose(event: MouseEvent<HTMLButtonElement>) {
@@ -42,7 +49,7 @@ export function Message({ status, text, title, onClose }: Readonly<MessageProps>
         <div className={styles.closeWrapper}>
           <button
             className={styles.close}
-            aria-label="Close message"
+            aria-label={closeMessage}
             onClick={handleClose}
           >
             <Icon

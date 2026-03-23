@@ -5,7 +5,7 @@ import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
 import z from 'zod';
 
 import { Button } from '@/components/Button';
-import type { SocialLink } from '@/components/Footer';
+import type { Link } from '@/components/Footer';
 import { Icon } from '@/components/Icon';
 import { Container, Grid, GridItem, Stack } from '@/components/Layout';
 import { IconId } from '@/design-tokens/icons';
@@ -18,7 +18,7 @@ import styles from '@/components/NewsletterBanner/NewsletterBanner.module.css';
 export type NewsletterBannerProps = {
   title: string;
   description?: string | undefined;
-  socialLinks?: Array<SocialLink>;
+  socialLinks?: Array<Link>;
 };
 
 const SUBMIT_DELAY_MS = 2000;
@@ -133,12 +133,12 @@ export function NewsletterBanner({
                 <div className={styles.socialLinks}>
                   {socialLinks?.map((link) => (
                     <a
-                      key={link.name}
-                      href={link.url}
+                      key={link.label}
+                      href={link.href}
                       target="_blank"
                       rel="noopener noreferrer"
                       className={styles.socialLink}
-                      aria-label={link.name}
+                      aria-label={link.label}
                     >
                       <Icon id={link.icon as IconId} />
                     </a>

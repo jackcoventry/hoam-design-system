@@ -1,22 +1,25 @@
+import { Icon } from '@/components/Icon';
 import { Container, Grid, GridItem } from '@/components/Layout';
+import { IconId } from '@/design-tokens/icons';
 
 import styles from '@/components/Footer/Footer.module.css';
 
-export type SocialLink = {
-  name: string;
-  url: string;
-  icon: string;
+export type Link = {
+  label: string;
+  href: string;
+  icon?: string;
 };
 
 type LinkSection = {
   title: string;
-  links: Array<{ label: string; href: string }>;
+  links: Array<Link>;
 };
 
 export type FooterProps = {
   topLinks?: LinkSection[];
-  bottomLinks?: Array<{ label: string; href: string }>;
-  socialLinks?: Array<SocialLink>;
+  bottomLinks?: Array<Link>;
+  socialLinks?: Array<Link>;
+  socialTitle?: string;
 };
 
 const MAX_TOP_SECTIONS = 4;
@@ -25,6 +28,7 @@ export function Footer({
   topLinks = [],
   bottomLinks = [],
   socialLinks = [],
+  socialTitle = 'Connect with us',
 }: Readonly<FooterProps>) {
   const visibleTopLinks = topLinks.slice(0, MAX_TOP_SECTIONS);
 
@@ -65,24 +69,17 @@ export function Footer({
             span={12}
             spanXl={2}
           >
-            <h4 className={styles.sectionTitle}>Connect with us</h4>
+            <h4 className={styles.sectionTitle}>{socialTitle}</h4>
 
             <div className={styles.socialLinks}>
               {socialLinks.map((link) => (
                 <a
-                  key={link.name}
-                  href={link.url}
+                  key={link.label}
+                  href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <svg
-                    className="icon"
-                    width="1.25em"
-                    height="1.25em"
-                    fill="currentColor"
-                  >
-                    <use xlinkHref={`/icons/icons.svg#${link.icon}`} />
-                  </svg>
+                  <Icon id={link.icon as IconId} />
                 </a>
               ))}
             </div>

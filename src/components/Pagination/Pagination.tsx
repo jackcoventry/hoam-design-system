@@ -5,9 +5,16 @@ import styles from '@/components/Pagination/Pagination.module.css';
 export type PaginationProps = {
   pageCount?: number;
   currentPage?: number;
+  previousLabel?: string;
+  nextLabel?: string;
 };
 
-export function Pagination({ pageCount = 6, currentPage = 1 }: Readonly<PaginationProps>) {
+export function Pagination({
+  pageCount = 6,
+  currentPage = 1,
+  previousLabel = 'Previous',
+  nextLabel = 'Next',
+}: Readonly<PaginationProps>) {
   return (
     <div className={styles.root}>
       <ul className={styles.list}>
@@ -16,7 +23,7 @@ export function Pagination({ pageCount = 6, currentPage = 1 }: Readonly<Paginati
             icon="arrow-left"
             iconOnly
           >
-            Previous
+            {previousLabel}
           </Button>
         </li>
         {Array.from({ length: pageCount }, (_, i) => i + 1).map((page) => (
@@ -29,7 +36,7 @@ export function Pagination({ pageCount = 6, currentPage = 1 }: Readonly<Paginati
             icon="arrow-right"
             iconOnly
           >
-            Next
+            {nextLabel}
           </Button>
         </li>
       </ul>

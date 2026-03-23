@@ -12,6 +12,7 @@ import { createPortal } from 'react-dom';
 
 import { Button } from '@/components/Button';
 import { useModalStack } from '@/components/Modal/ModalStackContext';
+import { logger } from '@/utils/logger';
 import { FOCUSABLE_SELECTORS } from '@/constants/focusable-selectors';
 
 import styles from '@/components/Modal/Modal.module.css';
@@ -28,9 +29,7 @@ const ModalContext = React.createContext<ModalContextValue | null>(null);
 function useModalContext(componentName: string): ModalContextValue {
   const ctx = useContext(ModalContext);
 
-  if (!ctx) {
-    throw new Error(`${componentName} must be used within <Modal>`);
-  }
+  logger.invariant(ctx, `${componentName} must be used within <Modal>`);
 
   return ctx;
 }

@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import clsx from 'clsx';
 
-import type { SocialLink } from '@/components/Footer';
+import type { Link } from '@/components/Footer';
 import { Icon } from '@/components/Icon';
 import { Container, Grid, GridItem } from '@/components/Layout';
 import { formatISODate, formatReadableDate, parseLooseDate } from '@/utils/convertDates';
@@ -37,7 +37,7 @@ export type BlogArticleProps = {
   image: BlogImage;
   tags: Tag[];
   children: ReactNode;
-  socialLinks: Array<SocialLink>;
+  socialLinks: Array<Link>;
 };
 
 export function BlogArticle({
@@ -105,12 +105,12 @@ export function BlogArticle({
                       SHARE
                       {socialLinks?.map((link) => (
                         <a
-                          key={link.name}
-                          href={link.url}
+                          key={link.label}
+                          href={link.href}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="hoam-newsletter-banner__social-link"
-                          aria-label={`Share on ${link.name}`}
+                          aria-label={`Share on ${link.label}`}
                         >
                           <Icon id={link.icon as IconId} />
                         </a>

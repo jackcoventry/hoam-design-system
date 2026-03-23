@@ -1,6 +1,8 @@
 import { useId } from 'react';
 import clsx from 'clsx';
 
+import { clamp } from '@/utils/clamp';
+
 import styles from './ProgressBar.module.css';
 
 export interface ProgressBarProps {
@@ -13,10 +15,6 @@ export interface ProgressBarProps {
   labelClassName?: string;
   valueClassName?: string;
   formatValueText?: (percentage: number, value: number, min: number, max: number) => string;
-}
-
-function clamp(value: number, min: number, max: number) {
-  return Math.min(Math.max(value, min), max);
 }
 
 export function ProgressBar({

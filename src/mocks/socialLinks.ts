@@ -1,17 +1,17 @@
 const items = [
   {
-    name: 'Facebook',
-    url: 'https://www.facebook.com/',
+    label: 'Facebook',
+    href: 'https://www.facebook.com/',
     icon: 'facebook',
   },
   {
-    name: 'Instagram',
-    url: 'https://www.instagram.com/',
+    label: 'Instagram',
+    href: 'https://www.instagram.com/',
     icon: 'instagram',
   },
   {
-    name: 'TikTok',
-    url: 'https://www.tiktok.com/',
+    label: 'TikTok',
+    href: 'https://www.tiktok.com/',
     icon: 'tiktok',
   },
 ];

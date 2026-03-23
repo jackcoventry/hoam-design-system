@@ -1,0 +1,91 @@
+/**
+ * Do not edit directly, this file was auto-generated.
+ */
+
+:root {
+  --hoam-border-size-default: 1px solid;
+  --hoam-border-size-medium: 3px solid;
+  --hoam-border-size-large: 5px solid;
+  --hoam-breakpoints-sm: 768px;
+  --hoam-breakpoints-md: 976px;
+  --hoam-breakpoints-lg: 1200px;
+  --hoam-breakpoints-xl: 1600px;
+  --hoam-color-sun-100: #eeddfd;
+  --hoam-color-sun-200: #dcbbfc;
+  --hoam-color-sun-300: #cb99fa;
+  --hoam-color-sun-400: #ba77f9;
+  --hoam-color-sun-500: #a855f7; /** Base colour */
+  --hoam-color-sun-600: #8815f4;
+  --hoam-color-sun-700: #6609be;
+  --hoam-color-sun-800: #44067f;
+  --hoam-color-sun-900: #22033f;
+  --hoam-color-moon-100: #e9fcfa;
+  --hoam-color-moon-200: #d7f9f7;
+  --hoam-color-moon-300: #c1f5f2;
+  --hoam-color-moon-400: #abf2ed;
+  --hoam-color-moon-500: #97efe9; /** Base colour */
+  --hoam-color-moon-600: #53e4db;
+  --hoam-color-moon-700: #1fcbc0;
+  --hoam-color-moon-800: #158981;
+  --hoam-color-moon-900: #0a423f;
+  --hoam-color-neutral-100: #000000;
+  --hoam-color-neutral-200: #0d0d0d;
+  --hoam-color-neutral-300: #1a1a1a;
+  --hoam-color-neutral-400: #404040;
+  --hoam-color-neutral-500: #666666; /** Base colour */
+  --hoam-color-neutral-600: #8c8c8c;
+  --hoam-color-neutral-700: #b3b3b3;
+  --hoam-color-neutral-800: #d9d9d9;
+  --hoam-color-neutral-900: #ffffff;
+  --hoam-color-fill-primary: #a855f7;
+  --hoam-color-fill-secondary: #a855f7;
+  --hoam-color-fill-tertiary: #97efe9; /** Accent colour */
+  --hoam-color-fill-white: #ffffff;
+  --hoam-color-fill-black: #000000;
+  --hoam-color-text-primary: #404040;
+  --hoam-color-semantic-error: #ff4d4f;
+  --hoam-color-semantic-warning: #faad14;
+  --hoam-color-semantic-success: #52c41a;
+  --hoam-color-semantic-info: #1890ff;
+  --hoam-border-radius-small: 4px;
+  --hoam-border-radius-full: 100%;
+  --hoam-shadow-small: 0 0 1px 0 rgba(0, 0, 0, 0.3);
+  --hoam-shadow-medium: 0 6px 6px 0 rgba(0, 0, 0, 0.3);
+  --hoam-shadow-large: 0 10px 40px 0 rgba(0, 0, 0, 0.3);
+  --hoam-spacing-0: 0px;
+  --hoam-spacing-1: 4px;
+  --hoam-spacing-2: 8px;
+  --hoam-spacing-3: 12px;
+  --hoam-spacing-4: 16px;
+  --hoam-spacing-5: 24px;
+  --hoam-spacing-6: 32px;
+  --hoam-spacing-7: 56px;
+  --hoam-spacing-8: 72px;
+  --hoam-spacing-9: 96px;
+  --hoam-spacing-10: 120px;
+  --hoam-typography-family-1: Boldonse, system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  --hoam-typography-family-2: 'DM Serif Text', system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  --hoam-typography-family-3: Roboto, system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  --hoam-typography-size-1: 14px;
+  --hoam-typography-size-2: 18px;
+  --hoam-typography-size-3: clamp(1rem, min(20vmin, 7vw), 2rem);
+  --hoam-typography-size-4: clamp(1rem, min(20vmin, 7vw), 3rem);
+  --hoam-typography-size-5: clamp(1rem, min(20vmin, 7vw), 6rem);
+  --hoam-typography-size-base: 18px;
+  --hoam-typography-line-height-1: 1.5;
+  --hoam-typography-line-height-2: 1.75;
+  --hoam-typography-line-height-3: 1.25;
+  --hoam-typography-line-height-4: 1.1;
+  --hoam-typography-line-height-5: 2;
+  --hoam-typography-letter-spacing-1: 0;
+  --hoam-typography-letter-spacing-2: 1px;
+  --hoam-typography-weight-1: 300;
+  --hoam-typography-weight-2: 400;
+  --hoam-typography-weight-3: 700;
+  --hoam-typography-title-1: 400 clamp(1rem, min(20vmin, 7vw), 6rem)/1.75 Boldonse, system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  --hoam-typography-title-2: 300 clamp(1rem, min(20vmin, 7vw), 3rem)/1.1 'DM Serif Text', system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  --hoam-typography-title-3: 300 clamp(1rem, min(20vmin, 7vw), 2rem)/1.5 'DM Serif Text', system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  --hoam-typography-body-1: 300 18px/1.5 Roboto, system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  --hoam-typography-button-1: 300 18px/1.5 Boldonse, system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  --hoam-typography-label-1: 300 14px/1.5 Roboto, system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+}

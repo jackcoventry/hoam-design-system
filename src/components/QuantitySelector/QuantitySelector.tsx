@@ -1,6 +1,7 @@
 import { forwardRef, type KeyboardEvent, useEffect, useRef, useState } from 'react';
 
 import { Button } from '@/components/Button';
+import { clamp } from '@/utils/clamp';
 
 import styles from '@/components/QuantitySelector/QuantitySelector.module.css';
 
@@ -14,18 +15,6 @@ export interface QuantitySelectorProps {
   ariaLabel?: string;
   incrementLabel?: string;
   decrementLabel?: string;
-}
-
-function clamp(n: number, min: number, max: number) {
-  if (Number.isFinite(min)) {
-    n = Math.max(n, min);
-  }
-
-  if (Number.isFinite(max)) {
-    n = Math.min(n, max);
-  }
-
-  return n;
 }
 
 export const QuantitySelector = forwardRef<HTMLInputElement, QuantitySelectorProps>(

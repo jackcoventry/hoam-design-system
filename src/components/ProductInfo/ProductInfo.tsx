@@ -9,6 +9,7 @@ import { FieldWrapper, Select } from '@/components/Form';
 import { QuantitySelector } from '@/components/QuantitySelector';
 import { VariantSelector } from '@/components/VariantSelector';
 import { convertNumberToCurrency } from '@/utils/convertNumberToCurrency';
+import { logger } from '@/utils/logger';
 
 import bodyText from '@/components/Common/BodyText.module.css';
 import styles from '@/components/ProductInfo/ProductInfo.module.css';
@@ -84,7 +85,7 @@ export function ProductInfo({
   const defaultTshirt = tshirtOptions[0];
 
   if (!defaultColor || !defaultSize || !defaultImage || !defaultTshirt) {
-    throw new Error('ProductInfo requires at least one option for color, size, image, and tshirt.');
+    logger.error('ProductInfo requires at least one option for color, size, image, and tshirt.');
   }
 
   const {

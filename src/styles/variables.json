@@ -1,0 +1,740 @@
+[
+  {
+    "name": "hoam-border-size-default",
+    "cssVar": "--hoam-border-size-default",
+    "type": "border",
+    "value": "1px solid",
+    "group": null,
+    "set": "size"
+  },
+  {
+    "name": "hoam-border-size-medium",
+    "cssVar": "--hoam-border-size-medium",
+    "type": "border",
+    "value": "3px solid",
+    "group": null,
+    "set": "size"
+  },
+  {
+    "name": "hoam-border-size-large",
+    "cssVar": "--hoam-border-size-large",
+    "type": "border",
+    "value": "5px solid",
+    "group": null,
+    "set": "size"
+  },
+  {
+    "name": "hoam-breakpoints-sm",
+    "cssVar": "--hoam-breakpoints-sm",
+    "type": "dimension",
+    "value": "768px",
+    "group": null,
+    "set": "breakpoints"
+  },
+  {
+    "name": "hoam-breakpoints-md",
+    "cssVar": "--hoam-breakpoints-md",
+    "type": "dimension",
+    "value": "976px",
+    "group": null,
+    "set": "breakpoints"
+  },
+  {
+    "name": "hoam-breakpoints-lg",
+    "cssVar": "--hoam-breakpoints-lg",
+    "type": "dimension",
+    "value": "1200px",
+    "group": null,
+    "set": "breakpoints"
+  },
+  {
+    "name": "hoam-breakpoints-xl",
+    "cssVar": "--hoam-breakpoints-xl",
+    "type": "dimension",
+    "value": "1600px",
+    "group": null,
+    "set": "breakpoints"
+  },
+  {
+    "name": "hoam-color-sun-100",
+    "cssVar": "--hoam-color-sun-100",
+    "type": "color",
+    "value": "#eeddfd",
+    "group": "global",
+    "set": "sun"
+  },
+  {
+    "name": "hoam-color-sun-200",
+    "cssVar": "--hoam-color-sun-200",
+    "type": "color",
+    "value": "#dcbbfc",
+    "group": "global",
+    "set": "sun"
+  },
+  {
+    "name": "hoam-color-sun-300",
+    "cssVar": "--hoam-color-sun-300",
+    "type": "color",
+    "value": "#cb99fa",
+    "group": "global",
+    "set": "sun"
+  },
+  {
+    "name": "hoam-color-sun-400",
+    "cssVar": "--hoam-color-sun-400",
+    "type": "color",
+    "value": "#ba77f9",
+    "group": "global",
+    "set": "sun"
+  },
+  {
+    "name": "hoam-color-sun-500",
+    "cssVar": "--hoam-color-sun-500",
+    "type": "color",
+    "value": "#a855f7",
+    "group": "global",
+    "set": "sun"
+  },
+  {
+    "name": "hoam-color-sun-600",
+    "cssVar": "--hoam-color-sun-600",
+    "type": "color",
+    "value": "#8815f4",
+    "group": "global",
+    "set": "sun"
+  },
+  {
+    "name": "hoam-color-sun-700",
+    "cssVar": "--hoam-color-sun-700",
+    "type": "color",
+    "value": "#6609be",
+    "group": "global",
+    "set": "sun"
+  },
+  {
+    "name": "hoam-color-sun-800",
+    "cssVar": "--hoam-color-sun-800",
+    "type": "color",
+    "value": "#44067f",
+    "group": "global",
+    "set": "sun"
+  },
+  {
+    "name": "hoam-color-sun-900",
+    "cssVar": "--hoam-color-sun-900",
+    "type": "color",
+    "value": "#22033f",
+    "group": "global",
+    "set": "sun"
+  },
+  {
+    "name": "hoam-color-moon-100",
+    "cssVar": "--hoam-color-moon-100",
+    "type": "color",
+    "value": "#e9fcfa",
+    "group": "global",
+    "set": "moon"
+  },
+  {
+    "name": "hoam-color-moon-200",
+    "cssVar": "--hoam-color-moon-200",
+    "type": "color",
+    "value": "#d7f9f7",
+    "group": "global",
+    "set": "moon"
+  },
+  {
+    "name": "hoam-color-moon-300",
+    "cssVar": "--hoam-color-moon-300",
+    "type": "color",
+    "value": "#c1f5f2",
+    "group": "global",
+    "set": "moon"
+  },
+  {
+    "name": "hoam-color-moon-400",
+    "cssVar": "--hoam-color-moon-400",
+    "type": "color",
+    "value": "#abf2ed",
+    "group": "global",
+    "set": "moon"
+  },
+  {
+    "name": "hoam-color-moon-500",
+    "cssVar": "--hoam-color-moon-500",
+    "type": "color",
+    "value": "#97efe9",
+    "group": "global",
+    "set": "moon"
+  },
+  {
+    "name": "hoam-color-moon-600",
+    "cssVar": "--hoam-color-moon-600",
+    "type": "color",
+    "value": "#53e4db",
+    "group": "global",
+    "set": "moon"
+  },
+  {
+    "name": "hoam-color-moon-700",
+    "cssVar": "--hoam-color-moon-700",
+    "type": "color",
+    "value": "#1fcbc0",
+    "group": "global",
+    "set": "moon"
+  },
+  {
+    "name": "hoam-color-moon-800",
+    "cssVar": "--hoam-color-moon-800",
+    "type": "color",
+    "value": "#158981",
+    "group": "global",
+    "set": "moon"
+  },
+  {
+    "name": "hoam-color-moon-900",
+    "cssVar": "--hoam-color-moon-900",
+    "type": "color",
+    "value": "#0a423f",
+    "group": "global",
+    "set": "moon"
+  },
+  {
+    "name": "hoam-color-neutral-100",
+    "cssVar": "--hoam-color-neutral-100",
+    "type": "color",
+    "value": "#000000",
+    "group": "global",
+    "set": "neutral"
+  },
+  {
+    "name": "hoam-color-neutral-200",
+    "cssVar": "--hoam-color-neutral-200",
+    "type": "color",
+    "value": "#0d0d0d",
+    "group": "global",
+    "set": "neutral"
+  },
+  {
+    "name": "hoam-color-neutral-300",
+    "cssVar": "--hoam-color-neutral-300",
+    "type": "color",
+    "value": "#1a1a1a",
+    "group": "global",
+    "set": "neutral"
+  },
+  {
+    "name": "hoam-color-neutral-400",
+    "cssVar": "--hoam-color-neutral-400",
+    "type": "color",
+    "value": "#404040",
+    "group": "global",
+    "set": "neutral"
+  },
+  {
+    "name": "hoam-color-neutral-500",
+    "cssVar": "--hoam-color-neutral-500",
+    "type": "color",
+    "value": "#666666",
+    "group": "global",
+    "set": "neutral"
+  },
+  {
+    "name": "hoam-color-neutral-600",
+    "cssVar": "--hoam-color-neutral-600",
+    "type": "color",
+    "value": "#8c8c8c",
+    "group": "global",
+    "set": "neutral"
+  },
+  {
+    "name": "hoam-color-neutral-700",
+    "cssVar": "--hoam-color-neutral-700",
+    "type": "color",
+    "value": "#b3b3b3",
+    "group": "global",
+    "set": "neutral"
+  },
+  {
+    "name": "hoam-color-neutral-800",
+    "cssVar": "--hoam-color-neutral-800",
+    "type": "color",
+    "value": "#d9d9d9",
+    "group": "global",
+    "set": "neutral"
+  },
+  {
+    "name": "hoam-color-neutral-900",
+    "cssVar": "--hoam-color-neutral-900",
+    "type": "color",
+    "value": "#ffffff",
+    "group": "global",
+    "set": "neutral"
+  },
+  {
+    "name": "hoam-color-fill-primary",
+    "cssVar": "--hoam-color-fill-primary",
+    "type": "color",
+    "value": "#a855f7",
+    "group": "fill",
+    "set": "fill"
+  },
+  {
+    "name": "hoam-color-fill-secondary",
+    "cssVar": "--hoam-color-fill-secondary",
+    "type": "color",
+    "value": "#a855f7",
+    "group": "fill",
+    "set": "fill"
+  },
+  {
+    "name": "hoam-color-fill-tertiary",
+    "cssVar": "--hoam-color-fill-tertiary",
+    "type": "color",
+    "value": "#97efe9",
+    "group": "fill",
+    "set": "fill"
+  },
+  {
+    "name": "hoam-color-fill-white",
+    "cssVar": "--hoam-color-fill-white",
+    "type": "color",
+    "value": "#ffffff",
+    "group": "fill",
+    "set": "fill"
+  },
+  {
+    "name": "hoam-color-fill-black",
+    "cssVar": "--hoam-color-fill-black",
+    "type": "color",
+    "value": "#000000",
+    "group": "fill",
+    "set": "fill"
+  },
+  {
+    "name": "hoam-color-text-primary",
+    "cssVar": "--hoam-color-text-primary",
+    "type": "color",
+    "value": "#404040",
+    "group": "text",
+    "set": "text"
+  },
+  {
+    "name": "hoam-color-semantic-error",
+    "cssVar": "--hoam-color-semantic-error",
+    "type": "color",
+    "value": "#ff4d4f",
+    "group": "semantic",
+    "set": "semantic"
+  },
+  {
+    "name": "hoam-color-semantic-warning",
+    "cssVar": "--hoam-color-semantic-warning",
+    "type": "color",
+    "value": "#faad14",
+    "group": "semantic",
+    "set": "semantic"
+  },
+  {
+    "name": "hoam-color-semantic-success",
+    "cssVar": "--hoam-color-semantic-success",
+    "type": "color",
+    "value": "#52c41a",
+    "group": "semantic",
+    "set": "semantic"
+  },
+  {
+    "name": "hoam-color-semantic-info",
+    "cssVar": "--hoam-color-semantic-info",
+    "type": "color",
+    "value": "#1890ff",
+    "group": "semantic",
+    "set": "semantic"
+  },
+  {
+    "name": "hoam-border-radius-small",
+    "cssVar": "--hoam-border-radius-small",
+    "type": "dimension",
+    "value": "4px",
+    "group": null,
+    "set": "border-radius"
+  },
+  {
+    "name": "hoam-border-radius-full",
+    "cssVar": "--hoam-border-radius-full",
+    "type": "dimension",
+    "value": "100%",
+    "group": null,
+    "set": "border-radius"
+  },
+  {
+    "name": "hoam-shadow-small",
+    "cssVar": "--hoam-shadow-small",
+    "type": "shadow",
+    "value": "0 0 1px 0 rgba(0, 0, 0, 0.3)",
+    "group": null,
+    "set": "shadow"
+  },
+  {
+    "name": "hoam-shadow-medium",
+    "cssVar": "--hoam-shadow-medium",
+    "type": "shadow",
+    "value": "0 6px 6px 0 rgba(0, 0, 0, 0.3)",
+    "group": null,
+    "set": "shadow"
+  },
+  {
+    "name": "hoam-shadow-large",
+    "cssVar": "--hoam-shadow-large",
+    "type": "shadow",
+    "value": "0 10px 40px 0 rgba(0, 0, 0, 0.3)",
+    "group": null,
+    "set": "shadow"
+  },
+  {
+    "name": "hoam-spacing-0",
+    "cssVar": "--hoam-spacing-0",
+    "type": "dimension",
+    "value": "0px",
+    "group": null,
+    "set": "spacing"
+  },
+  {
+    "name": "hoam-spacing-1",
+    "cssVar": "--hoam-spacing-1",
+    "type": "dimension",
+    "value": "4px",
+    "group": null,
+    "set": "spacing"
+  },
+  {
+    "name": "hoam-spacing-2",
+    "cssVar": "--hoam-spacing-2",
+    "type": "dimension",
+    "value": "8px",
+    "group": null,
+    "set": "spacing"
+  },
+  {
+    "name": "hoam-spacing-3",
+    "cssVar": "--hoam-spacing-3",
+    "type": "dimension",
+    "value": "12px",
+    "group": null,
+    "set": "spacing"
+  },
+  {
+    "name": "hoam-spacing-4",
+    "cssVar": "--hoam-spacing-4",
+    "type": "dimension",
+    "value": "16px",
+    "group": null,
+    "set": "spacing"
+  },
+  {
+    "name": "hoam-spacing-5",
+    "cssVar": "--hoam-spacing-5",
+    "type": "dimension",
+    "value": "24px",
+    "group": null,
+    "set": "spacing"
+  },
+  {
+    "name": "hoam-spacing-6",
+    "cssVar": "--hoam-spacing-6",
+    "type": "dimension",
+    "value": "32px",
+    "group": null,
+    "set": "spacing"
+  },
+  {
+    "name": "hoam-spacing-7",
+    "cssVar": "--hoam-spacing-7",
+    "type": "dimension",
+    "value": "56px",
+    "group": null,
+    "set": "spacing"
+  },
+  {
+    "name": "hoam-spacing-8",
+    "cssVar": "--hoam-spacing-8",
+    "type": "dimension",
+    "value": "72px",
+    "group": null,
+    "set": "spacing"
+  },
+  {
+    "name": "hoam-spacing-9",
+    "cssVar": "--hoam-spacing-9",
+    "type": "dimension",
+    "value": "96px",
+    "group": null,
+    "set": "spacing"
+  },
+  {
+    "name": "hoam-spacing-10",
+    "cssVar": "--hoam-spacing-10",
+    "type": "dimension",
+    "value": "120px",
+    "group": null,
+    "set": "spacing"
+  },
+  {
+    "name": "hoam-typography-family-1",
+    "cssVar": "--hoam-typography-family-1",
+    "type": "fontFamily",
+    "value": "Boldonse, system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
+    "group": null,
+    "set": "family"
+  },
+  {
+    "name": "hoam-typography-family-2",
+    "cssVar": "--hoam-typography-family-2",
+    "type": "fontFamily",
+    "value": "'DM Serif Text', system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
+    "group": null,
+    "set": "family"
+  },
+  {
+    "name": "hoam-typography-family-3",
+    "cssVar": "--hoam-typography-family-3",
+    "type": "fontFamily",
+    "value": "Roboto, system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
+    "group": null,
+    "set": "family"
+  },
+  {
+    "name": "hoam-typography-size-1",
+    "cssVar": "--hoam-typography-size-1",
+    "type": "dimension",
+    "value": "14px",
+    "group": null,
+    "set": "size"
+  },
+  {
+    "name": "hoam-typography-size-2",
+    "cssVar": "--hoam-typography-size-2",
+    "type": "dimension",
+    "value": "18px",
+    "group": null,
+    "set": "size"
+  },
+  {
+    "name": "hoam-typography-size-3",
+    "cssVar": "--hoam-typography-size-3",
+    "type": "dimension",
+    "value": "clamp(1rem, min(20vmin, 7vw), 2rem)",
+    "group": null,
+    "set": "size"
+  },
+  {
+    "name": "hoam-typography-size-4",
+    "cssVar": "--hoam-typography-size-4",
+    "type": "dimension",
+    "value": "clamp(1rem, min(20vmin, 7vw), 3rem)",
+    "group": null,
+    "set": "size"
+  },
+  {
+    "name": "hoam-typography-size-5",
+    "cssVar": "--hoam-typography-size-5",
+    "type": "dimension",
+    "value": "clamp(1rem, min(20vmin, 7vw), 6rem)",
+    "group": null,
+    "set": "size"
+  },
+  {
+    "name": "hoam-typography-size-base",
+    "cssVar": "--hoam-typography-size-base",
+    "type": "dimension",
+    "value": "18px",
+    "group": null,
+    "set": "size"
+  },
+  {
+    "name": "hoam-typography-line-height-1",
+    "cssVar": "--hoam-typography-line-height-1",
+    "type": null,
+    "value": 1.5,
+    "group": null,
+    "set": "line-height"
+  },
+  {
+    "name": "hoam-typography-line-height-2",
+    "cssVar": "--hoam-typography-line-height-2",
+    "type": null,
+    "value": 1.75,
+    "group": null,
+    "set": "line-height"
+  },
+  {
+    "name": "hoam-typography-line-height-3",
+    "cssVar": "--hoam-typography-line-height-3",
+    "type": null,
+    "value": 1.25,
+    "group": null,
+    "set": "line-height"
+  },
+  {
+    "name": "hoam-typography-line-height-4",
+    "cssVar": "--hoam-typography-line-height-4",
+    "type": null,
+    "value": 1.1,
+    "group": null,
+    "set": "line-height"
+  },
+  {
+    "name": "hoam-typography-line-height-5",
+    "cssVar": "--hoam-typography-line-height-5",
+    "type": null,
+    "value": 2,
+    "group": null,
+    "set": "line-height"
+  },
+  {
+    "name": "hoam-typography-letter-spacing-1",
+    "cssVar": "--hoam-typography-letter-spacing-1",
+    "type": "dimension",
+    "value": "0",
+    "group": null,
+    "set": "letter-spacing"
+  },
+  {
+    "name": "hoam-typography-letter-spacing-2",
+    "cssVar": "--hoam-typography-letter-spacing-2",
+    "type": "dimension",
+    "value": "1px",
+    "group": null,
+    "set": "letter-spacing"
+  },
+  {
+    "name": "hoam-typography-weight-1",
+    "cssVar": "--hoam-typography-weight-1",
+    "type": "fontWeight",
+    "value": 300,
+    "group": null,
+    "set": "weight"
+  },
+  {
+    "name": "hoam-typography-weight-2",
+    "cssVar": "--hoam-typography-weight-2",
+    "type": "fontWeight",
+    "value": 400,
+    "group": null,
+    "set": "weight"
+  },
+  {
+    "name": "hoam-typography-weight-3",
+    "cssVar": "--hoam-typography-weight-3",
+    "type": "fontWeight",
+    "value": 700,
+    "group": null,
+    "set": "weight"
+  },
+  {
+    "name": "hoam-typography-title-1",
+    "cssVar": "--hoam-typography-title-1",
+    "type": "typography",
+    "value": "400 clamp(1rem, min(20vmin, 7vw), 6rem)/1.75 Boldonse, system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
+    "group": null,
+    "set": "title",
+    "extensions": {
+      "$targetElement": "h1",
+      "$name": "Title"
+    },
+    "originalValues": {
+      "fontFamily": "Boldonse, system-ui, -apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif",
+      "fontSize": "clamp(1rem, min(20vmin, 7vw), 6rem)",
+      "fontWeight": 400,
+      "lineHeight": 1.75
+    }
+  },
+  {
+    "name": "hoam-typography-title-2",
+    "cssVar": "--hoam-typography-title-2",
+    "type": "typography",
+    "value": "300 clamp(1rem, min(20vmin, 7vw), 3rem)/1.1 'DM Serif Text', system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
+    "group": null,
+    "set": "title",
+    "extensions": {
+      "$targetElement": "h2",
+      "$name": "Subtitle"
+    },
+    "originalValues": {
+      "fontFamily": "DM Serif Text, system-ui, -apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif",
+      "fontSize": "clamp(1rem, min(20vmin, 7vw), 3rem)",
+      "fontWeight": 300,
+      "lineHeight": 1.1
+    }
+  },
+  {
+    "name": "hoam-typography-title-3",
+    "cssVar": "--hoam-typography-title-3",
+    "type": "typography",
+    "value": "300 clamp(1rem, min(20vmin, 7vw), 2rem)/1.5 'DM Serif Text', system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
+    "group": null,
+    "set": "title",
+    "extensions": {
+      "$targetElement": "h3",
+      "$name": "Heading"
+    },
+    "originalValues": {
+      "fontFamily": "DM Serif Text, system-ui, -apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif",
+      "fontSize": "clamp(1rem, min(20vmin, 7vw), 2rem)",
+      "fontWeight": 300,
+      "lineHeight": 1.5
+    }
+  },
+  {
+    "name": "hoam-typography-body-1",
+    "cssVar": "--hoam-typography-body-1",
+    "type": "typography",
+    "value": "300 18px/1.5 Roboto, system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
+    "group": null,
+    "set": "body",
+    "extensions": {
+      "$targetElement": "p",
+      "$name": "Body text"
+    },
+    "originalValues": {
+      "fontFamily": "Roboto, system-ui, -apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif",
+      "fontSize": null,
+      "fontWeight": 300,
+      "lineHeight": 1.5
+    }
+  },
+  {
+    "name": "hoam-typography-button-1",
+    "cssVar": "--hoam-typography-button-1",
+    "type": "typography",
+    "value": "300 18px/1.5 Boldonse, system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
+    "group": null,
+    "set": "button",
+    "extensions": {
+      "$name": "Button"
+    },
+    "originalValues": {
+      "fontFamily": "Boldonse, system-ui, -apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif",
+      "fontSize": null,
+      "fontWeight": 300,
+      "lineHeight": 1.5
+    }
+  },
+  {
+    "name": "hoam-typography-label-1",
+    "cssVar": "--hoam-typography-label-1",
+    "type": "typography",
+    "value": "300 14px/1.5 Roboto, system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
+    "group": null,
+    "set": "label",
+    "extensions": {
+      "$name": "Label"
+    },
+    "originalValues": {
+      "fontFamily": "Roboto, system-ui, -apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif",
+      "fontSize": "14px",
+      "fontWeight": 300,
+      "lineHeight": 1.5
+    }
+  }
+]
