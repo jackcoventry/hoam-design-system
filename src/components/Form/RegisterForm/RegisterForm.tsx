@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import clsx from 'clsx';
 import { Controller, SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import z from 'zod';
 
@@ -10,6 +11,7 @@ import {
   PasswordStrengthMeter,
 } from '@/components/Form';
 
+import utils from '@/components/Common/Util.module.css';
 import styles from '@/components/Form/Form.module.css';
 
 const RegisterFormSchema = z
@@ -75,6 +77,8 @@ export function RegisterForm({ onSubmit, data, loading }: Readonly<RegisterFormP
 
   const passwordStrength = calculatePasswordStrength(password);
 
+  const textFieldClasses = clsx(styles.textField, utils.focus);
+
   return submitComplete ? (
     <div className={styles.wrapper}>
       <h1 className={styles.title}>Success! Redirecting now...</h1>
@@ -100,7 +104,7 @@ export function RegisterForm({ onSubmit, data, loading }: Readonly<RegisterFormP
                   {...field}
                   id="firstName"
                   placeholder="Enter your first name"
-                  className={styles.textField}
+                  className={textFieldClasses}
                   data-valid={errors?.firstName ? 'false' : 'true'}
                   disabled={loading}
                 />
@@ -120,7 +124,7 @@ export function RegisterForm({ onSubmit, data, loading }: Readonly<RegisterFormP
                   {...field}
                   id="lastName"
                   placeholder="Enter your last name"
-                  className={styles.textField}
+                  className={textFieldClasses}
                   data-valid={errors?.lastName ? 'false' : 'true'}
                   disabled={loading}
                 />
@@ -140,7 +144,7 @@ export function RegisterForm({ onSubmit, data, loading }: Readonly<RegisterFormP
                   {...field}
                   id="email"
                   placeholder="Enter your email address"
-                  className={styles.textField}
+                  className={textFieldClasses}
                   data-valid={errors?.email ? 'false' : 'true'}
                   disabled={loading}
                 />
@@ -163,7 +167,7 @@ export function RegisterForm({ onSubmit, data, loading }: Readonly<RegisterFormP
                   type="password"
                   id="password"
                   placeholder="Enter your password"
-                  className={styles.textField}
+                  className={textFieldClasses}
                   data-valid={errors?.password ? 'false' : 'true'}
                   disabled={loading}
                 />
@@ -184,7 +188,7 @@ export function RegisterForm({ onSubmit, data, loading }: Readonly<RegisterFormP
                   type="password"
                   id="confirmPassword"
                   placeholder="Confirm your password"
-                  className={styles.textField}
+                  className={textFieldClasses}
                   data-valid={errors?.confirmPassword ? 'false' : 'true'}
                   disabled={loading}
                 />

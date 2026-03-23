@@ -33,6 +33,7 @@ describe('BlogArticle', () => {
     author: {
       id: 'jane-doe',
       name: 'Jane Doe',
+      image: 'https://placehold.co/20x20',
     },
     publishDate: '2026-03-19',
     readingTime: 6,

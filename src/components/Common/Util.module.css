@@ -1,0 +1,4 @@
+.focus:focus-visible {
+  outline: 3px solid var(--hoam-color-sun-700);
+  outline-offset: 6px;
+}

@@ -15,6 +15,7 @@ type BlogImage = {
 type Author = {
   name: string;
   id: string;
+  image: string;
 };
 
 type Tag = {
@@ -79,7 +80,7 @@ export function BlogArticle({
                           {author.name}
                           <span className={styles.authorAvatar}>
                             <img
-                              src="https://placehold.co/20x20" // TODO: this should be dynamic
+                              src={author.image}
                               alt={`The avatar of ${author.name}`}
                             />
                           </span>

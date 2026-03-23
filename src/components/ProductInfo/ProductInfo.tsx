@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -22,7 +22,7 @@ const ProductInformationSchema = z.object({
   quantity: z.number().min(1),
 });
 
-type ProductInformationSchemaType = z.infer<typeof ProductInformationSchema>;
+export type ProductInformationSchemaType = z.infer<typeof ProductInformationSchema>;
 
 type ProductOption = {
   label: string;
@@ -48,6 +48,8 @@ export type ProductInfoProps = {
       tshirt: ProductOption[];
     };
   };
+  onSubmit: (args: ProductInformationSchemaType) => void;
+  isSubmitting: boolean;
 };
 
 export function ProductInfo({
@@ -58,6 +60,8 @@ export function ProductInfo({
   lowStock,
   price,
   data,
+  onSubmit,
+  isSubmitting = false,
 }: Readonly<ProductInfoProps>) {
   const colorOptions = data.options.color;
   const sizeOptions = data.options.size;
@@ -99,16 +103,6 @@ export function ProductInfo({
     },
     mode: 'all',
   });
-  const [submitting, setSubmitting] = useState<boolean>(false);
-
-  const onSubmit: SubmitHandler<ProductInformationSchemaType> = () => {
-    setSubmitting(true);
-
-    // TODO: temporary, to mimic server response.
-    setTimeout(() => {
-      setSubmitting(false);
-    }, 2000);
-  };
 
   const priceString = convertNumberToCurrency({ value: price.amount, currency: price.currency });
   const salePriceString = convertNumberToCurrency({
@@ -235,9 +229,9 @@ export function ProductInfo({
           />
           <Button
             type="submit"
-            disabled={!inStock || Boolean(errors?.quantity?.message) || submitting}
+            disabled={!inStock || Boolean(errors?.quantity?.message) || isSubmitting}
           >
-            {submitting ? 'Added!' : 'Add to cart'}
+            {isSubmitting ? 'Added!' : 'Add to cart'}
           </Button>
         </div>
       </form>

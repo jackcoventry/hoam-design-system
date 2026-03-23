@@ -4,7 +4,7 @@ import { Basket, BasketFooter } from '@/components/Basket';
 import { Modal } from '@/components/Modal';
 import { ModalVariant } from '@/components/Modal/Modal';
 import { useFetchSignal } from '@/hooks/useFetch';
-import { getBasketItems } from '@/utils/getBasketItems';
+import { getBasketItems } from '@/utils/fetchers/getBasketItems';
 
 export type BasketModalProps = {
   endpoint: string;

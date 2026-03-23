@@ -8,7 +8,9 @@ import {
   type SelectHTMLAttributes,
   useId,
 } from 'react';
+import clsx from 'clsx';
 
+import utils from '@/components/Common/Util.module.css';
 import styles from '@/components/Form/Select/Select.module.css';
 
 export type OnChangeValue<M extends boolean> = M extends true ? string[] : string;
@@ -76,7 +78,7 @@ const SelectRoot = forwardRef(function Select<M extends boolean = false>(
 
       <select
         id={actualId}
-        className={styles.input}
+        className={clsx(styles.input, utils.focus)}
         name={name}
         ref={ref}
         required={required}

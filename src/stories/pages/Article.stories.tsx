@@ -23,6 +23,7 @@ const meta: Meta<typeof BlogArticle> = {
     author: {
       name: 'Jane Doe',
       id: 'abc',
+      image: 'https://placehold.co/20x20',
     },
     publishDate: 'November 27 2025',
     readingTime: 7,

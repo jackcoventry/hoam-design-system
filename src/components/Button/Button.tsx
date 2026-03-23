@@ -2,6 +2,7 @@ import React, { type AnchorHTMLAttributes, type ButtonHTMLAttributes } from 'rea
 import clsx from 'clsx';
 
 import styles from '@/components/Button/Button.module.css';
+import utils from '@/components/Common/Util.module.css';
 
 type CommonProps = {
   className?: string | undefined;
@@ -53,7 +54,7 @@ const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Readonly<
       ...rest
     } = props;
 
-    const classes = clsx(styles.root, className);
+    const classes = clsx(styles.root, utils.focus, className);
 
     let computedAriaLabel = ariaLabel;
 

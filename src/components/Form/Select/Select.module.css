@@ -30,11 +30,3 @@
   font: var(--hoam-typography-label-1);
   padding: var(--hoam-spacing-4);
 }
-
-/* TODO: Reuse this focus state across all form elements */
-.input:focus-visible {
-  outline: 3px solid var(--hoam-color-sun-700);
-  outline-offset: 6px;
-}
-
-/* TODO: Add option for completely new CSS */

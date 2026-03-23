@@ -5,7 +5,7 @@ import { SearchForm, SearchFormSchemaType, SearchLoader, SearchResults } from '@
 import { Modal } from '@/components/Modal';
 import { ModalVariant } from '@/components/Modal/Modal';
 import { useFetchSignal } from '@/hooks/useFetch';
-import { getSearchResults } from '@/utils/getSearchResults';
+import { getSearchResults } from '@/utils/fetchers/getSearchResults';
 
 type SearchModalTypes = {
   endpoint: string;

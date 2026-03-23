@@ -19,7 +19,7 @@
   display: flex;
   gap: var(--hoam-button-content-gap);
   font: var(--hoam-button-font);
-  line-height: 1.375; /* TODO: Calculate programatically */
+  line-height: 1.375;
   min-height: var(--hoam-button-min-height);
   outline: none;
   padding: var(--hoam-button-spacing-vertical) var(--hoam-button-spacing-horizontal);
@@ -52,12 +52,6 @@
 .root:disabled {
   --hoam-button-color-fill: var(--hoam-color-neutral-700);
   cursor: not-allowed;
-}
-
-.root:focus-visible {
-  box-shadow:
-    0 0 0 2px white,
-    0 0 0 6px yellow;
 }
 
 .icon {
