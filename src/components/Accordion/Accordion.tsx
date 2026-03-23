@@ -13,6 +13,8 @@ import {
 } from 'react';
 import clsx from 'clsx';
 
+import { logger } from '@/utils/logger';
+
 import styles from '@/components/Accordion/Accordion.module.css';
 
 export interface AccordionProps {
@@ -23,6 +25,8 @@ export interface AccordionProps {
   className?: string | undefined;
   children: ReactNode;
   showToggleAll?: boolean;
+  collapseLabel?: string;
+  expandLabel?: string;
 }
 
 export interface AccordionItemProps {
@@ -55,9 +59,7 @@ const AccordionContext = createContext<AccordionContextType | null>(null);
 function useAccordionContext() {
   const ctx = useContext(AccordionContext);
 
-  if (!ctx) {
-    throw new Error('AccordionItem must be used within Accordion');
-  }
+  logger.invariant(ctx, 'AccordionItem must be used within Accordion');
 
   return ctx;
 }
@@ -72,21 +74,22 @@ function getAccordionItemParts(children: ReactNode): {
 } {
   const childArray = Children.toArray(children);
 
-  if (childArray.length !== 2) {
-    throw new Error(
-      'AccordionItem must contain exactly two children: <AccordionHeader /> and <AccordionPanel />'
-    );
-  }
+  logger.invariant(
+    childArray.length === 2,
+    'AccordionItem must contain exactly two children: <AccordionHeader /> and <AccordionPanel />'
+  );
 
   const [headerChild, panelChild] = childArray;
 
-  if (!isValidElement(headerChild) || headerChild.type !== AccordionHeader) {
-    throw new Error('The first child of AccordionItem must be <AccordionHeader />');
-  }
+  logger.invariant(
+    isValidElement(headerChild) && headerChild.type === AccordionHeader,
+    'The first child of AccordionItem must be <AccordionHeader />'
+  );
 
-  if (!isValidElement(panelChild) || panelChild.type !== AccordionPanel) {
-    throw new Error('The second child of AccordionItem must be <AccordionPanel />');
-  }
+  logger.invariant(
+    isValidElement(panelChild) && panelChild.type === AccordionPanel,
+    'The second child of AccordionItem must be <AccordionPanel />'
+  );
 
   return {
     header: headerChild as AccordionHeaderElement,
@@ -102,6 +105,8 @@ export function Accordion({
   className = '',
   children,
   showToggleAll = true,
+  collapseLabel = 'Collapse all items',
+  expandLabel = 'Expand all items',
 }: Readonly<AccordionProps>) {
   const isControlled = controlledOpenIds !== undefined;
   const [internalOpenIds, setInternalOpenIds] = useState<string[]>(() => defaultOpenIds);
@@ -157,11 +162,8 @@ export function Accordion({
               type="button"
               className={styles.toggleAll}
               onClick={() => updateOpenIds(allExpanded ? [] : itemIds)}
-              aria-label={
-                allExpanded ? 'Collapse all accordion sections' : 'Expand all accordion sections'
-              }
             >
-              {allExpanded ? 'Collapse all' : 'Expand all'}
+              {allExpanded ? collapseLabel : expandLabel}
             </button>
           </div>
         )}

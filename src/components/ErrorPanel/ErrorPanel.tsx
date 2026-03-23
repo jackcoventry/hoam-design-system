@@ -4,9 +4,15 @@ import styles from '@/components/ErrorPanel/ErrorPanel.module.css';
 
 export type Props = {
   message: string;
+  returnLabel?: string;
+  returnUrl?: string;
 };
 
-export function ErrorPanel({ message }: Readonly<Props>) {
+export function ErrorPanel({
+  message,
+  returnLabel = 'Return to homepage',
+  returnUrl = '/',
+}: Readonly<Props>) {
   return (
     <div className={styles.root}>
       <img
@@ -17,10 +23,10 @@ export function ErrorPanel({ message }: Readonly<Props>) {
       <h2 className={styles.title}>{message}</h2>
       <Button
         as="a"
-        href="/"
+        href={returnUrl}
         className={styles.button}
       >
-        Return to homepage
+        {returnLabel}
       </Button>
     </div>
   );

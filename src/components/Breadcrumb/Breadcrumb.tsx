@@ -7,16 +7,17 @@ import utils from '@/components/Common/Util.module.css';
 
 export type BreadcrumbProps = {
   items: NavPanelLinkItem[];
+  ariaLabel?: string;
 };
 
-export function Breadcrumb({ items }: Readonly<BreadcrumbProps>) {
+export function Breadcrumb({ items, ariaLabel = 'Breadcrumb' }: Readonly<BreadcrumbProps>) {
   if (!items || items.length === 0) return null;
 
   const lastIndex = items.length - 1;
 
   return (
     <nav
-      aria-label="Breadcrumb"
+      aria-label={ariaLabel}
       className={styles.root}
     >
       <ol className={styles.list}>

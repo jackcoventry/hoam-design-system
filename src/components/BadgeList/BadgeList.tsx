@@ -6,7 +6,7 @@ import {
   type ReactNode,
 } from 'react';
 
-import { warn } from '@/utils/logger';
+import { logger } from '@/utils/logger';
 
 import styles from '@/components/BadgeList/BadgeList.module.css';
 
@@ -60,7 +60,7 @@ export function BadgeList({ children }: Readonly<PropsWithChildren>) {
       return child;
     }
 
-    warn(INVALID_CHILD_MESSAGE);
+    logger.warn(INVALID_CHILD_MESSAGE);
     return null;
   });
 
