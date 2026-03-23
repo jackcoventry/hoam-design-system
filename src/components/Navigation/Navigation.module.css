@@ -80,9 +80,7 @@
 
 .panel {
   background-color: var(--hoam-color-moon-100);
-  box-shadow:
-    0 10px 20px rgba(0, 0, 0, 0.19),
-    0 6px 6px rgba(0, 0, 0, 0.23);
+  box-shadow: var(--hoam-shadow-small), var(--hoam-shadow-medium);
   height: var(--hoam-navigation-height);
   left: 0;
   max-width: 100%;

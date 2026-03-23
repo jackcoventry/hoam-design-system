@@ -3,6 +3,10 @@
     "small": {
       "$type": "dimension",
       "$value": "4px"
+    },
+    "full": {
+      "$type": "dimension",
+      "$value": "100%"
     }
   }
 }

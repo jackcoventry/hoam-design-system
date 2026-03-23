@@ -33,7 +33,7 @@
 
 .dialog {
   background: var(--hoam-color-neutral-900);
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--hoam-shadow-large);
   display: flex;
   flex-direction: column;
   outline: none;

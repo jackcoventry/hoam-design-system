@@ -1,0 +1,34 @@
+{
+  "shadow": {
+    "small": {
+      "$type": "shadow",
+      "$value": {
+        "color": "rgba(0, 0, 0, 0.3)",
+        "offsetX": "0",
+        "offsetY": "0",
+        "blur": "1px",
+        "spread": "0"
+      }
+    },
+    "medium": {
+      "$type": "shadow",
+      "$value": {
+        "color": "rgba(0, 0, 0, 0.3)",
+        "offsetX": "0",
+        "offsetY": "6px",
+        "blur": "6px",
+        "spread": "0"
+      }
+    },
+    "large": {
+      "$type": "shadow",
+      "$value": {
+        "color": "rgba(0, 0, 0, 0.3)",
+        "offsetX": "0",
+        "offsetY": "10px",
+        "blur": "40px",
+        "spread": "0"
+      }
+    }
+  }
+}

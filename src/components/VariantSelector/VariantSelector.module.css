@@ -36,9 +36,7 @@
   align-items: center;
   border-radius: var(--hoam-border-radius-small);
   border: 3px solid var(--hoam-color-neutral-900);
-  box-shadow:
-    0 0 0 1px rgba(0, 0, 0, 0.1),
-    0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--hoam-shadow-small);
   display: flex;
   height: var(--image-size);
   justify-content: center;
