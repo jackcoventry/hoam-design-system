@@ -1,4 +1,4 @@
-import { Container, Grid, GridItem } from '../Layout';
+import { Container, Grid, GridItem } from '@/components/Layout';
 
 import styles from '@/components/Footer/Footer.module.css';
 

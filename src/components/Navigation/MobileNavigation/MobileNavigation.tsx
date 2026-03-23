@@ -1,5 +1,6 @@
 import { useId, useRef, useState } from 'react';
 
+import { Icon } from '@/components/Icon';
 import { Container, Grid, GridItem } from '@/components/Layout';
 import { MobileNavigationItem } from '@/components/Navigation/MobileNavigation/MobileNavigationItem';
 import type { NavTreeItem } from '@/components/Navigation/types';
@@ -50,14 +51,7 @@ export function MobileNavigation({ items }: Readonly<MobileNavigationProps>) {
                   aria-label={isOpen ? 'Close menu' : 'Open menu'}
                   onClick={() => setIsOpen((prev) => !prev)}
                 >
-                  <svg
-                    width="1.25em"
-                    height="1.25em"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <use xlinkHref="/icons/icons.svg#three-dots-vertical" />
-                  </svg>
+                  <Icon id="three-dots-vertical" />
                 </button>
               </div>
             </GridItem>

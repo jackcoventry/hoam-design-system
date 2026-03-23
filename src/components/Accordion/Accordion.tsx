@@ -13,6 +13,7 @@ import {
 } from 'react';
 import clsx from 'clsx';
 
+import { Icon } from '@/components/Icon';
 import { logger } from '@/utils/logger';
 
 import styles from '@/components/Accordion/Accordion.module.css';
@@ -208,14 +209,7 @@ export function AccordionItem({ id, children, className }: Readonly<AccordionIte
             className={styles.icon}
             aria-hidden="true"
           >
-            <svg
-              className="icon"
-              width="1.25em"
-              height="1.25em"
-              fill="currentColor"
-            >
-              <use xlinkHref={`/icons/icons.svg#${isOpen ? 'caret-down' : 'caret-right'}`} />
-            </svg>
+            <Icon id={isOpen ? 'caret-down' : 'caret-right'} />
           </span>
         </button>
       </div>

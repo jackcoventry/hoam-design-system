@@ -1,6 +1,8 @@
 import type { FocusEventHandler, MouseEvent, PointerEventHandler } from 'react';
 
+import { Icon } from '@/components/Icon';
 import type { NavigationProps } from '@/components/Navigation/types';
+import { IconId } from '@/design-tokens/icons';
 
 import styles from '@/components/Navigation/Navigation.module.css';
 
@@ -63,15 +65,8 @@ export function DesktopNavigationActions({
               data-top-cyclable
               onClick={userLink.action ? actions[userLink.action] : undefined}
             >
-              <svg
-                className="icon"
-                width="1.25em"
-                height="1.25em"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <use xlinkHref={`/icons/icons.svg#${userLink.icon}`} />
-              </svg>
+              <Icon id={userLink.icon as IconId} />
+
               <span className="sr-only">{userLink.label}</span>
             </a>
           </li>

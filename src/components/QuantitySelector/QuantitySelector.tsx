@@ -135,7 +135,7 @@ export const QuantitySelector = forwardRef<HTMLInputElement, QuantitySelectorPro
 
         <div className={styles.inner}>
           <Button
-            ariaLabel={decrementLabel}
+            aria-label={decrementLabel}
             disabled={atMin}
             size="small"
             {...createButtonHandlers(-1)}
@@ -160,7 +160,7 @@ export const QuantitySelector = forwardRef<HTMLInputElement, QuantitySelectorPro
           />
 
           <Button
-            ariaLabel={incrementLabel}
+            aria-label={incrementLabel}
             disabled={atMax}
             variant="secondary"
             size="small"

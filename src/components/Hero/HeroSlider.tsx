@@ -5,7 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 import { Button } from '@/components/Button';
 import { HeroSlide, HeroSlideProps } from '@/components/Hero/HeroSlide';
-import { warn } from '@/utils/logger';
+import { logger } from '@/utils/logger';
 
 import styles from '@/components/Hero/Hero.module.css';
 
@@ -131,7 +131,7 @@ export function HeroSlider({
           if (isHeroSlideElement(child)) {
             return <SwiperSlide key={child.key ?? undefined}>{child}</SwiperSlide>;
           } else {
-            warn('Hero component only accepts child of type HeroSlide');
+            logger.warn('Hero component only accepts child of type HeroSlide');
           }
         })}
       </Swiper>

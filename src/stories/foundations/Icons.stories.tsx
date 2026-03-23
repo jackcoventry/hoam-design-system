@@ -1,8 +1,9 @@
 import { useState } from 'react';
 
 import { Button } from '@/components/Button/Button';
+import { Icon } from '@/components/Icon';
 import { Container, Grid, GridItem } from '@/components/Layout';
-import Tokens from '@/design-tokens/icons.json';
+import { ICON_IDS } from '@/design-tokens/icons';
 
 type Props = {
   icon: string;
@@ -12,30 +13,17 @@ const CopyButton = ({ icon }: Props) => {
   const [copied, setCopied] = useState(false);
 
   const copyCodeBlock = () => {
-    navigator.clipboard
-      .writeText(
-        `
-		<svg
-			className="icon"
-			width="1em"
-			height="1em"
-			fill="currentColor"
-		>
-			<use xlinkHref="/icons/icons.svg#${icon}" />
-		</svg>
-	`
-      )
-      .then(
-        () => {
-          setCopied(true);
-          setTimeout(() => {
-            setCopied(false);
-          }, 3000);
-        },
-        () => {
+    navigator.clipboard.writeText(`<Icon id="${icon}" />`).then(
+      () => {
+        setCopied(true);
+        setTimeout(() => {
           setCopied(false);
-        }
-      );
+        }, 3000);
+      },
+      () => {
+        setCopied(false);
+      }
+    );
   };
 
   return (
@@ -65,17 +53,11 @@ const Template = () => (
             </tr>
           </thead>
           <tbody>
-            {Tokens?.icons?.map((e) => (
+            {ICON_IDS?.map((e) => (
               <tr key={e}>
                 <td>{e}</td>
                 <td>
-                  <svg
-                    width="1em"
-                    height="1em"
-                    fill="currentColor"
-                  >
-                    <use xlinkHref={`/icons/icons.svg#${e}`} />
-                  </svg>
+                  <Icon id={e} />
                 </td>
                 <td>
                   <CopyButton icon={e} />

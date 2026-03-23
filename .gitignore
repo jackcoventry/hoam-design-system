@@ -3,6 +3,7 @@ dist/
 src/styles/_variables.css
 src/styles/variables.json
 src/design-tokens/icons.json
+src/design-tokens/icons.ts
 src/design-tokens/build/
 public/icons/icons.svg
 coverage

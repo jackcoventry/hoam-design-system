@@ -12,13 +12,16 @@ import {
 } from 'react';
 import clsx from 'clsx';
 
+import { Icon } from '@/components/Icon';
+import { IconId } from '@/design-tokens/icons';
+
 import styles from '@/components/Button/Button.module.css';
 import utils from '@/components/Common/Util.module.css';
 
 type CommonProps = {
   className?: string | undefined;
   children?: ReactNode | undefined;
-  icon?: string | undefined;
+  icon?: IconId | undefined;
   iconPosition?: 'left' | 'right' | undefined;
   variant?: 'primary' | 'secondary' | 'tertiary' | undefined;
   iconOnly?: boolean | undefined;
@@ -114,15 +117,7 @@ function ButtonContent({ children, icon, iconOnly = false }: Readonly<ButtonCont
 
       {icon ? (
         <span className={styles.icon}>
-          <svg
-            className="icon"
-            width="1.25em"
-            height="1.25em"
-            fill="currentColor"
-            aria-hidden="true"
-          >
-            <use xlinkHref={`/icons/icons.svg#${icon}`} />
-          </svg>
+          <Icon id={icon as IconId} />
         </span>
       ) : null}
     </>

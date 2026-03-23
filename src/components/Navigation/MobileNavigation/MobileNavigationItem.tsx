@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 
+import { Icon } from '@/components/Icon';
 import type { NavTreeItem } from '@/components/Navigation/types';
 
 import styles from '@/components/Navigation/MobileNavigation/MobileNavigation.module.css';
@@ -43,15 +44,11 @@ export function MobileNavigationItem({ item }: Readonly<MobileNavigationItemProp
             onClick={() => setIsOpen((prev) => !prev)}
           >
             <span>{item.label}</span>
-            <svg
-              className="icon"
-              width="0.75em"
-              height="0.75em"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <use xlinkHref={`/icons/icons.svg#${isOpen ? 'caret-down' : 'caret-right'}`} />
-            </svg>
+
+            <Icon
+              size="0.75em"
+              id={isOpen ? 'caret-down' : 'caret-right'}
+            />
           </button>
 
           {isOpen ? (

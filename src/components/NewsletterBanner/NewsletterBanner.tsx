@@ -6,7 +6,9 @@ import z from 'zod';
 
 import { Button } from '@/components/Button';
 import type { SocialLink } from '@/components/Footer';
+import { Icon } from '@/components/Icon';
 import { Container, Grid, GridItem, Stack } from '@/components/Layout';
+import { IconId } from '@/design-tokens/icons';
 
 import '@/components/Common/Dots.css';
 import bodyText from '@/components/Common/BodyText.module.css';
@@ -138,14 +140,7 @@ export function NewsletterBanner({
                       className={styles.socialLink}
                       aria-label={link.name}
                     >
-                      <svg
-                        className="icon"
-                        width="1.25em"
-                        height="1.25em"
-                        fill="currentColor"
-                      >
-                        <use xlinkHref={`/icons/icons.svg#${link.icon}`} />
-                      </svg>
+                      <Icon id={link.icon as IconId} />
                     </a>
                   ))}
                 </div>

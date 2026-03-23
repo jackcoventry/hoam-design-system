@@ -1,5 +1,8 @@
+import clsx from 'clsx';
+
 import { Button } from '@/components/Button';
 
+import typography from '@/components/Common/Typography.module.css';
 import styles from '@/components/ErrorPanel/ErrorPanel.module.css';
 
 export type Props = {
@@ -20,7 +23,7 @@ export function ErrorPanel({
         alt="An illustration of a woman meditating"
         className={styles.image}
       />
-      <h2 className={styles.title}>{message}</h2>
+      <h2 className={clsx(styles.title, typography.heading)}>{message}</h2>
       <Button
         as="a"
         href={returnUrl}

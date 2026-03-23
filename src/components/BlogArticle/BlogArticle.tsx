@@ -2,8 +2,10 @@ import { ReactNode } from 'react';
 import clsx from 'clsx';
 
 import type { SocialLink } from '@/components/Footer';
+import { Icon } from '@/components/Icon';
 import { Container, Grid, GridItem } from '@/components/Layout';
 import { formatISODate, formatReadableDate, parseLooseDate } from '@/utils/convertDates';
+import type { IconId } from '@/design-tokens/icons';
 
 import styles from '@/components/BlogArticle/BlogArticle.module.css';
 import utils from '@/components/Common/Util.module.css';
@@ -96,14 +98,7 @@ export function BlogArticle({
                       {stringDate}
                     </time>
                     <span className={styles.readingTime}>
-                      <svg
-                        className="icon"
-                        width="1em"
-                        height="1em"
-                        fill="currentColor"
-                      >
-                        <use xlinkHref={`/icons/icons.svg#clock`} />
-                      </svg>
+                      <Icon id="clock" />
                       {readingTime} minute read
                     </span>
                     <div className={styles.socialLinks}>
@@ -117,14 +112,7 @@ export function BlogArticle({
                           className="hoam-newsletter-banner__social-link"
                           aria-label={`Share on ${link.name}`}
                         >
-                          <svg
-                            className="icon"
-                            width="1.25em"
-                            height="1.25em"
-                            fill="currentColor"
-                          >
-                            <use xlinkHref={`/icons/icons.svg#${link.icon}`} />
-                          </svg>
+                          <Icon id={link.icon as IconId} />
                         </a>
                       ))}
                     </div>

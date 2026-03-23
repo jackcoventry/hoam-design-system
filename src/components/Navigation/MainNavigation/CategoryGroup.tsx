@@ -1,3 +1,4 @@
+import { Icon } from '@/components/Icon';
 import { groupBtnId, groupPanelId } from '@/components/Navigation/helpers';
 import type { NavGroupItem } from '@/components/Navigation/types';
 
@@ -39,15 +40,10 @@ export function CategoryGroup({
           >
             {subitem.label}
 
-            <svg
-              className="icon"
-              width="0.75em"
-              height="0.75em"
-              fill="currentColor"
-              aria-hidden="true"
-            >
-              <use xlinkHref={`/icons/icons.svg#${open ? 'caret-down' : 'caret-right'}`} />
-            </svg>
+            <Icon
+              size="0.75em"
+              id={open ? 'caret-down' : 'caret-right'}
+            />
           </button>
 
           {children}

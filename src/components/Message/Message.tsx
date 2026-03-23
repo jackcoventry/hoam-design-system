@@ -1,6 +1,8 @@
 import { type MouseEvent, useState } from 'react';
 import clsx from 'clsx';
 
+import { Icon } from '@/components/Icon';
+
 import bodyText from '@/components/Common/BodyText.module.css';
 import styles from '@/components/Message/Message.module.css';
 
@@ -43,14 +45,10 @@ export function Message({ status, text, title, onClose }: Readonly<MessageProps>
             aria-label="Close message"
             onClick={handleClose}
           >
-            <svg
-              className="icon"
-              width="2em"
-              height="2em"
-              fill="currentColor"
-            >
-              <use xlinkHref="/icons/icons.svg#close" />
-            </svg>
+            <Icon
+              id="close"
+              size="2em"
+            />
           </button>
         </div>
       ) : null}
