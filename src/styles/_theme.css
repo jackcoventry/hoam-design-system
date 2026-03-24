@@ -1,0 +1,33 @@
+[data-theme="default"] {
+  /* TODO: These features probably shouldn't all be themeable */
+
+  --hoam-color-accordion-item-border: red;
+
+  --hoam-color-badge-list-item-border: red;
+
+  --hoam-color-basket-row-bg: red;
+  --hoam-color-basket-row-bg-hover: red;
+  --hoam-color-basket-link-hover: red;
+
+  --hoam-color-blog-author-link: red;
+  --hoam-color-blog-author-link-hover: blue;
+  --hoam-color-blog-header-bg: red;
+  --hoam-color-blog-social-hover: red;
+  --hoam-color-blog-tag-border: red;
+  --hoam-color-blog-tag-text: red;
+  --hoam-color-blog-tag-bg-hover: red;
+  --hoam-color-blog-footer-bg: red;
+
+  --hoam-color-breadcrumb-item: red;
+  --hoam-color-breadcrumb-item-hover: red;
+
+  --hoam-color-text-link: red;
+  --hoam-color-text-link-hover: blue;
+
+  --hoam-color-loading-border: red;
+
+  --hoam-color-modal-header-border: red;
+  --hoam-color-modal-body-border: red;
+
+  --hoam-color-newsletter-bg: red;
+}

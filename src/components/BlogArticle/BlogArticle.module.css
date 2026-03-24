@@ -1,5 +1,6 @@
 :root {
   --hoam-article-image-offset: 100px;
+  --hoam-author-avatar-size: 20px;
 }
 
 .author {
@@ -8,20 +9,18 @@
 }
 
 .authorLink {
-  color: var(--hoam-color-moon-700);
+  color: var(--hoam-color-blog-author-link);
   display: flex;
   gap: var(--hoam-spacing-2);
   text-decoration: none;
 }
 
 .authorLink:hover {
-  color: var(--hoam-color-moon-800);
+  color: var(--hoam-color-blog-author-link-hover);
   text-decoration: underline;
 }
 
 .authorAvatar {
-  --hoam-author-avatar-size: 20px;
-
   border-radius: var(--hoam-border-radius-full);
   height: var(--hoam-author-avatar-size);
   overflow: hidden;
@@ -29,7 +28,7 @@
 }
 
 .headerWrapper {
-  background-color: var(--hoam-color-sun-100);
+  background-color: var(--hoam-color-blog-header-bg);
   padding-top: var(--hoam-spacing-8);
   padding-bottom: calc(var(--hoam-spacing-8) + var(--hoam-article-image-offset));
 }
@@ -70,7 +69,7 @@
 }
 
 .socialLinks a:hover {
-  color: var(--hoam-color-moon-800);
+  color: var(--hoam-color-blog-social-hover);
 }
 
 .tags {
@@ -81,16 +80,16 @@
 }
 
 .tag {
-  border: var(--hoam-border-size-default) var(--hoam-color-moon-800);
+  border: var(--hoam-border-size-default) var(--hoam-color-blog-tag-border);
   border-radius: var(--hoam-border-radius-small);
-  color: var(--hoam-color-moon-900);
+  color: var(--hoam-color-blog-tag-text);
   font: var(--hoam-typography-label-1);
   padding: var(--hoam-spacing-1) var(--hoam-spacing-2);
   text-decoration: none;
 }
 
 .tag:hover {
-  background-color: var(--hoam-color-sun-400);
+  background-color: var(--hoam-color-blog-tag-bg-hover);
 }
 
 .tagsTitle {
@@ -119,5 +118,5 @@
 }
 
 .footer {
-  background-color: var(--hoam-color-moon-300);
+  background-color: var(--hoam-color-blog-footer-bg);
 }

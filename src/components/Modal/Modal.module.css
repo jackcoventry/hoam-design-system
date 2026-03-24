@@ -87,7 +87,7 @@
 }
 
 .header:has(+ .body:not(:empty)) {
-  border-bottom: var(--hoam-border-size-default) var(--hoam-color-moon-300);
+  border-bottom: var(--hoam-border-size-default) var(--hoam-color-modal-header-border);
 }
 
 .body {
@@ -95,7 +95,7 @@
 }
 
 .body:has(+ .footer:not(:empty)) {
-  border-bottom: var(--hoam-border-size-default) var(--hoam-color-moon-300);
+  border-bottom: var(--hoam-border-size-default) var(--hoam-color-modal-body-border);
 }
 
 .header[data-padded="true"],
@@ -110,11 +110,6 @@
 
 .closeButton:only-child {
   margin-left: auto;
-}
-
-.closeButton:focus-visible {
-  outline: 2px solid currentColor;
-  outline-offset: 2px;
 }
 
 @media (prefers-reduced-motion: reduce) {

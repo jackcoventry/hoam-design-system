@@ -1,5 +1,4 @@
 import type { Decorator, Preview } from '@storybook/react-vite';
-import { create } from 'storybook/theming';
 
 import { ModalStackProvider } from '../src/components/Modal/ModalStackContext';
 
@@ -7,6 +6,7 @@ import '@/styles/_variables.css';
 import '@/styles/_reset.css';
 import '@/styles/_fonts.css';
 import '@/styles/_global.css';
+import '@/styles/_theme.css';
 import '@/styles/_demo.css';
 
 const withModalStack: Decorator = (Story) => (
@@ -15,10 +15,15 @@ const withModalStack: Decorator = (Story) => (
   </ModalStackProvider>
 );
 
-const hoamTheme = create({
-  base: 'light',
-  brandTitle: 'HOAM',
-});
+const withTheme: Decorator = (Story, context) => {
+  const { mode, theme } = context.globals;
+
+  return (
+    <div data-mode={String(mode)} data-theme={String(theme)}>
+      <Story />
+    </div>
+  );
+};
 
 const preview: Preview = {
   parameters: {
@@ -28,11 +33,6 @@ const preview: Preview = {
         date: /Date$/i,
       },
     },
-
-    docs: {
-      theme: hoamTheme,
-    },
-
     a11y: {
       // 'todo' - show a11y violations in the test UI only
       // 'error' - fail CI on a11y violations
@@ -40,7 +40,24 @@ const preview: Preview = {
       test: 'todo',
     },
   },
-  decorators: [withModalStack],
+  globalTypes: {
+    theme: {
+      name: 'Theme',
+      description: 'Page / product theme',
+      defaultValue: 'default',
+      toolbar: {
+        icon: 'paintbrush',
+        items: [
+          { value: 'default', title: 'Default' },
+          { value: 'hot', title: 'Hot' },
+          { value: 'cold', title: 'Cold' },
+          { value: 'spirit', title: 'Spirit' },
+          { value: 'wise', title: 'Wise' },
+        ],
+      },
+    },
+  },
+  decorators: [withModalStack, withTheme],
 };
 
 export default preview;

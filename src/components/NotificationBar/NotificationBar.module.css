@@ -1,5 +1,5 @@
 .root {
-  background-color: var(--hoam-color-moon-200);
+  background-color: var(--hoam-color-neutral-200);
   font: var(--hoam-typography-label-2);
   padding: var(--hoam-spacing-3);
   text-align: center;
@@ -8,7 +8,7 @@
 
 .root a:link,
 .root a:visited {
-  color: var(--hoam-color-moon-700);
+  color: var(--hoam-color-text-link);
   text-decoration: none;
 }
 

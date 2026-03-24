@@ -18,7 +18,7 @@
 }
 
 .mobileMenu {
-  background-color: var(--hoam-color-moon-100);
+  background-color: var(--hoam-color-neutral-100);
   display: none;
   height: calc(100dvh - var(--hoam-navigation-bar-height-mobile));
   overflow-y: auto;

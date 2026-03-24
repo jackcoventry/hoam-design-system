@@ -14,13 +14,13 @@ const INVALID_CHILD_MESSAGE = 'BadgeList component only accepts children of type
 
 export type BadgeListItemProps = {
   href?: string;
-  theme?: 'default' | 'alert';
+  variant?: 'default' | 'alert';
 };
 
 export function BadgeListItem({
   children,
   href,
-  theme = 'default',
+  variant = 'default',
 }: PropsWithChildren<BadgeListItemProps>) {
   if (!children) {
     return null;
@@ -31,7 +31,7 @@ export function BadgeListItem({
       <a
         href={href}
         className={styles.item}
-        data-theme={theme}
+        data-variant={variant}
       >
         {children}
       </a>
@@ -41,7 +41,7 @@ export function BadgeListItem({
   return (
     <span
       className={styles.item}
-      data-theme={theme}
+      data-variant={variant}
     >
       {children}
     </span>

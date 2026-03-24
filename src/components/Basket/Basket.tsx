@@ -1,8 +1,11 @@
+import clsx from 'clsx';
+
 import { Button } from '@/components/Button';
 import { QuantitySelector } from '@/components/QuantitySelector';
 import { convertNumberToCurrency } from '@/utils/convertNumberToCurrency';
 
 import styles from '@/components/Basket/Basket.module.css';
+import typography from '@/components/Common/Typography.module.css';
 
 type Thumbnail = {
   src: string;
@@ -82,7 +85,9 @@ export function BasketItem({
         </div>
       </td>
       <td>
-        <div className={styles.price}>{convertNumberToCurrency({ value: totalPrice })}</div>
+        <div className={clsx(styles.price, typography.heading)}>
+          {convertNumberToCurrency({ value: totalPrice })}
+        </div>
       </td>
     </tr>
   );

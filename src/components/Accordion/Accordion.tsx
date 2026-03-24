@@ -17,6 +17,7 @@ import { Icon } from '@/components/Icon';
 import { logger } from '@/utils/logger';
 
 import styles from '@/components/Accordion/Accordion.module.css';
+import utils from '@/components/Common/Util.module.css';
 
 export interface AccordionProps {
   allowMultiple?: boolean;
@@ -201,7 +202,7 @@ export function AccordionItem({ id, children, className }: Readonly<AccordionIte
           aria-expanded={isOpen}
           disabled={isDisabled}
           onClick={() => toggle(id)}
-          className={clsx(styles.itemTitleButton, header.props.className)}
+          className={clsx(styles.itemTitleButton, utils.focus, header.props.className)}
         >
           <span className={styles.itemTitleText}>{header.props.children}</span>
 

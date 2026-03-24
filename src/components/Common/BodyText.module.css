@@ -6,11 +6,11 @@
 
 .root a:link,
 .root a:visited {
-  color: var(--hoam-color-moon-700);
+  color: var(--hoam-color-text-link);
   text-decoration: underline;
 }
 
 .root a:hover {
-  color: var(--hoam-color-moon-800);
+  color: var(--hoam-color-text-link-hover);
   text-decoration: none;
 }

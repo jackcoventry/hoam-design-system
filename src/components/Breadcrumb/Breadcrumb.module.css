@@ -18,10 +18,10 @@
 
 a.item:link,
 a.item:visited {
-  color: var(--hoam-color-moon-800);
+  color: var(--hoam-color-breadcrumb-item);
 }
 
 a.item:hover {
-  color: var(--hoam-color-moon-700);
+  color: var(--hoam-color-breadcrumb-item-hover);
   text-decoration: none;
 }

@@ -8,16 +8,9 @@
 .item {
   background-color: var(--hoam-color-neutral-900);
   border-radius: var(--hoam-border-radius-small);
+  border: var(--hoam-border-size-default) var(--hoam-color-badge-list-item-border);
   display: inline-flex;
   font: var(--hoam-typography-label-2);
   padding: var(--hoam-spacing-1) var(--hoam-spacing-2);
   text-transform: uppercase;
-}
-
-.item[data-theme="default"] {
-  border: var(--hoam-border-size-default) var(--hoam-color-moon-700);
-}
-
-.item[data-theme="alert"] {
-  border: var(--hoam-border-size-default) var(--hoam-color-sun-700);
 }

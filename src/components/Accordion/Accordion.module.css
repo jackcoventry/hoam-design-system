@@ -9,7 +9,7 @@
 }
 
 .item:not(:last-child) {
-  border-bottom: var(--hoam-border-size-default) var(--hoam-color-moon-200);
+  border-bottom: var(--hoam-border-size-default) var(--hoam-color-accordion-item-border);
 }
 
 .panelInner {
@@ -45,7 +45,6 @@
   }
 }
 
-/* Block pointer events on closed content */
 .panel[aria-hidden="true"] * {
   pointer-events: none;
 }

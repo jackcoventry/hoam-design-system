@@ -25,7 +25,7 @@
 }
 
 .row:not(:last-child)::after {
-  background-color: var(--hoam-color-moon-100);
+  background-color: var(--hoam-color-basket-row-bg);
   bottom: calc(var(--hoam-spacing-2) * -1);
   content: "";
   display: block;
@@ -70,7 +70,7 @@
 }
 
 .row:not(:first-child):hover {
-  background-color: var(--hoam-color-moon-100);
+  background-color: var(--hoam-color-basket-row-bg-hover);
 }
 
 .controls {
@@ -98,7 +98,7 @@
 }
 
 .link:hover {
-  color: var(--hoam-color-moon-800);
+  color: var(--hoam-color-basket-link-hover);
   text-decoration: underline;
 }
 
