@@ -19,7 +19,7 @@
 .spinner::before {
   animation: loadingClip 2s linear infinite;
   border-radius: 50%;
-  border: var(--hoam-border-size-large) var(--hoam-color-moon-600);
+  border: var(--hoam-border-size-large) var(--hoam-color-loading-border);
   box-sizing: border-box;
   content: "";
   inset: 0px;

@@ -14,7 +14,7 @@ const INVALID_CHILD_MESSAGE = 'BadgeList component only accepts children of type
 
 export type BadgeListItemProps = {
   href?: string;
-  variant?: 'default' | 'alert';
+  variant?: 'default' | 'alert' | 'highlight';
 };
 
 export function BadgeListItem({

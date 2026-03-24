@@ -2,6 +2,8 @@ import { Meta, StoryObj } from '@storybook/react-vite';
 
 import { type TabProps, Tabs } from '@/components/Tabs';
 
+import bodyText from '@/components/Common/BodyText.module.css';
+
 const meta: Meta<typeof Tabs> = {
   title: 'Components/Tabs',
   component: Tabs,
@@ -16,17 +18,62 @@ const TABS: TabProps[] = [
   {
     id: 'home',
     label: 'Home',
-    content: <div>Home</div>,
+    content: (
+      <section className={bodyText.root}>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae
+          pellentesque sem placerat. In id cursus mi pretium tellus duis convallis.
+        </p>
+        <p>
+          Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus
+          bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere.
+        </p>
+        <p>
+          Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia
+          nostra inceptos himenaeos. Lorem ipsum dolor sit amet consectetur adipiscing elit.
+        </p>
+      </section>
+    ),
   },
   {
     id: 'contact',
     label: 'Contact',
-    content: <div>Contact</div>,
+    content: (
+      <section className={bodyText.root}>
+        <p>
+          Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus
+          bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere.
+        </p>
+        <p>
+          Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia
+          nostra inceptos himenaeos. Lorem ipsum dolor sit amet consectetur adipiscing elit.
+        </p>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae
+          pellentesque sem placerat. In id cursus mi pretium tellus duis convallis.
+        </p>
+      </section>
+    ),
   },
   {
     id: 'search',
     label: 'Search',
-    content: <div>Search</div>,
+    content: (
+      <section className={bodyText.root}>
+        <p>
+          Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia
+          nostra inceptos himenaeos. Lorem ipsum dolor sit amet consectetur adipiscing elit.
+        </p>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae
+          pellentesque sem placerat. In id cursus mi pretium tellus duis convallis.
+        </p>
+        <p>
+          Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus
+          bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere.
+        </p>
+      </section>
+    ),
   },
 ];
 

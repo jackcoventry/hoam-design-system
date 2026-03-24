@@ -3,6 +3,7 @@ import clsx from 'clsx';
 
 import type { TabsProps } from '@/components/Tabs';
 
+import bodyText from '@/components/Common/BodyText.module.css';
 import utils from '@/components/Common/Util.module.css';
 import styles from '@/components/Tabs/Tabs.module.css';
 
@@ -137,7 +138,7 @@ export function DesktopTabs({
               id={`hoam-panel-${tab.id}`}
               aria-labelledby={`hoam-tab-${tab.id}`}
               hidden={!isActive}
-              className={styles.panel}
+              className={clsx(styles.panel, bodyText.root)}
             >
               {tab.content}
             </section>

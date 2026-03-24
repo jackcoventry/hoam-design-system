@@ -1,6 +1,8 @@
 import { type ChangeEvent, forwardRef, type InputHTMLAttributes, useId } from 'react';
 import clsx from 'clsx';
 
+import { Stack } from '@/components/Layout';
+
 import styles from './Switch.module.css';
 
 export interface SwitchProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {
@@ -69,16 +71,18 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(function Switch(
         </span>
 
         <span className={styles.text}>
-          <span className={styles.label}>{label}</span>
+          <Stack gap="sm">
+            <span className={styles.label}>{label}</span>
 
-          {description ? (
-            <span
-              id={descriptionId}
-              className={styles.description}
-            >
-              {description}
-            </span>
-          ) : null}
+            {description ? (
+              <span
+                id={descriptionId}
+                className={styles.description}
+              >
+                {description}
+              </span>
+            ) : null}
+          </Stack>
         </span>
       </label>
     </div>

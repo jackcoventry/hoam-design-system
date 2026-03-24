@@ -3,8 +3,6 @@
 
   --hoam-color-accordion-item-border: red;
 
-  --hoam-color-badge-list-item-border: red;
-
   --hoam-color-basket-row-bg: red;
   --hoam-color-basket-row-bg-hover: red;
   --hoam-color-basket-link-hover: red;
@@ -30,4 +28,13 @@
   --hoam-color-modal-body-border: red;
 
   --hoam-color-newsletter-bg: red;
+
+  --hoam-color-tab-bg: red;
+  --hoam-color-tab-bg-active: blue;
+  --hoam-color-tab-border: blue;
+
+  --hoam-color-switch-bg-active: red;
+
+  --hoam-color-variant-selector: red;
+  --hoam-color-variant-selector-hover: blue;
 }

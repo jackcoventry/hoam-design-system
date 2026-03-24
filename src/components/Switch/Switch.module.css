@@ -1,32 +1,26 @@
 .root {
-  /* TODO: tweak this component style */
-  --switch-track-width: 2.75rem;
-  --switch-track-height: 1.5rem;
-  --switch-thumb-size: 1.125rem;
-  --switch-thumb-offset: 0.1875rem;
+  --hoam-switch-track-width: 50px;
+  --hoam-switch-track-height: 30px;
+  --hoam-switch-thumb-size: 20px;
+  --hoam-switch-thumb-offset: 5px;
 
-  --switch-bg-off: rgba(0, 0, 0, 0.18);
-  --switch-bg-on: currentColor;
-  --switch-thumb-bg: #ffffff;
-  --switch-border-radius: var(--hoam-border-radius-full);
-  --switch-label-gap: 0.75rem;
-  --switch-text-gap: 0.25rem;
+  --hoam-switch-bg-off: var(--hoam-color-neutral-700);
+  --hoam-switch-bg-on: var(--hoam-color-switch-bg-active);
+  --hoam-switch-thumb-bg: var(--hoam-color-neutral-900);
+  --hoam-switch-border-radius: 30px;
 
-  --switch-focus-ring-width: 2px;
-  --switch-focus-ring-offset: 3px;
-
-  --switch-opacity-disabled: 0.55;
-  --switch-transition-duration: 180ms;
-  --switch-transition-easing: ease;
+  --hoam-switch-opacity-disabled: 0.6;
+  --hoam-switch-transition-duration: 0.2s;
+  --hoam-switch-transition-easing: ease;
 
   display: block;
 }
 
 .labelWrapper {
-  display: inline-flex;
   align-items: flex-start;
-  gap: var(--switch-label-gap);
   cursor: pointer;
+  display: inline-flex;
+  gap: var(--hoam-spacing-4);
   user-select: none;
 }
 
@@ -50,61 +44,59 @@
   position: relative;
   display: inline-flex;
   align-items: center;
-  width: var(--switch-track-width);
-  height: var(--switch-track-height);
-  background: var(--switch-bg-off);
-  border-radius: var(--switch-border-radius);
+  width: var(--hoam-switch-track-width);
+  height: var(--hoam-switch-track-height);
+  background: var(--hoam-switch-bg-off);
+  border-radius: var(--hoam-switch-border-radius);
   transition:
-    background-color var(--switch-transition-duration) var(--switch-transition-easing),
-    opacity var(--switch-transition-duration) var(--switch-transition-easing);
+    background-color var(--hoam-switch-transition-duration) var(--hoam-switch-transition-easing),
+    opacity var(--hoam-switch-transition-duration) var(--hoam-switch-transition-easing);
 }
 
 .thumb {
   position: absolute;
-  left: var(--switch-thumb-offset);
-  width: var(--switch-thumb-size);
-  height: var(--switch-thumb-size);
-  background: var(--switch-thumb-bg);
+  left: var(--hoam-switch-thumb-offset);
+  width: var(--hoam-switch-thumb-size);
+  height: var(--hoam-switch-thumb-size);
+  background: var(--hoam-switch-thumb-bg);
   border-radius: var(--hoam-border-radius-full);
-  transition: transform var(--switch-transition-duration) var(--switch-transition-easing);
+  transition: transform var(--hoam-switch-transition-duration) var(--hoam-switch-transition-easing);
 }
 
 .input:checked + .track {
-  background: var(--switch-bg-on);
+  background: var(--hoam-switch-bg-on);
 }
 
 .input:checked + .track .thumb {
-  transform: translateX(calc(var(--switch-track-width) - var(--switch-thumb-size) - (var(--switch-thumb-offset) * 2)));
+  transform: translateX(calc(var(--hoam-switch-track-width) - var(--hoam-switch-thumb-size) - (var(--hoam-switch-thumb-offset) * 2)));
 }
 
 .input:focus-visible + .track {
-  outline: var(--switch-focus-ring-width) solid currentColor;
-  outline-offset: var(--switch-focus-ring-offset);
+  outline: var(--hoam-switch-focus-ring-width) solid currentColor;
+  outline-offset: var(--hoam-switch-focus-ring-offset);
 }
 
 .input:disabled + .track {
-  opacity: var(--switch-opacity-disabled);
+  opacity: var(--hoam-switch-opacity-disabled);
 }
 
 .disabled {
   cursor: not-allowed;
-  opacity: var(--switch-opacity-disabled);
+  opacity: var(--hoam-switch-opacity-disabled);
 }
 
 .text {
   display: grid;
-  gap: var(--switch-text-gap);
+  gap: var(--hoam-switch-text-gap);
   min-width: 0;
 }
 
 .label {
-  line-height: 1.3;
+  font: var(--hoam-typography-button-1);
 }
 
 .description {
-  font-size: 0.875rem;
-  line-height: 1.4;
-  opacity: 0.8;
+  font: var(--hoam-typography-label-1);
 }
 
 @media (prefers-reduced-motion: reduce) {

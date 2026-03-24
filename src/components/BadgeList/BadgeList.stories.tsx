@@ -17,8 +17,8 @@ const Template: Story = {
     <div>
       <BadgeList>
         <BadgeListItem>NEW</BadgeListItem>
-        <BadgeListItem theme="alert">LOW STOCK</BadgeListItem>
-        <BadgeListItem>Limited Edition</BadgeListItem>
+        <BadgeListItem variant="alert">LOW STOCK</BadgeListItem>
+        <BadgeListItem variant="highlight">Limited Edition</BadgeListItem>
       </BadgeList>
     </div>
   ),

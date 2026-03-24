@@ -14,3 +14,15 @@
   padding: var(--hoam-spacing-1) var(--hoam-spacing-2);
   text-transform: uppercase;
 }
+
+.item[data-variant="default"] {
+  --hoam-color-badge-list-item-border: var(--hoam-color-neutral-500);
+}
+
+.item[data-variant="alert"] {
+  --hoam-color-badge-list-item-border: var(--hoam-color-semantic-warning);
+}
+
+.item[data-variant="highlight"] {
+  --hoam-color-badge-list-item-border: var(--hoam-color-semantic-success);
+}

@@ -12,7 +12,6 @@
   display: flex;
   font: var(--hoam-typography-label-1);
   gap: var(--hoam-spacing-1);
-  margin-bottom: var(--hoam-spacing-2);
 }
 
 .legend {
@@ -21,7 +20,8 @@
 }
 
 .selected {
-  font: var(--hoam-typography-label-2);
+  color: var(--hoam-color-neutral-600);
+  font: var(--hoam-typography-label-1);
 }
 
 .visual {
@@ -29,7 +29,7 @@
 }
 
 .radio:checked + .visual .indicator {
-  outline: 3px solid var(--hoam-color-moon-700);
+  outline: var(--hoam-border-size-medium) var(--hoam-color-variant-selector);
 }
 
 .indicator {
@@ -45,7 +45,7 @@
 }
 
 .item:hover .indicator {
-  outline: var(--hoam-border-size-default) var(--hoam-color-moon-500);
+  outline: var(--hoam-border-size-default) var(--hoam-color-variant-selector-hover);
 }
 
 .radio:focus-visible + .visual {

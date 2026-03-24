@@ -19,7 +19,7 @@ export type TabsProps = {
 };
 
 export function Tabs({ title, items, layout, mode }: Readonly<TabsProps>) {
-  const isMobile = useMediaQuery('(max-width: 600px)');
+  const isMobile = useMediaQuery('(max-width: 768px)');
 
   if (isMobile) {
     return (

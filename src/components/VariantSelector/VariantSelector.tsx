@@ -1,6 +1,8 @@
 import { forwardRef, useId, useMemo, useRef, useState } from 'react';
 import clsx from 'clsx';
 
+import { Stack } from '@/components/Layout';
+
 import styles from '@/components/VariantSelector/VariantSelector.module.css';
 
 export type VariantValue = string | number;
@@ -132,125 +134,129 @@ export const VariantSelector = forwardRef<HTMLInputElement, VariantSelectorProps
         aria-required={required || undefined}
         className={styles.root}
       >
-        {label ? (
-          <div className={styles.label}>
-            <legend
-              className={styles.legend}
-              id={legendId}
-            >
-              {label}
-            </legend>
-            <span className={styles.selected}>{getLabelFromValue(value)}</span>
-          </div>
-        ) : null}
-
-        <div
-          className={styles.items}
-          ref={groupRef}
-          role="radiogroup"
-          aria-orientation={orientation}
-          data-variant={variant}
-          {...(label ? { 'aria-labelledby': legendId } : { 'aria-label': name })}
-          tabIndex={groupTabIndex}
-          onFocus={(event) => {
-            if (event.target === event.currentTarget) {
-              const start =
-                currentIndex >= 0 ? currentIndex : options.findIndex((option) => !option.disabled);
-
-              if (start !== -1) {
-                inputRefs.current[start]?.focus();
-              }
-            }
-          }}
-          onFocusCapture={() => {
-            if (groupTabIndex !== -1) {
-              setGroupTabIndex(-1);
-            }
-          }}
-          onBlurCapture={(event) => {
-            const next = event.relatedTarget as Node | null;
-            const stillInside = next && groupRef.current?.contains(next);
-
-            if (!stillInside && groupTabIndex !== 0) {
-              setGroupTabIndex(0);
-            }
-          }}
-          onKeyDown={(event) => {
-            const left = event.key === 'ArrowLeft';
-            const right = event.key === 'ArrowRight';
-            const up = event.key === 'ArrowUp';
-            const down = event.key === 'ArrowDown';
-
-            const relevant = isHorizontal ? left || right : up || down;
-
-            if (!relevant) {
-              return;
-            }
-
-            event.preventDefault();
-
-            if (left || up) {
-              handleArrow(-1);
-            }
-
-            if (right || down) {
-              handleArrow(1);
-            }
-          }}
-        >
-          {options.map((option, index) => {
-            const selected = value === option.value;
-
-            const setRef = (el: HTMLInputElement | null) => {
-              inputRefs.current[index] = el;
-
-              if (index === 0 && el) {
-                setFirstInputRef(el);
-              }
-            };
-
-            return (
-              <label
-                key={option.value}
-                className={styles.item}
+        <Stack gap="sm">
+          {label ? (
+            <div className={styles.label}>
+              <legend
+                className={styles.legend}
+                id={legendId}
               >
-                <input
-                  ref={setRef}
-                  type="radio"
-                  name={name}
-                  value={option.value}
-                  checked={selected}
-                  disabled={option.disabled}
-                  required={required}
-                  onChange={() => onChange(option.value)}
-                  aria-label={option.label}
-                  className={clsx(styles.radio, 'sr-only')}
-                />
-                <span className={styles.visual}>
-                  <span
-                    className={styles.indicator}
-                    style={{
-                      backgroundColor:
-                        variant === 'color' ? option.displayValue?.toString() : undefined,
-                    }}
-                  >
-                    {variant === 'image' ? (
-                      <img
-                        src={option.displayValue?.toString()}
-                        alt={option.label}
-                        className={styles.image}
-                      />
-                    ) : null}
+                {label}
+              </legend>
+              <span className={styles.selected}>{getLabelFromValue(value)}</span>
+            </div>
+          ) : null}
 
-                    {variant === 'label' ? (
-                      <span className={styles.indicatorText}>{option.label}</span>
-                    ) : null}
+          <div
+            className={styles.items}
+            ref={groupRef}
+            role="radiogroup"
+            aria-orientation={orientation}
+            data-variant={variant}
+            {...(label ? { 'aria-labelledby': legendId } : { 'aria-label': name })}
+            tabIndex={groupTabIndex}
+            onFocus={(event) => {
+              if (event.target === event.currentTarget) {
+                const start =
+                  currentIndex >= 0
+                    ? currentIndex
+                    : options.findIndex((option) => !option.disabled);
+
+                if (start !== -1) {
+                  inputRefs.current[start]?.focus();
+                }
+              }
+            }}
+            onFocusCapture={() => {
+              if (groupTabIndex !== -1) {
+                setGroupTabIndex(-1);
+              }
+            }}
+            onBlurCapture={(event) => {
+              const next = event.relatedTarget as Node | null;
+              const stillInside = next && groupRef.current?.contains(next);
+
+              if (!stillInside && groupTabIndex !== 0) {
+                setGroupTabIndex(0);
+              }
+            }}
+            onKeyDown={(event) => {
+              const left = event.key === 'ArrowLeft';
+              const right = event.key === 'ArrowRight';
+              const up = event.key === 'ArrowUp';
+              const down = event.key === 'ArrowDown';
+
+              const relevant = isHorizontal ? left || right : up || down;
+
+              if (!relevant) {
+                return;
+              }
+
+              event.preventDefault();
+
+              if (left || up) {
+                handleArrow(-1);
+              }
+
+              if (right || down) {
+                handleArrow(1);
+              }
+            }}
+          >
+            {options.map((option, index) => {
+              const selected = value === option.value;
+
+              const setRef = (el: HTMLInputElement | null) => {
+                inputRefs.current[index] = el;
+
+                if (index === 0 && el) {
+                  setFirstInputRef(el);
+                }
+              };
+
+              return (
+                <label
+                  key={option.value}
+                  className={styles.item}
+                >
+                  <input
+                    ref={setRef}
+                    type="radio"
+                    name={name}
+                    value={option.value}
+                    checked={selected}
+                    disabled={option.disabled}
+                    required={required}
+                    onChange={() => onChange(option.value)}
+                    aria-label={option.label}
+                    className={clsx(styles.radio, 'sr-only')}
+                  />
+                  <span className={styles.visual}>
+                    <span
+                      className={styles.indicator}
+                      style={{
+                        backgroundColor:
+                          variant === 'color' ? option.displayValue?.toString() : undefined,
+                      }}
+                    >
+                      {variant === 'image' ? (
+                        <img
+                          src={option.displayValue?.toString()}
+                          alt={option.label}
+                          className={styles.image}
+                        />
+                      ) : null}
+
+                      {variant === 'label' ? (
+                        <span className={styles.indicatorText}>{option.label}</span>
+                      ) : null}
+                    </span>
                   </span>
-                </span>
-              </label>
-            );
-          })}
-        </div>
+                </label>
+              );
+            })}
+          </div>
+        </Stack>
       </fieldset>
     );
   }

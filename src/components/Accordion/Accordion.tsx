@@ -13,10 +13,12 @@ import {
 } from 'react';
 import clsx from 'clsx';
 
+import { Button } from '@/components/Button';
 import { Icon } from '@/components/Icon';
 import { logger } from '@/utils/logger';
 
 import styles from '@/components/Accordion/Accordion.module.css';
+import bodyText from '@/components/Common/BodyText.module.css';
 import utils from '@/components/Common/Util.module.css';
 
 export interface AccordionProps {
@@ -160,13 +162,15 @@ export function Accordion({
       <div className={clsx(styles.root, className)}>
         {allowMultiple && showToggleAll && itemIds.length > 1 && (
           <div className={styles.header}>
-            <button
+            <Button
               type="button"
               className={styles.toggleAll}
               onClick={() => updateOpenIds(allExpanded ? [] : itemIds)}
+              variant="primary"
+              size="small"
             >
               {allExpanded ? collapseLabel : expandLabel}
-            </button>
+            </Button>
           </div>
         )}
 
@@ -210,7 +214,10 @@ export function AccordionItem({ id, children, className }: Readonly<AccordionIte
             className={styles.icon}
             aria-hidden="true"
           >
-            <Icon id={isOpen ? 'caret-down' : 'caret-right'} />
+            <Icon
+              id={isOpen ? 'caret-down' : 'caret-right'}
+              size="0.75em"
+            />
           </span>
         </button>
       </div>
@@ -222,7 +229,7 @@ export function AccordionItem({ id, children, className }: Readonly<AccordionIte
         className={clsx(styles.panel, panel.props.className)}
         data-open={isOpen ? 'true' : 'false'}
       >
-        <div className={styles.panelInner}>{panel.props.children}</div>
+        <div className={clsx(styles.panelInner, bodyText.root)}>{panel.props.children}</div>
       </section>
     </div>
   );
