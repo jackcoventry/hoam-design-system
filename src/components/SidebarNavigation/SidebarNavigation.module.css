@@ -1,11 +1,11 @@
 .link {
-  color: var(--hoam-color-moon-900);
+  color: var(--hoam-color-text-link);
   font: var(--hoam-typography-body-1);
   text-decoration: none;
 }
 
 .link:hover {
-  color: var(--hoam-color-moon-700);
+  color: var(--hoam-color-text-link-hover);
   text-decoration: underline;
 }
 
@@ -21,7 +21,7 @@
 }
 
 .topLevelItem {
-  border-bottom: var(--hoam-border-size-default) var(--hoam-color-moon-200);
+  border-bottom: var(--hoam-border-size-default) var(--hoam-color-border);
   margin-bottom: var(--hoam-spacing-6);
   padding-bottom: var(--hoam-spacing-6);
 }

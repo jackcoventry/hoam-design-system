@@ -3,7 +3,7 @@ import { Meta } from '@storybook/react-vite';
 import { Container, Grid, GridItem, Stack } from '@/components/Layout';
 import { Pagination } from '@/components/Pagination';
 import { ProductTile } from '@/components/ProductTile';
-import Data from '@/mocks/components/ProductTile';
+import { productTile } from '@/mocks/components/ProductTile';
 import BaseTemplate from '@/stories/templates/Base';
 
 const meta: Meta = {
@@ -12,7 +12,7 @@ const meta: Meta = {
   parameters: {
     layout: 'fullscreen',
   },
-  args: Data,
+  args: productTile,
 };
 export default meta;
 

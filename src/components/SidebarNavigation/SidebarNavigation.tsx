@@ -2,6 +2,7 @@ import { Activity, Suspense, useState } from 'react';
 
 import { Accordion, AccordionHeader, AccordionItem, AccordionPanel } from '@/components/Accordion';
 import { Button } from '@/components/Button';
+import { Spinner } from '@/components/Loading';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 
 import styles from '@/components/SidebarNavigation/SidebarNavigation.module.css';
@@ -15,9 +16,17 @@ export type ItemProps = {
 
 export type SidebarNavigationProps = {
   items?: ItemProps[];
+  ['aria-label']?: string;
+  hideLabel?: string;
+  showLabel?: string;
 };
 
-export function SidebarNavigation({ items = [] }: Readonly<SidebarNavigationProps>) {
+export function SidebarNavigation({
+  items = [],
+  'aria-label': ariaLabel = 'Sidebar Navigation',
+  hideLabel = 'Hide navigation',
+  showLabel = 'Show navigation',
+}: Readonly<SidebarNavigationProps>) {
   const isMobile = useMediaQuery('(max-width: 600px)');
   const [isOpen, setIsOpen] = useState(false);
 
@@ -33,10 +42,10 @@ export function SidebarNavigation({ items = [] }: Readonly<SidebarNavigationProp
           size="small"
           icon={isOpen ? 'caret-down' : 'caret-right'}
         >
-          {isOpen ? 'Hide navigation' : 'Show navigation'}
+          {isOpen ? hideLabel : showLabel}
         </Button>
 
-        <Suspense fallback={<h1>Loading...</h1>}>
+        <Suspense fallback={<Spinner />}>
           <Activity mode={isOpen ? 'visible' : 'hidden'}>
             <Accordion>
               {items.map((item) => (
@@ -72,7 +81,7 @@ export function SidebarNavigation({ items = [] }: Readonly<SidebarNavigationProp
   return (
     <nav
       className={styles.root}
-      aria-label="Sidebar navigation"
+      aria-label={ariaLabel}
     >
       <ul className={styles.list}>
         {items.map((item) => (

@@ -11,7 +11,7 @@ import { RecommendedProducts } from '@/components/RecommendedProducts';
 import BreadcrumbData from '@/mocks/components/Breadcrumb';
 import ImageGalleryMockData from '@/mocks/components/ImageGallery';
 import ProductInformationMockData from '@/mocks/components/ProductInformation';
-import ProductTileData from '@/mocks/components/ProductTile';
+import { productTile, productTileLowStock, productTileNew } from '@/mocks/components/ProductTile';
 import BaseTemplate from '@/stories/templates/Base';
 
 const meta: Meta = {
@@ -21,7 +21,7 @@ const meta: Meta = {
     layout: 'fullscreen',
   },
   args: {
-    ...ProductTileData,
+    ...productTile,
     newItem: true,
   },
 };
@@ -74,7 +74,7 @@ function DefaultStory(args: Readonly<ProductInfoProps>) {
 
         <RecommendedProducts
           title="Recommended products"
-          products={[ProductTileData, ProductTileData, ProductTileData]}
+          products={[productTile, productTileNew, productTileLowStock]}
         />
       </Container>
     </BaseTemplate>

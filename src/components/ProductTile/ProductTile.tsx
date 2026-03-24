@@ -1,5 +1,6 @@
 import { BadgeList, BadgeListItem } from '@/components/BadgeList';
 import { Button } from '@/components/Button';
+import { Stack } from '@/components/Layout';
 
 import styles from '@/components/ProductTile/ProductTile.module.css';
 
@@ -38,11 +39,17 @@ export function ProductTile({
   newItem,
 }: Readonly<ProductTileProps>) {
   return (
-    <div className={styles.root}>
+    <Stack
+      gap="sm"
+      className={styles.root}
+    >
       <div className={styles.imageWrapper}>
         {newItem || lowStock ? (
           <div className={styles.badges}>
-            <BadgeList>{newItem && <BadgeListItem>NEW</BadgeListItem>}</BadgeList>
+            <BadgeList>
+              {newItem && <BadgeListItem>NEW</BadgeListItem>}
+              {lowStock && <BadgeListItem>LOW STOCK</BadgeListItem>}
+            </BadgeList>
           </div>
         ) : null}
         <figure>
@@ -86,6 +93,6 @@ export function ProductTile({
           {inStock ? 'Add to cart' : 'Out of stock'}
         </Button>
       </div>
-    </div>
+    </Stack>
   );
 }

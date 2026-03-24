@@ -24,3 +24,9 @@ const Template: Story = {
 export const Default = { ...Template, args: {} };
 
 export const OutOfStock = { ...Template, args: { inStock: false } };
+
+export const NewItem = { ...Template, args: { newItem: true } };
+
+export const LowStock = { ...Template, args: { lowStock: true } };
+
+export const LowStockAndNew = { ...Template, args: { newItem: true, lowStock: true } };

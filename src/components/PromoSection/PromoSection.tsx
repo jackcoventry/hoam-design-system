@@ -1,5 +1,5 @@
 import { Button } from '@/components/Button';
-import { Container, Grid, GridItem } from '@/components/Layout';
+import { Container, Grid, GridItem, Stack } from '@/components/Layout';
 
 import styles from '@/components/PromoSection/PromoSection.module.css';
 
@@ -40,7 +40,10 @@ export function PromoSection({
       span={12}
       spanLg={6}
     >
-      <div className={styles.content}>
+      <Stack
+        gap="md"
+        className={styles.content}
+      >
         {subtitle ? <h3 className={styles.subtitle}>{subtitle}</h3> : null}
         <h2 className={styles.title}>{title}</h2>
         {description ? <p className={styles.description}>{description}</p> : null}
@@ -53,7 +56,7 @@ export function PromoSection({
             {linkText}
           </Button>
         ) : null}
-      </div>
+      </Stack>
     </GridItem>
   );
 

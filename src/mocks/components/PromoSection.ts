@@ -1,6 +1,6 @@
 const items = {
   title: 'Introducing our new product line',
-  subtitle: 'Product launch',
+  subtitle: 'PRODUCT LAUNCH',
   description:
     'Fugiat esse consequat ad aliquip amet aliquip sed sit voluptate. Enim est culpa labore pariatur aliquip culpa mollit excepteur officia ea magna',
   linkUrl: '#',

@@ -1,6 +1,7 @@
 [data-theme="default"] {
-  /* TODO: These features probably shouldn't all be themeable */
+  /* TODO: These features probably shouldn't ALL be themeable */
 
+  /* Components */
   --hoam-color-accordion-item-border: red;
 
   --hoam-color-basket-row-bg: red;
@@ -19,15 +20,16 @@
   --hoam-color-breadcrumb-item: red;
   --hoam-color-breadcrumb-item-hover: red;
 
-  --hoam-color-text-link: red;
-  --hoam-color-text-link-hover: blue;
-
   --hoam-color-loading-border: red;
 
   --hoam-color-modal-header-border: red;
   --hoam-color-modal-body-border: red;
 
   --hoam-color-newsletter-bg: red;
+
+  --hoam-color-promo-background: red;
+
+  --hoam-color-quantity-bg-hover: red;
 
   --hoam-color-tab-bg: red;
   --hoam-color-tab-bg-active: blue;
@@ -37,4 +39,10 @@
 
   --hoam-color-variant-selector: red;
   --hoam-color-variant-selector-hover: blue;
+
+  /* Global */
+  --hoam-color-text-link: red;
+  --hoam-color-text-link-hover: blue;
+
+  --hoam-color-border: red;
 }

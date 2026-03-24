@@ -34,8 +34,8 @@
 
 .text {
   bottom: var(--hoam-spacing-4);
-  color: var(--hoam-color-moon-100);
-  font: var(--hoam-typography-body-1);
+  color: var(--hoam-color-neutral-900);
+  font: var(--hoam-typography-title-3);
   left: var(--hoam-spacing-4);
   position: absolute;
   z-index: 1;
