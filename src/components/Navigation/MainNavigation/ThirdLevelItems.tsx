@@ -1,4 +1,3 @@
-import { Container, Grid, GridItem } from '@/components/Layout';
 import { groupBtnId, groupPanelId } from '@/components/Navigation/helpers';
 import type { NavBranchItem, NavGroupItem, NavThumbnailItem } from '@/components/Navigation/types';
 
@@ -20,29 +19,21 @@ export function ThirdLevelItems({ group, open }: Readonly<ThirdLevelItemsProps>)
     >
       <div className={styles.panelGroup}>
         {group.layout === 'thumbnail' ? (
-          <Container width="full">
-            <Grid>
-              <GridItem span={12}>
-                <div className={styles.panelGroupSection}>
-                  {group.href ? (
-                    <a
-                      href={group.href}
-                      data-sub-link
-                    >
-                      {group.label}
-                    </a>
-                  ) : null}
-                </div>
-              </GridItem>
-            </Grid>
-
-            <Grid>
-              {group.items.map((item: NavThumbnailItem) => (
-                <GridItem
-                  span={12}
-                  spanMd={4}
-                  key={item.id}
+          <>
+            <div className={styles.panelGroupSection}>
+              {group.href ? (
+                <a
+                  href={group.href}
+                  data-sub-link
                 >
+                  {group.label}
+                </a>
+              ) : null}
+            </div>
+
+            <div className={styles.panelGroupSectionGrid}>
+              {group.items.map((item: NavThumbnailItem) => (
+                <div key={item.id}>
                   <div className={styles.panelGroupSection}>
                     <a
                       href={item.href}
@@ -56,10 +47,10 @@ export function ThirdLevelItems({ group, open }: Readonly<ThirdLevelItemsProps>)
                       {item.label}
                     </a>
                   </div>
-                </GridItem>
+                </div>
               ))}
-            </Grid>
-          </Container>
+            </div>
+          </>
         ) : (
           <>
             <div className={styles.panelGroupSection}>

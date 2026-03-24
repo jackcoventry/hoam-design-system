@@ -151,7 +151,19 @@
   margin-bottom: var(--hoam-spacing-4);
 }
 
+.panelGroupSectionGrid {
+  display: grid;
+  column-gap: var(--hoam-spacing-2);
+  grid-template-columns: 1fr 1fr;
+}
+
 .panelSubLevel[data-layout="thumbnail"] .panelGroupSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hoam-spacing-2);
+}
+
+.panelSubLevel[data-layout="thumbnail"] .panelGroupSection a[data-sub-link] {
   display: flex;
   flex-direction: column;
   gap: var(--hoam-spacing-2);
