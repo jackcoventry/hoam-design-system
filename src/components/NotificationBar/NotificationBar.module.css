@@ -1,6 +1,6 @@
 .root {
-  background-color: var(--hoam-color-neutral-200);
-  font: var(--hoam-typography-label-2);
+  background-color: var(--hoam-color-notification-bar-bg);
+  font: var(--hoam-typography-label-1);
   padding: var(--hoam-spacing-3);
   text-align: center;
   text-transform: uppercase;

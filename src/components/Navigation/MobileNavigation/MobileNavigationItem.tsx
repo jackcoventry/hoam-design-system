@@ -7,17 +7,23 @@ import styles from '@/components/Navigation/MobileNavigation/MobileNavigation.mo
 
 type MobileNavigationItemProps = {
   item: NavTreeItem;
+  level?: number;
+  maxLevel?: number;
 };
 
 function hasChildren(item: NavTreeItem): item is NavTreeItem & { items: NavTreeItem[] } {
-  return 'items' in item && Array.isArray(item?.items) && item?.items?.length > 0;
+  return 'items' in item && Array.isArray(item.items) && item.items.length > 0;
 }
 
 function hasHref(item: NavTreeItem): item is NavTreeItem & { href: string } {
   return 'href' in item && typeof item.href === 'string' && item.href.length > 0;
 }
 
-export function MobileNavigationItem({ item }: Readonly<MobileNavigationItemProps>) {
+export function MobileNavigationItem({
+  item,
+  level = 1,
+  maxLevel = 2,
+}: Readonly<MobileNavigationItemProps>) {
   const [isOpen, setIsOpen] = useState(false);
 
   const ids = useMemo(() => {
@@ -31,9 +37,14 @@ export function MobileNavigationItem({ item }: Readonly<MobileNavigationItemProp
   const itemHasChildren = hasChildren(item);
   const itemHasHref = hasHref(item);
 
+  const canRenderChildren = itemHasChildren && level < maxLevel;
+
   return (
-    <li className={styles.item}>
-      {itemHasChildren ? (
+    <li
+      className={styles.item}
+      data-level={level}
+    >
+      {canRenderChildren ? (
         <>
           <button
             id={ids.button}
@@ -46,7 +57,7 @@ export function MobileNavigationItem({ item }: Readonly<MobileNavigationItemProp
             <span>{item.label}</span>
 
             <Icon
-              size="0.75em"
+              size="0.5em"
               id={isOpen ? 'caret-down' : 'caret-right'}
             />
           </button>
@@ -58,20 +69,25 @@ export function MobileNavigationItem({ item }: Readonly<MobileNavigationItemProp
               className={styles.panel}
             >
               {itemHasHref ? (
-                <li className={styles.subitem}>
+                <li
+                  className={styles.item}
+                  data-level={level + 1}
+                >
                   <a
                     href={item.href}
-                    className={styles.sublink}
+                    className={styles.link}
                   >
                     {item.label}
                   </a>
                 </li>
               ) : null}
 
-              {item?.items?.map((child) => (
+              {item.items.map((child) => (
                 <MobileNavigationItem
                   key={child.id}
                   item={child}
+                  level={level + 1}
+                  maxLevel={maxLevel}
                 />
               ))}
             </ul>

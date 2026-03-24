@@ -1,0 +1,18 @@
+.root {
+  background-position: center;
+  background-size: cover;
+  color: var(--hoam-color-neutral-900);
+  display: block;
+  height: 100%;
+  padding: var(--hoam-spacing-4);
+  text-decoration: none;
+}
+
+.subtitle {
+  font: var(--hoam-typography-label-1);
+  text-transform: uppercase;
+}
+
+.title {
+  font: var(--hoam-typography-title-3);
+}

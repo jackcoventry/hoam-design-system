@@ -7,14 +7,16 @@ const meta: Meta<typeof NotificationBar> = {
   title: 'Components/Notification Bar',
   component: NotificationBar,
   tags: ['autodocs'],
-  args: {},
+  args: {
+    messages: NotificationBarData,
+  },
 };
 export default meta;
 
 type Story = StoryObj<typeof NotificationBar>;
 
 const Template: Story = {
-  render: () => <NotificationBar messages={[NotificationBarData[0]]} />,
+  render: (args) => <NotificationBar messages={args.messages} />,
 };
 
 export const Default = { ...Template, args: {} };

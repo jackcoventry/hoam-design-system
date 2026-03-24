@@ -126,9 +126,8 @@ export function NotificationBar({
         aria-live={ariaLive}
         aria-atomic="true"
         style={fadeStyle}
-      >
-        {currentMessage}
-      </output>
+        dangerouslySetInnerHTML={{ __html: currentMessage || '' }}
+      />
     </section>
   );
 }

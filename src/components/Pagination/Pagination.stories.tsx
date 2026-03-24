@@ -1,28 +1,63 @@
-import { Meta, StoryObj } from '@storybook/react-vite';
+import { useState } from 'react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
-import type { PaginationProps } from '@/components/Pagination';
-import { Pagination } from '@/components/Pagination';
+import { Pagination, type PaginationProps } from '@/components/Pagination';
 
-const meta: Meta<PaginationProps> = {
+const meta = {
   title: 'Components/Pagination',
   component: Pagination,
   tags: ['autodocs'],
   args: {
-    pageCount: 6,
+    pageCount: 10,
     currentPage: 1,
+    previousLabel: 'Previous page',
+    nextLabel: 'Next page',
+    ariaLabel: 'Pagination',
+    siblingCount: 1,
   },
-};
+  argTypes: {
+    onPageChange: {
+      control: false,
+    },
+  },
+} satisfies Meta<typeof Pagination>;
 
 export default meta;
 
-type Story = StoryObj<typeof Pagination>;
+type Story = StoryObj<typeof meta>;
 
-const Template: Story = {
-  render: (args) => (
-    <div>
-      <Pagination {...args} />
-    </div>
-  ),
+type InteractivePaginationProps = PaginationProps;
+
+function InteractivePagination(args: Readonly<InteractivePaginationProps>) {
+  const [currentPage, setCurrentPage] = useState(args.currentPage ?? 1);
+
+  return (
+    <Pagination
+      {...args}
+      currentPage={currentPage}
+      onPageChange={setCurrentPage}
+    />
+  );
+}
+
+export const Default: Story = {
+  render: (args) => <InteractivePagination {...args} />,
 };
 
-export const Default = { ...Template, args: {} };
+export const ManyPages: Story = {
+  args: {
+    pageCount: 20,
+    currentPage: 10,
+    siblingCount: 1,
+  },
+  render: (args) => <InteractivePagination {...args} />,
+};
+
+export const WiderSiblingRange: Story = {
+  args: {
+    pageCount: 20,
+    currentPage: 10,
+    siblingCount: 2,
+  },
+  render: (args) => <InteractivePagination {...args} />,
+};

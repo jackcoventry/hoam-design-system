@@ -1,4 +1,4 @@
-import styles from '@/components/Navigation/Navigation.module.css';
+import styles from '@/components/Navigation/MainNavigation/PromoBlock.module.css';
 
 type Props = {
   title: string;
@@ -22,10 +22,10 @@ export function PromoBlock({ title, subtitle, href, image = '' }: Readonly<Props
       style={{
         backgroundImage: `url(${image})`,
       }}
-      className={styles.promo}
+      className={styles.root}
     >
-      <h4 className={styles.promoSubtitle}>{subtitle}</h4>
-      <h3 className={styles.promoTitle}>{title}</h3>
+      <h4 className={styles.subtitle}>{subtitle}</h4>
+      <h3 className={styles.title}>{title}</h3>
     </Element>
   );
 }

@@ -105,7 +105,7 @@ export function DesktopNavigationItems({
                 right={
                   item.thumbnail ? (
                     <aside
-                      className={styles.promo}
+                      className={styles.promoWrapper}
                       aria-label={`${item.label} highlights`}
                     >
                       <PromoBlock

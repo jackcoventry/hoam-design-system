@@ -136,7 +136,7 @@
           "fontFamily": "{typography.family.2}",
           "fontWeight": "{typography.weight.1}",
           "fontSize": "{typography.size.3}",
-          "lineHeight": "{typography.line-height.1}"
+          "lineHeight": "{typography.line-height.3}"
         },
         "$extensions": {
           "$targetElement": "h3",

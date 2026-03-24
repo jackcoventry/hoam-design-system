@@ -671,7 +671,7 @@
     "name": "hoam-typography-title-3",
     "cssVar": "--hoam-typography-title-3",
     "type": "typography",
-    "value": "300 clamp(1rem, min(20vmin, 7vw), 2rem)/1.5 'DM Serif Text', system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
+    "value": "300 clamp(1rem, min(20vmin, 7vw), 2rem)/1.25 'DM Serif Text', system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
     "group": null,
     "set": "title",
     "extensions": {
@@ -682,7 +682,7 @@
       "fontFamily": "DM Serif Text, system-ui, -apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif",
       "fontSize": "clamp(1rem, min(20vmin, 7vw), 2rem)",
       "fontWeight": 300,
-      "lineHeight": 1.5
+      "lineHeight": 1.25
     }
   },
   {

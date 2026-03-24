@@ -2,6 +2,8 @@ import { Container, Grid, GridItem } from '@/components/Layout';
 import { groupBtnId, groupPanelId } from '@/components/Navigation/helpers';
 import type { NavBranchItem, NavGroupItem, NavThumbnailItem } from '@/components/Navigation/types';
 
+import styles from '@/components/Navigation/Navigation.module.css';
+
 type ThirdLevelItemsProps = {
   group: NavGroupItem;
   open: boolean;
@@ -11,22 +13,21 @@ export function ThirdLevelItems({ group, open }: Readonly<ThirdLevelItemsProps>)
   return (
     <div
       id={groupPanelId(group.id)}
-      className="hoam-navigation__panel-sub-level"
+      className={styles.panelSubLevel}
       aria-labelledby={groupBtnId(group.id)}
       hidden={!open}
       data-layout={group.layout}
     >
-      <div className="hoam-navigation__panel-group">
+      <div className={styles.panelGroup}>
         {group.layout === 'thumbnail' ? (
           <Container width="full">
             <Grid>
               <GridItem span={12}>
-                <div className="hoam-navigation__panel-group-section">
+                <div className={styles.panelGroupSection}>
                   {group.href ? (
                     <a
                       href={group.href}
                       data-sub-link
-                      className="hoam-navigation__panel-group-header"
                     >
                       {group.label}
                     </a>
@@ -42,12 +43,11 @@ export function ThirdLevelItems({ group, open }: Readonly<ThirdLevelItemsProps>)
                   spanMd={4}
                   key={item.id}
                 >
-                  <div className="hoam-navigation__panel-group-section">
+                  <div className={styles.panelGroupSection}>
                     <a
                       href={item.href}
                       data-sub-link
                       tabIndex={open ? 0 : -1}
-                      className="hoam-navigation__panel-group-header"
                     >
                       <img
                         src={item.thumbnail}
@@ -62,12 +62,11 @@ export function ThirdLevelItems({ group, open }: Readonly<ThirdLevelItemsProps>)
           </Container>
         ) : (
           <>
-            <div className="hoam-navigation__panel-group-section">
+            <div className={styles.panelGroupSection}>
               {group.href ? (
                 <a
                   href={group.href}
                   data-sub-link
-                  className="hoam-navigation__panel-group-header"
                 >
                   {group.label}
                 </a>
@@ -77,19 +76,19 @@ export function ThirdLevelItems({ group, open }: Readonly<ThirdLevelItemsProps>)
             {group.items.map((item: NavBranchItem) => (
               <div
                 key={item.id}
-                className="hoam-navigation__panel-group-section"
+                className={styles.panelGroupSection}
               >
                 {item.href ? (
                   <a
                     href={item.href}
                     data-sub-link
                     tabIndex={open ? 0 : -1}
-                    className="hoam-navigation__panel-group-header"
+                    className={styles.panelGroupHeaderFirst}
                   >
                     {item.label}
                   </a>
                 ) : (
-                  <span className="hoam-navigation__panel-group-header">{item.label}</span>
+                  <span className={styles.panelGroupHeaderFirst}>{item.label}</span>
                 )}
 
                 {item.items.map((child) => (

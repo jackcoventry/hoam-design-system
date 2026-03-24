@@ -10,7 +10,6 @@ import { Icon } from '@/components/Icon';
 import { Container, Grid, GridItem, Stack } from '@/components/Layout';
 import { IconId } from '@/design-tokens/icons';
 
-import '@/components/Common/Dots.css';
 import bodyText from '@/components/Common/BodyText.module.css';
 import formStyles from '@/components/Form/Form.module.css';
 import styles from '@/components/NewsletterBanner/NewsletterBanner.module.css';
@@ -62,7 +61,7 @@ export function NewsletterBanner({
     <section className={styles.root}>
       <div className={styles.wrapper}>
         <Container>
-          <Stack gap="xl">
+          <Stack gap="lg">
             <Grid>
               <GridItem
                 span={12}
