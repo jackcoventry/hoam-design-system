@@ -1,6 +1,4 @@
 .root {
-  display: grid;
-  gap: var(--hoam-spacing-5);
   padding: var(--hoam-spacing-5) 0;
 }
 

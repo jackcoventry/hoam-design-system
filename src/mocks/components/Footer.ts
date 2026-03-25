@@ -4,7 +4,7 @@ const items = {
       title: 'Shop',
       links: [
         { label: 'Latest', href: '#' },
-        { label: 'Featured products', href: '#' },
+        { label: 'Featured', href: '#' },
         { label: 'Sale', href: '#' },
       ],
     },

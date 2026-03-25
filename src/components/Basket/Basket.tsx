@@ -95,23 +95,21 @@ export function BasketItem({
 
 export function BasketFooter({ total = 0 }: Readonly<{ total: number }>) {
   return (
-    <tr className={styles.footer}>
-      <td>
-        <div className={styles.footerContent}>
-          <h4 className={styles.footerTitle}>
-            Sub-total: {convertNumberToCurrency({ value: total })}
-          </h4>
-          <Button>Proceed to Checkout</Button>
-        </div>
-      </td>
-    </tr>
+    <div className={styles.footer}>
+      <div className={styles.footerContent}>
+        <h4 className={typography.heading}>
+          Sub-total: {convertNumberToCurrency({ value: total })}
+        </h4>
+        <Button>Proceed to Checkout</Button>
+      </div>
+    </div>
   );
 }
 
 export function Basket({ items = [] }: Readonly<BasketProps>) {
   return (
     <table className={styles.root}>
-      <thead>
+      <thead className={styles.thead}>
         <tr className={styles.row}>
           <th scope="col">Product</th>
           <th scope="col"></th>

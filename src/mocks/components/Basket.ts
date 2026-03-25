@@ -39,7 +39,7 @@ const items = [
     onChange: () => {},
   },
   {
-    id: 'test-product-3',
+    id: 'test-product-4',
     title: 'Tomato Paste',
     summary: 'Concentrated tomato paste, great for sauces.',
     price: 85,

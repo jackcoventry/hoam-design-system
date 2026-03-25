@@ -143,3 +143,8 @@ td {
   padding: 0;
   border: none;
 }
+
+html,
+body {
+  scrollbar-gutter: stable;
+}

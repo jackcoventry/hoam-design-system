@@ -16,8 +16,9 @@
   padding: var(--hoam-spacing-4);
 }
 
-.row:first-child {
+.thead {
   display: none;
+  font: var(--hoam-typography-label-1);
 }
 
 .row th {
@@ -46,7 +47,7 @@
     grid-template-columns: 120px 1fr 150px 100px;
   }
 
-  .row:first-child {
+  .thead {
     display: grid;
   }
 
@@ -69,7 +70,7 @@
   }
 }
 
-.row:not(:first-child):hover {
+.root tbody .row:hover {
   background-color: var(--hoam-color-basket-row-bg-hover);
 }
 
@@ -118,7 +119,7 @@
 }
 
 .title {
-  font: var(--hoam-typography-title-4);
+  font: var(--hoam-typography-title-3);
 }
 
 .summary,

@@ -5,7 +5,7 @@
   --hoam-color-accordion-item-border: red;
 
   --hoam-color-basket-row-bg: red;
-  --hoam-color-basket-row-bg-hover: red;
+  --hoam-color-basket-row-bg-hover: lightgrey;
   --hoam-color-basket-link-hover: red;
 
   --hoam-color-blog-author-link: red;
@@ -23,6 +23,7 @@
   --hoam-color-loading-border: red;
 
   --hoam-color-modal-header-border: red;
+
   --hoam-color-modal-body-border: red;
 
   --hoam-color-nav-item-color: red;

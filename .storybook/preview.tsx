@@ -3,9 +3,9 @@ import type { Decorator, Preview } from '@storybook/react-vite';
 import { ModalStackProvider } from '../src/components/Modal/ModalStackContext';
 
 import '@/styles/_variables.css';
+import '@/styles/_global.css';
 import '@/styles/_reset.css';
 import '@/styles/_fonts.css';
-import '@/styles/_global.css';
 import '@/styles/_theme.css';
 import '@/styles/_demo.css';
 
@@ -16,13 +16,11 @@ const withModalStack: Decorator = (Story) => (
 );
 
 const withTheme: Decorator = (Story, context) => {
-  const { mode, theme } = context.globals;
+  const { theme } = context.globals;
 
-  return (
-    <div data-mode={String(mode)} data-theme={String(theme)}>
-      <Story />
-    </div>
-  );
+  document.body.dataset.theme = String(theme);
+
+  return <Story />;
 };
 
 const preview: Preview = {

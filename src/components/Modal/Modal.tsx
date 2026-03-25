@@ -7,6 +7,7 @@ import React, {
   useId,
   useMemo,
   useRef,
+  useState,
 } from 'react';
 import { createPortal } from 'react-dom';
 import clsx from 'clsx';
@@ -20,6 +21,7 @@ import utils from '@/components/Common/Util.module.css';
 import styles from '@/components/Modal/Modal.module.css';
 
 export type ModalVariant = 'modal' | 'drawer';
+type ModalPhase = 'closed' | 'opening' | 'open' | 'closing';
 
 type ModalContextValue = {
   titleId: string;
@@ -63,23 +65,46 @@ function ModalRoot({
   id,
   variant = 'modal',
 }: Readonly<PropsWithChildren<ModalRootProps>>) {
-  const dialogRef = useRef<HTMLDialogElement | null>(null);
+  const rootRef = useRef<HTMLDivElement | null>(null);
+  const dialogRef = useRef<HTMLDivElement | null>(null);
   const lastFocusedRef = useRef<HTMLElement | null>(null);
+  const hasOpenedRef = useRef(isOpen);
+  const phaseRafRef = useRef<number | null>(null);
+
+  const [phase, setPhase] = useState<ModalPhase>(isOpen ? 'open' : 'closed');
 
   const instanceId = useId();
   const titleId = useId();
 
   const { isTopMost } = useModalStack(instanceId, isOpen);
 
+  const isRendered = phase !== 'closed';
+
   const close = useCallback(() => {
     onClose?.();
   }, [onClose]);
 
+  const clearPhaseRaf = useCallback(() => {
+    if (phaseRafRef.current !== null) {
+      globalThis.cancelAnimationFrame(phaseRafRef.current);
+      phaseRafRef.current = null;
+    }
+  }, []);
+
+  const focusElement = useCallback((element: HTMLElement | null) => {
+    if (!element) return;
+
+    element.focus({ preventScroll: true });
+  }, []);
+
   const getFocusableElements = useCallback((): HTMLElement[] => {
     if (!dialogRef.current) return [];
 
-    return Array.from(dialogRef.current?.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTORS)).filter(
-      (el) => !el.hasAttribute('disabled') && el.tabIndex !== -1
+    return Array.from(dialogRef.current.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTORS)).filter(
+      (el) =>
+        !el.hasAttribute('disabled') &&
+        el.tabIndex !== -1 &&
+        el.getAttribute('aria-hidden') !== 'true'
     );
   }, []);
 
@@ -87,58 +112,116 @@ function ModalRoot({
     const items = getFocusableElements();
 
     if (items.length > 0) {
-      items[0]?.focus();
-    } else {
-      dialogRef.current?.focus();
+      focusElement(items[0] ?? null);
+      return;
     }
-  }, [getFocusableElements]);
+
+    focusElement(dialogRef.current);
+  }, [focusElement, getFocusableElements]);
 
   useEffect(() => {
-    const dialog = dialogRef.current;
-    if (!dialog) return;
+    clearPhaseRaf();
 
-    if (isOpen && isTopMost) {
-      lastFocusedRef.current = document.activeElement as HTMLElement | null;
+    const wasOpen = hasOpenedRef.current;
+    hasOpenedRef.current = isOpen;
 
-      if (!dialog.open) {
-        dialog.showModal();
-      }
+    if (!wasOpen && isOpen) {
+      lastFocusedRef.current =
+        document.activeElement instanceof HTMLElement ? document.activeElement : null;
 
-      const raf = requestAnimationFrame(() => {
-        focusFirstElement();
+      phaseRafRef.current = globalThis.requestAnimationFrame(() => {
+        setPhase('opening');
+        phaseRafRef.current = null;
       });
 
-      return () => {
-        cancelAnimationFrame(raf);
-      };
+      return clearPhaseRaf;
     }
 
-    if (dialog.open) {
-      dialog.close();
+    if (wasOpen && !isOpen) {
+      phaseRafRef.current = globalThis.requestAnimationFrame(() => {
+        setPhase((current) => (current === 'closed' ? 'closed' : 'closing'));
+        phaseRafRef.current = null;
+      });
+
+      return clearPhaseRaf;
     }
 
-    return undefined;
-  }, [focusFirstElement, isOpen, isTopMost]);
+    return clearPhaseRaf;
+  }, [clearPhaseRaf, isOpen]);
 
   useEffect(() => {
-    if (!isOpen && lastFocusedRef.current) {
-      lastFocusedRef.current.focus();
+    if (phase !== 'closed' || isOpen) return;
+
+    focusElement(lastFocusedRef.current);
+  }, [focusElement, isOpen, phase]);
+
+  useEffect(() => {
+    if (phase !== 'open' || !isTopMost) return;
+
+    const raf = globalThis.requestAnimationFrame(() => {
+      focusFirstElement();
+    });
+
+    return () => {
+      globalThis.cancelAnimationFrame(raf);
+    };
+  }, [focusFirstElement, isTopMost, phase]);
+
+  useEffect(() => clearPhaseRaf, [clearPhaseRaf]);
+
+  useEffect(() => {
+    if (!isRendered || !isTopMost) return;
+
+    const siblings = Array.from(document.body.children).filter((node) => node !== rootRef.current);
+
+    for (const element of siblings) {
+      if (element instanceof HTMLElement) {
+        element.inert = true;
+        element.setAttribute('aria-hidden', 'true');
+      }
     }
-  }, [isOpen]);
 
-  const handleKeyDown = (event: KeyboardEvent<HTMLDialogElement>) => {
-    if (!isOpen || !isTopMost) return;
+    return () => {
+      for (const element of siblings) {
+        if (element instanceof HTMLElement) {
+          element.inert = false;
+          element.removeAttribute('aria-hidden');
+        }
+      }
+    };
+  }, [isRendered, isTopMost]);
 
+  useEffect(() => {
+    if (!isRendered || !isTopMost) return;
+
+    const handleDocumentKeyDown = (event: globalThis.KeyboardEvent) => {
+      if (event.key !== 'Escape') return;
+
+      event.preventDefault();
+      close();
+    };
+
+    document.addEventListener('keydown', handleDocumentKeyDown);
+
+    return () => {
+      document.removeEventListener('keydown', handleDocumentKeyDown);
+    };
+  }, [close, isRendered, isTopMost]);
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (!isRendered || !isTopMost) return;
     if (event.key !== 'Tab') return;
 
     const items = getFocusableElements();
 
     if (items.length === 0) {
       event.preventDefault();
+      focusElement(dialogRef.current);
       return;
     }
 
-    const currentIndex = items.indexOf(document.activeElement as HTMLElement);
+    const activeElement = document.activeElement as HTMLElement | null;
+    const currentIndex = activeElement ? items.indexOf(activeElement) : -1;
     const lastIndex = items.length - 1;
 
     const nextIndex = event.shiftKey
@@ -150,21 +233,19 @@ function ModalRoot({
         : currentIndex + 1;
 
     event.preventDefault();
-    items[nextIndex]?.focus();
+    focusElement(items[nextIndex] ?? null);
   };
 
-  const handleCancel = (event: React.SyntheticEvent<HTMLDialogElement, Event>) => {
-    if (!isOpen || !isTopMost) return;
+  const handleAnimationEnd = (event: React.AnimationEvent<HTMLDivElement>) => {
+    if (event.target !== dialogRef.current) return;
 
-    event.preventDefault();
-    close();
-  };
+    if (phase === 'opening') {
+      setPhase('open');
+      return;
+    }
 
-  const handleDialogClick = (event: React.MouseEvent<HTMLDialogElement>) => {
-    if (!isOpen || !isTopMost) return;
-
-    if (event.target === event.currentTarget) {
-      close();
+    if (phase === 'closing') {
+      setPhase('closed');
     }
   };
 
@@ -176,26 +257,37 @@ function ModalRoot({
     [titleId, close]
   );
 
-  if (typeof document === 'undefined') return null;
+  if (typeof document === 'undefined' || !isRendered) return null;
 
   return createPortal(
-    /* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */
-    <dialog
-      ref={dialogRef}
+    <div
+      ref={rootRef}
       id={id}
       className={styles.root}
-      data-open={isOpen ? 'true' : 'false'}
       data-variant={variant}
-      aria-label={ariaLabel}
-      aria-labelledby={ariaLabel ? undefined : titleId}
-      onCancel={handleCancel}
-      onClick={handleDialogClick}
-      onKeyDown={handleKeyDown}
+      data-state={phase}
     >
-      <div className={styles.dialog}>
+      <button
+        type="button"
+        className={styles.backdrop}
+        aria-label="Close dialog"
+        tabIndex={-1}
+        onMouseDown={close}
+      />
+      <div
+        ref={dialogRef}
+        className={styles.dialog}
+        role="dialog"
+        aria-modal="true"
+        aria-label={ariaLabel}
+        aria-labelledby={ariaLabel ? undefined : titleId}
+        onKeyDown={handleKeyDown}
+        onAnimationEnd={handleAnimationEnd}
+        tabIndex={-1}
+      >
         <ModalContext.Provider value={contextValue}>{children}</ModalContext.Provider>
       </div>
-    </dialog>,
+    </div>,
     document.body
   );
 }

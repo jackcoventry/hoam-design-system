@@ -55,13 +55,11 @@ export function ModalStackProvider({ children }: Readonly<ModalStackProviderProp
     const previousLength = previousStackLengthRef.current;
     const currentLength = stack.length;
 
-    // Transition: 0 -> 1+ (lock scroll and remember previous value)
     if (previousLength === 0 && currentLength > 0) {
       prevOverflowRef.current = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
     }
 
-    // Transition: 1+ -> 0 (restore previous value)
     if (previousLength > 0 && currentLength === 0) {
       document.body.style.overflow = prevOverflowRef.current;
     }

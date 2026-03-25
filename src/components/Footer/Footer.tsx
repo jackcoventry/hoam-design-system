@@ -35,7 +35,7 @@ export function Footer({
   return (
     <footer className={styles.root}>
       <Container>
-        <Grid>
+        <Grid gap="lg">
           <GridItem
             span={12}
             spanXl={2}
@@ -51,6 +51,8 @@ export function Footer({
             <GridItem
               key={section.title}
               span={12}
+              spanSm={6}
+              spanLg={3}
               spanXl={2}
             >
               <h4 className={styles.sectionTitle}>{section.title}</h4>

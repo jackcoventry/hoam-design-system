@@ -6,6 +6,8 @@ import { ModalVariant } from '@/components/Modal/Modal';
 import { useFetchSignal } from '@/hooks/useFetch';
 import { getBasketItems } from '@/utils/fetchers/getBasketItems';
 
+import typography from '@/components/Common/Typography.module.css';
+
 export type BasketModalProps = {
   endpoint: string;
   open: boolean;
@@ -30,7 +32,9 @@ export function BasketModal({ endpoint, open, onClose, variant }: Readonly<Baske
       variant={variant}
     >
       <Modal.Header>
-        <Modal.Title>Your Basket</Modal.Title>
+        <Modal.Title>
+          <span className={typography.heading}>Your Basket</span>
+        </Modal.Title>
         <Modal.CloseButton callback={onClose} />
       </Modal.Header>
 

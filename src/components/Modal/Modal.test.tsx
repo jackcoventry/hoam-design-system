@@ -1,247 +1,246 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { useState } from 'react';
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { beforeAll, describe, expect, it, vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
-import {
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalFooter,
-  ModalHeader,
-  ModalTitle,
-} from '@/components/Modal';
+import { Modal } from '@/components/Modal/Modal';
+import { ModalStackProvider } from '@/components/Modal/ModalStackContext';
 
-vi.mock('@/components/Modal/ModalStackContext', () => ({
-  useModalStack: () => ({
-    isTopMost: true,
-  }),
-}));
+function renderWithProvider(ui: React.ReactElement) {
+  return render(<ModalStackProvider>{ui}</ModalStackProvider>);
+}
 
-beforeAll(() => {
-  if (!HTMLDialogElement.prototype.showModal) {
-    HTMLDialogElement.prototype.showModal = function showModal() {
-      this.setAttribute('open', '');
-    };
-  }
+type HarnessProps = {
+  variant?: 'modal' | 'drawer';
+};
 
-  if (!HTMLDialogElement.prototype.close) {
-    HTMLDialogElement.prototype.close = function close() {
-      this.removeAttribute('open');
-    };
-  }
-});
+function ModalHarness({ variant = 'modal' }: Readonly<HarnessProps>) {
+  const [isOpen, setIsOpen] = useState(false);
 
-function renderBasicModal(props?: Partial<React.ComponentProps<typeof Modal>>) {
-  const onClose = vi.fn();
+  return (
+    <div>
+      <button
+        type="button"
+        onClick={() => {
+          setIsOpen(true);
+        }}
+      >
+        Open modal
+      </button>
 
-  render(
-    <Modal
-      isOpen
-      onClose={onClose}
-      {...props}
-    >
-      <ModalHeader>
-        <ModalTitle>Test modal</ModalTitle>
-        <ModalCloseButton />
-      </ModalHeader>
+      <a href="/outside">Outside link</a>
 
-      <ModalBody>
-        <button type="button">First action</button>
-        <button type="button">Second action</button>
-      </ModalBody>
+      <Modal
+        isOpen={isOpen}
+        onClose={() => {
+          setIsOpen(false);
+        }}
+        variant={variant}
+      >
+        <Modal.Header>
+          <Modal.Title>Example modal</Modal.Title>
+          <Modal.CloseButton />
+        </Modal.Header>
 
-      <ModalFooter>
-        <p>Footer content</p>
-      </ModalFooter>
-    </Modal>
+        <Modal.Body>
+          <button type="button">Primary action</button>
+          <button type="button">Secondary action</button>
+        </Modal.Body>
+
+        <Modal.Footer>
+          <button type="button">Footer action</button>
+        </Modal.Footer>
+      </Modal>
+    </div>
   );
+}
 
-  return { onClose };
+function getDialog(): HTMLElement {
+  return screen.getByRole('dialog', { name: /example modal/i });
+}
+
+async function findDialog(): Promise<HTMLElement> {
+  return screen.findByRole('dialog', { name: /example modal/i });
+}
+
+function getOverlay(dialog: HTMLElement): HTMLElement {
+  const overlay = dialog.parentElement;
+
+  if (!overlay) {
+    throw new Error('Expected dialog to have an overlay parent');
+  }
+
+  return overlay;
 }
 
 describe('Modal', () => {
-  it('renders when open', async () => {
-    renderBasicModal();
+  it('does not render when closed', () => {
+    renderWithProvider(<ModalHarness />);
 
-    expect(screen.getByText('Test modal')).toBeInTheDocument();
-    expect(screen.getByText('Footer content')).toBeInTheDocument();
+    expect(screen.queryByRole('dialog', { name: /example modal/i })).not.toBeInTheDocument();
+  });
 
-    const dialog = document.body.querySelector('dialog');
+  it('renders when opened', async () => {
+    const user = userEvent.setup();
+
+    renderWithProvider(<ModalHarness />);
+
+    await user.click(screen.getByRole('button', { name: /open modal/i }));
+
+    expect(await findDialog()).toBeInTheDocument();
+  });
+
+  it('renders correctly as a drawer', async () => {
+    const user = userEvent.setup();
+
+    renderWithProvider(<ModalHarness variant="drawer" />);
+
+    await user.click(screen.getByRole('button', { name: /open modal/i }));
+
+    const dialog = await findDialog();
+    const overlay = getOverlay(dialog);
+
+    expect(dialog).toBeInTheDocument();
+    expect(overlay).toHaveAttribute('data-variant', 'drawer');
+  });
+
+  it('does not move focus into the modal immediately on open', async () => {
+    const user = userEvent.setup();
+
+    renderWithProvider(<ModalHarness />);
+
+    const openButton = screen.getByRole('button', { name: /open modal/i });
+    openButton.focus();
+
+    expect(openButton).toHaveFocus();
+
+    await user.click(openButton);
+
+    expect(await findDialog()).toBeInTheDocument();
+    expect(openButton).toHaveFocus();
+  });
+
+  it('closes when escape is pressed', async () => {
+    const user = userEvent.setup();
+
+    renderWithProvider(<ModalHarness />);
+
+    await user.click(screen.getByRole('button', { name: /open modal/i }));
+
+    const dialog = await findDialog();
+
     expect(dialog).toBeInTheDocument();
 
+    fireEvent.keyDown(document, { key: 'Escape' });
+
     await waitFor(() => {
-      expect(dialog).toHaveAttribute('open');
+      expect(getOverlay(dialog)).toHaveAttribute('data-state', 'closing');
     });
   });
 
-  it('does not open when closed', () => {
-    render(
-      <Modal
-        isOpen={false}
-        ariaLabel="Closed modal"
-      >
-        <ModalBody>
-          <p>Hidden content</p>
-        </ModalBody>
-      </Modal>
-    );
-
-    const dialog = document.body.querySelector('dialog');
-    expect(dialog).toBeInTheDocument();
-    expect(dialog).not.toHaveAttribute('open');
-  });
-
-  it('uses aria-label when no title is provided', () => {
-    render(
-      <Modal
-        isOpen
-        ariaLabel="Accessible modal label"
-      >
-        <ModalHeader>
-          <ModalCloseButton />
-        </ModalHeader>
-        <ModalBody>
-          <p>Hello</p>
-        </ModalBody>
-      </Modal>
-    );
-
-    const dialog = document.body.querySelector('dialog');
-    expect(dialog).toHaveAttribute('aria-label', 'Accessible modal label');
-  });
-
-  it('wires title to aria-labelledby when Modal.Title is used', () => {
-    renderBasicModal();
-
-    const dialog = document.body.querySelector('dialog');
-    const title = screen.getByText('Test modal');
-
-    expect(title).toHaveAttribute('id');
-    expect(dialog).toHaveAttribute('aria-labelledby', title.getAttribute('id'));
-  });
-
-  it('calls onClose when close button is clicked', async () => {
+  it('closes when the backdrop is clicked', async () => {
     const user = userEvent.setup();
-    const { onClose } = renderBasicModal();
 
-    await user.click(screen.getByRole('button', { name: /close dialog/i }));
+    renderWithProvider(<ModalHarness />);
 
-    expect(onClose).toHaveBeenCalledTimes(1);
-  });
+    await user.click(screen.getByRole('button', { name: /open modal/i }));
 
-  it('calls both callback and onClose when Modal.CloseButton callback is provided', async () => {
-    const user = userEvent.setup();
-    const onClose = vi.fn();
-    const callback = vi.fn();
+    const dialog = await findDialog();
+    const overlay = getOverlay(dialog);
+    const backdrop = overlay.querySelector('button[aria-label="Close dialog"]');
 
-    render(
-      <Modal
-        isOpen
-        onClose={onClose}
-      >
-        <ModalHeader>
-          <ModalTitle>Test modal</ModalTitle>
-          <ModalCloseButton callback={callback} />
-        </ModalHeader>
-        <ModalBody>
-          <p>Hello</p>
-        </ModalBody>
-      </Modal>
-    );
+    expect(backdrop).not.toBeNull();
 
-    await user.click(screen.getByRole('button', { name: /close dialog/i }));
-
-    expect(callback).toHaveBeenCalledTimes(1);
-    expect(onClose).toHaveBeenCalledTimes(1);
-  });
-
-  it('calls onClose when Escape is triggered via cancel event', () => {
-    const { onClose } = renderBasicModal();
-
-    const dialog = document.body.querySelector('dialog');
-    expect(dialog).toBeInTheDocument();
-
-    dialog?.dispatchEvent(
-      new Event('cancel', {
-        bubbles: true,
-        cancelable: true,
-      })
-    );
-
-    expect(onClose).toHaveBeenCalledTimes(1);
-  });
-
-  it('calls onClose when backdrop is clicked', async () => {
-    const user = userEvent.setup();
-    const { onClose } = renderBasicModal();
-
-    const dialog = document.body.querySelector('dialog');
-    expect(dialog).toBeInTheDocument();
-
-    if (dialog) {
-      await user.click(dialog);
-    }
-
-    expect(onClose).toHaveBeenCalledTimes(1);
-  });
-
-  it('focuses the first focusable element when opened', async () => {
-    renderBasicModal();
+    fireEvent.mouseDown(backdrop as HTMLElement);
 
     await waitFor(() => {
-      expect(screen.getByRole('button', { name: /close dialog/i })).toHaveFocus();
+      expect(overlay).toHaveAttribute('data-state', 'closing');
     });
   });
 
-  it('traps focus with Tab', async () => {
+  it('does not close when clicking inside the dialog', async () => {
     const user = userEvent.setup();
-    renderBasicModal();
 
-    const closeButton = screen.getByRole('button', { name: /close dialog/i });
-    const firstAction = screen.getByRole('button', { name: 'First action' });
-    const secondAction = screen.getByRole('button', { name: 'Second action' });
+    renderWithProvider(<ModalHarness />);
 
-    await waitFor(() => {
-      expect(closeButton).toHaveFocus();
-    });
+    await user.click(screen.getByRole('button', { name: /open modal/i }));
+
+    const dialog = await findDialog();
+
+    fireEvent.mouseDown(dialog);
+
+    expect(getDialog()).toBeInTheDocument();
+  });
+
+  it('traps focus when tabbing forwards', async () => {
+    const user = userEvent.setup();
+
+    renderWithProvider(<ModalHarness />);
+
+    await user.click(screen.getByRole('button', { name: /open modal/i }));
+
+    const dialog = await findDialog();
+
+    const closeButton = within(dialog).getByRole('button', { name: /close dialog/i });
+    const primaryAction = within(dialog).getByRole('button', { name: /primary action/i });
+    const secondaryAction = within(dialog).getByRole('button', { name: /secondary action/i });
+    const footerAction = within(dialog).getByRole('button', { name: /footer action/i });
+
+    closeButton.focus();
+    expect(closeButton).toHaveFocus();
 
     await user.tab();
-    expect(firstAction).toHaveFocus();
+    expect(primaryAction).toHaveFocus();
 
     await user.tab();
-    expect(secondAction).toHaveFocus();
+    expect(secondaryAction).toHaveFocus();
+
+    await user.tab();
+    expect(footerAction).toHaveFocus();
 
     await user.tab();
     expect(closeButton).toHaveFocus();
   });
 
-  it('traps focus backwards with Shift+Tab', async () => {
+  it('traps focus when tabbing backwards', async () => {
     const user = userEvent.setup();
-    renderBasicModal();
 
-    const closeButton = screen.getByRole('button', { name: /close dialog/i });
-    const secondAction = screen.getByRole('button', { name: 'Second action' });
+    renderWithProvider(<ModalHarness />);
+
+    await user.click(screen.getByRole('button', { name: /open modal/i }));
+
+    const dialog = await findDialog();
+
+    const closeButton = within(dialog).getByRole('button', { name: /close dialog/i });
+    const secondaryAction = within(dialog).getByRole('button', { name: /secondary action/i });
+    const footerAction = within(dialog).getByRole('button', { name: /footer action/i });
+
+    closeButton.focus();
+    expect(closeButton).toHaveFocus();
+
+    await user.tab({ shift: true });
+    expect(footerAction).toHaveFocus();
+
+    await user.tab({ shift: true });
+    expect(secondaryAction).toHaveFocus();
+  });
+
+  it('enters the closing state when the close button is clicked', async () => {
+    const user = userEvent.setup();
+
+    renderWithProvider(<ModalHarness />);
+
+    const openButton = screen.getByRole('button', { name: /open modal/i });
+
+    await user.click(openButton);
+
+    const dialog = await findDialog();
+    const overlay = getOverlay(dialog);
+
+    await user.click(within(dialog).getByRole('button', { name: /close dialog/i }));
 
     await waitFor(() => {
-      expect(closeButton).toHaveFocus();
+      expect(overlay).toHaveAttribute('data-state', 'closing');
     });
-
-    await user.tab({ shift: true });
-    expect(secondAction).toHaveFocus();
-
-    await user.tab({ shift: true });
-    expect(screen.getByRole('button', { name: 'First action' })).toHaveFocus();
-  });
-
-  it('throws if Modal.Title is used outside Modal', () => {
-    expect(() => render(<ModalTitle>Orphan title</ModalTitle>)).toThrow(
-      'Modal.Title must be used within <Modal>'
-    );
-  });
-
-  it('throws if Modal.CloseButton is used outside Modal', () => {
-    expect(() => render(<ModalCloseButton />)).toThrow(
-      'Modal.CloseButton must be used within <Modal>'
-    );
   });
 });

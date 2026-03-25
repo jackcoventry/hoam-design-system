@@ -1,44 +1,48 @@
 .root {
   background: rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
   display: flex;
+  height: 100dvh;
   inset: 0;
-  opacity: 0;
-  pointer-events: none;
+  overflow: hidden;
   position: fixed;
+  width: 100vw;
   z-index: 999;
 }
 
 .root[data-variant="modal"] {
   align-items: center;
   justify-content: center;
-  transition: opacity 200ms ease-out;
-}
-
-.root[data-open="true"] {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.root[data-open="false"] {
-  opacity: 0;
-  pointer-events: none;
 }
 
 .root[data-variant="drawer"] {
-  align-items: start;
-  justify-content: end;
-  transition: opacity 200ms ease-out;
-  width: 100%;
+  align-items: stretch;
+  justify-content: flex-end;
+}
+
+.backdrop {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  position: absolute;
 }
 
 .dialog {
   background: var(--hoam-color-neutral-900);
   box-shadow: var(--hoam-shadow-large);
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  min-height: 0;
   outline: none;
   overflow: hidden;
+  position: relative;
   width: 100%;
+  will-change: transform, opacity;
+  z-index: 1;
 }
 
 .root[data-variant="modal"] .dialog {
@@ -46,37 +50,80 @@
   max-height: calc(100dvh - var(--hoam-spacing-6));
   max-width: 1200px;
   width: fit-content;
-  transform: translateY(4px);
-  transition: transform 200ms ease-out;
-}
-
-.root[data-open="true"][data-variant="modal"] .dialog {
-  transform: translateY(0);
-}
-
-.root[data-open="false"][data-variant="modal"] .dialog {
-  transform: translateY(4px);
 }
 
 .root[data-variant="drawer"] .dialog {
-  height: 100%;
-  max-width: 500px;
-  transform: translateX(150%);
-  transition: transform 200ms ease-out;
   display: grid;
-  grid-template-rows: 110px 1fr auto;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  height: 100dvh;
+  max-width: 500px;
+  width: min(500px, 100vw);
 }
 
-.root[data-open="true"][data-variant="drawer"] .dialog {
-  transform: translateX(0%);
+.root[data-state="open"] {
+  opacity: 1;
+  pointer-events: auto;
 }
 
-.root[data-open="false"][data-variant="drawer"] .dialog {
-  transform: translateX(150%);
+.root[data-state="closed"] {
+  opacity: 0;
+  pointer-events: none;
 }
 
-.root[data-variant="drawer"] .body {
-  overflow-y: auto;
+.root[data-variant="modal"][data-state="opening"] {
+  animation: modal-overlay-in 200ms ease-out both;
+  pointer-events: auto;
+}
+
+.root[data-variant="modal"][data-state="closing"] {
+  animation: modal-overlay-out 200ms ease-out both;
+  pointer-events: none;
+}
+
+.root[data-variant="drawer"][data-state="opening"] {
+  animation: drawer-overlay-in 300ms ease-out both;
+  pointer-events: auto;
+}
+
+.root[data-variant="drawer"][data-state="closing"] {
+  animation: drawer-overlay-out 300ms ease-out both;
+  pointer-events: none;
+}
+
+.root[data-variant="modal"][data-state="open"] .dialog {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.root[data-variant="modal"][data-state="closed"] .dialog,
+.root[data-variant="modal"][data-state="closing"] .dialog {
+  opacity: 0;
+  transform: translateY(4px);
+}
+
+.root[data-variant="drawer"][data-state="open"] .dialog {
+  transform: translate3d(0, 0, 0);
+}
+
+.root[data-variant="drawer"][data-state="closed"] .dialog,
+.root[data-variant="drawer"][data-state="closing"] .dialog {
+  transform: translate3d(100%, 0, 0);
+}
+
+.root[data-variant="modal"][data-state="opening"] .dialog {
+  animation: modal-panel-in 200ms ease-out both;
+}
+
+.root[data-variant="modal"][data-state="closing"] .dialog {
+  animation: modal-panel-out 200ms ease-out both;
+}
+
+.root[data-variant="drawer"][data-state="opening"] .dialog {
+  animation: drawer-panel-in 300ms ease-out both;
+}
+
+.root[data-variant="drawer"][data-state="closing"] .dialog {
+  animation: drawer-panel-out 300ms ease-out both;
 }
 
 .header {
@@ -91,7 +138,10 @@
 }
 
 .body {
+  min-height: 0;
+  overflow-x: hidden;
   overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .body:has(+ .footer:not(:empty)) {
@@ -112,21 +162,104 @@
   margin-left: auto;
 }
 
+@keyframes modal-overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes modal-overlay-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes drawer-overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes drawer-overlay-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes modal-panel-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes modal-panel-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+
+@keyframes drawer-panel-in {
+  from {
+    transform: translate3d(100%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes drawer-panel-out {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(100%, 0, 0);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .root {
-    transition: none !important;
-    opacity: 1 !important;
-    pointer-events: auto !important;
-  }
-
-  .root[data-open="true"],
-  .root[data-open="false"] {
-    opacity: 1 !important;
-    pointer-events: auto !important;
-  }
-
+  .root,
   .dialog {
+    animation: none !important;
     transition: none !important;
+  }
+
+  .root[data-state="opening"],
+  .root[data-state="open"],
+  .root[data-state="closing"] {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+
+  .root[data-state="closing"] {
+    opacity: 0 !important;
+  }
+
+  .root[data-variant="modal"] .dialog,
+  .root[data-variant="drawer"] .dialog {
+    opacity: 1 !important;
     transform: none !important;
+    will-change: auto !important;
   }
 }

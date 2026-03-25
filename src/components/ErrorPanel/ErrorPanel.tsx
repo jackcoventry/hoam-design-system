@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 
 import { Button } from '@/components/Button';
+import { Stack } from '@/components/Layout';
 
 import typography from '@/components/Common/Typography.module.css';
 import styles from '@/components/ErrorPanel/ErrorPanel.module.css';
@@ -17,7 +18,10 @@ export function ErrorPanel({
   returnUrl = '/',
 }: Readonly<Props>) {
   return (
-    <div className={styles.root}>
+    <Stack
+      gap="lg"
+      className={styles.root}
+    >
       <img
         src="/mindfullness.svg"
         alt="An illustration of a woman meditating"
@@ -31,6 +35,6 @@ export function ErrorPanel({
       >
         {returnLabel}
       </Button>
-    </div>
+    </Stack>
   );
 }

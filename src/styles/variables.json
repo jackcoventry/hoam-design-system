@@ -523,7 +523,7 @@
     "name": "hoam-typography-size-3",
     "cssVar": "--hoam-typography-size-3",
     "type": "dimension",
-    "value": "clamp(1rem, min(20vmin, 7vw), 2rem)",
+    "value": "clamp(1rem, min(20vmin, 7vw), 1.5rem)",
     "group": null,
     "set": "size"
   },
@@ -531,13 +531,21 @@
     "name": "hoam-typography-size-4",
     "cssVar": "--hoam-typography-size-4",
     "type": "dimension",
-    "value": "clamp(1rem, min(20vmin, 7vw), 3rem)",
+    "value": "clamp(1rem, min(20vmin, 7vw), 2rem)",
     "group": null,
     "set": "size"
   },
   {
     "name": "hoam-typography-size-5",
     "cssVar": "--hoam-typography-size-5",
+    "type": "dimension",
+    "value": "clamp(1rem, min(20vmin, 7vw), 3rem)",
+    "group": null,
+    "set": "size"
+  },
+  {
+    "name": "hoam-typography-size-6",
+    "cssVar": "--hoam-typography-size-6",
     "type": "dimension",
     "value": "clamp(1rem, min(20vmin, 7vw), 6rem)",
     "group": null,
@@ -681,6 +689,24 @@
     "originalValues": {
       "fontFamily": "DM Serif Text, system-ui, -apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif",
       "fontSize": "clamp(1rem, min(20vmin, 7vw), 2rem)",
+      "fontWeight": 300,
+      "lineHeight": 1.25
+    }
+  },
+  {
+    "name": "hoam-typography-title-4",
+    "cssVar": "--hoam-typography-title-4",
+    "type": "typography",
+    "value": "300 clamp(1rem, min(20vmin, 7vw), 1.5rem)/1.25 'DM Serif Text', system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
+    "group": null,
+    "set": "title",
+    "extensions": {
+      "$targetElement": "h3",
+      "$name": "Heading"
+    },
+    "originalValues": {
+      "fontFamily": "DM Serif Text, system-ui, -apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif",
+      "fontSize": "clamp(1rem, min(20vmin, 7vw), 1.5rem)",
       "fontWeight": 300,
       "lineHeight": 1.25
     }

@@ -5,6 +5,7 @@ import z from 'zod';
 import { Button } from '@/components/Button';
 import { Spinner } from '@/components/Loading';
 
+import formStyles from '@/components/Form/Form.module.css';
 import styles from '@/components/Form/SearchForm/SearchForm.module.css';
 
 const SearchFormSchema = z.object({
@@ -23,6 +24,8 @@ export type SearchFormResult = {
 export type SearchFormProps = {
   onSubmit: SubmitHandler<SearchFormSchemaType>;
   loading: boolean;
+  submitLabel?: string;
+  placeholderText?: string;
 };
 
 export type SearchResultsProps = {
@@ -76,7 +79,12 @@ export function SearchResults({ items }: Readonly<SearchResultsProps>) {
   );
 }
 
-export function SearchForm({ onSubmit, loading }: Readonly<SearchFormProps>) {
+export function SearchForm({
+  onSubmit,
+  loading,
+  submitLabel = 'Search',
+  placeholderText = 'Enter keywords...',
+}: Readonly<SearchFormProps>) {
   const {
     control,
     handleSubmit,
@@ -86,7 +94,7 @@ export function SearchForm({ onSubmit, loading }: Readonly<SearchFormProps>) {
     defaultValues: {
       q: '',
     },
-    mode: 'all',
+    mode: 'onSubmit',
   });
 
   const queryError = errors.q?.message;
@@ -104,7 +112,7 @@ export function SearchForm({ onSubmit, loading }: Readonly<SearchFormProps>) {
           htmlFor={inputId}
           className="sr-only"
         >
-          Search
+          {submitLabel}
         </label>
 
         <Controller
@@ -115,10 +123,11 @@ export function SearchForm({ onSubmit, loading }: Readonly<SearchFormProps>) {
               {...field}
               id={inputId}
               type="search"
-              placeholder={queryError || 'Enter keywords...'}
+              placeholder={queryError || placeholderText}
               data-valid={queryError ? 'false' : 'true'}
               aria-invalid={queryError ? 'true' : 'false'}
               disabled={loading}
+              className={formStyles.textField}
             />
           )}
         />
@@ -129,7 +138,7 @@ export function SearchForm({ onSubmit, loading }: Readonly<SearchFormProps>) {
           variant="secondary"
           disabled={loading}
         >
-          Search
+          {submitLabel}
         </Button>
       </form>
     </div>
