@@ -1,25 +1,26 @@
-import React, { Children } from 'react';
+import { Carousel } from '@/components/Carousel';
 
-import { HeroSlider } from '@/components/Hero/HeroSlider';
+import { HeroSlide, type HeroSlideProps } from './HeroSlide';
 
-import '@/components/Common/Dots.css';
 import styles from '@/components/Hero/Hero.module.css';
 
-// Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/a11y';
-import 'swiper/css/effect-fade';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-
 export type HeroProps = {
-  children: React.ReactNode[];
+  items: HeroSlideProps[];
 };
 
-export function Hero({ children, ...rest }: Readonly<HeroProps>) {
+export function Hero({ items }: Readonly<HeroProps>) {
   return (
     <div className={styles.root}>
-      {Children?.count(children) > 1 ? <HeroSlider {...rest}>{children}</HeroSlider> : children}
+      <Carousel
+        slides={items}
+        getSlideKey={(item) => item.id}
+        renderSlide={(item) => <HeroSlide {...item} />}
+        navigation
+        pagination
+        loop
+        autoplay={{ delay: 6000 }}
+        ariaLabel="Hero carousel"
+      />
     </div>
   );
 }

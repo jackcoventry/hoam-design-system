@@ -1,7 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react-vite';
 
 import { Hero } from '@/components/Hero';
-import { HeroSlide, HeroSlideProps } from '@/components/Hero/HeroSlide';
 import MockSlides from '@/mocks/components/Hero';
 
 type HeroStoryArgs = React.ComponentProps<typeof Hero> & {
@@ -22,23 +21,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const Template: Story = {
-  render: (args) => (
-    <Hero>
-      {args.data?.map((slide: HeroSlideProps) => (
-        <HeroSlide
-          key={slide.image ?? slide.video ?? slide.title}
-          title={slide.title}
-          subtitle={slide.subtitle}
-          text={slide.text}
-          button={slide.button}
-          {...(slide.theme === undefined ? {} : { theme: slide.theme })}
-          {...(slide.image === undefined ? {} : { image: slide.image })}
-          {...(slide.video === undefined ? {} : { video: slide.video })}
-          {...(slide.position === undefined ? {} : { position: slide.position })}
-        />
-      ))}
-    </Hero>
-  ),
+  render: (args) => <Hero items={args.data} />,
 };
 
 export const Default = { ...Template };

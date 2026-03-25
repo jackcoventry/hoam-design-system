@@ -1,5 +1,6 @@
 const items = [
   {
+    id: 1,
     title: 'Slide 1',
     subtitle: 'Special collection',
     text: 'A test description',
@@ -11,6 +12,7 @@ const items = [
     },
   },
   {
+    id: 2,
     title: 'Slide 2',
     subtitle: 'Christmas collection',
     text: 'Another test description',
@@ -20,9 +22,9 @@ const items = [
       url: '/',
       text: 'Find out more',
     },
-    position: 'right',
   },
   {
+    id: 3,
     title: 'Slide 3',
     subtitle: 'Member exclusive',
     text: 'Yet another test description',
@@ -32,9 +34,9 @@ const items = [
       url: '/',
       text: 'Join now',
     },
-    position: 'center',
   },
   {
+    id: 4,
     title: 'Slide 4',
     subtitle: 'New Arrivals',
     text: 'Check out our new shop',
@@ -44,7 +46,6 @@ const items = [
       url: '/',
       text: 'Read more',
     },
-    position: 'center',
   },
 ];
 

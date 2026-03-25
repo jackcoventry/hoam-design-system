@@ -4,13 +4,13 @@ import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import styles from '@/components/Hero/Hero.module.css';
 
 export type HeroSlideProps = {
+  id: number;
   title: string;
   subtitle: string;
   text: string;
   image?: string | undefined;
   video?: string | undefined;
   theme?: string | undefined;
-  position?: string | undefined;
   button: { url: string; text?: string };
 };
 
@@ -22,7 +22,6 @@ export function HeroSlide({
   video,
   theme = 'default',
   button,
-  position = 'left',
 }: Readonly<HeroSlideProps>) {
   const prefersReducedMotion = usePrefersReducedMotion();
   const videoProps = {
@@ -34,7 +33,6 @@ export function HeroSlide({
   return (
     <div
       className={styles.slide}
-      data-position={position}
       data-theme={theme}
       style={{
         backgroundImage: `url(${image})`,

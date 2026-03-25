@@ -1,0 +1,20 @@
+.root {
+  --carousel-nav-size: 2.5rem;
+}
+
+.root :global(.swiper) {
+  width: 100%;
+}
+
+.root :global(.swiper-slide) {
+  height: auto;
+}
+
+.root :global(.swiper-button-prev),
+.root :global(.swiper-button-next) {
+  block-size: var(--carousel-nav-size);
+  inline-size: var(--carousel-nav-size);
+}
+
+.root :global(.swiper-pagination-bullet-active) {
+}

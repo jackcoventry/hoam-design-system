@@ -1,13 +1,13 @@
-.swiper,
-.root {
+/* .root {
+  position: relative;
   height: 100dvh;
   width: 100%;
 
   @media (min-width: 1000px) {
     height: 600px;
   }
-}
-
+} */
+/* 
 .swiper-slide {
   align-items: center;
   display: flex;
@@ -19,22 +19,9 @@
   height: 100%;
   object-fit: cover;
   width: 100%;
-}
+} */
 
-.bullet {
-}
-.bulletActive {
-}
-.bulletInner {
-}
-
-.root {
-  align-items: center;
-  display: flex;
-  justify-content: center;
-  position: relative;
-}
-
+/* 
 .slide {
   align-items: center;
   background-color: var(--hoam-color-neutral-900);
@@ -48,8 +35,8 @@
   @media (min-width: 1000px) {
     background-size: auto 600px;
   }
-}
-
+} */
+/* 
 .content {
   display: flex;
   flex-direction: column;
@@ -59,7 +46,6 @@
   width: 100%;
   z-index: 1;
 
-  /* TODO:  maybe use sass to bring in variables here */
   @media (min-width: 1000px) {
     width: 50%;
   }
@@ -71,7 +57,6 @@
   padding-top: var(--hoam-spacing-5);
 }
 
-/* TODO: tokenize */
 .subtitle {
   font: var(--hoam-typography-body-1);
   letter-spacing: 0.25rem;
@@ -105,7 +90,6 @@
 
 .navBtn {
   position: absolute;
-  /* TODO: tokenize */
   z-index: 100;
 }
 
@@ -121,4 +105,4 @@
   bottom: var(--hoam-spacing-3);
   position: absolute;
   z-index: 100;
-}
+} */
