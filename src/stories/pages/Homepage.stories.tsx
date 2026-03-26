@@ -1,7 +1,7 @@
 import { Meta } from '@storybook/react-vite';
 
 import { Footer } from '@/components/Footer';
-import { Hero, HeroSlide } from '@/components/Hero';
+import { Hero } from '@/components/Hero';
 import { LogoCarousel } from '@/components/LogoCarousel';
 import { Navigation } from '@/components/Navigation';
 import { NewsletterBanner } from '@/components/NewsletterBanner';
@@ -27,7 +27,7 @@ const meta: Meta = {
 
 export default meta;
 
-const HeroData = [MockSlides[3]];
+const HeroData = MockSlides;
 
 const Template = {
   render: () => {
@@ -42,25 +42,7 @@ const Template = {
           searchEndpoint="/"
           basketEndpoint="/"
         />
-
-        <Hero>
-          {HeroData.map((slide) => {
-            if (!slide) return null;
-            return (
-              <HeroSlide
-                key={slide.image}
-                title={slide.title}
-                subtitle={slide.subtitle}
-                text={slide.text}
-                theme={slide.theme}
-                image={slide.image}
-                video={slide.video}
-                button={slide.button}
-                position={slide.position}
-              />
-            );
-          })}
-        </Hero>
+        <Hero items={HeroData} />,
         <PromoSection
           title={promoSectionData.title}
           description={promoSectionData.description}

@@ -67,6 +67,39 @@
         "$value": "#0A423F"
       }
     },
+    "pink": {
+      "$extensions": {
+        "$group": "global"
+      },
+      "100": {
+        "$value": "#FFE5EA"
+      },
+      "200": {
+        "$value": "#FFB3BF"
+      },
+      "300": {
+        "$value": "#FF8094"
+      },
+      "400": {
+        "$value": "#FF5C78"
+      },
+      "500": {
+        "$value": "#FF506E",
+        "$description": "Base colour"
+      },
+      "600": {
+        "$value": "#E63E5B"
+      },
+      "700": {
+        "$value": "#B82F47"
+      },
+      "800": {
+        "$value": "#8A2234"
+      },
+      "900": {
+        "$value": "#5C1522"
+      }
+    },
     "neutral": {
       "$extensions": {
         "$group": "global"
@@ -98,6 +131,72 @@
       },
       "900": {
         "$value": "#ffffff"
+      }
+    },
+    "lemon": {
+      "$extensions": {
+        "$group": "global"
+      },
+      "100": {
+        "$value": "#FFFDE6"
+      },
+      "200": {
+        "$value": "#FFF9B3"
+      },
+      "300": {
+        "$value": "#FFF680"
+      },
+      "400": {
+        "$value": "#FBF055"
+      },
+      "500": {
+        "$value": "#F7EC13",
+        "$description": "Base colour"
+      },
+      "600": {
+        "$value": "#D6CB10"
+      },
+      "700": {
+        "$value": "#A89E0C"
+      },
+      "800": {
+        "$value": "#7A7109"
+      },
+      "900": {
+        "$value": "#4C4505"
+      }
+    },
+    "sky": {
+      "$extensions": {
+        "$group": "global"
+      },
+      "100": {
+        "$value": "#E6F8FB"
+      },
+      "200": {
+        "$value": "#B3ECF3"
+      },
+      "300": {
+        "$value": "#80E0EB"
+      },
+      "400": {
+        "$value": "#5AD4E5"
+      },
+      "500": {
+        "$value": "#3CC8E0",
+        "$description": "Base colour"
+      },
+      "600": {
+        "$value": "#2FAABD"
+      },
+      "700": {
+        "$value": "#248593"
+      },
+      "800": {
+        "$value": "#196069"
+      },
+      "900": {
+        "$value": "#0E3C40"
       }
     },
     "fill": {

@@ -200,6 +200,78 @@
     "set": "moon"
   },
   {
+    "name": "hoam-color-pink-100",
+    "cssVar": "--hoam-color-pink-100",
+    "type": "color",
+    "value": "#ffe5ea",
+    "group": "global",
+    "set": "pink"
+  },
+  {
+    "name": "hoam-color-pink-200",
+    "cssVar": "--hoam-color-pink-200",
+    "type": "color",
+    "value": "#ffb3bf",
+    "group": "global",
+    "set": "pink"
+  },
+  {
+    "name": "hoam-color-pink-300",
+    "cssVar": "--hoam-color-pink-300",
+    "type": "color",
+    "value": "#ff8094",
+    "group": "global",
+    "set": "pink"
+  },
+  {
+    "name": "hoam-color-pink-400",
+    "cssVar": "--hoam-color-pink-400",
+    "type": "color",
+    "value": "#ff5c78",
+    "group": "global",
+    "set": "pink"
+  },
+  {
+    "name": "hoam-color-pink-500",
+    "cssVar": "--hoam-color-pink-500",
+    "type": "color",
+    "value": "#ff506e",
+    "group": "global",
+    "set": "pink"
+  },
+  {
+    "name": "hoam-color-pink-600",
+    "cssVar": "--hoam-color-pink-600",
+    "type": "color",
+    "value": "#e63e5b",
+    "group": "global",
+    "set": "pink"
+  },
+  {
+    "name": "hoam-color-pink-700",
+    "cssVar": "--hoam-color-pink-700",
+    "type": "color",
+    "value": "#b82f47",
+    "group": "global",
+    "set": "pink"
+  },
+  {
+    "name": "hoam-color-pink-800",
+    "cssVar": "--hoam-color-pink-800",
+    "type": "color",
+    "value": "#8a2234",
+    "group": "global",
+    "set": "pink"
+  },
+  {
+    "name": "hoam-color-pink-900",
+    "cssVar": "--hoam-color-pink-900",
+    "type": "color",
+    "value": "#5c1522",
+    "group": "global",
+    "set": "pink"
+  },
+  {
     "name": "hoam-color-neutral-100",
     "cssVar": "--hoam-color-neutral-100",
     "type": "color",
@@ -270,6 +342,150 @@
     "value": "#ffffff",
     "group": "global",
     "set": "neutral"
+  },
+  {
+    "name": "hoam-color-lemon-100",
+    "cssVar": "--hoam-color-lemon-100",
+    "type": "color",
+    "value": "#fffde6",
+    "group": "global",
+    "set": "lemon"
+  },
+  {
+    "name": "hoam-color-lemon-200",
+    "cssVar": "--hoam-color-lemon-200",
+    "type": "color",
+    "value": "#fff9b3",
+    "group": "global",
+    "set": "lemon"
+  },
+  {
+    "name": "hoam-color-lemon-300",
+    "cssVar": "--hoam-color-lemon-300",
+    "type": "color",
+    "value": "#fff680",
+    "group": "global",
+    "set": "lemon"
+  },
+  {
+    "name": "hoam-color-lemon-400",
+    "cssVar": "--hoam-color-lemon-400",
+    "type": "color",
+    "value": "#fbf055",
+    "group": "global",
+    "set": "lemon"
+  },
+  {
+    "name": "hoam-color-lemon-500",
+    "cssVar": "--hoam-color-lemon-500",
+    "type": "color",
+    "value": "#f7ec13",
+    "group": "global",
+    "set": "lemon"
+  },
+  {
+    "name": "hoam-color-lemon-600",
+    "cssVar": "--hoam-color-lemon-600",
+    "type": "color",
+    "value": "#d6cb10",
+    "group": "global",
+    "set": "lemon"
+  },
+  {
+    "name": "hoam-color-lemon-700",
+    "cssVar": "--hoam-color-lemon-700",
+    "type": "color",
+    "value": "#a89e0c",
+    "group": "global",
+    "set": "lemon"
+  },
+  {
+    "name": "hoam-color-lemon-800",
+    "cssVar": "--hoam-color-lemon-800",
+    "type": "color",
+    "value": "#7a7109",
+    "group": "global",
+    "set": "lemon"
+  },
+  {
+    "name": "hoam-color-lemon-900",
+    "cssVar": "--hoam-color-lemon-900",
+    "type": "color",
+    "value": "#4c4505",
+    "group": "global",
+    "set": "lemon"
+  },
+  {
+    "name": "hoam-color-sky-100",
+    "cssVar": "--hoam-color-sky-100",
+    "type": "color",
+    "value": "#e6f8fb",
+    "group": "global",
+    "set": "sky"
+  },
+  {
+    "name": "hoam-color-sky-200",
+    "cssVar": "--hoam-color-sky-200",
+    "type": "color",
+    "value": "#b3ecf3",
+    "group": "global",
+    "set": "sky"
+  },
+  {
+    "name": "hoam-color-sky-300",
+    "cssVar": "--hoam-color-sky-300",
+    "type": "color",
+    "value": "#80e0eb",
+    "group": "global",
+    "set": "sky"
+  },
+  {
+    "name": "hoam-color-sky-400",
+    "cssVar": "--hoam-color-sky-400",
+    "type": "color",
+    "value": "#5ad4e5",
+    "group": "global",
+    "set": "sky"
+  },
+  {
+    "name": "hoam-color-sky-500",
+    "cssVar": "--hoam-color-sky-500",
+    "type": "color",
+    "value": "#3cc8e0",
+    "group": "global",
+    "set": "sky"
+  },
+  {
+    "name": "hoam-color-sky-600",
+    "cssVar": "--hoam-color-sky-600",
+    "type": "color",
+    "value": "#2faabd",
+    "group": "global",
+    "set": "sky"
+  },
+  {
+    "name": "hoam-color-sky-700",
+    "cssVar": "--hoam-color-sky-700",
+    "type": "color",
+    "value": "#248593",
+    "group": "global",
+    "set": "sky"
+  },
+  {
+    "name": "hoam-color-sky-800",
+    "cssVar": "--hoam-color-sky-800",
+    "type": "color",
+    "value": "#196069",
+    "group": "global",
+    "set": "sky"
+  },
+  {
+    "name": "hoam-color-sky-900",
+    "cssVar": "--hoam-color-sky-900",
+    "type": "color",
+    "value": "#0e3c40",
+    "group": "global",
+    "set": "sky"
   },
   {
     "name": "hoam-color-fill-primary",

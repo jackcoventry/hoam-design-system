@@ -1,47 +1,65 @@
-const items = [
+import { HeroSlideProps } from '@/components/Hero/HeroSlide';
+
+const items: HeroSlideProps[] = [
   {
-    id: 1,
-    title: 'Slide 1',
+    id: '1',
+    title: 'Hoam',
     subtitle: 'Special collection',
     text: 'A test description',
-    image: '/hero/banner-1.webp',
-    theme: 'default',
+    featuredImage: {
+      src: '/hero/range.png',
+      alt: '',
+    },
+    theme: 'pink',
     button: {
       url: '/',
       text: 'Read more',
     },
   },
   {
-    id: 2,
+    id: '2',
     title: 'Slide 2',
     subtitle: 'Christmas collection',
     text: 'Another test description',
-    image: '/hero/banner-2.webp',
-    theme: 'light',
+    featuredImage: {
+      src: '/hero/range.png',
+      alt: '',
+    },
+    theme: 'sky',
     button: {
       url: '/',
       text: 'Find out more',
     },
   },
   {
-    id: 3,
+    id: '3',
     title: 'Slide 3',
     subtitle: 'Member exclusive',
     text: 'Yet another test description',
-    image: '/hero/banner-3.webp',
-    theme: 'light',
+    background: {
+      kind: 'image',
+      src: '/hero/banner-3.webp',
+    },
+    featuredImage: {
+      src: '/hero/range.png',
+      alt: '',
+    },
+    theme: 'default',
     button: {
       url: '/',
       text: 'Join now',
     },
   },
   {
-    id: 4,
+    id: '4',
     title: 'Slide 4',
     subtitle: 'New Arrivals',
     text: 'Check out our new shop',
-    video: '/hero/hero.mp4',
-    theme: 'light',
+    background: {
+      kind: 'video',
+      src: '/hero/hero.mp4',
+    },
+    theme: 'default',
     button: {
       url: '/',
       text: 'Read more',

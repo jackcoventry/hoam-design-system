@@ -9,13 +9,17 @@ export type HeroProps = {
 };
 
 export function Hero({ items }: Readonly<HeroProps>) {
+  if (!items.length) return null;
+  if (items?.length === 1) {
+    return <HeroSlide {...(items[0] as HeroSlideProps)} />;
+  }
   return (
     <div className={styles.root}>
       <Carousel
         slides={items}
         getSlideKey={(item) => item.id}
         renderSlide={(item) => <HeroSlide {...item} />}
-        navigation
+        // navigation
         pagination
         loop
         autoplay={{ delay: 6000 }}

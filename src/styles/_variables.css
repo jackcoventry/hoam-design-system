@@ -28,6 +28,15 @@
   --hoam-color-moon-700: #1fcbc0;
   --hoam-color-moon-800: #158981;
   --hoam-color-moon-900: #0a423f;
+  --hoam-color-pink-100: #ffe5ea;
+  --hoam-color-pink-200: #ffb3bf;
+  --hoam-color-pink-300: #ff8094;
+  --hoam-color-pink-400: #ff5c78;
+  --hoam-color-pink-500: #ff506e; /** Base colour */
+  --hoam-color-pink-600: #e63e5b;
+  --hoam-color-pink-700: #b82f47;
+  --hoam-color-pink-800: #8a2234;
+  --hoam-color-pink-900: #5c1522;
   --hoam-color-neutral-100: #000000;
   --hoam-color-neutral-200: #0d0d0d;
   --hoam-color-neutral-300: #1a1a1a;
@@ -37,6 +46,24 @@
   --hoam-color-neutral-700: #b3b3b3;
   --hoam-color-neutral-800: #d9d9d9;
   --hoam-color-neutral-900: #ffffff;
+  --hoam-color-lemon-100: #fffde6;
+  --hoam-color-lemon-200: #fff9b3;
+  --hoam-color-lemon-300: #fff680;
+  --hoam-color-lemon-400: #fbf055;
+  --hoam-color-lemon-500: #f7ec13; /** Base colour */
+  --hoam-color-lemon-600: #d6cb10;
+  --hoam-color-lemon-700: #a89e0c;
+  --hoam-color-lemon-800: #7a7109;
+  --hoam-color-lemon-900: #4c4505;
+  --hoam-color-sky-100: #e6f8fb;
+  --hoam-color-sky-200: #b3ecf3;
+  --hoam-color-sky-300: #80e0eb;
+  --hoam-color-sky-400: #5ad4e5;
+  --hoam-color-sky-500: #3cc8e0; /** Base colour */
+  --hoam-color-sky-600: #2faabd;
+  --hoam-color-sky-700: #248593;
+  --hoam-color-sky-800: #196069;
+  --hoam-color-sky-900: #0e3c40;
   --hoam-color-fill-primary: #a855f7;
   --hoam-color-fill-secondary: #a855f7;
   --hoam-color-fill-tertiary: #97efe9; /** Accent colour */

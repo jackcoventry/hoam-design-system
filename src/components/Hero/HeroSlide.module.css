@@ -1,0 +1,77 @@
+.root {
+  align-items: center;
+  background-color: var(--hoam-color-hero-bg);
+  color: var(--hoam-color-hero-text);
+  display: flex;
+  overflow: hidden;
+  height: calc(100dvh - var(--hoam-link-height) - var(--hoam-notification-bar-height));
+  width: 100dvw;
+}
+
+.root[data-theme="default"] {
+  --hoam-color-hero-bg: var(--hoam-color-neutral-100);
+  --hoam-color-hero-text: var(--hoam-color-neutral-900);
+}
+
+.root[data-theme="pink"] {
+  --hoam-color-hero-bg: var(--hoam-color-pink-500);
+  --hoam-color-hero-text: var(--hoam-color-lemon-500);
+}
+
+.root[data-theme="sky"] {
+  --hoam-color-hero-bg: var(--hoam-color-sky-500);
+  --hoam-color-hero-text: var(--hoam-color-lemon-500);
+}
+
+.media {
+  aspect-ratio: 16/9;
+  display: block;
+  object-fit: cover;
+}
+
+.background {
+  position: absolute;
+  z-index: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.backgroundImage,
+.video {
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
+  width: 100%;
+}
+
+.content {
+  margin: 0 auto;
+  position: relative;
+  width: 100%;
+  z-index: 1;
+}
+
+.textContent {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font: var(--hoam-typography-title-1);
+  text-transform: uppercase;
+}
+
+.subtitle {
+  font: var(--hoam-typography-body-1);
+  text-transform: uppercase;
+}
+
+.text {
+  font: var(--hoam-typography-title-2);
+}
+
+.contentLink {
+  padding-top: var(--hoam-spacing-6);
+}
