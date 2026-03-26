@@ -80,16 +80,21 @@ export function HeroSlide({
         <Container>
           <Grid cols={2}>
             {featuredImage && (
-              <GridItem span={1}>
+              <GridItem
+                span={2}
+                spanMd={1}
+              >
                 <img
                   src={featuredImage.src}
                   alt={featuredImage.alt}
+                  className={styles.media}
                 />
               </GridItem>
             )}
 
             <GridItem
-              span={featuredImage ? 1 : 2}
+              span={2}
+              spanMd={featuredImage ? 1 : 2}
               className={styles.textContent}
             >
               <p className={styles.subtitle}>{subtitle}</p>

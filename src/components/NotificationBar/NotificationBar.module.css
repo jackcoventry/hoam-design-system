@@ -1,11 +1,7 @@
-:root {
-  --hoam-notification-bar-height: 45px;
-}
-
 .root {
   background-color: var(--hoam-color-notification-bar-bg);
   font: var(--hoam-typography-label-1);
-  height: var(--hoam-notification-bar-height);
+  height: var(--notification-height);
   padding: var(--hoam-spacing-3);
   text-align: center;
   text-transform: uppercase;

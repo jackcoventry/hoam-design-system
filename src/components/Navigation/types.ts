@@ -1,4 +1,5 @@
 export type NavigationLayout = 'list' | 'thumbnail';
+export type NavigationVariant = 'default' | 'fixed' | 'sticky';
 export type NavUserAction = 'USER_SEARCH' | 'USER_BASKET';
 
 export interface NavLeafItem {
@@ -75,7 +76,7 @@ export type NavTreeItem =
 export interface NavigationProps {
   items?: NavTopLevelItem[];
   userItems?: NavUserItem[];
-  variant?: 'default' | 'fixed';
+  variant?: NavigationVariant;
   basketEndpoint: string;
   searchEndpoint: string;
 }

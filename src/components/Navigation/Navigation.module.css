@@ -11,22 +11,25 @@
 [data-variant="default"] {
   background-color: var(--hoam-color-neutral-900);
   position: relative;
-  z-index: 998;
+  z-index: 10000;
 }
 
-[data-variant="fixed"] {
+[data-variant="sticky"] {
   position: sticky;
   top: 0;
   z-index: 10000;
   width: 100%;
 }
 
-[data-variant="fixed"]:hover {
-  background-color: var(--hoam-color-neutral-900);
+[data-variant="fixed"] {
+  position: fixed;
+  top: var(--hoam-notification-bar-height);
+  z-index: 10000;
+  width: 100%;
 }
 
-[data-variant="fixed"] + .hoam-hero {
-  margin-top: calc(var(--hoam-link-height) * -1);
+[data-variant="fixed"]:hover {
+  background-color: var(--hoam-color-neutral-900);
 }
 
 @media (min-width: 1200px) {

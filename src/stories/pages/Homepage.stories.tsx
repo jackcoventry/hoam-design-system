@@ -2,8 +2,11 @@ import { Meta } from '@storybook/react-vite';
 
 import { Footer } from '@/components/Footer';
 import { Hero } from '@/components/Hero';
+import { type HeroSlideProps } from '@/components/Hero/HeroSlide';
+import { PageShell } from '@/components/Layout/PageShell';
 import { LogoCarousel } from '@/components/LogoCarousel';
 import { Navigation } from '@/components/Navigation';
+import { NavigationVariant } from '@/components/Navigation/types';
 import { NewsletterBanner } from '@/components/NewsletterBanner';
 import { NotificationBar } from '@/components/NotificationBar';
 import { PromoSection, PromoSectionProps } from '@/components/PromoSection';
@@ -27,22 +30,36 @@ const meta: Meta = {
 
 export default meta;
 
-const HeroData = MockSlides;
-
 const Template = {
   render: () => {
     const promoSectionData = PromoSectionData as PromoSectionProps;
+    const hero = [MockSlides?.[3] as HeroSlideProps];
+    const showNotificationBar = true;
+    const navStyle = 'fixed' as NavigationVariant;
+    const navIsFixed = navStyle === 'fixed';
+    const resolvedNavStyle = showNotificationBar && navIsFixed ? 'sticky' : navStyle;
+
     return (
-      <>
-        <NotificationBar messages={NotificationBarData} />
+      <PageShell
+        showNotificationBar={showNotificationBar}
+        navIsFixed={navIsFixed}
+      >
+        {showNotificationBar && <NotificationBar messages={NotificationBarData} />}
+
         <Navigation
           items={NavigationData}
           userItems={UserNavigationData}
-          variant="default"
+          variant={resolvedNavStyle}
           searchEndpoint="/"
           basketEndpoint="/"
         />
-        <Hero items={HeroData} />,
+        <div
+          style={{
+            marginTop: resolvedNavStyle === 'sticky' ? 'calc(var(--hoam-link-height) * -1)' : 0,
+          }}
+        >
+          <Hero items={hero} />
+        </div>
         <PromoSection
           title={promoSectionData.title}
           description={promoSectionData.description}
@@ -65,7 +82,7 @@ const Template = {
           bottomLinks={FooterData.bottomLinks}
           socialLinks={SocialLinks}
         />
-      </>
+      </PageShell>
     );
   },
 };

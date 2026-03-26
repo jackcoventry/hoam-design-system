@@ -49,6 +49,7 @@ export function DesktopNavigation({
 
   const isDefaultVariant = variant === 'default';
   const isFixedVariant = variant === 'fixed';
+  const isStickyVariant = variant === 'sticky';
   const isRTL = typeof document !== 'undefined' && document.dir === 'rtl';
 
   const mapArrow = useCallback(
@@ -100,18 +101,18 @@ export function DesktopNavigation({
   const handleHeaderPointerLeave = useCallback(() => {
     handleAllNavigationClose();
 
-    if (isFixedVariant) {
+    if (isStickyVariant) {
       setLogoSrc(LOGO.WHITE);
     }
-  }, [LOGO.WHITE, handleAllNavigationClose, isFixedVariant]);
+  }, [LOGO.WHITE, handleAllNavigationClose, isStickyVariant]);
 
   const handleHeaderPointerEnter = useCallback(() => {
     clearLeave();
 
-    if (isFixedVariant) {
+    if (isStickyVariant) {
       setLogoSrc(LOGO.DEFAULT);
     }
-  }, [LOGO.DEFAULT, clearLeave, isFixedVariant]);
+  }, [LOGO.DEFAULT, clearLeave, isStickyVariant]);
 
   return (
     <header
