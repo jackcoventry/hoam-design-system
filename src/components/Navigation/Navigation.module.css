@@ -1,35 +1,19 @@
 :root {
   --hoam-navigation-height: 420px;
-  --hoam-link-height: 80px;
   --hoam-color-navigation-link: var(--hoam-color-neutral-900);
 }
 
 .root {
+  background-color: var(--hoam-color-neutral-500);
   display: none;
-  height: auto;
-}
-
-.root[data-variant="default"] {
-  background-color: var(--hoam-color-neutral-900);
+  height: var(--hoam-navigation-bar-height);
   position: relative;
-  z-index: var(--hoam-layer-dropdown);
-}
-
-.root[data-variant="fixed"] {
-  position: absolute;
-  top: 0;
-  z-index: var(--hoam-layer-dropdown);
-  width: 100%;
-}
-
-.root[data-variant="fixed"]:hover {
-  --hoam-color-navigation-link: var(--hoam-color-text-link);
-  background-color: var(--hoam-color-neutral-900);
 }
 
 @media (min-width: 1200px) {
   .root {
     display: block;
+    flex: 0 0 auto;
   }
 }
 
@@ -47,7 +31,7 @@
   cursor: pointer;
   display: inline-flex;
   font: var(--hoam-typography-button-1);
-  height: var(--hoam-link-height);
+  height: var(--hoam-navigation-bar-height);
   padding: var(--hoam-spacing-1) var(--hoam-spacing-2);
   text-decoration: none;
 }

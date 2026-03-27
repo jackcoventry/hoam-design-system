@@ -1,5 +1,5 @@
 :root {
-  --hoam-navigation-bar-height-mobile: 80px;
+  --hoam-navigation-bar-height: 80px;
 }
 
 .root {
@@ -15,14 +15,14 @@
 }
 
 .wrapper {
-  height: var(--hoam-navigation-bar-height-mobile);
+  height: var(--hoam-navigation-bar-height);
   padding: var(--hoam-spacing-4);
 }
 
 .mobileMenu {
   background-color: var(--hoam-color-neutral-900);
   display: none;
-  height: calc(100dvh - var(--hoam-navigation-bar-height-mobile));
+  height: calc(100dvh - var(--hoam-navigation-bar-height));
   overflow-y: auto;
   overflow-x: hidden;
   padding: var(--hoam-spacing-6) 0;

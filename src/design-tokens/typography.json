@@ -83,6 +83,9 @@
       },
       "5": {
         "$value": 2
+      },
+      "6": {
+        "$value": 1.6
       }
     },
     "letter-spacing": {
@@ -116,7 +119,7 @@
           "fontFamily": "{typography.family.1}",
           "fontWeight": "{typography.weight.2}",
           "fontSize": "{typography.size.6}",
-          "lineHeight": "{typography.line-height.2}"
+          "lineHeight": "{typography.line-height.6}"
         },
         "$extensions": {
           "$targetElement": "h1",
@@ -157,6 +160,18 @@
         "$extensions": {
           "$targetElement": "h3",
           "$name": "Heading"
+        }
+      },
+      "5": {
+        "$value": {
+          "fontFamily": "{typography.family.1}",
+          "fontWeight": "{typography.weight.2}",
+          "fontSize": "{typography.size.5}",
+          "lineHeight": "{typography.line-height.2}"
+        },
+        "$extensions": {
+          "$targetElement": "h1",
+          "$name": "Title"
         }
       }
     },

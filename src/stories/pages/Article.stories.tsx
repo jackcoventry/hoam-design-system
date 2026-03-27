@@ -28,7 +28,7 @@ const meta: Meta<typeof BlogArticle> = {
     publishDate: 'November 27 2025',
     readingTime: 7,
     image: {
-      src: '/hero/banner-1.webp',
+      src: '/hero/banner-3.webp',
       alt: 'A festive scene featuring an array of coffee products',
       caption:
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.',
@@ -58,7 +58,6 @@ const Template: Story = {
           Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per
           conubia nostra, per inceptos himenaeos.
         </p>
-        <h3>Introduction: Lorem Ipsum Dolor Sit Amet</h3>
         <p>
           Lorem ipsum dolor sit amet, <strong>consectetur adipiscing elit</strong>. Integer nec
           odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh

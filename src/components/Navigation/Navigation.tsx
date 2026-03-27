@@ -12,7 +12,6 @@ import { useMegaNavState } from '@/hooks/useNavState';
 export function Navigation({
   items = [],
   userItems = [],
-  variant = 'default',
   searchEndpoint = '',
   basketEndpoint = '',
 }: Readonly<NavigationProps>) {
@@ -48,7 +47,6 @@ export function Navigation({
       <DesktopNavigation
         items={items}
         userItems={userItems}
-        variant={variant}
         openIndex={openIndex}
         resetNavigation={resetNavigation}
         setOpenIndex={setOpenIndex}

@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 
 import { Container, Grid, GridItem } from '@/components/Layout';
 import {
@@ -7,7 +7,7 @@ import {
   DesktopNavigationLogo,
 } from '@/components/Navigation';
 import { querySubItemVisibility } from '@/components/Navigation/helpers';
-import type { NavigationProps, NavTopLevelItem, NavUserItem } from '@/components/Navigation/types';
+import type { NavTopLevelItem, NavUserItem } from '@/components/Navigation/types';
 import { useKeyboardNav } from '@/hooks/useKeyboardNav';
 
 import styles from '@/components/Navigation/Navigation.module.css';
@@ -15,7 +15,6 @@ import styles from '@/components/Navigation/Navigation.module.css';
 export type DesktopNavigationProps = {
   items: NavTopLevelItem[];
   userItems: NavUserItem[];
-  variant: NavigationProps['variant'];
   openIndex: number | null;
   setOpenIndex: (index: number | null) => void;
   openGroupId: string | null;
@@ -32,7 +31,6 @@ export type DesktopNavigationProps = {
 export function DesktopNavigation({
   items = [],
   userItems = [],
-  variant = 'default',
   openIndex,
   setOpenIndex,
   openGroupId,
@@ -46,10 +44,6 @@ export function DesktopNavigation({
   resetNavigation,
 }: Readonly<DesktopNavigationProps>) {
   const rootRef = useRef<HTMLElement | null>(null);
-
-  const isDefaultVariant = variant === 'default';
-  const isFixedVariant = variant === 'fixed';
-  const isStickyVariant = variant === 'sticky';
   const isRTL = typeof document !== 'undefined' && document.dir === 'rtl';
 
   const mapArrow = useCallback(
@@ -91,28 +85,13 @@ export function DesktopNavigation({
     [items, setOpenGroupId]
   );
 
-  const LOGO = {
-    DEFAULT: '/logo.png',
-    WHITE: '/logo-white.png',
-  } as const;
-
-  const [logoSrc, setLogoSrc] = useState<string>(isDefaultVariant ? LOGO.DEFAULT : LOGO.WHITE);
-
   const handleHeaderPointerLeave = useCallback(() => {
     handleAllNavigationClose();
-
-    if (isStickyVariant) {
-      setLogoSrc(LOGO.WHITE);
-    }
-  }, [LOGO.WHITE, handleAllNavigationClose, isStickyVariant]);
+  }, [handleAllNavigationClose]);
 
   const handleHeaderPointerEnter = useCallback(() => {
     clearLeave();
-
-    if (isStickyVariant) {
-      setLogoSrc(LOGO.DEFAULT);
-    }
-  }, [LOGO.DEFAULT, clearLeave, isStickyVariant]);
+  }, [clearLeave]);
 
   return (
     <header
@@ -124,7 +103,6 @@ export function DesktopNavigation({
         handleNavigationKeyDown(event);
       }}
       role="none"
-      data-variant={variant}
       className={styles.root}
     >
       <Container>
@@ -145,10 +123,7 @@ export function DesktopNavigation({
                 onResetNavigation={resetNavigation}
               />
 
-              <DesktopNavigationLogo
-                logoSrc={logoSrc}
-                onResetNavigation={resetNavigation}
-              />
+              <DesktopNavigationLogo onResetNavigation={resetNavigation} />
 
               <DesktopNavigationActions
                 userItems={userItems}

@@ -3,9 +3,9 @@
   background-color: var(--hoam-color-hero-bg);
   color: var(--hoam-color-hero-text);
   display: flex;
+  height: calc(100dvh - var(--hoam-navigation-bar-height) - var(--hoam-notification-bar-height));
   overflow: hidden;
   position: relative;
-  height: calc(100dvh - var(--hero-offset, 0px));
   min-height: 600px;
   width: 100%;
 }

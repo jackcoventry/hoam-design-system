@@ -1,7 +1,5 @@
 .root {
-  display: grid;
   font: var(--hoam-typography-body-1);
-  gap: var(--body-text-spacing, var(--hoam-spacing-4));
 }
 
 .root a:link,
@@ -13,4 +11,16 @@
 .root a:hover {
   color: var(--hoam-color-text-link-hover);
   text-decoration: none;
+}
+
+.root h1 {
+  font: var(--hoam-typography-title-1);
+}
+
+.root h2 {
+  font: var(--hoam-typography-title-3);
+}
+
+.root h3 {
+  font: var(--hoam-typography-title-3);
 }

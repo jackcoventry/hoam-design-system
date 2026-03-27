@@ -920,6 +920,14 @@
     "set": "line-height"
   },
   {
+    "name": "hoam-typography-line-height-6",
+    "cssVar": "--hoam-typography-line-height-6",
+    "type": null,
+    "value": 1.6,
+    "group": null,
+    "set": "line-height"
+  },
+  {
     "name": "hoam-typography-letter-spacing-1",
     "cssVar": "--hoam-typography-letter-spacing-1",
     "type": "dimension",
@@ -963,7 +971,7 @@
     "name": "hoam-typography-title-1",
     "cssVar": "--hoam-typography-title-1",
     "type": "typography",
-    "value": "400 clamp(1rem, min(20vmin, 7vw), 6rem)/1.75 Boldonse, system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
+    "value": "400 clamp(1rem, min(20vmin, 7vw), 6rem)/1.6 Boldonse, system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
     "group": null,
     "set": "title",
     "extensions": {
@@ -974,7 +982,7 @@
       "fontFamily": "Boldonse, system-ui, -apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif",
       "fontSize": "clamp(1rem, min(20vmin, 7vw), 6rem)",
       "fontWeight": 400,
-      "lineHeight": 1.75
+      "lineHeight": 1.6
     }
   },
   {
@@ -1029,6 +1037,24 @@
       "fontSize": "clamp(1rem, min(20vmin, 7vw), 1.5rem)",
       "fontWeight": 300,
       "lineHeight": 1.25
+    }
+  },
+  {
+    "name": "hoam-typography-title-5",
+    "cssVar": "--hoam-typography-title-5",
+    "type": "typography",
+    "value": "400 clamp(1rem, min(20vmin, 7vw), 3rem)/1.75 Boldonse, system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
+    "group": null,
+    "set": "title",
+    "extensions": {
+      "$targetElement": "h1",
+      "$name": "Title"
+    },
+    "originalValues": {
+      "fontFamily": "Boldonse, system-ui, -apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif",
+      "fontSize": "clamp(1rem, min(20vmin, 7vw), 3rem)",
+      "fontWeight": 400,
+      "lineHeight": 1.75
     }
   },
   {
