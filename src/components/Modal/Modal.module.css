@@ -7,7 +7,7 @@
   overflow: hidden;
   position: fixed;
   width: 100vw;
-  z-index: 999;
+  z-index: var(--hoam-layer-modal);
 }
 
 .root[data-variant="modal"] {
@@ -42,7 +42,7 @@
   position: relative;
   width: 100%;
   will-change: transform, opacity;
-  z-index: 1;
+  z-index: var(--hoam-layer-raised);
 }
 
 .root[data-variant="modal"] .dialog {

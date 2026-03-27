@@ -12,7 +12,7 @@
   position: absolute;
   top: var(--hoam-spacing-2);
   width: calc(100% - var(--hoam-spacing-4));
-  z-index: 10;
+  z-index: var(--hoam-layer-raised);
 }
 
 .imageWrapper {
@@ -47,13 +47,13 @@
   position: absolute;
   right: 0;
   top: 0;
-  z-index: 0;
+  z-index: var(--hoam-layer-base);
 }
 
 .button {
   margin-top: var(--hoam-spacing-3);
   position: relative;
-  z-index: 1;
+  z-index: var(--hoam-layer-raised);
 }
 
 .title {

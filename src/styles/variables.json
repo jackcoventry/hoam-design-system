@@ -584,6 +584,110 @@
     "set": "border-radius"
   },
   {
+    "name": "hoam-layer-sub",
+    "cssVar": "--hoam-layer-sub",
+    "type": null,
+    "value": -1,
+    "group": "global",
+    "set": "layer"
+  },
+  {
+    "name": "hoam-layer-base",
+    "cssVar": "--hoam-layer-base",
+    "type": null,
+    "value": 0,
+    "group": "global",
+    "set": "layer"
+  },
+  {
+    "name": "hoam-layer-raised",
+    "cssVar": "--hoam-layer-raised",
+    "type": null,
+    "value": 10,
+    "group": "global",
+    "set": "layer"
+  },
+  {
+    "name": "hoam-layer-sticky",
+    "cssVar": "--hoam-layer-sticky",
+    "type": null,
+    "value": 100,
+    "group": "global",
+    "set": "layer"
+  },
+  {
+    "name": "hoam-layer-dropdown",
+    "cssVar": "--hoam-layer-dropdown",
+    "type": null,
+    "value": 200,
+    "group": "global",
+    "set": "layer"
+  },
+  {
+    "name": "hoam-layer-popover",
+    "cssVar": "--hoam-layer-popover",
+    "type": null,
+    "value": 300,
+    "group": "global",
+    "set": "layer"
+  },
+  {
+    "name": "hoam-layer-tooltip",
+    "cssVar": "--hoam-layer-tooltip",
+    "type": null,
+    "value": 400,
+    "group": "global",
+    "set": "layer"
+  },
+  {
+    "name": "hoam-layer-drawer",
+    "cssVar": "--hoam-layer-drawer",
+    "type": null,
+    "value": 500,
+    "group": "global",
+    "set": "layer"
+  },
+  {
+    "name": "hoam-layer-modal-backdrop",
+    "cssVar": "--hoam-layer-modal-backdrop",
+    "type": null,
+    "value": 600,
+    "group": "global",
+    "set": "layer"
+  },
+  {
+    "name": "hoam-layer-modal",
+    "cssVar": "--hoam-layer-modal",
+    "type": null,
+    "value": 700,
+    "group": "global",
+    "set": "layer"
+  },
+  {
+    "name": "hoam-layer-toast",
+    "cssVar": "--hoam-layer-toast",
+    "type": null,
+    "value": 800,
+    "group": "global",
+    "set": "layer"
+  },
+  {
+    "name": "hoam-layer-skip-link",
+    "cssVar": "--hoam-layer-skip-link",
+    "type": null,
+    "value": 900,
+    "group": "global",
+    "set": "layer"
+  },
+  {
+    "name": "hoam-layer-debug",
+    "cssVar": "--hoam-layer-debug",
+    "type": null,
+    "value": 9999,
+    "group": "global",
+    "set": "layer"
+  },
+  {
     "name": "hoam-shadow-small",
     "cssVar": "--hoam-shadow-small",
     "type": "shadow",

@@ -22,8 +22,9 @@ export function NavRoot({
       onPointerEnter={onEnter}
       onKeyDown={onKeyDown}
       role="none"
+      className={styles.root}
     >
-      <div className={styles.root}>{children}</div>
+      {children}
     </header>
   );
 }

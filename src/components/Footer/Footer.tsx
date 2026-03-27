@@ -1,5 +1,7 @@
+import clsx from 'clsx';
+
 import { Icon } from '@/components/Icon';
-import { Container, Grid, GridItem } from '@/components/Layout';
+import { Container, Grid, GridItem, Stack } from '@/components/Layout';
 import { IconId } from '@/design-tokens/icons';
 
 import styles from '@/components/Footer/Footer.module.css';
@@ -35,18 +37,10 @@ export function Footer({
   return (
     <footer className={styles.root}>
       <Container>
-        <Grid gap="lg">
-          <GridItem
-            span={12}
-            spanXl={2}
-          >
-            <img
-              src="/logo.png"
-              alt="HOAM logo"
-              className={styles.logo}
-            />
-          </GridItem>
-
+        <Grid
+          gap="lg"
+          cols={10}
+        >
           {visibleTopLinks.map((section) => (
             <GridItem
               key={section.title}
@@ -73,29 +67,43 @@ export function Footer({
           >
             <h4 className={styles.sectionTitle}>{socialTitle}</h4>
 
-            <div className={styles.socialLinks}>
-              {socialLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <Icon id={link.icon as IconId} />
-                </a>
-              ))}
-            </div>
+            <Stack gap="lg">
+              <div className={styles.socialLinks}>
+                {socialLinks.map((link) => (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Icon id={link.icon as IconId} />
+                  </a>
+                ))}
+              </div>
+              <div>
+                <img
+                  src="/logo.png"
+                  alt="HOAM logo"
+                  className={styles.logo}
+                />
+              </div>
+            </Stack>
           </GridItem>
         </Grid>
 
         <Grid className={styles.separator}>
-          <GridItem span={12}>
+          <GridItem span={10}>
             <div className={styles.links}>
               {bottomLinks.map((link) => (
                 <div key={link.href}>
                   <a href={link.href}>{link.label}</a>
                 </div>
               ))}
+            </div>
+          </GridItem>
+          <GridItem span={2}>
+            <div className={clsx(styles.links, styles.backToTop)}>
+              <a href="#content">Back to top</a>
             </div>
           </GridItem>
         </Grid>

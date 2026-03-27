@@ -34,7 +34,7 @@ const Template = {
   render: () => {
     const promoSectionData = PromoSectionData as PromoSectionProps;
     const hero = [MockSlides?.[3] as HeroSlideProps];
-    const showNotificationBar = true;
+    const showNotificationBar = false;
     const navStyle = 'fixed' as NavigationVariant;
     const navIsFixed = navStyle === 'fixed';
     const resolvedNavStyle = showNotificationBar && navIsFixed ? 'sticky' : navStyle;

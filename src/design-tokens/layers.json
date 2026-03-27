@@ -1,0 +1,20 @@
+{
+  "layer": {
+    "$extensions": {
+      "$group": "global"
+    },
+    "sub": { "$value": -1 },
+    "base": { "$value": 0 },
+    "raised": { "$value": 10 },
+    "sticky": { "$value": 100 },
+    "dropdown": { "$value": 200 },
+    "popover": { "$value": 300 },
+    "tooltip": { "$value": 400 },
+    "drawer": { "$value": 500 },
+    "modal-backdrop": { "$value": 600 },
+    "modal": { "$value": 700 },
+    "toast": { "$value": 800 },
+    "skip-link": { "$value": 900 },
+    "debug": { "$value": 9999 }
+  }
+}

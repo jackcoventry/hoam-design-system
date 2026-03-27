@@ -6,6 +6,7 @@
   overflow: hidden;
   position: relative;
   height: calc(100dvh - var(--hero-offset, 0px));
+  min-height: 600px;
   width: 100%;
 }
 
@@ -39,7 +40,7 @@
 
   @media (min-width: 40rem) {
     position: absolute;
-    z-index: 0;
+    z-index: var(--hoam-layer-base);
     height: 100%;
     width: 100%;
     overflow: hidden;
@@ -59,7 +60,7 @@
   margin: 0 auto;
   position: relative;
   width: 100%;
-  z-index: 1;
+  z-index: var(--hoam-layer-raised);
 }
 
 .textContent {

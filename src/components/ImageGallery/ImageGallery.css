@@ -43,14 +43,14 @@
   left: 0;
   position: absolute;
   width: 100%;
-  z-index: 10;
+  z-index: var(--hoam-layer-raised);
 }
 
 .hoam-image-gallery__nav-btn {
   align-self: center;
   display: none;
   position: absolute;
-  z-index: 10;
+  z-index: var(--hoam-layer-raised);
 }
 
 .hoam-image-gallery__nav-btn[data-direction="left"] {
@@ -75,7 +75,7 @@
 .hoam-image-gallery__dots-wrapper {
   align-self: end;
   margin: 0 auto var(--hoam-spacing-3);
-  z-index: 10;
+  z-index: var(--hoam-layer-raised);
 }
 
 .hoam-image-gallery__thumbs .swiper-slide {

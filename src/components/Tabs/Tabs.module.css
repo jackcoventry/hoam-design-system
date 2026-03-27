@@ -26,7 +26,7 @@
 }
 
 .control:focus-visible {
-  z-index: 1;
+  z-index: var(--hoam-layer-raised);
 }
 
 .control:not(:first-child) {

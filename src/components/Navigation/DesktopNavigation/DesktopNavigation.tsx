@@ -125,42 +125,41 @@ export function DesktopNavigation({
       }}
       role="none"
       data-variant={variant}
+      className={styles.root}
     >
-      <div className={styles.root}>
-        <Container>
-          <Grid>
-            <GridItem span={12}>
-              <div
-                className={styles.inner}
-                data-open={openIndex === null ? 'false' : 'true'}
-              >
-                <DesktopNavigationItems
-                  items={items}
-                  openIndex={openIndex}
-                  openGroupId={openGroupId}
-                  setOpenGroupId={setOpenGroupId}
-                  handleTopNavigationOpen={handleTopNavigationOpen}
-                  clearLeave={clearLeave}
-                  onOpenFirstCategory={openFirstCategory}
-                  onResetNavigation={resetNavigation}
-                />
+      <Container>
+        <Grid>
+          <GridItem span={12}>
+            <div
+              className={styles.inner}
+              data-open={openIndex === null ? 'false' : 'true'}
+            >
+              <DesktopNavigationItems
+                items={items}
+                openIndex={openIndex}
+                openGroupId={openGroupId}
+                setOpenGroupId={setOpenGroupId}
+                handleTopNavigationOpen={handleTopNavigationOpen}
+                clearLeave={clearLeave}
+                onOpenFirstCategory={openFirstCategory}
+                onResetNavigation={resetNavigation}
+              />
 
-                <DesktopNavigationLogo
-                  logoSrc={logoSrc}
-                  onResetNavigation={resetNavigation}
-                />
+              <DesktopNavigationLogo
+                logoSrc={logoSrc}
+                onResetNavigation={resetNavigation}
+              />
 
-                <DesktopNavigationActions
-                  userItems={userItems}
-                  onResetNavigation={resetNavigation}
-                  onOpenSearch={onOpenSearch}
-                  onOpenBasket={onOpenBasket}
-                />
-              </div>
-            </GridItem>
-          </Grid>
-        </Container>
-      </div>
+              <DesktopNavigationActions
+                userItems={userItems}
+                onResetNavigation={resetNavigation}
+                onOpenSearch={onOpenSearch}
+                onOpenBasket={onOpenBasket}
+              />
+            </div>
+          </GridItem>
+        </Grid>
+      </Container>
     </header>
   );
 }
