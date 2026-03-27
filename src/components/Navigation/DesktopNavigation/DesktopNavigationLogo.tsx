@@ -27,10 +27,7 @@ export function DesktopNavigationLogo({
       onFocus={handleFocus}
       onPointerEnter={handlePointerEnter}
     >
-      <img
-        src={logoSrc}
-        alt="Hoam Logo"
-      />
+      HOAM
     </a>
   );
 }

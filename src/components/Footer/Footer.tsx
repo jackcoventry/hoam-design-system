@@ -39,8 +39,15 @@ export function Footer({
       <Container>
         <Grid
           gap="lg"
-          cols={10}
+          cols={13}
         >
+          <GridItem spanXl={3}>
+            <img
+              src="/logo.png"
+              alt="HOAM logo"
+              className={styles.logo}
+            />
+          </GridItem>
           {visibleTopLinks.map((section) => (
             <GridItem
               key={section.title}
@@ -79,13 +86,6 @@ export function Footer({
                     <Icon id={link.icon as IconId} />
                   </a>
                 ))}
-              </div>
-              <div>
-                <img
-                  src="/logo.png"
-                  alt="HOAM logo"
-                  className={styles.logo}
-                />
               </div>
             </Stack>
           </GridItem>

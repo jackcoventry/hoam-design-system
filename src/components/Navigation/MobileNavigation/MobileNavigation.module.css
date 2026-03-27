@@ -4,6 +4,8 @@
 
 .root {
   display: block;
+  position: relative;
+  z-index: var(--hoam-layer-dropdown);
 }
 
 @media (min-width: 1200px) {

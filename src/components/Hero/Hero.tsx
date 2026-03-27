@@ -24,6 +24,7 @@ export function Hero({ items }: Readonly<HeroProps>) {
         loop
         autoplay={{ delay: 6000 }}
         ariaLabel="Hero carousel"
+        effect="fade"
       />
     </div>
   );

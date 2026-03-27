@@ -34,32 +34,28 @@ const Template = {
   render: () => {
     const promoSectionData = PromoSectionData as PromoSectionProps;
     const hero = [MockSlides?.[3] as HeroSlideProps];
-    const showNotificationBar = false;
+    const showNotificationBar = true;
     const navStyle = 'fixed' as NavigationVariant;
     const navIsFixed = navStyle === 'fixed';
-    const resolvedNavStyle = showNotificationBar && navIsFixed ? 'sticky' : navStyle;
 
     return (
       <PageShell
         showNotificationBar={showNotificationBar}
         navIsFixed={navIsFixed}
       >
-        {showNotificationBar && <NotificationBar messages={NotificationBarData} />}
-
         <Navigation
           items={NavigationData}
           userItems={UserNavigationData}
-          variant={resolvedNavStyle}
+          variant={navStyle}
           searchEndpoint="/"
           basketEndpoint="/"
         />
-        <div
-          style={{
-            marginTop: resolvedNavStyle === 'sticky' ? 'calc(var(--hoam-link-height) * -1)' : 0,
-          }}
-        >
+        <div>
           <Hero items={hero} />
         </div>
+
+        {showNotificationBar && <NotificationBar messages={NotificationBarData} />}
+
         <PromoSection
           title={promoSectionData.title}
           description={promoSectionData.description}

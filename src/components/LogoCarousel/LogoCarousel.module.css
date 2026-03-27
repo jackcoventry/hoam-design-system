@@ -1,5 +1,5 @@
 :root {
-  --hoam-logo-carousel-duration: 300s;
+  --hoam-logo-carousel-duration: 100s;
   --hoam-logo-carousel-gap: 3rem;
   --hoam-logo-height: clamp(100px, 10vw, 200px);
 }

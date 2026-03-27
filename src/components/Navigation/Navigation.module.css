@@ -1,6 +1,7 @@
 :root {
   --hoam-navigation-height: 420px;
   --hoam-link-height: 80px;
+  --hoam-color-navigation-link: var(--hoam-color-neutral-900);
 }
 
 .root {
@@ -14,21 +15,15 @@
   z-index: var(--hoam-layer-dropdown);
 }
 
-.root[data-variant="sticky"] {
-  position: sticky;
+.root[data-variant="fixed"] {
+  position: absolute;
   top: 0;
   z-index: var(--hoam-layer-dropdown);
   width: 100%;
 }
 
-.root[data-variant="fixed"] {
-  position: fixed;
-  top: var(--hoam-notification-bar-height);
-  z-index: var(--hoam-layer-dropdown);
-  width: 100%;
-}
-
 .root[data-variant="fixed"]:hover {
+  --hoam-color-navigation-link: var(--hoam-color-text-link);
   background-color: var(--hoam-color-neutral-900);
 }
 
@@ -48,7 +43,7 @@
   align-items: center;
   background: none;
   border: none;
-  color: var(--hoam-color-nav-item-color);
+  color: var(--hoam-color-navigation-link);
   cursor: pointer;
   display: inline-flex;
   font: var(--hoam-typography-button-1);
@@ -77,7 +72,11 @@
 
 .logo {
   align-items: center;
+  color: var(--hoam-color-navigation-link);
   display: inline-flex;
+  font: var(--hoam-typography-title-1);
+  font-size: 2rem;
+  text-decoration: none;
   width: 120px;
 }
 
