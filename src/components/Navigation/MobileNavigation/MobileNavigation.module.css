@@ -16,7 +16,7 @@
 
 .wrapper {
   height: var(--hoam-navigation-bar-height);
-  padding: var(--hoam-spacing-4);
+  padding: var(--hoam-spacing-4) 0;
 }
 
 .mobileMenu {
@@ -80,7 +80,11 @@
 
 .logo {
   align-items: center;
+  color: var(--hoam-color-neutral-100);
   display: inline-flex;
+  font: var(--hoam-typography-title-1);
+  font-size: 2rem;
+  text-decoration: none;
   width: 120px;
 }
 

@@ -4,14 +4,13 @@ import { SubmitHandler } from 'react-hook-form';
 
 import { Breadcrumb } from '@/components/Breadcrumb';
 import { ImageGallery } from '@/components/ImageGallery';
-import { Container, Grid, GridItem } from '@/components/Layout';
+import { Container, Grid, GridItem, Section, Stack } from '@/components/Layout';
 import { ProductInfo, type ProductInfoProps } from '@/components/ProductInfo';
 import { ProductInformationSchemaType } from '@/components/ProductInfo/ProductInfo';
-import { RecommendedProducts } from '@/components/RecommendedProducts';
 import BreadcrumbData from '@/mocks/components/Breadcrumb';
 import ImageGalleryMockData from '@/mocks/components/ImageGallery';
 import ProductInformationMockData from '@/mocks/components/ProductInformation';
-import { productTile, productTileLowStock, productTileNew } from '@/mocks/components/ProductTile';
+import { productTile } from '@/mocks/components/ProductTile';
 import BaseTemplate from '@/stories/templates/Base';
 
 const meta: Meta = {
@@ -42,41 +41,37 @@ function DefaultStory(args: Readonly<ProductInfoProps>) {
 
   return (
     <BaseTemplate>
-      <Container>
-        <Grid gap="lg">
-          <GridItem span={12}>
-            <Breadcrumb items={BreadcrumbData} />
-          </GridItem>
-        </Grid>
-        <Grid gap="lg">
-          <GridItem span={12}>
-            <Breadcrumb items={BreadcrumbData} />
-          </GridItem>
-          <GridItem
-            span={12}
-            spanLg={6}
-          >
-            <ImageGallery images={ImageGalleryMockData} />
-          </GridItem>
-          <GridItem
-            span={12}
-            spanLg={5}
-            startLg={8}
-          >
-            <ProductInfo
-              {...args}
-              data={ProductInformationMockData}
-              onSubmit={onSubmit}
-              isSubmitting={submitting}
-            />
-          </GridItem>
-        </Grid>
-
-        <RecommendedProducts
-          title="Recommended products"
-          products={[productTile, productTileNew, productTileLowStock]}
-        />
-      </Container>
+      <Section>
+        <Container>
+          <Stack>
+            <Grid gap="lg">
+              <GridItem span={12}>
+                <Breadcrumb items={BreadcrumbData} />
+              </GridItem>
+            </Grid>
+            <Grid gap="lg">
+              <GridItem
+                span={12}
+                spanLg={6}
+              >
+                <ImageGallery images={ImageGalleryMockData} />
+              </GridItem>
+              <GridItem
+                span={12}
+                spanLg={6}
+                startLg={8}
+              >
+                <ProductInfo
+                  {...args}
+                  data={ProductInformationMockData}
+                  onSubmit={onSubmit}
+                  isSubmitting={submitting}
+                />
+              </GridItem>
+            </Grid>
+          </Stack>
+        </Container>
+      </Section>
     </BaseTemplate>
   );
 }

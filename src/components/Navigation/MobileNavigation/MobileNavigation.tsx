@@ -37,10 +37,7 @@ export function MobileNavigation({ items }: Readonly<MobileNavigationProps>) {
                   href="/"
                   className={styles.logo}
                 >
-                  <img
-                    src="/logo.png"
-                    alt="Hoam Logo"
-                  />
+                  HOAM
                 </a>
 
                 <button

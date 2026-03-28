@@ -10,11 +10,18 @@
   gap: var(--hoam-spacing-2);
 }
 
+.labelRow {
+  display: flex;
+  font: var(--hoam-typography-label-1);
+  gap: var(--hoam-spacing-1);
+}
+
 .labelText {
   font: var(--hoam-typography-label-1);
 }
 
 .labelValue {
+  color: var(--hoam-color-neutral-600);
   font: var(--hoam-typography-label-2);
 }
 

@@ -21,7 +21,6 @@
 
 .selected {
   color: var(--hoam-color-neutral-600);
-  font: var(--hoam-typography-label-1);
 }
 
 .visual {

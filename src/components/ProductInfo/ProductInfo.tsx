@@ -6,6 +6,7 @@ import { Accordion, AccordionHeader, AccordionItem, AccordionPanel } from '@/com
 import { BadgeList, BadgeListItem } from '@/components/BadgeList';
 import { Button } from '@/components/Button';
 import { FieldWrapper, Select } from '@/components/Form';
+import { Section, Stack } from '@/components/Layout';
 import { QuantitySelector } from '@/components/QuantitySelector';
 import { VariantSelector } from '@/components/VariantSelector';
 import { convertNumberToCurrency } from '@/utils/convertNumberToCurrency';
@@ -112,172 +113,181 @@ export function ProductInfo({
 
   return (
     <div className={styles.root}>
-      <div className={styles.content}>
-        <h1 className={styles.title}>{title}</h1>
-        <h2 className={styles.price}>
-          {salePriceString ? (
-            <>
-              {salePriceString} <span className={styles.pricePrevious}>{priceString}</span>
-            </>
-          ) : (
-            priceString
-          )}
-        </h2>
-        {newItem || lowStock ? (
-          <BadgeList>{newItem && <BadgeListItem>NEW</BadgeListItem>}</BadgeList>
-        ) : null}
+      <Stack>
+        <div className={styles.content}>
+          <Stack gap="sm">
+            {newItem || lowStock ? (
+              <BadgeList>{newItem && <BadgeListItem>NEW</BadgeListItem>}</BadgeList>
+            ) : null}
+            <h1 className={styles.title}>{title}</h1>
+            <h2 className={styles.price}>
+              {salePriceString ? (
+                <>
+                  {salePriceString} <span className={styles.pricePrevious}>{priceString}</span>
+                </>
+              ) : (
+                priceString
+              )}
+            </h2>
 
-        {description && <p className={styles.description}>{description}</p>}
-      </div>
-
-      <form
-        onSubmit={(event) => {
-          void handleSubmit(onSubmit)(event);
-        }}
-      >
-        <FieldWrapper error={errors?.color?.message}>
-          <Controller
-            name="color"
-            control={control}
-            render={({ field }) => (
-              <VariantSelector
-                {...field}
-                label="Color"
-                name="color"
-                options={colorOptions}
-                variant="color"
-              />
-            )}
-          />
-        </FieldWrapper>
-
-        <FieldWrapper error={errors?.size?.message}>
-          <Controller
-            name="size"
-            control={control}
-            render={({ field }) => (
-              <VariantSelector
-                {...field}
-                label="Size"
-                name="size"
-                options={sizeOptions}
-                variant="label"
-              />
-            )}
-          />
-        </FieldWrapper>
-
-        <FieldWrapper error={errors?.image?.message}>
-          <Controller
-            name="image"
-            control={control}
-            render={({ field }) => (
-              <VariantSelector
-                {...field}
-                label="Image"
-                name="image"
-                options={imageOptions}
-                variant="image"
-                orientation="horizontal"
-              />
-            )}
-          />
-        </FieldWrapper>
-
-        <FieldWrapper error={errors?.tshirt?.message}>
-          <Controller
-            name="tshirt"
-            control={control}
-            render={({ field }) => (
-              <Select
-                label="T-Shirt Size"
-                {...field}
-              >
-                <Select.Placeholder>Select size</Select.Placeholder>
-                {tshirtOptionsByCategory?.map((category) => (
-                  <Select.OptGroup
-                    key={category.name}
-                    label={category.name}
-                  >
-                    {category.options.map((option) => (
-                      <Select.Option
-                        key={option.value}
-                        value={option.value}
-                        disabled={option.disabled}
-                      >
-                        {option.displayValue}
-                      </Select.Option>
-                    ))}
-                  </Select.OptGroup>
-                ))}
-              </Select>
-            )}
-          />
-        </FieldWrapper>
-
-        <div>
-          <Controller
-            name="quantity"
-            control={control}
-            render={({ field }) => (
-              <QuantitySelector
-                {...field}
-                max={13}
-                ariaLabel="Quantity"
-              />
-            )}
-          />
-          <Button
-            type="submit"
-            disabled={!inStock || Boolean(errors?.quantity?.message) || isSubmitting}
-          >
-            {isSubmitting ? 'Added!' : 'Add to cart'}
-          </Button>
+            {description && <p className={styles.description}>{description}</p>}
+          </Stack>
         </div>
-      </form>
 
-      <div className={styles.information}>
-        <Accordion defaultOpenIds={['one']}>
-          <AccordionItem id="one">
-            <AccordionHeader>
-              <strong>Description</strong>
-            </AccordionHeader>
-            <AccordionPanel>
-              <div className={bodyText.root}>
-                <p>
-                  Ut minim mollit officia ad adipiscing velit duis duis fugiat. Reprehenderit
-                  voluptate dolore laboris esse in adipiscing adipiscing voluptate anim laboris qui
-                  reprehenderit eiusmod eiusmod incididunt occaecat excepteur mollit. Ad labore
-                  irure amet sit aliquip veniam pariatur veniam laboris nostrud nulla ullamco.
-                  Adipiscing veniam dolore cupidatat qui ad exercitation elit labore velit et
-                  aliquip adipiscing occaecat fugiat consequat esse sint nulla ea. Excepteur anim
-                  cillum culpa ullamco labore commodo veniam ut dolor excepteur irure duis voluptate
-                  proident ex in velit qui anim.
-                </p>
-              </div>
-            </AccordionPanel>
-          </AccordionItem>
-          <AccordionItem id="two">
-            <AccordionHeader>
-              <strong>Returns Policy</strong>
-            </AccordionHeader>
-            <AccordionPanel>
-              <div className={bodyText.root}>
-                <p>
-                  Fugiat esse consequat ad aliquip amet aliquip sed sit voluptate. Enim est culpa
-                  labore pariatur aliquip culpa mollit excepteur officia ea magna. Mollit ipsum nisi
-                  mollit minim laboris labore sunt et dolore ullamco reprehenderit. Dolor est velit
-                  adipiscing commodo nisi deserunt commodo ad cillum amet veniam in ea ut incididunt
-                  esse cupidatat eiusmod. Et ullamco aute elit tempor cillum id aliqua aute magna
-                  irure sit. Ex cillum sint incididunt sit adipiscing commodo labore duis nulla
-                  laborum dolor laborum. Aliqua do proident laborum in reprehenderit commodo ut
-                  adipiscing sunt.
-                </p>
-              </div>
-            </AccordionPanel>
-          </AccordionItem>
-        </Accordion>
-      </div>
+        <Stack>
+          <form
+            onSubmit={(event) => {
+              void handleSubmit(onSubmit)(event);
+            }}
+          >
+            <Stack gap="lg">
+              <FieldWrapper error={errors?.color?.message}>
+                <Controller
+                  name="color"
+                  control={control}
+                  render={({ field }) => (
+                    <VariantSelector
+                      {...field}
+                      label="Color"
+                      name="color"
+                      options={colorOptions}
+                      variant="color"
+                    />
+                  )}
+                />
+              </FieldWrapper>
+
+              <FieldWrapper error={errors?.size?.message}>
+                <Controller
+                  name="size"
+                  control={control}
+                  render={({ field }) => (
+                    <VariantSelector
+                      {...field}
+                      label="Size"
+                      name="size"
+                      options={sizeOptions}
+                      variant="label"
+                    />
+                  )}
+                />
+              </FieldWrapper>
+
+              <FieldWrapper error={errors?.image?.message}>
+                <Controller
+                  name="image"
+                  control={control}
+                  render={({ field }) => (
+                    <VariantSelector
+                      {...field}
+                      label="Image"
+                      name="image"
+                      options={imageOptions}
+                      variant="image"
+                      orientation="horizontal"
+                    />
+                  )}
+                />
+              </FieldWrapper>
+
+              <FieldWrapper error={errors?.tshirt?.message}>
+                <Controller
+                  name="tshirt"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      label="T-Shirt Size"
+                      {...field}
+                    >
+                      <Select.Placeholder>Select size</Select.Placeholder>
+                      {tshirtOptionsByCategory?.map((category) => (
+                        <Select.OptGroup
+                          key={category.name}
+                          label={category.name}
+                        >
+                          {category.options.map((option) => (
+                            <Select.Option
+                              key={option.value}
+                              value={option.value}
+                              disabled={option.disabled}
+                            >
+                              {option.displayValue}
+                            </Select.Option>
+                          ))}
+                        </Select.OptGroup>
+                      ))}
+                    </Select>
+                  )}
+                />
+              </FieldWrapper>
+
+              <Controller
+                name="quantity"
+                control={control}
+                render={({ field }) => (
+                  <QuantitySelector
+                    {...field}
+                    max={13}
+                    ariaLabel="Quantity"
+                  />
+                )}
+              />
+              <Button
+                type="submit"
+                disabled={!inStock || Boolean(errors?.quantity?.message) || isSubmitting}
+                className={styles.button}
+              >
+                {isSubmitting ? 'Added!' : 'Add to cart'}
+              </Button>
+            </Stack>
+          </form>
+        </Stack>
+
+        <Section>
+          <div className={styles.information}>
+            <Accordion defaultOpenIds={['one']}>
+              <AccordionItem id="one">
+                <AccordionHeader>
+                  <strong>Description</strong>
+                </AccordionHeader>
+                <AccordionPanel>
+                  <div className={bodyText.root}>
+                    <p>
+                      Ut minim mollit officia ad adipiscing velit duis duis fugiat. Reprehenderit
+                      voluptate dolore laboris esse in adipiscing adipiscing voluptate anim laboris
+                      qui reprehenderit eiusmod eiusmod incididunt occaecat excepteur mollit. Ad
+                      labore irure amet sit aliquip veniam pariatur veniam laboris nostrud nulla
+                      ullamco. Adipiscing veniam dolore cupidatat qui ad exercitation elit labore
+                      velit et aliquip adipiscing occaecat fugiat consequat esse sint nulla ea.
+                      Excepteur anim cillum culpa ullamco labore commodo veniam ut dolor excepteur
+                      irure duis voluptate proident ex in velit qui anim.
+                    </p>
+                  </div>
+                </AccordionPanel>
+              </AccordionItem>
+              <AccordionItem id="two">
+                <AccordionHeader>
+                  <strong>Returns Policy</strong>
+                </AccordionHeader>
+                <AccordionPanel>
+                  <div className={bodyText.root}>
+                    <p>
+                      Fugiat esse consequat ad aliquip amet aliquip sed sit voluptate. Enim est
+                      culpa labore pariatur aliquip culpa mollit excepteur officia ea magna. Mollit
+                      ipsum nisi mollit minim laboris labore sunt et dolore ullamco reprehenderit.
+                      Dolor est velit adipiscing commodo nisi deserunt commodo ad cillum amet veniam
+                      in ea ut incididunt esse cupidatat eiusmod. Et ullamco aute elit tempor cillum
+                      id aliqua aute magna irure sit. Ex cillum sint incididunt sit adipiscing
+                      commodo labore duis nulla laborum dolor laborum. Aliqua do proident laborum in
+                      reprehenderit commodo ut adipiscing sunt.
+                    </p>
+                  </div>
+                </AccordionPanel>
+              </AccordionItem>
+            </Accordion>
+          </div>
+        </Section>
+      </Stack>
     </div>
   );
 }

@@ -2,7 +2,9 @@ import { Meta } from '@storybook/react-vite';
 
 import { Basket, BasketFooter } from '@/components/Basket';
 import { Container, Grid, GridItem, Section } from '@/components/Layout';
+import { RecommendedProducts } from '@/components/RecommendedProducts';
 import items from '@/mocks/components/Basket';
+import { productTile, productTileLowStock, productTileNew } from '@/mocks/components/ProductTile';
 import BaseTemplate from '@/stories/templates/Base';
 
 const meta: Meta = {
@@ -35,6 +37,11 @@ const Template = {
                 <BasketFooter total={total} />
               </GridItem>
             </Grid>
+
+            <RecommendedProducts
+              title="Recommended products"
+              products={[productTile, productTileNew, productTileLowStock]}
+            />
           </Container>
         </Section>
       </BaseTemplate>

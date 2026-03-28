@@ -1,17 +1,30 @@
+.button {
+  display: inline;
+}
+
 .content {
   display: flex;
   flex-direction: column;
   gap: var(--hoam-spacing-4);
-  margin-bottom: var(--hoam-spacing-6);
 }
 
 .description {
   font: var(--hoam-typography-body-1);
 }
 
+.footer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hoam-spacing-4);
+}
+
+.price {
+  font: var(--hoam-typography-title-3);
+}
+
 .pricePrevious {
   color: var(--hoam-color-neutral-500);
-  font: var(--hoam-typography-title-5);
+  font: var(--hoam-typography-title-4);
   text-decoration: line-through;
 }
 
