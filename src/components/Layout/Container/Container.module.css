@@ -1,7 +1,9 @@
 .root {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
   margin-inline: auto;
   padding-inline: var(--hoam-spacing-4, 1rem);
-  width: 100%;
 }
 
 .root[data-width="narrow"] {

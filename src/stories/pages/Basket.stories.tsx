@@ -26,11 +26,7 @@ const Template = {
         <Section space="2xl">
           <Container>
             <Grid>
-              <GridItem
-                span={12}
-                spanLg={10}
-                startLg={2}
-              >
+              <GridItem span={12}>
                 <h1>Your basket</h1>
                 <Basket
                   items={items}

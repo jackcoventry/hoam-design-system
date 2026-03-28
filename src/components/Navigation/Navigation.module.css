@@ -4,7 +4,7 @@
 }
 
 .root {
-  background-color: var(--hoam-color-neutral-500);
+  background-color: var(--hoam-color-neutral-100);
   display: none;
   height: var(--hoam-navigation-bar-height);
   position: relative;

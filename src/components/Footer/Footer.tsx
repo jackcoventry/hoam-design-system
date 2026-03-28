@@ -68,27 +68,29 @@ export function Footer({
             </GridItem>
           ))}
 
-          <GridItem
-            span={12}
-            spanXl={2}
-          >
-            <h4 className={styles.sectionTitle}>{socialTitle}</h4>
+          {socialLinks.length > 0 ? (
+            <GridItem
+              span={12}
+              spanXl={2}
+            >
+              <h4 className={styles.sectionTitle}>{socialTitle}</h4>
 
-            <Stack gap="lg">
-              <div className={styles.socialLinks}>
-                {socialLinks.map((link) => (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <Icon id={link.icon as IconId} />
-                  </a>
-                ))}
-              </div>
-            </Stack>
-          </GridItem>
+              <Stack gap="lg">
+                <div className={styles.socialLinks}>
+                  {socialLinks.map((link) => (
+                    <a
+                      key={link.label}
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Icon id={link.icon as IconId} />
+                    </a>
+                  ))}
+                </div>
+              </Stack>
+            </GridItem>
+          ) : null}
         </Grid>
 
         <Grid className={styles.separator}>

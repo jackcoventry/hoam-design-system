@@ -35,18 +35,20 @@ export function Grid({
   cols = 12,
   gap = 'md',
   rowGap,
+  style,
   ...rest
 }: Readonly<GridProps>) {
-  const style = {
-    '--grid-cols': String(cols),
-    '--grid-gap': mapGapToVar(gap),
-    '--grid-row-gap': mapGapToVar(rowGap ?? gap),
-  } as CSSProperties;
+  const mergedStyle: CSSProperties = {
+    ...style,
+    ['--grid-cols' as keyof CSSProperties]: String(cols),
+    ['--grid-gap' as keyof CSSProperties]: mapGapToVar(gap),
+    ['--grid-row-gap' as keyof CSSProperties]: mapGapToVar(rowGap ?? gap),
+  };
 
   return (
     <div
       className={clsx(styles.root, className)}
-      style={style}
+      style={mergedStyle}
       {...rest}
     >
       {children}

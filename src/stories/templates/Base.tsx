@@ -5,6 +5,7 @@ import FooterData from '@/mocks/components/Footer';
 import NavigationData from '@/mocks/components/Navigation';
 import NotificationBarData from '@/mocks/components/NotificationBar';
 import UserNavigationData from '@/mocks/components/UserNavigation';
+import SocialLinks from '@/mocks/socialLinks';
 
 type BaseTemplateProps = {
   children: ReactNode;
@@ -25,6 +26,7 @@ function BaseTemplate({ children }: Readonly<BaseTemplateProps>) {
       <Footer
         topLinks={FooterData.topLinks}
         bottomLinks={FooterData.bottomLinks}
+        socialLinks={SocialLinks}
       />
     </>
   );

@@ -1,6 +1,8 @@
 .root {
-  column-gap: var(--grid-gap);
   display: grid;
-  grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
+  width: 100%;
+  min-width: 0;
+  column-gap: var(--grid-gap);
   row-gap: var(--grid-row-gap);
+  grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
 }

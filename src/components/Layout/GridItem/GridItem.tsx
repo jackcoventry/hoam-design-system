@@ -30,25 +30,39 @@ export function GridItem({
   startMd,
   startLg,
   startXl,
+  style,
   ...rest
 }: Readonly<GridItemProps>) {
-  const style = {
-    '--gi-span': String(span),
-    '--gi-span-sm': spanSm ? String(spanSm) : undefined,
-    '--gi-span-md': spanMd ? String(spanMd) : undefined,
-    '--gi-span-lg': spanLg ? String(spanLg) : undefined,
-    '--gi-span-xl': spanXl ? String(spanXl) : undefined,
-    '--gi-start': start ? String(start) : undefined,
-    '--gi-start-sm': startSm ? String(startSm) : undefined,
-    '--gi-start-md': startMd ? String(startMd) : undefined,
-    '--gi-start-lg': startLg ? String(startLg) : undefined,
-    '--gi-start-xl': startXl ? String(startXl) : undefined,
-  } as CSSProperties;
+  const resolvedSpan = span;
+  const resolvedSpanSm = spanSm ?? resolvedSpan;
+  const resolvedSpanMd = spanMd ?? resolvedSpanSm;
+  const resolvedSpanLg = spanLg ?? resolvedSpanMd;
+  const resolvedSpanXl = spanXl ?? resolvedSpanLg;
+
+  const resolvedStart = start ?? 'auto';
+  const resolvedStartSm = startSm ?? resolvedStart;
+  const resolvedStartMd = startMd ?? resolvedStartSm;
+  const resolvedStartLg = startLg ?? resolvedStartMd;
+  const resolvedStartXl = startXl ?? resolvedStartLg;
+
+  const mergedStyle: CSSProperties = {
+    ...style,
+    ['--gi-span' as keyof CSSProperties]: String(resolvedSpan),
+    ['--gi-span-sm' as keyof CSSProperties]: String(resolvedSpanSm),
+    ['--gi-span-md' as keyof CSSProperties]: String(resolvedSpanMd),
+    ['--gi-span-lg' as keyof CSSProperties]: String(resolvedSpanLg),
+    ['--gi-span-xl' as keyof CSSProperties]: String(resolvedSpanXl),
+    ['--gi-start' as keyof CSSProperties]: String(resolvedStart),
+    ['--gi-start-sm' as keyof CSSProperties]: String(resolvedStartSm),
+    ['--gi-start-md' as keyof CSSProperties]: String(resolvedStartMd),
+    ['--gi-start-lg' as keyof CSSProperties]: String(resolvedStartLg),
+    ['--gi-start-xl' as keyof CSSProperties]: String(resolvedStartXl),
+  };
 
   return (
     <div
       className={clsx(styles.root, className)}
-      style={style}
+      style={mergedStyle}
       {...rest}
     >
       {children}
