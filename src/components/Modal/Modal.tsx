@@ -17,7 +17,7 @@ import { useModalStack } from '@/components/Modal/ModalStackContext';
 import { logger } from '@/utils/logger';
 import { FOCUSABLE_SELECTORS } from '@/constants/focusable-selectors';
 
-import utils from '@/components/Common/Util.module.css';
+import utils from '@/styles/Util.module.css';
 import styles from '@/components/Modal/Modal.module.css';
 
 export type ModalVariant = 'modal' | 'drawer';

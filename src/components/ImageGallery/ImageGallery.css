@@ -19,7 +19,6 @@
 }
 
 .hoam-image-gallery__thumbs {
-  height: 378px;
   margin-right: var(--hoam-spacing-5);
   overflow: auto;
   width: var(--hoam-image-gallery-thumbs);

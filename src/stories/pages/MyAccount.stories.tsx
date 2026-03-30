@@ -7,7 +7,7 @@ import RichLinksData from '@/mocks/components/RichLinks';
 import SidebarNavigationData from '@/mocks/components/SidebarNavigation';
 import BaseTemplate from '@/stories/templates/Base';
 
-import typography from '@/components/Common/Typography.module.css';
+import typography from '@/styles/Typography.module.css';
 
 const meta: Meta = {
   title: 'Pages/Account',

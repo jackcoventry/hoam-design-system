@@ -18,8 +18,8 @@ import { Icon } from '@/components/Icon';
 import { logger } from '@/utils/logger';
 
 import styles from '@/components/Accordion/Accordion.module.css';
-import bodyText from '@/components/Common/BodyText.module.css';
-import utils from '@/components/Common/Util.module.css';
+import bodyText from '@/styles/BodyText.module.css';
+import utils from '@/styles/Util.module.css';
 
 export interface AccordionProps {
   allowMultiple?: boolean;

@@ -10,7 +10,7 @@ import {
 } from 'react';
 import clsx from 'clsx';
 
-import utils from '@/components/Common/Util.module.css';
+import utils from '@/styles/Util.module.css';
 import styles from '@/components/Form/Select/Select.module.css';
 
 export type OnChangeValue<M extends boolean> = M extends true ? string[] : string;

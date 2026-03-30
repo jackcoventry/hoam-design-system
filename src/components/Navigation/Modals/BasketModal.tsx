@@ -6,7 +6,7 @@ import { ModalVariant } from '@/components/Modal/Modal';
 import { useFetchSignal } from '@/hooks/useFetch';
 import { getBasketItems } from '@/utils/fetchers/getBasketItems';
 
-import typography from '@/components/Common/Typography.module.css';
+import typography from '@/styles/Typography.module.css';
 
 export type BasketModalProps = {
   endpoint: string;

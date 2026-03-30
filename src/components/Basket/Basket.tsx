@@ -5,7 +5,7 @@ import { QuantitySelector } from '@/components/QuantitySelector';
 import { convertNumberToCurrency } from '@/utils/convertNumberToCurrency';
 
 import styles from '@/components/Basket/Basket.module.css';
-import typography from '@/components/Common/Typography.module.css';
+import typography from '@/styles/Typography.module.css';
 
 type Thumbnail = {
   src: string;

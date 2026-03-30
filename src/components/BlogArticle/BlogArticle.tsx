@@ -8,8 +8,8 @@ import { formatISODate, formatReadableDate, parseLooseDate } from '@/utils/conve
 import type { IconId } from '@/design-tokens/icons';
 
 import styles from '@/components/BlogArticle/BlogArticle.module.css';
-import bodyText from '@/components/Common/BodyText.module.css';
-import utils from '@/components/Common/Util.module.css';
+import bodyText from '@/styles/BodyText.module.css';
+import utils from '@/styles/Util.module.css';
 
 type BlogImage = {
   src: string;
@@ -107,7 +107,6 @@ export function BlogArticle({
                             href={link.href}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="hoam-newsletter-banner__social-link"
                             aria-label={`Share on ${link.label}`}
                           >
                             <Icon id={link.icon as IconId} />

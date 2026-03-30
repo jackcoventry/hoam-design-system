@@ -3,8 +3,8 @@ import clsx from 'clsx';
 
 import type { TabsProps } from '@/components/Tabs';
 
-import bodyText from '@/components/Common/BodyText.module.css';
-import utils from '@/components/Common/Util.module.css';
+import bodyText from '@/styles/BodyText.module.css';
+import utils from '@/styles/Util.module.css';
 import styles from '@/components/Tabs/Tabs.module.css';
 
 export function DesktopTabs({

@@ -5,7 +5,7 @@ import { InfoGridItem, type InfoGridItemProps } from '@/components/InfoGrid';
 import { Container, Grid, GridItem } from '@/components/Layout';
 import { logger } from '@/utils/logger';
 
-import bodyText from '@/components/common/BodyText.module.css';
+import bodyText from '@/styles/BodyText.module.css';
 import styles from '@/components/InfoGrid/InfoGrid.module.css';
 
 export type InfoGridProps = {

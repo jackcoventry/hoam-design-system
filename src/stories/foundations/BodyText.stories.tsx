@@ -1,4 +1,4 @@
-import bodyText from '@/components/Common/BodyText.module.css';
+import bodyText from '@/styles/BodyText.module.css';
 
 const Template = () => {
   return (

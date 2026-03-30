@@ -56,8 +56,5 @@
 
 .title {
   color: var(--hoam-message-highlight);
-}
-
-.text {
   font: var(--hoam-typography-title-4);
 }

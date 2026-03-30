@@ -3,7 +3,7 @@ import clsx from 'clsx';
 
 import { Icon } from '@/components/Icon';
 
-import bodyText from '@/components/Common/BodyText.module.css';
+import bodyText from '@/styles/BodyText.module.css';
 import styles from '@/components/Message/Message.module.css';
 
 export type MessageProps = {

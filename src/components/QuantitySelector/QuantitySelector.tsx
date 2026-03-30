@@ -3,7 +3,7 @@ import clsx from 'clsx';
 
 import { clamp } from '@/utils/clamp';
 
-import utils from '@/components/Common/Util.module.css';
+import utils from '@/styles/Util.module.css';
 import styles from '@/components/QuantitySelector/QuantitySelector.module.css';
 
 export interface QuantitySelectorProps {

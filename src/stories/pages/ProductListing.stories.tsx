@@ -6,7 +6,7 @@ import { ProductTile } from '@/components/ProductTile';
 import { productTile } from '@/mocks/components/ProductTile';
 import BaseTemplate from '@/stories/templates/Base';
 
-import bodyText from '@/components/Common/BodyText.module.css';
+import bodyText from '@/styles/BodyText.module.css';
 
 const meta: Meta = {
   title: 'Pages/Product Listing',

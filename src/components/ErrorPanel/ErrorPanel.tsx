@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { Button } from '@/components/Button';
 import { Stack } from '@/components/Layout';
 
-import typography from '@/components/Common/Typography.module.css';
+import typography from '@/styles/Typography.module.css';
 import styles from '@/components/ErrorPanel/ErrorPanel.module.css';
 
 export type Props = {

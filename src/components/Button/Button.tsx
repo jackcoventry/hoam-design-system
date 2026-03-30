@@ -16,7 +16,7 @@ import { Icon } from '@/components/Icon';
 import { IconId } from '@/design-tokens/icons';
 
 import styles from '@/components/Button/Button.module.css';
-import utils from '@/components/Common/Util.module.css';
+import utils from '@/styles/Util.module.css';
 
 type CommonProps = {
   className?: string | undefined;

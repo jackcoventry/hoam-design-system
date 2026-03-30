@@ -10,7 +10,7 @@ import { Icon } from '@/components/Icon';
 import { Container, Grid, GridItem, Stack } from '@/components/Layout';
 import { IconId } from '@/design-tokens/icons';
 
-import bodyText from '@/components/Common/BodyText.module.css';
+import bodyText from '@/styles/BodyText.module.css';
 import formStyles from '@/components/Form/Form.module.css';
 import styles from '@/components/NewsletterBanner/NewsletterBanner.module.css';
 

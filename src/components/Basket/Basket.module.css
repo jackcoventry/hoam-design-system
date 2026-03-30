@@ -19,6 +19,7 @@
 .thead {
   display: none;
   font: var(--hoam-typography-label-1);
+  text-transform: uppercase;
 }
 
 .row th {

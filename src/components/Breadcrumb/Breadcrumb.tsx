@@ -3,7 +3,7 @@ import { clsx } from 'clsx';
 import { NavPanelLinkItem } from '@/components/Navigation/types';
 
 import styles from '@/components/Breadcrumb/Breadcrumb.module.css';
-import utils from '@/components/Common/Util.module.css';
+import utils from '@/styles/Util.module.css';
 
 export type BreadcrumbProps = {
   items: NavPanelLinkItem[];

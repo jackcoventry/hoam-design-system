@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/react-vite';
 
 import { type TabProps, Tabs } from '@/components/Tabs';
 
-import bodyText from '@/components/Common/BodyText.module.css';
+import bodyText from '@/styles/BodyText.module.css';
 
 const meta: Meta<typeof Tabs> = {
   title: 'Components/Tabs',

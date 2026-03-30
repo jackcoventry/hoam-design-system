@@ -3,7 +3,7 @@ import type { CSSProperties, HTMLAttributes, ReactNode } from 'react';
 
 import styles from '@/components/Layout/Stack/Stack.module.css';
 
-export type StackGap = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+export type StackGap = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 
 export type StackProps = HTMLAttributes<HTMLDivElement> & {
   children: ReactNode;
@@ -25,6 +25,8 @@ function mapGapToValue(gap: StackGap): string {
       return 'var(--hoam-spacing-6, 1.5rem)';
     case 'xl':
       return 'var(--hoam-spacing-8, 2rem)';
+    case '2xl':
+      return 'var(--hoam-spacing-8, 3rem)';
     default:
       return 'var(--hoam-spacing-4, 1rem)';
   }

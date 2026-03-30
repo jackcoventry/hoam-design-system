@@ -12,7 +12,7 @@ import { VariantSelector } from '@/components/VariantSelector';
 import { convertNumberToCurrency } from '@/utils/convertNumberToCurrency';
 import { logger } from '@/utils/logger';
 
-import bodyText from '@/components/Common/BodyText.module.css';
+import bodyText from '@/styles/BodyText.module.css';
 import styles from '@/components/ProductInfo/ProductInfo.module.css';
 
 const ProductInformationSchema = z.object({

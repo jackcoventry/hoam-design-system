@@ -42,7 +42,7 @@ function DefaultStory(args: Readonly<ProductInfoProps>) {
   return (
     <BaseTemplate>
       <Section>
-        <Container>
+        <Container width="full">
           <Stack>
             <Grid gap="lg">
               <GridItem span={12}>

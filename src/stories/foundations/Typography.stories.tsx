@@ -1,7 +1,7 @@
 import Tokens from '@/styles/variables.json';
 import type { Token, TypographyToken } from '@/design-tokens/types';
 
-import typography from '@/components/Common/Typography.module.css';
+import typography from '@/styles/Typography.module.css';
 
 const Template = () => {
   const typographyTokens: TypographyToken[] = (Tokens as Token[]).filter(

@@ -6,7 +6,6 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Button } from '@/components/Button';
 import getTokenByName from '@/utils/getTokenByName';
 
-import '@/components/Common/Dots.css';
 import './ImageGallery.css'; // TODO: Refactor to css modules, might need to refactor entire component
 
 // Import Swiper styles

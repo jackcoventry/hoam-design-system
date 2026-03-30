@@ -11,7 +11,7 @@ import {
   PasswordStrengthMeter,
 } from '@/components/Form';
 
-import utils from '@/components/Common/Util.module.css';
+import utils from '@/styles/Util.module.css';
 import styles from '@/components/Form/Form.module.css';
 
 const RegisterFormSchema = z

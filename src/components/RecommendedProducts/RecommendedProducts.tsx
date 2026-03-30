@@ -1,7 +1,7 @@
 import { Container, Grid, GridItem, Section, Stack } from '@/components/Layout';
 import { ProductTile, type ProductTileProps } from '@/components/ProductTile';
 
-import bodyText from '@/components/Common/BodyText.module.css';
+import bodyText from '@/styles/BodyText.module.css';
 import styles from '@/components/RecommendedProducts/RecommendedProducts.module.css';
 
 export type RecommendedProductsProps = {
