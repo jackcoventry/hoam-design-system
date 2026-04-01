@@ -1,0 +1,50 @@
+.root {
+  border-radius: var(--hoam-border-radius-medium);
+}
+
+.root[data-theme="default"] {
+  background-color: var(--hoam-color-semantic-warning);
+}
+
+.root[data-theme="pink"] {
+  background-color: var(--hoam-color-semantic-error);
+}
+
+.root[data-theme="sky"] {
+  background-color: var(--hoam-color-semantic-success);
+}
+
+.textContent {
+  align-content: center;
+}
+
+.centered {
+  align-items: center;
+}
+
+.contentLink {
+  margin-top: var(--hoam-spacing-3);
+}
+
+.title {
+  font: var(--hoam-typography-title-2);
+}
+
+.subtitle {
+  font: var(--hoam-typography-label-1);
+  text-transform: uppercase;
+}
+
+.text {
+  font: var(--hoam-typography-body-1);
+}
+
+.media {
+  display: none;
+}
+
+@media (min-width: 48rem) {
+  .media {
+    display: flex;
+  }
+}

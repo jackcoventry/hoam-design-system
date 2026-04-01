@@ -3,3 +3,9 @@
   outline: 3px solid var(--hoam-color-sun-700);
   outline-offset: 6px;
 }
+
+.justifyBetween {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}

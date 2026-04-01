@@ -59,36 +59,47 @@ export function ProductTile({
             className={styles.image}
           />
         </figure>
+        <div className={styles.save}>
+          <Button
+            size="small"
+            variant="secondary"
+            icon="heart-fill"
+            iconOnly
+          >
+            Save for later
+          </Button>
+        </div>
       </div>
-      <h2 className={styles.title}>
-        <a
-          href={`#${productId}`}
-          className={styles.link}
-        >
-          <span>{title}</span>
-        </a>
-      </h2>
-      {description && <span className={styles.description}>{description}</span>}
-      <p>
-        <span
-          className={styles.price}
-          data-price-status="current"
-        >
-          {formatPrice(price?.saleAmount || price?.amount, price?.currency)}
-        </span>
-        {!!price?.saleAmount && (
+      <div className={styles.content}>
+        <h2 className={styles.title}>
+          <a
+            href={`#${productId}`}
+            className={styles.link}
+          >
+            <span>{title}</span>
+          </a>
+        </h2>
+        {description && <span className={styles.description}>{description}</span>}
+        <p>
           <span
             className={styles.price}
-            data-price-status="previous"
+            data-price-status="current"
           >
-            {formatPrice(price?.amount, price?.currency)}
+            {formatPrice(price?.saleAmount || price?.amount, price?.currency)}
           </span>
-        )}
-      </p>
-      <div>
+          {!!price?.saleAmount && (
+            <span
+              className={styles.price}
+              data-price-status="previous"
+            >
+              {formatPrice(price?.amount, price?.currency)}
+            </span>
+          )}
+        </p>
         <Button
           disabled={!inStock}
           className={styles.button}
+          size="small"
         >
           {inStock ? 'Add to cart' : 'Out of stock'}
         </Button>
