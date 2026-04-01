@@ -7,20 +7,18 @@ import { BadgeList, BadgeListItem } from '@/components/BadgeList';
 import { Button } from '@/components/Button';
 import { FieldWrapper, Select } from '@/components/Form';
 import { Section, Stack } from '@/components/Layout';
-import { QuantitySelector } from '@/components/QuantitySelector';
 import { VariantSelector } from '@/components/VariantSelector';
 import { convertNumberToCurrency } from '@/utils/convertNumberToCurrency';
 import { logger } from '@/utils/logger';
 
-import bodyText from '@/styles/BodyText.module.css';
 import styles from '@/components/ProductInfo/ProductInfo.module.css';
+import bodyText from '@/styles/BodyText.module.css';
 
 const ProductInformationSchema = z.object({
   color: z.string(),
   size: z.string(),
   tshirt: z.string(),
   image: z.string(),
-  quantity: z.number().min(1),
 });
 
 export type ProductInformationSchemaType = z.infer<typeof ProductInformationSchema>;
@@ -100,7 +98,6 @@ export function ProductInfo({
       size: defaultSize.value,
       image: defaultImage.value,
       tshirt: defaultTshirt.value,
-      quantity: 1,
     },
     mode: 'all',
   });
@@ -221,20 +218,9 @@ export function ProductInfo({
                 />
               </FieldWrapper>
 
-              <Controller
-                name="quantity"
-                control={control}
-                render={({ field }) => (
-                  <QuantitySelector
-                    {...field}
-                    max={13}
-                    ariaLabel="Quantity"
-                  />
-                )}
-              />
               <Button
                 type="submit"
-                disabled={!inStock || Boolean(errors?.quantity?.message) || isSubmitting}
+                disabled={!inStock || isSubmitting}
                 className={styles.button}
               >
                 {isSubmitting ? 'Added!' : 'Add to cart'}

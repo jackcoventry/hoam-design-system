@@ -4,6 +4,14 @@
       "$type": "dimension",
       "$value": "4px"
     },
+    "medium": {
+      "$type": "dimension",
+      "$value": "8px"
+    },
+    "large": {
+      "$type": "dimension",
+      "$value": "12px"
+    },
     "full": {
       "$type": "dimension",
       "$value": "100%"

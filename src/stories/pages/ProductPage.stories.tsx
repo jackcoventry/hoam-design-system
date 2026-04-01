@@ -33,7 +33,7 @@ function DefaultStory(args: Readonly<ProductInfoProps>) {
   const onSubmit: SubmitHandler<ProductInformationSchemaType> = () => {
     setSubmitting(true);
 
-    // Mimic server response
+    // TODO: Mimic server response
     setTimeout(() => {
       setSubmitting(false);
     }, 2000);
@@ -42,7 +42,7 @@ function DefaultStory(args: Readonly<ProductInfoProps>) {
   return (
     <BaseTemplate>
       <Section>
-        <Container width="full">
+        <Container>
           <Stack>
             <Grid gap="lg">
               <GridItem span={12}>

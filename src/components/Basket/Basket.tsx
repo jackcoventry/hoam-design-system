@@ -58,7 +58,9 @@ export function BasketItem({
             className={styles.link}
           >
             <h4 className={styles.title}>{title}</h4>
-            <span className={styles.summary}>{convertNumberToCurrency({ value: price })}</span>
+            <span className={styles.summary}>
+              Price: {convertNumberToCurrency({ value: price })}
+            </span>
           </a>
           <div className={styles.controls}>
             <Button
@@ -70,6 +72,8 @@ export function BasketItem({
             <Button
               size="small"
               variant="secondary"
+              icon="heart-fill"
+              iconOnly
             >
               Save for later
             </Button>
@@ -85,7 +89,8 @@ export function BasketItem({
         </div>
       </td>
       <td>
-        <div className={clsx(styles.price, typography.heading)}>
+        <div className={styles.price}>
+          <span className={styles.priceLabel}>Total:</span>
           {convertNumberToCurrency({ value: totalPrice })}
         </div>
       </td>
@@ -114,10 +119,10 @@ export function Basket({ items = [] }: Readonly<BasketProps>) {
           <th scope="col">Product</th>
           <th scope="col"></th>
           <th scope="col">Quantity</th>
-          <th scope="col">Price</th>
+          <th scope="col">Total</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody className={styles.tbody}>
         {items?.map((item) => {
           const { id, title, summary, price, thumbnail, url, onChange, quantity } = item;
           return (

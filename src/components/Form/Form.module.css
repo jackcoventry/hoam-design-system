@@ -1,6 +1,9 @@
 .root {
+  background-color: var(--hoam-color-neutral-900);
+  border-radius: var(--hoam-border-radius-medium);
   display: grid;
   gap: var(--hoam-spacing-4);
+  padding: var(--hoam-spacing-6);
 }
 
 .controls {

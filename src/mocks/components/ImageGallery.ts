@@ -35,7 +35,7 @@ const items = [
     alt: 'Mountains',
   },
   {
-    id: 5,
+    id: 6,
     src: 'https://images.unsplash.com/photo-1761880743944-af860cbcc211?q=80&w=600&h=600&auto=format&fit=crop',
     thumb:
       'https://images.unsplash.com/photo-1761880743944-af860cbcc211?q=80&w=150&h=100&auto=format&fit=crop',

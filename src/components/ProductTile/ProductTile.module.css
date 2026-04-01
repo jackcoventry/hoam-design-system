@@ -1,5 +1,8 @@
 .root {
+  background-color: var(--hoam-color-neutral-900);
+  border-radius: var(--hoam-border-radius-medium);
   display: grid;
+  padding: var(--hoam-spacing-5);
   position: relative;
 }
 

@@ -3,8 +3,8 @@ import clsx from 'clsx';
 
 import { clamp } from '@/utils/clamp';
 
-import utils from '@/styles/Util.module.css';
 import styles from '@/components/QuantitySelector/QuantitySelector.module.css';
+import utils from '@/styles/Util.module.css';
 
 export interface QuantitySelectorProps {
   value: number;

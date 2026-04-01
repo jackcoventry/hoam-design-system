@@ -576,6 +576,22 @@
     "set": "border-radius"
   },
   {
+    "name": "hoam-border-radius-medium",
+    "cssVar": "--hoam-border-radius-medium",
+    "type": "dimension",
+    "value": "8px",
+    "group": null,
+    "set": "border-radius"
+  },
+  {
+    "name": "hoam-border-radius-large",
+    "cssVar": "--hoam-border-radius-large",
+    "type": "dimension",
+    "value": "12px",
+    "group": null,
+    "set": "border-radius"
+  },
+  {
     "name": "hoam-border-radius-full",
     "cssVar": "--hoam-border-radius-full",
     "type": "dimension",

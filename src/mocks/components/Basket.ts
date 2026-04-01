@@ -5,7 +5,7 @@ const items = [
     summary: 'A fashion-forward bomber jacket to elevate your casual looks.',
     price: 62,
     thumbnail: {
-      src: 'http://dummyimage.com/100x100.jpg',
+      src: 'http://dummyimage.com/120x120.jpg',
       alt: 'A fashion-forward bomber jacket to elevate your casual looks',
     },
     url: '/test-product-1',
@@ -18,7 +18,7 @@ const items = [
     summary: 'Durable jump rope for cardio workouts.',
     price: 44,
     thumbnail: {
-      src: 'http://dummyimage.com/100x100.jpg',
+      src: 'http://dummyimage.com/120x120.jpg',
       alt: 'Durable jump rope for cardio workouts',
     },
     url: '/test-product-2',
@@ -31,7 +31,7 @@ const items = [
     summary: 'Folding massage table for professional or home use.',
     price: 41,
     thumbnail: {
-      src: 'http://dummyimage.com/100x100.jpg',
+      src: 'http://dummyimage.com/120x120.jpg',
       alt: 'Folding massage table for professional or home use.',
     },
     url: '/test-product-3',
@@ -44,7 +44,7 @@ const items = [
     summary: 'Concentrated tomato paste, great for sauces.',
     price: 85,
     thumbnail: {
-      src: 'http://dummyimage.com/100x100.jpg',
+      src: 'http://dummyimage.com/120x120.jpg',
       alt: 'Concentrated tomato paste, great for sauces.',
     },
     url: '/test-product-4',

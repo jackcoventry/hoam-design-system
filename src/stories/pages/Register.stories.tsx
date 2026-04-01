@@ -39,7 +39,7 @@ function StoryTemplate() {
 
   return (
     <BaseTemplate>
-      <Section>
+      <Section space="2xl">
         <Container>
           <Grid>
             <GridItem

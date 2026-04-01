@@ -1,3 +1,7 @@
 body {
   font: var(--hoam-typography-body-1);
 }
+
+main {
+  background-color: var(--hoam-color-neutral-800);
+}

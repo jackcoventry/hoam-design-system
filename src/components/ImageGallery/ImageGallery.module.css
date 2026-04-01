@@ -1,0 +1,8 @@
+.root {
+  border-radius: var(--hoam-border-radius-medium);
+  overflow: hidden;
+}
+
+.img {
+  width: 100%;
+}
