@@ -6,7 +6,7 @@ import { clamp } from '@/utils/clamp';
 import styles from './ProgressBar.module.css';
 
 export interface ProgressBarProps {
-  value?: number;
+  value?: number | undefined;
   min?: number;
   max?: number;
   label?: string;
@@ -75,12 +75,16 @@ export function ProgressBar({
           {valueText}
         </progress>
       ) : (
-        <progress
-          className={clsx(styles.progress, styles.indeterminate)}
+        <div
+          className={clsx(styles.progressTrack, styles.indeterminate)}
+          role="progressbar"
           aria-labelledby={labelId}
+          aria-valuemin={min}
+          aria-valuemax={safeMax}
+          aria-valuetext={valueText}
         >
-          {valueText}
-        </progress>
+          <span className={styles.indeterminateBar} />
+        </div>
       )}
     </div>
   );

@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import type { HTMLAttributes } from 'react';
 
-import styles from './Skeleton.module.css';
+import styles from '@/components/Loading/Skeleton/Skeleton.module.css';
 
 export type SkeletonVariant = 'rectangular' | 'text' | 'circular';
 

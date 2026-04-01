@@ -34,7 +34,7 @@ export const Complete: Story = {
 
 export const Indeterminate: Story = {
   args: {
-    value: 0,
+    value: undefined,
     label: 'Importing assets',
     showValue: false,
   },
