@@ -1,4 +1,5 @@
 import { type ReactNode, useId } from 'react';
+import clsx from 'clsx';
 
 import styles from './RadioGroup.module.css';
 
@@ -9,10 +10,6 @@ export interface RadioGroupProps {
   children: ReactNode;
   className?: string;
   required?: boolean;
-}
-
-function cx(...values: Array<string | false | null | undefined>) {
-  return values.filter(Boolean).join(' ');
 }
 
 export function RadioGroup({
@@ -31,13 +28,14 @@ export function RadioGroup({
 
   return (
     <fieldset
-      className={cx(styles.root, className)}
+      className={clsx(styles.root, className)}
       aria-describedby={describedBy}
     >
-      <legend className={styles.legend}>
+      <legend className="sr-only">{legend}</legend>
+      <span className={styles.legend}>
         {legend}
         {required ? <span className={styles.required}> *</span> : null}
-      </legend>
+      </span>
 
       {description ? (
         <p

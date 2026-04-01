@@ -9,7 +9,10 @@ import {
 } from 'react';
 import clsx from 'clsx';
 
+import { Icon } from '@/components/Icon';
+
 import styles from './Checkbox.module.css';
+import utils from '@/styles/Util.module.css';
 
 export interface CheckboxProps extends Omit<ComponentPropsWithoutRef<'input'>, 'type'> {
   label: string;
@@ -69,7 +72,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Che
             {...rest}
             ref={inputRef}
             id={inputId}
-            className={styles.input}
+            className={clsx(styles.input, utils.focus)}
             type="checkbox"
             disabled={disabled}
             aria-labelledby={labelId}
@@ -78,20 +81,20 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Che
           />
 
           <span
-            className={styles.box}
+            className={clsx(styles.box, utils.focusTarget)}
             aria-hidden="true"
           >
-            <span className={styles.icon} />
+            <span className={styles.icon}>
+              <Icon id={indeterminate ? 'dash' : 'check'} />
+            </span>
           </span>
         </span>
 
-        <span className={styles.text}>
-          <span
-            id={labelId}
-            className={styles.label}
-          >
-            {label}
-          </span>
+        <span
+          id={labelId}
+          className={styles.label}
+        >
+          {label}
         </span>
       </label>
 

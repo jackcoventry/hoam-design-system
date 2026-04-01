@@ -31,10 +31,11 @@ export function CheckboxGroup({
       className={clsx(styles.root, className)}
       aria-describedby={describedBy}
     >
-      <legend className={styles.legend}>
+      <legend className="sr-only">{legend}</legend>
+      <span className={styles.legend}>
         {legend}
         {required ? <span className={styles.required}> *</span> : null}
-      </legend>
+      </span>
 
       {description ? (
         <p

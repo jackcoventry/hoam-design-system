@@ -2,11 +2,11 @@ import { Children, isValidElement, type ReactElement, type ReactNode } from 'rea
 import clsx from 'clsx';
 
 import { InfoGridItem, type InfoGridItemProps } from '@/components/InfoGrid';
-import { Container, Grid, GridItem } from '@/components/Layout';
+import { Container, Grid, GridItem, Stack } from '@/components/Layout';
 import { logger } from '@/utils/logger';
 
-import bodyText from '@/styles/BodyText.module.css';
 import styles from '@/components/InfoGrid/InfoGrid.module.css';
+import bodyText from '@/styles/BodyText.module.css';
 
 export type InfoGridProps = {
   title: string;
@@ -27,13 +27,15 @@ export function InfoGrid({ title, description, children }: Readonly<InfoGridProp
       <Container>
         <Grid>
           <GridItem
-            className={clsx(styles.content, bodyText.root)}
+            className={styles.content}
             span={12}
             spanLg={6}
             startLg={4}
           >
-            <h2 className={styles.title}>{title}</h2>
-            {description ? <p>{description}</p> : null}
+            <Stack>
+              <h2 className={styles.title}>{title}</h2>
+              {description ? <p>{description}</p> : null}
+            </Stack>
           </GridItem>
         </Grid>
       </Container>

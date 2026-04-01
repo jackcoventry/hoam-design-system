@@ -1,32 +1,22 @@
 .wrapper {
-  --radio-size: 1.25rem;
-  --radio-dot-size: 0.5rem;
-  --radio-border-color: rgba(0, 0, 0, 0.28);
-  --radio-bg: #ffffff;
-  --radio-selected-bg: currentColor;
-  --radio-label-gap: 0.75rem;
-  --radio-text-gap: 0.25rem;
-  --radio-focus-ring-width: 2px;
-  --radio-focus-ring-offset: 3px;
-  --radio-transition-duration: 180ms;
-  --radio-transition-easing: ease;
-  --radio-disabled-opacity: 0.55;
+  --radio-size: 20px;
+  --radio-dot-size: 10px;
 
   display: grid;
-  gap: var(--radio-text-gap);
+  gap: var(--hoam-spacing-2);
 }
 
 .root {
   display: inline-flex;
   align-items: flex-start;
-  gap: var(--radio-label-gap);
+  gap: var(--hoam-spacing-4);
   cursor: pointer;
   user-select: none;
 }
 
 .disabled {
   cursor: not-allowed;
-  opacity: var(--radio-disabled-opacity);
+  opacity: 0.55;
 }
 
 .control {
@@ -51,28 +41,22 @@
   place-items: center;
   width: var(--radio-size);
   height: var(--radio-size);
-  background: var(--radio-bg);
-  border: var(--hoam-border-size-default) var(--radio-border-color);
+  background: var(--hoam-color-neutral-900);
+  border: var(--hoam-border-size-default) var(--hoam-color-neutral-800);
   border-radius: var(--hoam-border-radius-full);
-  transition:
-    border-color var(--radio-transition-duration) var(--radio-transition-easing),
-    opacity var(--radio-transition-duration) var(--radio-transition-easing);
 }
 
 .inner {
   width: var(--radio-dot-size);
   height: var(--radio-dot-size);
-  background: var(--radio-selected-bg);
+  background: var(--hoam-color-semantic-success);
   border-radius: var(--hoam-border-radius-full);
   transform: scale(0);
   opacity: 0;
-  transition:
-    transform var(--radio-transition-duration) var(--radio-transition-easing),
-    opacity var(--radio-transition-duration) var(--radio-transition-easing);
 }
 
 .input:checked + .outer {
-  border-color: currentColor;
+  border-color: var(--hoam-color-semantic-success);
 }
 
 .input:checked + .outer .inner {
@@ -80,26 +64,17 @@
   opacity: 1;
 }
 
-.input:focus-visible + .outer {
-  outline: var(--radio-focus-ring-width) solid currentColor;
-  outline-offset: var(--radio-focus-ring-offset);
-}
-
 .text {
   display: grid;
-  gap: var(--radio-text-gap);
+  gap: var(--hoam-spacing-2);
   min-width: 0;
 }
 
 .label {
-  line-height: 1.3;
+  font: var(--hoam-typography-label-1);
 }
 
 .description {
-  margin-inline-start: calc(var(--radio-size) + var(--radio-label-gap));
-  font-size: 0.875rem;
-  line-height: 1.4;
-  opacity: 0.8;
 }
 
 @media (prefers-reduced-motion: reduce) {

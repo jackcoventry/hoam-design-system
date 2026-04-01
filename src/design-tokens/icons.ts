@@ -6,6 +6,7 @@ export const ICON_IDS = [
   "bag",
   "caret-down",
   "caret-right",
+  "check",
   "clock",
   "close",
   "dash",

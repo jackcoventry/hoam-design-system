@@ -2,6 +2,7 @@ import { type ChangeEvent, type ComponentPropsWithoutRef, forwardRef, useId } fr
 import clsx from 'clsx';
 
 import styles from './Radio.module.css';
+import utils from '@/styles/Util.module.css';
 
 export interface RadioProps extends Omit<ComponentPropsWithoutRef<'input'>, 'type'> {
   label: string;
@@ -34,7 +35,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(function Radio(
             {...rest}
             ref={ref}
             id={inputId}
-            className={styles.input}
+            className={clsx(styles.input, utils.focus)}
             type="radio"
             disabled={disabled}
             aria-labelledby={labelId}
@@ -43,7 +44,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(function Radio(
           />
 
           <span
-            className={styles.outer}
+            className={clsx(styles.outer, utils.focusTarget)}
             aria-hidden="true"
           >
             <span className={styles.inner} />
