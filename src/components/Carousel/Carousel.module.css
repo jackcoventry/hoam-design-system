@@ -3,6 +3,9 @@
 }
 
 .root :global(.swiper) {
+  --swiper-pagination-bullet-width: 12px;
+  --swiper-pagination-bullet-size: 12px;
+
   width: 100%;
 }
 
@@ -12,9 +15,24 @@
 
 .root :global(.swiper-button-prev),
 .root :global(.swiper-button-next) {
+  --swiper-navigation-color: var(--hoam-color-neutral-900);
+
+  block-size: var(--carousel-nav-size);
+  inline-size: var(--carousel-nav-size);
+}
+
+.root :global(.swiper-button-prev):hover,
+.root :global(.swiper-button-next):hover {
+  --swiper-navigation-color: var(--hoam-color-neutral-700);
+
   block-size: var(--carousel-nav-size);
   inline-size: var(--carousel-nav-size);
 }
 
 .root :global(.swiper-pagination-bullet-active) {
+  background-color: var(--hoam-color-neutral-900);
+}
+
+.root :global(.swiper-pagination-bullet-active):hover {
+  background-color: var(--hoam-color-neutral-700);
 }

@@ -11,7 +11,7 @@
 .label {
   display: flex;
   font: var(--hoam-typography-label-1);
-  gap: var(--hoam-spacing-1);
+  gap: var(--hoam-spacing-2xs);
 }
 
 .legend {
@@ -24,7 +24,7 @@
 }
 
 .visual {
-  gap: var(--hoam-spacing-2);
+  gap: var(--hoam-spacing-xs);
 }
 
 .radio:checked + .visual .indicator {
@@ -54,7 +54,7 @@
 
 .items {
   display: flex;
-  gap: var(--hoam-spacing-4);
+  gap: var(--hoam-spacing-md);
 }
 
 .item {
@@ -63,7 +63,7 @@
 
 .indicatorText {
   font: var(--hoam-typography-label-1);
-  padding: 0 var(--hoam-spacing-2);
+  padding: 0 var(--hoam-spacing-xs);
 }
 
 /* Horizontal Variant */

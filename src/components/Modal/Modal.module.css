@@ -47,7 +47,7 @@
 
 .root[data-variant="modal"] .dialog {
   border-radius: var(--hoam-border-radius-small);
-  max-height: calc(100dvh - var(--hoam-spacing-6));
+  max-height: calc(100dvh - var(--hoam-spacing-xl));
   max-width: 1200px;
   width: fit-content;
 }
@@ -129,7 +129,7 @@
 .header {
   align-items: center;
   display: flex;
-  gap: var(--hoam-spacing-5);
+  gap: var(--hoam-spacing-lg);
   justify-content: space-between;
 }
 
@@ -151,7 +151,7 @@
 .header[data-padded="true"],
 .body[data-padded="true"],
 .footer[data-padded="true"] {
-  padding: var(--hoam-spacing-5);
+  padding: var(--hoam-spacing-lg);
 }
 
 .closeButton {

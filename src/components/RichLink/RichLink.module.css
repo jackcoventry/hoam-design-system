@@ -33,10 +33,10 @@
 }
 
 .text {
-  bottom: var(--hoam-spacing-4);
+  bottom: var(--hoam-spacing-md);
   color: var(--hoam-color-neutral-900);
   font: var(--hoam-typography-title-3);
-  left: var(--hoam-spacing-4);
+  left: var(--hoam-spacing-md);
   position: absolute;
   z-index: var(--hoam-layer-raised);
 }

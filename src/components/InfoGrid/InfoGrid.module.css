@@ -1,10 +1,10 @@
 .root {
   background-color: var(--hoam-color-sun-300);
-  padding: var(--hoam-spacing-8) var(--hoam-spacing-2);
+  padding: var(--hoam-spacing-3xl) var(--hoam-spacing-xs);
 }
 
 .content {
-  margin-bottom: var(--hoam-spacing-7);
+  margin-bottom: var(--hoam-spacing-2xl);
   text-align: center;
 }
 

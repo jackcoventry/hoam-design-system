@@ -8,10 +8,10 @@
 }
 
 .badges {
-  left: var(--hoam-spacing-2);
+  left: var(--hoam-spacing-xs);
   position: absolute;
-  top: var(--hoam-spacing-2);
-  width: calc(100% - var(--hoam-spacing-4));
+  top: var(--hoam-spacing-xs);
+  width: calc(100% - var(--hoam-spacing-md));
   z-index: var(--hoam-layer-raised);
 }
 
@@ -62,14 +62,14 @@
 .price[data-price-status="previous"] {
   color: var(--hoam-color-semantic-error);
   font-style: italic;
-  margin-left: var(--hoam-spacing-2);
+  margin-left: var(--hoam-spacing-xs);
   text-decoration: line-through;
 }
 
 .save {
   position: absolute;
-  bottom: var(--hoam-spacing-3);
-  right: var(--hoam-spacing-3);
+  bottom: var(--hoam-spacing-sm);
+  right: var(--hoam-spacing-sm);
 }
 
 .description {
@@ -77,12 +77,12 @@
 }
 
 .content {
-  padding: var(--hoam-spacing-2) 0;
+  padding: var(--hoam-spacing-xs) 0;
   text-align: center;
 }
 
 .button {
-  margin: var(--hoam-spacing-2) auto 0;
+  margin: var(--hoam-spacing-xs) auto 0;
 }
 
 @keyframes hoam-product-tile-image-loading {

@@ -3,7 +3,7 @@
   width: 100%;
   min-width: 0;
   margin-inline: auto;
-  padding-inline: var(--hoam-spacing-4, 1rem);
+  padding-inline: var(--hoam-spacing-md, 1rem);
 }
 
 .root[data-width="narrow"] {

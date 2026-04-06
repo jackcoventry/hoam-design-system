@@ -17,11 +17,11 @@
 
 .sectionTitle {
   font: var(--hoam-typography-title-3);
-  margin-bottom: var(--hoam-spacing-1);
+  margin-bottom: var(--hoam-spacing-2xs);
 }
 
 .topLevelItem {
   border-bottom: var(--hoam-border-size-default) var(--hoam-color-border);
-  margin-bottom: var(--hoam-spacing-6);
-  padding-bottom: var(--hoam-spacing-6);
+  margin-bottom: var(--hoam-spacing-xl);
+  padding-bottom: var(--hoam-spacing-xl);
 }

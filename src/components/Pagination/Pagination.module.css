@@ -1,12 +1,12 @@
 .root {
   display: flex;
   justify-content: center;
-  margin: var(--hoam-spacing-3) 0;
+  margin: var(--hoam-spacing-sm) 0;
 }
 
 .list {
   display: flex;
   list-style: none;
   padding: 0;
-  gap: var(--hoam-spacing-2);
+  gap: var(--hoam-spacing-xs);
 }

@@ -20,7 +20,7 @@
   border: none;
   cursor: pointer;
   font: var(--hoam-typography-title-3);
-  padding: var(--hoam-spacing-4);
+  padding: var(--hoam-spacing-md);
   position: relative;
   width: 100%;
 }
@@ -38,5 +38,5 @@
 }
 
 .panel {
-  padding: var(--hoam-spacing-4) var(--hoam-spacing-8);
+  padding: var(--hoam-spacing-md) var(--hoam-spacing-3xl);
 }

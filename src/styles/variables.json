@@ -736,82 +736,74 @@
     "set": "spacing"
   },
   {
-    "name": "hoam-spacing-1",
-    "cssVar": "--hoam-spacing-1",
+    "name": "hoam-spacing-2xs",
+    "cssVar": "--hoam-spacing-2xs",
     "type": "dimension",
     "value": "4px",
     "group": null,
     "set": "spacing"
   },
   {
-    "name": "hoam-spacing-2",
-    "cssVar": "--hoam-spacing-2",
+    "name": "hoam-spacing-xs",
+    "cssVar": "--hoam-spacing-xs",
     "type": "dimension",
     "value": "8px",
     "group": null,
     "set": "spacing"
   },
   {
-    "name": "hoam-spacing-3",
-    "cssVar": "--hoam-spacing-3",
+    "name": "hoam-spacing-sm",
+    "cssVar": "--hoam-spacing-sm",
     "type": "dimension",
     "value": "12px",
     "group": null,
     "set": "spacing"
   },
   {
-    "name": "hoam-spacing-4",
-    "cssVar": "--hoam-spacing-4",
+    "name": "hoam-spacing-md",
+    "cssVar": "--hoam-spacing-md",
     "type": "dimension",
     "value": "16px",
     "group": null,
     "set": "spacing"
   },
   {
-    "name": "hoam-spacing-5",
-    "cssVar": "--hoam-spacing-5",
+    "name": "hoam-spacing-lg",
+    "cssVar": "--hoam-spacing-lg",
     "type": "dimension",
     "value": "24px",
     "group": null,
     "set": "spacing"
   },
   {
-    "name": "hoam-spacing-6",
-    "cssVar": "--hoam-spacing-6",
+    "name": "hoam-spacing-xl",
+    "cssVar": "--hoam-spacing-xl",
     "type": "dimension",
     "value": "32px",
     "group": null,
     "set": "spacing"
   },
   {
-    "name": "hoam-spacing-7",
-    "cssVar": "--hoam-spacing-7",
+    "name": "hoam-spacing-2xl",
+    "cssVar": "--hoam-spacing-2xl",
     "type": "dimension",
     "value": "56px",
     "group": null,
     "set": "spacing"
   },
   {
-    "name": "hoam-spacing-8",
-    "cssVar": "--hoam-spacing-8",
+    "name": "hoam-spacing-3xl",
+    "cssVar": "--hoam-spacing-3xl",
     "type": "dimension",
     "value": "72px",
     "group": null,
     "set": "spacing"
   },
   {
-    "name": "hoam-spacing-9",
-    "cssVar": "--hoam-spacing-9",
+    "name": "hoam-spacing-4xl",
+    "cssVar": "--hoam-spacing-4xl",
     "type": "dimension",
     "value": "96px",
-    "group": null,
-    "set": "spacing"
-  },
-  {
-    "name": "hoam-spacing-10",
-    "cssVar": "--hoam-spacing-10",
-    "type": "dimension",
-    "value": "120px",
     "group": null,
     "set": "spacing"
   },

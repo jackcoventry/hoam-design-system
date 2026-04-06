@@ -23,7 +23,7 @@
 }
 
 .contentLink {
-  margin-top: var(--hoam-spacing-3);
+  margin-top: var(--hoam-spacing-sm);
 }
 
 .title {

@@ -4,13 +4,13 @@
   --hoam-progress-border-radius: var(--hoam-border-radius-medium);
 
   display: grid;
-  gap: var(--hoam-spacing-2);
+  gap: var(--hoam-spacing-xs);
 }
 
 .header {
   align-items: center;
   display: flex;
-  gap: var(--hoam-spacing-4);
+  gap: var(--hoam-spacing-md);
   justify-content: space-between;
 }
 

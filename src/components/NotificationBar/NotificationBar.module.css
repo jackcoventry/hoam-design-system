@@ -6,7 +6,7 @@
   background-color: var(--hoam-color-notification-bar-bg);
   font: var(--hoam-typography-label-1);
   height: var(--hoam-notification-bar-height);
-  padding: var(--hoam-spacing-3);
+  padding: var(--hoam-spacing-sm);
   text-align: center;
   text-transform: uppercase;
 }

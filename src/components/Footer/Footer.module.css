@@ -1,12 +1,12 @@
 .root {
-  background-color: var(--hoam-color-moon-100);
-  padding: var(--hoam-spacing-8) 0;
+  background-color: var(--hoam-color-footer-bg);
+  padding: var(--hoam-spacing-3xl) 0;
 }
 
 .links,
 .socialLinks {
   display: flex;
-  gap: var(--hoam-spacing-4);
+  gap: var(--hoam-spacing-md);
 }
 
 .socialLinks a:link,
@@ -27,7 +27,7 @@
 
 .sectionTitle {
   font: var(--hoam-typography-label-1);
-  margin-bottom: var(--hoam-spacing-4);
+  margin-bottom: var(--hoam-spacing-md);
   text-transform: uppercase;
 }
 
@@ -57,8 +57,8 @@
 
 .separator {
   border-top: var(--hoam-border-size-default) var(--hoam-color-moon-300);
-  margin-top: var(--hoam-spacing-8);
-  padding-top: var(--hoam-spacing-6);
+  margin-top: var(--hoam-spacing-3xl);
+  padding-top: var(--hoam-spacing-xl);
 }
 
 .logo {

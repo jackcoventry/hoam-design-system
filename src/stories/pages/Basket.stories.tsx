@@ -2,9 +2,7 @@ import { Meta } from '@storybook/react-vite';
 
 import { Basket, BasketFooter } from '@/components/Basket';
 import { Container, Grid, GridItem, Section, Stack } from '@/components/Layout';
-import { RecommendedProducts } from '@/components/RecommendedProducts';
 import items from '@/mocks/components/Basket';
-import { productTile, productTileLowStock, productTileNew } from '@/mocks/components/ProductTile';
 import BaseTemplate from '@/stories/templates/Base';
 
 import typography from '@/styles/Typography.module.css';
@@ -32,19 +30,16 @@ const Template = {
             <Stack gap="2xl">
               <Grid>
                 <GridItem span={12}>
-                  <h1 className={typography.subtitle}>Your basket</h1>
-                  <Basket
-                    items={items}
-                    total={total}
-                  />
-                  <BasketFooter total={total} />
+                  <Stack gap="lg">
+                    <h1 className={typography.subtitle}>Your basket</h1>
+                    <Basket
+                      items={items}
+                      total={total}
+                    />
+                    <BasketFooter total={total} />
+                  </Stack>
                 </GridItem>
               </Grid>
-
-              <RecommendedProducts
-                title="Recommended products"
-                products={[productTile, productTileNew, productTileLowStock]}
-              />
             </Stack>
           </Section>
         </Container>

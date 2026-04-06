@@ -1,11 +1,11 @@
 .root {
   font: var(--hoam-typography-label-1);
-  padding: var(--hoam-spacing-1) 0;
+  padding: var(--hoam-spacing-2xs) 0;
 }
 
 .list {
   display: flex;
-  gap: var(--hoam-spacing-3);
+  gap: var(--hoam-spacing-sm);
   list-style: none;
   margin: 0;
   padding: 0;
@@ -13,7 +13,7 @@
 
 .listItem:not(:last-child)::after {
   content: "/";
-  padding-left: var(--hoam-spacing-3);
+  padding-left: var(--hoam-spacing-sm);
 }
 
 a.item:link,

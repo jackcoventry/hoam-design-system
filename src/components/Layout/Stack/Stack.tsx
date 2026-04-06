@@ -3,7 +3,7 @@ import type { CSSProperties, HTMLAttributes, ReactNode } from 'react';
 
 import styles from '@/components/Layout/Stack/Stack.module.css';
 
-export type StackGap = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+export type StackGap = 'none' | '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 
 export type StackProps = HTMLAttributes<HTMLDivElement> & {
   children: ReactNode;
@@ -15,20 +15,22 @@ function mapGapToValue(gap: StackGap): string {
   switch (gap) {
     case 'none':
       return '0px';
+    case '2xs':
+      return 'var(--hoam-spacing-2xs, 0.125rem)';
     case 'xs':
-      return 'var(--hoam-spacing-1, 0.25rem)';
+      return 'var(--hoam-spacing-xs, 0.25rem)';
     case 'sm':
-      return 'var(--hoam-spacing-2, 0.5rem)';
+      return 'var(--hoam-spacing-sm, 0.5rem)';
     case 'md':
-      return 'var(--hoam-spacing-4, 1rem)';
+      return 'var(--hoam-spacing-md, 1rem)';
     case 'lg':
-      return 'var(--hoam-spacing-6, 1.5rem)';
+      return 'var(--hoam-spacing-lg, 1.5rem)';
     case 'xl':
-      return 'var(--hoam-spacing-8, 2rem)';
+      return 'var(--hoam-spacing-xl, 2rem)';
     case '2xl':
-      return 'var(--hoam-spacing-8, 3rem)';
+      return 'var(--hoam-spacing-2xl, 3rem)';
     default:
-      return 'var(--hoam-spacing-4, 1rem)';
+      return 'var(--hoam-spacing-md, 1rem)';
   }
 }
 

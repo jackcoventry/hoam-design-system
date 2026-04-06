@@ -20,7 +20,7 @@
   align-items: flex-start;
   cursor: pointer;
   display: inline-flex;
-  gap: var(--hoam-spacing-4);
+  gap: var(--hoam-spacing-md);
   user-select: none;
 }
 

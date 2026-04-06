@@ -4,7 +4,7 @@
   color: var(--hoam-color-neutral-900);
   display: block;
   height: 100%;
-  padding: var(--hoam-spacing-4);
+  padding: var(--hoam-spacing-md);
   text-decoration: none;
 }
 

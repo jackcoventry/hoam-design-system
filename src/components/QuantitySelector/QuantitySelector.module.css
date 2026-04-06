@@ -5,7 +5,7 @@
 .root {
   display: flex;
   flex-direction: column;
-  gap: var(--hoam-spacing-2);
+  gap: var(--hoam-spacing-xs);
 }
 
 .inner {
@@ -14,15 +14,15 @@
 }
 
 .input {
-  width: var(--hoam-size-quantity-selector);
-  height: var(--hoam-size-quantity-selector);
-  text-align: center;
-  border: none;
-  outline: none;
-  font: var(--hoam-typography-body-1);
-  padding: 0;
   background-color: var(--hoam-color-neutral-900);
+  border: none;
   color: var(--hoam-color-neutral-100);
+  font: var(--hoam-typography-body-1);
+  height: var(--hoam-size-quantity-selector);
+  outline: none;
+  padding: 0;
+  text-align: center;
+  width: var(--hoam-size-quantity-selector);
 }
 
 .label {
@@ -32,6 +32,7 @@
 
 .button {
   border: none;
+  border-radius: var(--hoam-border-radius-medium);
   height: var(--hoam-size-quantity-selector);
   outline: none;
   width: var(--hoam-size-quantity-selector);

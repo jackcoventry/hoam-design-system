@@ -5,7 +5,7 @@
 }
 
 .content {
-  margin-bottom: var(--hoam-spacing-6);
+  margin-bottom: var(--hoam-spacing-xl);
   text-align: center;
 }
 
@@ -17,7 +17,7 @@
 .root {
   background-color: var(--hoam-color-neutral-100);
   overflow: hidden;
-  padding: var(--hoam-spacing-10) 0;
+  padding: var(--hoam-spacing-2xs) 0;
   position: relative;
   width: 100%;
 }

@@ -8,9 +8,9 @@
   border-left-width: 8px;
   border-radius: var(--hoam-border-radius-small);
   border-color: var(--hoam-message-highlight);
-  padding: var(--hoam-spacing-4);
+  padding: var(--hoam-spacing-md);
   display: grid;
-  gap: var(--hoam-spacing-2);
+  gap: var(--hoam-spacing-xs);
   grid-template-columns: 1fr auto;
   width: 100%;
 }
@@ -51,7 +51,7 @@
 
 .content {
   display: grid;
-  gap: var(--hoam-spacing-2);
+  gap: var(--hoam-spacing-xs);
 }
 
 .title {

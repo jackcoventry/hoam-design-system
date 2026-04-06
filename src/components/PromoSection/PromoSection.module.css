@@ -1,6 +1,6 @@
 .root {
   background-color: var(--hoam-color-promo-background);
-  padding: var(--hoam-spacing-8) var(--hoam-spacing-2);
+  padding: var(--hoam-spacing-3xl) var(--hoam-spacing-xs);
 }
 
 .button {

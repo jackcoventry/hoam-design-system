@@ -1,7 +1,7 @@
 .root {
   border: 0;
   display: grid;
-  gap: var(--hoam-spacing-4);
+  gap: var(--hoam-spacing-md);
   min-inline-size: 0;
   margin: 0;
   padding: 0;
@@ -23,7 +23,7 @@
 
 .items {
   display: grid;
-  gap: var(--hoam-spacing-2);
+  gap: var(--hoam-spacing-xs);
 }
 
 .error {

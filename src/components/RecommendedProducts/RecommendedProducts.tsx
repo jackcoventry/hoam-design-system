@@ -1,8 +1,8 @@
 import { Container, Grid, GridItem, Section, Stack } from '@/components/Layout';
 import { ProductTile, type ProductTileProps } from '@/components/ProductTile';
 
-import bodyText from '@/styles/BodyText.module.css';
 import styles from '@/components/RecommendedProducts/RecommendedProducts.module.css';
+import bodyText from '@/styles/BodyText.module.css';
 
 export type RecommendedProductsProps = {
   title: string;
@@ -17,7 +17,7 @@ export function RecommendedProducts({
 }: Readonly<RecommendedProductsProps>) {
   return (
     <Section
-      space="2xl"
+      space="md"
       className={styles.root}
     >
       <Stack gap="lg">
