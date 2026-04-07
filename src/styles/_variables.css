@@ -101,9 +101,9 @@
   --hoam-spacing-md: 16px;
   --hoam-spacing-lg: 24px;
   --hoam-spacing-xl: 32px;
-  --hoam-spacing-2xl: 56px;
-  --hoam-spacing-3xl: 72px;
-  --hoam-spacing-4xl: 96px;
+  --hoam-spacing-2xl: 64px;
+  --hoam-spacing-3xl: 96px;
+  --hoam-spacing-4xl: 128px;
   --hoam-typography-family-1: Boldonse, system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
   --hoam-typography-family-2: 'DM Serif Text', system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
   --hoam-typography-family-3: Roboto, system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;

@@ -43,10 +43,19 @@
   --hoam-button-color-text: var(--hoam-color-neutral-100);
 }
 
+.root[data-variant="tertiary"] {
+  --hoam-button-color-fill: var(--hoam-color-primary);
+  --hoam-button-color-text: var(--hoam-color-neutral-900);
+}
+
 .root[data-variant="primary"]:not(:disabled):hover,
 .root[data-variant="secondary"]:not(:disabled):hover {
   --hoam-button-color-fill: var(--hoam-color-sun-500);
   --hoam-button-color-text: var(--hoam-color-neutral-900);
+}
+
+.root[data-variant="tertiary"]:not(:disabled):hover {
+  --hoam-button-color-fill: var(--hoam-color-neutral-100);
 }
 
 .root:disabled {

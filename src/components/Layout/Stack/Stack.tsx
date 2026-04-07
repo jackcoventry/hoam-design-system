@@ -1,38 +1,15 @@
 import clsx from 'clsx';
 import type { CSSProperties, HTMLAttributes, ReactNode } from 'react';
 
-import styles from '@/components/Layout/Stack/Stack.module.css';
+import { mapGapToValue, Spacing } from '@/design-tokens/spacing';
 
-export type StackGap = 'none' | '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+import styles from '@/components/Layout/Stack/Stack.module.css';
 
 export type StackProps = HTMLAttributes<HTMLDivElement> & {
   children: ReactNode;
-  gap?: StackGap;
+  gap?: Spacing;
   align?: 'stretch' | 'start' | 'center' | 'end';
 };
-
-function mapGapToValue(gap: StackGap): string {
-  switch (gap) {
-    case 'none':
-      return '0px';
-    case '2xs':
-      return 'var(--hoam-spacing-2xs, 0.125rem)';
-    case 'xs':
-      return 'var(--hoam-spacing-xs, 0.25rem)';
-    case 'sm':
-      return 'var(--hoam-spacing-sm, 0.5rem)';
-    case 'md':
-      return 'var(--hoam-spacing-md, 1rem)';
-    case 'lg':
-      return 'var(--hoam-spacing-lg, 1.5rem)';
-    case 'xl':
-      return 'var(--hoam-spacing-xl, 2rem)';
-    case '2xl':
-      return 'var(--hoam-spacing-2xl, 3rem)';
-    default:
-      return 'var(--hoam-spacing-md, 1rem)';
-  }
-}
 
 function mapAlignToValue(align: NonNullable<StackProps['align']>): string {
   switch (align) {

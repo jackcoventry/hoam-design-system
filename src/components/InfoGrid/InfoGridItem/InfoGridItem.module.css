@@ -7,7 +7,7 @@
 }
 
 .icon {
-  background-color: var(--hoam-color-sun-400);
+  background-color: rgba(255, 255, 255, 0.2); /* TODO: Tokenize */
   border-radius: var(--hoam-border-radius-full);
   display: inline-flex;
   margin: 0 auto;

@@ -2,7 +2,7 @@ import { Children, isValidElement, type ReactElement, type ReactNode } from 'rea
 import clsx from 'clsx';
 
 import { InfoGridItem, type InfoGridItemProps } from '@/components/InfoGrid';
-import { Container, Grid, GridItem, Stack } from '@/components/Layout';
+import { Container, Grid, GridItem, Section, Stack } from '@/components/Layout';
 import { logger } from '@/utils/logger';
 
 import styles from '@/components/InfoGrid/InfoGrid.module.css';
@@ -23,42 +23,47 @@ function isInfoGridItemElement(child: ReactNode): child is ReactElement<InfoGrid
 
 export function InfoGrid({ title, description, children }: Readonly<InfoGridProps>) {
   return (
-    <div className={styles.root}>
-      <Container>
-        <Grid>
-          <GridItem
-            className={styles.content}
-            span={12}
-            spanLg={6}
-            startLg={4}
-          >
-            <Stack>
-              <h2 className={styles.title}>{title}</h2>
-              {description ? <p>{description}</p> : null}
-            </Stack>
-          </GridItem>
-        </Grid>
-      </Container>
+    <Section
+      className={styles.root}
+      space="2xl"
+    >
+      <Stack gap="2xl">
+        <Container>
+          <Grid>
+            <GridItem
+              className={styles.content}
+              span={12}
+              spanLg={8}
+              startLg={3}
+            >
+              <Stack>
+                <h2 className={styles.title}>{title}</h2>
+                {description ? <p className={styles.description}>{description}</p> : null}
+              </Stack>
+            </GridItem>
+          </Grid>
+        </Container>
 
-      <Container>
-        <Grid>
-          {Children.map(children, (child, index) => {
-            if (index < MAX_ITEMS && isInfoGridItemElement(child)) {
-              return (
-                <GridItem
-                  span={12}
-                  spanLg={4}
-                >
-                  {child}
-                </GridItem>
-              );
-            }
+        <Container>
+          <Grid>
+            {Children.map(children, (child, index) => {
+              if (index < MAX_ITEMS && isInfoGridItemElement(child)) {
+                return (
+                  <GridItem
+                    span={12}
+                    spanLg={4}
+                  >
+                    {child}
+                  </GridItem>
+                );
+              }
 
-            logger.warn(INVALID_CHILD_MESSAGE);
-            return null;
-          })}
-        </Grid>
-      </Container>
-    </div>
+              logger.warn(INVALID_CHILD_MESSAGE);
+              return null;
+            })}
+          </Grid>
+        </Container>
+      </Stack>
+    </Section>
   );
 }

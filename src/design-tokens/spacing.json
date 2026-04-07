@@ -23,13 +23,13 @@
       "$value": "32px"
     },
     "2xl": {
-      "$value": "56px"
+      "$value": "64px"
     },
     "3xl": {
-      "$value": "72px"
+      "$value": "96px"
     },
     "4xl": {
-      "$value": "96px"
+      "$value": "128px"
     }
   }
 }

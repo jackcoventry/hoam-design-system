@@ -11,8 +11,8 @@ import {
   PasswordStrengthMeter,
 } from '@/components/Form';
 
-import utils from '@/styles/Util.module.css';
 import styles from '@/components/Form/Form.module.css';
+import utils from '@/styles/Util.module.css';
 
 const RegisterFormSchema = z
   .object({
@@ -200,7 +200,7 @@ export function RegisterForm({ onSubmit, data, loading }: Readonly<RegisterFormP
         <Button
           type="submit"
           className={styles.submit}
-          variant="secondary"
+          variant="tertiary"
         >
           Register
         </Button>

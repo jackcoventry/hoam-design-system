@@ -787,7 +787,7 @@
     "name": "hoam-spacing-2xl",
     "cssVar": "--hoam-spacing-2xl",
     "type": "dimension",
-    "value": "56px",
+    "value": "64px",
     "group": null,
     "set": "spacing"
   },
@@ -795,7 +795,7 @@
     "name": "hoam-spacing-3xl",
     "cssVar": "--hoam-spacing-3xl",
     "type": "dimension",
-    "value": "72px",
+    "value": "96px",
     "group": null,
     "set": "spacing"
   },
@@ -803,7 +803,7 @@
     "name": "hoam-spacing-4xl",
     "cssVar": "--hoam-spacing-4xl",
     "type": "dimension",
-    "value": "96px",
+    "value": "128px",
     "group": null,
     "set": "spacing"
   },

@@ -5,13 +5,12 @@ import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
 import z from 'zod';
 
 import { Button } from '@/components/Button';
-import { Icon } from '@/components/Icon';
 import { Container, Grid, GridItem, Stack } from '@/components/Layout';
-import { IconId } from '@/design-tokens/icons';
 
 import formStyles from '@/components/Form/Form.module.css';
 import styles from '@/components/NewsletterBanner/NewsletterBanner.module.css';
 import bodyText from '@/styles/BodyText.module.css';
+import utils from '@/styles/Util.module.css';
 
 export type NewsletterBannerProps = {
   title: string;
@@ -50,6 +49,8 @@ export function NewsletterBanner({ title, description }: Readonly<NewsletterBann
 
     setSubmitting(false);
   };
+
+  const textFieldClasses = clsx(formStyles.textField, utils.focus);
 
   return (
     <section className={styles.root}>
@@ -99,7 +100,7 @@ export function NewsletterBanner({ title, description }: Readonly<NewsletterBann
                         id="newsletter-email"
                         type="email"
                         placeholder={errors.email?.message || 'Enter your email'}
-                        className={formStyles.textField}
+                        className={textFieldClasses}
                         data-valid={errors.email ? 'false' : 'true'}
                         disabled={submitting}
                       />

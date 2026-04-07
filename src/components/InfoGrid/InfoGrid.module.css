@@ -1,13 +1,16 @@
 .root {
-  background-color: var(--hoam-color-sun-300);
-  padding: var(--hoam-spacing-3xl) var(--hoam-spacing-xs);
+  background-color: var(--hoam-color-primary);
 }
 
 .content {
-  margin-bottom: var(--hoam-spacing-2xl);
   text-align: center;
 }
 
+.description {
+  font: var(--hoam-typography-title-3);
+}
+
 .title {
-  font: var(--hoam-typography-title-2);
+  font: var(--hoam-typography-title-1);
+  text-transform: uppercase;
 }

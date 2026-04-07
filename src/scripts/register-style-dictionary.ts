@@ -47,6 +47,12 @@ type StyleDictionaryFormatArgs = {
   dictionary: StyleDictionaryDictionary;
 };
 
+type SpacingEntry = {
+  key: string;
+  tokenKey: string;
+  value: string;
+};
+
 function isRecord(value: unknown): value is TokenRecord {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
@@ -190,29 +196,78 @@ function buildFlatToken(token: StyleDictionaryToken, rawTokens: TokenRecord): To
   return typographyToken;
 }
 
-StyleDictionary.registerFormat({
-  name: 'custom/json/flat-with-meta',
-  format: (args: StyleDictionaryFormatArgs) => {
-    const flat: Token[] = args.dictionary.allTokens.map((token) =>
-      buildFlatToken(token, rawTokens)
-    );
+function getSpacingNode(rawTokens: TokenRecord): TokenRecord | null {
+  const spacing = getRecordValue(rawTokens, 'spacing');
+  return isRecord(spacing) ? spacing : null;
+}
 
-    return JSON.stringify(flat, null, 2);
-  },
-});
+function normaliseSpacingKey(key: string): string {
+  return key === '0' ? 'none' : key;
+}
 
-StyleDictionary.registerFormat({
-  name: 'custom/types/flat-tokens',
-  format: () => {
-    return `import type { Token } from '@/design-tokens/types';
+function isSpacingEntry(entry: [string, unknown]): entry is [string, TokenRecord] {
+  const [key, value] = entry;
+  return key !== '$type' && isRecord(value);
+}
 
-declare const tokens: Token[];
-export default tokens;
+function getSpacingEntries(rawTokens: TokenRecord): SpacingEntry[] {
+  const spacingNode = getSpacingNode(rawTokens);
+
+  if (!spacingNode) {
+    return [];
+  }
+
+  return Object.entries(spacingNode)
+    .filter(isSpacingEntry)
+    .map(([tokenKey, value]) => {
+      const rawValue = getRecordValue(value, '$value');
+
+      if (typeof rawValue !== 'string') {
+        throw new TypeError(`Expected spacing token "${tokenKey}" to have a string $value.`);
+      }
+
+      return {
+        key: normaliseSpacingKey(tokenKey),
+        tokenKey,
+        value: rawValue,
+      };
+    });
+}
+
+function buildSpacingFile(rawTokens: TokenRecord): string {
+  const spacingEntries = getSpacingEntries(rawTokens);
+
+  if (spacingEntries.length === 0) {
+    throw new Error('No spacing tokens found.');
+  }
+
+  const spacingMapEntries = spacingEntries
+    .map((entry) => {
+      const mapValue =
+        entry.key === 'none'
+          ? entry.value
+          : `var(--${PREFIX}-spacing-${entry.tokenKey}, ${entry.value})`;
+
+      return `  '${entry.key}': '${mapValue}',`;
+    })
+    .join('\n');
+
+  return `export const spacingMap = {
+${spacingMapEntries}
+} as const;
+
+export type Spacing = keyof typeof spacingMap;
+
+export function mapGapToValue(gap: Spacing): string {
+  return spacingMap[gap];
+}
 `;
-  },
-});
+}
 
-const tokenFiles = await glob('src/design-tokens/**/*.json');
+const tokenFiles = await glob([
+  'src/design-tokens/**/*.json',
+  '!src/design-tokens/build/**/*.json',
+]);
 
 console.log('📦 Tokens found:', tokenFiles);
 
@@ -242,6 +297,28 @@ StyleDictionary.registerTransform({
   },
 });
 
+StyleDictionary.registerFormat({
+  name: 'custom/json/flat-with-meta',
+  format: (args: StyleDictionaryFormatArgs) => {
+    const flat: Token[] = args.dictionary.allTokens.map((token) =>
+      buildFlatToken(token, rawTokens)
+    );
+
+    return JSON.stringify(flat, null, 2);
+  },
+});
+
+StyleDictionary.registerFormat({
+  name: 'custom/types/flat-tokens',
+  format: () => {
+    return `import type { Token } from '@/design-tokens/types';
+
+declare const tokens: Token[];
+export default tokens;
+`;
+  },
+});
+
 const rawConfig = await readFile(new URL('../../style-dictionary.json', import.meta.url), 'utf-8');
 
 const config = JSON.parse(rawConfig) as ConstructorParameters<typeof StyleDictionary>[0];
@@ -251,18 +328,10 @@ await sd.buildAllPlatforms();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const outputDir = resolve(__dirname, '../../src/design-tokens/build');
-const declarationPath = resolve(outputDir, 'variables.d.ts');
+const buildDir = resolve(__dirname, '../../src/design-tokens/');
 
-await mkdir(outputDir, { recursive: true });
-await writeFile(
-  declarationPath,
-  `import type { Token } from '@/design-tokens/types';
+await mkdir(buildDir, { recursive: true });
 
-declare const tokens: Token[];
-export default tokens;
-`,
-  'utf8'
-);
+await writeFile(resolve(buildDir, 'spacing.ts'), buildSpacingFile(rawTokens), 'utf8');
 
-console.log(`📝 Type declaration written: ${declarationPath}`);
+console.log(`📏 Spacing helpers written: ${resolve(buildDir, 'spacing.ts')}`);

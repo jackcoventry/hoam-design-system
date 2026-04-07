@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import clsx from 'clsx';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import z from 'zod';
 
@@ -6,6 +7,7 @@ import { Button } from '@/components/Button';
 import { FieldWrapper } from '@/components/Form';
 
 import styles from '@/components/Form/Form.module.css';
+import utils from '@/styles/Util.module.css';
 
 const SignInFormSchema = z.object({
   email_address: z.email().trim().min(1, { message: 'Enter a valid email address!' }),
@@ -40,6 +42,8 @@ export function SignInForm({ onSubmit, data, loading }: Readonly<SignInFormProps
 
   const submitComplete = data?.message === 'SUCCESS';
 
+  const textFieldClasses = clsx(styles.textField, utils.focus);
+
   return submitComplete ? (
     <div className={styles.wrapper}>
       <h1 className={styles.title}>Success! Redirecting now...</h1>
@@ -62,7 +66,7 @@ export function SignInForm({ onSubmit, data, loading }: Readonly<SignInFormProps
               <input
                 {...field}
                 placeholder="Enter your email address"
-                className={styles.textField}
+                className={textFieldClasses}
                 data-valid={errors.email_address ? 'false' : 'true'}
                 disabled={loading}
               />
@@ -79,7 +83,7 @@ export function SignInForm({ onSubmit, data, loading }: Readonly<SignInFormProps
                 {...field}
                 type="password"
                 placeholder="Enter your password"
-                className={styles.textField}
+                className={textFieldClasses}
                 data-valid={errors.password ? 'false' : 'true'}
                 disabled={loading}
               />
@@ -90,7 +94,7 @@ export function SignInForm({ onSubmit, data, loading }: Readonly<SignInFormProps
         <Button
           type="submit"
           className={styles.submit}
-          variant="secondary"
+          variant="tertiary"
         >
           Sign in
         </Button>

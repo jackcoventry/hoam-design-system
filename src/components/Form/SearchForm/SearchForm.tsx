@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import clsx from 'clsx';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import z from 'zod';
 
@@ -7,6 +8,7 @@ import { Spinner } from '@/components/Loading';
 
 import formStyles from '@/components/Form/Form.module.css';
 import styles from '@/components/Form/SearchForm/SearchForm.module.css';
+import utils from '@/styles/Util.module.css';
 
 const SearchFormSchema = z.object({
   q: z.string().trim().min(1, { message: 'Required' }),
@@ -127,7 +129,7 @@ export function SearchForm({
               data-valid={queryError ? 'false' : 'true'}
               aria-invalid={queryError ? 'true' : 'false'}
               disabled={loading}
-              className={formStyles.textField}
+              className={clsx(formStyles.textField, utils.focus)}
             />
           )}
         />

@@ -22,7 +22,7 @@
 }
 
 .textField {
-  border-radius: var(--hoam-border-radius-small);
+  border-radius: var(--hoam-border-radius-medium);
   border: var(--hoam-border-size-default) var(--hoam-color-moon-400);
   font: var(--hoam-typography-label-1);
   padding: var(--hoam-spacing-sm) var(--hoam-spacing-md);
