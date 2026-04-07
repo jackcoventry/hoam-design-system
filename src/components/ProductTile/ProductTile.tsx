@@ -1,8 +1,11 @@
+import clsx from 'clsx';
+
 import { BadgeList, BadgeListItem } from '@/components/BadgeList';
 import { Button } from '@/components/Button';
 import { Stack } from '@/components/Layout';
 
 import styles from '@/components/ProductTile/ProductTile.module.css';
+import utils from '@/styles/Util.module.css';
 
 type ProductPrice = {
   amount: number;
@@ -59,7 +62,7 @@ export function ProductTile({
             className={styles.image}
           />
         </figure>
-        <div className={styles.save}>
+        <span className={styles.save}>
           <Button
             size="small"
             variant="secondary"
@@ -68,13 +71,16 @@ export function ProductTile({
           >
             Save for later
           </Button>
-        </div>
+        </span>
       </div>
-      <div className={styles.content}>
+      <Stack
+        gap="xs"
+        className={styles.content}
+      >
         <h2 className={styles.title}>
           <a
             href={`#${productId}`}
-            className={styles.link}
+            className={clsx(styles.link, utils.focus)}
           >
             <span>{title}</span>
           </a>
@@ -103,7 +109,7 @@ export function ProductTile({
         >
           {inStock ? 'Add to cart' : 'Out of stock'}
         </Button>
-      </div>
+      </Stack>
     </Stack>
   );
 }

@@ -42,11 +42,7 @@ export function Footer({
           cols={13}
         >
           <GridItem spanXl={3}>
-            <img
-              src="/logo.png"
-              alt="HOAM logo"
-              className={styles.logo}
-            />
+            <span className={styles.logo}>HOAM</span>
           </GridItem>
           {visibleTopLinks.map((section) => (
             <GridItem

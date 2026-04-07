@@ -43,14 +43,19 @@
 }
 
 .separator {
-  border-top: var(--hoam-border-size-default) var(--hoam-color-primary);
+  border-top: var(--hoam-border-size-default) var(--hoam-color-secondary);
   margin-top: var(--hoam-spacing-3xl);
   padding-top: var(--hoam-spacing-xl);
 }
 
 .logo {
-  max-width: 100px;
-  width: 100%;
+  align-items: center;
+  color: var(--hoam-color-neutral-100);
+  display: inline-flex;
+  font: var(--hoam-typography-title-1);
+  font-size: 2rem;
+  text-decoration: none;
+  width: 120px;
 }
 
 .backToTop {
