@@ -24,6 +24,7 @@
 }
 
 .visual {
+  border-radius: var(--hoam-border-radius-small);
   gap: var(--hoam-spacing-xs);
 }
 
@@ -33,8 +34,8 @@
 
 .indicator {
   align-items: center;
-  border-radius: var(--hoam-border-radius-small);
   border: var(--hoam-border-size-medium) var(--hoam-color-neutral-900);
+  border-radius: var(--hoam-border-radius-medium);
   box-shadow: var(--hoam-shadow-small);
   display: flex;
   height: var(--image-size);
@@ -45,11 +46,6 @@
 
 .item:hover .indicator {
   outline: var(--hoam-border-size-default) var(--hoam-color-variant-selector-hover);
-}
-
-.radio:focus-visible + .visual {
-  outline: 3px solid var(--hoam-color-sun-700);
-  outline-offset: 6px;
 }
 
 .items {

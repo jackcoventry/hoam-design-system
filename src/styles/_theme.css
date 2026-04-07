@@ -49,11 +49,11 @@
   --hoam-color-switch-bg-active: var(--hoam-color-primary);
 
   --hoam-color-variant-selector: var(--hoam-color-primary);
-  --hoam-color-variant-selector-hover: --hoam-color-secondary;
+  --hoam-color-variant-selector-hover: var(--hoam-color-secondary);
 
   /* Global */
   --hoam-color-text-link: var(--hoam-color-primary);
-  --hoam-color-text-link-hover: --hoam-color-secondary;
+  --hoam-color-text-link-hover: var(--hoam-color-secondary);
 
   --hoam-color-border: var(--hoam-color-primary);
 }

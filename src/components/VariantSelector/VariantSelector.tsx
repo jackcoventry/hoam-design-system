@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import { Stack } from '@/components/Layout';
 
 import styles from '@/components/VariantSelector/VariantSelector.module.css';
+import utils from '@/styles/Util.module.css';
 
 export type VariantValue = string | number;
 
@@ -229,9 +230,9 @@ export const VariantSelector = forwardRef<HTMLInputElement, VariantSelectorProps
                     required={required}
                     onChange={() => onChange(option.value)}
                     aria-label={option.label}
-                    className={clsx(styles.radio, 'sr-only')}
+                    className={clsx(styles.radio, utils.focus, 'sr-only')}
                   />
-                  <span className={styles.visual}>
+                  <span className={clsx(styles.visual, utils.focusTarget)}>
                     <span
                       className={styles.indicator}
                       style={{

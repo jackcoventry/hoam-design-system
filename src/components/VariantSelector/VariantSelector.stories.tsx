@@ -67,3 +67,12 @@ export const Image = {
     variant: 'image',
   },
 };
+
+export const Vertical = {
+  ...Template,
+  args: {
+    options: ProductInformationMockData.options.size,
+    variant: 'label',
+    orientation: 'vertical',
+  },
+};
