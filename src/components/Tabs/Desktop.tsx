@@ -1,11 +1,11 @@
 import { Activity, type KeyboardEvent, useRef, useState } from 'react';
 import clsx from 'clsx';
 
+import { Button } from '@/components/Button';
 import type { TabsProps } from '@/components/Tabs';
 
-import bodyText from '@/styles/BodyText.module.css';
-import utils from '@/styles/Util.module.css';
 import styles from '@/components/Tabs/Tabs.module.css';
+import bodyText from '@/styles/BodyText.module.css';
 
 export function DesktopTabs({
   title,
@@ -103,11 +103,11 @@ export function DesktopTabs({
           const isActive = activeTab === tab.id;
 
           return (
-            <button
+            <Button
               key={tab.id}
               id={`hoam-tab-${tab.id}`}
+              as="button"
               role="tab"
-              type="button"
               aria-selected={isActive}
               aria-controls={`hoam-panel-${tab.id}`}
               data-active={isActive ? 'true' : 'false'}
@@ -117,10 +117,11 @@ export function DesktopTabs({
               }}
               onClick={() => setActiveTab(tab.id)}
               onKeyDown={(event) => handleTabKeyDown(event, index, tab.id)}
-              className={clsx(styles.control, utils.focus)}
+              className={styles.control}
+              variant={isActive ? 'tertiary' : 'secondary'}
             >
               {tab.label}
-            </button>
+            </Button>
           );
         })}
       </div>

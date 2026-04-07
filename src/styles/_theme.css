@@ -4,7 +4,7 @@
   --hoam-color-primary: var(--hoam-color-sun-500);
   --hoam-color-secondary: var(--hoam-color-moon-500);
 
-  --hoam-color-document-bg: #f9f9f9; /* tokenize */
+  --hoam-color-document-bg: var(--hoam-color-neutral-800);
 
   --hoam-color-footer-bg: var(--hoam-color-neutral-900);
 
@@ -41,10 +41,6 @@
   --hoam-color-promo-background: var(--hoam-color-primary);
 
   --hoam-color-quantity-bg-hover: var(--hoam-color-primary);
-
-  --hoam-color-tab-bg: var(--hoam-color-primary);
-  --hoam-color-tab-bg-active: --hoam-color-secondary;
-  --hoam-color-tab-border: --hoam-color-secondary;
 
   --hoam-color-switch-bg-active: var(--hoam-color-primary);
 

@@ -264,6 +264,27 @@ export function mapGapToValue(gap: Spacing): string {
 `;
 }
 
+function buildSectionCssFile(rawTokens: TokenRecord): string {
+  const spacingEntries = getSpacingEntries(rawTokens);
+
+  if (spacingEntries.length === 0) {
+    throw new Error('No spacing tokens found.');
+  }
+
+  return spacingEntries
+    .map((entry) => {
+      const value =
+        entry.key === 'none'
+          ? entry.value
+          : `var(--${PREFIX}-spacing-${entry.tokenKey}, ${entry.value})`;
+
+      return `.root[data-space="${entry.key}"] {
+  padding-block: ${value};
+}`;
+    })
+    .join('\n\n');
+}
+
 const tokenFiles = await glob([
   'src/design-tokens/**/*.json',
   '!src/design-tokens/build/**/*.json',
@@ -335,3 +356,13 @@ await mkdir(buildDir, { recursive: true });
 await writeFile(resolve(buildDir, 'spacing.ts'), buildSpacingFile(rawTokens), 'utf8');
 
 console.log(`📏 Spacing helpers written: ${resolve(buildDir, 'spacing.ts')}`);
+
+await writeFile(
+  resolve(__dirname, '../../src/components/Layout/Section/Section.module.css'),
+  buildSectionCssFile(rawTokens),
+  'utf8'
+);
+
+console.log(
+  `🧩 Section CSS written: ${resolve(__dirname, '../../src/components/Layout/Section/Section.module.css')}`
+);

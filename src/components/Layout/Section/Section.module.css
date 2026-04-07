@@ -1,23 +1,39 @@
 .root[data-space="none"] {
-  padding-block: 0;
+  padding-block: 0px;
+}
+
+.root[data-space="2xs"] {
+  padding-block: var(--hoam-spacing-2xs, 4px);
+}
+
+.root[data-space="xs"] {
+  padding-block: var(--hoam-spacing-xs, 8px);
 }
 
 .root[data-space="sm"] {
-  padding-block: var(--hoam-spacing-sm, 1rem);
+  padding-block: var(--hoam-spacing-sm, 12px);
 }
 
 .root[data-space="md"] {
-  padding-block: var(--hoam-spacing-md, 1.5rem);
+  padding-block: var(--hoam-spacing-md, 16px);
 }
 
 .root[data-space="lg"] {
-  padding-block: var(--hoam-spacing-lg, 2rem);
+  padding-block: var(--hoam-spacing-lg, 24px);
 }
 
 .root[data-space="xl"] {
-  padding-block: var(--hoam-spacing-xl, 3rem);
+  padding-block: var(--hoam-spacing-xl, 32px);
 }
 
 .root[data-space="2xl"] {
-  padding-block: var(--hoam-spacing-2xl, 4rem);
+  padding-block: var(--hoam-spacing-2xl, 64px);
+}
+
+.root[data-space="3xl"] {
+  padding-block: var(--hoam-spacing-3xl, 96px);
+}
+
+.root[data-space="4xl"] {
+  padding-block: var(--hoam-spacing-4xl, 128px);
 }

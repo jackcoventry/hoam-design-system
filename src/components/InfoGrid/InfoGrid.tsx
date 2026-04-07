@@ -25,7 +25,7 @@ export function InfoGrid({ title, description, children }: Readonly<InfoGridProp
   return (
     <Section
       className={styles.root}
-      space="2xl"
+      space="4xl"
     >
       <Stack gap="2xl">
         <Container>

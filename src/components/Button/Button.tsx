@@ -124,6 +124,14 @@ function ButtonContent({ children, icon, iconOnly = false }: Readonly<ButtonCont
   );
 }
 
+type ButtonComponent = {
+  (props: Readonly<CommonProps & ButtonElementProps> & RefAttributes<HTMLButtonElement>): ReactNode;
+  (props: Readonly<CommonProps & AnchorElementProps> & RefAttributes<HTMLAnchorElement>): ReactNode;
+  (
+    props: Readonly<CommonProps & CustomLinkElementProps> & RefAttributes<HTMLAnchorElement>
+  ): ReactNode;
+};
+
 const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, Readonly<ButtonProps>>(
   function ButtonRoot(props, ref) {
     const {
@@ -192,6 +200,7 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, Readonly<Button
           target={elementProps.target}
           rel={relSafe}
           onClick={elementProps.onClick}
+          ref={ref as Ref<HTMLAnchorElement>}
         >
           {content}
         </LinkComponent>
@@ -212,8 +221,6 @@ const Button = forwardRef<HTMLButtonElement | HTMLAnchorElement, Readonly<Button
       </button>
     );
   }
-);
-
-Button.displayName = 'Button';
+) as ButtonComponent;
 
 export { Button };

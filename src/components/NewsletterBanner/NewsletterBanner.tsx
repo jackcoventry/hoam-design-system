@@ -64,8 +64,10 @@ export function NewsletterBanner({ title, description }: Readonly<NewsletterBann
                 startLg={4}
               >
                 <div className={clsx(styles.content, bodyText.root)}>
-                  <h2 className={styles.title}>{title}</h2>
-                  {description ? <p>{description}</p> : null}
+                  <Stack gap="sm">
+                    <h2 className={styles.title}>{title}</h2>
+                    {description ? <p>{description}</p> : null}
+                  </Stack>
                 </div>
               </GridItem>
             </Grid>

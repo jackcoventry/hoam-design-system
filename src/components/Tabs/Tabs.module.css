@@ -3,40 +3,29 @@
 }
 
 .root[data-layout="vertical"] {
-  /* TODO: is this too wide on small devices? is there a more scalable solution? */
-  grid-template-columns: 300px 1fr;
+  gap: var(--hoam-spacing-3xl);
+  grid-template-columns: 200px 1fr;
+
+  @media (min-width: 60rem) {
+    grid-template-columns: 300px 1fr;
+  }
 }
 
 .root[data-layout="horizontal"] {
-  grid-template-rows: 100px 1fr;
+  gap: var(--hoam-spacing-xl);
 }
 
 .root[data-layout="horizontal"] .list {
-  display: flex;
-}
-
-.control {
-  background-color: var(--hoam-color-tab-bg);
-  border: none;
-  cursor: pointer;
-  font: var(--hoam-typography-title-3);
+  overflow-x: auto;
+  margin: calc(var(--hoam-spacing-md) * -1);
   padding: var(--hoam-spacing-md);
-  position: relative;
-  width: 100%;
 }
 
-.control:focus-visible {
-  z-index: var(--hoam-layer-raised);
+.root[data-layout="vertical"] .list {
+  flex-direction: column;
 }
 
-.control:not(:first-child) {
-  border-top: var(--hoam-border-size-default) var(--hoam-color-tab-border);
-}
-
-.control[data-active="true"] {
-  background-color: var(--hoam-color-tab-bg-active);
-}
-
-.panel {
-  padding: var(--hoam-spacing-md) var(--hoam-spacing-3xl);
+.list {
+  display: flex;
+  gap: var(--hoam-spacing-md);
 }

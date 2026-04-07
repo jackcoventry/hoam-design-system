@@ -331,7 +331,7 @@
     "name": "hoam-color-neutral-800",
     "cssVar": "--hoam-color-neutral-800",
     "type": "color",
-    "value": "#d9d9d9",
+    "value": "#f9f9f9",
     "group": "global",
     "set": "neutral"
   },

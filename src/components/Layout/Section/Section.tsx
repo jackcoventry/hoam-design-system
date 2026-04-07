@@ -1,14 +1,14 @@
 import clsx from 'clsx';
 import type { HTMLAttributes, ReactNode } from 'react';
 
-import styles from '@/components/Layout/Section/Section.module.css';
+import { Spacing } from '@/design-tokens/spacing';
 
-export type SectionSpace = 'none' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+import styles from '@/components/Layout/Section/Section.module.css';
 
 export type SectionProps = HTMLAttributes<HTMLElement> & {
   children: ReactNode;
   as?: 'section' | 'div' | 'main' | 'aside';
-  space?: SectionSpace;
+  space?: Spacing;
 };
 
 export function Section({
