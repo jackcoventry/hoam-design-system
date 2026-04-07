@@ -2,6 +2,7 @@ import { Activity, Suspense, useState } from 'react';
 
 import { Accordion, AccordionHeader, AccordionItem, AccordionPanel } from '@/components/Accordion';
 import { Button } from '@/components/Button';
+import { Stack } from '@/components/Layout';
 import { Spinner } from '@/components/Loading';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 
@@ -89,20 +90,22 @@ export function SidebarNavigation({
             key={item.id}
             className={styles.topLevelItem}
           >
-            <h2 className={styles.sectionTitle}>{item.label}</h2>
+            <Stack gap="xs">
+              <h2 className={styles.sectionTitle}>{item.label}</h2>
 
-            <ul className={styles.list}>
-              {item.items?.map((child) => (
-                <li key={child.id}>
-                  <a
-                    href={child.href}
-                    className={styles.link}
-                  >
-                    {child.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
+              <ul className={styles.list}>
+                {item.items?.map((child) => (
+                  <li key={child.id}>
+                    <a
+                      href={child.href}
+                      className={styles.link}
+                    >
+                      {child.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </Stack>
           </li>
         ))}
       </ul>

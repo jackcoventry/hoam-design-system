@@ -106,8 +106,8 @@
   --hoam-spacing-4xl: 128px;
   --hoam-typography-family-1: Boldonse, system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
   --hoam-typography-family-2: 'DM Serif Text', system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-  --hoam-typography-family-3: Roboto, system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-  --hoam-typography-size-1: 14px;
+  --hoam-typography-family-3: Lato, system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  --hoam-typography-size-1: 16px;
   --hoam-typography-size-2: 18px;
   --hoam-typography-size-3: clamp(1rem, min(20vmin, 7vw), 1.5rem);
   --hoam-typography-size-4: clamp(1rem, min(20vmin, 7vw), 2rem);
@@ -130,7 +130,7 @@
   --hoam-typography-title-3: 300 clamp(1rem, min(20vmin, 7vw), 2rem)/1.25 'DM Serif Text', system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
   --hoam-typography-title-4: 300 clamp(1rem, min(20vmin, 7vw), 1.5rem)/1.25 'DM Serif Text', system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
   --hoam-typography-title-5: 400 clamp(1rem, min(20vmin, 7vw), 3rem)/1.75 Boldonse, system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-  --hoam-typography-body-1: 300 18px/1.5 Roboto, system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  --hoam-typography-body-1: 300 18px/1.5 Lato, system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
   --hoam-typography-button-1: 300 18px/1.5 Boldonse, system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-  --hoam-typography-label-1: 300 14px/1.5 Roboto, system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  --hoam-typography-label-1: 300 16px/1.5 Lato, system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
 }

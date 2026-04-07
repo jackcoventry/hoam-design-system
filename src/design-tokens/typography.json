@@ -28,7 +28,7 @@
       "3": {
         "$type": "fontFamily",
         "$value": [
-          "Roboto",
+          "Lato",
           "system-ui",
           "-apple-system",
           "Segoe UI",
@@ -45,7 +45,7 @@
       },
       "1": {
         "$type": "dimension",
-        "$value": "14px"
+        "$value": "16px"
       },
       "2": {
         "$type": "dimension",

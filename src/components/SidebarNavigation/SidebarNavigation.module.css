@@ -16,8 +16,9 @@
 }
 
 .sectionTitle {
-  font: var(--hoam-typography-title-3);
+  font: var(--hoam-typography-label-1);
   margin-bottom: var(--hoam-spacing-2xs);
+  text-transform: uppercase;
 }
 
 .topLevelItem {

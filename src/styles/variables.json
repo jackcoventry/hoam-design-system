@@ -827,7 +827,7 @@
     "name": "hoam-typography-family-3",
     "cssVar": "--hoam-typography-family-3",
     "type": "fontFamily",
-    "value": "Roboto, system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
+    "value": "Lato, system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
     "group": null,
     "set": "family"
   },
@@ -835,7 +835,7 @@
     "name": "hoam-typography-size-1",
     "cssVar": "--hoam-typography-size-1",
     "type": "dimension",
-    "value": "14px",
+    "value": "16px",
     "group": null,
     "set": "size"
   },
@@ -1069,7 +1069,7 @@
     "name": "hoam-typography-body-1",
     "cssVar": "--hoam-typography-body-1",
     "type": "typography",
-    "value": "300 18px/1.5 Roboto, system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
+    "value": "300 18px/1.5 Lato, system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
     "group": null,
     "set": "body",
     "extensions": {
@@ -1077,7 +1077,7 @@
       "$name": "Body text"
     },
     "originalValues": {
-      "fontFamily": "Roboto, system-ui, -apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif",
+      "fontFamily": "Lato, system-ui, -apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif",
       "fontSize": null,
       "fontWeight": 300,
       "lineHeight": 1.5
@@ -1104,15 +1104,15 @@
     "name": "hoam-typography-label-1",
     "cssVar": "--hoam-typography-label-1",
     "type": "typography",
-    "value": "300 14px/1.5 Roboto, system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
+    "value": "300 16px/1.5 Lato, system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
     "group": null,
     "set": "label",
     "extensions": {
       "$name": "Label"
     },
     "originalValues": {
-      "fontFamily": "Roboto, system-ui, -apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif",
-      "fontSize": "14px",
+      "fontFamily": "Lato, system-ui, -apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif",
+      "fontSize": "16px",
       "fontWeight": 300,
       "lineHeight": 1.5
     }

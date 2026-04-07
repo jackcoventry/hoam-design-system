@@ -30,7 +30,6 @@
   --hoam-button-content-gap: var(--hoam-spacing-xs);
   --hoam-button-min-height: 20px;
   --hoam-button-font: var(--hoam-typography-label-1);
-  font-weight: 700;
 }
 
 .root[data-variant="primary"] {

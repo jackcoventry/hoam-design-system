@@ -163,7 +163,6 @@
 }
 
 .panelGroupSection a[data-sub-link].panelGroupHeaderFirst {
-  font-weight: bold;
   margin-bottom: var(--hoam-spacing-2xs);
   text-transform: uppercase;
 }
