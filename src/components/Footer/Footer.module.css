@@ -1,6 +1,19 @@
 .root {
   background-color: var(--hoam-color-footer-bg);
   padding: var(--hoam-spacing-3xl) 0;
+
+  a:link,
+  a:visited {
+    color: var(--hoam-color-text-link);
+    text-decoration: none;
+  }
+
+  a:active,
+  a:focus,
+  a:hover {
+    color: var(--hoam-color-text-link-hover);
+    text-decoration: underline;
+  }
 }
 
 .links,
@@ -9,20 +22,14 @@
   gap: var(--hoam-spacing-md);
 }
 
-.socialLinks a:link,
-.socialLinks a:visited {
-  color: var(--hoam-color-moon-700);
-  text-decoration: none;
-}
-
-.socialLinks a:hover {
-  color: var(--hoam-color-moon-900);
-}
-
 .list {
   list-style: none;
   margin: 0;
   padding: 0;
+
+  a {
+    font: var(--hoam-typography-title-4);
+  }
 }
 
 .sectionTitle {
@@ -31,32 +38,12 @@
   text-transform: uppercase;
 }
 
-.list a:link,
-.list a:visited {
-  color: var(--hoam-color-moon-700);
-  font: var(--hoam-typography-title-4);
-  text-decoration: none;
-}
-
-.list a:hover {
-  color: var(--hoam-color-moon-900);
-  text-decoration: underline;
-}
-
-.links a:link,
-.links a:visited {
-  color: var(--hoam-color-moon-700);
+.links a {
   font: var(--hoam-typography-label-1);
-  text-decoration: none;
-}
-
-.links a:hover {
-  color: var(--hoam-color-moon-900);
-  text-decoration: underline;
 }
 
 .separator {
-  border-top: var(--hoam-border-size-default) var(--hoam-color-moon-300);
+  border-top: var(--hoam-border-size-default) var(--hoam-color-primary);
   margin-top: var(--hoam-spacing-3xl);
   padding-top: var(--hoam-spacing-xl);
 }

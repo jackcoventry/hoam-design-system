@@ -58,10 +58,8 @@ export function BasketItem({
             className={styles.link}
           >
             <h4 className={styles.title}>{title}</h4>
-            <span className={styles.summary}>
-              Price: {convertNumberToCurrency({ value: price })}
-            </span>
           </a>
+          <span className={styles.summary}>Price: {convertNumberToCurrency({ value: price })}</span>
           <div className={styles.controls}>
             <Button
               size="small"

@@ -52,6 +52,7 @@ export function PromoSection({
             as="a"
             href={linkUrl}
             className={styles.button}
+            variant="primary"
           >
             {linkText}
           </Button>

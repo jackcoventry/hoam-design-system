@@ -4,6 +4,10 @@
   --hoam-color-primary: var(--hoam-color-sun-500);
   --hoam-color-secondary: var(--hoam-color-moon-500);
 
+  --hoam-color-document-bg: #f9f9f9; /* tokenize */
+
+  --hoam-color-footer-bg: var(--hoam-color-neutral-900);
+
   /* Components */
   --hoam-color-accordion-item-border: var(--hoam-color-primary);
 

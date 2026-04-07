@@ -7,6 +7,7 @@ import { ImageGallery } from '@/components/ImageGallery';
 import { Container, Grid, GridItem, Section, Stack } from '@/components/Layout';
 import { ProductInfo, type ProductInfoProps } from '@/components/ProductInfo';
 import { ProductInformationSchemaType } from '@/components/ProductInfo/ProductInfo';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 import BreadcrumbData from '@/mocks/components/Breadcrumb';
 import ImageGalleryMockData from '@/mocks/components/ImageGallery';
 import ProductInformationMockData from '@/mocks/components/ProductInformation';
@@ -29,6 +30,7 @@ export default meta;
 
 function DefaultStory(args: Readonly<ProductInfoProps>) {
   const [submitting, setSubmitting] = useState<boolean>(false);
+  const isMobile = useMediaQuery('(max-width: 768px)');
 
   const onSubmit: SubmitHandler<ProductInformationSchemaType> = () => {
     setSubmitting(true);
@@ -53,6 +55,9 @@ function DefaultStory(args: Readonly<ProductInfoProps>) {
               <GridItem
                 span={12}
                 spanLg={6}
+                style={{
+                  order: isMobile ? 1 : 0,
+                }}
               >
                 <ImageGallery images={ImageGalleryMockData} />
               </GridItem>
@@ -60,6 +65,9 @@ function DefaultStory(args: Readonly<ProductInfoProps>) {
                 span={12}
                 spanLg={6}
                 startLg={8}
+                style={{
+                  order: isMobile ? 0 : 1,
+                }}
               >
                 <ProductInfo
                   {...args}

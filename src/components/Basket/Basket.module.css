@@ -82,12 +82,11 @@
 }
 
 .link {
-  color: inherit;
+  color: var(--hoam-color-text-link);
   text-decoration: none;
 }
 
 .link:hover {
-  color: var(--hoam-color-basket-link-hover);
   text-decoration: underline;
 }
 
@@ -97,6 +96,10 @@
   display: flex;
   gap: var(--hoam-spacing-xs);
   height: 100%;
+}
+
+.price {
+  justify-content: end;
 }
 
 .summary {
@@ -139,10 +142,6 @@
   .row td:nth-child(4),
   .row th:nth-child(4) {
     text-align: right;
-  }
-
-  .price {
-    justify-content: end;
   }
 
   .priceLabel {

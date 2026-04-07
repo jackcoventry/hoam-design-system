@@ -39,12 +39,6 @@
   visibility: visible;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .panel {
-    transition: none;
-  }
-}
-
 .panel[aria-hidden="true"] * {
   pointer-events: none;
 }
@@ -56,7 +50,7 @@
   cursor: pointer;
   display: flex;
   font: var(--hoam-typography-title-3);
-  gap: var(--hoam-spacing-xs);
+  gap: var(--hoam-spacing-sm);
   justify-content: space-between;
   margin: 0;
   padding: 0;
@@ -69,4 +63,14 @@
 
 .toggleAll {
   margin: 0 0 0 auto;
+}
+
+.icon {
+  min-width: 0.5em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel {
+    transition: none;
+  }
 }

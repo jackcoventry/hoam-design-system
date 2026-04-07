@@ -5,19 +5,17 @@ import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
 import z from 'zod';
 
 import { Button } from '@/components/Button';
-import type { Link } from '@/components/Footer';
 import { Icon } from '@/components/Icon';
 import { Container, Grid, GridItem, Stack } from '@/components/Layout';
 import { IconId } from '@/design-tokens/icons';
 
-import bodyText from '@/styles/BodyText.module.css';
 import formStyles from '@/components/Form/Form.module.css';
 import styles from '@/components/NewsletterBanner/NewsletterBanner.module.css';
+import bodyText from '@/styles/BodyText.module.css';
 
 export type NewsletterBannerProps = {
   title: string;
   description?: string | undefined;
-  socialLinks?: Array<Link>;
 };
 
 const SUBMIT_DELAY_MS = 2000;
@@ -28,11 +26,7 @@ const NewsletterSignupSchema = z.object({
 
 type NewsletterSignupSchemaType = z.infer<typeof NewsletterSignupSchema>;
 
-export function NewsletterBanner({
-  title,
-  description,
-  socialLinks,
-}: Readonly<NewsletterBannerProps>) {
+export function NewsletterBanner({ title, description }: Readonly<NewsletterBannerProps>) {
   const {
     control,
     handleSubmit,
@@ -115,34 +109,11 @@ export function NewsletterBanner({
                   <Button
                     type="submit"
                     className={styles.button}
-                    variant="secondary"
+                    variant="primary"
                   >
                     {submitting ? 'Sending...' : 'Subscribe'}
                   </Button>
                 </form>
-              </GridItem>
-            </Grid>
-
-            <Grid>
-              <GridItem
-                span={12}
-                spanLg={6}
-                startLg={4}
-              >
-                <div className={styles.socialLinks}>
-                  {socialLinks?.map((link) => (
-                    <a
-                      key={link.label}
-                      href={link.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={styles.socialLink}
-                      aria-label={link.label}
-                    >
-                      <Icon id={link.icon as IconId} />
-                    </a>
-                  ))}
-                </div>
               </GridItem>
             </Grid>
           </Stack>

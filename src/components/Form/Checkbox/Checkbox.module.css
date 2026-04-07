@@ -8,7 +8,7 @@
 .root {
   display: inline-flex;
   align-items: flex-start;
-  gap: var(--hoam-spacing-xs);
+  gap: var(--hoam-spacing-md);
   cursor: pointer;
   user-select: none;
 }

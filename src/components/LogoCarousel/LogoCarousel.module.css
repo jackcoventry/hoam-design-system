@@ -4,22 +4,24 @@
   --hoam-logo-height: clamp(100px, 10vw, 200px);
 }
 
+.root {
+  background-color: var(--hoam-color-neutral-100);
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.wrapper[data-pause="true"]:hover .rail {
+  animation-play-state: paused;
+}
+
 .content {
-  margin-bottom: var(--hoam-spacing-xl);
   text-align: center;
 }
 
 .title {
   color: var(--hoam-color-neutral-900);
   font: var(--hoam-typography-title-2);
-}
-
-.root {
-  background-color: var(--hoam-color-neutral-100);
-  overflow: hidden;
-  padding: var(--hoam-spacing-2xs) 0;
-  position: relative;
-  width: 100%;
 }
 
 .rail {
@@ -36,10 +38,6 @@
   to {
     transform: translate3d(-50%, 0, 0);
   }
-}
-
-.root[data-pause="true"]:hover .rail {
-  animation-play-state: paused;
 }
 
 .sequence {

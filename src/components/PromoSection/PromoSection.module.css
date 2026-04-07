@@ -1,5 +1,5 @@
 .root {
-  background-color: var(--hoam-color-promo-background);
+  background-color: var(--hoam-color-secondary);
   padding: var(--hoam-spacing-3xl) var(--hoam-spacing-xs);
 }
 

@@ -216,7 +216,7 @@ export function AccordionItem({ id, children, className }: Readonly<AccordionIte
           >
             <Icon
               id={isOpen ? 'caret-down' : 'caret-right'}
-              size="0.75em"
+              size="0.5em"
             />
           </span>
         </button>

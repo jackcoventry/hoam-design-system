@@ -19,7 +19,6 @@ export function Hero({ items }: Readonly<HeroProps>) {
         slides={items}
         getSlideKey={(item) => item.id}
         renderSlide={(item) => <HeroSlide {...item} />}
-        // navigation
         pagination
         loop
         autoplay={{ delay: 6000 }}

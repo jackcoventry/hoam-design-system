@@ -1,16 +1,15 @@
 .root {
   display: flex;
-  font: var(--hoam-typography-label-1);
   gap: var(--hoam-spacing-sm);
   padding: var(--hoam-spacing-2xs) 0;
 }
 
 .item {
   background-color: var(--hoam-color-neutral-900);
-  border-radius: var(--hoam-border-radius-small);
+  border-radius: var(--hoam-border-radius-medium);
   border: var(--hoam-border-size-default) var(--hoam-color-badge-list-item-border);
   display: inline-flex;
-  font: var(--hoam-typography-label-2);
+  font: var(--hoam-typography-label-1);
   padding: var(--hoam-spacing-2xs) var(--hoam-spacing-xs);
   text-transform: uppercase;
 }

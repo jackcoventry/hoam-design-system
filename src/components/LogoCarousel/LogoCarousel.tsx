@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef, useState } from 'react';
 
-import { Container, Grid, GridItem } from '@/components/Layout';
+import { Container, Grid, GridItem, Section, Stack } from '@/components/Layout';
 
 import styles from '@/components/LogoCarousel/LogoCarousel.module.css';
 
@@ -119,30 +119,37 @@ export function LogoCarousel({
   ));
 
   return (
-    <div
-      ref={containerRef}
+    <Section
+      space="2xl"
       className={styles.root}
-      data-pause={pauseOnHover ? 'true' : 'false'}
-      aria-label={ariaLabel}
     >
-      <Container>
-        {title ? (
-          <Grid>
-            <GridItem span={12}>
-              <div className={styles.content}>
-                <h2 className={styles.title}>{title}</h2>
-              </div>
-            </GridItem>
-          </Grid>
-        ) : null}
-      </Container>
-
       <div
-        ref={railRef}
-        className={styles.rail}
+        ref={containerRef}
+        data-pause={pauseOnHover ? 'true' : 'false'}
+        aria-label={ariaLabel}
+        className={styles.wrapper}
       >
-        {sequences}
+        <Stack gap="lg">
+          <Container>
+            {title ? (
+              <Grid>
+                <GridItem span={12}>
+                  <div className={styles.content}>
+                    <h2 className={styles.title}>{title}</h2>
+                  </div>
+                </GridItem>
+              </Grid>
+            ) : null}
+          </Container>
+
+          <div
+            ref={railRef}
+            className={styles.rail}
+          >
+            {sequences}
+          </div>
+        </Stack>
       </div>
-    </div>
+    </Section>
   );
 }
