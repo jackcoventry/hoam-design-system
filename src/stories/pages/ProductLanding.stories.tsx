@@ -12,7 +12,7 @@ import typography from '@/styles/Typography.module.css';
 import utils from '@/styles/Util.module.css';
 
 const meta: Meta = {
-  title: 'Pages/Product Listing',
+  title: 'Pages/Product Landing',
   tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
@@ -95,15 +95,6 @@ const Template = {
                   <ProductTile {...args} />
                 </GridItem>
               ))}
-            </Grid>
-
-            <Grid>
-              <GridItem span={12}>
-                <Pagination
-                  pageCount={5}
-                  currentPage={2}
-                />
-              </GridItem>
             </Grid>
           </Stack>
         </Container>
