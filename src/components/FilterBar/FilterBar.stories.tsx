@@ -68,7 +68,7 @@ export function CoffeeFilterExample(): JSX.Element {
 
   return (
     <FilterBar
-      title="Filter coffee"
+      title="Filter products"
       groups={groups}
       value={value}
       onChange={setValue}

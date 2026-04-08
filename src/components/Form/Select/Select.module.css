@@ -36,5 +36,5 @@
   color: var(--hoam-color-neutral-100);
   cursor: pointer;
   font: var(--hoam-typography-label-1);
-  padding: var(--hoam-spacing-md);
+  padding: var(--hoam-spacing-sm);
 }

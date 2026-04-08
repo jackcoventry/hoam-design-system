@@ -1,14 +1,18 @@
 import clsx from 'clsx';
 import type { ChangeEvent, JSX } from 'react';
 
-import type { CheckboxGroup, FilterValue, RadioGroup } from './FilterBar.types';
+import { Checkbox } from '@/components/Form/Checkbox';
+import { Radio } from '@/components/Form/Radio';
+
+import type { CheckboxGroup, FilterValue, RadioGroup as RadioGroupType } from './FilterBar.types';
 import { getVisibleOptions, isOptionSelected, isRadioGroup } from './filterBar.utils';
 
 import styles from './FilterBar.module.css';
+import utils from '@/styles/Util.module.css';
 
 type FilterBarOptionPanelProps = {
   baseId: string;
-  group: CheckboxGroup | RadioGroup;
+  group: CheckboxGroup | RadioGroupType;
   value: FilterValue;
   query: string;
   onQueryChange: (nextQuery: string) => void;
@@ -24,6 +28,7 @@ export function FilterBarOptionPanel({
   onToggle,
 }: Readonly<FilterBarOptionPanelProps>): JSX.Element {
   const visibleOptions = group.searchable ? getVisibleOptions(group.options, query) : group.options;
+  const textFieldClasses = clsx(styles.textField, utils.focus);
 
   return (
     <fieldset className={styles.fieldset}>
@@ -39,7 +44,7 @@ export function FilterBarOptionPanel({
           </label>
           <input
             id={`${baseId}-${group.id}-search`}
-            className={styles.searchInput}
+            className={textFieldClasses}
             type="search"
             value={query}
             placeholder={group.searchPlaceholder ?? `Search ${group.label}`}
@@ -63,20 +68,31 @@ export function FilterBarOptionPanel({
                 htmlFor={inputId}
                 className={clsx(styles.optionRow, option.disabled && styles.optionRowDisabled)}
               >
-                <input
-                  id={inputId}
-                  className={styles.input}
-                  type={isRadioGroup(group) ? 'radio' : 'checkbox'}
-                  name={group.id}
-                  value={option.id}
-                  checked={checked}
-                  disabled={option.disabled}
-                  onChange={() => {
-                    onToggle(option.id);
-                  }}
-                />
+                {isRadioGroup(group) ? (
+                  // <RadioGroup legend="Preferred contact method">
 
-                <span className={styles.optionLabel}>{option.label}</span>
+                  <Radio
+                    name={group.id}
+                    label={option.label}
+                    value={option.id}
+                    checked={checked}
+                    onCheckedChange={() => {
+                      onToggle(option.id);
+                    }}
+                  />
+                ) : (
+                  // </RadioGroup>
+                  <Checkbox
+                    id={inputId}
+                    name={group.id}
+                    value={option.id}
+                    label={option.label}
+                    checked={checked}
+                    onCheckedChange={() => {
+                      onToggle(option.id);
+                    }}
+                  />
+                )}
 
                 {typeof option.count === 'number' ? (
                   <span className={styles.optionCount}>{option.count}</span>

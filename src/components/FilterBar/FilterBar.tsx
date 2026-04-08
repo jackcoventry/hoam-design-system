@@ -9,6 +9,9 @@ import {
 } from 'react';
 import clsx from 'clsx';
 
+import { Button } from '../Button';
+import { Select } from '../Form/Select/Select';
+
 import type { FilterBarProps } from './FilterBar.types';
 import {
   buildChips,
@@ -51,7 +54,7 @@ export function FilterBar({
 
   useEffect(() => {
     const breakpoint = getBreakpointPx(stackAt);
-    const mediaQuery = window.matchMedia(`(max-width: ${breakpoint}px)`);
+    const mediaQuery = globalThis.matchMedia(`(max-width: ${breakpoint}px)`);
 
     const updateIsStacked = (matches: boolean): void => {
       setIsStacked(matches);
@@ -135,8 +138,6 @@ export function FilterBar({
       className={clsx(styles.root, styles[`stackAt${stackAt}`], className)}
     >
       <div className={styles.topRow}>
-        <h2 className={styles.title}>{title}</h2>
-
         <div className={styles.topControls}>
           {sortOptions && sortOptions.length > 0 && onSortChange ? (
             <div className={styles.sortControl}>
@@ -147,41 +148,40 @@ export function FilterBar({
                 {sortLabel}
               </label>
 
-              <select
+              <Select
                 id={`${baseId}-sort`}
-                className={styles.sortSelect}
                 value={sortValue}
-                onChange={(event) => {
-                  onSortChange(event.currentTarget.value);
+                onChange={(nextValue) => {
+                  if (typeof nextValue === 'string') {
+                    onSortChange(nextValue);
+                  }
                 }}
               >
+                <Select.Placeholder>Select size</Select.Placeholder>
                 {sortOptions.map((option) => (
-                  <option
+                  <Select.Option
                     key={option.value}
                     value={option.value}
                   >
                     {option.label}
-                  </option>
+                  </Select.Option>
                 ))}
-              </select>
+              </Select>
             </div>
           ) : null}
 
           <div className={styles.globalActions}>
             {onClearAll ? (
-              <button
-                type="button"
-                className={styles.clearAllButton}
+              <Button
                 onClick={onClearAll}
+                size="small"
               >
                 Clear all
-              </button>
+              </Button>
             ) : null}
 
             {onApply ? (
-              <button
-                type="button"
-                className={styles.applyButton}
+              <Button
                 onClick={() => {
                   onApply(value);
 
@@ -189,13 +189,16 @@ export function FilterBar({
                     closePanel();
                   }
                 }}
+                size="small"
               >
                 Apply filters
-              </button>
+              </Button>
             ) : null}
           </div>
         </div>
       </div>
+
+      <h2 className={styles.title}>{title}</h2>
 
       <div
         className={styles.bar}
@@ -214,7 +217,7 @@ export function FilterBar({
               key={group.id}
               className={styles.group}
             >
-              <button
+              <Button
                 ref={(element: HTMLButtonElement | null) => {
                   if (element) {
                     triggerRefs.current.set(group.id, element);
@@ -222,28 +225,21 @@ export function FilterBar({
                     triggerRefs.current.delete(group.id);
                   }
                 }}
-                type="button"
-                className={clsx(styles.trigger, isOpen && styles.triggerOpen)}
+                className={clsx(isOpen && styles.triggerOpen)}
+                size="small"
                 aria-expanded={isOpen}
                 aria-controls={panelId}
                 onClick={() => {
                   setOpenGroupId((current) => (current === group.id ? null : group.id));
                 }}
                 onKeyDown={handleTriggerKeyDown(group.id)}
+                // icon={isOpen ? 'caret-down' : 'caret-right'}
+                variant={isOpen ? 'tertiary' : 'primary'}
               >
-                <span className={styles.triggerLabel}>{group.label}</span>
+                {group.label}
 
-                {selectedCount > 0 ? (
-                  <span className={styles.triggerCount}>{selectedCount}</span>
-                ) : null}
-
-                <span
-                  className={styles.triggerChevron}
-                  aria-hidden="true"
-                >
-                  {isOpen ? '▴' : '▾'}
-                </span>
-              </button>
+                {/* {selectedCount > 0 ? <span>({selectedCount})</span> : null} */}
+              </Button>
 
               {isOpen ? (
                 <div
@@ -262,25 +258,26 @@ export function FilterBar({
                     </h3>
 
                     <div className={styles.panelActions}>
-                      <button
-                        type="button"
+                      <Button
                         className={styles.panelTextButton}
                         onClick={() => {
                           onChange(clearGroup(value, group));
                         }}
+                        size="small"
                       >
                         Clear
-                      </button>
+                      </Button>
 
-                      <button
-                        type="button"
+                      <Button
                         className={styles.panelTextButton}
                         onClick={() => {
                           closePanel(group.id);
                         }}
+                        size="small"
+                        variant="tertiary"
                       >
                         Done
-                      </button>
+                      </Button>
                     </div>
                   </div>
 
@@ -321,10 +318,8 @@ export function FilterBar({
           aria-label="Active filters"
         >
           {chips.map((chip) => (
-            <button
+            <Button
               key={chip.key}
-              type="button"
-              className={styles.chip}
               onClick={() => {
                 const group = groups.find((item) => item.id === chip.groupId);
 
@@ -346,16 +341,13 @@ export function FilterBar({
                 onChange(toggleOptionSelection(value, group, option.id));
               }}
               aria-label={`Remove ${chip.label} from ${chip.groupLabel}`}
+              icon="close"
+              size="small"
+              variant="secondary"
             >
-              <span className={styles.chipGroup}>{chip.groupLabel}:</span>
-              <span>{chip.label}</span>
-              <span
-                className={styles.chipRemove}
-                aria-hidden="true"
-              >
-                ×
-              </span>
-            </button>
+              <span className={styles.chipGroup}>{chip.groupLabel}: </span>
+              {chip.label}
+            </Button>
           ))}
         </div>
       ) : null}
