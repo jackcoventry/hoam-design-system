@@ -1,6 +1,7 @@
 import { type JSX, useState } from 'react';
 
-import { FilterBar, type FilterGroup, type FilterValue } from './FilterBar';
+import { FilterBar } from './FilterBar';
+import type { FilterGroup, FilterValue } from './FilterBar.types';
 
 export default { component: FilterBar };
 const groups: FilterGroup[] = [
@@ -25,18 +26,8 @@ const groups: FilterGroup[] = [
       { id: 'colombia', label: 'Colombia', count: 11 },
       { id: 'brazil', label: 'Brazil', count: 8 },
       { id: 'kenya', label: 'Kenya', count: 5 },
-      { id: 'guatemala', label: 'Guatemala', count: 4 },
       { id: 'rwanda', label: 'Rwanda', count: 3 },
-    ],
-  },
-  {
-    id: 'brew',
-    label: 'Best for',
-    kind: 'checkbox',
-    options: [
-      { id: 'espresso', label: 'Espresso', count: 14 },
-      { id: 'filter', label: 'Filter', count: 17 },
-      { id: 'cafetiere', label: 'Cafetière', count: 9 },
+      { id: 'guatemala', label: 'Guatemala', count: 4 },
     ],
   },
   {
@@ -64,7 +55,6 @@ const initialValue: FilterValue = {
   options: {
     roast: [],
     origin: [],
-    brew: [],
     availability: ['all'],
   },
   ranges: {
@@ -74,6 +64,7 @@ const initialValue: FilterValue = {
 
 export function CoffeeFilterExample(): JSX.Element {
   const [value, setValue] = useState<FilterValue>(initialValue);
+  const [sortValue, setSortValue] = useState<string>('featured');
 
   return (
     <FilterBar
@@ -82,11 +73,20 @@ export function CoffeeFilterExample(): JSX.Element {
       value={value}
       onChange={setValue}
       onApply={(nextValue) => {
-        console.log(nextValue);
+        console.log('filters', nextValue);
+        console.log('sort', sortValue);
       }}
       onClearAll={() => {
         setValue(initialValue);
       }}
+      sortOptions={[
+        { value: 'featured', label: 'Featured' },
+        { value: 'price-low-high', label: 'Price: Low to high' },
+        { value: 'price-high-low', label: 'Price: High to low' },
+        { value: 'newest', label: 'Newest' },
+      ]}
+      sortValue={sortValue}
+      onSortChange={setSortValue}
       stackAt="md"
     />
   );

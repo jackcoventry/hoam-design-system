@@ -1,5 +1,4 @@
 import {
-  type ChangeEvent,
   type JSX,
   type KeyboardEvent as ReactKeyboardEvent,
   useEffect,
@@ -10,420 +9,21 @@ import {
 } from 'react';
 import clsx from 'clsx';
 
+import type { FilterBarProps } from './FilterBar.types';
+import {
+  buildChips,
+  clearGroup,
+  getBreakpointPx,
+  getSelectedCount,
+  isOptionGroup,
+  isRangeGroup,
+  setRangeValue,
+  toggleOptionSelection,
+} from './filterBar.utils';
+import { FilterBarOptionPanel } from './FilterBarOptionPanel';
+import { FilterBarRangePanel } from './FilterBarRangePanel';
+
 import styles from './FilterBar.module.css';
-
-export type FilterOption = {
-  id: string;
-  label: string;
-  count?: number;
-  disabled?: boolean;
-};
-
-export type CheckboxGroup = {
-  id: string;
-  label: string;
-  kind: 'checkbox';
-  options: readonly FilterOption[];
-  searchable?: boolean;
-  searchPlaceholder?: string;
-};
-
-export type RadioGroup = {
-  id: string;
-  label: string;
-  kind: 'radio';
-  options: readonly FilterOption[];
-  searchable?: boolean;
-  searchPlaceholder?: string;
-};
-
-export type RangeGroup = {
-  id: string;
-  label: string;
-  kind: 'range';
-  min: number;
-  max: number;
-  step?: number;
-  minLabel?: string;
-  maxLabel?: string;
-};
-
-export type FilterGroup = CheckboxGroup | RadioGroup | RangeGroup;
-
-export type FilterRangeValue = {
-  min?: number;
-  max?: number;
-};
-
-export type FilterValue = {
-  options: Record<string, readonly string[]>;
-  ranges: Record<string, FilterRangeValue | undefined>;
-};
-
-export type FilterBarProps = {
-  title?: string;
-  groups: readonly FilterGroup[];
-  value: FilterValue;
-  onChange: (nextValue: FilterValue) => void;
-  onApply?: (value: FilterValue) => void;
-  onClearAll?: () => void;
-  className?: string;
-  stackAt?: 'sm' | 'md' | 'lg';
-};
-
-type ActiveChip = {
-  key: string;
-  groupId: string;
-  groupLabel: string;
-  label: string;
-  onRemove: () => void;
-};
-
-function isCheckboxGroup(group: FilterGroup): group is CheckboxGroup {
-  return group.kind === 'checkbox';
-}
-
-function isRadioGroup(group: FilterGroup): group is RadioGroup {
-  return group.kind === 'radio';
-}
-
-function isRangeGroup(group: FilterGroup): group is RangeGroup {
-  return group.kind === 'range';
-}
-
-function isSearchableGroup(group: FilterGroup): group is CheckboxGroup | RadioGroup {
-  return !isRangeGroup(group) && Boolean(group.searchable);
-}
-
-function getOptionSelections(value: FilterValue, groupId: string): readonly string[] {
-  return value.options[groupId] ?? [];
-}
-
-function isOptionSelected(value: FilterValue, groupId: string, optionId: string): boolean {
-  return getOptionSelections(value, groupId).includes(optionId);
-}
-
-function toggleOptionSelection(
-  value: FilterValue,
-  group: CheckboxGroup | RadioGroup,
-  optionId: string
-): FilterValue {
-  const current = getOptionSelections(value, group.id);
-  const isSelected = current.includes(optionId);
-
-  if (group.kind === 'radio') {
-    return {
-      ...value,
-      options: {
-        ...value.options,
-        [group.id]: isSelected ? [] : [optionId],
-      },
-    };
-  }
-
-  return {
-    ...value,
-    options: {
-      ...value.options,
-      [group.id]: isSelected ? current.filter((id) => id !== optionId) : [...current, optionId],
-    },
-  };
-}
-
-function clearGroup(value: FilterValue, group: FilterGroup): FilterValue {
-  if (isRangeGroup(group)) {
-    return {
-      ...value,
-      ranges: {
-        ...value.ranges,
-        [group.id]: {},
-      },
-    };
-  }
-
-  return {
-    ...value,
-    options: {
-      ...value.options,
-      [group.id]: [],
-    },
-  };
-}
-
-function setRangeValue(
-  value: FilterValue,
-  groupId: string,
-  nextRange: FilterRangeValue
-): FilterValue {
-  return {
-    ...value,
-    ranges: {
-      ...value.ranges,
-      [groupId]: nextRange,
-    },
-  };
-}
-
-function getRangeValue(value: FilterValue, groupId: string): FilterRangeValue | undefined {
-  return value.ranges[groupId];
-}
-
-function clamp(input: number, min: number, max: number): number {
-  return Math.min(max, Math.max(min, input));
-}
-
-function getSelectedCount(group: FilterGroup, value: FilterValue): number {
-  if (isRangeGroup(group)) {
-    const range = getRangeValue(value, group.id);
-    return range?.min != null || range?.max != null ? 1 : 0;
-  }
-
-  return getOptionSelections(value, group.id).length;
-}
-
-function formatRangeChip(group: RangeGroup, range: FilterRangeValue): string {
-  const hasMin = typeof range.min === 'number';
-  const hasMax = typeof range.max === 'number';
-
-  if (hasMin && hasMax) {
-    return `£${range.min}–£${range.max}`;
-  }
-
-  if (hasMin) {
-    return `From £${range.min}`;
-  }
-
-  if (hasMax) {
-    return `Up to £${range.max}`;
-  }
-
-  return group.label;
-}
-
-function buildChips(
-  groups: readonly FilterGroup[],
-  value: FilterValue,
-  onChange: (nextValue: FilterValue) => void
-): ActiveChip[] {
-  const chips: ActiveChip[] = [];
-
-  for (const group of groups) {
-    if (isRangeGroup(group)) {
-      const range = getRangeValue(value, group.id);
-
-      if (range && (range.min != null || range.max != null)) {
-        chips.push({
-          key: `${group.id}-range`,
-          groupId: group.id,
-          groupLabel: group.label,
-          label: formatRangeChip(group, range),
-          onRemove: () => {
-            onChange(setRangeValue(value, group.id, {}));
-          },
-        });
-      }
-
-      continue;
-    }
-
-    const selectedIds = getOptionSelections(value, group.id);
-
-    for (const optionId of selectedIds) {
-      const option = group.options.find((item) => item.id === optionId);
-
-      if (!option) {
-        continue;
-      }
-
-      chips.push({
-        key: `${group.id}-${option.id}`,
-        groupId: group.id,
-        groupLabel: group.label,
-        label: option.label,
-        onRemove: () => {
-          onChange(toggleOptionSelection(value, group, option.id));
-        },
-      });
-    }
-  }
-
-  return chips;
-}
-
-function matchesSearch(option: FilterOption, query: string): boolean {
-  return option.label.toLowerCase().includes(query.trim().toLowerCase());
-}
-
-function getStackBreakpointValue(stackAt: 'sm' | 'md' | 'lg'): number {
-  switch (stackAt) {
-    case 'sm':
-      return 640;
-    case 'lg':
-      return 1024;
-    case 'md':
-    default:
-      return 832;
-  }
-}
-
-type RangePanelProps = {
-  baseId: string;
-  group: RangeGroup;
-  value: FilterValue;
-  onChange: (nextValue: FilterValue) => void;
-};
-
-function RangePanel({ baseId, group, value, onChange }: Readonly<RangePanelProps>): JSX.Element {
-  const current = getRangeValue(value, group.id);
-  const step = group.step ?? 1;
-
-  const minValue = typeof current?.min === 'number' ? current.min : group.min;
-  const maxValue = typeof current?.max === 'number' ? current.max : group.max;
-
-  const safeMin = clamp(Math.min(minValue, maxValue), group.min, group.max);
-  const safeMax = clamp(Math.max(minValue, maxValue), group.min, group.max);
-
-  const percentageMin = ((safeMin - group.min) / (group.max - group.min)) * 100;
-  const percentageMax = ((safeMax - group.min) / (group.max - group.min)) * 100;
-
-  return (
-    <div className={styles.rangePanelBody}>
-      <div className={styles.rangeInputs}>
-        <label className={styles.rangeField}>
-          <span className={styles.rangeFieldLabel}>Min</span>
-          <input
-            className={styles.numberInput}
-            type="number"
-            inputMode="numeric"
-            min={group.min}
-            max={group.max}
-            step={step}
-            value={safeMin}
-            onChange={(event: ChangeEvent<HTMLInputElement>) => {
-              const nextMin = Number(event.currentTarget.value);
-
-              if (Number.isNaN(nextMin)) {
-                return;
-              }
-
-              onChange(
-                setRangeValue(value, group.id, {
-                  min: clamp(nextMin, group.min, safeMax),
-                  max: safeMax,
-                })
-              );
-            }}
-          />
-        </label>
-
-        <label className={styles.rangeField}>
-          <span className={styles.rangeFieldLabel}>Max</span>
-          <input
-            className={styles.numberInput}
-            type="number"
-            inputMode="numeric"
-            min={group.min}
-            max={group.max}
-            step={step}
-            value={safeMax}
-            onChange={(event: ChangeEvent<HTMLInputElement>) => {
-              const nextMax = Number(event.currentTarget.value);
-
-              if (Number.isNaN(nextMax)) {
-                return;
-              }
-
-              onChange(
-                setRangeValue(value, group.id, {
-                  min: safeMin,
-                  max: clamp(nextMax, safeMin, group.max),
-                })
-              );
-            }}
-          />
-        </label>
-      </div>
-
-      <div className={styles.dualSlider}>
-        <div
-          className={styles.sliderTrack}
-          aria-hidden="true"
-        >
-          <div
-            className={styles.sliderRange}
-            style={{
-              left: `${percentageMin}%`,
-              right: `${100 - percentageMax}%`,
-            }}
-          />
-        </div>
-
-        <label
-          className={styles.visuallyHidden}
-          htmlFor={`${baseId}-${group.id}-min`}
-        >
-          Minimum {group.label}
-        </label>
-        <input
-          id={`${baseId}-${group.id}-min`}
-          className={clsx(styles.slider, styles.sliderThumbMin)}
-          type="range"
-          min={group.min}
-          max={group.max}
-          step={step}
-          value={safeMin}
-          onChange={(event: ChangeEvent<HTMLInputElement>) => {
-            const nextMin = Number(event.currentTarget.value);
-
-            onChange(
-              setRangeValue(value, group.id, {
-                min: clamp(nextMin, group.min, safeMax),
-                max: safeMax,
-              })
-            );
-          }}
-        />
-
-        <label
-          className={styles.visuallyHidden}
-          htmlFor={`${baseId}-${group.id}-max`}
-        >
-          Maximum {group.label}
-        </label>
-        <input
-          id={`${baseId}-${group.id}-max`}
-          className={clsx(styles.slider, styles.sliderThumbMax)}
-          type="range"
-          min={group.min}
-          max={group.max}
-          step={step}
-          value={safeMax}
-          onChange={(event: ChangeEvent<HTMLInputElement>) => {
-            const nextMax = Number(event.currentTarget.value);
-
-            onChange(
-              setRangeValue(value, group.id, {
-                min: safeMin,
-                max: clamp(nextMax, safeMin, group.max),
-              })
-            );
-          }}
-        />
-      </div>
-
-      <div
-        className={styles.rangeSummary}
-        aria-live="polite"
-      >
-        <span>{group.minLabel ?? `£${group.min}`}</span>
-        <span>
-          Selected: £{safeMin} – £{safeMax}
-        </span>
-        <span>{group.maxLabel ?? `£${group.max}`}</span>
-      </div>
-    </div>
-  );
-}
 
 export function FilterBar({
   title = 'Filter products',
@@ -434,28 +34,39 @@ export function FilterBar({
   onClearAll,
   className,
   stackAt = 'md',
+  sortLabel = 'Sort by',
+  sortOptions,
+  sortValue = '',
+  onSortChange,
 }: Readonly<FilterBarProps>): JSX.Element {
   const baseId = useId();
   const rootRef = useRef<HTMLDivElement | null>(null);
   const triggerRefs = useRef<Map<string, HTMLButtonElement>>(new Map());
+
   const [openGroupId, setOpenGroupId] = useState<string | null>(null);
   const [searchQueries, setSearchQueries] = useState<Record<string, string>>({});
   const [isStacked, setIsStacked] = useState<boolean>(false);
 
-  const chips = useMemo(() => buildChips(groups, value, onChange), [groups, value, onChange]);
+  const chips = useMemo(() => buildChips(groups, value), [groups, value]);
 
   useEffect(() => {
-    const breakpoint = getStackBreakpointValue(stackAt);
+    const breakpoint = getBreakpointPx(stackAt);
+    const mediaQuery = window.matchMedia(`(max-width: ${breakpoint}px)`);
 
-    function updateIsStacked(): void {
-      setIsStacked(window.innerWidth <= breakpoint);
-    }
+    const updateIsStacked = (matches: boolean): void => {
+      setIsStacked(matches);
+    };
 
-    updateIsStacked();
-    window.addEventListener('resize', updateIsStacked, { passive: true });
+    updateIsStacked(mediaQuery.matches);
+
+    const handleChange = (event: MediaQueryListEvent): void => {
+      updateIsStacked(event.matches);
+    };
+
+    mediaQuery.addEventListener('change', handleChange);
 
     return () => {
-      window.removeEventListener('resize', updateIsStacked);
+      mediaQuery.removeEventListener('change', handleChange);
     };
   }, [stackAt]);
 
@@ -464,7 +75,7 @@ export function FilterBar({
       return;
     }
 
-    function handlePointerDown(event: MouseEvent): void {
+    const handlePointerDown = (event: MouseEvent): void => {
       const root = rootRef.current;
       const target = event.target;
 
@@ -475,13 +86,15 @@ export function FilterBar({
       if (!root.contains(target)) {
         setOpenGroupId(null);
       }
-    }
+    };
 
-    function handleEscape(event: KeyboardEvent): void {
+    const handleEscape = (event: KeyboardEvent): void => {
       if (event.key === 'Escape') {
+        const currentOpenGroupId = openGroupId;
         setOpenGroupId(null);
+        triggerRefs.current.get(currentOpenGroupId)?.focus();
       }
-    }
+    };
 
     document.addEventListener('mousedown', handlePointerDown);
     document.addEventListener('keydown', handleEscape);
@@ -492,16 +105,15 @@ export function FilterBar({
     };
   }, [openGroupId]);
 
-  function closePanel(groupId?: string): void {
+  const closePanel = (groupId?: string): void => {
+    const targetGroupId = groupId ?? openGroupId;
+
     setOpenGroupId(null);
 
-    const targetId = groupId ?? openGroupId;
-    if (!targetId) {
-      return;
+    if (targetGroupId) {
+      triggerRefs.current.get(targetGroupId)?.focus();
     }
-
-    triggerRefs.current.get(targetId)?.focus();
-  }
+  };
 
   const handleTriggerKeyDown =
     (groupId: string) =>
@@ -525,32 +137,63 @@ export function FilterBar({
       <div className={styles.topRow}>
         <h2 className={styles.title}>{title}</h2>
 
-        <div className={styles.globalActions}>
-          {onClearAll ? (
-            <button
-              type="button"
-              className={styles.clearAllButton}
-              onClick={onClearAll}
-            >
-              Clear all
-            </button>
+        <div className={styles.topControls}>
+          {sortOptions && sortOptions.length > 0 && onSortChange ? (
+            <div className={styles.sortControl}>
+              <label
+                className={styles.sortLabel}
+                htmlFor={`${baseId}-sort`}
+              >
+                {sortLabel}
+              </label>
+
+              <select
+                id={`${baseId}-sort`}
+                className={styles.sortSelect}
+                value={sortValue}
+                onChange={(event) => {
+                  onSortChange(event.currentTarget.value);
+                }}
+              >
+                {sortOptions.map((option) => (
+                  <option
+                    key={option.value}
+                    value={option.value}
+                  >
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
           ) : null}
 
-          {onApply ? (
-            <button
-              type="button"
-              className={styles.applyButton}
-              onClick={() => {
-                onApply(value);
+          <div className={styles.globalActions}>
+            {onClearAll ? (
+              <button
+                type="button"
+                className={styles.clearAllButton}
+                onClick={onClearAll}
+              >
+                Clear all
+              </button>
+            ) : null}
 
-                if (!isStacked) {
-                  closePanel();
-                }
-              }}
-            >
-              Apply filters
-            </button>
-          ) : null}
+            {onApply ? (
+              <button
+                type="button"
+                className={styles.applyButton}
+                onClick={() => {
+                  onApply(value);
+
+                  if (!isStacked) {
+                    closePanel();
+                  }
+                }}
+              >
+                Apply filters
+              </button>
+            ) : null}
+          </div>
         </div>
       </div>
 
@@ -565,13 +208,6 @@ export function FilterBar({
           const panelId = `${baseId}-${group.id}-panel`;
           const titleId = `${baseId}-${group.id}-title`;
           const query = searchQueries[group.id] ?? '';
-
-          const visibleOptions =
-            !isRangeGroup(group) && isSearchableGroup(group)
-              ? group.options.filter((option) => matchesSearch(option, query))
-              : !isRangeGroup(group)
-                ? group.options
-                : [];
 
           return (
             <div
@@ -649,82 +285,29 @@ export function FilterBar({
                   </div>
 
                   {isRangeGroup(group) ? (
-                    <RangePanel
+                    <FilterBarRangePanel
                       baseId={baseId}
                       group={group}
                       value={value}
                       onChange={onChange}
                     />
-                  ) : (
-                    <fieldset className={styles.fieldset}>
-                      <legend className={styles.visuallyHidden}>{group.label}</legend>
-
-                      {isSearchableGroup(group) ? (
-                        <div className={styles.searchWrap}>
-                          <label
-                            className={styles.visuallyHidden}
-                            htmlFor={`${baseId}-${group.id}-search`}
-                          >
-                            Search {group.label}
-                          </label>
-                          <input
-                            id={`${baseId}-${group.id}-search`}
-                            className={styles.searchInput}
-                            type="search"
-                            value={query}
-                            placeholder={group.searchPlaceholder ?? `Search ${group.label}`}
-                            onChange={(event: ChangeEvent<HTMLInputElement>) => {
-                              setSearchQueries((current) => ({
-                                ...current,
-                                [group.id]: event.currentTarget.value,
-                              }));
-                            }}
-                          />
-                        </div>
-                      ) : null}
-
-                      <div className={styles.optionList}>
-                        {visibleOptions.length > 0 ? (
-                          visibleOptions.map((option) => {
-                            const inputId = `${baseId}-${group.id}-${option.id}`;
-                            const checked = isOptionSelected(value, group.id, option.id);
-
-                            return (
-                              <label
-                                key={option.id}
-                                htmlFor={inputId}
-                                className={clsx(
-                                  styles.optionRow,
-                                  option.disabled && styles.optionRowDisabled
-                                )}
-                              >
-                                <input
-                                  id={inputId}
-                                  className={styles.input}
-                                  type={isRadioGroup(group) ? 'radio' : 'checkbox'}
-                                  name={group.id}
-                                  value={option.id}
-                                  checked={checked}
-                                  disabled={option.disabled}
-                                  onChange={() => {
-                                    onChange(toggleOptionSelection(value, group, option.id));
-                                  }}
-                                />
-
-                                <span className={styles.optionLabel}>{option.label}</span>
-
-                                {typeof option.count === 'number' ? (
-                                  <span className={styles.optionCount}>{option.count}</span>
-                                ) : null}
-                              </label>
-                            );
-                          })
-                        ) : (
-                          <p className={styles.emptyState}>No filters found.</p>
-                        )}
-                      </div>
-                    </fieldset>
-                  )}
+                  ) : isOptionGroup(group) ? (
+                    <FilterBarOptionPanel
+                      baseId={baseId}
+                      group={group}
+                      value={value}
+                      query={query}
+                      onQueryChange={(nextQuery) => {
+                        setSearchQueries((current) => ({
+                          ...current,
+                          [group.id]: nextQuery,
+                        }));
+                      }}
+                      onToggle={(optionId) => {
+                        onChange(toggleOptionSelection(value, group, optionId));
+                      }}
+                    />
+                  ) : null}
                 </div>
               ) : null}
             </div>
@@ -742,7 +325,26 @@ export function FilterBar({
               key={chip.key}
               type="button"
               className={styles.chip}
-              onClick={chip.onRemove}
+              onClick={() => {
+                const group = groups.find((item) => item.id === chip.groupId);
+
+                if (!group) {
+                  return;
+                }
+
+                if (isRangeGroup(group)) {
+                  onChange(setRangeValue(value, group.id, {}));
+                  return;
+                }
+
+                const option = group.options.find((item) => item.label === chip.label);
+
+                if (!option) {
+                  return;
+                }
+
+                onChange(toggleOptionSelection(value, group, option.id));
+              }}
               aria-label={`Remove ${chip.label} from ${chip.groupLabel}`}
             >
               <span className={styles.chipGroup}>{chip.groupLabel}:</span>
