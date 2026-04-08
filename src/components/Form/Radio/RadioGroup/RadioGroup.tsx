@@ -2,6 +2,7 @@ import { type ReactNode, useId } from 'react';
 import clsx from 'clsx';
 
 import styles from './RadioGroup.module.css';
+import utils from '@/styles/Util.module.css';
 
 export interface RadioGroupProps {
   legend: string;
@@ -31,7 +32,7 @@ export function RadioGroup({
       className={clsx(styles.root, className)}
       aria-describedby={describedBy}
     >
-      <legend className="sr-only">{legend}</legend>
+      <legend className={utils.srOnly}>{legend}</legend>
       <span className={styles.legend}>
         {legend}
         {required ? <span className={styles.required}> *</span> : null}

@@ -26,6 +26,7 @@ export * from './QuantitySelector';
 export * from './RecommendedProducts';
 export * from './RichLink';
 export * from './SidebarNavigation';
+export * from './SkipToContentLink';
 export * from './Table';
 export * from './Tabs';
 export * from './VariantSelector';

@@ -576,8 +576,8 @@
     "set": "border-radius"
   },
   {
-    "name": "hoam-border-radius-medium",
-    "cssVar": "--hoam-border-radius-medium",
+    "name": "hoam-border-radius-default",
+    "cssVar": "--hoam-border-radius-default",
     "type": "dimension",
     "value": "8px",
     "group": null,

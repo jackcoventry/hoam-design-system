@@ -36,7 +36,8 @@
 
 .box {
   align-items: center;
-  background: var(--hoam-color-neutral-800);
+  background: var(--hoam-color-neutral-900);
+  border: var(--hoam-border-size-default) var(--hoam-color-neutral-700);
   display: inline-flex;
   height: var(--checkbox-box-size);
   justify-content: center;

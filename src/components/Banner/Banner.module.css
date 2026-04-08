@@ -1,5 +1,5 @@
 .root {
-  border-radius: var(--hoam-border-radius-medium);
+  border-radius: var(--hoam-border-radius-default);
 }
 
 .root[data-theme="default"] {

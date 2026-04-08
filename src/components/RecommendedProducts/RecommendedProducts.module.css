@@ -1,5 +1,5 @@
 .root {
   background-color: var(--hoam-color-moon-300);
-  border-radius: var(--hoam-border-radius-medium);
+  border-radius: var(--hoam-border-radius-default);
   padding: var(--hoam-spacing-md);
 }

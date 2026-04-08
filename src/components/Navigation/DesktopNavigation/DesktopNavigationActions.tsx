@@ -5,6 +5,7 @@ import type { NavigationProps } from '@/components/Navigation/types';
 import { IconId } from '@/design-tokens/icons';
 
 import styles from '@/components/Navigation/Navigation.module.css';
+import utils from '@/styles/Util.module.css';
 
 type UserItem = NonNullable<NavigationProps['userItems']>[number];
 type UserAction = NonNullable<UserItem['action']>;
@@ -67,7 +68,7 @@ export function DesktopNavigationActions({
             >
               <Icon id={userLink.icon as IconId} />
 
-              <span className="sr-only">{userLink.label}</span>
+              <span className={utils.srOnly}>{userLink.label}</span>
             </a>
           </li>
         ))}

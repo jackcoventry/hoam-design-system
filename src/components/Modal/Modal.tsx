@@ -17,8 +17,9 @@ import { useModalStack } from '@/components/Modal/ModalStackContext';
 import { logger } from '@/utils/logger';
 import { FOCUSABLE_SELECTORS } from '@/constants/focusable-selectors';
 
-import utils from '@/styles/Util.module.css';
 import styles from '@/components/Modal/Modal.module.css';
+import typography from '@/styles/Typography.module.css';
+import utils from '@/styles/Util.module.css';
 
 export type ModalVariant = 'modal' | 'drawer';
 type ModalPhase = 'closed' | 'opening' | 'open' | 'closing';
@@ -306,7 +307,14 @@ function ModalHeader({ children, padded = true }: Readonly<ModalSectionProps>) {
 function ModalTitle({ children }: Readonly<ModalTitleProps>) {
   const { titleId } = useModalContext('Modal.Title');
 
-  return <h2 id={titleId}>{children}</h2>;
+  return (
+    <h2
+      id={titleId}
+      className={typography.heading}
+    >
+      {children}
+    </h2>
+  );
 }
 
 function ModalCloseButton({
@@ -328,6 +336,7 @@ function ModalCloseButton({
       className={clsx(styles.closeButton, utils.focus)}
       iconOnly
       icon="close"
+      size="small"
     />
   );
 }

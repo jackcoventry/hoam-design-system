@@ -4,7 +4,9 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import z from 'zod';
 
 import { Button } from '@/components/Button';
+import { Stack } from '@/components/Layout';
 import { Spinner } from '@/components/Loading';
+import { Pagination } from '@/components/Pagination';
 
 import formStyles from '@/components/Form/Form.module.css';
 import styles from '@/components/Form/SearchForm/SearchForm.module.css';
@@ -24,6 +26,7 @@ export type SearchFormResult = {
 };
 
 export type SearchFormProps = {
+  onClose: () => void;
   onSubmit: SubmitHandler<SearchFormSchemaType>;
   loading: boolean;
   submitLabel?: string;
@@ -37,14 +40,18 @@ export type SearchResultsProps = {
 export function SearchResult({ title, url, preview }: Readonly<SearchFormResult>) {
   return (
     <div className={styles.result}>
-      <h4 className={styles.resultTitle}>{title}</h4>
-      <p className={styles.resultPreview}>{preview}</p>
-      <a
-        href={url}
-        className={styles.resultLink}
-      >
-        Read more
-      </a>
+      <Stack>
+        <h4 className={styles.resultTitle}>{title}</h4>
+        <p className={styles.resultPreview}>{preview}</p>
+        <Button
+          as="a"
+          href={url}
+          size="small"
+          className={styles.resultButton}
+        >
+          Read more
+        </Button>
+      </Stack>
     </div>
   );
 }
@@ -67,21 +74,27 @@ export function SearchResults({ items }: Readonly<SearchResultsProps>) {
   }
 
   return (
-    <ol className={styles.results}>
-      {items.map((item, index) => (
-        <li key={item.id ?? `${item.url}-${index}`}>
-          <SearchResult
-            title={item.title}
-            preview={item.preview}
-            url={item.url}
-          />
-        </li>
-      ))}
-    </ol>
+    <>
+      <ol className={styles.results}>
+        {items.map((item, index) => (
+          <li key={item.id ?? `${item.url}-${index}`}>
+            <SearchResult
+              title={item.title}
+              preview={item.preview}
+              url={item.url}
+            />
+          </li>
+        ))}
+      </ol>
+      <div className={styles.pagination}>
+        <Pagination currentPage={1} />
+      </div>
+    </>
   );
 }
 
 export function SearchForm({
+  onClose,
   onSubmit,
   loading,
   submitLabel = 'Search',
@@ -104,45 +117,53 @@ export function SearchForm({
 
   return (
     <div className={styles.wrapper}>
-      <form
-        className={styles.root}
-        onSubmit={(event) => {
-          void handleSubmit(onSubmit)(event);
-        }}
-      >
-        <label
-          htmlFor={inputId}
-          className="sr-only"
-        >
-          {submitLabel}
-        </label>
-
-        <Controller
-          name="q"
-          control={control}
-          render={({ field }) => (
-            <input
-              {...field}
-              id={inputId}
-              type="search"
-              placeholder={queryError || placeholderText}
-              data-valid={queryError ? 'false' : 'true'}
-              aria-invalid={queryError ? 'true' : 'false'}
-              disabled={loading}
-              className={clsx(formStyles.textField, utils.focus)}
-            />
-          )}
-        />
-
+      <Stack>
         <Button
-          type="submit"
-          className={styles.button}
-          variant="secondary"
-          disabled={loading}
+          className={clsx(styles.srClose, utils.focusableOnly)}
+          onClick={onClose}
         >
-          {submitLabel}
+          Close Modal
         </Button>
-      </form>
+        <form
+          className={styles.root}
+          onSubmit={(event) => {
+            void handleSubmit(onSubmit)(event);
+          }}
+        >
+          <label
+            htmlFor={inputId}
+            className={utils.srOnly}
+          >
+            {submitLabel}
+          </label>
+
+          <Controller
+            name="q"
+            control={control}
+            render={({ field }) => (
+              <input
+                {...field}
+                id={inputId}
+                type="search"
+                placeholder={queryError || placeholderText}
+                data-valid={queryError ? 'false' : 'true'}
+                aria-invalid={queryError ? 'true' : 'false'}
+                disabled={loading}
+                className={clsx(formStyles.textField, utils.focus)}
+              />
+            )}
+          />
+
+          <Button
+            type="submit"
+            className={styles.button}
+            variant="secondary"
+            disabled={loading}
+          >
+            {submitLabel}
+          </Button>
+        </form>
+      </Stack>
     </div>
   );
 }

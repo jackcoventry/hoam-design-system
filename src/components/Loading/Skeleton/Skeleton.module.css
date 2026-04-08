@@ -5,16 +5,16 @@
   animation: skeleton-shimmer 2s ease infinite;
   background: linear-gradient(90deg, var(--skeleton-base) 25%, var(--skeleton-highlight) 37%, var(--skeleton-base) 63%);
   background-size: 400% 100%;
-  border-radius: var(--hoam-border-radius-medium);
+  border-radius: var(--hoam-border-radius-default);
   display: block;
 }
 
 .rectangular {
-  border-radius: var(--hoam-border-radius-medium);
+  border-radius: var(--hoam-border-radius-default);
 }
 
 .text {
-  border-radius: var(--hoam-border-radius-medium);
+  border-radius: var(--hoam-border-radius-default);
 }
 
 .circular {

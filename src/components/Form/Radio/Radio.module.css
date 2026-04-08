@@ -37,7 +37,7 @@
 
 .outer {
   background: var(--hoam-color-neutral-900);
-  border: var(--hoam-border-size-default) var(--hoam-color-neutral-800);
+  border: var(--hoam-border-size-default) var(--hoam-color-neutral-700);
   border-radius: var(--hoam-border-radius-full);
   display: inline-grid;
   height: var(--radio-size);

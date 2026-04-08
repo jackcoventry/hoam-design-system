@@ -98,39 +98,7 @@ ol[role="list"] {
   scroll-margin-block: 5ex;
 }
 
-/* 14. Visible for screen readers only */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
-}
-
-.focusable-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
-}
-
-.focusable-only:focus-visible {
-  position: static;
-  width: auto;
-  height: auto;
-  margin: 0;
-}
-
-/* 15. Table reset styles */
+/* 14. Table reset styles */
 
 table {
   border-collapse: collapse;

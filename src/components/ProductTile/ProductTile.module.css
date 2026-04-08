@@ -19,7 +19,7 @@
 .imageWrapper {
   animation: hoam-product-tile-image-loading 1.5s linear infinite;
   background: linear-gradient(90deg, #eeea 30%, #fffa, #eeea 60%) right/300% 100%;
-  border-radius: var(--hoam-border-radius-medium);
+  border-radius: var(--hoam-border-radius-default);
   height: 0;
   margin: 0;
   overflow: hidden;

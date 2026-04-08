@@ -12,7 +12,7 @@
 
 .row {
   background-color: var(--hoam-color-neutral-900);
-  border-radius: var(--hoam-border-radius-medium);
+  border-radius: var(--hoam-border-radius-default);
   gap: var(--hoam-spacing-xl);
   grid-template-columns: 120px minmax(0, 1fr);
   grid-template-areas: "image text" "quantity price";

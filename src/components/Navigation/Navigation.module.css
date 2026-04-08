@@ -38,8 +38,7 @@
 
 .link:hover,
 .link:focus {
-  color: var(--hoam-color-moon-900);
-  text-decoration: underline;
+  color: var(--hoam-color-primary);
 }
 
 .list {
@@ -84,7 +83,7 @@
 }
 
 .panelSubLevel {
-  background-color: var(--hoam-color-neutral-700);
+  background-color: var(--hoam-color-neutral-900);
   height: var(--hoam-navigation-height);
   left: 100%;
   overflow: auto;
@@ -163,8 +162,8 @@
 }
 
 .panelGroupSection a[data-sub-link].panelGroupHeaderFirst {
+  font-weight: bold;
   margin-bottom: var(--hoam-spacing-2xs);
-  text-transform: uppercase;
 }
 
 .panelGroupSection a[data-sub-link]:hover {

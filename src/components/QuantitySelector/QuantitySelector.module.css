@@ -32,7 +32,7 @@
 
 .button {
   border: none;
-  border-radius: var(--hoam-border-radius-medium);
+  border-radius: var(--hoam-border-radius-default);
   height: var(--hoam-size-quantity-selector);
   outline: none;
   width: var(--hoam-size-quantity-selector);

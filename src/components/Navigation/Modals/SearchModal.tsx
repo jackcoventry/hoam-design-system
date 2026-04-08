@@ -36,6 +36,7 @@ export function SearchModal({ endpoint, open, onClose, variant }: Readonly<Searc
     >
       <Modal.Header padded={false}>
         <SearchForm
+          onClose={onClose}
           onSubmit={onSubmit}
           loading={loading}
         />

@@ -6,7 +6,7 @@
 
 .item {
   background-color: var(--hoam-color-neutral-900);
-  border-radius: var(--hoam-border-radius-medium);
+  border-radius: var(--hoam-border-radius-default);
   border: var(--hoam-border-size-default) var(--hoam-color-badge-list-item-border);
   display: inline-flex;
   font: var(--hoam-typography-label-1);

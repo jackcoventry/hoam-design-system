@@ -2,6 +2,7 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { SubmitHandler } from 'react-hook-form';
 
+import { Button } from '@/components/Button';
 import {
   SearchForm,
   type SearchFormResult,
@@ -12,6 +13,10 @@ import {
 import { Modal, type ModalRootProps } from '@/components/Modal';
 import { useMockRequest } from '@/hooks/useMockRequest';
 import SearchResultsData from '@/mocks/components/SearchResults';
+
+import { Stack } from '../Layout';
+
+import typography from '@/styles/Typography.module.css';
 
 const meta: Meta<typeof Modal> = {
   title: 'Components/Modal',
@@ -28,12 +33,12 @@ function BasicModalStory(props: Readonly<ModalRootProps>) {
 
   return (
     <div>
-      <button
+      <Button
         type="button"
         onClick={() => setOpen(true)}
       >
         Open modal
-      </button>
+      </Button>
 
       <Modal
         isOpen={open}
@@ -63,12 +68,12 @@ function NoTitleModalStory() {
 
   return (
     <div>
-      <button
+      <Button
         type="button"
         onClick={() => setOpen(true)}
       >
         Open modal
-      </button>
+      </Button>
 
       <Modal
         isOpen={open}
@@ -94,12 +99,12 @@ function CustomHeaderModalStory() {
 
   return (
     <div>
-      <button
+      <Button
         type="button"
         onClick={() => setOpen(true)}
       >
         Open modal
-      </button>
+      </Button>
 
       <Modal
         isOpen={open}
@@ -115,13 +120,18 @@ function CustomHeaderModalStory() {
         </Modal.Header>
 
         <Modal.Body>
-          <p>This action cannot be undone.</p>
-          <button
-            type="button"
-            onClick={confirmDelete}
-          >
-            Delete project
-          </button>
+          <Stack>
+            <p>This action cannot be undone.</p>
+            <Button
+              type="button"
+              onClick={confirmDelete}
+              style={{
+                marginLeft: 'auto',
+              }}
+            >
+              Delete project
+            </Button>
+          </Stack>
         </Modal.Body>
       </Modal>
     </div>
@@ -155,12 +165,12 @@ function SearchModalStory({ data }: Readonly<SearchModalStoryProps>) {
 
   return (
     <div>
-      <button
+      <Button
         type="button"
         onClick={() => setOpen(true)}
       >
         Open Search
-      </button>
+      </Button>
 
       <Modal
         isOpen={open}
@@ -169,6 +179,7 @@ function SearchModalStory({ data }: Readonly<SearchModalStoryProps>) {
       >
         <Modal.Header padded={false}>
           <SearchForm
+            onClose={handleClose}
             onSubmit={onSubmit}
             loading={loading}
           />
@@ -177,10 +188,7 @@ function SearchModalStory({ data }: Readonly<SearchModalStoryProps>) {
         <Modal.Body padded={false}>
           {loading && !safeError ? <SearchLoader /> : null}
           {safeError ? (
-            <div
-              role="alert"
-              style={{ padding: '1rem' }}
-            >
+            <div role="alert">
               <p>{safeError.message}</p>
             </div>
           ) : null}

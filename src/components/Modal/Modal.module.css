@@ -46,7 +46,8 @@
 }
 
 .root[data-variant="modal"] .dialog {
-  border-radius: var(--hoam-border-radius-small);
+  border-radius: var(--hoam-border-radius-default);
+  margin: 0 var(--hoam-spacing-xl);
   max-height: calc(100dvh - var(--hoam-spacing-xl));
   max-width: 1200px;
   width: fit-content;
@@ -129,7 +130,7 @@
 .header {
   align-items: center;
   display: flex;
-  gap: var(--hoam-spacing-lg);
+  gap: var(--hoam-spacing-2xl);
   justify-content: space-between;
 }
 

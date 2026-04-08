@@ -24,7 +24,7 @@
 }
 
 .visual {
-  border-radius: var(--hoam-border-radius-small);
+  border-radius: var(--hoam-border-radius-default);
   gap: var(--hoam-spacing-xs);
 }
 
@@ -35,7 +35,7 @@
 .indicator {
   align-items: center;
   border: var(--hoam-border-size-medium) var(--hoam-color-neutral-900);
-  border-radius: var(--hoam-border-radius-medium);
+  border-radius: var(--hoam-border-radius-default);
   box-shadow: var(--hoam-shadow-small);
   display: flex;
   height: var(--image-size);

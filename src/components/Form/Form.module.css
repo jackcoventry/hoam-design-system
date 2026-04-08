@@ -1,6 +1,6 @@
 .root {
   background-color: var(--hoam-color-neutral-900);
-  border-radius: var(--hoam-border-radius-medium);
+  border-radius: var(--hoam-border-radius-default);
   display: grid;
   gap: var(--hoam-spacing-md);
   padding: var(--hoam-spacing-xl);
@@ -22,7 +22,7 @@
 }
 
 .textField {
-  border-radius: var(--hoam-border-radius-medium);
+  border-radius: var(--hoam-border-radius-default);
   border: var(--hoam-border-size-default) var(--hoam-color-moon-400);
   font: var(--hoam-typography-label-1);
   padding: var(--hoam-spacing-sm) var(--hoam-spacing-md);

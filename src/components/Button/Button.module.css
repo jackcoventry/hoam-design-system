@@ -1,7 +1,7 @@
 :root {
   --hoam-button-spacing-horizontal: var(--hoam-spacing-lg);
   --hoam-button-spacing-vertical: var(--hoam-spacing-sm);
-  --hoam-button-border-radius: var(--hoam-border-radius-medium);
+  --hoam-button-border-radius: var(--hoam-border-radius-default);
   --hoam-button-content-gap: var(--hoam-spacing-xs);
   --hoam-button-min-height: 50px;
   --hoam-button-font: var(--hoam-typography-button-1);

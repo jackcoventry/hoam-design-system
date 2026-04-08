@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import { Footer, Navigation, NotificationBar } from '@/components';
+import { Footer, Navigation, NotificationBar, SkipToContentLink } from '@/components';
 import FooterData from '@/mocks/components/Footer';
 import NavigationData from '@/mocks/components/Navigation';
 import NotificationBarData from '@/mocks/components/NotificationBar';
@@ -14,6 +14,7 @@ type BaseTemplateProps = {
 function BaseTemplate({ children }: Readonly<BaseTemplateProps>) {
   return (
     <>
+      <SkipToContentLink />
       <NotificationBar messages={NotificationBarData} />
       <Navigation
         items={NavigationData}

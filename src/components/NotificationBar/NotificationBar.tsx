@@ -108,7 +108,6 @@ export function NotificationBar({
 
   const interactiveProps = canRotate
     ? {
-        tabIndex: 0,
         onMouseEnter: stopTemporarily,
         onMouseLeave: scheduleResume,
         onFocus: stopTemporarily,

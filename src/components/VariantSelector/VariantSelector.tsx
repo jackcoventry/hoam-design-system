@@ -230,7 +230,7 @@ export const VariantSelector = forwardRef<HTMLInputElement, VariantSelectorProps
                     required={required}
                     onChange={() => onChange(option.value)}
                     aria-label={option.label}
-                    className={clsx(styles.radio, utils.focus, 'sr-only')}
+                    className={clsx(styles.radio, utils.focus, utils.srOnly)}
                   />
                   <span className={clsx(styles.visual, utils.focusTarget)}>
                     <span

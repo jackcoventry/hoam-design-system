@@ -75,7 +75,7 @@
   --hoam-color-semantic-success: #52c41a;
   --hoam-color-semantic-info: #1890ff;
   --hoam-border-radius-small: 4px;
-  --hoam-border-radius-medium: 8px;
+  --hoam-border-radius-default: 8px;
   --hoam-border-radius-large: 12px;
   --hoam-border-radius-full: 100%;
   --hoam-layer-sub: -1;

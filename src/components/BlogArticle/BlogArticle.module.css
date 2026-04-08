@@ -89,7 +89,7 @@
 
 .tag {
   border: var(--hoam-border-size-default) var(--hoam-color-blog-tag-border);
-  border-radius: var(--hoam-border-radius-small);
+  border-radius: var(--hoam-border-radius-default);
   color: var(--hoam-color-blog-tag-text);
   font: var(--hoam-typography-label-1);
   padding: var(--hoam-spacing-2xs) var(--hoam-spacing-xs);

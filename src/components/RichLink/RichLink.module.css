@@ -1,6 +1,6 @@
 .root {
   aspect-ratio: 16/9;
-  border-radius: var(--hoam-border-radius-medium);
+  border-radius: var(--hoam-border-radius-default);
   display: flex;
   overflow: hidden;
   position: relative;

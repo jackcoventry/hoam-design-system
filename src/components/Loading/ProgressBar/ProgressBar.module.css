@@ -1,7 +1,7 @@
 .root {
   --hoam-color-progress-track: var(--hoam-color-neutral-200);
   --hoam-color-progress-fill: var(--hoam-color-semantic-success);
-  --hoam-progress-border-radius: var(--hoam-border-radius-medium);
+  --hoam-progress-border-radius: var(--hoam-border-radius-default);
 
   display: grid;
   gap: var(--hoam-spacing-xs);

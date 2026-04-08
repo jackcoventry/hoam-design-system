@@ -88,7 +88,7 @@ export function NewsletterBanner({ title, description }: Readonly<NewsletterBann
                 >
                   <label
                     htmlFor="newsletter-email"
-                    className="sr-only"
+                    className={utils.srOnly}
                   >
                     Email address
                   </label>

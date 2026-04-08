@@ -4,7 +4,7 @@
       "$type": "dimension",
       "$value": "4px"
     },
-    "medium": {
+    "default": {
       "$type": "dimension",
       "$value": "8px"
     },
