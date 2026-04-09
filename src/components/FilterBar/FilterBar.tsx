@@ -11,6 +11,7 @@ import clsx from 'clsx';
 
 import { Button } from '../Button';
 import { Select } from '../Form/Select/Select';
+import { Stack } from '../Layout';
 
 import type { FilterBarProps } from './FilterBar.types';
 import {
@@ -249,62 +250,64 @@ export function FilterBar({
                   aria-modal="false"
                   aria-labelledby={titleId}
                 >
-                  <div className={styles.panelHeader}>
-                    <h3
-                      id={titleId}
-                      className={styles.panelTitle}
-                    >
-                      {group.label}
-                    </h3>
-
-                    <div className={styles.panelActions}>
-                      <Button
-                        className={styles.panelTextButton}
-                        onClick={() => {
-                          onChange(clearGroup(value, group));
-                        }}
-                        size="small"
+                  <Stack>
+                    <div className={styles.panelHeader}>
+                      <h3
+                        id={titleId}
+                        className={styles.panelTitle}
                       >
-                        Clear
-                      </Button>
+                        {group.label}
+                      </h3>
 
-                      <Button
-                        className={styles.panelTextButton}
-                        onClick={() => {
-                          closePanel(group.id);
-                        }}
-                        size="small"
-                        variant="tertiary"
-                      >
-                        Done
-                      </Button>
+                      <div className={styles.panelActions}>
+                        <Button
+                          className={styles.panelTextButton}
+                          onClick={() => {
+                            onChange(clearGroup(value, group));
+                          }}
+                          size="small"
+                        >
+                          Clear
+                        </Button>
+
+                        <Button
+                          className={styles.panelTextButton}
+                          onClick={() => {
+                            closePanel(group.id);
+                          }}
+                          size="small"
+                          variant="tertiary"
+                        >
+                          Done
+                        </Button>
+                      </div>
                     </div>
-                  </div>
 
-                  {isRangeGroup(group) ? (
-                    <FilterBarRangePanel
-                      baseId={baseId}
-                      group={group}
-                      value={value}
-                      onChange={onChange}
-                    />
-                  ) : isOptionGroup(group) ? (
-                    <FilterBarOptionPanel
-                      baseId={baseId}
-                      group={group}
-                      value={value}
-                      query={query}
-                      onQueryChange={(nextQuery) => {
-                        setSearchQueries((current) => ({
-                          ...current,
-                          [group.id]: nextQuery,
-                        }));
-                      }}
-                      onToggle={(optionId) => {
-                        onChange(toggleOptionSelection(value, group, optionId));
-                      }}
-                    />
-                  ) : null}
+                    {isRangeGroup(group) ? (
+                      <FilterBarRangePanel
+                        baseId={baseId}
+                        group={group}
+                        value={value}
+                        onChange={onChange}
+                      />
+                    ) : isOptionGroup(group) ? (
+                      <FilterBarOptionPanel
+                        baseId={baseId}
+                        group={group}
+                        value={value}
+                        query={query}
+                        onQueryChange={(nextQuery) => {
+                          setSearchQueries((current) => ({
+                            ...current,
+                            [group.id]: nextQuery,
+                          }));
+                        }}
+                        onToggle={(optionId) => {
+                          onChange(toggleOptionSelection(value, group, optionId));
+                        }}
+                      />
+                    ) : null}
+                  </Stack>
                 </div>
               ) : null}
             </div>

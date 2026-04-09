@@ -64,8 +64,9 @@
 }
 
 .panelHeader {
-  display: flex;
   align-items: center;
+  display: flex;
+  gap: var(--hoam-spacing-md);
   justify-content: space-between;
 }
 
@@ -88,7 +89,7 @@
 .optionList {
   display: grid;
   gap: var(--hoam-spacing-xs);
-  max-block-size: 18rem;
+  max-block-size: 13rem;
   overflow: auto;
 }
 
@@ -153,8 +154,7 @@
   position: absolute;
   inset-inline: 0;
   block-size: 0.375rem;
-  border-radius: var(--hoam-border-radius-full);
-  background: var(--hoam-color-neutral-900);
+  background: var(--hoam-color-neutral-700);
   pointer-events: none;
 }
 
@@ -162,8 +162,7 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  border-radius: var(--hoam-border-radius-full);
-  background: currentColor;
+  background: var(--hoam-color-primary);
 }
 
 .slider {
@@ -209,8 +208,9 @@
 
 .rangeSummary {
   display: flex;
-  justify-content: space-between;
+  font: var(--hoam-typography-label-1);
   gap: var(--hoam-spacing-sm);
+  justify-content: space-between;
 }
 
 .emptyState {

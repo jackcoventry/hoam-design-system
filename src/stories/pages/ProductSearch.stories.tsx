@@ -1,10 +1,14 @@
+import { useState } from 'react';
 import { Meta } from '@storybook/react-vite';
 
 import { Banner, type BannerProps } from '@/components/Banner';
 import { Button } from '@/components/Button';
+import { FilterBar } from '@/components/FilterBar/FilterBar';
+import { FilterValue } from '@/components/FilterBar/FilterBar.types';
 import { Container, Grid, GridItem, Section, Stack } from '@/components/Layout';
 import { Pagination } from '@/components/Pagination';
 import { ProductTile } from '@/components/ProductTile';
+import { FilterBarData } from '@/mocks/components/FilterBar';
 import { productTile } from '@/mocks/components/ProductTile';
 import BaseTemplate from '@/stories/templates/Base';
 
@@ -33,8 +37,49 @@ const bannerMock = {
   },
 } satisfies BannerProps;
 
+const initialValue: FilterValue = {
+  options: {
+    roast: [],
+    origin: [],
+    availability: ['all'],
+  },
+  ranges: {
+    price: {},
+  },
+};
+
+function Component() {
+  const [value, setValue] = useState<FilterValue>(initialValue);
+  const [sortValue, setSortValue] = useState<string>('featured');
+
+  return (
+    <FilterBar
+      title="Filter products"
+      groups={FilterBarData}
+      value={value}
+      onChange={setValue}
+      onApply={(nextValue) => {
+        console.log('filters', nextValue);
+        console.log('sort', sortValue);
+      }}
+      onClearAll={() => {
+        setValue(initialValue);
+      }}
+      sortOptions={[
+        { value: 'featured', label: 'Featured' },
+        { value: 'price-low-high', label: 'Price: Low to high' },
+        { value: 'price-high-low', label: 'Price: High to low' },
+        { value: 'newest', label: 'Newest' },
+      ]}
+      sortValue={sortValue}
+      onSortChange={setSortValue}
+      stackAt="md"
+    />
+  );
+}
+
 const Template = {
-  render: (args: any) => (
+  render: () => (
     <BaseTemplate>
       <Section space="2xl">
         <Container>
@@ -42,6 +87,12 @@ const Template = {
             <Grid>
               <GridItem>
                 <Banner {...bannerMock} />
+              </GridItem>
+            </Grid>
+
+            <Grid>
+              <GridItem span={12}>
+                <Component />
               </GridItem>
             </Grid>
 

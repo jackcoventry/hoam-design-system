@@ -160,9 +160,9 @@ export function FilterBarRangePanel({
         aria-live="polite"
       >
         <span>{group.minLabel ?? `£${group.min}`}</span>
-        <span>
+        {/* <span>
           Selected: £{safeMin} – £{safeMax}
-        </span>
+        </span> */}
         <span>{group.maxLabel ?? `£${group.max}`}</span>
       </div>
     </div>
