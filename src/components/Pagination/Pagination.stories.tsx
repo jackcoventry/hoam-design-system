@@ -12,7 +12,7 @@ const meta = {
     currentPage: 1,
     previousLabel: 'Previous page',
     nextLabel: 'Next page',
-    ariaLabel: 'Pagination',
+    'aria-label': 'Pagination',
     siblingCount: 1,
   },
   argTypes: {

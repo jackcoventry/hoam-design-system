@@ -198,7 +198,7 @@ describe('Pagination', () => {
         currentPage={5}
         previousLabel="Go back"
         nextLabel="Go forward"
-        ariaLabel="Results pages"
+        aria-label="Results pages"
       />
     );
 

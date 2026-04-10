@@ -22,7 +22,7 @@ export function Hero({ items }: Readonly<HeroProps>) {
         pagination
         loop
         autoplay={{ delay: 6000 }}
-        ariaLabel="Hero carousel"
+        aria-label="Hero carousel"
         effect="fade"
       />
     </div>

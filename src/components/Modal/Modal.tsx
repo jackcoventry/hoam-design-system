@@ -42,7 +42,7 @@ function useModalContext(componentName: string): ModalContextValue {
 export type ModalRootProps = {
   isOpen: boolean;
   onClose?: () => void;
-  ariaLabel?: string;
+  'aria-label'?: string;
   id?: string;
   variant?: ModalVariant;
 };
@@ -54,7 +54,7 @@ export type ModalSectionProps = PropsWithChildren<{
 export type ModalTitleProps = PropsWithChildren;
 
 export type ModalCloseButtonProps = {
-  ariaLabel?: string;
+  'aria-label'?: string;
   callback?: () => void;
 };
 
@@ -62,7 +62,7 @@ function ModalRoot({
   isOpen,
   onClose,
   children,
-  ariaLabel,
+  'aria-label': ariaLabel,
   id,
   variant = 'modal',
 }: Readonly<PropsWithChildren<ModalRootProps>>) {
@@ -318,7 +318,7 @@ function ModalTitle({ children }: Readonly<ModalTitleProps>) {
 }
 
 function ModalCloseButton({
-  ariaLabel = 'Close dialog',
+  'aria-label': ariaLabel = 'Close dialog',
   callback,
 }: Readonly<ModalCloseButtonProps>) {
   const { close } = useModalContext('Modal.CloseButton');

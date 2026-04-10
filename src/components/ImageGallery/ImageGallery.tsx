@@ -33,7 +33,7 @@ export function ImageGallery({ images = [] }: Readonly<ImageGalleryProps>) {
         navigation
         pagination
         loop
-        ariaLabel="Image gallery"
+        aria-label="Image gallery"
       />
     </div>
   );

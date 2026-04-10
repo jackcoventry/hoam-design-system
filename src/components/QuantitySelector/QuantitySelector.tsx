@@ -13,7 +13,7 @@ export interface QuantitySelectorProps {
   max?: number;
   id?: string;
   name?: string;
-  ariaLabel?: string;
+  'aria-label'?: string;
   incrementLabel?: string;
   decrementLabel?: string;
 }
@@ -27,7 +27,7 @@ export const QuantitySelector = forwardRef<HTMLInputElement, QuantitySelectorPro
       max = Number.POSITIVE_INFINITY,
       id,
       name,
-      ariaLabel,
+      'aria-label': ariaLabel,
       incrementLabel = 'Increase quantity',
       decrementLabel = 'Decrease quantity',
     },

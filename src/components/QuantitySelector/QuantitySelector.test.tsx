@@ -20,7 +20,7 @@ describe('QuantitySelector', () => {
       <QuantitySelector
         value={2}
         onChange={vi.fn()}
-        ariaLabel="Quantity"
+        aria-label="Quantity"
       />
     );
 
@@ -37,7 +37,7 @@ describe('QuantitySelector', () => {
         onChange={vi.fn()}
         min={1}
         max={5}
-        ariaLabel="Quantity"
+        aria-label="Quantity"
       />
     );
 
@@ -54,7 +54,7 @@ describe('QuantitySelector', () => {
       <QuantitySelector
         value={2}
         onChange={onChange}
-        ariaLabel="Quantity"
+        aria-label="Quantity"
       />
     );
 
@@ -70,7 +70,7 @@ describe('QuantitySelector', () => {
       <QuantitySelector
         value={2}
         onChange={onChange}
-        ariaLabel="Quantity"
+        aria-label="Quantity"
       />
     );
 
@@ -85,7 +85,7 @@ describe('QuantitySelector', () => {
         value={0}
         onChange={vi.fn()}
         min={0}
-        ariaLabel="Quantity"
+        aria-label="Quantity"
       />
     );
 
@@ -98,7 +98,7 @@ describe('QuantitySelector', () => {
         value={5}
         onChange={vi.fn()}
         max={5}
-        ariaLabel="Quantity"
+        aria-label="Quantity"
       />
     );
 
@@ -114,7 +114,7 @@ describe('QuantitySelector', () => {
         onChange={onChange}
         min={0}
         max={5}
-        ariaLabel="Quantity"
+        aria-label="Quantity"
       />
     );
 
@@ -133,7 +133,7 @@ describe('QuantitySelector', () => {
         onChange={onChange}
         min={0}
         max={5}
-        ariaLabel="Quantity"
+        aria-label="Quantity"
       />
     );
 
@@ -152,7 +152,7 @@ describe('QuantitySelector', () => {
         onChange={onChange}
         min={0}
         max={10}
-        ariaLabel="Quantity"
+        aria-label="Quantity"
       />
     );
 
@@ -186,7 +186,7 @@ describe('QuantitySelector', () => {
         onChange={onChange}
         min={0}
         max={10}
-        ariaLabel="Quantity"
+        aria-label="Quantity"
       />
     );
 
@@ -211,7 +211,7 @@ describe('QuantitySelector', () => {
       <QuantitySelector
         value={2}
         onChange={onChange}
-        ariaLabel="Quantity"
+        aria-label="Quantity"
       />
     );
 
@@ -232,7 +232,7 @@ describe('QuantitySelector', () => {
         ref={ref}
         value={2}
         onChange={vi.fn()}
-        ariaLabel="Quantity"
+        aria-label="Quantity"
       />
     );
 
@@ -246,7 +246,7 @@ describe('QuantitySelector', () => {
         onChange={vi.fn()}
         id="quantity"
         name="quantity"
-        ariaLabel="Quantity"
+        aria-label="Quantity"
       />
     );
 

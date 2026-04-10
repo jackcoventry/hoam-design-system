@@ -7,7 +7,7 @@ import styles from '@/components/NotificationBar/NotificationBar.module.css';
 
 export type NotificationBarProps = {
   messages: React.ReactNode[];
-  ariaLabel?: string;
+  'aria-label'?: string;
 };
 
 const INTERVAL = 5000;
@@ -16,7 +16,7 @@ const FADE_TIME = 500;
 
 export function NotificationBar({
   messages,
-  ariaLabel = 'Notifications',
+  'aria-label': ariaLabel = 'Notifications',
 }: Readonly<NotificationBarProps>) {
   const prefersReducedMotion = usePrefersReducedMotion();
 

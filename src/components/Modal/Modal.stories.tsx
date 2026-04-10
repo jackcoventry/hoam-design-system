@@ -43,7 +43,7 @@ function BasicModalStory(props: Readonly<ModalRootProps>) {
       <Modal
         isOpen={open}
         onClose={() => setOpen(false)}
-        ariaLabel="My simple modal"
+        aria-label="My simple modal"
         {...(props.variant === undefined ? {} : { variant: props.variant })}
       >
         <Modal.Header>
@@ -78,7 +78,7 @@ function NoTitleModalStory() {
       <Modal
         isOpen={open}
         onClose={() => setOpen(false)}
-        ariaLabel="My simple modal"
+        aria-label="My simple modal"
       >
         <Modal.Header>
           <Modal.CloseButton />
@@ -116,7 +116,7 @@ function CustomHeaderModalStory() {
             Delete <strong>“My Project”</strong>?
           </Modal.Title>
 
-          <Modal.CloseButton ariaLabel="Close delete confirmation" />
+          <Modal.CloseButton aria-label="Close delete confirmation" />
         </Modal.Header>
 
         <Modal.Body>

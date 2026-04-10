@@ -43,7 +43,7 @@ describe('NotificationBar', () => {
     render(
       <NotificationBar
         messages={['Hello world']}
-        ariaLabel="Site notices"
+        aria-label="Site notices"
       />
     );
 

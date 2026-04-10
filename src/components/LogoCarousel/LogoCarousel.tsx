@@ -14,7 +14,7 @@ export type LogoCarouselProps = {
   title?: string;
   items: LogoCarouselItem[];
   pauseOnHover?: boolean;
-  ariaLabel?: string;
+  'aria-label'?: string;
 };
 
 const MIN_REPEAT = 2;
@@ -31,7 +31,7 @@ export function LogoCarousel({
   title,
   items,
   pauseOnHover = true,
-  ariaLabel,
+  'aria-label': ariaLabel,
 }: Readonly<LogoCarouselProps>) {
   const containerRef = useRef<HTMLDivElement>(null);
   const railRef = useRef<HTMLDivElement>(null);

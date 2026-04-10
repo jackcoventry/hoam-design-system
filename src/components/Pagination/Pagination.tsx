@@ -9,7 +9,7 @@ export type PaginationProps = {
   currentPage?: number;
   previousLabel?: string;
   nextLabel?: string;
-  ariaLabel?: string;
+  'aria-label'?: string;
   siblingCount?: number;
   onPageChange?: (page: number) => void;
 };
@@ -65,7 +65,7 @@ export function Pagination({
   currentPage = 1,
   previousLabel = 'Previous page',
   nextLabel = 'Next page',
-  ariaLabel = 'Pagination',
+  'aria-label': ariaLabel = 'Pagination',
   siblingCount = 1,
   onPageChange,
 }: Readonly<PaginationProps>) {

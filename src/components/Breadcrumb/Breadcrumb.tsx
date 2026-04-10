@@ -7,10 +7,13 @@ import utils from '@/styles/Util.module.css';
 
 export type BreadcrumbProps = {
   items: NavPanelLinkItem[];
-  ariaLabel?: string;
+  'aria-label'?: string | undefined;
 };
 
-export function Breadcrumb({ items, ariaLabel = 'Breadcrumb' }: Readonly<BreadcrumbProps>) {
+export function Breadcrumb({
+  items,
+  'aria-label': ariaLabel = 'Breadcrumb',
+}: Readonly<BreadcrumbProps>) {
   if (!items || items.length === 0) return null;
 
   const lastIndex = items.length - 1;

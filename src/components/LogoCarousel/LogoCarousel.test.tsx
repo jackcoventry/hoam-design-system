@@ -59,7 +59,7 @@ describe('LogoCarousel', () => {
     render(
       <LogoCarousel
         items={items}
-        ariaLabel="Partner logos"
+        aria-label="Partner logos"
       />
     );
 

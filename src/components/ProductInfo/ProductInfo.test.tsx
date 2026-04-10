@@ -101,12 +101,12 @@ vi.mock('@/components/QuantitySelector', () => ({
   QuantitySelector: ({
     value,
     onChange,
-    ariaLabel,
+    'aria-label': ariaLabel,
     max,
   }: {
     value: number;
     onChange: (value: number) => void;
-    ariaLabel?: string;
+    'aria-label'?: string;
     max?: number;
   }) => (
     <div>

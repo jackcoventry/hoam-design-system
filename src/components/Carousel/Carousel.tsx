@@ -44,7 +44,7 @@ export type CarouselProps<T> = {
   slidesPerView?: number | 'auto';
   spaceBetween?: number;
   breakpoints?: SwiperProps['breakpoints'];
-  ariaLabel?: string;
+  'aria-label'?: string;
   effect?: CarouselEffect;
   keyboard?: boolean;
   swiperProps?: Omit<
@@ -82,7 +82,7 @@ export function Carousel<T>({
   slidesPerView = 1,
   spaceBetween = 16,
   breakpoints,
-  ariaLabel = 'Carousel',
+  'aria-label': ariaLabel = 'Carousel',
   effect = 'slide',
   keyboard = true,
   swiperProps,
