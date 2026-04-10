@@ -3,15 +3,15 @@
 }
 
 .root[data-theme="default"] {
-  background-color: var(--hoam-color-semantic-warning);
+  background-color: var(--hoam-color-semantic-warning); /* TODO: wrong token */
 }
 
 .root[data-theme="pink"] {
-  background-color: var(--hoam-color-semantic-error);
+  background-color: var(--hoam-color-primary);
 }
 
 .root[data-theme="sky"] {
-  background-color: var(--hoam-color-semantic-success);
+  background-color: var(--hoam-color-secondary);
 }
 
 .textContent {

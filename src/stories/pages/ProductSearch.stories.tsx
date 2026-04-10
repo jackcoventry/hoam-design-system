@@ -2,10 +2,10 @@ import { SetStateAction, useState } from 'react';
 import { Meta } from '@storybook/react-vite';
 
 import { Banner, type BannerProps } from '@/components/Banner';
-import { FilterBar } from '@/components/FilterBar/FilterBar';
-import { FilterValue } from '@/components/FilterBar/FilterBar.types';
 import { Container, Grid, GridItem, Section, Stack } from '@/components/Layout';
 import { Pagination } from '@/components/Pagination';
+import { FilterBar } from '@/components/ProductFilters/ProductFilters';
+import { FilterValue } from '@/components/ProductFilters/ProductFilters.types';
 import { ProductTile } from '@/components/ProductTile';
 import { FilterBarData } from '@/mocks/components/FilterBar';
 import { productTile, productTileNew } from '@/mocks/components/ProductTile';
@@ -25,7 +25,7 @@ const bannerMock = {
   title: 'Test Banner',
   subtitle: 'Test subtitle',
   text: 'Lorem ipsum',
-  theme: 'default',
+  theme: 'pink',
   image: '/hero/range.png',
   button: {
     url: '/',

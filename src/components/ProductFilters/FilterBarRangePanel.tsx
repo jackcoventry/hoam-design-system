@@ -1,9 +1,9 @@
 import type { ChangeEvent, JSX } from 'react';
 
-import type { FilterValue, RangeGroup } from './FilterBar.types';
-import { clamp, getRangeValue, setRangeValue } from './filterBar.utils';
+import type { FilterValue, RangeGroup } from './ProductFilters.types';
+import { clamp, getRangeValue, setRangeValue } from './ProductFilters.utils';
 
-import styles from './FilterBar.module.css';
+import styles from './ProductFilters.module.css';
 import utils from '@/styles/Util.module.css';
 
 type FilterBarRangePanelProps = {

@@ -7,7 +7,7 @@ import type {
   FilterValue,
   RadioGroup,
   RangeGroup,
-} from './FilterBar.types';
+} from './ProductFilters.types';
 
 export function isRangeGroup(group: FilterGroup): group is RangeGroup {
   return group.kind === 'range';

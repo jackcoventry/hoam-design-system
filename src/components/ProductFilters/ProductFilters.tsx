@@ -9,7 +9,9 @@ import { useMediaQuery } from '@/hooks/useMediaQuery';
 
 import { Spinner } from '../Loading';
 
-import type { FilterBarProps } from './FilterBar.types';
+import { FilterBarOptionPanel } from './FilterBarOptionPanel';
+import { FilterBarRangePanel } from './FilterBarRangePanel';
+import type { FilterBarProps } from './ProductFilters.types';
 import {
   buildChips,
   clearGroup,
@@ -18,11 +20,9 @@ import {
   isRangeGroup,
   setRangeValue,
   toggleOptionSelection,
-} from './filterBar.utils';
-import { FilterBarOptionPanel } from './FilterBarOptionPanel';
-import { FilterBarRangePanel } from './FilterBarRangePanel';
+} from './ProductFilters.utils';
 
-import styles from './FilterBar.module.css';
+import styles from './ProductFilters.module.css';
 
 export function FilterBar({
   title = 'Filter products',

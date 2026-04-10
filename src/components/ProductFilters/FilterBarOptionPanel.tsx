@@ -4,11 +4,14 @@ import { Checkbox } from '@/components/Form/Checkbox';
 import { Radio } from '@/components/Form/Radio';
 import { Stack } from '@/components/Layout';
 
-import type { CheckboxGroup, FilterValue, RadioGroup as RadioGroupType } from './FilterBar.types';
-import { isOptionSelected, isRadioGroup } from './filterBar.utils';
+import type {
+  CheckboxGroup,
+  FilterValue,
+  RadioGroup as RadioGroupType,
+} from './ProductFilters.types';
+import { isOptionSelected, isRadioGroup } from './ProductFilters.utils';
 
-import styles from './FilterBar.module.css';
-import formStyles from '@/components/Form/Form.module.css';
+import styles from './ProductFilters.module.css';
 import utils from '@/styles/Util.module.css';
 
 type FilterBarOptionPanelProps = {

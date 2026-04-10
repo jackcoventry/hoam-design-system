@@ -3,8 +3,8 @@ import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 
-import { FilterBar } from './FilterBar';
-import type { FilterGroup, FilterValue } from './FilterBar.types';
+import { FilterBar } from './ProductFilters';
+import type { FilterGroup, FilterValue } from './ProductFilters.types';
 
 const groups: FilterGroup[] = [
   {

@@ -6,8 +6,8 @@ import { productTile, productTileNew } from '@/mocks/components/ProductTile';
 import { Grid, GridItem } from '../Layout';
 import { ProductTile } from '../ProductTile';
 
-import { FilterBar } from './FilterBar';
-import type { FilterValue } from './FilterBar.types';
+import { FilterBar } from './ProductFilters';
+import type { FilterValue } from './ProductFilters.types';
 
 export default { component: FilterBar };
 

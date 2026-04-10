@@ -1,4 +1,4 @@
-import { FilterGroup } from '@/components/FilterBar/FilterBar.types';
+import { FilterGroup } from '@/components/ProductFilters/ProductFilters.types';
 
 export const FilterBarData: FilterGroup[] = [
   {
