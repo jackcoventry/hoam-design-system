@@ -1,3 +1,5 @@
+@import "@/styles/_media.css";
+
 :root {
   --image-size: 48px;
 }
@@ -44,8 +46,10 @@
   min-width: calc(var(--image-size) * 2);
 }
 
-.item:hover .indicator {
-  outline: var(--hoam-border-size-default) var(--hoam-color-variant-selector-hover);
+@media (--hoam-hoverable) {
+  .item:hover .indicator {
+    outline: var(--hoam-border-size-default) var(--hoam-color-variant-selector-hover);
+  }
 }
 
 .items {

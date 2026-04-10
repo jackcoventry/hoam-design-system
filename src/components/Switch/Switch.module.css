@@ -1,3 +1,5 @@
+@import "@/styles/_media.css";
+
 .root {
   --hoam-switch-track-width: 50px;
   --hoam-switch-track-height: 30px;
@@ -99,7 +101,7 @@
   font: var(--hoam-typography-label-1);
 }
 
-@media (prefers-reduced-motion: reduce) {
+@media (--hoam-motion-reduce) {
   .track,
   .thumb {
     transition: none;

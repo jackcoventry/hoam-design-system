@@ -1,3 +1,5 @@
+@import "@/styles/_media.css";
+
 .root {
   background-color: var(--hoam-color-footer-bg);
   padding: var(--hoam-spacing-3xl) 0;
@@ -8,11 +10,13 @@
     text-decoration: none;
   }
 
-  a:active,
-  a:focus,
-  a:hover {
-    color: var(--hoam-color-text-link-hover);
-    text-decoration: underline;
+  @media (--hoam-hoverable) {
+    a:active,
+    a:focus,
+    a:hover {
+      color: var(--hoam-color-text-link-hover);
+      text-decoration: underline;
+    }
   }
 }
 

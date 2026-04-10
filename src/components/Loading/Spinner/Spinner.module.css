@@ -1,3 +1,5 @@
+@import "@/styles/_media.css";
+
 :root {
   --spinner-size: 48px;
 }
@@ -50,7 +52,7 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
+@media (--hoam-motion-reduce) {
   .spinner,
   .spinner::before {
     animation: none;

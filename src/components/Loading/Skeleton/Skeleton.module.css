@@ -1,3 +1,5 @@
+@import "@/styles/_media.css";
+
 .root {
   --skeleton-base: rgba(0, 0, 0, 0.08);
   --skeleton-highlight: rgba(0, 0, 0, 0.02);
@@ -31,7 +33,7 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
+@media (--hoam-motion-reduce) {
   .root {
     animation: none;
   }

@@ -3,5 +3,11 @@
   "compilerOptions": {
     "types": ["node"]
   },
-  "include": ["vite.config.ts", "vitest.config.ts", "./.storybook/**/*", "./src/scripts/**/*"]
+  "include": [
+    "vite.config.ts",
+    "vitest.config.ts",
+    "postcss.config.ts",
+    "./.storybook/**/*",
+    "./src/scripts/**/*"
+  ]
 }

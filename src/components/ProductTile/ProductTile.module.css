@@ -1,3 +1,5 @@
+@import "@/styles/_media.css";
+
 .root {
   display: grid;
   position: relative;
@@ -5,8 +7,10 @@
   max-width: 32rem;
 }
 
-.root:hover .image {
-  transform: scale(1.1);
+@media (--hoam-hoverable) {
+  .root:hover .image {
+    transform: scale(1.1);
+  }
 }
 
 .badges {

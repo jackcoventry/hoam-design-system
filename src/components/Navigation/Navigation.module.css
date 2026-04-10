@@ -1,3 +1,5 @@
+@import "@/styles/_media.css";
+
 :root {
   --hoam-navigation-height: 420px;
   --hoam-color-navigation-link: var(--hoam-color-neutral-900);
@@ -10,7 +12,7 @@
   position: relative;
 }
 
-@media (min-width: 1200px) {
+@media (--hoam-breakpoint-xl-up) {
   .root {
     display: block;
     flex: 0 0 auto;
@@ -36,7 +38,12 @@
   text-decoration: none;
 }
 
-.link:hover,
+@media (--hoam-hoverable) {
+  .link:hover {
+    color: var(--hoam-color-primary);
+  }
+}
+
 .link:focus {
   color: var(--hoam-color-primary);
 }
@@ -117,7 +124,12 @@
   width: 100%;
 }
 
-.groupTopLink:hover,
+@media (--hoam-hoverable) {
+  .groupTopLink:hover {
+    background-color: var(--hoam-color-neutral-900);
+  }
+}
+
 .groupTopLink:focus-visible {
   background-color: var(--hoam-color-neutral-900);
 }
@@ -166,12 +178,14 @@
   margin-bottom: var(--hoam-spacing-2xs);
 }
 
-.panelGroupSection a[data-sub-link]:hover {
-  color: var(--hoam-color-text-link-hover);
-  text-decoration: underline;
+@media (--hoam-hoverable) {
+  .panelGroupSection a[data-sub-link]:hover {
+    color: var(--hoam-color-text-link-hover);
+    text-decoration: underline;
+  }
 }
 
-@media (prefers-reduced-motion: reduce) {
+@media (--hoam-motion-reduce) {
   .panel,
   .panelSubLevel {
     transition: none !important;

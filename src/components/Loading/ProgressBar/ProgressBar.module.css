@@ -1,3 +1,5 @@
+@import "@/styles/_media.css";
+
 .root {
   --hoam-color-progress-track: var(--hoam-color-neutral-200);
   --hoam-color-progress-fill: var(--hoam-color-semantic-success);
@@ -78,7 +80,7 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
+@media (--hoam-motion-reduce) {
   .indeterminateBar,
   .progress::-webkit-progress-value,
   .progress::-moz-progress-bar {

@@ -1,3 +1,5 @@
+@import "@/styles/_media.css";
+
 .root {
   font: var(--hoam-typography-body-1);
 }
@@ -8,9 +10,11 @@
   text-decoration: underline;
 }
 
-.root a:hover {
-  color: var(--hoam-color-text-link-hover);
-  text-decoration: none;
+@media (--hoam-hoverable) {
+  .root a:hover {
+    color: var(--hoam-color-text-link-hover);
+    text-decoration: none;
+  }
 }
 
 .root h1 {

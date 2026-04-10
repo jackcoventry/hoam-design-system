@@ -1,3 +1,5 @@
+@import "@/styles/_media.css";
+
 .root {
   container-type: inline-size;
   display: grid;
@@ -86,8 +88,10 @@
   text-decoration: none;
 }
 
-.link:hover {
-  text-decoration: underline;
+@media (--hoam-hoverable) {
+  .link:hover {
+    text-decoration: underline;
+  }
 }
 
 .price,

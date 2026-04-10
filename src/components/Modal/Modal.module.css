@@ -1,3 +1,5 @@
+@import "@/styles/_media.css";
+
 .root {
   background: rgba(0, 0, 0, 0.3);
   box-sizing: border-box;
@@ -239,7 +241,7 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
+@media (--hoam-motion-reduce) {
   .root,
   .dialog {
     animation: none !important;

@@ -1,3 +1,5 @@
+@import "@/styles/_media.css";
+
 .wrapper {
   --radio-size: 20px;
   --radio-dot-size: 10px;
@@ -76,7 +78,7 @@
   font: var(--hoam-typography-label-1);
 }
 
-@media (prefers-reduced-motion: reduce) {
+@media (--hoam-motion-reduce) {
   .outer,
   .inner {
     transition: none;

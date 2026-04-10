@@ -1,3 +1,5 @@
+@import "@/styles/_media.css";
+
 .wrapper {
   --checkbox-box-size: 20px;
 
@@ -72,7 +74,7 @@
   min-width: 0;
 }
 
-@media (prefers-reduced-motion: reduce) {
+@media (--hoam-motion-reduce) {
   .box,
   .icon {
     transition: none;

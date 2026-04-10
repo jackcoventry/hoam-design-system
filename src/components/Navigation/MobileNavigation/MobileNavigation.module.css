@@ -1,3 +1,5 @@
+@import "@/styles/_media.css";
+
 :root {
   --hoam-navigation-bar-height: 80px;
 }
@@ -8,7 +10,7 @@
   z-index: var(--hoam-layer-dropdown);
 }
 
-@media (min-width: 1200px) {
+@media (--hoam-breakpoint-xl-up) {
   .root {
     display: none;
   }

@@ -1,3 +1,5 @@
+@import "@/styles/_media.css";
+
 .root {
   border-radius: var(--hoam-border-radius-default);
 }
@@ -43,7 +45,7 @@
   display: none;
 }
 
-@media (min-width: 48rem) {
+@media (--hoam-breakpoint-md-up) {
   .media {
     display: flex;
   }

@@ -1,3 +1,5 @@
+@import "@/styles/_media.css";
+
 :root {
   --hoam-size-quantity-selector: 40px;
 }
@@ -38,9 +40,11 @@
   width: var(--hoam-size-quantity-selector);
 }
 
-.button:not(:disabled):hover {
-  background-color: var(--hoam-color-quantity-bg-hover);
-  cursor: pointer;
+@media (--hoam-hoverable) {
+  .button:not(:disabled):hover {
+    background-color: var(--hoam-color-quantity-bg-hover);
+    cursor: pointer;
+  }
 }
 
 .button:disabled {

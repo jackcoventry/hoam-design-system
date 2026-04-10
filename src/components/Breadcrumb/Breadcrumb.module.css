@@ -1,3 +1,5 @@
+@import "@/styles/_media.css";
+
 .root {
   font: var(--hoam-typography-label-1);
   padding: var(--hoam-spacing-2xs) 0;
@@ -21,7 +23,9 @@ a.item:visited {
   color: var(--hoam-color-breadcrumb-item);
 }
 
-a.item:hover {
-  color: var(--hoam-color-breadcrumb-item-hover);
-  text-decoration: none;
+@media (--hoam-hoverable) {
+  a.item:hover {
+    color: var(--hoam-color-breadcrumb-item-hover);
+    text-decoration: none;
+  }
 }

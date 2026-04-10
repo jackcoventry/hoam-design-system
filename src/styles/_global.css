@@ -6,3 +6,8 @@ html,
 body {
   background-color: var(--hoam-color-document-bg);
 }
+
+:root {
+  @custom-media --hoam-breakpoint-sm (min-width: 40rem);
+  @custom-media --hoam-breakpoint-md (min-width: 48rem);
+}

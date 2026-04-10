@@ -1,28 +1,30 @@
+@import "@/styles/_media.css";
+
 .root {
   width: 100%;
   min-width: 0;
   grid-column: var(--gi-start) / span var(--gi-span);
 }
 
-@media (min-width: 40rem) {
+@media (--hoam-breakpoint-sm-up) {
   .root {
     grid-column: var(--gi-start-sm) / span var(--gi-span-sm);
   }
 }
 
-@media (min-width: 48rem) {
+@media (--hoam-breakpoint-md-up) {
   .root {
     grid-column: var(--gi-start-md) / span var(--gi-span-md);
   }
 }
 
-@media (min-width: 64rem) {
+@media (--hoam-breakpoint-lg-up) {
   .root {
     grid-column: var(--gi-start-lg) / span var(--gi-span-lg);
   }
 }
 
-@media (min-width: 80rem) {
+@media (--hoam-breakpoint-xl-up) {
   .root {
     grid-column: var(--gi-start-xl) / span var(--gi-span-xl);
   }

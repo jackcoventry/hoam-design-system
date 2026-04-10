@@ -1,12 +1,16 @@
+@import "@/media/_styles.css";
+
 .link {
   color: var(--hoam-color-text-link);
   font: var(--hoam-typography-body-1);
   text-decoration: none;
 }
 
-.link:hover {
-  color: var(--hoam-color-text-link-hover);
-  text-decoration: underline;
+@media (--hoam-hoverable) {
+  .link:hover {
+    color: var(--hoam-color-text-link-hover);
+    text-decoration: underline;
+  }
 }
 
 .list {

@@ -1,3 +1,4 @@
+// eslint.config.mjs
 import js from '@eslint/js';
 import { defineConfig } from 'eslint/config';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
@@ -31,7 +32,6 @@ export default defineConfig(
   react.configs.flat.recommended,
   react.configs.flat['jsx-runtime'],
   reactHooks.configs.flat.recommended,
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   jsxA11yRecommended,
   ...storybook.configs['flat/recommended'],
 
@@ -42,15 +42,11 @@ export default defineConfig(
     rules: {
       'sort-imports': 'off',
       'import/order': 'off',
-
       'simple-import-sort/imports': [
         'warn',
         {
           groups: [
-            // React + packages
             [String.raw`^react$`, String.raw`^react-dom$`, String.raw`^@?\w`],
-
-            // Aliases
             [
               String.raw`^@/components`,
               String.raw`^@/hooks`,
@@ -59,19 +55,12 @@ export default defineConfig(
               String.raw`^@/styles`,
               String.raw`^@/`,
             ],
-
-            // Parent imports
             [String.raw`^\.\.(?!/?$)`, String.raw`^\.\./?$`],
-
-            // Same folder
             [String.raw`^\./(?=.*/)(?!/?$)`, String.raw`^\.(?!/?$)`, String.raw`^\./?$`],
-
-            // Styles
             [String.raw`^.+\.(css|scss)$`],
           ],
         },
       ],
-
       'simple-import-sort/exports': 'warn',
     },
   },
@@ -101,28 +90,29 @@ export default defineConfig(
   },
 
   {
-    files: ['**/*.stories.{ts,tsx,js,jsx,mjs,cjs}'],
-    rules: {
-      '@typescript-eslint/no-explicit-any': 'off',
-    },
-  },
-
-  {
-    files: ['src/scripts/**/*.mjs'],
+    files: [
+      'eslint.config.mjs',
+      'postcss.config.ts',
+      'vite.config.ts',
+      'vitest.config.ts',
+      '.storybook/**/*.{ts,tsx,js,jsx,mjs,cjs}',
+      'src/scripts/**/*.mjs',
+    ],
     extends: [tseslint.configs.disableTypeChecked],
     languageOptions: {
       parserOptions: {
         projectService: false,
       },
     },
+  },
+
+  {
+    files: ['**/*.stories.{ts,tsx,js,jsx,mjs,cjs}'],
     rules: {
-      '@typescript-eslint/no-unsafe-assignment': 'off',
-      '@typescript-eslint/no-unsafe-call': 'off',
-      '@typescript-eslint/no-unsafe-member-access': 'off',
-      '@typescript-eslint/no-unsafe-return': 'off',
-      '@typescript-eslint/no-unsafe-argument': 'off',
+      '@typescript-eslint/no-explicit-any': 'off',
     },
   },
+
   {
     files: [
       'src/components/**/*.{ts,tsx}',

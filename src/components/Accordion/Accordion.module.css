@@ -1,3 +1,5 @@
+@import "@/styles/_media.css";
+
 .header {
   align-items: center;
   display: flex;
@@ -57,8 +59,10 @@
   width: 100%;
 }
 
-.itemTitleButton:hover {
-  color: var(--hoam-color-text-link-hover);
+@media (--hoam-hoverable) {
+  .itemTitleButton:hover {
+    color: var(--hoam-color-text-link-hover);
+  }
 }
 
 .toggleAll {
@@ -69,7 +73,7 @@
   min-width: 0.5em;
 }
 
-@media (prefers-reduced-motion: reduce) {
+@media (--hoam-motion-reduce) {
   .panel {
     transition: none;
   }

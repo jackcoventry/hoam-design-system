@@ -1,3 +1,5 @@
+@import "@/styles/_media.css";
+
 .root {
   background-color: var(--hoam-color-secondary);
   padding: var(--hoam-spacing-3xl) var(--hoam-spacing-xs);
@@ -27,10 +29,12 @@
     color: var(--hoam-color-text-link);
   }
 
-  a:active,
-  a:focus,
-  a:hover {
-    color: var(--hoam-color-text-link-hover);
+  @media (--hoam-hoverable) {
+    a:active,
+    a:focus,
+    a:hover {
+      color: var(--hoam-color-text-link-hover);
+    }
   }
 }
 
@@ -40,7 +44,7 @@
   justify-content: center;
   gap: var(--hoam-spacing-xs);
 
-  @media (min-width: 600px) {
+  @media (--hoam-breakpoint-sm-up) {
     flex-direction: row;
   }
 }
