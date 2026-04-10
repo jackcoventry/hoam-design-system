@@ -1,16 +1,36 @@
 .root {
   display: grid;
   gap: var(--hoam-spacing-xl);
-
-  @media (min-width: 48rem) {
-    grid-template-columns: 220px minmax(0, 1fr);
-  }
 }
 
 .topRow {
-  display: grid;
+  align-items: start;
+  display: flex;
+  flex-direction: column-reverse;
   gap: var(--hoam-spacing-lg);
   width: 100%;
+
+  @media (min-width: 48rem) {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+.layout {
+  display: grid;
+  gap: var(--hoam-spacing-xl);
+
+  @media (min-width: 48rem) {
+    grid-template-columns: 250px 1fr;
+  }
+}
+
+.root[data-hide-sidebar="true"] .layout {
+  grid-template-columns: 1fr;
+}
+
+.root[data-hide-sidebar="true"] .sidebar {
+  display: none;
 }
 
 .sidebar {
@@ -19,11 +39,24 @@
   gap: var(--hoam-spacing-lg);
 }
 
+.content {
+  display: grid;
+  gap: var(--hoam-spacing-lg);
+  grid-template-rows: max-content 1fr;
+}
+
 .sortControl {
-  align-items: center;
   align-self: start;
   display: flex;
+  flex-direction: column;
   gap: var(--hoam-spacing-xs);
+  width: 100%;
+
+  @media (min-width: 48rem) {
+    align-items: center;
+    flex-direction: initial;
+    width: auto;
+  }
 }
 
 .sortLabel {
@@ -172,21 +205,8 @@
   justify-content: space-between;
 }
 
-.accordion[data-collapsed="true"] {
-  display: none;
-
-  @media (min-width: 48rem) {
-    display: block;
-  }
-}
-
-.filterToggle {
-  @media (min-width: 48rem) {
-    display: none;
-  }
-}
-
 .chips {
+  align-items: start;
   display: flex;
   flex-wrap: wrap;
   gap: var(--hoam-spacing-sm);
@@ -195,28 +215,22 @@
 }
 
 .chipLabel {
-  align-content: center;
+  align-self: center;
   font: var(--hoam-typography-label-1);
 }
 
-.content {
-  display: grid;
-  gap: var(--hoam-spacing-lg);
-}
-
 .titleWrapper {
-  align-items: center;
   display: flex;
   gap: var(--hoam-spacing-md);
-  height: 1rem;
-  justify-content: space-between;
 }
 
-.title {
-  display: none;
+.items {
+  display: grid;
+  gap: var(--hoam-spacing-2xl);
+}
 
-  @media (min-width: 48rem) {
-    font: var(--hoam-typography-label-1);
-    display: inline;
-  }
+.spinnerWrapper {
+  align-content: center;
+  display: flex;
+  justify-content: center;
 }

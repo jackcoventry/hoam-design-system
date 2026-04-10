@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { SetStateAction, useState } from 'react';
 import { Meta } from '@storybook/react-vite';
 
 import { Banner, type BannerProps } from '@/components/Banner';
@@ -56,19 +56,27 @@ const dataSet = [
 function Component() {
   const [value, setValue] = useState<FilterValue>(initialValue);
   const [sortValue, setSortValue] = useState<string>('featured');
+  const [loading, setLoading] = useState<boolean>(false);
+
+  function handleChange(value: SetStateAction<FilterValue>) {
+    // TODO: This mimic's a server response, it could potentially show an actual request isntead
+    setLoading(true);
+
+    setTimeout(() => {
+      setValue(value);
+      setLoading(false);
+    }, 1000);
+  }
 
   return (
     <FilterBar
       title="Filter products"
       groups={FilterBarData}
       value={value}
-      onChange={setValue}
-      onApply={(nextValue) => {
-        console.log('filters', nextValue);
-        console.log('sort', sortValue);
-      }}
+      onChange={handleChange}
+      onApply={handleChange}
       onClearAll={() => {
-        setValue(initialValue);
+        handleChange(initialValue);
       }}
       sortOptions={[
         { value: 'featured', label: 'Featured' },
@@ -78,18 +86,25 @@ function Component() {
       ]}
       sortValue={sortValue}
       onSortChange={setSortValue}
+      loading={loading}
     >
       <Grid>
         {dataSet.map((product) => (
           <GridItem
             span={12}
-            spanLg={4}
+            spanMd={12}
+            spanLg={6}
+            spanXl={4}
             key={product.productId}
           >
             <ProductTile {...product} />
           </GridItem>
         ))}
       </Grid>
+      <Pagination
+        pageCount={5}
+        currentPage={2}
+      />
     </FilterBar>
   );
 }
@@ -109,15 +124,6 @@ const Template = {
             <Grid>
               <GridItem span={12}>
                 <Component />
-              </GridItem>
-            </Grid>
-
-            <Grid>
-              <GridItem span={12}>
-                <Pagination
-                  pageCount={5}
-                  currentPage={2}
-                />
               </GridItem>
             </Grid>
           </Stack>

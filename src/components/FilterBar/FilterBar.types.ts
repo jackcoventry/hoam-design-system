@@ -70,4 +70,5 @@ export type FilterBarProps = {
   sortOptions?: readonly SortOption[];
   sortValue?: string;
   onSortChange?: (nextSortValue: string) => void;
+  loading?: boolean;
 };

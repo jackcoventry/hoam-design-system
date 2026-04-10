@@ -11,6 +11,7 @@ export const ICON_IDS = [
   "close",
   "dash",
   "facebook",
+  "filter",
   "heart-fill",
   "instagram",
   "person-circle",

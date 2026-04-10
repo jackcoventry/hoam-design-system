@@ -1,4 +1,4 @@
-import { type JSX, useState } from 'react';
+import { type JSX, SetStateAction, useState } from 'react';
 
 import { FilterBarData } from '@/mocks/components/FilterBar';
 import { productTile, productTileNew } from '@/mocks/components/ProductTile';
@@ -27,16 +27,27 @@ const dataSet = [productTile, productTile, productTile, productTileNew];
 export function CoffeeFilterExample(): JSX.Element {
   const [value, setValue] = useState<FilterValue>(initialValue);
   const [sortValue, setSortValue] = useState<string>('featured');
+  const [loading, setLoading] = useState<boolean>(false);
+
+  function handleChange(value: SetStateAction<FilterValue>) {
+    // TODO: This mimic's a server response, it could potentially show an actual request isntead
+    setLoading(true);
+
+    setTimeout(() => {
+      setValue(value);
+      setLoading(false);
+    }, 500);
+  }
 
   return (
     <FilterBar
       title="Filter products"
       groups={FilterBarData}
       value={value}
-      onChange={setValue}
-      onApply={() => {}}
+      onChange={handleChange}
+      onApply={handleChange}
       onClearAll={() => {
-        setValue(initialValue);
+        handleChange(initialValue);
       }}
       sortOptions={[
         { value: 'featured', label: 'Featured' },
@@ -46,6 +57,7 @@ export function CoffeeFilterExample(): JSX.Element {
       ]}
       sortValue={sortValue}
       onSortChange={setSortValue}
+      loading={loading}
     >
       <Grid>
         {dataSet.map((product) => (
