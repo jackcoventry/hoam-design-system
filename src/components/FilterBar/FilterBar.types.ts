@@ -58,8 +58,6 @@ export type ActiveChip = {
   label: string;
 };
 
-export type StackAt = 'sm' | 'md' | 'lg';
-
 export type FilterBarProps = {
   title?: string;
   groups: readonly FilterGroup[];
@@ -68,7 +66,6 @@ export type FilterBarProps = {
   onApply?: (value: FilterValue) => void;
   onClearAll?: () => void;
   className?: string;
-  stackAt?: StackAt;
   sortLabel?: string;
   sortOptions?: readonly SortOption[];
   sortValue?: string;

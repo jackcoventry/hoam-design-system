@@ -2,18 +2,14 @@ import { useState } from 'react';
 import { Meta } from '@storybook/react-vite';
 
 import { Banner, type BannerProps } from '@/components/Banner';
-import { Button } from '@/components/Button';
 import { FilterBar } from '@/components/FilterBar/FilterBar';
 import { FilterValue } from '@/components/FilterBar/FilterBar.types';
 import { Container, Grid, GridItem, Section, Stack } from '@/components/Layout';
 import { Pagination } from '@/components/Pagination';
 import { ProductTile } from '@/components/ProductTile';
 import { FilterBarData } from '@/mocks/components/FilterBar';
-import { productTile } from '@/mocks/components/ProductTile';
+import { productTile, productTileNew } from '@/mocks/components/ProductTile';
 import BaseTemplate from '@/stories/templates/Base';
-
-import typography from '@/styles/Typography.module.css';
-import utils from '@/styles/Util.module.css';
 
 const meta: Meta = {
   title: 'Pages/Product Search',
@@ -48,6 +44,15 @@ const initialValue: FilterValue = {
   },
 };
 
+const dataSet = [
+  productTile,
+  productTile,
+  productTileNew,
+  productTile,
+  productTileNew,
+  productTile,
+];
+
 function Component() {
   const [value, setValue] = useState<FilterValue>(initialValue);
   const [sortValue, setSortValue] = useState<string>('featured');
@@ -73,8 +78,19 @@ function Component() {
       ]}
       sortValue={sortValue}
       onSortChange={setSortValue}
-      stackAt="md"
-    />
+    >
+      <Grid>
+        {dataSet.map((product) => (
+          <GridItem
+            span={12}
+            spanLg={4}
+            key={product.productId}
+          >
+            <ProductTile {...product} />
+          </GridItem>
+        ))}
+      </Grid>
+    </FilterBar>
   );
 }
 

@@ -4,6 +4,7 @@ import type { FilterValue, RangeGroup } from './FilterBar.types';
 import { clamp, getRangeValue, setRangeValue } from './filterBar.utils';
 
 import styles from './FilterBar.module.css';
+import utils from '@/styles/Util.module.css';
 
 type FilterBarRangePanelProps = {
   baseId: string;
@@ -103,7 +104,7 @@ export function FilterBarRangePanel({
         </div>
 
         <label
-          className={styles.visuallyHidden}
+          className={utils.srOnly}
           htmlFor={`${baseId}-${group.id}-min`}
         >
           Minimum {group.label}
@@ -129,7 +130,7 @@ export function FilterBarRangePanel({
         />
 
         <label
-          className={styles.visuallyHidden}
+          className={utils.srOnly}
           htmlFor={`${baseId}-${group.id}-max`}
         >
           Maximum {group.label}

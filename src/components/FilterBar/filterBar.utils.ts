@@ -7,7 +7,6 @@ import type {
   FilterValue,
   RadioGroup,
   RangeGroup,
-  StackAt,
 } from './FilterBar.types';
 
 export function isRangeGroup(group: FilterGroup): group is RangeGroup {
@@ -178,16 +177,4 @@ export function getVisibleOptions(
   query: string
 ): readonly FilterOption[] {
   return options.filter((option) => matchesSearch(option, query));
-}
-
-export function getBreakpointPx(stackAt: StackAt): number {
-  switch (stackAt) {
-    case 'sm':
-      return 640;
-    case 'lg':
-      return 1024;
-    case 'md':
-    default:
-      return 832;
-  }
 }

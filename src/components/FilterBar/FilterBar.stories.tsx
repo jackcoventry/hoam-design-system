@@ -1,6 +1,10 @@
 import { type JSX, useState } from 'react';
 
 import { FilterBarData } from '@/mocks/components/FilterBar';
+import { productTile, productTileNew } from '@/mocks/components/ProductTile';
+
+import { Grid, GridItem } from '../Layout';
+import { ProductTile } from '../ProductTile';
 
 import { FilterBar } from './FilterBar';
 import type { FilterValue } from './FilterBar.types';
@@ -11,12 +15,14 @@ const initialValue: FilterValue = {
   options: {
     roast: [],
     origin: [],
-    availability: ['all'],
+    availability: [],
   },
   ranges: {
     price: {},
   },
 };
+
+const dataSet = [productTile, productTile, productTile, productTileNew];
 
 export function CoffeeFilterExample(): JSX.Element {
   const [value, setValue] = useState<FilterValue>(initialValue);
@@ -28,10 +34,7 @@ export function CoffeeFilterExample(): JSX.Element {
       groups={FilterBarData}
       value={value}
       onChange={setValue}
-      onApply={(nextValue) => {
-        console.log('filters', nextValue);
-        console.log('sort', sortValue);
-      }}
+      onApply={() => {}}
       onClearAll={() => {
         setValue(initialValue);
       }}
@@ -43,7 +46,18 @@ export function CoffeeFilterExample(): JSX.Element {
       ]}
       sortValue={sortValue}
       onSortChange={setSortValue}
-      stackAt="md"
-    />
+    >
+      <Grid>
+        {dataSet.map((product) => (
+          <GridItem
+            span={12}
+            spanLg={4}
+            key={product.productId}
+          >
+            <ProductTile {...product} />
+          </GridItem>
+        ))}
+      </Grid>
+    </FilterBar>
   );
 }

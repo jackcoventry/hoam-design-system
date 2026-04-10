@@ -15,8 +15,6 @@ export const FilterBarData: FilterGroup[] = [
     id: 'origin',
     label: 'Origin',
     kind: 'checkbox',
-    searchable: true,
-    searchPlaceholder: 'Search origin',
     options: [
       { id: 'ethiopia', label: 'Ethiopia', count: 6 },
       { id: 'colombia', label: 'Colombia', count: 11 },
@@ -29,11 +27,8 @@ export const FilterBarData: FilterGroup[] = [
   {
     id: 'availability',
     label: 'Availability',
-    kind: 'radio',
-    options: [
-      { id: 'all', label: 'All' },
-      { id: 'in-stock', label: 'In stock only' },
-    ],
+    kind: 'checkbox',
+    options: [{ id: 'in-stock', label: 'In stock only' }],
   },
   {
     id: 'price',
