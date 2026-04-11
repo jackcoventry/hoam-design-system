@@ -21,7 +21,6 @@
 }
 
 .imageWrapper {
-  animation: hoam-product-tile-image-loading 1.5s linear infinite;
   background: linear-gradient(90deg, #eeea 30%, #fffa, #eeea 60%) right/300% 100%;
   border-radius: var(--hoam-border-radius-default);
   height: 0;
@@ -37,6 +36,12 @@
   height: auto;
   transition: transform 100ms ease-in-out;
   width: 100%;
+}
+
+@media (--hoam-motion-reduce) {
+  .image {
+    transition: none !important;
+  }
 }
 
 .link {
@@ -90,10 +95,4 @@
 .button {
   margin: var(--hoam-spacing-xs) auto 0;
   position: relative;
-}
-
-@keyframes hoam-product-tile-image-loading {
-  to {
-    background-position: left;
-  }
 }

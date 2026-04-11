@@ -79,9 +79,13 @@
 }
 
 @media (--hoam-motion-reduce) {
-  .outer,
   .inner {
-    transition: none;
+    animation: none !important;
+  }
+
+  .input:checked + .outer .inner {
+    opacity: 1;
+    transform: scale(1);
   }
 }
 

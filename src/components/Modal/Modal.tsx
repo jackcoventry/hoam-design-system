@@ -14,6 +14,7 @@ import clsx from 'clsx';
 
 import { Button } from '@/components/Button';
 import { useModalStack } from '@/components/Modal/ModalStackContext';
+import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { logger } from '@/utils/logger';
 import { FOCUSABLE_SELECTORS } from '@/constants/focusable-selectors';
 
@@ -73,6 +74,7 @@ function ModalRoot({
   const phaseRafRef = useRef<number | null>(null);
 
   const [phase, setPhase] = useState<ModalPhase>(isOpen ? 'open' : 'closed');
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   const instanceId = useId();
   const titleId = useId();
@@ -130,6 +132,15 @@ function ModalRoot({
       lastFocusedRef.current =
         document.activeElement instanceof HTMLElement ? document.activeElement : null;
 
+      if (prefersReducedMotion) {
+        phaseRafRef.current = globalThis.requestAnimationFrame(() => {
+          setPhase('open');
+          phaseRafRef.current = null;
+        });
+
+        return clearPhaseRaf;
+      }
+
       phaseRafRef.current = globalThis.requestAnimationFrame(() => {
         setPhase('opening');
         phaseRafRef.current = null;
@@ -139,6 +150,15 @@ function ModalRoot({
     }
 
     if (wasOpen && !isOpen) {
+      if (prefersReducedMotion) {
+        phaseRafRef.current = globalThis.requestAnimationFrame(() => {
+          setPhase('closed');
+          phaseRafRef.current = null;
+        });
+
+        return clearPhaseRaf;
+      }
+
       phaseRafRef.current = globalThis.requestAnimationFrame(() => {
         setPhase((current) => (current === 'closed' ? 'closed' : 'closing'));
         phaseRafRef.current = null;
@@ -148,7 +168,7 @@ function ModalRoot({
     }
 
     return clearPhaseRaf;
-  }, [clearPhaseRaf, isOpen]);
+  }, [clearPhaseRaf, isOpen, prefersReducedMotion]);
 
   useEffect(() => {
     if (phase !== 'closed' || isOpen) return;
@@ -273,7 +293,7 @@ function ModalRoot({
         className={styles.backdrop}
         aria-label="Close dialog"
         tabIndex={-1}
-        onMouseDown={close}
+        onClick={close}
       />
       <div
         ref={dialogRef}

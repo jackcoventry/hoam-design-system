@@ -36,6 +36,12 @@
   width: 100%;
 }
 
+@media (--hoam-motion-reduce) {
+  .image {
+    transition: none !important;
+  }
+}
+
 .text {
   bottom: var(--hoam-spacing-md);
   color: var(--hoam-color-neutral-900);

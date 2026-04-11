@@ -75,6 +75,6 @@
 
 @media (--hoam-motion-reduce) {
   .panel {
-    transition: none;
+    transition: none !important;
   }
 }

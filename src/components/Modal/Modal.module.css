@@ -265,4 +265,38 @@
     transform: none !important;
     will-change: auto !important;
   }
+
+  .root[data-variant="modal"][data-state="opening"] {
+    opacity: 1;
+  }
+
+  .root[data-variant="modal"][data-state="closing"] {
+    opacity: 0;
+  }
+
+  .root[data-variant="drawer"][data-state="opening"] {
+    opacity: 1;
+  }
+
+  .root[data-variant="drawer"][data-state="closing"] {
+    opacity: 0;
+  }
+
+  .root[data-variant="modal"][data-state="opening"] .dialog {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .root[data-variant="modal"][data-state="closing"] .dialog {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+
+  .root[data-variant="drawer"][data-state="opening"] .dialog {
+    transform: translate3d(0, 0, 0);
+  }
+
+  .root[data-variant="drawer"][data-state="closing"] .dialog {
+    transform: translate3d(100%, 0, 0);
+  }
 }
