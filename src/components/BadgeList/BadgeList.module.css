@@ -1,3 +1,8 @@
+:root {
+  --hoam-badge-list-color-item-bg: var(--hoam-color-fill-light);
+  --hoam-badge-list-color-item-border: var(--hoam-color-border-default);
+}
+
 .root {
   display: flex;
   gap: var(--hoam-spacing-sm);
@@ -5,23 +10,19 @@
 }
 
 .item {
-  background-color: var(--hoam-color-neutral-900);
+  background-color: var(--hoam-badge-list-color-item-bg);
   border-radius: var(--hoam-border-radius-default);
-  border: var(--hoam-border-size-default) var(--hoam-color-badge-list-item-border);
+  border: var(--hoam-border-size-default) var(--hoam-badge-list-color-item-border);
   display: inline-flex;
   font: var(--hoam-typography-label-1);
   padding: var(--hoam-spacing-2xs) var(--hoam-spacing-xs);
   text-transform: uppercase;
 }
 
-.item[data-variant="default"] {
-  --hoam-color-badge-list-item-border: var(--hoam-color-neutral-500);
-}
-
 .item[data-variant="alert"] {
-  --hoam-color-badge-list-item-border: var(--hoam-color-semantic-warning);
+  --hoam-badge-list-color-item-border: var(--hoam-color-border-semantic-warning);
 }
 
 .item[data-variant="highlight"] {
-  --hoam-color-badge-list-item-border: var(--hoam-color-semantic-success);
+  --hoam-badge-list-color-item-border: var(--hoam-color-border-semantic-success);
 }

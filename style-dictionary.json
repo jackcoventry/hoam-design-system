@@ -1,7 +1,7 @@
 {
   "source": ["src/design-tokens/**/*.json"],
   "platforms": {
-    "scss": {
+    "css": {
       "transformGroup": "css",
       "buildPath": "src/styles/",
       "files": [

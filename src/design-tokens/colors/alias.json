@@ -1,0 +1,77 @@
+{
+  "color": {
+    "$type": "color",
+    "fill": {
+      "$extensions": {
+        "$group": "fill"
+      },
+      "primary": {
+        "$value": "{palette.purple.500}"
+      },
+      "secondary": {
+        "$value": "{palette.purple.500}"
+      },
+      "tertiary": {
+        "$value": "{palette.purple.500}"
+      },
+      "light": {
+        "$value": "{palette.neutral.900}"
+      },
+      "dark": {
+        "$value": "{palette.neutral.100}"
+      }
+    },
+    "accent": {
+      "$extensions": {
+        "$group": "accent"
+      },
+      "default": {
+        "$value": "{palette.purple.500}"
+      }
+    },
+    "border": {
+      "$extensions": {
+        "$group": "border"
+      },
+      "default": {
+        "$value": "{palette.neutral.500}"
+      },
+      "accent": {
+        "$value": "{palette.purple.500}"
+      },
+      "semantic": {
+        "error": {
+          "$value": "{palette.semantic.error}"
+        },
+        "warning": {
+          "$value": "{palette.semantic.warning}"
+        },
+        "success": {
+          "$value": "{palette.semantic.success}"
+        },
+        "info": {
+          "$value": "{palette.semantic.info}"
+        }
+      }
+    },
+    "text": {
+      "$extensions": {
+        "$group": "text"
+      },
+      "light": {
+        "$value": "{palette.neutral.900}"
+      },
+      "dark": {
+        "$value": "{palette.neutral.100}"
+      },
+      "link": {
+        "default": {
+          "$value": "{palette.purple.500}"
+        },
+        "hover": {
+          "$value": "{palette.purple.500}"
+        }
+      }
+    }
+  }
+}

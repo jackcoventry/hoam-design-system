@@ -1,19 +1,20 @@
 @import "@/styles/_media.css";
 
+:root {
+  --hoam-banner-color-bg: var(--hoam-color-fill-secondary);
+}
+
 .root {
+  background-color: var(--hoam-banner-color-bg);
   border-radius: var(--hoam-border-radius-default);
 }
 
-.root[data-theme="default"] {
-  background-color: var(--hoam-color-semantic-warning); /* TODO: wrong token */
-}
-
 .root[data-theme="pink"] {
-  background-color: var(--hoam-color-primary);
+  --hoam-banner-color-bg: var(--hoam-color-fill-primary);
 }
 
 .root[data-theme="sky"] {
-  background-color: var(--hoam-color-secondary);
+  --hoam-banner-color-bg: var(--hoam-color-fill-tertiary);
 }
 
 .textContent {

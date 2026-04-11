@@ -1,0 +1,88 @@
+{
+  "palette": {
+    "$type": "color",
+    "purple": {
+      "$extensions": {
+        "$group": "global"
+      },
+      "100": {
+        "$value": "#EEDDFD"
+      },
+      "200": {
+        "$value": "#DCBBFC"
+      },
+      "300": {
+        "$value": "#CB99FA"
+      },
+      "400": {
+        "$value": "#BA77F9"
+      },
+      "500": {
+        "$value": "#A855F7",
+        "$description": "Base colour"
+      },
+      "600": {
+        "$value": "#8815F4"
+      },
+      "700": {
+        "$value": "#6609BE"
+      },
+      "800": {
+        "$value": "#44067F"
+      },
+      "900": {
+        "$value": "#22033F"
+      }
+    },
+    "neutral": {
+      "$extensions": {
+        "$group": "global"
+      },
+      "100": {
+        "$value": "#000000"
+      },
+      "200": {
+        "$value": "#0D0D0D"
+      },
+      "300": {
+        "$value": "#1A1A1A"
+      },
+      "400": {
+        "$value": "#404040"
+      },
+      "500": {
+        "$value": "#666666",
+        "$description": "Base colour"
+      },
+      "600": {
+        "$value": "#8C8C8C"
+      },
+      "700": {
+        "$value": "#B3B3B3"
+      },
+      "800": {
+        "$value": "#f9f9f9"
+      },
+      "900": {
+        "$value": "#ffffff"
+      }
+    },
+    "semantic": {
+      "$extensions": {
+        "$group": "semantic"
+      },
+      "error": {
+        "$value": "#FF4D4F"
+      },
+      "warning": {
+        "$value": "#FAAD14"
+      },
+      "success": {
+        "$value": "#52C41A"
+      },
+      "info": {
+        "$value": "#1890FF"
+      }
+    }
+  }
+}

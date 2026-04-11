@@ -1,5 +1,10 @@
 @import "@/styles/_media.css";
 
+:root {
+  --hoam-accordion-color-border: var(--hoam-color-border-accent);
+  --hoam-accordion-color-title-hover: var(--hoam-color-text-link-hover);
+}
+
 .header {
   align-items: center;
   display: flex;
@@ -11,7 +16,7 @@
 }
 
 .item:not(:last-child) {
-  border-bottom: var(--hoam-border-size-default) var(--hoam-color-accordion-item-border);
+  border-bottom: var(--hoam-border-size-default) var(--hoam-accordion-color-border);
 }
 
 .panelInner {
@@ -61,7 +66,7 @@
 
 @media (--hoam-hoverable) {
   .itemTitleButton:hover {
-    color: var(--hoam-color-text-link-hover);
+    color: var(--hoam-accordion-color-title-hover);
   }
 }
 
