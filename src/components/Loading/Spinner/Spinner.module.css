@@ -1,7 +1,8 @@
 @import "@/styles/_media.css";
 
 :root {
-  --spinner-size: 48px;
+  --hoam-spinner-size: 48px;
+  --hoam-spinner-color-border: var(--hoam-color-border-primary);
 }
 
 .root {
@@ -13,15 +14,15 @@
   animation: loadingRotate 1s linear infinite;
   border-radius: 50%;
   display: block;
-  height: var(--spinner-size);
+  height: var(--hoam-spinner-size);
   position: relative;
-  width: var(--spinner-size);
+  width: var(--hoam-spinner-size);
 }
 
 .spinner::before {
   animation: loadingClip 2s linear infinite;
   border-radius: 50%;
-  border: var(--hoam-border-size-large) var(--hoam-color-loading-border);
+  border: var(--hoam-border-size-large) var(--hoam-spinner-color-border);
   box-sizing: border-box;
   content: "";
   inset: 0px;

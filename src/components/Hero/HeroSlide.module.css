@@ -1,9 +1,14 @@
 @import "@/styles/_media.css";
 
+:root {
+  --hoam-hero-slide-color-bg: var(--hoam-color-fill-dark);
+  --hoam-hero-slide-color-text: var(--hoam-color-text-light);
+}
+
 .root {
   align-items: center;
-  background-color: var(--hoam-color-hero-bg);
-  color: var(--hoam-color-hero-text);
+  background-color: var(--hoam-hero-slide-color-bg);
+  color: var(--hoam-hero-slide-color-text);
   display: flex;
   height: calc(100dvh - var(--hoam-navigation-bar-height) - var(--hoam-notification-bar-height));
   overflow: hidden;
@@ -12,19 +17,14 @@
   width: 100%;
 }
 
-.root[data-theme="default"] {
-  --hoam-color-hero-bg: var(--hoam-color-neutral-100);
-  --hoam-color-hero-text: var(--hoam-color-neutral-900);
-}
-
 .root[data-theme="pink"] {
-  --hoam-color-hero-bg: var(--hoam-color-pink-500);
-  --hoam-color-hero-text: var(--hoam-color-lemon-500);
+  --hoam-hero-slide-color-bg: var(--hoam-color-fill-primary);
+  --hoam-hero-slide-color-text: var(--hoam-color-text-light);
 }
 
 .root[data-theme="sky"] {
-  --hoam-color-hero-bg: var(--hoam-color-sky-500);
-  --hoam-color-hero-text: var(--hoam-color-lemon-500);
+  --hoam-hero-slide-color-bg: var(--hoam-color-fill-secondary);
+  --hoam-hero-slide-color-text: var(--hoam-color-text-light);
 }
 
 .media {

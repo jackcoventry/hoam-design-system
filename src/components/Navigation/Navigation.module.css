@@ -2,11 +2,17 @@
 
 :root {
   --hoam-navigation-height: 420px;
-  --hoam-color-navigation-link: var(--hoam-color-neutral-900);
+  --hoam-navigation-color-link-text: var(--hoam-color-text-light);
+  --hoam-navigation-color-link-text-interact: var(--hoam-color-text-primary);
+  --hoam-navigation-color-bg: var(--hoam-color-fill-dark);
+  --hoam-navigation-color-panel-bg: var(--hoam-color-fill-grey-light);
+  --hoam-navigation-color-panel-sub-bg: var(--hoam-color-fill-light);
+  --hoam-navigation-color-group-text-link: var(--hoam-color-text-primary);
+  --hoam-navigation-color-group-text-link-interact: var(--hoam-color-text-light);
 }
 
 .root {
-  background-color: var(--hoam-color-neutral-100);
+  background-color: var(--hoam-navigation-color-bg);
   display: none;
   height: var(--hoam-navigation-bar-height);
   position: relative;
@@ -29,7 +35,7 @@
   align-items: center;
   background: none;
   border: none;
-  color: var(--hoam-color-navigation-link);
+  color: var(--hoam-navigation-color-link-text);
   cursor: pointer;
   display: inline-flex;
   font: var(--hoam-typography-button-1);
@@ -40,12 +46,12 @@
 
 @media (--hoam-hoverable) {
   .link:hover {
-    color: var(--hoam-color-primary);
+    color: var(--hoam-navigation-color-link-text-interact);
   }
 }
 
 .link:focus {
-  color: var(--hoam-color-primary);
+  color: var(--hoam-navigation-color-link-text-interact);
 }
 
 .list {
@@ -62,7 +68,7 @@
 
 .logo {
   align-items: center;
-  color: var(--hoam-color-navigation-link);
+  color: var(--hoam-navigation-color-link-text);
   display: inline-flex;
   font: var(--hoam-typography-title-1);
   font-size: 2rem;
@@ -71,7 +77,7 @@
 }
 
 .panel {
-  background-color: var(--hoam-color-neutral-800);
+  background-color: var(--hoam-navigation-color-panel-bg);
   box-shadow: var(--hoam-shadow-small), var(--hoam-shadow-medium);
   height: var(--hoam-navigation-height);
   left: 0;
@@ -90,7 +96,7 @@
 }
 
 .panelSubLevel {
-  background-color: var(--hoam-color-neutral-900);
+  background-color: var(--hoam-navigation-color-panel-sub-bg);
   height: var(--hoam-navigation-height);
   left: 100%;
   overflow: auto;
@@ -114,7 +120,7 @@
   background: none;
   background-color: none;
   border: none;
-  color: var(--hoam-color-text-link);
+  color: var(--hoam-navigation-color-group-text-link);
   cursor: pointer;
   display: flex;
   font: var(--hoam-typography-body-1);
@@ -126,12 +132,12 @@
 
 @media (--hoam-hoverable) {
   .groupTopLink:hover {
-    background-color: var(--hoam-color-neutral-900);
+    background-color: var(--hoam-navigation-color-group-text-link-interact);
   }
 }
 
 .groupTopLink:focus-visible {
-  background-color: var(--hoam-color-neutral-900);
+  background-color: var(--hoam-navigation-color-group-text-link-interact);
 }
 
 .panelSubLevel[data-layout="list"] .panelGroup {
@@ -168,7 +174,7 @@
 }
 
 .panelGroupSection a[data-sub-link] {
-  color: var(--hoam-color-text-link);
+  color: var(--hoam-navigation-color-group-text-link);
   font: var(--hoam-typography-label-1);
   text-decoration: none;
 }
@@ -180,7 +186,7 @@
 
 @media (--hoam-hoverable) {
   .panelGroupSection a[data-sub-link]:hover {
-    color: var(--hoam-color-text-link-hover);
+    color: var(--hoam-navigation-color-group-text-link-interact);
     text-decoration: underline;
   }
 }

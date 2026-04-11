@@ -1,7 +1,11 @@
 @import "@/styles/_media.css";
 
 :root {
-  --image-size: 48px;
+  --hoam-variant-selector-image-size: 48px;
+  --hoam-variant-selector-color-selected: var(--hoam-color-text-grey);
+  --hoam-variant-selector-color-checked-border: var(--hoam-color-border-primary);
+  --hoam-variant-selector-color-indicator-border: var(--hoam-color-border-light);
+  --hoam-variant-selector-color-indicator-border-interact: var(--hoam-color-border-grey);
 }
 
 .root {
@@ -22,7 +26,7 @@
 }
 
 .selected {
-  color: var(--hoam-color-neutral-600);
+  color: var(--hoam-variant-selector-color-selected);
 }
 
 .visual {
@@ -31,24 +35,24 @@
 }
 
 .radio:checked + .visual .indicator {
-  outline: var(--hoam-border-size-medium) var(--hoam-color-variant-selector);
+  outline: var(--hoam-border-size-medium) var(--hoam-variant-selector-color-checked-border);
 }
 
 .indicator {
   align-items: center;
-  border: var(--hoam-border-size-medium) var(--hoam-color-neutral-900);
+  border: var(--hoam-border-size-medium) var(--hoam-variant-selector-color-indicator-border);
   border-radius: var(--hoam-border-radius-default);
   box-shadow: var(--hoam-shadow-small);
   display: flex;
-  height: var(--image-size);
+  height: var(--hoam-variant-selector-image-size);
   justify-content: center;
   overflow: hidden;
-  min-width: calc(var(--image-size) * 2);
+  min-width: calc(var(--hoam-variant-selector-image-size) * 2);
 }
 
 @media (--hoam-hoverable) {
   .item:hover .indicator {
-    outline: var(--hoam-border-size-default) var(--hoam-color-variant-selector-hover);
+    outline: var(--hoam-border-size-default) var(--hoam-variant-selector-color-indicator-border-interact);
   }
 }
 
@@ -69,7 +73,7 @@
 /* Horizontal Variant */
 .items[aria-orientation="horizontal"] .label {
   text-align: center;
-  width: var(--image-size);
+  width: var(--hoam-variant-selector-image-size);
   word-break: break-all;
 }
 

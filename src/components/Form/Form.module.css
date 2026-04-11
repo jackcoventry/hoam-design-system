@@ -1,5 +1,11 @@
+:root {
+  --hoam-form-color-bg: var(--hoam-color-fill-light);
+  --hoam-form-color-field-border: var(--hoam-color-border-accent);
+  --hoam-form-color-field-border-error: var(--hoam-color-border-semantic-error);
+}
+
 .root {
-  background-color: var(--hoam-color-neutral-900);
+  background-color: var(--hoam-form-color-bg);
   border-radius: var(--hoam-border-radius-default);
   display: grid;
   gap: var(--hoam-spacing-md);
@@ -23,12 +29,12 @@
 
 .textField {
   border-radius: var(--hoam-border-radius-default);
-  border: var(--hoam-border-size-default) var(--hoam-color-moon-400);
+  border: var(--hoam-border-size-default) var(--hoam-form-color-field-border);
   font: var(--hoam-typography-label-1);
   padding: var(--hoam-spacing-sm) var(--hoam-spacing-md);
   width: 100%;
 }
 
 .textField[data-valid="false"] {
-  border: var(--hoam-border-size-default) var(--hoam-color-semantic-error);
+  border: var(--hoam-border-size-default) var(--hoam-form-color-field-border-error);
 }

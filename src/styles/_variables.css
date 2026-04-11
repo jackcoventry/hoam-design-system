@@ -15,6 +15,11 @@
   --hoam-color-fill-tertiary: #a855f7;
   --hoam-color-fill-light: #ffffff;
   --hoam-color-fill-dark: #000000;
+  --hoam-color-fill-grey: #b3b3b3;
+  --hoam-color-fill-semantic-error: #ff4d4f;
+  --hoam-color-fill-semantic-warning: #faad14;
+  --hoam-color-fill-semantic-success: #52c41a;
+  --hoam-color-fill-semantic-info: #1890ff;
   --hoam-color-accent-default: #a855f7;
   --hoam-color-border-default: #666666;
   --hoam-color-border-accent: #a855f7;
@@ -22,6 +27,9 @@
   --hoam-color-border-semantic-warning: #faad14;
   --hoam-color-border-semantic-success: #52c41a;
   --hoam-color-border-semantic-info: #1890ff;
+  --hoam-color-text-light: #ffffff;
+  --hoam-color-text-dark: #000000;
+  --hoam-color-text-grey: #b3b3b3;
   --hoam-color-text-link-default: #a855f7;
   --hoam-color-text-link-hover: #a855f7;
   --hoam-palette-purple-100: #eeddfd;

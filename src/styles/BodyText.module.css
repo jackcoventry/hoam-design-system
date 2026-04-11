@@ -1,18 +1,23 @@
 @import "@/styles/_media.css";
 
+:root {
+  --hoam-body-text-color-link: var(--hoam-color-text-primary);
+  --hoam-body-text-color-link-interact: var(--hoam-color-text-secondary);
+}
+
 .root {
   font: var(--hoam-typography-body-1);
 }
 
 .root a:link,
 .root a:visited {
-  color: var(--hoam-color-text-link);
+  color: var(--hoam-body-text-color-link);
   text-decoration: underline;
 }
 
 @media (--hoam-hoverable) {
   .root a:hover {
-    color: var(--hoam-color-text-link-hover);
+    color: var(--hoam-body-text-color-link-interact);
     text-decoration: none;
   }
 }

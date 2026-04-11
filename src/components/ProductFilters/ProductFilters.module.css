@@ -1,5 +1,13 @@
 @import "@/styles/_media.css";
 
+:root {
+  --hoam-filter-color-option: var(--hoam-color-text-grey);
+  --hoam-filter-color-input-border: var(--hoam-color-border-grey);
+  --hoam-filter-color-slider-bg: var(--hoam-color-fill-grey);
+  --hoam-filter-color-range-bg: var(--hoam-color-fill-primary);
+  --hoam-filter-color-thumb-bg: var(--hoam-color-fill-light);
+}
+
 .root {
   display: grid;
   gap: var(--hoam-spacing-xl);
@@ -106,7 +114,7 @@
 }
 
 .optionCount {
-  color: var(--hoam-color-neutral-700);
+  color: var(--hoam-filter-color-option);
   font: var(--hoam-typography-label-1);
 }
 
@@ -133,7 +141,7 @@
 .numberInput {
   min-block-size: 2.5rem;
   padding: var(--hoam-spacing-sm) var(--hoam-spacing-md);
-  border: var(--hoam-border-size-default) var(--hoam-color-neutral-700, currentColor);
+  border: var(--hoam-border-size-default) var(--hoam-filter-color-input-border, currentColor);
   border-radius: var(--hoam-border-radius-default);
 }
 
@@ -148,15 +156,15 @@
   position: absolute;
   inset-inline: 0;
   block-size: 0.375rem;
-  background: var(--hoam-color-neutral-700);
+  background-color: var(--hoam-filter-color-slider-bg);
   pointer-events: none;
 }
 
 .sliderRange {
+  background-color: var(--hoam-filter-color-range-bg);
+  bottom: 0;
   position: absolute;
   top: 0;
-  bottom: 0;
-  background: var(--hoam-color-primary);
 }
 
 .slider {
@@ -175,7 +183,7 @@
   block-size: 1rem;
   border: 2px solid currentColor;
   border-radius: 50%;
-  background: #fff;
+  background: var(--hoam-filter-color-thumb-bg);
   cursor: pointer;
   pointer-events: auto;
 }
@@ -185,7 +193,7 @@
   block-size: 1rem;
   border: 2px solid currentColor;
   border-radius: 50%;
-  background: #fff;
+  background: var(--hoam-filter-color-thumb-bg);
   cursor: pointer;
   pointer-events: auto;
 }

@@ -1,5 +1,9 @@
+:root {
+  --hoam-promo-section-color-bg: var(--hoam-color-fill-secondary);
+}
+
 .root {
-  background-color: var(--hoam-color-secondary);
+  background-color: var(--hoam-promo-section-color-bg);
   padding: var(--hoam-spacing-3xl) var(--hoam-spacing-xs);
 }
 

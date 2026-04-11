@@ -1,8 +1,15 @@
 @import "@/styles/_media.css";
 
+:root {
+  --hoam-radio-color-outer-bg: var(--hoam-color-fill-light);
+  --hoam-radio-color-outer-bg-checked: var(--hoam-color-fill-semantic-success);
+  --hoam-radio-color-outer-border: var(--hoam-color-border-grey);
+  --hoam-radio-color-inner-bg: var(--hoam-color-fill-semantic-success);
+}
+
 .wrapper {
-  --radio-size: 20px;
-  --radio-dot-size: 10px;
+  --hoam-radio-size: 20px;
+  --hoam-radio-dot-size: 10px;
 
   display: grid;
   gap: var(--hoam-spacing-md);
@@ -38,28 +45,28 @@
 }
 
 .outer {
-  background: var(--hoam-color-neutral-900);
-  border: var(--hoam-border-size-default) var(--hoam-color-neutral-700);
+  background: var(--hoam-radio-color-outer-bg);
+  border: var(--hoam-border-size-default) var(--hoam-radio-color-outer-border);
   border-radius: var(--hoam-border-radius-full);
   display: inline-grid;
-  height: var(--radio-size);
+  height: var(--hoam-radio-size);
   position: relative;
   place-items: center;
-  width: var(--radio-size);
+  width: var(--hoam-radio-size);
 }
 
 .inner {
-  background: var(--hoam-color-semantic-success);
+  background: var(--hoam-radio-color-inner-bg);
   border-radius: var(--hoam-border-radius-full);
-  height: var(--radio-dot-size);
+  height: var(--hoam-radio-dot-size);
   opacity: 0;
   transform: scale(0);
   transition: background ease-in-out 0.25s;
-  width: var(--radio-dot-size);
+  width: var(--hoam-radio-dot-size);
 }
 
 .input:checked + .outer {
-  border-color: var(--hoam-color-semantic-success);
+  border-color: var(--hoam-radio-color-outer-bg-checked);
 }
 
 .input:checked + .outer .inner {

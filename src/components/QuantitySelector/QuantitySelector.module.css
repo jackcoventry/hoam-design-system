@@ -1,6 +1,13 @@
 @import "@/styles/_media.css";
 
 :root {
+  --hoam-quantity-selector-color-input-bg: var(--hoam-color-fill-light);
+  --hoam-quantity-selector-color-input-text: var(--hoam-color-text-dark);
+  --hoam-quantity-selector-color-button-bg-interact: var(--hoam-color-fill-primary);
+  --hoam-quantity-selector-color-button-bg-left: var(--hoam-color-fill-grey-light);
+  --hoam-quantity-selector-color-button-text-left: var(--hoam-color-fill-text-dark);
+  --hoam-quantity-selector-color-button-bg-right: var(--hoam-color-fill-dark);
+  --hoam-quantity-selector-color-button-text-right: var(--hoam-color-text-grey-light);
   --hoam-size-quantity-selector: 40px;
 }
 
@@ -16,9 +23,9 @@
 }
 
 .input {
-  background-color: var(--hoam-color-neutral-900);
+  background-color: var(--hoam-quantity-selector-color-input-bg);
   border: none;
-  color: var(--hoam-color-neutral-100);
+  color: var(--hoam-quantity-selector-color-input-text);
   font: var(--hoam-typography-body-1);
   height: var(--hoam-size-quantity-selector);
   outline: none;
@@ -42,7 +49,7 @@
 
 @media (--hoam-hoverable) {
   .button:not(:disabled):hover {
-    background-color: var(--hoam-color-quantity-bg-hover);
+    background-color: var(--hoam-quantity-selector-color-button-bg-interact);
     cursor: pointer;
   }
 }
@@ -52,11 +59,11 @@
 }
 
 .button[data-position="left"] {
-  background-color: var(--hoam-color-neutral-800);
-  color: var(--hoam-color-neutral-100);
+  background-color: var(--hoam-quantity-selector-color-button-bg-left);
+  color: var(--hoam-quantity-selector-color-button-text-left);
 }
 
 .button[data-position="right"] {
-  background-color: var(--hoam-color-neutral-100);
-  color: var(--hoam-color-neutral-900);
+  background-color: var(--hoam-quantity-selector-color-button-bg-right);
+  color: var(--hoam-quantity-selector-color-button-text-right);
 }

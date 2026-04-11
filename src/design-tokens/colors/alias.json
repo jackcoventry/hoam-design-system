@@ -9,16 +9,36 @@
         "$value": "{palette.purple.500}"
       },
       "secondary": {
-        "$value": "{palette.purple.500}"
+        "$value": "{palette.purple.700}"
       },
       "tertiary": {
-        "$value": "{palette.purple.500}"
+        "$value": "{palette.purple.300}"
       },
       "light": {
         "$value": "{palette.neutral.900}"
       },
       "dark": {
         "$value": "{palette.neutral.100}"
+      },
+      "grey": {
+        "$value": "{palette.neutral.700}"
+      },
+      "grey-light": {
+        "$value": "{palette.neutral.800}"
+      },
+      "semantic": {
+        "error": {
+          "$value": "{palette.semantic.error}"
+        },
+        "warning": {
+          "$value": "{palette.semantic.warning}"
+        },
+        "success": {
+          "$value": "{palette.semantic.success}"
+        },
+        "info": {
+          "$value": "{palette.semantic.info}"
+        }
       }
     },
     "accent": {
@@ -38,6 +58,15 @@
       },
       "accent": {
         "$value": "{palette.purple.500}"
+      },
+      "light": {
+        "$value": "{palette.neutral.900}"
+      },
+      "dark": {
+        "$value": "{palette.neutral.100}"
+      },
+      "grey": {
+        "$value": "{palette.neutral.700}"
       },
       "semantic": {
         "error": {
@@ -63,6 +92,9 @@
       },
       "dark": {
         "$value": "{palette.neutral.100}"
+      },
+      "grey": {
+        "$value": "{palette.neutral.700}"
       },
       "link": {
         "default": {

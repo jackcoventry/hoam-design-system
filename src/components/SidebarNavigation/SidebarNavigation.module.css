@@ -1,14 +1,20 @@
-@import "@/media/_styles.css";
+@import "@/styles/_media.css";
+
+:root {
+  --hoam-sidebar-nav-color-link: var(--hoam-color-text-primary);
+  --hoam-sidebar-nav-color-link-interact: var(--hoam-color-text-secondary);
+  --hoam-sidebar-nav-color-item-border: var(--hoam-color-border-primary);
+}
 
 .link {
-  color: var(--hoam-color-text-link);
+  color: var(--hoam-sidebar-nav-color-link);
   font: var(--hoam-typography-body-1);
   text-decoration: none;
 }
 
 @media (--hoam-hoverable) {
   .link:hover {
-    color: var(--hoam-color-text-link-hover);
+    color: var(--hoam-sidebar-nav-color-link-interact);
     text-decoration: underline;
   }
 }
@@ -26,7 +32,7 @@
 }
 
 .topLevelItem {
-  border-bottom: var(--hoam-border-size-default) var(--hoam-color-border);
+  border-bottom: var(--hoam-border-size-default) var(--hoam-sidebar-nav-color-item-border);
   margin-bottom: var(--hoam-spacing-xl);
   padding-bottom: var(--hoam-spacing-xl);
 }

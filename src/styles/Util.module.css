@@ -1,6 +1,10 @@
+:root {
+  --hoam-focus-color-border: var(--hoam-color-border-primary);
+}
+
 .focus:focus-visible,
 .focus:focus-visible + .focusTarget {
-  outline: 3px solid var(--hoam-color-sun-700);
+  outline: 3px solid var(--hoam-focus-color-border);
   outline-offset: 6px;
 }
 

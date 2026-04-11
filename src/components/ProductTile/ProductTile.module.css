@@ -1,5 +1,10 @@
 @import "@/styles/_media.css";
 
+:root {
+  --hoam-product-tile-color-text-link: var(--hoam-color-text-primary);
+  --hoam-product-tile-color-price-previous: var(--hoam-color-text-semantic-error);
+}
+
 .root {
   display: grid;
   position: relative;
@@ -45,7 +50,7 @@
 }
 
 .link {
-  color: var(--hoam-color-text-link);
+  color: var(--hoam-product-tile-color-text-link);
   font: var(--hoam-typography-title-3);
   display: block;
   text-decoration: none;
@@ -70,7 +75,7 @@
 }
 
 .price[data-price-status="previous"] {
-  color: var(--hoam-color-semantic-error);
+  color: var(--hoam-product-tile-color-price-previous);
   font-style: italic;
   margin-left: var(--hoam-spacing-xs);
   text-decoration: line-through;

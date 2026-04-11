@@ -96,6 +96,46 @@
     "set": "fill"
   },
   {
+    "name": "hoam-color-fill-grey",
+    "cssVar": "--hoam-color-fill-grey",
+    "type": "color",
+    "value": "#b3b3b3",
+    "group": "fill",
+    "set": "fill"
+  },
+  {
+    "name": "hoam-color-fill-semantic-error",
+    "cssVar": "--hoam-color-fill-semantic-error",
+    "type": "color",
+    "value": "#ff4d4f",
+    "group": "fill",
+    "set": "semantic"
+  },
+  {
+    "name": "hoam-color-fill-semantic-warning",
+    "cssVar": "--hoam-color-fill-semantic-warning",
+    "type": "color",
+    "value": "#faad14",
+    "group": "fill",
+    "set": "semantic"
+  },
+  {
+    "name": "hoam-color-fill-semantic-success",
+    "cssVar": "--hoam-color-fill-semantic-success",
+    "type": "color",
+    "value": "#52c41a",
+    "group": "fill",
+    "set": "semantic"
+  },
+  {
+    "name": "hoam-color-fill-semantic-info",
+    "cssVar": "--hoam-color-fill-semantic-info",
+    "type": "color",
+    "value": "#1890ff",
+    "group": "fill",
+    "set": "semantic"
+  },
+  {
     "name": "hoam-color-accent-default",
     "cssVar": "--hoam-color-accent-default",
     "type": "color",
@@ -150,6 +190,30 @@
     "value": "#1890ff",
     "group": "border",
     "set": "semantic"
+  },
+  {
+    "name": "hoam-color-text-light",
+    "cssVar": "--hoam-color-text-light",
+    "type": "color",
+    "value": "#ffffff",
+    "group": "text",
+    "set": "text"
+  },
+  {
+    "name": "hoam-color-text-dark",
+    "cssVar": "--hoam-color-text-dark",
+    "type": "color",
+    "value": "#000000",
+    "group": "text",
+    "set": "text"
+  },
+  {
+    "name": "hoam-color-text-grey",
+    "cssVar": "--hoam-color-text-grey",
+    "type": "color",
+    "value": "#b3b3b3",
+    "group": "text",
+    "set": "text"
   },
   {
     "name": "hoam-color-text-link-default",

@@ -1,5 +1,6 @@
 :root {
-  --hoam-message-highlight: var(--hoam-color-neutral-500);
+  --hoam-message-color-border: var(--hoam-color-border-grey);
+  --hoam-message-color-title: var(--hoam-color-text-grey);
 }
 
 .root {
@@ -7,7 +8,7 @@
   border-style: solid;
   border-left-width: 8px;
   border-radius: var(--hoam-border-radius-default);
-  border-color: var(--hoam-message-highlight);
+  border-color: var(--hoam-message-color-border);
   padding: var(--hoam-spacing-md);
   display: grid;
   gap: var(--hoam-spacing-xs);
@@ -20,19 +21,19 @@
 }
 
 .root[data-status="info"] {
-  --hoam-message-highlight: var(--hoam-color-semantic-info);
+  --hoam-message-color-border: var(--hoam-color-border-semantic-info);
 }
 
 .root[data-status="error"] {
-  --hoam-message-highlight: var(--hoam-color-semantic-error);
+  --hoam-message-color-border: var(--hoam-color-border-semantic-error);
 }
 
 .root[data-status="success"] {
-  --hoam-message-highlight: var(--hoam-color-semantic-success);
+  --hoam-message-color-border: var(--hoam-color-border-semantic-success);
 }
 
 .root[data-status="warning"] {
-  --hoam-message-highlight: var(--hoam-color-semantic-warning);
+  --hoam-message-color-border: var(--hoam-color-border-semantic-warning);
 }
 
 .close {
@@ -55,6 +56,6 @@
 }
 
 .title {
-  color: var(--hoam-message-highlight);
+  color: var(--hoam-message-color-title);
   font: var(--hoam-typography-title-4);
 }

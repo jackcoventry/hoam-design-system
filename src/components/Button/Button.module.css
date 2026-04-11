@@ -7,10 +7,12 @@
   --hoam-button-content-gap: var(--hoam-spacing-xs);
   --hoam-button-min-height: 50px;
   --hoam-button-font: var(--hoam-typography-button-1);
+  --hoam-button-color-bg: var(--hoam-color-fill-dark);
+  --hoam-button-color-text: var(--hoam-color-text-light);
 }
 
 .root {
-  background-color: var(--hoam-button-color-fill);
+  background-color: var(--hoam-button-color-bg);
   border: none;
   border-radius: var(--hoam-button-border-radius);
   color: var(--hoam-button-color-text);
@@ -34,35 +36,30 @@
   --hoam-button-font: var(--hoam-typography-label-1);
 }
 
-.root[data-variant="primary"] {
-  --hoam-button-color-fill: var(--hoam-color-neutral-100);
-  --hoam-button-color-text: var(--hoam-color-neutral-900);
-}
-
 .root[data-variant="secondary"] {
-  --hoam-button-color-fill: var(--hoam-color-neutral-900);
-  --hoam-button-color-text: var(--hoam-color-neutral-100);
+  --hoam-button-color-bg: var(--hoam-color-fill-light);
+  --hoam-button-color-text: var(--hoam-color-text-dark);
 }
 
 .root[data-variant="tertiary"] {
-  --hoam-button-color-fill: var(--hoam-color-primary);
-  --hoam-button-color-text: var(--hoam-color-neutral-900);
+  --hoam-button-color-bg: var(--hoam-color-fill-primary);
+  --hoam-button-color-text: var(--hoam-color-text-light);
 }
 
 @media (--hoam-hoverable) {
   .root[data-variant="primary"]:not(:disabled):hover,
   .root[data-variant="secondary"]:not(:disabled):hover {
-    --hoam-button-color-fill: var(--hoam-color-sun-500);
-    --hoam-button-color-text: var(--hoam-color-neutral-900);
+    --hoam-button-color-bg: var(--hoam-color-fill-primary);
+    --hoam-button-color-text: var(--hoam-color-text-light);
   }
 
   .root[data-variant="tertiary"]:not(:disabled):hover {
-    --hoam-button-color-fill: var(--hoam-color-neutral-100);
+    --hoam-button-color-bg: var(--hoam-color-fill-dark);
   }
 }
 
 .root:disabled {
-  --hoam-button-color-fill: var(--hoam-color-neutral-700);
+  --hoam-button-color-bg: var(--hoam-color-fill-grey);
   cursor: not-allowed;
 }
 

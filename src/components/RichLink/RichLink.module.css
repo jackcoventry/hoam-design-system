@@ -1,5 +1,10 @@
 @import "@/styles/_media.css";
 
+:root {
+  --hoam-rich-link-color-overlay-bg: var(--hoam-color-fill-dark);
+  --hoam-rich-link-color-text: var(--hoam-color-text-light);
+}
+
 .root {
   aspect-ratio: 16/9;
   border-radius: var(--hoam-border-radius-default);
@@ -9,7 +14,7 @@
 }
 
 .root::after {
-  background-color: var(--hoam-color-neutral-100);
+  background-color: var(--hoam-rich-link-color-overlay-bg);
   content: "";
   display: block;
   height: 100%;
@@ -44,7 +49,7 @@
 
 .text {
   bottom: var(--hoam-spacing-md);
-  color: var(--hoam-color-neutral-900);
+  color: var(--hoam-rich-link-color-text);
   font: var(--hoam-typography-title-3);
   left: var(--hoam-spacing-md);
   position: absolute;

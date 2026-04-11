@@ -2,6 +2,9 @@
   --hoam-search-form-height: 50px;
   --hoam-search-form-spacing: var(--hoam-spacing-xl);
   --hoam-search-form-wrapper-height: calc(var(--hoam-search-form-height) * calc(var(--hoam-search-form-spacing) * 2));
+  --hoam-search-form-color-results-bg: var(--hoam-color-fill-grey-light);
+  --hoam-search-form-color-result-bg: var(--hoam-color-fill-light);
+  --hoam-search-form-color-wrapper-bg: var(--hoam-color-fill-primary);
 }
 
 .root {
@@ -24,7 +27,7 @@
 }
 
 .results {
-  background: var(--hoam-color-neutral-800);
+  background: var(--hoam-search-form-color-results-bg);
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
@@ -37,7 +40,7 @@
 }
 
 .wrapper {
-  background-color: var(--hoam-color-primary);
+  background-color: var(--hoam-search-form-color-wrapper-bg);
   gap: var(--hoam-search-form-spacing);
   height: var(--hoam-search-form-wrapper-height);
   padding: var(--hoam-search-form-spacing);
@@ -45,7 +48,7 @@
 }
 
 .result {
-  background-color: var(--hoam-color-neutral-900);
+  background-color: var(--hoam-search-form-color-result-bg);
   border-radius: var(--hoam-border-radius-default);
   display: flex;
   flex-direction: column;

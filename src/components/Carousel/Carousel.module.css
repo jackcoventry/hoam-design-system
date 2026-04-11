@@ -1,5 +1,12 @@
 @import "@/styles/_media.css";
 
+:root {
+  --hoam-carousel-color-text: var(--hoam-color-text-light);
+  --hoam-carousel-color-text-interact: var(--hoam-color-text-grey);
+  --hoam-carousel-color-bullet-bg: var(--hoam-color-fill-light);
+  --hoam-carousel-color-bullet-bg-interact: var(--hoam-color-fill-grey);
+}
+
 .root {
   --carousel-nav-size: 2.5rem;
 }
@@ -17,7 +24,7 @@
 
 .root :global(.swiper-button-prev),
 .root :global(.swiper-button-next) {
-  --swiper-navigation-color: var(--hoam-color-neutral-900);
+  --swiper-navigation-color: var(--hoam-carousel-color-text);
 
   block-size: var(--carousel-nav-size);
   inline-size: var(--carousel-nav-size);
@@ -26,17 +33,17 @@
 @media (--hoam-hoverable) {
   .root :global(.swiper-button-prev):hover,
   .root :global(.swiper-button-next):hover {
-    --swiper-navigation-color: var(--hoam-color-neutral-700);
+    --swiper-navigation-color: var(--hoam-carousel-color-text-interact);
 
     block-size: var(--carousel-nav-size);
     inline-size: var(--carousel-nav-size);
   }
 
   .root :global(.swiper-pagination-bullet-active):hover {
-    background-color: var(--hoam-color-neutral-700);
+    background-color: var(--hoam-carousel-color-bullet-bg-interact);
   }
 }
 
 .root :global(.swiper-pagination-bullet-active) {
-  background-color: var(--hoam-color-neutral-900);
+  background-color: var(--hoam-carousel-color-bullet-bg);
 }

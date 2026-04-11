@@ -1,5 +1,13 @@
 @import "@/styles/_media.css";
 
+:root {
+  --hoam-checkbox-color-bg: var(--hoam-color-fill-light);
+  --hoam-checkbox-color-border: var(--hoam-color-fill-grey);
+  --hoam-checkbox-color-icon: var(--hoam-color-fill-light);
+  --hoam-checkbox-color-box-bg-checked: var(--hoam-color-fill-semantic-success);
+  --hoam-checkbox-color-box-bg-indeterminate: var(--hoam-color-fill-grey);
+}
+
 .wrapper {
   --checkbox-box-size: 20px;
 
@@ -38,8 +46,8 @@
 
 .box {
   align-items: center;
-  background: var(--hoam-color-neutral-900);
-  border: var(--hoam-border-size-default) var(--hoam-color-neutral-700);
+  background: var(--hoam-checkbox-color-bg);
+  border: var(--hoam-border-size-default) var(--hoam-checkbox-color-border);
   display: inline-flex;
   height: var(--checkbox-box-size);
   justify-content: center;
@@ -48,17 +56,17 @@
 }
 
 .icon {
-  color: var(--hoam-color-neutral-900);
+  color: var(--hoam-checkbox-color-icon);
   opacity: 0;
   transform: scale(0);
 }
 
 .input:checked + .box {
-  background: var(--hoam-color-semantic-success);
+  background: var(--hoam-checkbox-color-box-bg-checked);
 }
 
 .input:indeterminate + .box {
-  background: var(--hoam-color-neutral-700);
+  background: var(--hoam-checkbox-color-box-bg-indeterminate);
 }
 
 .input:checked + .box .icon,

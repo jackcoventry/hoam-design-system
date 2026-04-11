@@ -1,7 +1,13 @@
 @import "@/styles/_media.css";
 
+:root {
+  --hoam-newsletter-color-bg: var(--hoam-color-fill-secondary);
+  --hoam-newsletter-color-social-link-text: var(--hoam-color-text-primary);
+  --hoam-newsletter-color-social-link-text-interact: var(--hoam-color-text-secondary);
+}
+
 .root {
-  background-color: var(--hoam-color-secondary);
+  background-color: var(--hoam-newsletter-color-bg);
   padding: var(--hoam-spacing-3xl) var(--hoam-spacing-xs);
 }
 
@@ -26,14 +32,14 @@
 
   a:link,
   a:visited {
-    color: var(--hoam-color-text-link);
+    color: var(--hoam-newsletter-color-social-link-text);
   }
 
   @media (--hoam-hoverable) {
     a:active,
     a:focus,
     a:hover {
-      color: var(--hoam-color-text-link-hover);
+      color: var(--hoam-newsletter-color-social-link-text-interact);
     }
   }
 }

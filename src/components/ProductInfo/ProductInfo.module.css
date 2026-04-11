@@ -1,3 +1,7 @@
+:root {
+  --hoam-product-info-color-previous: var(--hoam-color-text-grey);
+}
+
 .button {
   display: inline;
 }
@@ -23,7 +27,7 @@
 }
 
 .pricePrevious {
-  color: var(--hoam-color-neutral-500);
+  color: var(--hoam-product-info-color-previous);
   font: var(--hoam-typography-title-4);
   text-decoration: line-through;
 }
