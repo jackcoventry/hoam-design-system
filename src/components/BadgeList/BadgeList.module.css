@@ -1,5 +1,4 @@
 :root {
-  --hoam-badge-list-color-item-bg: var(--hoam-color-fill-light);
   --hoam-badge-list-color-item-border: var(--hoam-color-border-default);
 }
 
@@ -10,7 +9,7 @@
 }
 
 .item {
-  background-color: var(--hoam-badge-list-color-item-bg);
+  background-color: var(--hoam-color-surface-inverse);
   border-radius: var(--hoam-border-radius-default);
   border: var(--hoam-border-size-default) var(--hoam-badge-list-color-item-border);
   display: inline-flex;
@@ -20,9 +19,9 @@
 }
 
 .item[data-variant="alert"] {
-  --hoam-badge-list-color-item-border: var(--hoam-color-border-semantic-warning);
+  --hoam-badge-list-color-item-border: var(--hoam-color-feedback-warning);
 }
 
 .item[data-variant="highlight"] {
-  --hoam-badge-list-color-item-border: var(--hoam-color-border-semantic-success);
+  --hoam-badge-list-color-item-border: var(--hoam-color-feedback-success);
 }

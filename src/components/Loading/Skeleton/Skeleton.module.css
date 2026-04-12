@@ -1,7 +1,7 @@
 @import "@/styles/_media.css";
 
 .root {
-  --skeleton-base: rgba(0, 0, 0, 0.08);
+  --skeleton-base: rgba(0, 0, 0, 0.08); /* TODO: Tokenize */
   --skeleton-highlight: rgba(0, 0, 0, 0.02);
 
   animation: skeleton-shimmer 2s ease infinite;

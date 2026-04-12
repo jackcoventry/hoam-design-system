@@ -1,12 +1,5 @@
 @import "@/styles/_media.css";
 
-:root {
-  --hoam-radio-color-outer-bg: var(--hoam-color-fill-light);
-  --hoam-radio-color-outer-bg-checked: var(--hoam-color-fill-semantic-success);
-  --hoam-radio-color-outer-border: var(--hoam-color-border-grey);
-  --hoam-radio-color-inner-bg: var(--hoam-color-fill-semantic-success);
-}
-
 .wrapper {
   --hoam-radio-size: 20px;
   --hoam-radio-dot-size: 10px;
@@ -45,8 +38,8 @@
 }
 
 .outer {
-  background: var(--hoam-radio-color-outer-bg);
-  border: var(--hoam-border-size-default) var(--hoam-radio-color-outer-border);
+  background: var(--hoam-color-surface-inverse);
+  border: var(--hoam-border-size-default) var(--hoam-color-border-default);
   border-radius: var(--hoam-border-radius-full);
   display: inline-grid;
   height: var(--hoam-radio-size);
@@ -56,7 +49,7 @@
 }
 
 .inner {
-  background: var(--hoam-radio-color-inner-bg);
+  background: var(--hoam-color-accent-strong);
   border-radius: var(--hoam-border-radius-full);
   height: var(--hoam-radio-dot-size);
   opacity: 0;
@@ -66,7 +59,7 @@
 }
 
 .input:checked + .outer {
-  border-color: var(--hoam-radio-color-outer-bg-checked);
+  border-color: var(--hoam-color-accent-strong);
 }
 
 .input:checked + .outer .inner {

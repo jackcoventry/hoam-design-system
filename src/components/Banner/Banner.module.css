@@ -1,7 +1,7 @@
 @import "@/styles/_media.css";
 
 :root {
-  --hoam-banner-color-bg: var(--hoam-color-fill-secondary);
+  --hoam-banner-color-bg: var(--hoam-color-surface-accent);
 }
 
 .root {
@@ -10,11 +10,11 @@
 }
 
 .root[data-theme="pink"] {
-  --hoam-banner-color-bg: var(--hoam-color-fill-primary);
+  --hoam-banner-color-bg: var(--hoam-color-surface-accent-strong);
 }
 
 .root[data-theme="sky"] {
-  --hoam-banner-color-bg: var(--hoam-color-fill-tertiary);
+  --hoam-banner-color-bg: var(--hoam-color-surface-accent-soft);
 }
 
 .textContent {

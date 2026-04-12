@@ -1,11 +1,5 @@
 @import "@/styles/_media.css";
 
-:root {
-  --hoam-modal-color-dialog-bg: var(--hoam-color-fill-light);
-  --hoam-modal-color-header-border: var(--hoam-color-border-primary);
-  --hoam-modal-color-body-border: var(--hoam-color-border-primary);
-}
-
 .root {
   background: rgba(0, 0, 0, 0.3);
   box-sizing: border-box;
@@ -39,7 +33,7 @@
 }
 
 .dialog {
-  background: var(--hoam-modal-color-dialog-bg);
+  background: var(--hoam-color-surface-inverse);
   box-shadow: var(--hoam-shadow-large);
   box-sizing: border-box;
   display: flex;
@@ -143,7 +137,7 @@
 }
 
 .header:has(+ .body:not(:empty)) {
-  border-bottom: var(--hoam-border-size-default) var(--hoam-modal-color-header-border);
+  border-bottom: var(--hoam-border-size-default) var(--hoam-color-border-accent);
 }
 
 .body {
@@ -154,7 +148,7 @@
 }
 
 .body:has(+ .footer:not(:empty)) {
-  border-bottom: var(--hoam-border-size-default) var(--hoam-modal-color-body-border);
+  border-bottom: var(--hoam-border-size-default) var(--hoam-color-border-accent);
 }
 
 .header[data-padded="true"],

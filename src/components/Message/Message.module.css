@@ -1,6 +1,5 @@
 :root {
-  --hoam-message-color-border: var(--hoam-color-border-grey);
-  --hoam-message-color-title: var(--hoam-color-text-grey);
+  --hoam-message-color-border: var(--hoam-color-border-default);
 }
 
 .root {
@@ -21,19 +20,19 @@
 }
 
 .root[data-status="info"] {
-  --hoam-message-color-border: var(--hoam-color-border-semantic-info);
+  --hoam-message-color-border: var(--hoam-color-feedback-info);
 }
 
 .root[data-status="error"] {
-  --hoam-message-color-border: var(--hoam-color-border-semantic-error);
+  --hoam-message-color-border: var(--hoam-color-feedback-error);
 }
 
 .root[data-status="success"] {
-  --hoam-message-color-border: var(--hoam-color-border-semantic-success);
+  --hoam-message-color-border: var(--hoam-color-feedback-success);
 }
 
 .root[data-status="warning"] {
-  --hoam-message-color-border: var(--hoam-color-border-semantic-warning);
+  --hoam-message-color-border: var(--hoam-color-feedback-warning);
 }
 
 .close {
@@ -56,6 +55,6 @@
 }
 
 .title {
-  color: var(--hoam-message-color-title);
+  color: var(--hoam-color-text-default);
   font: var(--hoam-typography-title-4);
 }

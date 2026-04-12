@@ -2,7 +2,6 @@
 
 :root {
   --hoam-spinner-size: 48px;
-  --hoam-spinner-color-border: var(--hoam-color-border-primary);
 }
 
 .root {
@@ -22,7 +21,7 @@
 .spinner::before {
   animation: loadingClip 2s linear infinite;
   border-radius: 50%;
-  border: var(--hoam-border-size-large) var(--hoam-spinner-color-border);
+  border: var(--hoam-border-size-large) var(--hoam-color-surface-accent);
   box-sizing: border-box;
   content: "";
   inset: 0px;

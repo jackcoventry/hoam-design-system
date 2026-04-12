@@ -2,9 +2,6 @@
 
 :root {
   --hoam-navigation-bar-height: 80px;
-  --hoam-navigation-color-mobile-menu-bg: var(--hoam-color-fill-light);
-  --hoam-navigation-color-mobile-menu-link: var(--hoam-color-text-dark);
-  --hoam-navigation-color-mobile-menu-panel-bg: var(--hoam-color-fill-light);
 }
 
 .root {
@@ -25,7 +22,7 @@
 }
 
 .mobileMenu {
-  background-color: var(--hoam-navigation-color-mobile-menu-bg);
+  background-color: var(--hoam-color-surface-inverse);
   display: none;
   height: calc(100dvh - var(--hoam-navigation-bar-height));
   overflow-y: auto;
@@ -56,7 +53,7 @@
   align-items: center;
   background: none;
   border: none;
-  color: var(--hoam-navigation-color-mobile-menu-link);
+  color: var(--hoam-color-text-default);
   cursor: pointer;
   display: flex;
   gap: var(--hoam-spacing-2xs);
@@ -94,7 +91,7 @@
 }
 
 .panel {
-  background-color: var(--hoam-navigation-color-mobile-menu-panel-bg);
+  background-color: var(--hoam-color-surface-inverse);
   list-style: none;
   margin: 0;
   padding: 0;

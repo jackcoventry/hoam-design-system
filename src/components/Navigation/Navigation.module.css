@@ -2,17 +2,10 @@
 
 :root {
   --hoam-navigation-height: 420px;
-  --hoam-navigation-color-link-text: var(--hoam-color-text-light);
-  --hoam-navigation-color-link-text-interact: var(--hoam-color-text-primary);
-  --hoam-navigation-color-bg: var(--hoam-color-fill-dark);
-  --hoam-navigation-color-panel-bg: var(--hoam-color-fill-grey-light);
-  --hoam-navigation-color-panel-sub-bg: var(--hoam-color-fill-light);
-  --hoam-navigation-color-group-text-link: var(--hoam-color-text-primary);
-  --hoam-navigation-color-group-text-link-interact: var(--hoam-color-text-light);
 }
 
 .root {
-  background-color: var(--hoam-navigation-color-bg);
+  background-color: var(--hoam-color-surface-default);
   display: none;
   height: var(--hoam-navigation-bar-height);
   position: relative;
@@ -35,7 +28,7 @@
   align-items: center;
   background: none;
   border: none;
-  color: var(--hoam-navigation-color-link-text);
+  color: var(--hoam-color-text-inverse);
   cursor: pointer;
   display: inline-flex;
   font: var(--hoam-typography-button-1);
@@ -46,12 +39,12 @@
 
 @media (--hoam-hoverable) {
   .link:hover {
-    color: var(--hoam-navigation-color-link-text-interact);
+    color: var(--hoam-color-link-hover);
   }
 }
 
 .link:focus {
-  color: var(--hoam-navigation-color-link-text-interact);
+  color: var(--hoam-color-link-hover);
 }
 
 .list {
@@ -68,7 +61,7 @@
 
 .logo {
   align-items: center;
-  color: var(--hoam-navigation-color-link-text);
+  color: var(--hoam-color-text-default);
   display: inline-flex;
   font: var(--hoam-typography-title-1);
   font-size: 2rem;
@@ -77,7 +70,7 @@
 }
 
 .panel {
-  background-color: var(--hoam-navigation-color-panel-bg);
+  background-color: var(--hoam-color-surface-soft);
   box-shadow: var(--hoam-shadow-small), var(--hoam-shadow-medium);
   height: var(--hoam-navigation-height);
   left: 0;
@@ -96,7 +89,7 @@
 }
 
 .panelSubLevel {
-  background-color: var(--hoam-navigation-color-panel-sub-bg);
+  background-color: var(--hoam-color-surface-inverse);
   height: var(--hoam-navigation-height);
   left: 100%;
   overflow: auto;
@@ -120,7 +113,7 @@
   background: none;
   background-color: none;
   border: none;
-  color: var(--hoam-navigation-color-group-text-link);
+  color: var(--hoam-color-link-default);
   cursor: pointer;
   display: flex;
   font: var(--hoam-typography-body-1);
@@ -132,12 +125,12 @@
 
 @media (--hoam-hoverable) {
   .groupTopLink:hover {
-    background-color: var(--hoam-navigation-color-group-text-link-interact);
+    background-color: var(--hoam-color-link-hover);
   }
 }
 
 .groupTopLink:focus-visible {
-  background-color: var(--hoam-navigation-color-group-text-link-interact);
+  background-color: var(--hoam-color-link-hover);
 }
 
 .panelSubLevel[data-layout="list"] .panelGroup {
@@ -174,7 +167,7 @@
 }
 
 .panelGroupSection a[data-sub-link] {
-  color: var(--hoam-navigation-color-group-text-link);
+  color: var(--hoam-color-text-default);
   font: var(--hoam-typography-label-1);
   text-decoration: none;
 }
@@ -186,7 +179,7 @@
 
 @media (--hoam-hoverable) {
   .panelGroupSection a[data-sub-link]:hover {
-    color: var(--hoam-navigation-color-group-text-link-interact);
+    color: var(--hoam-color-text-hover);
     text-decoration: underline;
   }
 }

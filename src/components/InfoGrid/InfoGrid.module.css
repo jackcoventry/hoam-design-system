@@ -1,9 +1,5 @@
-:root {
-  --hoam-info-grid-color-bg: var(--hoam-color-fill-primary);
-}
-
 .root {
-  background-color: var(--hoam-info-grid-color-bg);
+  background-color: var(--hoam-color-surface-accent);
 }
 
 .content {

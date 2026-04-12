@@ -1,11 +1,7 @@
-:root {
-  --hoam-promo-color-text: var(--hoam-color-text-light);
-}
-
 .root {
   background-position: center;
   background-size: cover;
-  color: var(--hoam-promo-color-text);
+  color: var(--hoam-color-text-inverse);
   display: block;
   height: 100%;
   padding: var(--hoam-spacing-md);

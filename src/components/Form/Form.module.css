@@ -1,11 +1,5 @@
-:root {
-  --hoam-form-color-bg: var(--hoam-color-fill-light);
-  --hoam-form-color-field-border: var(--hoam-color-border-accent);
-  --hoam-form-color-field-border-error: var(--hoam-color-border-semantic-error);
-}
-
 .root {
-  background-color: var(--hoam-form-color-bg);
+  background-color: var(--hoam-color-surface-inverse);
   border-radius: var(--hoam-border-radius-default);
   display: grid;
   gap: var(--hoam-spacing-md);
@@ -19,8 +13,8 @@
 }
 
 .submit {
-  margin-top: auto;
   justify-content: center;
+  margin-top: auto;
 }
 
 .title {
@@ -36,5 +30,5 @@
 }
 
 .textField[data-valid="false"] {
-  border: var(--hoam-border-size-default) var(--hoam-form-color-field-border-error);
+  --hoam-form-color-field-border: var(--hoam-color-feedback-error);
 }

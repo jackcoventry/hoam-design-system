@@ -1,8 +1,7 @@
 @import "@/styles/_media.css";
 
 .root {
-  --hoam-progress-track-color-bg: var(--hoam-color-fill-light);
-  --hoam-progress-fill-color-bg: var(--hoam-color-fill-semantic-success);
+  --hoam-progress-fill-color-bg: var(--hoam-color-feedback-success);
   --hoam-progress-border-radius: var(--hoam-border-radius-default);
 
   display: grid;
@@ -26,7 +25,7 @@
 
 .progress,
 .progressTrack {
-  background-color: var(--hoam-progress-track-color-bg);
+  background-color: var(--hoam-color-surface-inverse);
   border-radius: var(--hoam-progress-border-radius);
   height: 8px;
   overflow: hidden;

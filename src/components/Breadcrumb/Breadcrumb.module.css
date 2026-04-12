@@ -1,10 +1,5 @@
 @import "@/styles/_media.css";
 
-:root {
-  --hoam-breadcrumb-color-item: var(--hoam-color-text-link);
-  --hoam-breadcrumb-color-item-hover: var(--hoam-color-text-link-hover);
-}
-
 .root {
   font: var(--hoam-typography-label-1);
   padding: var(--hoam-spacing-2xs) 0;
@@ -25,12 +20,12 @@
 
 a.item:link,
 a.item:visited {
-  color: var(--hoam-breadcrumb-color-item);
+  color: var(--hoam-color-link-default);
 }
 
 @media (--hoam-hoverable) {
   a.item:hover {
-    color: var(--hoam-breadcrumb-color-item-hover);
+    color: var(--hoam-color-link-hover);
     text-decoration: none;
   }
 }

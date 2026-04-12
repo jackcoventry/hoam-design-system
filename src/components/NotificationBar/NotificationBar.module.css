@@ -2,12 +2,10 @@
 
 :root {
   --hoam-notification-bar-height: 45px;
-  --hoam-notification-bar-color-bg: var(--hoam-color-fill-light);
-  --hoam-notification-bar-color-text-link: var(--hoam-color-text-primary);
 }
 
 .root {
-  background-color: var(--hoam-notification-bar-color-bg);
+  background-color: var(--hoam-color-surface-inverse);
   font: var(--hoam-typography-label-1);
   height: var(--hoam-notification-bar-height);
   padding: var(--hoam-spacing-sm);
@@ -17,7 +15,7 @@
 
 .root a:link,
 .root a:visited {
-  color: var(--hoam-notification-bar-color-text-link);
+  color: var(--hoam-color-link-default);
   text-decoration: none;
 }
 

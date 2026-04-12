@@ -1,20 +1,12 @@
 @import "@/styles/_media.css";
 
-:root {
-  --hoam-footer-color-bg: var(--hoam-color-fill-light);
-  --hoam-footer-color-link: var(--hoam-color-text-link-default);
-  --hoam-footer-color-link-hover: var(--hoam-color-text-link-hover);
-  --hoam-footer-color-seperator: var(--hoam-color-border-accent);
-  --hoam-footer-color-logo: var(--hoam-color-text-dark);
-}
-
 .root {
-  background-color: var(--hoam-footer-color-bg);
+  background-color: var(--hoam-color-surface-inverse);
   padding: var(--hoam-spacing-3xl) 0;
 
   a:link,
   a:visited {
-    color: var(--hoam-footer-color-link);
+    color: var(--hoam-color-link-default);
     text-decoration: none;
   }
 
@@ -22,7 +14,7 @@
     a:active,
     a:focus,
     a:hover {
-      color: var(--hoam-footer-color-link-hover);
+      color: var(--hoam-color-link-hover);
       text-decoration: underline;
     }
   }
@@ -55,14 +47,14 @@
 }
 
 .separator {
-  border-top: var(--hoam-border-size-default) var(--hoam-footer-color-seperator);
+  border-top: var(--hoam-border-size-default) var(--hoam-color-border-accent);
   margin-top: var(--hoam-spacing-3xl);
   padding-top: var(--hoam-spacing-xl);
 }
 
 .logo {
   align-items: center;
-  color: var(--hoam-footer-color-logo);
+  color: var(--hoam-color-text-default);
   display: inline-flex;
   font: var(--hoam-typography-title-1);
   font-size: 2rem;

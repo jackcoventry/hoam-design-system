@@ -1,8 +1,8 @@
 @import "@/styles/_media.css";
 
 :root {
-  --hoam-hero-slide-color-bg: var(--hoam-color-fill-dark);
-  --hoam-hero-slide-color-text: var(--hoam-color-text-light);
+  --hoam-hero-slide-color-bg: var(--hoam-color-surface-default);
+  --hoam-hero-slide-color-text: var(--hoam-color-text-inverse);
 }
 
 .root {
@@ -18,13 +18,13 @@
 }
 
 .root[data-theme="pink"] {
-  --hoam-hero-slide-color-bg: var(--hoam-color-fill-primary);
-  --hoam-hero-slide-color-text: var(--hoam-color-text-light);
+  --hoam-hero-slide-color-bg: var(--hoam-color-surface-accent-strong);
+  --hoam-hero-slide-color-text: var(--hoam-color-text-inverse);
 }
 
 .root[data-theme="sky"] {
-  --hoam-hero-slide-color-bg: var(--hoam-color-fill-secondary);
-  --hoam-hero-slide-color-text: var(--hoam-color-text-light);
+  --hoam-hero-slide-color-bg: var(--hoam-color-surface-accent-soft);
+  --hoam-hero-slide-color-text: var(--hoam-color-text-inverse);
 }
 
 .media {

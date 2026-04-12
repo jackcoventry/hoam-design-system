@@ -3,15 +3,6 @@
 :root {
   --hoam-blog-article-image-offset: 100px;
   --hoam-blog-article-author-avatar-size: 20px;
-  --hoam-blog-article-color-author-link: var(--hoam-color-text-link-default);
-  --hoam-blog-article-color-author-link-hover: var(--hoam-color-text-link-hover);
-  --hoam-blog-article-color-header-bg: var(--hoam-color-fill-light);
-  --hoam-blog-article-color-social-link: var(--hoam-color-text-dark);
-  --hoam-blog-article-color-social-link-hover: var(--hoam-color-text-link-hover);
-  --hoam-blog-article-color-tag-border: var(--hoam-color-border-accent);
-  --hoam-blog-article-color-tag-text: var(--hoam-color-text-link-default);
-  --hoam-blog-article-color-tag-hover: var(--hoam-color-fill-primary);
-  --hoam-blog-article-color-footer-bg: var(--hoam-color-fill-secondary);
 }
 
 .author {
@@ -20,7 +11,7 @@
 }
 
 .authorLink {
-  color: var(--hoam-blog-article-color-author-link);
+  color: var(--hoam-color-link-default);
   display: flex;
   gap: var(--hoam-spacing-xs);
   text-decoration: none;
@@ -28,7 +19,7 @@
 
 @media (--hoam-hoverable) {
   .authorLink:hover {
-    color: var(--hoam-blog-article-color-author-link-hover);
+    color: var(--hoam-color-link-hover);
     text-decoration: underline;
   }
 }
@@ -41,7 +32,7 @@
 }
 
 .headerWrapper {
-  background-color: var(--hoam-blog-article-color-header-bg);
+  background-color: var(--hoam-color-surface-inverse);
   padding-top: var(--hoam-spacing-3xl);
   padding-bottom: calc(var(--hoam-spacing-3xl) + var(--hoam-blog-article-image-offset));
 }
@@ -82,12 +73,12 @@
 }
 
 .socialLinks a {
-  color: var(--hoam-blog-article-color-social-link);
+  color: var(--hoam-color-link-default);
 }
 
 @media (--hoam-hoverable) {
   .socialLinks a:hover {
-    color: var(--hoam-blog-article-color-social-link-hover);
+    color: var(--hoam-color-link-hover);
   }
 }
 
@@ -103,9 +94,9 @@
 }
 
 .tag {
-  border: var(--hoam-border-size-default) var(--hoam-blog-article-color-tag-border);
+  border: var(--hoam-border-size-default) var(--hoam-color-border-accent);
   border-radius: var(--hoam-border-radius-default);
-  color: var(--hoam-blog-article-color-tag-text);
+  color: var(--hoam-color-link-default);
   font: var(--hoam-typography-label-1);
   padding: var(--hoam-spacing-2xs) var(--hoam-spacing-xs);
   text-decoration: none;
@@ -113,7 +104,7 @@
 
 @media (--hoam-hoverable) {
   .tag:hover {
-    background-color: var(--hoam-blog-article-color-tag-hover);
+    background-color: var(--hoam-color-link-hover);
   }
 }
 
@@ -147,5 +138,5 @@
 }
 
 .footer {
-  background-color: var(--hoam-blog-article-color-footer-bg);
+  background-color: var(--hoam-color-surface-accent);
 }

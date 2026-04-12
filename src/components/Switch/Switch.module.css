@@ -6,10 +6,7 @@
   --hoam-switch-thumb-size: 20px;
   --hoam-switch-thumb-offset: 5px;
 
-  --hoam-switch-color-bg-off: var(--hoam-color-fill-grey);
-  --hoam-switch-color-bg-on: var(--hoam-color-fill-primary);
-  --hoam-switch-color-thumb-bg: var(--hoam-color-fill-light);
-
+  /* This border radius is unique to this component */
   --hoam-switch-border-radius: 30px;
 
   --hoam-switch-opacity-disabled: 0.6;
@@ -49,7 +46,7 @@
   align-items: center;
   width: var(--hoam-switch-track-width);
   height: var(--hoam-switch-track-height);
-  background: var(--hoam-switch-color-bg-off);
+  background: var(--hoam-color-surface-soft);
   border-radius: var(--hoam-switch-border-radius);
   transition:
     background-color var(--hoam-switch-transition-duration) var(--hoam-switch-transition-easing),
@@ -61,13 +58,13 @@
   left: var(--hoam-switch-thumb-offset);
   width: var(--hoam-switch-thumb-size);
   height: var(--hoam-switch-thumb-size);
-  background: var(--hoam-switch-color-thumb-bg);
+  background: var(--hoam-color-surface-inverse);
   border-radius: var(--hoam-border-radius-full);
   transition: transform var(--hoam-switch-transition-duration) var(--hoam-switch-transition-easing);
 }
 
 .input:checked + .track {
-  background: var(--hoam-switch-color-bg-on);
+  background: var(--hoam-color-surface-accent);
 }
 
 .input:checked + .track .thumb {

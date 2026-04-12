@@ -1,9 +1,5 @@
-:root {
-  --hoam-recommendend-color-bg: var(--hoam-color-fill-secondary);
-}
-
 .root {
-  background-color: var(--hoam-recommendend-color-bg);
+  background-color: var(--hoam-color-surface-accent-soft);
   border-radius: var(--hoam-border-radius-default);
   padding: var(--hoam-spacing-md);
 }

@@ -4,12 +4,10 @@
   --hoam-logo-carousel-duration: 100s;
   --hoam-logo-carousel-gap: 3rem;
   --hoam-logo-height: clamp(100px, 10vw, 200px);
-  --hoam-logo-carousel-color-bg: var(--hoam-color-fill-dark);
-  --hoam-logo-carousel-color-title: var(--hoam-color-text-light);
 }
 
 .root {
-  background-color: var(--hoam-logo-carousel-color-bg);
+  background-color: var(--hoam-color-surface-default);
   overflow: hidden;
   position: relative;
   width: 100%;
@@ -26,7 +24,7 @@
 }
 
 .title {
-  color: var(--hoam-logo-carousel-color-title);
+  color: var(--hoam-color-text-inverse);
   font: var(--hoam-typography-title-2);
 }
 

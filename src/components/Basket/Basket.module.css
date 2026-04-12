@@ -1,10 +1,5 @@
 @import "@/styles/_media.css";
 
-:root {
-  --hoam-basket-color-row-bg: var(--hoam-color-fill-light);
-  --hoam-basket-color-text-link: var(--hoam-color-text-link-default);
-}
-
 .root {
   container-type: inline-size;
   display: grid;
@@ -18,7 +13,7 @@
 }
 
 .row {
-  background-color: var(--hoam-basket-color-row-bg);
+  background-color: var(--hoam-color-surface-inverse);
   border-radius: var(--hoam-border-radius-default);
   gap: var(--hoam-spacing-xl);
   grid-template-columns: 120px minmax(0, 1fr);
@@ -89,7 +84,7 @@
 }
 
 .link {
-  color: var(--hoam-basket-color-text-link);
+  color: var(--hoam-color-link-default);
   text-decoration: none;
 }
 

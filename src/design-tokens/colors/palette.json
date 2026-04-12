@@ -51,8 +51,7 @@
         "$value": "#404040"
       },
       "500": {
-        "$value": "#666666",
-        "$description": "Base colour"
+        "$value": "#666666"
       },
       "600": {
         "$value": "#8C8C8C"
