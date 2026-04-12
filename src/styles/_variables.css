@@ -10,22 +10,22 @@
   --hoam-breakpoints-md: 976px;
   --hoam-breakpoints-lg: 1200px;
   --hoam-breakpoints-xl: 1600px;
-  --hoam-color-accent-default: #a855f7;
-  --hoam-color-accent-soft: #cb99fa;
-  --hoam-color-accent-strong: #6609be;
+  --hoam-color-accent-soft: #cb99fa; /** A softer version of the accent color */
+  --hoam-color-accent-default: #a855f7; /** The default accent colour for this theme */
+  --hoam-color-accent-strong: #6609be; /** A stronger version of the accent color */
   --hoam-color-text-default: #000000;
-  --hoam-color-text-soft: #f9f9f9;
+  --hoam-color-text-soft: #b3b3b3;
   --hoam-color-text-inverse: #ffffff;
   --hoam-color-link-default: #a855f7;
   --hoam-color-link-hover: #6609be;
   --hoam-color-surface-default: #000000;
+  --hoam-color-surface-muted: #666666;
   --hoam-color-surface-soft: #f9f9f9;
   --hoam-color-surface-inverse: #ffffff;
-  --hoam-color-surface-accent: #cb99fa;
-  --hoam-color-surface-accent-strong: #6609be;
+  --hoam-color-surface-accent: #a855f7;
   --hoam-color-surface-accent-soft: #cb99fa;
-  --hoam-color-border-default: #b3b3b3;
   --hoam-color-border-soft: #f9f9f9;
+  --hoam-color-border-default: #b3b3b3;
   --hoam-color-border-strong: #666666;
   --hoam-color-border-accent: #a855f7;
   --hoam-color-feedback-error: #ff4d4f;

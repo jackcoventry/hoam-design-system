@@ -1,20 +1,8 @@
 @import "@/styles/_media.css";
 
-:root {
-  --hoam-banner-color-bg: var(--hoam-color-surface-accent);
-}
-
 .root {
-  background-color: var(--hoam-banner-color-bg);
+  background-color: var(--hoam-color-surface-accent-soft);
   border-radius: var(--hoam-border-radius-default);
-}
-
-.root[data-theme="pink"] {
-  --hoam-banner-color-bg: var(--hoam-color-surface-accent-strong);
-}
-
-.root[data-theme="sky"] {
-  --hoam-banner-color-bg: var(--hoam-color-surface-accent-soft);
 }
 
 .textContent {

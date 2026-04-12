@@ -46,7 +46,7 @@
   align-items: center;
   width: var(--hoam-switch-track-width);
   height: var(--hoam-switch-track-height);
-  background: var(--hoam-color-surface-soft);
+  background: var(--hoam-color-surface-muted);
   border-radius: var(--hoam-switch-border-radius);
   transition:
     background-color var(--hoam-switch-transition-duration) var(--hoam-switch-transition-easing),

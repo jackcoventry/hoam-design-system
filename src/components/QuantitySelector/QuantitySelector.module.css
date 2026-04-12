@@ -42,7 +42,7 @@
 
 @media (--hoam-hoverable) {
   .button:not(:disabled):hover {
-    background-color: var(--hoam-color-surface-accent);
+    background-color: var(--hoam-color-surface-accent-soft);
     cursor: pointer;
   }
 }
@@ -57,6 +57,6 @@
 }
 
 .button[data-position="right"] {
-  background-color: var(--hoam-color-surface-accent-strong);
+  background-color: var(--hoam-color-surface-accent);
   color: var(--hoam-color-text-inverse);
 }

@@ -1,12 +1,9 @@
-:root {
-  --hoam-document-color-bg: var(--hoam-color-fill-grey-light);
-}
-
 body {
   font: var(--hoam-typography-body-1);
 }
 
 html,
 body {
-  background-color: var(--hoam-document-color-bg);
+  background-color: var(--hoam-color-surface-soft);
+  color: var(--hoam-color-text-default);
 }

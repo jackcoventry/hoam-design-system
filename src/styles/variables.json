@@ -56,18 +56,18 @@
     "set": "breakpoints"
   },
   {
-    "name": "hoam-color-accent-default",
-    "cssVar": "--hoam-color-accent-default",
-    "type": "color",
-    "value": "#a855f7",
-    "group": "accent",
-    "set": "accent"
-  },
-  {
     "name": "hoam-color-accent-soft",
     "cssVar": "--hoam-color-accent-soft",
     "type": "color",
     "value": "#cb99fa",
+    "group": "accent",
+    "set": "accent"
+  },
+  {
+    "name": "hoam-color-accent-default",
+    "cssVar": "--hoam-color-accent-default",
+    "type": "color",
+    "value": "#a855f7",
     "group": "accent",
     "set": "accent"
   },
@@ -91,7 +91,7 @@
     "name": "hoam-color-text-soft",
     "cssVar": "--hoam-color-text-soft",
     "type": "color",
-    "value": "#f9f9f9",
+    "value": "#b3b3b3",
     "group": "text",
     "set": "text"
   },
@@ -128,6 +128,14 @@
     "set": "surface"
   },
   {
+    "name": "hoam-color-surface-muted",
+    "cssVar": "--hoam-color-surface-muted",
+    "type": "color",
+    "value": "#666666",
+    "group": "surface",
+    "set": "surface"
+  },
+  {
     "name": "hoam-color-surface-soft",
     "cssVar": "--hoam-color-surface-soft",
     "type": "color",
@@ -147,15 +155,7 @@
     "name": "hoam-color-surface-accent",
     "cssVar": "--hoam-color-surface-accent",
     "type": "color",
-    "value": "#cb99fa",
-    "group": "surface",
-    "set": "surface"
-  },
-  {
-    "name": "hoam-color-surface-accent-strong",
-    "cssVar": "--hoam-color-surface-accent-strong",
-    "type": "color",
-    "value": "#6609be",
+    "value": "#a855f7",
     "group": "surface",
     "set": "surface"
   },
@@ -168,18 +168,18 @@
     "set": "surface"
   },
   {
-    "name": "hoam-color-border-default",
-    "cssVar": "--hoam-color-border-default",
-    "type": "color",
-    "value": "#b3b3b3",
-    "group": null,
-    "set": "border"
-  },
-  {
     "name": "hoam-color-border-soft",
     "cssVar": "--hoam-color-border-soft",
     "type": "color",
     "value": "#f9f9f9",
+    "group": null,
+    "set": "border"
+  },
+  {
+    "name": "hoam-color-border-default",
+    "cssVar": "--hoam-color-border-default",
+    "type": "color",
+    "value": "#b3b3b3",
     "group": null,
     "set": "border"
   },

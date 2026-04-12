@@ -22,7 +22,7 @@
 }
 
 .selected {
-  color: var(--hoam-color-text-default);
+  color: var(--hoam-color-text-soft);
 }
 
 .visual {
@@ -48,7 +48,7 @@
 
 @media (--hoam-hoverable) {
   .item:hover .indicator {
-    outline: var(--hoam-border-size-default) var(--hoam-color-border-soft);
+    outline: var(--hoam-border-size-default) var(--hoam-color-border-accent);
   }
 }
 
@@ -58,6 +58,7 @@
 }
 
 .item {
+  background-color: var(--hoam-color-surface-inverse);
   cursor: pointer;
 }
 

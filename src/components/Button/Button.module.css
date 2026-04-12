@@ -61,6 +61,7 @@
 
 .root:disabled {
   --hoam-button-color-bg: var(--hoam-color-surface-soft);
+  --hoam-button-color-text: var(--hoam-color-text-default);
   cursor: not-allowed;
 }
 

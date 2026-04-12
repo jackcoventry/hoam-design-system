@@ -11,7 +11,7 @@
 }
 
 .item:not(:last-child) {
-  border-bottom: var(--hoam-border-size-default) var(--hoam-color-border-soft);
+  border-bottom: var(--hoam-border-size-default) var(--hoam-color-border-accent);
 }
 
 .panelInner {

@@ -32,7 +32,7 @@
 }
 
 .headerWrapper {
-  background-color: var(--hoam-color-surface-inverse);
+  background-color: var(--hoam-color-surface-soft);
   padding-top: var(--hoam-spacing-3xl);
   padding-bottom: calc(var(--hoam-spacing-3xl) + var(--hoam-blog-article-image-offset));
 }
@@ -120,7 +120,7 @@
 .figure {
   display: grid;
   gap: var(--hoam-spacing-xs);
-  margin-top: calc(var(--hoam-blog-article-article-image-offset) * -1);
+  margin-top: calc(var(--hoam-blog-article-image-offset) * -1);
   position: relative;
   z-index: var(--hoam-layer-raised);
 }
@@ -139,4 +139,8 @@
 
 .footer {
   background-color: var(--hoam-color-surface-accent);
+}
+
+.wrapper {
+  background-color: var(--hoam-color-surface-inverse);
 }

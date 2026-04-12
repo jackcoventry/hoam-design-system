@@ -1,3 +1,7 @@
+:root {
+  --hoam-form-color-field-border: var(--hoam-color-border-accent);
+}
+
 .root {
   background-color: var(--hoam-color-surface-inverse);
   border-radius: var(--hoam-border-radius-default);

@@ -5,14 +5,17 @@
       "$extensions": {
         "$group": "accent"
       },
-      "default": {
-        "$value": "{palette.purple.500}"
-      },
       "soft": {
-        "$value": "{palette.purple.300}"
+        "$value": "{palette.purple.300}",
+        "$description": "A softer version of the accent color"
+      },
+      "default": {
+        "$value": "{palette.purple.500}",
+        "$description": "The default accent colour for this theme"
       },
       "strong": {
-        "$value": "{palette.purple.700}"
+        "$value": "{palette.purple.700}",
+        "$description": "A stronger version of the accent color"
       }
     },
     "text": {
@@ -23,7 +26,7 @@
         "$value": "{palette.neutral.100}"
       },
       "soft": {
-        "$value": "{palette.neutral.800}"
+        "$value": "{palette.neutral.700}"
       },
       "inverse": {
         "$value": "{palette.neutral.900}"
@@ -47,6 +50,9 @@
       "default": {
         "$value": "{palette.neutral.100}"
       },
+      "muted": {
+        "$value": "{palette.neutral.500}"
+      },
       "soft": {
         "$value": "{palette.neutral.800}"
       },
@@ -54,21 +60,18 @@
         "$value": "{palette.neutral.900}"
       },
       "accent": {
-        "$value": "{color.accent.soft}"
-      },
-      "accent-strong": {
-        "$value": "{color.accent.strong}"
+        "$value": "{color.accent.default}"
       },
       "accent-soft": {
         "$value": "{color.accent.soft}"
       }
     },
     "border": {
-      "default": {
-        "$value": "{palette.neutral.700}"
-      },
       "soft": {
         "$value": "{palette.neutral.800}"
+      },
+      "default": {
+        "$value": "{palette.neutral.700}"
       },
       "strong": {
         "$value": "{palette.neutral.500}"

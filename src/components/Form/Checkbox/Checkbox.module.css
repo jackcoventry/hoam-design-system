@@ -54,7 +54,7 @@
 }
 
 .input:checked + .box {
-  background: var(--hoam-color-surface-accent-strong);
+  background: var(--hoam-color-surface-accent);
 }
 
 .input:indeterminate + .box {

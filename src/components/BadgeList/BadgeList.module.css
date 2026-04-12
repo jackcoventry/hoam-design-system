@@ -15,7 +15,6 @@
   display: inline-flex;
   font: var(--hoam-typography-label-1);
   padding: var(--hoam-spacing-2xs) var(--hoam-spacing-xs);
-  text-transform: uppercase;
 }
 
 .item[data-variant="alert"] {

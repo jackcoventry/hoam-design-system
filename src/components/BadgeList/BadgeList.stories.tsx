@@ -16,8 +16,8 @@ const Template: Story = {
   render: () => (
     <div>
       <BadgeList>
-        <BadgeListItem>NEW</BadgeListItem>
-        <BadgeListItem variant="alert">LOW STOCK</BadgeListItem>
+        <BadgeListItem>New</BadgeListItem>
+        <BadgeListItem variant="alert">Low Stock</BadgeListItem>
         <BadgeListItem variant="highlight">Limited Edition</BadgeListItem>
       </BadgeList>
     </div>

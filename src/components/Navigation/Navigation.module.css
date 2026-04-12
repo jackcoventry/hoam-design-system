@@ -61,7 +61,7 @@
 
 .logo {
   align-items: center;
-  color: var(--hoam-color-text-default);
+  color: var(--hoam-color-text-inverse);
   display: inline-flex;
   font: var(--hoam-typography-title-1);
   font-size: 2rem;
@@ -125,12 +125,14 @@
 
 @media (--hoam-hoverable) {
   .groupTopLink:hover {
-    background-color: var(--hoam-color-link-hover);
+    background-color: var(--hoam-color-surface-soft);
+    color: var(--hoam-color-link-hover);
   }
 }
 
 .groupTopLink:focus-visible {
-  background-color: var(--hoam-color-link-hover);
+  background-color: var(--hoam-color-surface-soft);
+  color: var(--hoam-color-link-hover);
 }
 
 .panelSubLevel[data-layout="list"] .panelGroup {
