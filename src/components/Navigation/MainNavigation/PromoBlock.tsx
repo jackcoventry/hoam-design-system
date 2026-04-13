@@ -13,19 +13,24 @@ export function PromoBlock({ title, subtitle, href, image = '' }: Readonly<Props
     ? {
         href,
         'data-sub-link': true,
+        'data-top-cyclable': true,
       }
     : {};
 
   return (
     <Element
       {...interactiveProps}
-      style={{
-        backgroundImage: `url(${image})`,
-      }}
       className={styles.root}
     >
-      <h4 className={styles.subtitle}>{subtitle}</h4>
-      <h3 className={styles.title}>{title}</h3>
+      <img
+        className={styles.image}
+        src={image}
+        alt=""
+      />
+      <span className={styles.textContent}>
+        <h4 className={styles.subtitle}>{subtitle}</h4>
+        <h3 className={styles.title}>{title}</h3>
+      </span>
     </Element>
   );
 }

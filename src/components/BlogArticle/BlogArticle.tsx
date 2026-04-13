@@ -1,5 +1,4 @@
 import { ReactNode } from 'react';
-import clsx from 'clsx';
 
 import type { Link } from '@/components/Footer';
 import { Icon } from '@/components/Icon';
@@ -9,7 +8,6 @@ import type { IconId } from '@/design-tokens/icons';
 
 import styles from '@/components/BlogArticle/BlogArticle.module.css';
 import bodyText from '@/styles/BodyText.module.css';
-import utils from '@/styles/Util.module.css';
 
 type BlogImage = {
   src: string;
@@ -169,7 +167,7 @@ export function BlogArticle({
                       <a
                         key={tag.id}
                         href={`/blog/tag/${tag.id}`}
-                        className={clsx(styles.tag, utils.focus)}
+                        className={styles.tag}
                       >
                         {tag.name}
                       </a>

@@ -154,6 +154,15 @@ function extractFontFamily(value: unknown): string | null {
 
 function buildBaseToken(token: StyleDictionaryToken, rawTokens: TokenRecord): TokenBase {
   const leafExtensions = getLeafExtensions(rawTokens, token.path);
+  const inheritedScope = getInheritedScope(rawTokens, token.path);
+
+  const extensions: TokenExtensions | undefined =
+    leafExtensions || inheritedScope
+      ? {
+          ...leafExtensions,
+          ...(inheritedScope ? { scope: inheritedScope } : {}),
+        }
+      : undefined;
 
   return {
     name: `${PREFIX}-${token.name}`,
@@ -162,7 +171,7 @@ function buildBaseToken(token: StyleDictionaryToken, rawTokens: TokenRecord): To
     value: token.$value ?? null,
     group: token.attributes?.group ?? null,
     set: token.attributes?.set ?? null,
-    ...(leafExtensions ? { extensions: leafExtensions } : {}),
+    ...(extensions ? { extensions } : {}),
   };
 }
 
@@ -285,6 +294,77 @@ function buildSectionCssFile(rawTokens: TokenRecord): string {
     .join('\n\n');
 }
 
+function getExtensions(node: TokenRecord | undefined): TokenRecord | null {
+  if (!node) {
+    return null;
+  }
+
+  const extensions = getRecordValue(node, '$extensions');
+  return isRecord(extensions) ? extensions : null;
+}
+
+function getInheritedScope(rawTokens: TokenRecord, path: string[]): string | null {
+  for (let i = path.length; i >= 0; i--) {
+    const node = getNodeAtPath(rawTokens, path.slice(0, i));
+
+    if (!node) {
+      continue;
+    }
+
+    const extensions = getExtensions(node);
+
+    if (!extensions) {
+      continue;
+    }
+
+    const scope = getRecordValue(extensions, 'scope');
+
+    if (typeof scope === 'string') {
+      return scope;
+    }
+  }
+
+  return null;
+}
+
+function isPrivateToken(rawTokens: TokenRecord, path: string[]): boolean {
+  return getInheritedScope(rawTokens, path) === 'private';
+}
+
+type ConfigFile = {
+  destination?: string;
+  format?: string;
+  filter?: ((token: { path: string[] }) => boolean) | string;
+};
+
+type ConfigPlatform = {
+  files?: ConfigFile[];
+};
+
+function applyPrivateScopeFilters(config: SDConfig, rawTokens: TokenRecord): void {
+  const platforms = config.platforms;
+
+  if (!platforms) {
+    return;
+  }
+
+  for (const platform of Object.values(platforms)) {
+    if (!platform.files) {
+      continue;
+    }
+
+    for (const file of platform.files) {
+      const isCssOutput = typeof file.destination === 'string' && file.destination.endsWith('.css');
+
+      if (!isCssOutput) {
+        continue;
+      }
+
+      file.filter = (token: { path: string[] }) => !isPrivateToken(rawTokens, token.path);
+    }
+  }
+}
+
 const tokenFiles = await glob([
   'src/design-tokens/**/*.json',
   '!src/design-tokens/build/**/*.json',
@@ -342,7 +422,24 @@ export default tokens;
 
 const rawConfig = await readFile(new URL('../../style-dictionary.json', import.meta.url), 'utf-8');
 
-const config = JSON.parse(rawConfig) as ConstructorParameters<typeof StyleDictionary>[0];
+type SDConfig = {
+  platforms?: Record<string, ConfigPlatform>;
+};
+
+function isSDConfig(value: unknown): value is SDConfig {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+const parsedConfig = JSON.parse(rawConfig) as unknown;
+
+if (!isSDConfig(parsedConfig)) {
+  throw new TypeError('Style Dictionary config must be an object.');
+}
+
+const config: SDConfig = parsedConfig;
+
+applyPrivateScopeFilters(config, rawTokens);
+
 const sd = new StyleDictionary(config);
 
 await sd.buildAllPlatforms();

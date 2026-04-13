@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod';
-import clsx from 'clsx';
 import { Controller, SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import z from 'zod';
 
@@ -12,7 +11,6 @@ import {
 } from '@/components/Form';
 
 import styles from '@/components/Form/Form.module.css';
-import utils from '@/styles/Util.module.css';
 
 const RegisterFormSchema = z
   .object({
@@ -77,7 +75,7 @@ export function RegisterForm({ onSubmit, data, loading }: Readonly<RegisterFormP
 
   const passwordStrength = calculatePasswordStrength(password);
 
-  const textFieldClasses = clsx(styles.textField, utils.focus);
+  const textFieldClasses = styles.textField;
 
   return submitComplete ? (
     <div className={styles.wrapper}>

@@ -10,7 +10,6 @@ import React, {
   useState,
 } from 'react';
 import { createPortal } from 'react-dom';
-import clsx from 'clsx';
 
 import { Button } from '@/components/Button';
 import { useModalStack } from '@/components/Modal/ModalStackContext';
@@ -20,7 +19,6 @@ import { FOCUSABLE_SELECTORS } from '@/constants/focusable-selectors';
 
 import styles from '@/components/Modal/Modal.module.css';
 import typography from '@/styles/Typography.module.css';
-import utils from '@/styles/Util.module.css';
 
 export type ModalVariant = 'modal' | 'drawer';
 type ModalPhase = 'closed' | 'opening' | 'open' | 'closing';
@@ -353,7 +351,7 @@ function ModalCloseButton({
       type="button"
       onClick={handleClose}
       aria-label={ariaLabel}
-      className={clsx(styles.closeButton, utils.focus)}
+      className={styles.closeButton}
       iconOnly
       icon="close"
       size="small"

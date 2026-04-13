@@ -1,10 +1,8 @@
 import { forwardRef, type KeyboardEvent, useEffect, useRef, useState } from 'react';
-import clsx from 'clsx';
 
 import { clamp } from '@/utils/clamp';
 
 import styles from '@/components/QuantitySelector/QuantitySelector.module.css';
-import utils from '@/styles/Util.module.css';
 
 export interface QuantitySelectorProps {
   value: number;
@@ -127,7 +125,7 @@ export const QuantitySelector = forwardRef<HTMLInputElement, QuantitySelectorPro
           <button
             aria-label={decrementLabel}
             disabled={atMin}
-            className={clsx(styles.button, utils.focus)}
+            className={styles.button}
             data-position="left"
             {...createButtonHandlers(-1)}
           >
@@ -154,7 +152,7 @@ export const QuantitySelector = forwardRef<HTMLInputElement, QuantitySelectorPro
             aria-label={incrementLabel}
             disabled={atMax}
             {...createButtonHandlers(1)}
-            className={clsx(styles.button, utils.focus)}
+            className={styles.button}
             data-position="right"
           >
             +

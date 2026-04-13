@@ -149,7 +149,7 @@ export function SearchForm({
                 data-valid={queryError ? 'false' : 'true'}
                 aria-invalid={queryError ? 'true' : 'false'}
                 disabled={loading}
-                className={clsx(formStyles.textField, utils.focus)}
+                className={formStyles.textField}
               />
             )}
           />

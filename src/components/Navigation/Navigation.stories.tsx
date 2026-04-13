@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react-vite';
 
-import { Navigation } from '@/components/Navigation';
+import { Navigation, PromoBlock } from '@/components/Navigation';
 import NavigationData from '@/mocks/components/Navigation';
 import UserNavigationData from '@/mocks/components/UserNavigation';
 

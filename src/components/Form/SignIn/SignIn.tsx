@@ -42,7 +42,7 @@ export function SignInForm({ onSubmit, data, loading }: Readonly<SignInFormProps
 
   const submitComplete = data?.message === 'SUCCESS';
 
-  const textFieldClasses = clsx(styles.textField, utils.focus);
+  const textFieldClasses = styles.textField;
 
   return submitComplete ? (
     <div className={styles.wrapper}>

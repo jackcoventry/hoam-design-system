@@ -1,11 +1,8 @@
-import clsx from 'clsx';
-
 import { BadgeList, BadgeListItem } from '@/components/BadgeList';
 import { Button } from '@/components/Button';
 import { Stack } from '@/components/Layout';
 
 import styles from '@/components/ProductTile/ProductTile.module.css';
-import utils from '@/styles/Util.module.css';
 
 type ProductPrice = {
   amount: number;
@@ -80,7 +77,7 @@ export function ProductTile({
         <h2 className={styles.title}>
           <a
             href={`#${productId}`}
-            className={clsx(styles.link, utils.focus)}
+            className={styles.link}
           >
             <span>{title}</span>
           </a>

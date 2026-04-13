@@ -103,7 +103,12 @@ export function BasketFooter({ total = 0 }: Readonly<{ total: number }>) {
         <h4 className={typography.heading}>
           Sub-total: {convertNumberToCurrency({ value: total })}
         </h4>
-        <Button>Proceed to Checkout</Button>
+        <Button
+          size="small"
+          variant="tertiary"
+        >
+          Proceed to Checkout
+        </Button>
       </div>
     </div>
   );

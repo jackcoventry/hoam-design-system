@@ -9,7 +9,6 @@ import storybook from 'eslint-plugin-storybook';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
 const jsxA11yRecommended = jsxA11y.flatConfigs.recommended;
 
 export default defineConfig(
@@ -76,7 +75,7 @@ export default defineConfig(
       },
       parserOptions: {
         projectService: {
-          allowDefaultProject: ['eslint.config.mjs'],
+          allowDefaultProject: ['eslint.config.mjs', 'style-dictionary.config.mjs'],
           defaultProject: 'tsconfig.json',
         },
         tsconfigRootDir: import.meta.dirname,

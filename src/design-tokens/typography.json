@@ -1,6 +1,9 @@
 {
   "typography": {
     "family": {
+      "$extensions": {
+        "scope": "private"
+      },
       "1": {
         "$type": "fontFamily",
         "$value": [
@@ -39,6 +42,9 @@
       }
     },
     "size": {
+      "$extensions": {
+        "scope": "private"
+      },
       "base": {
         "$type": "dimension",
         "$value": "18px"
@@ -69,6 +75,9 @@
       }
     },
     "line-height": {
+      "$extensions": {
+        "scope": "private"
+      },
       "1": {
         "$value": 1.5
       },
@@ -89,6 +98,9 @@
       }
     },
     "letter-spacing": {
+      "$extensions": {
+        "scope": "private"
+      },
       "1": {
         "$type": "dimension",
         "$value": "0"
@@ -99,6 +111,9 @@
       }
     },
     "weight": {
+      "$extensions": {
+        "scope": "private"
+      },
       "1": {
         "$type": "fontWeight",
         "$value": 300

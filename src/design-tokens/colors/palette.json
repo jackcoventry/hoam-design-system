@@ -1,7 +1,10 @@
 {
   "palette": {
+    "$extensions": {
+      "scope": "private"
+    },
     "$type": "color",
-    "purple": {
+    "primary": {
       "$extensions": {
         "$group": "global"
       },

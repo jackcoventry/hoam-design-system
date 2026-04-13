@@ -1,11 +1,27 @@
+@import "@/styles/_media.css";
+
 .root {
   background-position: center;
   background-size: cover;
   color: var(--hoam-color-text-inverse);
   display: block;
-  height: 100%;
-  padding: var(--hoam-spacing-md);
+  height: 0%;
+  padding-bottom: 100%;
+  overflow: hidden;
+  position: relative;
   text-decoration: none;
+}
+
+@media (--hoam-hoverable) {
+  .root:hover .image {
+    transform: scale(1.1);
+  }
+}
+
+.image {
+  aspect-ratio: 1;
+  display: block;
+  transition: transform ease-in-out 0.125s;
 }
 
 .subtitle {
@@ -15,4 +31,18 @@
 
 .title {
   font: var(--hoam-typography-title-3);
+}
+
+.textContent {
+  left: var(--hoam-spacing-md);
+  padding: var(--hoam-spacing-md);
+  position: absolute;
+  top: var(--hoam-spacing-md);
+  z-index: var(--hoam-layer-raised);
+}
+
+@media (--hoam-motion-reduce) {
+  .image {
+    transition: none !important;
+  }
 }

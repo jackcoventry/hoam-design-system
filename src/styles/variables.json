@@ -24,38 +24,6 @@
     "set": "size"
   },
   {
-    "name": "hoam-breakpoints-sm",
-    "cssVar": "--hoam-breakpoints-sm",
-    "type": "dimension",
-    "value": "768px",
-    "group": null,
-    "set": "breakpoints"
-  },
-  {
-    "name": "hoam-breakpoints-md",
-    "cssVar": "--hoam-breakpoints-md",
-    "type": "dimension",
-    "value": "976px",
-    "group": null,
-    "set": "breakpoints"
-  },
-  {
-    "name": "hoam-breakpoints-lg",
-    "cssVar": "--hoam-breakpoints-lg",
-    "type": "dimension",
-    "value": "1200px",
-    "group": null,
-    "set": "breakpoints"
-  },
-  {
-    "name": "hoam-breakpoints-xl",
-    "cssVar": "--hoam-breakpoints-xl",
-    "type": "dimension",
-    "value": "1600px",
-    "group": null,
-    "set": "breakpoints"
-  },
-  {
     "name": "hoam-color-accent-soft",
     "cssVar": "--hoam-color-accent-soft",
     "type": "color",
@@ -232,76 +200,103 @@
     "set": "feedback"
   },
   {
-    "name": "hoam-palette-purple-100",
-    "cssVar": "--hoam-palette-purple-100",
+    "name": "hoam-palette-primary-100",
+    "cssVar": "--hoam-palette-primary-100",
     "type": "color",
     "value": "#eeddfd",
     "group": "global",
-    "set": "purple"
+    "set": "primary",
+    "extensions": {
+      "scope": "private"
+    }
   },
   {
-    "name": "hoam-palette-purple-200",
-    "cssVar": "--hoam-palette-purple-200",
+    "name": "hoam-palette-primary-200",
+    "cssVar": "--hoam-palette-primary-200",
     "type": "color",
     "value": "#dcbbfc",
     "group": "global",
-    "set": "purple"
+    "set": "primary",
+    "extensions": {
+      "scope": "private"
+    }
   },
   {
-    "name": "hoam-palette-purple-300",
-    "cssVar": "--hoam-palette-purple-300",
+    "name": "hoam-palette-primary-300",
+    "cssVar": "--hoam-palette-primary-300",
     "type": "color",
     "value": "#cb99fa",
     "group": "global",
-    "set": "purple"
+    "set": "primary",
+    "extensions": {
+      "scope": "private"
+    }
   },
   {
-    "name": "hoam-palette-purple-400",
-    "cssVar": "--hoam-palette-purple-400",
+    "name": "hoam-palette-primary-400",
+    "cssVar": "--hoam-palette-primary-400",
     "type": "color",
     "value": "#ba77f9",
     "group": "global",
-    "set": "purple"
+    "set": "primary",
+    "extensions": {
+      "scope": "private"
+    }
   },
   {
-    "name": "hoam-palette-purple-500",
-    "cssVar": "--hoam-palette-purple-500",
+    "name": "hoam-palette-primary-500",
+    "cssVar": "--hoam-palette-primary-500",
     "type": "color",
     "value": "#a855f7",
     "group": "global",
-    "set": "purple"
+    "set": "primary",
+    "extensions": {
+      "scope": "private"
+    }
   },
   {
-    "name": "hoam-palette-purple-600",
-    "cssVar": "--hoam-palette-purple-600",
+    "name": "hoam-palette-primary-600",
+    "cssVar": "--hoam-palette-primary-600",
     "type": "color",
     "value": "#8815f4",
     "group": "global",
-    "set": "purple"
+    "set": "primary",
+    "extensions": {
+      "scope": "private"
+    }
   },
   {
-    "name": "hoam-palette-purple-700",
-    "cssVar": "--hoam-palette-purple-700",
+    "name": "hoam-palette-primary-700",
+    "cssVar": "--hoam-palette-primary-700",
     "type": "color",
     "value": "#6609be",
     "group": "global",
-    "set": "purple"
+    "set": "primary",
+    "extensions": {
+      "scope": "private"
+    }
   },
   {
-    "name": "hoam-palette-purple-800",
-    "cssVar": "--hoam-palette-purple-800",
+    "name": "hoam-palette-primary-800",
+    "cssVar": "--hoam-palette-primary-800",
     "type": "color",
     "value": "#44067f",
     "group": "global",
-    "set": "purple"
+    "set": "primary",
+    "extensions": {
+      "scope": "private"
+    }
   },
   {
-    "name": "hoam-palette-purple-900",
-    "cssVar": "--hoam-palette-purple-900",
+    "name": "hoam-palette-primary-900",
+    "cssVar": "--hoam-palette-primary-900",
     "type": "color",
     "value": "#22033f",
     "group": "global",
-    "set": "purple"
+    "set": "primary",
+    "extensions": {
+      "scope": "private"
+    }
   },
   {
     "name": "hoam-palette-neutral-100",
@@ -309,7 +304,10 @@
     "type": "color",
     "value": "#000000",
     "group": "global",
-    "set": "neutral"
+    "set": "neutral",
+    "extensions": {
+      "scope": "private"
+    }
   },
   {
     "name": "hoam-palette-neutral-200",
@@ -317,7 +315,10 @@
     "type": "color",
     "value": "#0d0d0d",
     "group": "global",
-    "set": "neutral"
+    "set": "neutral",
+    "extensions": {
+      "scope": "private"
+    }
   },
   {
     "name": "hoam-palette-neutral-300",
@@ -325,7 +326,10 @@
     "type": "color",
     "value": "#1a1a1a",
     "group": "global",
-    "set": "neutral"
+    "set": "neutral",
+    "extensions": {
+      "scope": "private"
+    }
   },
   {
     "name": "hoam-palette-neutral-400",
@@ -333,7 +337,10 @@
     "type": "color",
     "value": "#404040",
     "group": "global",
-    "set": "neutral"
+    "set": "neutral",
+    "extensions": {
+      "scope": "private"
+    }
   },
   {
     "name": "hoam-palette-neutral-500",
@@ -341,7 +348,10 @@
     "type": "color",
     "value": "#666666",
     "group": "global",
-    "set": "neutral"
+    "set": "neutral",
+    "extensions": {
+      "scope": "private"
+    }
   },
   {
     "name": "hoam-palette-neutral-600",
@@ -349,7 +359,10 @@
     "type": "color",
     "value": "#8c8c8c",
     "group": "global",
-    "set": "neutral"
+    "set": "neutral",
+    "extensions": {
+      "scope": "private"
+    }
   },
   {
     "name": "hoam-palette-neutral-700",
@@ -357,7 +370,10 @@
     "type": "color",
     "value": "#b3b3b3",
     "group": "global",
-    "set": "neutral"
+    "set": "neutral",
+    "extensions": {
+      "scope": "private"
+    }
   },
   {
     "name": "hoam-palette-neutral-800",
@@ -365,7 +381,10 @@
     "type": "color",
     "value": "#f9f9f9",
     "group": "global",
-    "set": "neutral"
+    "set": "neutral",
+    "extensions": {
+      "scope": "private"
+    }
   },
   {
     "name": "hoam-palette-neutral-900",
@@ -373,7 +392,10 @@
     "type": "color",
     "value": "#ffffff",
     "group": "global",
-    "set": "neutral"
+    "set": "neutral",
+    "extensions": {
+      "scope": "private"
+    }
   },
   {
     "name": "hoam-palette-semantic-error",
@@ -381,7 +403,10 @@
     "type": "color",
     "value": "#ff4d4f",
     "group": "semantic",
-    "set": "semantic"
+    "set": "semantic",
+    "extensions": {
+      "scope": "private"
+    }
   },
   {
     "name": "hoam-palette-semantic-warning",
@@ -389,7 +414,10 @@
     "type": "color",
     "value": "#faad14",
     "group": "semantic",
-    "set": "semantic"
+    "set": "semantic",
+    "extensions": {
+      "scope": "private"
+    }
   },
   {
     "name": "hoam-palette-semantic-success",
@@ -397,7 +425,10 @@
     "type": "color",
     "value": "#52c41a",
     "group": "semantic",
-    "set": "semantic"
+    "set": "semantic",
+    "extensions": {
+      "scope": "private"
+    }
   },
   {
     "name": "hoam-palette-semantic-info",
@@ -405,7 +436,10 @@
     "type": "color",
     "value": "#1890ff",
     "group": "semantic",
-    "set": "semantic"
+    "set": "semantic",
+    "extensions": {
+      "scope": "private"
+    }
   },
   {
     "name": "hoam-border-radius-small",
@@ -653,7 +687,10 @@
     "type": "fontFamily",
     "value": "Boldonse, system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
     "group": null,
-    "set": "family"
+    "set": "family",
+    "extensions": {
+      "scope": "private"
+    }
   },
   {
     "name": "hoam-typography-family-2",
@@ -661,7 +698,10 @@
     "type": "fontFamily",
     "value": "'DM Serif Text', system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
     "group": null,
-    "set": "family"
+    "set": "family",
+    "extensions": {
+      "scope": "private"
+    }
   },
   {
     "name": "hoam-typography-family-3",
@@ -669,7 +709,10 @@
     "type": "fontFamily",
     "value": "Lato, system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
     "group": null,
-    "set": "family"
+    "set": "family",
+    "extensions": {
+      "scope": "private"
+    }
   },
   {
     "name": "hoam-typography-size-1",
@@ -677,7 +720,10 @@
     "type": "dimension",
     "value": "16px",
     "group": null,
-    "set": "size"
+    "set": "size",
+    "extensions": {
+      "scope": "private"
+    }
   },
   {
     "name": "hoam-typography-size-2",
@@ -685,7 +731,10 @@
     "type": "dimension",
     "value": "18px",
     "group": null,
-    "set": "size"
+    "set": "size",
+    "extensions": {
+      "scope": "private"
+    }
   },
   {
     "name": "hoam-typography-size-3",
@@ -693,7 +742,10 @@
     "type": "dimension",
     "value": "clamp(1rem, min(20vmin, 7vw), 1.5rem)",
     "group": null,
-    "set": "size"
+    "set": "size",
+    "extensions": {
+      "scope": "private"
+    }
   },
   {
     "name": "hoam-typography-size-4",
@@ -701,7 +753,10 @@
     "type": "dimension",
     "value": "clamp(1rem, min(20vmin, 7vw), 2rem)",
     "group": null,
-    "set": "size"
+    "set": "size",
+    "extensions": {
+      "scope": "private"
+    }
   },
   {
     "name": "hoam-typography-size-5",
@@ -709,7 +764,10 @@
     "type": "dimension",
     "value": "clamp(1rem, min(20vmin, 7vw), 3rem)",
     "group": null,
-    "set": "size"
+    "set": "size",
+    "extensions": {
+      "scope": "private"
+    }
   },
   {
     "name": "hoam-typography-size-6",
@@ -717,7 +775,10 @@
     "type": "dimension",
     "value": "clamp(1rem, min(20vmin, 7vw), 6rem)",
     "group": null,
-    "set": "size"
+    "set": "size",
+    "extensions": {
+      "scope": "private"
+    }
   },
   {
     "name": "hoam-typography-size-base",
@@ -725,7 +786,10 @@
     "type": "dimension",
     "value": "18px",
     "group": null,
-    "set": "size"
+    "set": "size",
+    "extensions": {
+      "scope": "private"
+    }
   },
   {
     "name": "hoam-typography-line-height-1",
@@ -733,7 +797,10 @@
     "type": null,
     "value": 1.5,
     "group": null,
-    "set": "line-height"
+    "set": "line-height",
+    "extensions": {
+      "scope": "private"
+    }
   },
   {
     "name": "hoam-typography-line-height-2",
@@ -741,7 +808,10 @@
     "type": null,
     "value": 1.75,
     "group": null,
-    "set": "line-height"
+    "set": "line-height",
+    "extensions": {
+      "scope": "private"
+    }
   },
   {
     "name": "hoam-typography-line-height-3",
@@ -749,7 +819,10 @@
     "type": null,
     "value": 1.25,
     "group": null,
-    "set": "line-height"
+    "set": "line-height",
+    "extensions": {
+      "scope": "private"
+    }
   },
   {
     "name": "hoam-typography-line-height-4",
@@ -757,7 +830,10 @@
     "type": null,
     "value": 1.1,
     "group": null,
-    "set": "line-height"
+    "set": "line-height",
+    "extensions": {
+      "scope": "private"
+    }
   },
   {
     "name": "hoam-typography-line-height-5",
@@ -765,7 +841,10 @@
     "type": null,
     "value": 2,
     "group": null,
-    "set": "line-height"
+    "set": "line-height",
+    "extensions": {
+      "scope": "private"
+    }
   },
   {
     "name": "hoam-typography-line-height-6",
@@ -773,7 +852,10 @@
     "type": null,
     "value": 1.6,
     "group": null,
-    "set": "line-height"
+    "set": "line-height",
+    "extensions": {
+      "scope": "private"
+    }
   },
   {
     "name": "hoam-typography-letter-spacing-1",
@@ -781,7 +863,10 @@
     "type": "dimension",
     "value": "0",
     "group": null,
-    "set": "letter-spacing"
+    "set": "letter-spacing",
+    "extensions": {
+      "scope": "private"
+    }
   },
   {
     "name": "hoam-typography-letter-spacing-2",
@@ -789,7 +874,10 @@
     "type": "dimension",
     "value": "1px",
     "group": null,
-    "set": "letter-spacing"
+    "set": "letter-spacing",
+    "extensions": {
+      "scope": "private"
+    }
   },
   {
     "name": "hoam-typography-weight-1",
@@ -797,7 +885,10 @@
     "type": "fontWeight",
     "value": 300,
     "group": null,
-    "set": "weight"
+    "set": "weight",
+    "extensions": {
+      "scope": "private"
+    }
   },
   {
     "name": "hoam-typography-weight-2",
@@ -805,7 +896,10 @@
     "type": "fontWeight",
     "value": 400,
     "group": null,
-    "set": "weight"
+    "set": "weight",
+    "extensions": {
+      "scope": "private"
+    }
   },
   {
     "name": "hoam-typography-weight-3",
@@ -813,7 +907,10 @@
     "type": "fontWeight",
     "value": 700,
     "group": null,
-    "set": "weight"
+    "set": "weight",
+    "extensions": {
+      "scope": "private"
+    }
   },
   {
     "name": "hoam-typography-title-1",

@@ -50,7 +50,7 @@ export function NewsletterBanner({ title, description }: Readonly<NewsletterBann
     setSubmitting(false);
   };
 
-  const textFieldClasses = clsx(formStyles.textField, utils.focus);
+  const textFieldClasses = formStyles.textField;
 
   return (
     <section className={styles.root}>
