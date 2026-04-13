@@ -1,5 +1,7 @@
 import type { FocusEventHandler, PointerEventHandler } from 'react';
 
+import { SITE } from '@/constants/site';
+
 import styles from '@/components/Navigation/Navigation.module.css';
 
 type DesktopNavigationLogoProps = {
@@ -23,7 +25,7 @@ export function DesktopNavigationLogo({ onResetNavigation }: Readonly<DesktopNav
       onFocus={handleFocus}
       onPointerEnter={handlePointerEnter}
     >
-      HOAM
+      {SITE.title}
     </a>
   );
 }

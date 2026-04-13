@@ -11,9 +11,13 @@ type ImageProps = {
 
 export type ImageGalleryProps = {
   images?: ImageProps[];
+  'aria-label'?: string;
 };
 
-export function ImageGallery({ images = [] }: Readonly<ImageGalleryProps>) {
+export function ImageGallery({
+  images = [],
+  'aria-label': ariaLabel = 'Image gallery',
+}: Readonly<ImageGalleryProps>) {
   if (!images.length) return null;
 
   return (
@@ -33,7 +37,7 @@ export function ImageGallery({ images = [] }: Readonly<ImageGalleryProps>) {
         navigation
         pagination
         loop
-        aria-label="Image gallery"
+        aria-label={ariaLabel}
       />
     </div>
   );

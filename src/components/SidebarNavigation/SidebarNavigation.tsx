@@ -5,6 +5,7 @@ import { Button } from '@/components/Button';
 import { Stack } from '@/components/Layout';
 import { Spinner } from '@/components/Loading';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
+import { useMessages } from '@/hooks/useMessages';
 
 import styles from '@/components/SidebarNavigation/SidebarNavigation.module.css';
 
@@ -22,12 +23,15 @@ export type SidebarNavigationProps = {
   showLabel?: string;
 };
 
-export function SidebarNavigation({
-  items = [],
-  'aria-label': ariaLabel = 'Sidebar Navigation',
-  hideLabel = 'Hide navigation',
-  showLabel = 'Show navigation',
-}: Readonly<SidebarNavigationProps>) {
+export function SidebarNavigation(props: Readonly<SidebarNavigationProps>) {
+  const t = useMessages('sidebarNavigation');
+  const {
+    items = [],
+    'aria-label': ariaLabel = t.title,
+    hideLabel = t.hide,
+    showLabel = t.show,
+  } = props;
+
   const isMobile = useMediaQuery('(max-width: 600px)');
   const [isOpen, setIsOpen] = useState(false);
 

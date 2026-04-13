@@ -2,6 +2,7 @@ import type { FocusEventHandler, MouseEvent, PointerEventHandler } from 'react';
 
 import { Icon } from '@/components/Icon';
 import type { NavigationProps } from '@/components/Navigation/types';
+import { useMessages } from '@/hooks/useMessages';
 import { IconId } from '@/design-tokens/icons';
 
 import styles from '@/components/Navigation/Navigation.module.css';
@@ -23,6 +24,7 @@ export function DesktopNavigationActions({
   onOpenSearch,
   onOpenBasket,
 }: Readonly<DesktopNavigationActionsProps>) {
+  const t = useMessages('navigation');
   const handleFocusCapture: FocusEventHandler<HTMLElement> = () => {
     onResetNavigation();
   };
@@ -46,7 +48,7 @@ export function DesktopNavigationActions({
 
   return (
     <nav
-      aria-label="User navigation"
+      aria-label={t.userNavigation}
       onFocusCapture={handleFocusCapture}
       onPointerEnter={handlePointerEnter}
     >

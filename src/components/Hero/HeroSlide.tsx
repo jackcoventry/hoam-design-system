@@ -1,5 +1,6 @@
 import { Button } from '@/components/Button';
 import { Container, Grid, GridItem } from '@/components/Layout';
+import { useMessages } from '@/hooks/useMessages';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 
 import styles from '@/components/Hero/HeroSlide.module.css';
@@ -44,6 +45,7 @@ export function HeroSlide({
   theme = 'default',
   button,
 }: Readonly<HeroSlideProps>) {
+  const t = useMessages('global');
   const prefersReducedMotion = usePrefersReducedMotion();
   const videoProps = {
     muted: true,
@@ -101,7 +103,7 @@ export function HeroSlide({
               <h1 className={styles.title}>{title}</h1>
               <p className={styles.text}>{text}</p>
               <div className={styles.contentLink}>
-                <Button variant="tertiary">{button?.text || 'Read more'}</Button>
+                <Button variant="tertiary">{button?.text || t.readMore}</Button>
               </div>
             </GridItem>
           </Grid>

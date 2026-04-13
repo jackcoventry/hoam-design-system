@@ -1,9 +1,10 @@
 import { useId } from 'react';
 import clsx from 'clsx';
 
+import { useMessages } from '@/hooks/useMessages';
 import { clamp } from '@/utils/clamp';
 
-import styles from './ProgressBar.module.css';
+import styles from '@/components/Loading/ProgressBar/ProgressBar.module.css';
 
 export interface ProgressBarProps {
   value?: number | undefined;
@@ -17,17 +18,19 @@ export interface ProgressBarProps {
   formatValueText?: (percentage: number, value: number, min: number, max: number) => string;
 }
 
-export function ProgressBar({
-  value,
-  min = 0,
-  max = 100,
-  label = 'Loading progress',
-  showValue = true,
-  className,
-  labelClassName,
-  valueClassName,
-  formatValueText,
-}: Readonly<ProgressBarProps>) {
+export function ProgressBar(props: Readonly<ProgressBarProps>) {
+  const t = useMessages('progress');
+  const {
+    value,
+    min = 0,
+    max = 100,
+    label = t.loading,
+    showValue = true,
+    className,
+    labelClassName,
+    valueClassName,
+    formatValueText,
+  } = props;
   const generatedId = useId();
   const labelId = `${generatedId}-label`;
 
@@ -43,7 +46,7 @@ export function ProgressBar({
       ? formatValueText
         ? formatValueText(percentage, clampedValue, min, safeMax)
         : `${Math.round(percentage)}%`
-      : 'In progress';
+      : t.inProgress;
 
   return (
     <div className={clsx(styles.root, className)}>

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, {
   KeyboardEvent,
   PropsWithChildren,
@@ -13,6 +14,7 @@ import { createPortal } from 'react-dom';
 
 import { Button } from '@/components/Button';
 import { useModalStack } from '@/components/Modal/ModalStackContext';
+import { useMessages } from '@/hooks/useMessages';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { logger } from '@/utils/logger';
 import { FOCUSABLE_SELECTORS } from '@/constants/focusable-selectors';
@@ -65,6 +67,7 @@ function ModalRoot({
   id,
   variant = 'modal',
 }: Readonly<PropsWithChildren<ModalRootProps>>) {
+  const t = useMessages('modal');
   const rootRef = useRef<HTMLDivElement | null>(null);
   const dialogRef = useRef<HTMLDivElement | null>(null);
   const lastFocusedRef = useRef<HTMLElement | null>(null);
@@ -289,7 +292,7 @@ function ModalRoot({
       <button
         type="button"
         className={styles.backdrop}
-        aria-label="Close dialog"
+        aria-label={t.close}
         tabIndex={-1}
         onClick={close}
       />
@@ -335,10 +338,9 @@ function ModalTitle({ children }: Readonly<ModalTitleProps>) {
   );
 }
 
-function ModalCloseButton({
-  'aria-label': ariaLabel = 'Close dialog',
-  callback,
-}: Readonly<ModalCloseButtonProps>) {
+function ModalCloseButton(props: Readonly<ModalCloseButtonProps>) {
+  const t = useMessages('modal');
+  const { 'aria-label': ariaLabel = t.close, callback } = props;
   const { close } = useModalContext('Modal.CloseButton');
 
   const handleClose = () => {

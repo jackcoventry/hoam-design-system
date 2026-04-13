@@ -1,4 +1,5 @@
 import { VisuallyHidden } from '@/components/Common/VisuallyHidden';
+import { useMessages } from '@/hooks/useMessages';
 
 import styles from '@/components/Form/PasswordStrengthMeter/PasswordStrengthMeter.module.css';
 
@@ -17,26 +18,28 @@ export function calculatePasswordStrength(password: string): StrengthLevel {
   return score as StrengthLevel;
 }
 
-function strengthLabel(strength: StrengthLevel): string {
-  switch (strength) {
-    case 0:
-      return 'Too weak';
-    case 1:
-      return 'Weak';
-    case 2:
-      return 'Fair';
-    case 3:
-      return 'Strong';
-    case 4:
-      return 'Very strong';
-  }
-}
-
 type PasswordStrengthMeterProps = {
   strength: StrengthLevel;
 };
 
 export function PasswordStrengthMeter({ strength }: Readonly<PasswordStrengthMeterProps>) {
+  const t = useMessages('password');
+
+  const strengthLabel = (strength: StrengthLevel) => {
+    switch (strength) {
+      case 0:
+        return t.stength0;
+      case 1:
+        return t.stength1;
+      case 2:
+        return t.stength2;
+      case 3:
+        return t.stength3;
+      case 4:
+        return t.stength4;
+    }
+  };
+
   const label = strengthLabel(strength);
   const segments = [0, 1, 2, 3] as const;
 

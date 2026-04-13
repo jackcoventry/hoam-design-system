@@ -1,12 +1,10 @@
 import { Children, isValidElement, type ReactElement, type ReactNode } from 'react';
-import clsx from 'clsx';
 
 import { InfoGridItem, type InfoGridItemProps } from '@/components/InfoGrid';
 import { Container, Grid, GridItem, Section, Stack } from '@/components/Layout';
 import { logger } from '@/utils/logger';
 
 import styles from '@/components/InfoGrid/InfoGrid.module.css';
-import bodyText from '@/styles/BodyText.module.css';
 
 export type InfoGridProps = {
   title: string;

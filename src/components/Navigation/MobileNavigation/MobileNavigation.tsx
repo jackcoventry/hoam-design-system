@@ -5,6 +5,8 @@ import { Container, Grid, GridItem } from '@/components/Layout';
 import { MobileNavigationItem } from '@/components/Navigation/MobileNavigation/MobileNavigationItem';
 import type { NavTreeItem } from '@/components/Navigation/types';
 import { useFocusTrap } from '@/hooks/useFocusTrap';
+import { useMessages } from '@/hooks/useMessages';
+import { SITE } from '@/constants/site';
 
 import styles from '@/components/Navigation/MobileNavigation/MobileNavigation.module.css';
 
@@ -13,6 +15,7 @@ type MobileNavigationProps = {
 };
 
 export function MobileNavigation({ items }: Readonly<MobileNavigationProps>) {
+  const t = useMessages('navigation');
   const navigationRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const menuId = useId();
@@ -37,7 +40,7 @@ export function MobileNavigation({ items }: Readonly<MobileNavigationProps>) {
                   href="/"
                   className={styles.logo}
                 >
-                  HOAM
+                  {SITE.title}
                 </a>
 
                 <button
@@ -45,7 +48,7 @@ export function MobileNavigation({ items }: Readonly<MobileNavigationProps>) {
                   className={styles.toggle}
                   aria-expanded={isOpen}
                   aria-controls={menuId}
-                  aria-label={isOpen ? 'Close menu' : 'Open menu'}
+                  aria-label={isOpen ? t.close : t.open}
                   onClick={() => setIsOpen((prev) => !prev)}
                 >
                   <Icon id="three-dots-vertical" />
@@ -61,7 +64,7 @@ export function MobileNavigation({ items }: Readonly<MobileNavigationProps>) {
         data-state={isOpen ? 'open' : 'closed'}
         className={styles.mobileMenu}
       >
-        <nav aria-label="Main navigation">
+        <nav aria-label={t.mainNavigation}>
           <ul className={styles.list}>
             {items.map((item) => (
               <MobileNavigationItem

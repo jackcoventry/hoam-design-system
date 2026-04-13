@@ -5,13 +5,10 @@ import { Accordion, AccordionHeader, AccordionItem, AccordionPanel } from '@/com
 import { Button } from '@/components/Button';
 import { Select } from '@/components/Form/Select/Select';
 import { Stack } from '@/components/Layout';
-import { useMediaQuery } from '@/hooks/useMediaQuery';
-
-import { Spinner } from '../Loading';
-
-import { FilterBarOptionPanel } from './FilterBarOptionPanel';
-import { FilterBarRangePanel } from './FilterBarRangePanel';
-import type { FilterBarProps } from './ProductFilters.types';
+import { Spinner } from '@/components/Loading';
+import { FilterBarOptionPanel } from '@/components/ProductFilters/FilterBarOptionPanel';
+import { FilterBarRangePanel } from '@/components/ProductFilters/FilterBarRangePanel';
+import type { FilterBarProps } from '@/components/ProductFilters/ProductFilters.types';
 import {
   buildChips,
   clearGroup,
@@ -20,28 +17,33 @@ import {
   isRangeGroup,
   setRangeValue,
   toggleOptionSelection,
-} from './ProductFilters.utils';
+} from '@/components/ProductFilters/ProductFilters.utils';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
+import { useMessages } from '@/hooks/useMessages';
 
-import styles from './ProductFilters.module.css';
+import styles from '@/components/ProductFilters/ProductFilters.module.css';
 
-export function FilterBar({
-  title = 'Filter products',
-  groups,
-  value,
-  onChange,
-  onClearAll,
-  className,
-  sortLabel = 'Sort by',
-  sortOptions,
-  sortValue = '',
-  onSortChange,
-  loading = false,
-  children,
-}: PropsWithChildren<FilterBarProps>) {
+export function FilterBar(props: PropsWithChildren<FilterBarProps>) {
+  const t = useMessages('productFilters');
+  const {
+    title = t.title,
+    groups,
+    value,
+    onChange,
+    onClearAll,
+    className,
+    sortLabel = t.sortBy,
+    sortOptions,
+    sortValue = '',
+    onSortChange,
+    loading = false,
+    children,
+  } = props;
+
   const baseId = useId();
   const rootRef = useRef<HTMLDivElement | null>(null);
   const chips = useMemo(() => buildChips(groups, value), [groups, value]);
-  const isMobile = useMediaQuery('(max-width: 48rem)');
+  const isMobile = useMediaQuery('(max-width: 48rem)'); // TODO: can this be tokenized?
   const [filtersCollapsed, setFiltersCollapsed] = useState<boolean>(isMobile);
   const handleFilterCollapse = () => {
     setFiltersCollapsed((current) => !current);
@@ -62,14 +64,14 @@ export function FilterBar({
             variant="secondary"
             icon="filter"
           >
-            Toggle Filters
+            {t.toggle}
           </Button>
           {chips.length > 0 ? (
             <Button
               onClick={onClearAll}
               size="small"
             >
-              Reset
+              {t.reset}
             </Button>
           ) : null}
         </div>
@@ -93,7 +95,6 @@ export function FilterBar({
                   }
                 }}
               >
-                <Select.Placeholder>Select size</Select.Placeholder>
                 {sortOptions.map((option) => (
                   <Select.Option
                     key={option.value}
@@ -159,7 +160,7 @@ export function FilterBar({
                               }}
                               size="small"
                             >
-                              Clear
+                              {t.clear}
                             </Button>
                           </div>
                         ) : null}
@@ -175,9 +176,9 @@ export function FilterBar({
         <div className={styles.content}>
           <div
             className={styles.chips}
-            aria-label="Active filters"
+            aria-label={t.active}
           >
-            {chips.length > 0 ? <span className={styles.chipLabel}>Active filters: </span> : null}
+            {chips.length > 0 ? <span className={styles.chipLabel}>{t.active}: </span> : null}
             {chips.length > 0
               ? chips.map((chip) => (
                   <Button
@@ -202,7 +203,7 @@ export function FilterBar({
 
                       onChange(toggleOptionSelection(value, group, option.id));
                     }}
-                    aria-label={`Remove ${chip.label} from ${chip.groupLabel}`}
+                    aria-label={`${t.remove} ${chip.label}`}
                     icon="close"
                     size="small"
                     variant="secondary"

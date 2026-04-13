@@ -8,6 +8,7 @@ import { Button } from '@/components/Button';
 import { FieldWrapper, Select } from '@/components/Form';
 import { Section, Stack } from '@/components/Layout';
 import { VariantSelector } from '@/components/VariantSelector';
+import { useMessages } from '@/hooks/useMessages';
 import { convertNumberToCurrency } from '@/utils/convertNumberToCurrency';
 import { logger } from '@/utils/logger';
 
@@ -62,6 +63,7 @@ export function ProductInfo({
   onSubmit,
   isSubmitting = false,
 }: Readonly<ProductInfoProps>) {
+  const t = useMessages('productTile');
   const colorOptions = data.options.color;
   const sizeOptions = data.options.size;
   const imageOptions = data.options.image;
@@ -114,7 +116,7 @@ export function ProductInfo({
         <div className={styles.content}>
           <Stack gap="sm">
             {newItem || lowStock ? (
-              <BadgeList>{newItem && <BadgeListItem>NEW</BadgeListItem>}</BadgeList>
+              <BadgeList>{newItem && <BadgeListItem>{t.new}</BadgeListItem>}</BadgeList>
             ) : null}
             <h1 className={styles.title}>{title}</h1>
             <h2 className={styles.price}>
@@ -223,7 +225,7 @@ export function ProductInfo({
                 disabled={!inStock || isSubmitting}
                 className={styles.button}
               >
-                {isSubmitting ? 'Added!' : 'Add to cart'}
+                {isSubmitting ? t.addedToCart : t.addToCart}
               </Button>
             </Stack>
           </form>

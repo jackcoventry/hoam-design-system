@@ -1,7 +1,5 @@
 import { useMemo, useState } from 'react';
-import clsx from 'clsx';
 
-import { Button } from '@/components/Button';
 import {
   BasketModal,
   DesktopNavigation,
@@ -10,9 +8,6 @@ import {
 } from '@/components/Navigation';
 import type { NavigationProps } from '@/components/Navigation/types';
 import { useMegaNavState } from '@/hooks/useNavState';
-
-import styles from '@/components/Navigation/Navigation.module.css';
-import utils from '@/styles/Util.module.css';
 
 export function Navigation({
   items = [],

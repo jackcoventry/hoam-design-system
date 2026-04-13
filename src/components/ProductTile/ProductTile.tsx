@@ -1,6 +1,7 @@
 import { BadgeList, BadgeListItem } from '@/components/BadgeList';
 import { Button } from '@/components/Button';
 import { Stack } from '@/components/Layout';
+import { useMessages } from '@/hooks/useMessages';
 
 import styles from '@/components/ProductTile/ProductTile.module.css';
 
@@ -38,6 +39,7 @@ export function ProductTile({
   lowStock,
   newItem,
 }: Readonly<ProductTileProps>) {
+  const t = useMessages('productTile');
   return (
     <Stack
       gap="sm"
@@ -47,12 +49,13 @@ export function ProductTile({
         {newItem || lowStock ? (
           <div className={styles.badges}>
             <BadgeList>
-              {newItem && <BadgeListItem>NEW</BadgeListItem>}
-              {lowStock && <BadgeListItem>LOW STOCK</BadgeListItem>}
+              {newItem && <BadgeListItem>{t.new}</BadgeListItem>}
+              {lowStock && <BadgeListItem>{t.lowStock}</BadgeListItem>}
             </BadgeList>
           </div>
         ) : null}
         <figure>
+          {/* TODO: this image should be a prop */}
           <img
             src="https://images.unsplash.com/photo-1685384338018-1774719d5b69?auto=format&fit=crop&q=80&w=600&h=600"
             alt={title}
@@ -66,7 +69,7 @@ export function ProductTile({
             icon="heart-fill"
             iconOnly
           >
-            Save for later
+            {t.save}
           </Button>
         </span>
       </div>
@@ -104,7 +107,7 @@ export function ProductTile({
           className={styles.button}
           size="small"
         >
-          {inStock ? 'Add to cart' : 'Out of stock'}
+          {inStock ? t.addToCart : t.outOfStock}
         </Button>
       </Stack>
     </Stack>

@@ -93,6 +93,8 @@ export function NewsletterBanner({ title, description }: Readonly<NewsletterBann
                     Email address
                   </label>
 
+                  {/* TODO: Form builder */}
+
                   <Controller
                     name="email"
                     control={control}

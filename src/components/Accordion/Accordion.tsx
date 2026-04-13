@@ -29,8 +29,6 @@ export interface AccordionProps {
   className?: string | undefined;
   children: ReactNode;
   showToggleAll?: boolean;
-  collapseLabel?: string;
-  expandLabel?: string;
 }
 
 export interface AccordionItemProps {

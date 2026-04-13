@@ -1,9 +1,14 @@
-import type { ChangeEvent, JSX } from 'react';
+import type { ChangeEvent } from 'react';
 
-import type { FilterValue, RangeGroup } from './ProductFilters.types';
-import { clamp, getRangeValue, setRangeValue } from './ProductFilters.utils';
+import type { FilterValue, RangeGroup } from '@/components/ProductFilters/ProductFilters.types';
+import {
+  clamp,
+  getRangeValue,
+  setRangeValue,
+} from '@/components/ProductFilters/ProductFilters.utils';
+import { useMessages } from '@/hooks/useMessages';
 
-import styles from './ProductFilters.module.css';
+import styles from '@/components/ProductFilters/ProductFilters.module.css';
 import utils from '@/styles/Util.module.css';
 
 type FilterBarRangePanelProps = {
@@ -18,7 +23,8 @@ export function FilterBarRangePanel({
   group,
   value,
   onChange,
-}: Readonly<FilterBarRangePanelProps>): JSX.Element {
+}: Readonly<FilterBarRangePanelProps>) {
+  const t = useMessages('productFilters');
   const current = getRangeValue(value, group.id);
   const step = group.step ?? 1;
 
@@ -35,7 +41,7 @@ export function FilterBarRangePanel({
     <div className={styles.rangePanelBody}>
       <div className={styles.rangeInputs}>
         <label className={styles.rangeField}>
-          <span className={styles.rangeFieldLabel}>Min</span>
+          <span className={styles.rangeFieldLabel}>{t.minimumShort}</span>
           <input
             className={styles.numberInput}
             type="number"
@@ -62,7 +68,7 @@ export function FilterBarRangePanel({
         </label>
 
         <label className={styles.rangeField}>
-          <span className={styles.rangeFieldLabel}>Max</span>
+          <span className={styles.rangeFieldLabel}>{t.maximumShort}</span>
           <input
             className={styles.numberInput}
             type="number"
@@ -107,7 +113,7 @@ export function FilterBarRangePanel({
           className={utils.srOnly}
           htmlFor={`${baseId}-${group.id}-min`}
         >
-          Minimum {group.label}
+          {t.minimum} {group.label}
         </label>
         <input
           id={`${baseId}-${group.id}-min`}
@@ -133,7 +139,7 @@ export function FilterBarRangePanel({
           className={utils.srOnly}
           htmlFor={`${baseId}-${group.id}-max`}
         >
-          Maximum {group.label}
+          {t.maximum} {group.label}
         </label>
         <input
           id={`${baseId}-${group.id}-max`}
@@ -161,9 +167,6 @@ export function FilterBarRangePanel({
         aria-live="polite"
       >
         <span>{group.minLabel ?? `£${group.min}`}</span>
-        {/* <span>
-          Selected: £{safeMin} – £{safeMax}
-        </span> */}
         <span>{group.maxLabel ?? `£${group.max}`}</span>
       </div>
     </div>

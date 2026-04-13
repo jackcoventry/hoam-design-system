@@ -78,6 +78,7 @@ export function RegisterForm({ onSubmit, data, loading }: Readonly<RegisterFormP
   const textFieldClasses = styles.textField;
 
   return submitComplete ? (
+    // TODO: This should be it's own mini component
     <div className={styles.wrapper}>
       <h1 className={styles.title}>Success! Redirecting now...</h1>
     </div>
@@ -89,6 +90,8 @@ export function RegisterForm({ onSubmit, data, loading }: Readonly<RegisterFormP
           void handleSubmit(onSubmit)(event);
         }}
       >
+        {/* TODO: This can be structured dynamically like a form builder */}
+
         <h2 className={styles.title}>Register</h2>
 
         <section>

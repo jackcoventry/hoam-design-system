@@ -10,8 +10,6 @@ import { logger } from '@/utils/logger';
 
 import styles from '@/components/BadgeList/BadgeList.module.css';
 
-const INVALID_CHILD_MESSAGE = 'BadgeList component only accepts children of type BadgeListItem';
-
 export type BadgeListItemProps = {
   href?: string;
   variant?: 'default' | 'alert' | 'highlight';
@@ -60,7 +58,7 @@ export function BadgeList({ children }: Readonly<PropsWithChildren>) {
       return child;
     }
 
-    logger.warn(INVALID_CHILD_MESSAGE);
+    logger.warn('BadgeList component only accepts children of type BadgeListItem');
     return null;
   });
 

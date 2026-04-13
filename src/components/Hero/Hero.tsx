@@ -6,9 +6,10 @@ import styles from '@/components/Hero/Hero.module.css';
 
 export type HeroProps = {
   items: HeroSlideProps[];
+  'aria-label'?: string;
 };
 
-export function Hero({ items }: Readonly<HeroProps>) {
+export function Hero({ items, 'aria-label': ariaLabel = 'Hero carousel' }: Readonly<HeroProps>) {
   if (!items.length) return null;
   if (items?.length === 1) {
     return <HeroSlide {...(items[0] as HeroSlideProps)} />;
@@ -22,7 +23,7 @@ export function Hero({ items }: Readonly<HeroProps>) {
         pagination
         loop
         autoplay={{ delay: 6000 }}
-        aria-label="Hero carousel"
+        aria-label={ariaLabel}
         effect="fade"
       />
     </div>

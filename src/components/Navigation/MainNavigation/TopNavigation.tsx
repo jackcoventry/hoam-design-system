@@ -1,3 +1,5 @@
+import { useMessages } from '@/hooks/useMessages';
+
 import styles from '@/components/Navigation/Navigation.module.css';
 
 type TopNavigationProps = {
@@ -5,8 +7,9 @@ type TopNavigationProps = {
 };
 
 export function TopNavigation({ children }: Readonly<TopNavigationProps>) {
+  const t = useMessages('navigation');
   return (
-    <nav aria-label="Main navigation">
+    <nav aria-label={t.mainNavigation}>
       <ul className={styles.list}>{children}</ul>
     </nav>
   );

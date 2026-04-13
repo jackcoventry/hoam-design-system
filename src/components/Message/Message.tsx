@@ -2,9 +2,10 @@ import { type MouseEvent, useState } from 'react';
 import clsx from 'clsx';
 
 import { Icon } from '@/components/Icon';
+import { useMessages } from '@/hooks/useMessages';
 
-import bodyText from '@/styles/BodyText.module.css';
 import styles from '@/components/Message/Message.module.css';
+import bodyText from '@/styles/BodyText.module.css';
 
 export type MessageProps = {
   onClose?: (event: MouseEvent<HTMLButtonElement>) => void;
@@ -14,13 +15,10 @@ export type MessageProps = {
   closeMessage?: string;
 };
 
-export function Message({
-  status,
-  text,
-  title,
-  onClose,
-  closeMessage = 'Close message',
-}: Readonly<MessageProps>) {
+export function Message(props: Readonly<MessageProps>) {
+  const t = useMessages('message');
+  const { status, text, title, onClose, closeMessage = t.close } = props;
+
   const [isOpen, setIsOpen] = useState(true);
 
   function handleClose(event: MouseEvent<HTMLButtonElement>) {

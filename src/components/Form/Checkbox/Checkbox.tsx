@@ -11,7 +11,7 @@ import clsx from 'clsx';
 
 import { Icon } from '@/components/Icon';
 
-import styles from './Checkbox.module.css';
+import styles from '@/components/Form/Checkbox/Checkbox.module.css';
 import utils from '@/styles/Util.module.css';
 
 export interface CheckboxProps extends Omit<ComponentPropsWithoutRef<'input'>, 'type'> {

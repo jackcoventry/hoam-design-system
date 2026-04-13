@@ -3,8 +3,8 @@ import clsx from 'clsx';
 import { Button } from '@/components/Button';
 import { Stack } from '@/components/Layout';
 
-import typography from '@/styles/Typography.module.css';
 import styles from '@/components/ErrorPanel/ErrorPanel.module.css';
+import typography from '@/styles/Typography.module.css';
 
 export type Props = {
   message: string;

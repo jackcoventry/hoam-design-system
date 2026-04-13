@@ -1,4 +1,5 @@
 import { Button } from '@/components/Button';
+import { useMessages } from '@/hooks/useMessages';
 
 import styles from '@/components/Pagination/Pagination.module.css';
 
@@ -60,15 +61,18 @@ function getPaginationItems(
   return [1, 'ellipsis-left', ...middleRange, 'ellipsis-right', pageCount];
 }
 
-export function Pagination({
-  pageCount = 6,
-  currentPage = 1,
-  previousLabel = 'Previous page',
-  nextLabel = 'Next page',
-  'aria-label': ariaLabel = 'Pagination',
-  siblingCount = 1,
-  onPageChange,
-}: Readonly<PaginationProps>) {
+export function Pagination(props: Readonly<PaginationProps>) {
+  const t = useMessages('pagination');
+
+  const {
+    pageCount = 6,
+    currentPage = 1,
+    previousLabel = 'Previous page',
+    nextLabel = 'Next page',
+    'aria-label': ariaLabel = 'Pagination',
+    siblingCount = 1,
+    onPageChange,
+  } = props;
   const safePageCount = Math.max(1, pageCount);
   const safeSiblingCount = Math.max(0, siblingCount);
   const safeCurrentPage = clamp(currentPage, 1, safePageCount);
@@ -130,7 +134,7 @@ export function Pagination({
             <li key={item}>
               <Button
                 aria-current={isCurrentPage ? 'page' : undefined}
-                aria-label={isCurrentPage ? `Page ${item}, current page` : `Go to page ${item}`}
+                aria-label={isCurrentPage ? `${t.current}, ${item}` : `${t.goTo} ${item}`}
                 disabled={isCurrentPage}
                 variant={isCurrentPage ? 'primary' : 'secondary'}
                 onClick={() => handlePageChange(item)}

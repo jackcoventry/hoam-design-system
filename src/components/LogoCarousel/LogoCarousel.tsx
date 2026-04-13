@@ -109,7 +109,7 @@ export function LogoCarousel({
         >
           <img
             src={item.src}
-            alt={item.alt || `Logo ${item.id}`}
+            alt={item.alt}
             loading="eager"
             decoding="async"
           />

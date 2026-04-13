@@ -3,6 +3,7 @@ import { ReactNode } from 'react';
 import type { Link } from '@/components/Footer';
 import { Icon } from '@/components/Icon';
 import { Container, Grid, GridItem, Stack } from '@/components/Layout';
+import { useMessages } from '@/hooks/useMessages';
 import { formatISODate, formatReadableDate, parseLooseDate } from '@/utils/convertDates';
 import type { IconId } from '@/design-tokens/icons';
 
@@ -54,6 +55,8 @@ export function BlogArticle({
   const parsedDate = parseLooseDate(publishDate);
   const stringDate = parsedDate ? formatReadableDate(parsedDate) : '';
   const formattedDate = parsedDate ? formatISODate(parsedDate) : '';
+  const t = useMessages('blogArticle');
+  const tGlobal = useMessages('global');
 
   return (
     <div className={styles.wrapper}>
@@ -71,7 +74,7 @@ export function BlogArticle({
                     <div className={styles.meta}>
                       {author && (
                         <span className={styles.author}>
-                          By{' '}
+                          {t.by}{' '}
                           <a
                             href={`/profile/${author.id}`}
                             rel="author"
@@ -81,7 +84,7 @@ export function BlogArticle({
                             <span className={styles.authorAvatar}>
                               <img
                                 src={author.image}
-                                alt={`The avatar of ${author.name}`}
+                                alt={`${t.avatarAria} ${author.name}`}
                               />
                             </span>
                           </a>
@@ -95,17 +98,17 @@ export function BlogArticle({
                       </time>
                       <span className={styles.readingTime}>
                         <Icon id="clock" />
-                        {readingTime} minute read
+                        {readingTime} {t.readingTime}
                       </span>
                       <div className={styles.socialLinks}>
-                        SHARE
+                        {tGlobal.share}
                         {socialLinks?.map((link) => (
                           <a
                             key={link.label}
                             href={link.href}
                             target="_blank"
                             rel="noopener noreferrer"
-                            aria-label={`Share on ${link.label}`}
+                            aria-label={`${tGlobal.shareAria} ${link.label}`}
                           >
                             <Icon id={link.icon as IconId} />
                           </a>
@@ -162,7 +165,7 @@ export function BlogArticle({
               >
                 {tags?.length > 0 ? (
                   <p className={styles.tags}>
-                    <span className={styles.tagsTitle}>Tags: </span>
+                    <span className={styles.tagsTitle}>{t.tags}: </span>
                     {tags?.map((tag) => (
                       <a
                         key={tag.id}

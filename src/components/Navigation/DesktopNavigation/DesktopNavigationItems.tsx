@@ -8,6 +8,7 @@ import {
 } from '@/components/Navigation';
 import { panelId, topTriggerId } from '@/components/Navigation/helpers';
 import type { NavGroupItem, NavPanelItem, NavTopLevelItem } from '@/components/Navigation/types';
+import { useMessages } from '@/hooks/useMessages';
 
 import styles from '@/components/Navigation/Navigation.module.css';
 
@@ -36,6 +37,7 @@ export function DesktopNavigationItems({
   onOpenFirstCategory,
   onResetNavigation,
 }: Readonly<DesktopNavigationItemsProps>) {
+  const t = useMessages('navigation');
   return (
     <TopNavigation>
       {items.map((item, index) => {
@@ -106,11 +108,11 @@ export function DesktopNavigationItems({
                   item.thumbnail ? (
                     <aside
                       className={styles.promoWrapper}
-                      aria-label={`${item.label} highlights`}
+                      aria-label={`${t.explore} ${item.label}`}
                     >
                       <PromoBlock
                         title={item.label}
-                        subtitle="Explore"
+                        subtitle={t.explore}
                         image={item.thumbnail}
                         href={`/explore/${item.id}`}
                       />

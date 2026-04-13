@@ -3,15 +3,15 @@ import clsx from 'clsx';
 import { Checkbox } from '@/components/Form/Checkbox';
 import { Radio } from '@/components/Form/Radio';
 import { Stack } from '@/components/Layout';
-
 import type {
   CheckboxGroup,
   FilterValue,
   RadioGroup as RadioGroupType,
-} from './ProductFilters.types';
-import { isOptionSelected, isRadioGroup } from './ProductFilters.utils';
+} from '@/components/ProductFilters/ProductFilters.types';
+import { isOptionSelected, isRadioGroup } from '@/components/ProductFilters/ProductFilters.utils';
+import { useMessages } from '@/hooks/useMessages';
 
-import styles from './ProductFilters.module.css';
+import styles from '@/components/ProductFilters/ProductFilters.module.css';
 import utils from '@/styles/Util.module.css';
 
 type FilterBarOptionPanelProps = {
@@ -28,6 +28,7 @@ export function FilterBarOptionPanel({
   onToggle,
 }: Readonly<FilterBarOptionPanelProps>) {
   const options = group.options;
+  const t = useMessages('productFilters');
 
   return (
     <fieldset className={styles.fieldset}>
@@ -75,7 +76,7 @@ export function FilterBarOptionPanel({
               );
             })
           ) : (
-            <p className={styles.emptyState}>No filters found.</p>
+            <p className={styles.emptyState}>{t.noFilters}</p>
           )}
         </div>
       </Stack>

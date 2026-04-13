@@ -1,6 +1,97 @@
+import { minimum } from 'zod/v4-mini';
+
 export const defaultMessages = {
+  global: {
+    readMore: 'Read more',
+    share: 'Share',
+    shareAria: 'Share on',
+  },
   accordion: {
     collapse: 'Collapse all items',
     expand: 'Expand all items',
+  },
+  basket: {
+    price: 'Price',
+    save: 'Save for later',
+    remove: 'Remove item from basket',
+    subTotal: 'Sub-total',
+    total: 'Total',
+    checkout: 'Proceed to checkout',
+    columnProduct: 'Product',
+    columnQuantity: 'Quantity',
+    columnTotal: 'Total',
+  },
+  blogArticle: {
+    avatarAria: 'The avatar of',
+    by: 'By',
+    readingTime: 'minute read',
+    tags: 'Tags',
+  },
+  footer: {
+    backToTop: 'Back to top',
+    socialTitle: 'Follow us',
+  },
+  form: {},
+  message: {
+    close: 'Close message',
+  },
+  modal: {
+    close: 'Close dialog',
+  },
+  navigation: {
+    close: 'Close menu',
+    open: 'Open menu',
+    mainNavigation: 'Main navigation',
+    userNavigation: 'User navigation',
+    explore: 'Explore',
+    modalBasket: 'Your Basket',
+  },
+  pagination: {
+    previous: 'Previous page',
+    next: 'Next page',
+    title: 'Pagination',
+    current: 'Current page',
+    goTo: 'Go to page',
+  },
+  password: {
+    stength0: 'Too weak',
+    stength1: 'Weak',
+    stength2: 'Fair',
+    stength3: 'Strong',
+    stength4: 'Very strong',
+  },
+  productFilters: {
+    noFilters: 'No filters found',
+    maximum: 'Maximum',
+    maximumShort: 'Max',
+    minimum: 'Minimum',
+    minimumShort: 'Min',
+    title: 'Filter products',
+    sortBy: 'Sort by',
+    toggle: 'Toggle Filters',
+    reset: 'Reset',
+    active: 'Active filters',
+    clear: 'Clear',
+    remove: 'Remove',
+  },
+  progress: {
+    loading: 'Loading progress',
+    inProgress: 'In progress',
+  },
+  productTile: {
+    new: 'New',
+    lowStock: 'Low stock',
+    outOfStock: 'Out of stock',
+    addToCart: 'Add to cart',
+    addedToCart: 'Added!',
+    save: 'Save for later',
+  },
+  sidebarNavigation: {
+    title: 'Sidebar navigation',
+    hide: 'Hide navigation',
+    show: 'Show navigation',
+  },
+  skipToContent: {
+    text: 'Skip to main content',
   },
 } as const;

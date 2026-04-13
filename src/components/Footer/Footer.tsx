@@ -2,6 +2,8 @@ import clsx from 'clsx';
 
 import { Icon } from '@/components/Icon';
 import { Container, Grid, GridItem, Stack } from '@/components/Layout';
+import { useMessages } from '@/hooks/useMessages';
+import { SITE } from '@/constants/site';
 import { IconId } from '@/design-tokens/icons';
 
 import styles from '@/components/Footer/Footer.module.css';
@@ -21,7 +23,6 @@ export type FooterProps = {
   topLinks?: LinkSection[];
   bottomLinks?: Array<Link>;
   socialLinks?: Array<Link>;
-  socialTitle?: string;
 };
 
 const MAX_TOP_SECTIONS = 4;
@@ -30,9 +31,9 @@ export function Footer({
   topLinks = [],
   bottomLinks = [],
   socialLinks = [],
-  socialTitle = 'Connect with us',
 }: Readonly<FooterProps>) {
   const visibleTopLinks = topLinks.slice(0, MAX_TOP_SECTIONS);
+  const t = useMessages('footer');
 
   return (
     <footer className={styles.root}>
@@ -42,7 +43,7 @@ export function Footer({
           cols={13}
         >
           <GridItem spanXl={3}>
-            <span className={styles.logo}>HOAM</span>
+            <span className={styles.logo}>{SITE.title}</span>
           </GridItem>
           {visibleTopLinks.map((section) => (
             <GridItem
@@ -69,7 +70,7 @@ export function Footer({
               span={12}
               spanXl={2}
             >
-              <h4 className={styles.sectionTitle}>{socialTitle}</h4>
+              <h4 className={styles.sectionTitle}>{t.socialTitle}</h4>
 
               <Stack gap="lg">
                 <div className={styles.socialLinks}>
@@ -101,7 +102,7 @@ export function Footer({
           </GridItem>
           <GridItem span={2}>
             <div className={clsx(styles.links, styles.backToTop)}>
-              <a href="#content">Back to top</a>
+              <a href="#content">{t.backToTop}</a>
             </div>
           </GridItem>
         </Grid>

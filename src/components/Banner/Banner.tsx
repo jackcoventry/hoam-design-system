@@ -1,5 +1,6 @@
 import { Button } from '@/components/Button';
 import { Container, Grid, GridItem, Section, Stack } from '@/components/Layout';
+import { useMessages } from '@/hooks/useMessages';
 
 import styles from '@/components/Banner/Banner.module.css';
 
@@ -28,6 +29,8 @@ export function Banner({
   theme = 'default',
   button,
 }: Readonly<BannerProps>) {
+  const t = useMessages('global');
+
   return (
     <div
       className={styles.root}
@@ -51,7 +54,7 @@ export function Banner({
                   <p className={styles.text}>{text}</p>
                   <div className={styles.contentLink}>
                     <Button variant={theme === 'default' ? 'primary' : 'secondary'}>
-                      {button?.text || 'Read more'}
+                      {button?.text || t.readMore}
                     </Button>
                   </div>
                 </Stack>
