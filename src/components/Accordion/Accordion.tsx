@@ -15,6 +15,7 @@ import clsx from 'clsx';
 
 import { Button } from '@/components/Button';
 import { Icon } from '@/components/Icon';
+import { useMessages } from '@/hooks/useMessages';
 import { logger } from '@/utils/logger';
 
 import styles from '@/components/Accordion/Accordion.module.css';
@@ -108,9 +109,9 @@ export function Accordion({
   className = '',
   children,
   showToggleAll = true,
-  collapseLabel = 'Collapse all items',
-  expandLabel = 'Expand all items',
 }: Readonly<AccordionProps>) {
+  const t = useMessages('accordion');
+
   const isControlled = controlledOpenIds !== undefined;
   const [internalOpenIds, setInternalOpenIds] = useState<string[]>(() => defaultOpenIds);
 
@@ -168,7 +169,7 @@ export function Accordion({
               variant="primary"
               size="small"
             >
-              {allExpanded ? collapseLabel : expandLabel}
+              {allExpanded ? t.collapse : t.expand}
             </Button>
           </div>
         )}
