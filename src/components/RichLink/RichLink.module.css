@@ -32,7 +32,7 @@
   object-fit: cover;
   object-position: center;
   transform: scale(1);
-  transition: transform 0.125s ease-in-out;
+  transition: transform var(--hoam-transition-duration-short) var(--hoam-transition-function-circ);
   width: 100%;
 }
 

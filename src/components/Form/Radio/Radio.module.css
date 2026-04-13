@@ -54,7 +54,7 @@
   height: var(--hoam-radio-dot-size);
   opacity: 0;
   transform: scale(0);
-  transition: background ease-in-out 0.25s;
+  transition: background var(--hoam-transition-function-circ) var(--hoam-transition-duration-medium);
   width: var(--hoam-radio-dot-size);
 }
 
@@ -65,7 +65,7 @@
 .input:checked + .outer .inner {
   opacity: 1;
   transform: scale(0);
-  animation: icon-bounce 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation: icon-bounce var(--hoam-transition-duration-medium) var(--hoam-transition-function-spring) forwards;
 }
 
 .text {

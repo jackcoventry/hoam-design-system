@@ -726,6 +726,54 @@
     "set": "spacing"
   },
   {
+    "name": "hoam-transition-duration-zero",
+    "cssVar": "--hoam-transition-duration-zero",
+    "type": null,
+    "value": 0,
+    "group": null,
+    "set": "duration"
+  },
+  {
+    "name": "hoam-transition-duration-short",
+    "cssVar": "--hoam-transition-duration-short",
+    "type": null,
+    "value": "125ms",
+    "group": null,
+    "set": "duration"
+  },
+  {
+    "name": "hoam-transition-duration-medium",
+    "cssVar": "--hoam-transition-duration-medium",
+    "type": null,
+    "value": "250ms",
+    "group": null,
+    "set": "duration"
+  },
+  {
+    "name": "hoam-transition-function-spring",
+    "cssVar": "--hoam-transition-function-spring",
+    "type": null,
+    "value": "cubic-bezier(0.34, 1.56, 0.64, 1)",
+    "group": null,
+    "set": "function"
+  },
+  {
+    "name": "hoam-transition-function-quad",
+    "cssVar": "--hoam-transition-function-quad",
+    "type": null,
+    "value": "cubic-bezier(0.5, 1, 0.89, 1)",
+    "group": null,
+    "set": "function"
+  },
+  {
+    "name": "hoam-transition-function-circ",
+    "cssVar": "--hoam-transition-function-circ",
+    "type": null,
+    "value": "cubic-bezier(0.85, 0, 0.15, 1)",
+    "group": null,
+    "set": "function"
+  },
+  {
     "name": "hoam-typography-family-1",
     "cssVar": "--hoam-typography-family-1",
     "type": "fontFamily",

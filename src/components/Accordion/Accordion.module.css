@@ -1,5 +1,10 @@
 @import "@/styles/media.css";
 
+:root {
+  --hoam-accordion-transition-duration: var(--hoam-transition-duration-medium);
+  --hoam-accordion-transition-function: var(--hoam-transition-function-circ);
+}
+
 .header {
   align-items: center;
   display: flex;
@@ -24,9 +29,9 @@
   grid-template-rows: 0fr;
   opacity: 0;
   transition:
-    grid-template-rows 300ms ease,
-    opacity 300ms ease,
-    visibility 0s linear 300ms;
+    grid-template-rows var(--hoam-accordion-transition-duration) var(--hoam-accordion-transition-function),
+    opacity var(--hoam-accordion-transition-duration) var(--hoam-accordion-transition-function),
+    visibility 0s var(--hoam-accordion-transition-function) var(--hoam-accordion-transition-duration);
   visibility: hidden;
 }
 
@@ -35,9 +40,9 @@
   grid-template-rows: 1fr;
   opacity: 1;
   transition:
-    grid-template-rows 300ms ease,
-    opacity 300ms ease,
-    visibility 0s linear 0s;
+    grid-template-rows var(--hoam-accordion-transition-duration) var(--hoam-accordion-transition-function),
+    opacity var(--hoam-accordion-transition-duration) var(--hoam-accordion-transition-function),
+    visibility 0s var(--hoam-accordion-transition-function) 0s;
   visibility: visible;
 }
 

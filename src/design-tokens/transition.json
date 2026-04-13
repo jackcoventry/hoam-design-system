@@ -1,0 +1,26 @@
+{
+  "transition": {
+    "duration": {
+      "zero": {
+        "$value": 0
+      },
+      "short": {
+        "$value": "125ms"
+      },
+      "medium": {
+        "$value": "250ms"
+      }
+    },
+    "function": {
+      "spring": {
+        "$value": "cubic-bezier(0.34, 1.56, 0.64, 1)"
+      },
+      "quad": {
+        "$value": "cubic-bezier(0.5, 1, 0.89, 1)"
+      },
+      "circ": {
+        "$value": "cubic-bezier(0.85, 0, 0.15, 1)"
+      }
+    }
+  }
+}

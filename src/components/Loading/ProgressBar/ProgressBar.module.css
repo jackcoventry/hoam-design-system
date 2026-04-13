@@ -46,13 +46,13 @@
 .progress::-webkit-progress-value {
   background-color: var(--hoam-progress-fill-color-bg);
   border-radius: var(--hoam-progress-border-radius);
-  transition: width 0.25s ease;
+  transition: width var(--hoam-transition-duration-medium) var(--hoam-transition-function-quad);
 }
 
 .progress::-moz-progress-bar {
   background-color: var(--hoam-progress-fill-color-bg);
   border-radius: var(--hoam-progress-border-radius);
-  transition: width 0.25s ease;
+  transition: width var(--hoam-transition-duration-medium) var(--hoam-transition-function-quad);
 }
 
 .indeterminate {

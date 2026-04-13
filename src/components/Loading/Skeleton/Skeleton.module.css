@@ -4,7 +4,7 @@
   --skeleton-base: rgba(0, 0, 0, 0.08); /* TODO: Tokenize */
   --skeleton-highlight: rgba(0, 0, 0, 0.02);
 
-  animation: skeleton-shimmer 2s ease infinite;
+  animation: skeleton-shimmer 2s var(--hoam-transition-function-quad) infinite;
   background: linear-gradient(90deg, var(--skeleton-base) 25%, var(--skeleton-highlight) 37%, var(--skeleton-base) 63%);
   background-size: 400% 100%;
   border-radius: var(--hoam-border-radius-default);

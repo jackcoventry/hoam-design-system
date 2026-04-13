@@ -85,8 +85,6 @@ const Placeholder = ({ children, value = '' }: SelectPlaceholderProps) => (
   </option>
 );
 
-Placeholder.displayName = 'Placeholder';
-
 function isOptionElement(
   child: ReactNode
 ): child is ReactElement<SelectOptionProps, typeof Option> {
@@ -230,8 +228,6 @@ const SelectRoot = forwardRef(function Select<M extends boolean = false>(
     </div>
   );
 });
-
-SelectRoot.displayName = 'Select';
 
 export const Select = Object.assign(SelectRoot, {
   Option,

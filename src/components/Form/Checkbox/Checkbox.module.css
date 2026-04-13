@@ -44,7 +44,7 @@
   height: var(--checkbox-box-size);
   justify-content: center;
   width: var(--checkbox-box-size);
-  transition: background ease-in-out 0.25s;
+  transition: background var(--hoam-transition-function-circ) var(--hoam-transition-duration-medium);
 }
 
 .icon {
@@ -64,7 +64,7 @@
 .input:checked + .box .icon,
 .input:indeterminate + .box .icon {
   opacity: 1;
-  animation: icon-bounce 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation: icon-bounce var(--hoam-transition-duration-medium) var(--hoam-transition-function-spring) forwards;
 }
 
 .label {

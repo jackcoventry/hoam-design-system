@@ -1,5 +1,10 @@
 @import "@/styles/media.css";
 
+:root {
+  --hoam-modal-transition-duration: var(--hoam-transition-duration-medium);
+  --hoam-modal-transition-function: var(--hoam-transition-function-circ);
+}
+
 .root {
   background: rgba(0, 0, 0, 0.3);
   box-sizing: border-box;
@@ -74,22 +79,22 @@
 }
 
 .root[data-variant="modal"][data-state="opening"] {
-  animation: modal-overlay-in 200ms ease-out both;
+  animation: modal-overlay-in var(--hoam-modal-transition-duration) var(--hoam-modal-transition-function) both;
   pointer-events: auto;
 }
 
 .root[data-variant="modal"][data-state="closing"] {
-  animation: modal-overlay-out 200ms ease-out both;
+  animation: modal-overlay-out var(--hoam-modal-transition-duration) var(--hoam-modal-transition-function) both;
   pointer-events: none;
 }
 
 .root[data-variant="drawer"][data-state="opening"] {
-  animation: drawer-overlay-in 300ms ease-out both;
+  animation: drawer-overlay-in var(--hoam-modal-transition-duration) var(--hoam-modal-transition-function) both;
   pointer-events: auto;
 }
 
 .root[data-variant="drawer"][data-state="closing"] {
-  animation: drawer-overlay-out 300ms ease-out both;
+  animation: drawer-overlay-out var(--hoam-modal-transition-duration) var(--hoam-modal-transition-function) both;
   pointer-events: none;
 }
 
@@ -114,19 +119,19 @@
 }
 
 .root[data-variant="modal"][data-state="opening"] .dialog {
-  animation: modal-panel-in 200ms ease-out both;
+  animation: modal-panel-in var(--hoam-modal-transition-duration) var(--hoam-modal-transition-function) both;
 }
 
 .root[data-variant="modal"][data-state="closing"] .dialog {
-  animation: modal-panel-out 200ms ease-out both;
+  animation: modal-panel-out var(--hoam-modal-transition-duration) var(--hoam-modal-transition-function) both;
 }
 
 .root[data-variant="drawer"][data-state="opening"] .dialog {
-  animation: drawer-panel-in 300ms ease-out both;
+  animation: drawer-panel-in var(--hoam-modal-transition-duration) var(--hoam-modal-transition-function) both;
 }
 
 .root[data-variant="drawer"][data-state="closing"] .dialog {
-  animation: drawer-panel-out 300ms ease-out both;
+  animation: drawer-panel-out var(--hoam-modal-transition-duration) var(--hoam-modal-transition-function) both;
 }
 
 .header {

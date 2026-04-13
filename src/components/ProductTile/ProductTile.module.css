@@ -4,7 +4,7 @@
   display: grid;
   position: relative;
   margin: 0 auto;
-  max-width: 32rem;
+  max-width: 32rem; /* TODO: Why this specific size? */
 }
 
 @media (--hoam-hoverable) {
@@ -21,7 +21,6 @@
 }
 
 .imageWrapper {
-  background: linear-gradient(90deg, #eeea 30%, #fffa, #eeea 60%) right/300% 100%;
   border-radius: var(--hoam-border-radius-default);
   height: 0;
   margin: 0;
@@ -34,7 +33,7 @@
 .image {
   display: block;
   height: auto;
-  transition: transform 100ms ease-in-out;
+  transition: transform var(--hoam-transition-duration-short) var(--hoam-transition-function-circ);
   width: 100%;
 }
 

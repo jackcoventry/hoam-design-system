@@ -178,8 +178,6 @@ export function Accordion({
   );
 }
 
-Accordion.displayName = 'Accordion';
-
 export function AccordionItem({ id, children, className }: Readonly<AccordionItemProps>) {
   const { openIds, toggle } = useAccordionContext();
   const isOpen = openIds.includes(id);
@@ -233,18 +231,12 @@ export function AccordionItem({ id, children, className }: Readonly<AccordionIte
   );
 }
 
-AccordionItem.displayName = 'AccordionItem';
-
 export function AccordionHeader({ children }: Readonly<AccordionHeaderProps>) {
   return <>{children}</>;
 }
-
-AccordionHeader.displayName = 'AccordionHeader';
 
 export function AccordionPanel({
   children,
 }: Readonly<PropsWithChildren<AccordionPanelProps & HTMLAttributes<HTMLDivElement>>>) {
   return <>{children}</>;
 }
-
-AccordionPanel.displayName = 'AccordionPanel';

@@ -21,7 +21,7 @@
 .image {
   aspect-ratio: 1;
   display: block;
-  transition: transform ease-in-out 0.125s;
+  transition: transform ease-in-out var(--hoam-transition-duration-short);
 }
 
 .subtitle {

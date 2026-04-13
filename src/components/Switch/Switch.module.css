@@ -10,8 +10,8 @@
   --hoam-switch-border-radius: 30px;
 
   --hoam-switch-opacity-disabled: 0.6;
-  --hoam-switch-transition-duration: 0.2s;
-  --hoam-switch-transition-easing: ease;
+  --hoam-switch-transition-duration: var(--hoam-transition-duration-short);
+  --hoam-switch-transition-easing: var(--hoam-transition-function-quad);
 
   display: block;
 }
