@@ -2,11 +2,11 @@ import type { Decorator, Preview } from '@storybook/react-vite';
 
 import { ModalStackProvider } from '../src/components/Modal/ModalStackContext';
 
-import '@/styles/_variables.css';
-import '@/styles/_global.css';
-import '@/styles/_reset.css';
-import '@/styles/_fonts.css';
-import '@/styles/_demo.css';
+import '@/styles/variables.css';
+import '@/styles/reset.css';
+import '@/styles/global.css';
+import '@/styles/fonts.css';
+import '@/styles/demo.css';
 
 const withModalStack: Decorator = (Story) => (
   <ModalStackProvider>

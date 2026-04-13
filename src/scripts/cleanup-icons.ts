@@ -6,7 +6,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const filesToDelete = [
-  path.resolve(__dirname, '../../design-tokens/_variables.css'),
+  path.resolve(__dirname, '../../design-tokens/variables.css'),
   path.resolve(__dirname, '../../design-tokens/variables.json'),
 ] as const;
 

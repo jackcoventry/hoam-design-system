@@ -1,4 +1,4 @@
-@import "@/styles/_media.css";
+@import "@/styles/breakpoints.css";
 
 .root {
   background-color: var(--hoam-color-surface-accent-soft);

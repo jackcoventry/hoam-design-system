@@ -1,5 +1,3 @@
-import { minimum } from 'zod/v4-mini';
-
 export const defaultMessages = {
   global: {
     readMore: 'Read more',

@@ -1,4 +1,4 @@
-@import "@/styles/_media.css";
+@import "@/styles/media.css";
 
 .root {
   --skeleton-base: rgba(0, 0, 0, 0.08); /* TODO: Tokenize */

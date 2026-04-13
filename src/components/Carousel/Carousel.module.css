@@ -1,4 +1,4 @@
-@import "@/styles/_media.css";
+@import "@/styles/media.css";
 
 .root {
   --carousel-nav-size: 2.5rem;

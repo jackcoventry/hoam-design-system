@@ -53,6 +53,11 @@ type SpacingEntry = {
   value: string;
 };
 
+type BreakpointEntry = {
+  key: string;
+  value: string;
+};
+
 function isRecord(value: unknown): value is TokenRecord {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
@@ -273,6 +278,76 @@ export function mapGapToValue(gap: Spacing): string {
 `;
 }
 
+function getBreakpointNode(rawTokens: TokenRecord): TokenRecord | null {
+  const breakpoint = getRecordValue(rawTokens, 'breakpoint');
+  return isRecord(breakpoint) ? breakpoint : null;
+}
+
+function isBreakpointEntry(entry: [string, unknown]): entry is [string, TokenRecord] {
+  const [key, value] = entry;
+  return key !== '$type' && key !== '$extensions' && isRecord(value);
+}
+
+function getBreakpointEntries(rawTokens: TokenRecord): BreakpointEntry[] {
+  const breakpointNode = getBreakpointNode(rawTokens);
+
+  if (!breakpointNode) {
+    return [];
+  }
+
+  return Object.entries(breakpointNode)
+    .filter(isBreakpointEntry)
+    .map(([tokenKey, value]) => {
+      const rawValue = getRecordValue(value, '$value');
+
+      if (typeof rawValue !== 'string') {
+        throw new TypeError(`Expected breakpoint token "${tokenKey}" to have a string $value.`);
+      }
+
+      return {
+        key: tokenKey,
+        value: rawValue,
+      };
+    });
+}
+
+function buildBreakpointsTsFile(rawTokens: TokenRecord): string {
+  const breakpointEntries = getBreakpointEntries(rawTokens);
+
+  if (breakpointEntries.length === 0) {
+    throw new Error('No breakpoint tokens found.');
+  }
+
+  const upEntries = breakpointEntries
+    .map((entry) => `    ${entry.key.toUpperCase()}: '${entry.value}',`)
+    .join('\n');
+
+  const keys = breakpointEntries.map((entry) => `'${entry.key.toUpperCase()}'`).join(' | ');
+
+  return `export const BREAKPOINTS = {
+  UP: {
+${upEntries}
+  },
+} as const;
+
+export type BreakpointUpKey = ${keys};
+`;
+}
+
+function buildBreakpointsCssFile(rawTokens: TokenRecord): string {
+  const breakpointEntries = getBreakpointEntries(rawTokens);
+
+  if (breakpointEntries.length === 0) {
+    throw new Error('No breakpoint tokens found.');
+  }
+
+  return breakpointEntries
+    .map(
+      (entry) => `@custom-media --${PREFIX}-breakpoint-${entry.key}-up (min-width: ${entry.value});`
+    )
+    .join('\n');
+}
+
 function buildSectionCssFile(rawTokens: TokenRecord): string {
   const spacingEntries = getSpacingEntries(rawTokens);
 
@@ -365,6 +440,27 @@ function applyPrivateScopeFilters(config: SDConfig, rawTokens: TokenRecord): voi
   }
 }
 
+function addBreakpointOutputs(config: SDConfig): void {
+  const cssPlatform = config.platforms?.css;
+
+  if (!cssPlatform) {
+    return;
+  }
+
+  cssPlatform.files ??= [];
+
+  cssPlatform.files.push(
+    {
+      destination: 'breakpoints.css',
+      format: 'custom/css/custom-media-breakpoints',
+    },
+    {
+      destination: 'breakpoints.ts',
+      format: 'custom/types/breakpoints',
+    }
+  );
+}
+
 const tokenFiles = await glob([
   'src/design-tokens/**/*.json',
   '!src/design-tokens/build/**/*.json',
@@ -420,6 +516,16 @@ export default tokens;
   },
 });
 
+StyleDictionary.registerFormat({
+  name: 'custom/types/breakpoints',
+  format: () => buildBreakpointsTsFile(rawTokens),
+});
+
+StyleDictionary.registerFormat({
+  name: 'custom/css/custom-media-breakpoints',
+  format: () => buildBreakpointsCssFile(rawTokens),
+});
+
 const rawConfig = await readFile(new URL('../../style-dictionary.json', import.meta.url), 'utf-8');
 
 type SDConfig = {
@@ -439,6 +545,7 @@ if (!isSDConfig(parsedConfig)) {
 const config: SDConfig = parsedConfig;
 
 applyPrivateScopeFilters(config, rawTokens);
+addBreakpointOutputs(config);
 
 const sd = new StyleDictionary(config);
 

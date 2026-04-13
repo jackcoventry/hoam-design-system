@@ -20,6 +20,7 @@ import {
 } from '@/components/ProductFilters/ProductFilters.utils';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { useMessages } from '@/hooks/useMessages';
+import { BREAKPOINTS } from '@/styles/breakpoints';
 
 import styles from '@/components/ProductFilters/ProductFilters.module.css';
 
@@ -43,8 +44,8 @@ export function FilterBar(props: PropsWithChildren<FilterBarProps>) {
   const baseId = useId();
   const rootRef = useRef<HTMLDivElement | null>(null);
   const chips = useMemo(() => buildChips(groups, value), [groups, value]);
-  const isMobile = useMediaQuery('(max-width: 48rem)'); // TODO: can this be tokenized?
-  const [filtersCollapsed, setFiltersCollapsed] = useState<boolean>(isMobile);
+  const isDesktop = useMediaQuery(`(min-width: ${BREAKPOINTS.UP.MD})`);
+  const [filtersCollapsed, setFiltersCollapsed] = useState<boolean>(!isDesktop);
   const handleFilterCollapse = () => {
     setFiltersCollapsed((current) => !current);
   };

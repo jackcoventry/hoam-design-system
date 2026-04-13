@@ -6,6 +6,7 @@ import { Stack } from '@/components/Layout';
 import { Spinner } from '@/components/Loading';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { useMessages } from '@/hooks/useMessages';
+import { BREAKPOINTS } from '@/styles/breakpoints';
 
 import styles from '@/components/SidebarNavigation/SidebarNavigation.module.css';
 
@@ -32,14 +33,14 @@ export function SidebarNavigation(props: Readonly<SidebarNavigationProps>) {
     showLabel = t.show,
   } = props;
 
-  const isMobile = useMediaQuery('(max-width: 600px)');
+  const isDesktop = useMediaQuery(`(min-width: ${BREAKPOINTS.UP.SM})`);
   const [isOpen, setIsOpen] = useState(false);
 
   function handleToggle() {
     setIsOpen((current) => !current);
   }
 
-  if (isMobile) {
+  if (!isDesktop) {
     return (
       <>
         <Button

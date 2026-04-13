@@ -1,0 +1,2 @@
+@custom-media --hoam-motion-reduce (prefers-reduced-motion: reduce);
+@custom-media --hoam-hoverable (hover: hover) and (pointer: fine);

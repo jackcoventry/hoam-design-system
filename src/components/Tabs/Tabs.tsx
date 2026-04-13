@@ -1,6 +1,7 @@
 import { Accordion, AccordionHeader, AccordionItem, AccordionPanel } from '@/components/Accordion';
 import { DesktopTabs } from '@/components/Tabs';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
+import { BREAKPOINTS } from '@/styles/breakpoints';
 
 type Layout = 'horizontal' | 'vertical' | undefined;
 type Mode = 'manual' | 'automatic' | undefined;
@@ -19,9 +20,9 @@ export type TabsProps = {
 };
 
 export function Tabs({ title, items, layout, mode }: Readonly<TabsProps>) {
-  const isMobile = useMediaQuery('(max-width: 768px)');
+  const isDesktop = useMediaQuery(`(min-width: ${BREAKPOINTS.UP.MD})`);
 
-  if (isMobile) {
+  if (!isDesktop) {
     return (
       <section aria-label={title}>
         <Accordion showToggleAll={false}>

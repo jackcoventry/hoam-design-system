@@ -6,6 +6,10 @@
   --hoam-border-size-default: 1px solid;
   --hoam-border-size-medium: 3px solid;
   --hoam-border-size-large: 5px solid;
+  --hoam-breakpoint-sm: 40rem;
+  --hoam-breakpoint-md: 48rem;
+  --hoam-breakpoint-lg: 64rem;
+  --hoam-breakpoint-xl: 80rem;
   --hoam-color-accent-soft: #cb99fa; /** A softer version of the accent color */
   --hoam-color-accent-default: #a855f7; /** The default accent colour for this theme */
   --hoam-color-accent-strong: #6609be; /** A stronger version of the accent color */

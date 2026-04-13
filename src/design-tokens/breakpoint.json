@@ -1,0 +1,21 @@
+{
+  "breakpoint": {
+    "$type": "dimension",
+    "$extensions": {
+      "$group": "breakpoint",
+      "scope": "public"
+    },
+    "sm": {
+      "$value": "40rem"
+    },
+    "md": {
+      "$value": "48rem"
+    },
+    "lg": {
+      "$value": "64rem"
+    },
+    "xl": {
+      "$value": "80rem"
+    }
+  }
+}

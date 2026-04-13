@@ -24,6 +24,50 @@
     "set": "size"
   },
   {
+    "name": "hoam-breakpoint-sm",
+    "cssVar": "--hoam-breakpoint-sm",
+    "type": "dimension",
+    "value": "40rem",
+    "group": "breakpoint",
+    "set": "breakpoint",
+    "extensions": {
+      "scope": "public"
+    }
+  },
+  {
+    "name": "hoam-breakpoint-md",
+    "cssVar": "--hoam-breakpoint-md",
+    "type": "dimension",
+    "value": "48rem",
+    "group": "breakpoint",
+    "set": "breakpoint",
+    "extensions": {
+      "scope": "public"
+    }
+  },
+  {
+    "name": "hoam-breakpoint-lg",
+    "cssVar": "--hoam-breakpoint-lg",
+    "type": "dimension",
+    "value": "64rem",
+    "group": "breakpoint",
+    "set": "breakpoint",
+    "extensions": {
+      "scope": "public"
+    }
+  },
+  {
+    "name": "hoam-breakpoint-xl",
+    "cssVar": "--hoam-breakpoint-xl",
+    "type": "dimension",
+    "value": "80rem",
+    "group": "breakpoint",
+    "set": "breakpoint",
+    "extensions": {
+      "scope": "public"
+    }
+  },
+  {
     "name": "hoam-color-accent-soft",
     "cssVar": "--hoam-color-accent-soft",
     "type": "color",
