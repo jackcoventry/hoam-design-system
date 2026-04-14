@@ -1,11 +1,10 @@
 import { type MouseEvent, useState } from 'react';
-import clsx from 'clsx';
 
+import { BodyText } from '@/components/Common/BodyText';
 import { Icon } from '@/components/Icon';
 import { useMessages } from '@/hooks/useMessages';
 
 import styles from '@/components/Message/Message.module.css';
-import bodyText from '@/styles/BodyText.module.css';
 
 export const MessageStatuses = ['info', 'warning', 'error', 'success'];
 export type MessageStatus = (typeof MessageStatuses)[number];
@@ -39,8 +38,8 @@ export function Message(props: Readonly<MessageProps>) {
         <h2 className={styles.title}>{title}</h2>
 
         {text ? (
-          <div className={clsx(styles.text, bodyText.root)}>
-            <p>{text}</p>
+          <div className={styles.text}>
+            <BodyText>{text}</BodyText>
           </div>
         ) : null}
       </div>

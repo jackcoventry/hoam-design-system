@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 
+import { BodyText } from '@/components/Common/BodyText';
 import type { Link } from '@/components/Footer';
 import { Icon } from '@/components/Icon';
 import { Container, Grid, GridItem, Stack } from '@/components/Layout';
@@ -8,7 +9,6 @@ import { formatISODate, formatReadableDate, parseLooseDate } from '@/utils/conve
 import type { IconId } from '@/design-tokens/icons';
 
 import styles from '@/components/BlogArticle/BlogArticle.module.css';
-import bodyText from '@/styles/BodyText.module.css';
 
 type BlogImage = {
   src: string;
@@ -148,8 +148,8 @@ export function BlogArticle({
               startLg={3}
               spanLg={8}
             >
-              <section className={`${styles.body} | ${bodyText.root}`}>
-                <Stack gap="md">{children}</Stack>
+              <section className={styles.body}>
+                <BodyText>{children}</BodyText>
               </section>
             </GridItem>
           </Grid>

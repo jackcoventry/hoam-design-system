@@ -14,12 +14,12 @@ import {
 import clsx from 'clsx';
 
 import { Button } from '@/components/Button';
+import { BodyText } from '@/components/Common/BodyText/BodyText';
 import { Icon } from '@/components/Icon';
 import { useMessages } from '@/hooks/useMessages';
 import { logger } from '@/utils/logger';
 
 import styles from '@/components/Accordion/Accordion.module.css';
-import bodyText from '@/styles/BodyText.module.css';
 
 export interface AccordionProps {
   allowMultiple?: boolean;
@@ -225,7 +225,9 @@ export function AccordionItem({ id, children, className }: Readonly<AccordionIte
         className={clsx(styles.panel, panel.props.className)}
         data-open={isOpen ? 'true' : 'false'}
       >
-        <div className={clsx(styles.panelInner, bodyText.root)}>{panel.props.children}</div>
+        <div className={styles.panelInner}>
+          <BodyText>{panel.props.children}</BodyText>
+        </div>
       </section>
     </div>
   );

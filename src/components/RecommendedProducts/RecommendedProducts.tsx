@@ -1,8 +1,8 @@
+import { BodyText } from '@/components/Common/BodyText';
 import { Container, Grid, GridItem, Section, Stack } from '@/components/Layout';
 import { ProductTile, type ProductTileProps } from '@/components/ProductTile';
 
 import styles from '@/components/RecommendedProducts/RecommendedProducts.module.css';
-import bodyText from '@/styles/BodyText.module.css';
 
 export type RecommendedProductsProps = {
   title: string;
@@ -25,10 +25,10 @@ export function RecommendedProducts({
           <Container>
             <Grid>
               <GridItem span={12}>
-                <div className={bodyText.root}>
+                <BodyText>
                   <h2>{title}</h2>
                   {description && <p>{description}</p>}
-                </div>
+                </BodyText>
               </GridItem>
             </Grid>
           </Container>

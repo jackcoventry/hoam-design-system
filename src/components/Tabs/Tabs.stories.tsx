@@ -1,8 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react-vite';
 
+import { BodyText } from '@/components/Common/BodyText';
 import { type TabProps, Tabs } from '@/components/Tabs';
-
-import bodyText from '@/styles/BodyText.module.css';
 
 const meta: Meta<typeof Tabs> = {
   title: 'Components/Tabs',
@@ -23,7 +22,7 @@ const TABS: TabProps[] = [
     id: 'home',
     label: 'Home',
     content: (
-      <section className={bodyText.root}>
+      <BodyText>
         <p>
           Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae
           pellentesque sem placerat. In id cursus mi pretium tellus duis convallis.
@@ -36,14 +35,14 @@ const TABS: TabProps[] = [
           Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia
           nostra inceptos himenaeos. Lorem ipsum dolor sit amet consectetur adipiscing elit.
         </p>
-      </section>
+      </BodyText>
     ),
   },
   {
     id: 'contact',
     label: 'Contact',
     content: (
-      <section className={bodyText.root}>
+      <BodyText>
         <p>
           Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus
           bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere.
@@ -56,14 +55,14 @@ const TABS: TabProps[] = [
           Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae
           pellentesque sem placerat. In id cursus mi pretium tellus duis convallis.
         </p>
-      </section>
+      </BodyText>
     ),
   },
   {
     id: 'search',
     label: 'Search',
     content: (
-      <section className={bodyText.root}>
+      <BodyText>
         <p>
           Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia
           nostra inceptos himenaeos. Lorem ipsum dolor sit amet consectetur adipiscing elit.
@@ -76,7 +75,7 @@ const TABS: TabProps[] = [
           Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus
           bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere.
         </p>
-      </section>
+      </BodyText>
     ),
   },
 ];

@@ -1,11 +1,10 @@
 import { Activity, type KeyboardEvent, useRef, useState } from 'react';
-import clsx from 'clsx';
 
 import { Button } from '@/components/Button';
+import { BodyText } from '@/components/Common/BodyText';
 import type { TabsProps } from '@/components/Tabs';
 
 import styles from '@/components/Tabs/Tabs.module.css';
-import bodyText from '@/styles/BodyText.module.css';
 
 export function DesktopTabs({
   title,
@@ -139,9 +138,9 @@ export function DesktopTabs({
               id={`hoam-panel-${tab.id}`}
               aria-labelledby={`hoam-tab-${tab.id}`}
               hidden={!isActive}
-              className={clsx(styles.panel, bodyText.root)}
+              className={styles.panel}
             >
-              {tab.content}
+              <BodyText>{tab.content}</BodyText>
             </section>
           </Activity>
         );

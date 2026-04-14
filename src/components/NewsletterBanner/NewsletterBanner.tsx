@@ -1,15 +1,14 @@
 import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import clsx from 'clsx';
 import { Controller, type SubmitHandler, useForm } from 'react-hook-form';
 import z from 'zod';
 
 import { Button } from '@/components/Button';
+import { BodyText } from '@/components/Common/BodyText';
 import { Container, Grid, GridItem, Stack } from '@/components/Layout';
 
 import formStyles from '@/components/Form/Form.module.css';
 import styles from '@/components/NewsletterBanner/NewsletterBanner.module.css';
-import bodyText from '@/styles/BodyText.module.css';
 import utils from '@/styles/Util.module.css';
 
 export type NewsletterBannerProps = {
@@ -63,11 +62,11 @@ export function NewsletterBanner({ title, description }: Readonly<NewsletterBann
                 spanLg={6}
                 startLg={4}
               >
-                <div className={clsx(styles.content, bodyText.root)}>
-                  <Stack gap="sm">
+                <div className={styles.content}>
+                  <BodyText>
                     <h2 className={styles.title}>{title}</h2>
                     {description ? <p>{description}</p> : null}
-                  </Stack>
+                  </BodyText>
                 </div>
               </GridItem>
             </Grid>

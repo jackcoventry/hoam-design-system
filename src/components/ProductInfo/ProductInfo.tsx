@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { Accordion, AccordionHeader, AccordionItem, AccordionPanel } from '@/components/Accordion';
 import { BadgeList, BadgeListItem } from '@/components/BadgeList';
 import { Button } from '@/components/Button';
+import { BodyText } from '@/components/Common/BodyText';
 import { FieldWrapper, Select } from '@/components/Form';
 import { Section, Stack } from '@/components/Layout';
 import { VariantSelector } from '@/components/VariantSelector';
@@ -13,7 +14,6 @@ import { convertNumberToCurrency } from '@/utils/convertNumberToCurrency';
 import { logger } from '@/utils/logger';
 
 import styles from '@/components/ProductInfo/ProductInfo.module.css';
-import bodyText from '@/styles/BodyText.module.css';
 
 const ProductInformationSchema = z.object({
   color: z.string(),
@@ -242,7 +242,7 @@ export function ProductInfo({
                   <strong>Description</strong>
                 </AccordionHeader>
                 <AccordionPanel>
-                  <div className={bodyText.root}>
+                  <BodyText>
                     <p>
                       Ut minim mollit officia ad adipiscing velit duis duis fugiat. Reprehenderit
                       voluptate dolore laboris esse in adipiscing adipiscing voluptate anim laboris
@@ -253,7 +253,7 @@ export function ProductInfo({
                       Excepteur anim cillum culpa ullamco labore commodo veniam ut dolor excepteur
                       irure duis voluptate proident ex in velit qui anim.
                     </p>
-                  </div>
+                  </BodyText>
                 </AccordionPanel>
               </AccordionItem>
               <AccordionItem id="two">
@@ -261,7 +261,7 @@ export function ProductInfo({
                   <strong>Returns Policy</strong>
                 </AccordionHeader>
                 <AccordionPanel>
-                  <div className={bodyText.root}>
+                  <BodyText>
                     <p>
                       Fugiat esse consequat ad aliquip amet aliquip sed sit voluptate. Enim est
                       culpa labore pariatur aliquip culpa mollit excepteur officia ea magna. Mollit
@@ -272,7 +272,7 @@ export function ProductInfo({
                       commodo labore duis nulla laborum dolor laborum. Aliqua do proident laborum in
                       reprehenderit commodo ut adipiscing sunt.
                     </p>
-                  </div>
+                  </BodyText>
                 </AccordionPanel>
               </AccordionItem>
             </Accordion>
