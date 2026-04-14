@@ -1,8 +1,11 @@
-.demo-block {
+.root {
   align-items: center;
+  border: 1px dashed red;
+  border-radius: var(--hoam-border-radius-default);
   background: #f5f5f5;
   display: flex;
   font: var(--hoam-typography-body-1);
   justify-content: center;
   min-height: 100px;
+  padding: var(--hoam-spacing-md);
 }

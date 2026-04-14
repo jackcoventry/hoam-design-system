@@ -3,9 +3,11 @@ import type { HTMLAttributes, ReactNode } from 'react';
 
 import styles from '@/components/Layout/Container/Container.module.css';
 
+export const ContainerWidths = ['default', 'wide', 'narrow', 'full'] as const;
+export type ContainerWidth = (typeof ContainerWidths)[number];
 export type ContainerProps = HTMLAttributes<HTMLDivElement> & {
   children: ReactNode;
-  width?: 'default' | 'wide' | 'narrow' | 'full';
+  width?: ContainerWidth;
 };
 
 export function Container({

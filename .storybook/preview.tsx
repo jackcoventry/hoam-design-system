@@ -6,7 +6,6 @@ import '@/styles/variables.css';
 import '@/styles/reset.css';
 import '@/styles/global.css';
 import '@/styles/fonts.css';
-import '@/styles/demo.css';
 
 const withModalStack: Decorator = (Story) => (
   <ModalStackProvider>

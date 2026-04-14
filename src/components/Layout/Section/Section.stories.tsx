@@ -1,8 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-import { Container } from '@/components/Layout/Container';
 import { Section } from '@/components/Layout/Section';
 import { Stack } from '@/components/Layout/Stack';
+import { spacingMap } from '@/design-tokens/spacing';
+import { DemoBlock } from '@/stories/components/DemoBlock/DemoBlock';
 
 const meta = {
   title: 'Layout/Section',
@@ -11,73 +12,87 @@ const meta = {
     children: null,
     space: 'xl',
   },
+  argTypes: {
+    children: {
+      table: { disable: true },
+    },
+    as: {
+      table: { disable: true },
+    },
+  },
 } satisfies Meta<typeof Section>;
 
 export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-function SectionBlock({
-  label,
-}: Readonly<{
-  label: string;
-}>) {
-  return (
-    <Container>
-      <div
-        style={{
-          border: '1px solid currentColor',
-          borderRadius: '0.5rem',
-          padding: '1rem',
-          background: 'rgba(0,0,0,0.03)',
-        }}
-      >
-        {label}
-      </div>
-    </Container>
-  );
-}
-
 export const Reference: Story = {
   render: () => (
-    <div style={{ background: 'rgba(0,0,0,0.02)' }}>
+    <div>
       <Stack gap="none">
         <Section space="none">
-          <SectionBlock label='space="none"' />
+          <DemoBlock>No space</DemoBlock>
+        </Section>
+
+        <Section space="2xs">
+          <DemoBlock>2x Extra small</DemoBlock>
+        </Section>
+
+        <Section space="xs">
+          <DemoBlock>Extra small</DemoBlock>
         </Section>
 
         <Section space="sm">
-          <SectionBlock label='space="sm"' />
+          <DemoBlock>Small</DemoBlock>
         </Section>
 
         <Section space="md">
-          <SectionBlock label='space="md"' />
+          <DemoBlock>Medium</DemoBlock>
         </Section>
 
         <Section space="lg">
-          <SectionBlock label='space="lg"' />
+          <DemoBlock>Large</DemoBlock>
         </Section>
 
         <Section space="xl">
-          <SectionBlock label='space="xl"' />
+          <DemoBlock>Extra large</DemoBlock>
         </Section>
 
         <Section space="2xl">
-          <SectionBlock label='space="2xl"' />
+          <DemoBlock>2x Extra large</DemoBlock>
+        </Section>
+
+        <Section space="3xl">
+          <DemoBlock>3x Extra large</DemoBlock>
+        </Section>
+
+        <Section space="4xl">
+          <DemoBlock>4x Extra large</DemoBlock>
         </Section>
       </Stack>
     </div>
   ),
+  argTypes: {
+    space: {
+      table: { disable: true },
+    },
+  },
 };
 
 export const SingleSection: Story = {
   args: {
     space: 'xl',
   },
+  argTypes: {
+    space: {
+      control: 'select',
+      options: Object.keys(spacingMap),
+    },
+  },
   render: (args) => (
-    <div style={{ background: 'rgba(0,0,0,0.02)' }}>
+    <div>
       <Section {...args}>
-        <SectionBlock label={`space="${args.space}"`} />
+        <DemoBlock>{`space="${args.space}"`} </DemoBlock>
       </Section>
     </div>
   ),

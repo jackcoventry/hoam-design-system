@@ -12,6 +12,7 @@ export type GridProps = HTMLAttributes<HTMLDivElement> & {
   rowGap?: GridGap;
 };
 
+// TODO: This map should be generated probably
 function mapGapToVar(gap: GridGap): string {
   switch (gap) {
     case 'none':

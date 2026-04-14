@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import { Grid } from '@/components/Layout/Grid';
 import { GridItem } from '@/components/Layout/GridItem';
+import { DemoBlock } from '@/stories/components/DemoBlock/DemoBlock';
 
 const meta = {
   title: 'Layout/Grid',
@@ -17,122 +18,117 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-function Box({
-  label,
-}: Readonly<{
-  label: string;
-}>) {
-  return (
-    <div
-      style={{
-        border: '1px solid currentColor',
-        borderRadius: '0.375rem',
-        minHeight: '4rem',
-        padding: '0.75rem',
-      }}
-    >
-      {label}
-    </div>
-  );
-}
+export const Default: Story = {
+  render: () => {
+    const DEMO_1 = 1;
+    const DEMO_2 = 2;
+    const DEMO_3 = 3;
+    const DEMO_4 = 4;
+    const DEMO_5 = 12;
+    return (
+      <div style={{ display: 'grid', gap: 'var(--hoam-spacing-md)' }}>
+        <Grid>
+          {[...new Array(DEMO_1).keys()].map((item) => (
+            <GridItem
+              key={item}
+              span={12}
+            >
+              <DemoBlock>Column</DemoBlock>
+            </GridItem>
+          ))}
+        </Grid>
 
-export const SpanReference: Story = {
-  render: () => (
-    <div style={{ display: 'grid', gap: '1.5rem' }}>
-      <Grid>
-        <GridItem span={12}>
-          <Box label="span=12" />
-        </GridItem>
-      </Grid>
+        <Grid>
+          {[...new Array(DEMO_2).keys()].map((item) => (
+            <GridItem
+              key={item}
+              span={12}
+              spanLg={6}
+            >
+              <DemoBlock>Column</DemoBlock>
+            </GridItem>
+          ))}
+        </Grid>
 
-      <Grid>
-        <GridItem span={6}>
-          <Box label="span=6" />
-        </GridItem>
-        <GridItem span={6}>
-          <Box label="span=6" />
-        </GridItem>
-      </Grid>
+        <Grid>
+          {[...new Array(DEMO_3).keys()].map((item) => (
+            <GridItem
+              span={12}
+              spanLg={4}
+              key={item}
+            >
+              <DemoBlock>Column</DemoBlock>
+            </GridItem>
+          ))}
+        </Grid>
 
-      <Grid>
-        <GridItem span={4}>
-          <Box label="span=4" />
-        </GridItem>
-        <GridItem span={4}>
-          <Box label="span=4" />
-        </GridItem>
-        <GridItem span={4}>
-          <Box label="span=4" />
-        </GridItem>
-      </Grid>
-    </div>
-  ),
+        <Grid>
+          {[...new Array(DEMO_4).keys()].map((item) => (
+            <GridItem
+              key={item}
+              span={12}
+              spanMd={6}
+              spanLg={3}
+            >
+              <DemoBlock>Column</DemoBlock>
+            </GridItem>
+          ))}
+        </Grid>
+
+        <Grid>
+          {[...new Array(DEMO_5).keys()].map((item) => (
+            <GridItem
+              key={item}
+              span={6}
+              spanSm={4}
+              spanMd={3}
+              spanLg={2}
+              spanXl={1}
+            >
+              <DemoBlock>Column</DemoBlock>
+            </GridItem>
+          ))}
+        </Grid>
+      </div>
+    );
+  },
 };
 
-export const StartReference: Story = {
+export const Start: Story = {
   render: () => (
-    <div style={{ display: 'grid', gap: '1.5rem' }}>
+    <div style={{ display: 'grid', gap: 'var(--hoam-spacing-md)' }}>
+      <Grid>
+        <GridItem
+          span={12}
+          start={1}
+          spanMd={6}
+          startMd={4}
+        >
+          <DemoBlock>Column</DemoBlock>
+        </GridItem>
+      </Grid>
+
       <Grid>
         <GridItem
           span={6}
-          start={4}
+          start={7}
+          spanMd={4}
+          startMd={5}
         >
-          <Box label="start=4 span=6" />
+          <DemoBlock>Column</DemoBlock>
         </GridItem>
       </Grid>
 
       <Grid>
         <GridItem
-          span={4}
-          start={5}
+          span={6}
+          start={1}
+          spanMd={3}
+          startMd={10}
         >
-          <Box label="start=5 span=4" />
-        </GridItem>
-      </Grid>
-
-      <Grid>
-        <GridItem
-          span={3}
-          start={10}
-        >
-          <Box label="start=10 span=3" />
+          <DemoBlock>Column</DemoBlock>
         </GridItem>
       </Grid>
     </div>
-  ),
-};
-
-export const ResponsiveSpanReference: Story = {
-  render: () => (
-    <Grid>
-      <GridItem
-        span={12}
-        spanMd={8}
-        spanLg={6}
-      >
-        <Box label="span=12 → spanMd=8 → spanLg=6" />
-      </GridItem>
-      <GridItem
-        span={12}
-        spanMd={4}
-        spanLg={6}
-      >
-        <Box label="span=12 → spanMd=4 → spanLg=6" />
-      </GridItem>
-    </Grid>
-  ),
-};
-
-export const ResponsiveStartReference: Story = {
-  render: () => (
-    <Grid>
-      <GridItem
-        span={12}
-        spanLg={6}
-        startLg={4}
-      >
-        <Box label="span=12 → startLg=4 spanLg=6" />
-      </GridItem>
-    </Grid>
   ),
 };
