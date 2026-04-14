@@ -184,7 +184,7 @@
     "cssVar": "--hoam-color-border-soft",
     "type": "color",
     "value": "#f9f9f9",
-    "group": null,
+    "group": "border",
     "set": "border"
   },
   {
@@ -192,7 +192,7 @@
     "cssVar": "--hoam-color-border-default",
     "type": "color",
     "value": "#b3b3b3",
-    "group": null,
+    "group": "border",
     "set": "border"
   },
   {
@@ -200,7 +200,7 @@
     "cssVar": "--hoam-color-border-strong",
     "type": "color",
     "value": "#666666",
-    "group": null,
+    "group": "border",
     "set": "border"
   },
   {
@@ -208,7 +208,7 @@
     "cssVar": "--hoam-color-border-accent",
     "type": "color",
     "value": "#a855f7",
-    "group": null,
+    "group": "border",
     "set": "border"
   },
   {
@@ -216,7 +216,7 @@
     "cssVar": "--hoam-color-feedback-error",
     "type": "color",
     "value": "#ff4d4f",
-    "group": null,
+    "group": "feedback",
     "set": "feedback"
   },
   {
@@ -224,7 +224,7 @@
     "cssVar": "--hoam-color-feedback-warning",
     "type": "color",
     "value": "#faad14",
-    "group": null,
+    "group": "feedback",
     "set": "feedback"
   },
   {
@@ -232,7 +232,7 @@
     "cssVar": "--hoam-color-feedback-success",
     "type": "color",
     "value": "#52c41a",
-    "group": null,
+    "group": "feedback",
     "set": "feedback"
   },
   {
@@ -240,7 +240,7 @@
     "cssVar": "--hoam-color-feedback-info",
     "type": "color",
     "value": "#1890ff",
-    "group": null,
+    "group": "feedback",
     "set": "feedback"
   },
   {
@@ -446,7 +446,7 @@
     "cssVar": "--hoam-palette-semantic-error",
     "type": "color",
     "value": "#ff4d4f",
-    "group": "semantic",
+    "group": "global",
     "set": "semantic",
     "extensions": {
       "scope": "private"
@@ -457,7 +457,7 @@
     "cssVar": "--hoam-palette-semantic-warning",
     "type": "color",
     "value": "#faad14",
-    "group": "semantic",
+    "group": "global",
     "set": "semantic",
     "extensions": {
       "scope": "private"
@@ -468,7 +468,7 @@
     "cssVar": "--hoam-palette-semantic-success",
     "type": "color",
     "value": "#52c41a",
-    "group": "semantic",
+    "group": "global",
     "set": "semantic",
     "extensions": {
       "scope": "private"
@@ -479,7 +479,7 @@
     "cssVar": "--hoam-palette-semantic-info",
     "type": "color",
     "value": "#1890ff",
-    "group": "semantic",
+    "group": "global",
     "set": "semantic",
     "extensions": {
       "scope": "private"

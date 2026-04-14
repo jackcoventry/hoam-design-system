@@ -1,6 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
+import { BodyText } from '@/components/Common/BodyText';
+import { Container, Grid, GridItem } from '@/components/Layout';
 import rawTokens from '@/styles/variables.json';
+import { Palette } from '@/stories/components/Palette/Palette';
 
 type RawToken = {
   name: string;
@@ -20,7 +23,7 @@ type ColorToken = {
   set: string;
 };
 
-type ColorSet = {
+export type ColorSet = {
   name: string;
   items: ColorToken[];
 };
@@ -69,131 +72,55 @@ function groupColorTokens(tokens: RawToken[]): ColorGroup[] {
 }
 
 const colorGroups = groupColorTokens(rawTokens as RawToken[]);
+const aliasTokens = colorGroups.filter((e) => e.name !== 'global');
+const paletteTokens = colorGroups.filter((e) => e.name === 'global');
 
-type SwatchProps = {
-  name: string;
-  value: string;
-  cssVar?: string;
-};
-
-function Swatch({ name, value, cssVar }: Readonly<SwatchProps>) {
+function ColorTokensDemo(args: Readonly<{ data: ColorGroup[] }>) {
   return (
-    <div
-      style={{
-        display: 'grid',
-        gap: '0.5rem',
-      }}
-    >
-      <div
-        style={{
-          width: '100%',
-          height: '4.5rem',
-          borderRadius: '0.5rem',
-          backgroundColor: value,
-          border: '1px solid #ddd',
-        }}
-      />
-      <div style={{ display: 'grid', gap: '0.2rem' }}>
-        <strong style={{ fontSize: '0.9rem' }}>{name}</strong>
-        <span style={{ fontSize: '0.85rem' }}>{value}</span>
-        {cssVar ? <code style={{ fontSize: '0.8rem' }}>{cssVar}</code> : null}
-      </div>
-    </div>
-  );
-}
-
-type PaletteProps = {
-  set: ColorSet;
-};
-
-function Palette({ set }: Readonly<PaletteProps>) {
-  return (
-    <section
-      style={{
-        display: 'grid',
-        gap: '1rem',
-      }}
-    >
-      <h3
-        style={{
-          margin: 0,
-          textTransform: 'capitalize',
-        }}
-      >
-        {set.name}
-      </h3>
-
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))',
-          gap: '1rem',
-        }}
-      >
-        {set.items.map((token) => (
-          <div
-            key={token.name}
-            style={{
-              padding: '1rem',
-              border: '1px solid #e5e5e5',
-              borderRadius: '0.75rem',
-              background: '#fff',
-            }}
-          >
-            <Swatch
-              name={token.name}
-              value={token.value}
-              {...(token.cssVar ? { cssVar: token.cssVar } : {})}
-            />
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function ColorTokensDemo() {
-  return (
-    <div
-      style={{
-        display: 'grid',
-        gap: '2.5rem',
-        padding: '1rem',
-      }}
-    >
-      {colorGroups.map((group) => (
-        <section
-          key={group.name}
-          style={{
-            display: 'grid',
-            gap: '1.5rem',
-          }}
-        >
-          <h2
-            style={{
-              margin: 0,
-              textTransform: 'capitalize',
-            }}
-          >
-            {group.name}
-          </h2>
-
+    <Container width="full">
+      <Grid>
+        <GridItem span={12}>
+          <BodyText>
+            <h1>Color tokens</h1>
+          </BodyText>
+        </GridItem>
+      </Grid>
+      <Grid>
+        <GridItem span={12}>
           <div
             style={{
               display: 'grid',
-              gap: '2rem',
+              gap: 'var(--hoam-spacing-xl)',
+              padding: 'var(--hoam-spacing-md)',
             }}
           >
-            {group.sets.map((set) => (
-              <Palette
-                key={set.name}
-                set={set}
-              />
+            {args.data.map((group: ColorGroup) => (
+              <section
+                key={group.name}
+                style={{
+                  display: 'grid',
+                  gap: 'var(--hoam-spacing-lg)',
+                }}
+              >
+                <div
+                  style={{
+                    display: 'grid',
+                    gap: 'var(--hoam-spacing-lg)',
+                  }}
+                >
+                  {group.sets.map((set: ColorSet) => (
+                    <Palette
+                      key={set.name}
+                      set={set}
+                    />
+                  ))}
+                </div>
+              </section>
             ))}
           </div>
-        </section>
-      ))}
-    </div>
+        </GridItem>
+      </Grid>
+    </Container>
   );
 }
 
@@ -206,6 +133,16 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Example: Story = {
-  render: () => <ColorTokensDemo />,
+export const AliasTokens: Story = {
+  render: (args) => <ColorTokensDemo data={args.data} />,
+  args: {
+    data: aliasTokens,
+  },
+};
+
+export const PaletteTokens: Story = {
+  render: (args) => <ColorTokensDemo data={args.data} />,
+  args: {
+    data: paletteTokens,
+  },
 };

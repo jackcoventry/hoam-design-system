@@ -67,6 +67,9 @@
       }
     },
     "border": {
+      "$extensions": {
+        "$group": "border"
+      },
       "soft": {
         "$value": "{palette.neutral.800}"
       },
@@ -81,6 +84,9 @@
       }
     },
     "feedback": {
+      "$extensions": {
+        "$group": "feedback"
+      },
       "error": {
         "$value": "{palette.semantic.error}"
       },

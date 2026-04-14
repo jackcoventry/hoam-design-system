@@ -1,14 +1,38 @@
 .root {
-  border-collapse: collapse;
-  display: table;
   width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
-.row {
+.table {
+  width: 100%;
+  min-width: 40rem;
+  border-collapse: collapse;
+}
+
+.root tbody tr {
   border-bottom: var(--hoam-border-size-default) var(--hoam-color-border-default);
-  vertical-align: top;
+  vertical-align: middle;
 }
 
-.cell {
+.root td,
+.root th {
   padding: var(--hoam-spacing-md);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.root th {
+  font: var(--hoam-typography-label-1);
+  text-transform: uppercase;
+}
+
+.root td:first-child,
+.root th:first-child {
+  text-align: left;
+}
+
+.root td:last-child,
+.root th:last-child {
+  text-align: right;
 }

@@ -1,0 +1,22 @@
+.root {
+  display: grid;
+  gap: var(--hoam-spacing-md);
+}
+
+.inner {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: var(--hoam-spacing-md);
+}
+
+.name {
+  font: var(--hoam-typography-title-3);
+  text-transform: capitalize;
+}
+
+.token {
+  padding: var(--hoam-spacing-md);
+  border: var(--hoam-border-size-default) var(--hoam-color-border-default);
+  border-radius: var(--hoam-border-radius-default);
+  background: var(--hoam-color-surface-inverse);
+}

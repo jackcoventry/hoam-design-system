@@ -71,7 +71,7 @@
     },
     "semantic": {
       "$extensions": {
-        "$group": "semantic"
+        "$group": "global"
       },
       "error": {
         "$value": "#FF4D4F"

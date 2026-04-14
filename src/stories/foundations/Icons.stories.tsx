@@ -1,8 +1,10 @@
 import { useState } from 'react';
 
 import { Button } from '@/components/Button/Button';
+import { BodyText } from '@/components/Common/BodyText';
 import { Icon } from '@/components/Icon';
 import { Container, Grid, GridItem } from '@/components/Layout';
+import { Table, TableBody, TableHeader } from '@/components/Table';
 import { ICON_IDS } from '@/design-tokens/icons';
 
 type Props = {
@@ -31,41 +33,61 @@ const CopyButton = ({ icon }: Props) => {
       type="button"
       onClick={copyCodeBlock}
       variant={copied ? 'tertiary' : 'primary'}
+      size="small"
     >
-      {copied ? 'Copied!' : 'Copy'}
+      {copied ? '✔️' : 'Copy'}
     </Button>
   );
 };
 
 const Template = () => (
-  <Container>
+  <Container width="full">
     <Grid>
       <GridItem span={12}>
-        <h1>Icons</h1>
+        <BodyText>
+          <h1>Icons</h1>
+        </BodyText>
       </GridItem>
       <GridItem>
-        <table>
-          <thead>
+        <Table>
+          <TableHeader>
             <tr>
               <th>Name</th>
               <th>Example</th>
               <th>Usage</th>
             </tr>
-          </thead>
-          <tbody>
+          </TableHeader>
+          <TableBody>
             {ICON_IDS?.map((e) => (
               <tr key={e}>
                 <td>{e}</td>
                 <td>
-                  <Icon id={e} />
+                  <span
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <Icon
+                      id={e}
+                      size="2em"
+                    />
+                  </span>
                 </td>
                 <td>
-                  <CopyButton icon={e} />
+                  <span
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'end',
+                    }}
+                  >
+                    <CopyButton icon={e} />
+                  </span>
                 </td>
               </tr>
             ))}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
       </GridItem>
     </Grid>
   </Container>
