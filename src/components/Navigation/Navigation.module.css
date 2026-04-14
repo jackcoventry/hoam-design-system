@@ -71,6 +71,7 @@
 }
 
 .panel {
+  animation: panel-enter var(--hoam-transition-duration-medium) forwards;
   background-color: var(--hoam-color-surface-soft);
   box-shadow: var(--hoam-shadow-small), var(--hoam-shadow-medium);
   height: var(--hoam-navigation-height);
@@ -196,4 +197,14 @@
 
 .promoWrapper {
   height: 100%;
+}
+
+@keyframes panel-enter {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }

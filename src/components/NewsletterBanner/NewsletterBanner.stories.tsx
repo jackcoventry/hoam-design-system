@@ -5,7 +5,6 @@ import { NewsletterBanner } from '@/components/NewsletterBanner';
 const meta: Meta<typeof NewsletterBanner> = {
   title: 'Components/Newsletter Banner',
   component: NewsletterBanner,
-  tags: ['autodocs'],
   args: {
     title: 'Connect with us',
     description:

@@ -200,7 +200,6 @@ function ColorTokensDemo() {
 const meta = {
   title: 'Foundations/Colors',
   component: ColorTokensDemo,
-  tags: ['autodocs'],
 } satisfies Meta<typeof ColorTokensDemo>;
 
 export default meta;

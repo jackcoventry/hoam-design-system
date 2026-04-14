@@ -10,30 +10,18 @@ import { logger } from '@/utils/logger';
 
 import styles from '@/components/BadgeList/BadgeList.module.css';
 
+export const BadgeListVariants = ['default', 'alert', 'highlight'] as const;
+export type BadgeListItemVariant = (typeof BadgeListVariants)[number];
 export type BadgeListItemProps = {
-  href?: string;
-  variant?: 'default' | 'alert' | 'highlight';
+  variant: BadgeListItemVariant;
 };
 
 export function BadgeListItem({
   children,
-  href,
   variant = 'default',
 }: PropsWithChildren<BadgeListItemProps>) {
   if (!children) {
     return null;
-  }
-
-  if (href) {
-    return (
-      <a
-        href={href}
-        className={styles.item}
-        data-variant={variant}
-      >
-        {children}
-      </a>
-    );
   }
 
   return (

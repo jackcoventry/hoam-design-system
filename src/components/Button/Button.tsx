@@ -18,12 +18,15 @@ import { IconId } from '@/design-tokens/icons';
 import styles from '@/components/Button/Button.module.css';
 import utils from '@/styles/Util.module.css';
 
+export const ButtonVariants = ['primary', 'secondary', 'tertiary'] as const;
+export type ButtonVariantTypes = (typeof ButtonVariants)[number];
+
 type CommonProps = {
   className?: string | undefined;
   children?: ReactNode | undefined;
   icon?: IconId | undefined;
   iconPosition?: 'left' | 'right' | undefined;
-  variant?: 'primary' | 'secondary' | 'tertiary' | undefined;
+  variant: ButtonVariantTypes;
   iconOnly?: boolean | undefined;
   'aria-label'?: string | undefined;
   size?: 'default' | 'small' | undefined;

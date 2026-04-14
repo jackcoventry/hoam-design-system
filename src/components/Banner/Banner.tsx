@@ -4,7 +4,6 @@ import { useMessages } from '@/hooks/useMessages';
 
 import styles from '@/components/Banner/Banner.module.css';
 
-export type BannerTheme = 'default' | 'pink' | 'sky';
 export type BannerImage = {
   src: string;
   alt: string;
@@ -13,7 +12,6 @@ export type BannerProps = {
   title: string;
   subtitle: string;
   text: string;
-  theme: BannerTheme;
   image: string | undefined;
   button: {
     url: string;
@@ -21,21 +19,11 @@ export type BannerProps = {
   };
 };
 
-export function Banner({
-  title = '',
-  subtitle,
-  text,
-  image,
-  theme = 'default',
-  button,
-}: Readonly<BannerProps>) {
+export function Banner({ title = '', subtitle, text, image, button }: Readonly<BannerProps>) {
   const t = useMessages('global');
 
   return (
-    <div
-      className={styles.root}
-      data-theme={theme}
-    >
+    <div className={styles.root}>
       <div className={styles.content}>
         <Container>
           <Grid cols={2}>
@@ -53,9 +41,7 @@ export function Banner({
                   <h1 className={styles.title}>{title}</h1>
                   <p className={styles.text}>{text}</p>
                   <div className={styles.contentLink}>
-                    <Button variant={theme === 'default' ? 'primary' : 'secondary'}>
-                      {button?.text || t.readMore}
-                    </Button>
+                    <Button variant="primary">{button?.text || t.readMore}</Button>
                   </div>
                 </Stack>
               </Section>

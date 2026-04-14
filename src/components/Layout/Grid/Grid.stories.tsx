@@ -6,7 +6,6 @@ import { GridItem } from '@/components/Layout/GridItem';
 const meta = {
   title: 'Layout/Grid',
   component: Grid,
-  tags: ['autodocs'],
   args: {
     children: null,
     cols: 12,

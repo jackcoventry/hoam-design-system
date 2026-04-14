@@ -5,7 +5,6 @@ import { Stack } from '@/components/Layout/Stack';
 const meta = {
   title: 'Layout/Stack',
   component: Stack,
-  tags: ['autodocs'],
   args: {
     children: null,
     gap: 'md',

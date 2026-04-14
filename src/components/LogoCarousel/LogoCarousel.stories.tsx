@@ -6,8 +6,12 @@ import LogoCarouselData from '@/mocks/components/LogoCarousel';
 const meta: Meta<typeof LogoCarousel> = {
   title: 'Components/Logo Carousel',
   component: LogoCarousel,
-  tags: ['autodocs'],
   args: {},
+  argTypes: {
+    pauseOnHover: {
+      table: { disable: true },
+    },
+  },
 };
 export default meta;
 

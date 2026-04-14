@@ -6,7 +6,6 @@ import NotificationBarData from '@/mocks/components/NotificationBar';
 const meta: Meta<typeof NotificationBar> = {
   title: 'Components/Notification Bar',
   component: NotificationBar,
-  tags: ['autodocs'],
   args: {
     messages: NotificationBarData,
   },

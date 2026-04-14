@@ -7,7 +7,6 @@ import UserNavigationData from '@/mocks/components/UserNavigation';
 const meta: Meta<typeof Navigation> = {
   title: 'Components/Navigation',
   component: Navigation,
-  tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
   },

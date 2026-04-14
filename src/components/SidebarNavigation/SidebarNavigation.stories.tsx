@@ -6,7 +6,6 @@ import SidebarNavigationData from '@/mocks/components/SidebarNavigation';
 const meta: Meta<typeof SidebarNavigation> = {
   title: 'Components/Sidebar Navigation',
   component: SidebarNavigation,
-  tags: ['autodocs'],
   args: {},
 };
 export default meta;

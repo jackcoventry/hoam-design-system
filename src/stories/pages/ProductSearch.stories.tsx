@@ -13,7 +13,6 @@ import BaseTemplate from '@/stories/templates/Base';
 
 const meta: Meta = {
   title: 'Pages/Product Search',
-  tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
   },

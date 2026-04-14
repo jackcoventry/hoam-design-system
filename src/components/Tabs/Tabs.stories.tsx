@@ -7,7 +7,6 @@ import bodyText from '@/styles/BodyText.module.css';
 const meta: Meta<typeof Tabs> = {
   title: 'Components/Tabs',
   component: Tabs,
-  tags: ['autodocs'],
   args: {},
 };
 export default meta;

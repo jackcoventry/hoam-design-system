@@ -10,9 +10,13 @@ type HeroStoryArgs = React.ComponentProps<typeof Hero> & {
 const meta: Meta<HeroStoryArgs> = {
   title: 'Components/Hero',
   component: Hero,
-  tags: ['autodocs'],
   args: {
     data: MockSlides,
+  },
+  argTypes: {
+    'aria-label': {
+      table: { disable: true },
+    },
   },
 };
 

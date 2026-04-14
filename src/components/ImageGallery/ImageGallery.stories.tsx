@@ -6,9 +6,13 @@ import ImageGalleryMockData from '@/mocks/components/ImageGallery';
 const meta: Meta<typeof ImageGallery> = {
   title: 'Components/Image Gallery',
   component: ImageGallery,
-  tags: ['autodocs'],
   args: {
     images: ImageGalleryMockData,
+  },
+  argTypes: {
+    'aria-label': {
+      table: { disable: true },
+    },
   },
 };
 

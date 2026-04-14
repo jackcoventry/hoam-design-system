@@ -6,7 +6,6 @@ import { Select } from '@/components/Form';
 const meta = {
   title: 'Components/Form/Select',
   component: Select,
-  tags: ['autodocs'],
   args: {
     value: '',
     onChange: () => {},

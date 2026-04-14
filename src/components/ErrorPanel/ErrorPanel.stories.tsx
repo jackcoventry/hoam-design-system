@@ -6,8 +6,15 @@ import { Container, Grid, GridItem } from '@/components/Layout';
 const meta: Meta<typeof ErrorPanel> = {
   title: 'Components/Error Panel',
   component: ErrorPanel,
-  tags: ['autodocs'],
   args: {},
+  argTypes: {
+    returnLabel: {
+      table: { disable: true },
+    },
+    returnUrl: {
+      table: { disable: true },
+    },
+  },
 };
 export default meta;
 

@@ -3,7 +3,6 @@ import { Meta } from '@storybook/react-vite';
 import { Banner, type BannerProps } from '@/components/Banner';
 import { Button } from '@/components/Button';
 import { Container, Grid, GridItem, Section, Stack } from '@/components/Layout';
-import { Pagination } from '@/components/Pagination';
 import { ProductTile } from '@/components/ProductTile';
 import { productTile } from '@/mocks/components/ProductTile';
 import BaseTemplate from '@/stories/templates/Base';
@@ -13,7 +12,6 @@ import utils from '@/styles/Util.module.css';
 
 const meta: Meta = {
   title: 'Pages/Product Landing',
-  tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
   },

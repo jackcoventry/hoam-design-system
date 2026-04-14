@@ -11,7 +11,6 @@ import ProductInformationMockData from '@/mocks/components/ProductInformation';
 const meta: Meta<typeof VariantSelector> = {
   title: 'Components/Variant Selector',
   component: VariantSelector,
-  tags: ['autodocs'],
   args: {},
 };
 

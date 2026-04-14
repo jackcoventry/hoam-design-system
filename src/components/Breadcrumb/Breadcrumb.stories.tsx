@@ -7,8 +7,12 @@ import BreadcrumbData from '@/mocks/components/Breadcrumb';
 const meta: Meta<typeof Breadcrumb> = {
   title: 'Components/Breadcrumb',
   component: Breadcrumb,
-  tags: ['autodocs'],
   args: {},
+  argTypes: {
+    'aria-label': {
+      table: { disable: true },
+    },
+  },
 };
 export default meta;
 

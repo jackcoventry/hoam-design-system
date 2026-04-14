@@ -7,12 +7,10 @@ import { Container, Grid, GridItem } from '@/components/Layout';
 const meta: Meta<typeof Banner> = {
   title: 'Components/Banner',
   component: Banner,
-  tags: ['autodocs'],
   args: {
     title: 'Test Banner',
     subtitle: 'Test subtitle',
     text: 'Lorem ipsum',
-    theme: 'default',
     image: '/hero/range.png',
     button: {
       url: '/',
@@ -29,12 +27,8 @@ const meta: Meta<typeof Banner> = {
     text: {
       control: 'text',
     },
-    theme: {
-      control: 'inline-radio',
-      options: ['default', 'pink', 'sky'],
-    },
     image: {
-      control: 'text',
+      table: { disable: true },
     },
   },
 };

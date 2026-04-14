@@ -6,7 +6,6 @@ import { InfoGridItem } from '@/components/InfoGrid/InfoGridItem/InfoGridItem';
 const meta: Meta<typeof InfoGrid> = {
   title: 'Components/Info Grid',
   component: InfoGrid,
-  tags: ['autodocs'],
   args: {
     title: 'Why us?',
     description:
@@ -25,17 +24,17 @@ const Template: Story = {
         description={args.description}
       >
         <InfoGridItem
-          title="Point 1"
+          title={args.title}
           description={args.description}
           icon="arrow-right"
         />
         <InfoGridItem
-          title="Point 2"
+          title={args.title}
           description={args.description}
           icon="plus"
         />
         <InfoGridItem
-          title="Point 3"
+          title={args.title}
           description={args.description}
           icon="dash"
         />

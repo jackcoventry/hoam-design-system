@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
-import { Message, MessageProps } from '@/components/Message';
+import { Message, MessageProps, MessageStatuses } from '@/components/Message';
 import { logger } from '@/utils/logger';
 
 const meta = {
@@ -9,8 +9,12 @@ const meta = {
   parameters: {
     layout: 'centered',
   },
-  tags: ['autodocs'],
-  argTypes: {},
+  argTypes: {
+    status: {
+      control: 'inline-radio',
+      options: MessageStatuses,
+    },
+  },
   args: {
     status: 'info',
     title: 'Info Message',
@@ -67,20 +71,24 @@ export const SuccessMessage: Story = {
 };
 
 export const Closeable: Story = {
-  render: () => {
+  render: (args: MessageProps) => {
     const handleOnClose = () => {
       logger.log('Message closed');
     };
     return (
       <div style={{ width: '600px' }}>
         <Message
-          status="info"
-          title="Closeable Message"
-          text="This message can be closed."
+          status={args.status}
+          title={args.title}
+          text={args.text}
           onClose={handleOnClose}
         />
       </div>
     );
   },
-  args: {},
+  args: {
+    status: 'success',
+    title: 'Success Message',
+    text: 'This is a success message.',
+  },
 };

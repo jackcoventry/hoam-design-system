@@ -6,7 +6,6 @@ import Data from '@/mocks/components/ProductTile';
 const meta: Meta<typeof ProductTile> = {
   title: 'Components/ProductTile',
   component: ProductTile,
-  tags: ['autodocs'],
   args: Data,
 };
 export default meta;

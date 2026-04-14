@@ -105,7 +105,7 @@ export function DesktopNavigation({
       role="none"
       className={styles.root}
     >
-      <Container>
+      <Container className={styles.gridWrapper}>
         <Grid>
           <GridItem span={12}>
             <div

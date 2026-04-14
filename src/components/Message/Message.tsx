@@ -7,9 +7,11 @@ import { useMessages } from '@/hooks/useMessages';
 import styles from '@/components/Message/Message.module.css';
 import bodyText from '@/styles/BodyText.module.css';
 
+export const MessageStatuses = ['info', 'warning', 'error', 'success'];
+export type MessageStatus = (typeof MessageStatuses)[number];
 export type MessageProps = {
   onClose?: (event: MouseEvent<HTMLButtonElement>) => void;
-  status: 'info' | 'warning' | 'error' | 'success';
+  status: MessageStatus;
   text?: string | undefined;
   title: string;
   closeMessage?: string;

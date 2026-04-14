@@ -6,8 +6,12 @@ import items from '@/mocks/components/Basket';
 const meta: Meta<typeof Basket> = {
   title: 'Components/Basket',
   component: Basket,
-  tags: ['autodocs'],
   args: {},
+  argTypes: {
+    items: {
+      table: { disable: true },
+    },
+  },
 };
 export default meta;
 

@@ -1,2 +1,2 @@
-export type { BadgeListItemProps } from './BadgeList';
-export { BadgeList, BadgeListItem } from './BadgeList';
+export type { BadgeListItemProps, BadgeListItemVariant } from './BadgeList';
+export { BadgeList, BadgeListItem, BadgeListVariants } from './BadgeList';

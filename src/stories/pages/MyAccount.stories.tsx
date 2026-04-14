@@ -11,7 +11,6 @@ import typography from '@/styles/Typography.module.css';
 
 const meta: Meta = {
   title: 'Pages/Account',
-  tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
   },

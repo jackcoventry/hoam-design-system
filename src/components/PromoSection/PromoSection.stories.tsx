@@ -6,7 +6,6 @@ import PromoSectionData from '@/mocks/components/PromoSection';
 const meta: Meta<typeof PromoSection> = {
   title: 'Components/Promo Section',
   component: PromoSection,
-  tags: ['autodocs'],
   args: {
     ...(PromoSectionData as PromoSectionProps),
   },

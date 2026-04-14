@@ -1,111 +1,142 @@
-import { useState } from 'react';
-import type { Meta } from '@storybook/react-vite';
+import { JSX, useState } from 'react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import type { AccordionProps } from '@/components/Accordion';
 import { Accordion, AccordionHeader, AccordionItem, AccordionPanel } from '@/components/Accordion';
 
-type AccordionStoryArgs = AccordionProps & {
+type AccordionStoryArgs = Omit<AccordionProps, 'children'> & {
   sectionOneHeader: string;
   sectionOneContent: string;
   sectionTwoHeader: string;
   sectionTwoContent: string;
 };
 
-const meta = {
-  title: 'Components/Accordion',
-  component: Accordion,
-  tags: ['autodocs'],
-  args: {
-    allowMultiple: false,
-    sectionOneHeader: 'Description',
-    sectionOneContent:
-      'Ut minim mollit officia ad adipiscing velit duis duis fugiat. Reprehenderit voluptate dolore laboris esse in adipiscing adipiscing voluptate anim laboris qui reprehenderit eiusmod eiusmod incididunt occaecat excepteur mollit. Ad labore irure amet sit aliquip veniam pariatur veniam laboris nostrud nulla ullamco. Adipiscing veniam dolore cupidatat qui ad exercitation elit labore velit et aliquip adipiscing occaecat fugiat consequat esse sint nulla ea. Excepteur anim cillum culpa ullamco labore commodo veniam ut dolor excepteur irure duis voluptate proident ex in velit qui anim.',
-    sectionTwoHeader: 'Returns Policy',
-    sectionTwoContent:
-      'Ut minim mollit officia ad adipiscing velit duis duis fugiat. Reprehenderit voluptate dolore laboris esse in adipiscing adipiscing voluptate anim laboris qui reprehenderit eiusmod eiusmod incididunt occaecat excepteur mollit. Ad labore irure amet sit aliquip veniam pariatur veniam laboris nostrud nulla ullamco. Adipiscing veniam dolore cupidatat qui ad exercitation elit labore velit et aliquip adipiscing occaecat fugiat consequat esse sint nulla ea. Excepteur anim cillum culpa ullamco labore commodo veniam ut dolor excepteur irure duis voluptate proident ex in velit qui anim.',
-  },
-  argTypes: {
-    sectionOneHeader: {
-      control: 'text',
-    },
-    sectionOneContent: {
-      control: 'text',
-    },
-    sectionTwoHeader: {
-      control: 'text',
-    },
-    sectionTwoContent: {
-      control: 'text',
-    },
-    collapseLabel: {
-      control: 'text',
-    },
-    expandLabel: {
-      control: 'text',
-    },
-    showToggleAll: {
-      control: 'boolean',
-    },
-    className: {
-      control: false,
-    },
-    defaultOpenIds: {
-      control: false,
-    },
-  },
-  render: ({
-    sectionOneHeader,
-    sectionOneContent,
-    sectionTwoHeader,
-    sectionTwoContent,
-    ...args
-  }) => (
+function renderAccordion({
+  sectionOneHeader,
+  sectionOneContent,
+  sectionTwoHeader,
+  sectionTwoContent,
+  ...args
+}: AccordionStoryArgs) {
+  return (
     <Accordion {...args}>
       <AccordionItem id="one">
         <AccordionHeader>{sectionOneHeader}</AccordionHeader>
         <AccordionPanel>{sectionOneContent}</AccordionPanel>
       </AccordionItem>
+
       <AccordionItem id="two">
         <AccordionHeader>{sectionTwoHeader}</AccordionHeader>
         <AccordionPanel>{sectionTwoContent}</AccordionPanel>
       </AccordionItem>
     </Accordion>
-  ),
-} satisfies Meta<AccordionStoryArgs>;
+  );
+}
 
-export default meta;
-
-export const Default = {};
-
-export const WithDefaultOpen = {
-  args: {
-    allowMultiple: true,
-    defaultOpenIds: ['one'],
-  },
-};
-
-function ControlledAccordion() {
+function ControlledAccordion({
+  sectionOneHeader,
+  sectionOneContent,
+  sectionTwoHeader,
+  sectionTwoContent,
+  ...args
+}: AccordionStoryArgs) {
   const [openIds, setOpenIds] = useState<string[]>(['two']);
 
   return (
     <Accordion
+      {...args}
       openIds={openIds}
       onChange={setOpenIds}
     >
       <AccordionItem id="one">
-        <AccordionHeader>Section 1</AccordionHeader>
-        <AccordionPanel>
-          Content 1 <a href="#test">Test link</a>
-        </AccordionPanel>
+        <AccordionHeader>{sectionOneHeader}</AccordionHeader>
+        <AccordionPanel>{sectionOneContent}</AccordionPanel>
       </AccordionItem>
+
       <AccordionItem id="two">
-        <AccordionHeader>Section 2</AccordionHeader>
-        <AccordionPanel>Content 2</AccordionPanel>
+        <AccordionHeader>{sectionTwoHeader}</AccordionHeader>
+        <AccordionPanel>{sectionTwoContent}</AccordionPanel>
       </AccordionItem>
     </Accordion>
   );
 }
 
-export const Controlled = {
-  render: () => <ControlledAccordion />,
+const meta = {
+  title: 'Components/Accordion',
+  component: Accordion as unknown as (props: AccordionStoryArgs) => JSX.Element,
+  args: {
+    allowMultiple: false,
+    sectionOneHeader: 'Description',
+    sectionOneContent:
+      'Ut minim mollit officia ad adipiscing velit duis duis fugiat. Reprehenderit voluptate dolore laboris esse in adipiscing adipiscing voluptate anim laboris qui reprehenderit eiusmod eiusmod incididunt occaecat excepteur mollit.',
+    sectionTwoHeader: 'Returns Policy',
+    sectionTwoContent:
+      'Ut minim mollit officia ad adipiscing velit duis duis fugiat. Reprehenderit voluptate dolore laboris esse in adipiscing adipiscing voluptate anim laboris qui reprehenderit eiusmod eiusmod incididunt occaecat excepteur mollit.',
+    showToggleAll: true,
+  },
+  argTypes: {
+    allowMultiple: {
+      control: 'boolean',
+      type: { name: 'boolean' },
+      description: 'Allows more than one section to stay open at once.',
+    },
+    sectionOneHeader: {
+      control: 'text',
+      type: { name: 'string' },
+      description: 'Heading for the first accordion section.',
+    },
+    sectionOneContent: {
+      control: 'text',
+      type: { name: 'string' },
+      description: 'Content for the first accordion section.',
+    },
+    sectionTwoHeader: {
+      control: 'text',
+      type: { name: 'string' },
+      description: 'Heading for the second accordion section.',
+    },
+    sectionTwoContent: {
+      control: 'text',
+      type: { name: 'string' },
+      description: 'Content for the second accordion section.',
+    },
+    showToggleAll: {
+      control: 'boolean',
+      type: { name: 'boolean' },
+      description:
+        'Shows a control that expands or collapses all sections; only if allowMultiple is enabled.',
+    },
+    className: {
+      table: { disable: true },
+    },
+    defaultOpenIds: {
+      table: { disable: true },
+    },
+    openIds: {
+      table: { disable: true },
+    },
+    onChange: {
+      table: { disable: true },
+    },
+  },
+} satisfies Meta<AccordionStoryArgs>;
+
+export default meta;
+
+type Story = StoryObj<typeof meta>;
+
+export const Default: Story = {
+  render: renderAccordion,
+};
+
+export const WithDefaultOpen: Story = {
+  args: {
+    allowMultiple: true,
+    defaultOpenIds: ['one'],
+  },
+  render: renderAccordion,
+};
+
+export const Controlled: Story = {
+  render: (args) => <ControlledAccordion {...args} />,
 };

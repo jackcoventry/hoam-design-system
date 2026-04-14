@@ -7,8 +7,18 @@ import SocialLinks from '@/mocks/socialLinks';
 const meta: Meta<typeof Footer> = {
   title: 'Components/Footer',
   component: Footer,
-  tags: ['autodocs'],
   args: {},
+  argTypes: {
+    topLinks: {
+      table: { disable: true },
+    },
+    bottomLinks: {
+      table: { disable: true },
+    },
+    socialLinks: {
+      table: { disable: true },
+    },
+  },
 };
 export default meta;
 

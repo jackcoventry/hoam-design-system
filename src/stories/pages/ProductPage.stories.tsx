@@ -17,7 +17,6 @@ import BaseTemplate from '@/stories/templates/Base';
 
 const meta: Meta = {
   title: 'Pages/Product Page',
-  tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
   },

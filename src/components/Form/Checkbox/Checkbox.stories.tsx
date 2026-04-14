@@ -14,6 +14,11 @@ const meta = {
     description: 'You must agree before continuing.',
     disabled: false,
   },
+  argTypes: {
+    onCheckedChange: {
+      table: { disable: true },
+    },
+  },
 } satisfies Meta<typeof Checkbox>;
 
 export default meta;

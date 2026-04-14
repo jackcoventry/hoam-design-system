@@ -7,7 +7,6 @@ import { Stack } from '@/components/Layout/Stack';
 const meta = {
   title: 'Layout/Section',
   component: Section,
-  tags: ['autodocs'],
   args: {
     children: null,
     space: 'xl',

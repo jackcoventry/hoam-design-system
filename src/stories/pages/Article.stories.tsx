@@ -8,7 +8,6 @@ import BaseTemplate from '@/stories/templates/Base';
 const meta: Meta<typeof BlogArticle> = {
   title: 'Pages/Article Page',
   component: BlogArticle,
-  tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
   },

@@ -7,7 +7,6 @@ import MockData from '@/mocks/components/RichLinks';
 const meta: Meta<typeof RichLink> = {
   title: 'Components/Rich Link',
   component: RichLink,
-  tags: ['autodocs'],
   args: {},
 };
 export default meta;

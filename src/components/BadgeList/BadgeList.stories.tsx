@@ -1,27 +1,53 @@
-import { Meta, StoryObj } from '@storybook/react-vite';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
-import { BadgeList, BadgeListItem } from '@/components/BadgeList';
+import {
+  BadgeList,
+  BadgeListItem,
+  type BadgeListItemVariant,
+  BadgeListVariants,
+} from '@/components/BadgeList/BadgeList';
 
-const meta: Meta<typeof BadgeList> = {
-  title: 'Components/Badge List',
-  component: BadgeList,
-  tags: ['autodocs'],
-  args: {},
+type SingleStoryArgs = {
+  text: string;
+  variant: BadgeListItemVariant;
 };
+
+const meta = {
+  title: 'Components/BadgeList',
+  component: BadgeList,
+} satisfies Meta<typeof BadgeList>;
+
 export default meta;
 
-type Story = StoryObj<typeof BadgeList>;
+type Story = StoryObj<typeof meta>;
 
-const Template: Story = {
-  render: () => (
-    <div>
-      <BadgeList>
-        <BadgeListItem>New</BadgeListItem>
-        <BadgeListItem variant="alert">Low Stock</BadgeListItem>
-        <BadgeListItem variant="highlight">Limited Edition</BadgeListItem>
-      </BadgeList>
-    </div>
+export const Single: StoryObj<SingleStoryArgs> = {
+  args: {
+    text: 'New',
+    variant: 'default',
+  },
+  argTypes: {
+    text: {
+      control: 'text',
+    },
+    variant: {
+      control: 'select',
+      options: BadgeListVariants,
+    },
+  },
+  render: ({ text, variant }) => (
+    <BadgeList>
+      <BadgeListItem variant={variant}>{text}</BadgeListItem>
+    </BadgeList>
   ),
 };
 
-export const Default = { ...Template, args: {} };
+export const Multiple: Story = {
+  render: () => (
+    <BadgeList>
+      <BadgeListItem variant="default">Default</BadgeListItem>
+      <BadgeListItem variant="alert">Alert</BadgeListItem>
+      <BadgeListItem variant="highlight">Highlight</BadgeListItem>
+    </BadgeList>
+  ),
+};

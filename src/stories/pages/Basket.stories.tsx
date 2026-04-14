@@ -9,7 +9,6 @@ import typography from '@/styles/Typography.module.css';
 
 const meta: Meta = {
   title: 'Pages/Basket',
-  tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
   },

@@ -5,7 +5,6 @@ import { Container } from '@/components/Layout/Container';
 const meta = {
   title: 'Layout/Container',
   component: Container,
-  tags: ['autodocs'],
   args: {
     children: null,
     width: 'default',
