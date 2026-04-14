@@ -1,0 +1,85 @@
+.root {
+  display: grid;
+  gap: var(--hoam-spacing-xl);
+}
+
+.card {
+  background-color: var(--hoam-color-surface-inverse);
+  border: var(--hoam-border-size-default) var(--hoam-color-border-default);
+  border-radius: var(--hoam-border-radius-large);
+  display: grid;
+  gap: var(--hoam-spacing-md);
+  padding: var(--hoam-spacing-lg);
+}
+
+.preview {
+  padding-bottom: var(--hoam-spacing-md);
+  border-bottom: var(--hoam-border-size-default) var(--hoam-color-border-default);
+}
+
+.specimen {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.meta {
+  display: grid;
+  gap: var(--hoam-spacing-sm);
+}
+
+.row {
+  display: grid;
+  gap: var(--hoam-spacing-xs);
+}
+
+.label {
+  font: var(--hoam-typography-label-1);
+}
+
+.code {
+  border-radius: var(--hoam-border-radius-default);
+  background-color: var(--hoam-color-surface-soft);
+  display: block;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  overflow-x: auto;
+  overflow-wrap: anywhere;
+  padding: var(--hoam-spacing-md);
+  white-space: pre-wrap;
+}
+
+.breakdown {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: var(--hoam-spacing-sm);
+  margin: 0;
+}
+
+.breakdown div {
+  padding: var(--hoam-spacing-sm);
+  border-radius: var(--hoam-border-radius-default);
+  background: var(--hoam-color-surface-soft);
+}
+
+.breakdown dt {
+  font: var(--hoam-typography-label-1);
+  margin: 0 0 var(--hoam-spacing-xs);
+}
+
+.breakdown dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 64rem) {
+  .card {
+    grid-template-columns: minmax(0, 1.3fr) minmax(24rem, 1fr);
+    align-items: start;
+  }
+
+  .preview {
+    padding-bottom: 0;
+    padding-right: var(--hoam-spacing-md);
+    border-bottom: 0;
+    border-right: var(--hoam-border-size-default) var(--hoam-color-border-default);
+  }
+}
