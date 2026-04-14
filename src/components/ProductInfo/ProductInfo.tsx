@@ -116,7 +116,10 @@ export function ProductInfo({
         <div className={styles.content}>
           <Stack gap="sm">
             {newItem || lowStock ? (
-              <BadgeList>{newItem && <BadgeListItem>{t.new}</BadgeListItem>}</BadgeList>
+              <BadgeList>
+                {newItem && <BadgeListItem variant="default">{t.new}</BadgeListItem>}
+                {lowStock && <BadgeListItem variant="alert">{t.lowStock}</BadgeListItem>}
+              </BadgeList>
             ) : null}
             <h1 className={styles.title}>{title}</h1>
             <h2 className={styles.price}>

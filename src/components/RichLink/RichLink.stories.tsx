@@ -8,6 +8,11 @@ const meta: Meta<typeof RichLink> = {
   title: 'Components/Rich Link',
   component: RichLink,
   args: {},
+  argTypes: {
+    imageAlt: {
+      table: { disable: true },
+    },
+  },
 };
 export default meta;
 

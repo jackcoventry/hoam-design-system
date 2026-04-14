@@ -26,7 +26,7 @@ type CommonProps = {
   children?: ReactNode | undefined;
   icon?: IconId | undefined;
   iconPosition?: 'left' | 'right' | undefined;
-  variant: ButtonVariantTypes;
+  variant?: ButtonVariantTypes | undefined;
   iconOnly?: boolean | undefined;
   'aria-label'?: string | undefined;
   size?: 'default' | 'small' | undefined;

@@ -15,7 +15,7 @@ const meta: Meta = {
   parameters: {
     layout: 'fullscreen',
   },
-  args: productTile,
+  args: {},
 };
 export default meta;
 
@@ -24,7 +24,6 @@ const bannerMock = {
   title: 'Test Banner',
   subtitle: 'Test subtitle',
   text: 'Lorem ipsum',
-  theme: 'default',
   image: '/hero/range.png',
   button: {
     url: '/',
@@ -64,7 +63,7 @@ const Template = {
                   spanLg={4}
                   key={product}
                 >
-                  <ProductTile {...args} />
+                  <ProductTile {...productTile} />
                 </GridItem>
               ))}
             </Grid>

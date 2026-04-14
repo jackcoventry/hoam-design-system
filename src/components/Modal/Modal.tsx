@@ -22,7 +22,8 @@ import { FOCUSABLE_SELECTORS } from '@/constants/focusable-selectors';
 import styles from '@/components/Modal/Modal.module.css';
 import typography from '@/styles/Typography.module.css';
 
-export type ModalVariant = 'modal' | 'drawer';
+export const Variants = ['modal', 'drawer'] as const;
+export type ModalVariant = (typeof Variants)[number];
 type ModalPhase = 'closed' | 'opening' | 'open' | 'closing';
 
 type ModalContextValue = {

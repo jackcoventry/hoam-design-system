@@ -12,6 +12,32 @@ const meta: Meta<typeof VariantSelector> = {
   title: 'Components/Variant Selector',
   component: VariantSelector,
   args: {},
+  argTypes: {
+    options: {
+      table: { disable: true },
+    },
+    name: {
+      table: { disable: true },
+    },
+    value: {
+      table: { disable: true },
+    },
+    onChange: {
+      table: { disable: true },
+    },
+    required: {
+      table: { disable: true },
+    },
+    wrap: {
+      table: { disable: true },
+    },
+    variant: {
+      table: { disable: true },
+    },
+    label: {
+      table: { disable: true },
+    },
+  },
 };
 
 export default meta;
@@ -64,14 +90,5 @@ export const Image = {
   args: {
     options: ProductInformationMockData.options.image,
     variant: 'image',
-  },
-};
-
-export const Vertical = {
-  ...Template,
-  args: {
-    options: ProductInformationMockData.options.size,
-    variant: 'label',
-    orientation: 'vertical',
   },
 };

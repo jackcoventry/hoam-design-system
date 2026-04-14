@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react-vite';
 
-import { Navigation, PromoBlock } from '@/components/Navigation';
+import { Navigation } from '@/components/Navigation';
 import NavigationData from '@/mocks/components/Navigation';
 import UserNavigationData from '@/mocks/components/UserNavigation';
 
@@ -11,6 +11,20 @@ const meta: Meta<typeof Navigation> = {
     layout: 'fullscreen',
   },
   args: {},
+  argTypes: {
+    items: {
+      table: { disable: true },
+    },
+    userItems: {
+      table: { disable: true },
+    },
+    searchEndpoint: {
+      table: { disable: true },
+    },
+    basketEndpoint: {
+      table: { disable: true },
+    },
+  },
 };
 export default meta;
 
@@ -34,16 +48,3 @@ const Template: Story = {
 };
 
 export const Default = { ...Template, args: {} };
-
-export const Fixed = {
-  ...Template,
-  parameters: {
-    layout: 'fullscreen',
-  },
-  globals: {
-    backgrounds: { value: 'dark' },
-  },
-  args: {
-    variant: 'fixed',
-  },
-};

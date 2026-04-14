@@ -14,17 +14,17 @@ const items = {
       {
         label: 'Style 1',
         value: 'style1',
-        displayValue: 'https://placehold.co/48x4?text=Vitamin+A+Supplement',
+        displayValue: 'https://placehold.co/100x100?text=Vitamin+A+Supplement',
       },
       {
         label: 'Style 2',
         value: 'style2',
-        displayValue: 'https://placehold.co/48x4?text=Vitamin+B+Supplement',
+        displayValue: 'https://placehold.co/100x100?text=Vitamin+B+Supplement',
       },
       {
         label: 'Style 3',
         value: 'style3',
-        displayValue: 'https://placehold.co/48x4?text=Vitamin+C+Supplement',
+        displayValue: 'https://placehold.co/100x100?text=Vitamin+C+Supplement',
       },
     ],
     tshirt: [

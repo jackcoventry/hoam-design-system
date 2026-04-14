@@ -24,6 +24,14 @@ const meta: Meta = {
     ...productTile,
     newItem: true,
   },
+  argTypes: {
+    image: {
+      table: { disable: true },
+    },
+    socialLinks: {
+      table: { disable: true },
+    },
+  },
 };
 
 export default meta;

@@ -34,6 +34,14 @@ const meta: Meta<typeof BlogArticle> = {
     },
     socialLinks: SocialLinks,
   },
+  argTypes: {
+    image: {
+      table: { disable: true },
+    },
+    socialLinks: {
+      table: { disable: true },
+    },
+  },
 };
 export default meta;
 

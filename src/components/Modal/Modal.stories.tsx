@@ -10,17 +10,24 @@ import {
   SearchLoader,
   SearchResults,
 } from '@/components/Form/SearchForm';
-import { Modal, type ModalRootProps } from '@/components/Modal';
+import { Modal, type ModalRootProps, Variants } from '@/components/Modal';
 import { useMockRequest } from '@/hooks/useMockRequest';
 import SearchResultsData from '@/mocks/components/SearchResults';
 
 import { Stack } from '../Layout';
 
-import typography from '@/styles/Typography.module.css';
-
 const meta: Meta<typeof Modal> = {
   title: 'Components/Modal',
   component: Modal,
+  args: {
+    variant: 'modal',
+  },
+  argTypes: {
+    variant: {
+      control: 'inline-radio',
+      options: Variants,
+    },
+  },
 };
 
 export default meta;

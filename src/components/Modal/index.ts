@@ -12,5 +12,6 @@ export {
   ModalHeader,
   ModalRoot,
   ModalTitle,
+  Variants,
 } from '@/components/Modal/Modal';
 export { ModalStackProvider, useModalStack } from '@/components/Modal/ModalStackContext';

@@ -9,6 +9,18 @@ const meta: Meta<typeof PromoSection> = {
   args: {
     ...(PromoSectionData as PromoSectionProps),
   },
+  argTypes: {
+    linkUrl: {
+      table: { disable: true },
+    },
+    imageUrl: {
+      table: { disable: true },
+    },
+    alignment: {
+      control: 'inline-radio',
+      options: ['left', 'right'],
+    },
+  },
 };
 export default meta;
 

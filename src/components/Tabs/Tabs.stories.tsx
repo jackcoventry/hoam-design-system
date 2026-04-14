@@ -8,6 +8,11 @@ const meta: Meta<typeof Tabs> = {
   title: 'Components/Tabs',
   component: Tabs,
   args: {},
+  argTypes: {
+    title: {
+      table: { disable: true },
+    },
+  },
 };
 export default meta;
 

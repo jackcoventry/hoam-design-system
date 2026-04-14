@@ -21,6 +21,7 @@
 }
 
 .image {
+  border-radius: var(--hoam-border-radius-default);
   width: 100%;
 }
 

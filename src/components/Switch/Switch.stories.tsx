@@ -14,6 +14,11 @@ const meta = {
     description: 'Receive updates about important account activity.',
     disabled: false,
   },
+  argTypes: {
+    onCheckedChange: {
+      table: { disable: true },
+    },
+  },
 } satisfies Meta<typeof Switch>;
 
 export default meta;

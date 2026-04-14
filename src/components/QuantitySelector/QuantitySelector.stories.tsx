@@ -7,6 +7,35 @@ const meta: Meta<typeof QuantitySelector> = {
   title: 'Components/Quantity Selector',
   component: QuantitySelector,
   args: {},
+  argTypes: {
+    value: {
+      table: { disable: true },
+    },
+    onChange: {
+      table: { disable: true },
+    },
+    min: {
+      table: { disable: true },
+    },
+    max: {
+      table: { disable: true },
+    },
+    id: {
+      table: { disable: true },
+    },
+    name: {
+      table: { disable: true },
+    },
+    'aria-label': {
+      table: { disable: true },
+    },
+    incrementLabel: {
+      table: { disable: true },
+    },
+    decrementLabel: {
+      table: { disable: true },
+    },
+  },
 };
 
 export default meta;

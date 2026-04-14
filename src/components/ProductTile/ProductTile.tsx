@@ -49,8 +49,8 @@ export function ProductTile({
         {newItem || lowStock ? (
           <div className={styles.badges}>
             <BadgeList>
-              {newItem && <BadgeListItem>{t.new}</BadgeListItem>}
-              {lowStock && <BadgeListItem>{t.lowStock}</BadgeListItem>}
+              {newItem && <BadgeListItem variant="default">{t.new}</BadgeListItem>}
+              {lowStock && <BadgeListItem variant="alert">{t.lowStock}</BadgeListItem>}
             </BadgeList>
           </div>
         ) : null}

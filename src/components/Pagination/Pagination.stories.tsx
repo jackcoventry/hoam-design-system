@@ -16,7 +16,7 @@ const meta = {
   },
   argTypes: {
     onPageChange: {
-      control: false,
+      table: { disable: true },
     },
   },
 } satisfies Meta<typeof Pagination>;

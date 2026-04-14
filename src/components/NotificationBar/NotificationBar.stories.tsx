@@ -9,6 +9,11 @@ const meta: Meta<typeof NotificationBar> = {
   args: {
     messages: NotificationBarData,
   },
+  argTypes: {
+    'aria-label': {
+      table: { disable: true },
+    },
+  },
 };
 export default meta;
 

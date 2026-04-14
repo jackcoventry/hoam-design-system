@@ -22,7 +22,6 @@ export type VariantSelectorProps = {
   options: VariantOption[];
   label?: string | undefined;
   required?: boolean;
-  orientation?: 'horizontal' | 'vertical' | undefined;
   wrap?: boolean;
   variant?: 'color' | 'image' | 'label' | undefined;
 };
@@ -37,17 +36,7 @@ function focusNextTick(fn: () => void) {
 
 export const VariantSelector = forwardRef<HTMLInputElement, VariantSelectorProps>(
   (
-    {
-      name,
-      value,
-      onChange,
-      options,
-      label,
-      required,
-      orientation = 'horizontal',
-      wrap = true,
-      variant = 'label',
-    },
+    { name, value, onChange, options, label, required, wrap = true, variant = 'label' },
     forwardedRef
   ) => {
     const legendId = useId();
@@ -123,8 +112,6 @@ export const VariantSelector = forwardRef<HTMLInputElement, VariantSelectorProps
       }
     }
 
-    const isHorizontal = orientation === 'horizontal';
-
     function getLabelFromValue(selectedValue: VariantValue | null) {
       const option = options.find((opt) => opt.value === selectedValue);
       return option?.label || '';
@@ -152,7 +139,6 @@ export const VariantSelector = forwardRef<HTMLInputElement, VariantSelectorProps
             className={styles.items}
             ref={groupRef}
             role="radiogroup"
-            aria-orientation={orientation}
             data-variant={variant}
             {...(label ? { 'aria-labelledby': legendId } : { 'aria-label': name })}
             tabIndex={groupTabIndex}
@@ -187,7 +173,7 @@ export const VariantSelector = forwardRef<HTMLInputElement, VariantSelectorProps
               const up = event.key === 'ArrowUp';
               const down = event.key === 'ArrowDown';
 
-              const relevant = isHorizontal ? left || right : up || down;
+              const relevant = left || right;
 
               if (!relevant) {
                 return;

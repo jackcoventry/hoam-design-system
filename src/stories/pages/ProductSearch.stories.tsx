@@ -16,7 +16,7 @@ const meta: Meta = {
   parameters: {
     layout: 'fullscreen',
   },
-  args: productTile,
+  args: {},
 };
 export default meta;
 
@@ -24,7 +24,6 @@ const bannerMock = {
   title: 'Test Banner',
   subtitle: 'Test subtitle',
   text: 'Lorem ipsum',
-  theme: 'pink',
   image: '/hero/range.png',
   button: {
     url: '/',
