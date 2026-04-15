@@ -85,6 +85,8 @@ const Placeholder = ({ children, value = '' }: SelectPlaceholderProps) => (
   </option>
 );
 
+Placeholder.displayName = 'Placeholder';
+
 function isOptionElement(
   child: ReactNode
 ): child is ReactElement<SelectOptionProps, typeof Option> {

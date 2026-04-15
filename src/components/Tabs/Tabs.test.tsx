@@ -1,76 +1,353 @@
 import { render, screen } from '@testing-library/react';
+import type { ReactNode } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { Tabs } from '@/components/Tabs';
+import { type TabProps, Tabs } from '@/components/Tabs';
+
+const mockUseMediaQuery = vi.fn<(query: string) => boolean>();
 
 vi.mock('@/hooks/useMediaQuery', () => ({
-  useMediaQuery: vi.fn(),
+  useMediaQuery: (query: string) => mockUseMediaQuery(query),
 }));
 
-import { useMediaQuery } from '@/hooks/useMediaQuery';
-
-const mockedUseMediaQuery = vi.mocked(useMediaQuery);
-
-const items = [
-  {
-    id: 'one',
-    label: 'Tab One',
-    content: <div>Panel One</div>,
+vi.mock('@/styles/breakpoints', () => ({
+  BREAKPOINTS: {
+    UP: {
+      MD: '48rem',
+    },
   },
-  {
-    id: 'two',
-    label: 'Tab Two',
-    content: <div>Panel Two</div>,
+}));
+
+vi.mock('@/components/Accordion', () => ({
+  Accordion: ({ children, showToggleAll }: { children: ReactNode; showToggleAll?: boolean }) => (
+    <div
+      data-testid="accordion"
+      data-show-toggle-all={String(showToggleAll)}
+    >
+      {children}
+    </div>
+  ),
+  AccordionItem: ({ children, id }: { children: ReactNode; id: string }) => (
+    <section
+      data-testid="accordion-item"
+      data-id={id}
+    >
+      {children}
+    </section>
+  ),
+  AccordionHeader: ({ children }: { children: ReactNode }) => <h2>{children}</h2>,
+  AccordionPanel: ({ children }: { children: ReactNode }) => (
+    <div data-testid="accordion-panel">{children}</div>
+  ),
+}));
+
+vi.mock('@/components/Button', () => ({
+  Button: ({
+    children,
+    onClick,
+    onKeyDown,
+    id,
+    role,
+    'aria-selected': ariaSelected,
+    'aria-controls': ariaControls,
+    tabIndex,
+    className,
+    variant,
+    ref,
+    ...rest
+  }: {
+    children: ReactNode;
+    onClick?: () => void;
+    onKeyDown?: React.KeyboardEventHandler<HTMLButtonElement>;
+    id?: string;
+    role?: string;
+    'aria-selected'?: boolean;
+    'aria-controls'?: string;
+    tabIndex?: number;
+    className?: string;
+    variant?: string;
+    ref?: ((element: HTMLButtonElement | null) => void) | React.RefObject<HTMLButtonElement | null>;
+  }) => {
+    function setRef(element: HTMLButtonElement | null) {
+      if (typeof ref === 'function') {
+        ref(element);
+      } else if (ref && 'current' in ref) {
+        ref.current = element;
+      }
+    }
+
+    return (
+      <button
+        {...rest}
+        id={id}
+        ref={setRef}
+        type="button"
+        role={role}
+        aria-selected={ariaSelected}
+        aria-controls={ariaControls}
+        tabIndex={tabIndex}
+        className={className}
+        data-variant={variant}
+        onClick={onClick}
+        onKeyDown={onKeyDown}
+      >
+        {children}
+      </button>
+    );
   },
-];
+}));
+
+vi.mock('@/components/Common/BodyText', () => ({
+  BodyText: ({ children }: { children: ReactNode }) => (
+    <div data-testid="body-text">{children}</div>
+  ),
+}));
+
+vi.mock('@/components/Tabs/Tabs.module.css', () => ({
+  default: {
+    root: 'root',
+    list: 'list',
+    control: 'control',
+    panel: 'panel',
+  },
+}));
+
+vi.mock('react', async () => {
+  const actual = await vi.importActual<typeof import('react')>('react');
+
+  return {
+    ...actual,
+    Activity: ({ children, mode }: { children: ReactNode; mode: 'visible' | 'hidden' }) => (
+      <div
+        data-testid="activity"
+        data-mode={mode}
+      >
+        {children}
+      </div>
+    ),
+  };
+});
 
 describe('Tabs', () => {
+  const items: TabProps[] = [
+    {
+      id: 'details',
+      label: 'Details',
+      content: <p>Details content</p>,
+    },
+    {
+      id: 'shipping',
+      label: 'Shipping',
+      content: <div>Shipping content</div>,
+    },
+  ];
+
   beforeEach(() => {
     vi.clearAllMocks();
+    mockUseMediaQuery.mockReturnValue(true);
   });
 
-  it('renders accordion on mobile', () => {
-    mockedUseMediaQuery.mockReturnValue(true);
+  describe('desktop', () => {
+    it('renders desktop tabs when the media query matches', () => {
+      render(
+        <Tabs
+          title="Product information"
+          items={items}
+        />
+      );
 
-    render(
-      <Tabs
-        title="Example tabs"
-        items={items}
-      />
-    );
+      expect(mockUseMediaQuery).toHaveBeenCalledWith('(min-width: 48rem)');
+      expect(screen.getByRole('tablist', { name: 'Product information' })).toBeInTheDocument();
+      expect(screen.queryByTestId('accordion')).not.toBeInTheDocument();
+    });
 
-    expect(screen.getByRole('button', { name: /tab one/i })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /tab two/i })).toBeInTheDocument();
+    it('renders one tab per item', () => {
+      render(
+        <Tabs
+          title="Product information"
+          items={items}
+        />
+      );
 
-    expect(screen.queryByRole('tablist')).not.toBeInTheDocument();
+      const tabs = screen.getAllByRole('tab');
+      expect(tabs).toHaveLength(2);
+
+      expect(screen.getByRole('tab', { name: 'Details' })).toBeInTheDocument();
+      expect(screen.getByRole('tab', { name: 'Shipping' })).toBeInTheDocument();
+    });
+
+    it('renders one tabpanel per item and shows the first panel initially', () => {
+      const { container } = render(
+        <Tabs
+          title="Product information"
+          items={items}
+        />
+      );
+
+      const panels = screen.getAllByRole('tabpanel', { hidden: true });
+      expect(panels).toHaveLength(2);
+
+      const detailsPanel = container.querySelector<HTMLElement>('#hoam-panel-details');
+      const shippingPanel = container.querySelector<HTMLElement>('#hoam-panel-shipping');
+
+      expect(detailsPanel).not.toBeNull();
+      expect(shippingPanel).not.toBeNull();
+
+      if (!detailsPanel || !shippingPanel) {
+        throw new Error('Expected tab panels to be rendered');
+      }
+
+      expect(detailsPanel).not.toHaveAttribute('hidden');
+      expect(shippingPanel).toHaveAttribute('hidden');
+    });
+
+    it('passes layout through to DesktopTabs when provided', () => {
+      const { container } = render(
+        <Tabs
+          title="Product information"
+          items={items}
+          layout="horizontal"
+        />
+      );
+
+      const root = container.querySelector('[data-layout="horizontal"]');
+      expect(root).toBeInTheDocument();
+
+      expect(screen.getByRole('tablist', { name: 'Product information' })).toHaveAttribute(
+        'aria-orientation',
+        'horizontal'
+      );
+    });
+
+    it('passes mode through to DesktopTabs when provided', () => {
+      const { container } = render(
+        <Tabs
+          title="Product information"
+          items={items}
+          mode="automatic"
+        />
+      );
+
+      const root = container.querySelector('[data-mode="automatic"]');
+      expect(root).toBeInTheDocument();
+    });
+
+    it('lets DesktopTabs use its defaults when layout and mode are omitted', () => {
+      const { container } = render(
+        <Tabs
+          title="Product information"
+          items={items}
+        />
+      );
+
+      expect(container.querySelector('[data-layout="vertical"]')).toBeInTheDocument();
+      expect(container.querySelector('[data-mode="manual"]')).toBeInTheDocument();
+
+      expect(screen.getByRole('tablist', { name: 'Product information' })).toHaveAttribute(
+        'aria-orientation',
+        'vertical'
+      );
+    });
+
+    it('renders nothing on desktop when items is empty', () => {
+      const { container } = render(
+        <Tabs
+          title="Empty tabs"
+          items={[]}
+        />
+      );
+
+      expect(mockUseMediaQuery).toHaveBeenCalledWith('(min-width: 48rem)');
+      expect(screen.queryByRole('tablist')).not.toBeInTheDocument();
+      expect(screen.queryByTestId('accordion')).not.toBeInTheDocument();
+      expect(container).toBeEmptyDOMElement();
+    });
   });
 
-  it('renders desktop tabs on desktop', () => {
-    mockedUseMediaQuery.mockReturnValue(false);
+  describe('mobile', () => {
+    beforeEach(() => {
+      mockUseMediaQuery.mockReturnValue(false);
+    });
 
-    render(
-      <Tabs
-        title="Example tabs"
-        items={items}
-      />
-    );
+    it('renders a labelled section and accordion when the media query does not match', () => {
+      render(
+        <Tabs
+          title="Product information"
+          items={items}
+        />
+      );
 
-    expect(screen.getByRole('tablist', { name: /example tabs/i })).toBeInTheDocument();
-    expect(screen.getByRole('tab', { name: /tab one/i })).toBeInTheDocument();
-    expect(screen.getByRole('tab', { name: /tab two/i })).toBeInTheDocument();
-  });
+      expect(mockUseMediaQuery).toHaveBeenCalledWith('(min-width: 48rem)');
+      expect(screen.getByRole('region', { name: 'Product information' })).toBeInTheDocument();
+      expect(screen.getByTestId('accordion')).toBeInTheDocument();
+      expect(screen.queryByRole('tablist')).not.toBeInTheDocument();
+    });
 
-  it('renders mobile accordion content structure', () => {
-    mockedUseMediaQuery.mockReturnValue(true);
+    it('renders the accordion with showToggleAll set to false', () => {
+      render(
+        <Tabs
+          title="Product information"
+          items={items}
+        />
+      );
 
-    render(
-      <Tabs
-        title="Example tabs"
-        items={items}
-      />
-    );
+      expect(screen.getByTestId('accordion')).toHaveAttribute('data-show-toggle-all', 'false');
+    });
 
-    expect(screen.getByText('Panel One')).toBeInTheDocument();
-    expect(screen.getByText('Panel Two')).toBeInTheDocument();
+    it('renders one accordion item per tab', () => {
+      render(
+        <Tabs
+          title="Product information"
+          items={items}
+        />
+      );
+
+      const accordionItems = screen.getAllByTestId('accordion-item');
+      expect(accordionItems).toHaveLength(2);
+      expect(accordionItems[0]).toHaveAttribute('data-id', 'details');
+      expect(accordionItems[1]).toHaveAttribute('data-id', 'shipping');
+    });
+
+    it('renders each tab label and content in the accordion', () => {
+      render(
+        <Tabs
+          title="Product information"
+          items={items}
+        />
+      );
+
+      expect(screen.getByRole('heading', { name: 'Details' })).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: 'Shipping' })).toBeInTheDocument();
+
+      expect(screen.getByText('Details content')).toBeInTheDocument();
+      expect(screen.getByText('Shipping content')).toBeInTheDocument();
+    });
+
+    it('ignores layout and mode on mobile and still renders the accordion branch', () => {
+      render(
+        <Tabs
+          title="Product information"
+          items={items}
+          layout="horizontal"
+          mode="automatic"
+        />
+      );
+
+      expect(screen.getByTestId('accordion')).toBeInTheDocument();
+      expect(screen.queryByRole('tablist')).not.toBeInTheDocument();
+    });
+
+    it('renders an empty labelled section on mobile when items is empty', () => {
+      render(
+        <Tabs
+          title="Empty tabs"
+          items={[]}
+        />
+      );
+
+      expect(screen.getByRole('region', { name: 'Empty tabs' })).toBeInTheDocument();
+      expect(screen.getByTestId('accordion')).toBeInTheDocument();
+      expect(screen.queryAllByTestId('accordion-item')).toHaveLength(0);
+    });
   });
 });

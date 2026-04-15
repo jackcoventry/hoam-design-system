@@ -10,7 +10,7 @@ import {
   ModalHeader,
   ModalRoot,
   ModalTitle,
-} from '@/components/Modal';
+} from './Modal';
 
 type ModalMessages = {
   close: string;
@@ -97,6 +97,7 @@ async function flushRafQueue(): Promise<void> {
     for (const callback of queue) {
       callback(0);
     }
+    await Promise.resolve();
   });
 }
 

@@ -1,19 +1,57 @@
-import { type ReactNode } from 'react';
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { fireEvent, render, screen, within } from '@testing-library/react';
+import type { ReactNode } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { SidebarNavigation } from '@/components/SidebarNavigation';
+import {
+  type ItemProps,
+  SidebarNavigation,
+} from '@/components/SidebarNavigation/SidebarNavigation';
 
 const mockUseMediaQuery = vi.fn<(query: string) => boolean>();
+const mockUseMessages = vi.fn<
+  (namespace: string) => {
+    title: string;
+    hide: string;
+    show: string;
+  }
+>();
 
 vi.mock('@/hooks/useMediaQuery', () => ({
   useMediaQuery: (query: string) => mockUseMediaQuery(query),
 }));
 
+vi.mock('@/hooks/useMessages', () => ({
+  useMessages: (namespace: string) => mockUseMessages(namespace),
+}));
+
+vi.mock('@/styles/breakpoints', () => ({
+  BREAKPOINTS: {
+    UP: {
+      SM: '40rem',
+    },
+  },
+}));
+
 vi.mock('@/components/Button', () => ({
-  Button: ({ children, onClick }: { children: ReactNode; onClick?: () => void }) => (
-    <button onClick={onClick}>{children}</button>
+  Button: ({
+    children,
+    onClick,
+    icon,
+    size,
+  }: {
+    children: ReactNode;
+    onClick?: () => void;
+    icon?: string;
+    size?: string;
+  }) => (
+    <button
+      type="button"
+      onClick={onClick}
+      data-icon={icon}
+      data-size={size}
+    >
+      {children}
+    </button>
   ),
 }));
 
@@ -21,107 +59,267 @@ vi.mock('@/components/Accordion', () => ({
   Accordion: ({ children }: { children: ReactNode }) => (
     <div data-testid="accordion">{children}</div>
   ),
-  AccordionItem: ({ children }: { children: ReactNode }) => (
-    <div data-testid="accordion-item">{children}</div>
+  AccordionItem: ({ children, id }: { children: ReactNode; id: string }) => (
+    <section
+      data-testid="accordion-item"
+      data-id={id}
+    >
+      {children}
+    </section>
   ),
   AccordionHeader: ({ children, className }: { children: ReactNode; className?: string }) => (
     <h2 className={className}>{children}</h2>
   ),
-  AccordionPanel: ({ children }: { children: ReactNode }) => <div>{children}</div>,
+  AccordionPanel: ({ children }: { children: ReactNode }) => (
+    <div data-testid="accordion-panel">{children}</div>
+  ),
 }));
 
-const items = [
-  {
-    id: 'section-1',
-    label: 'Section One',
-    items: [
-      { id: 'child-1', label: 'Overview', href: '/overview' },
-      { id: 'child-2', label: 'Getting Started', href: '/getting-started' },
-    ],
+vi.mock('@/components/Layout', () => ({
+  Stack: ({ children }: { children: ReactNode; gap?: string }) => (
+    <div data-testid="stack">{children}</div>
+  ),
+}));
+
+vi.mock('@/components/Loading', () => ({
+  Spinner: () => <div data-testid="spinner">Loading...</div>,
+}));
+
+vi.mock('@/components/SidebarNavigation/SidebarNavigation.module.css', () => ({
+  default: {
+    root: 'root',
+    list: 'list',
+    topLevelItem: 'topLevelItem',
+    sectionTitle: 'sectionTitle',
+    link: 'link',
   },
-  {
-    id: 'section-2',
-    label: 'Section Two',
-    items: [{ id: 'child-3', label: 'Components', href: '/components' }],
-  },
-];
+}));
+
+vi.mock('react', async () => {
+  const actual = await vi.importActual<typeof import('react')>('react');
+
+  return {
+    ...actual,
+    Activity: ({ children, mode }: { children: ReactNode; mode: 'visible' | 'hidden' }) => (
+      <div
+        data-testid="activity"
+        data-mode={mode}
+      >
+        {children}
+      </div>
+    ),
+  };
+});
 
 describe('SidebarNavigation', () => {
+  const items: ItemProps[] = [
+    {
+      id: 'section-1',
+      label: 'Section One',
+      items: [
+        {
+          id: 'child-1',
+          label: 'First Link',
+          href: '/first',
+        },
+        {
+          id: 'child-2',
+          label: 'Second Link',
+          href: '/second',
+        },
+      ],
+    },
+    {
+      id: 'section-2',
+      label: 'Section Two',
+      items: [
+        {
+          id: 'child-3',
+          label: 'Third Link',
+          href: '/third',
+        },
+      ],
+    },
+  ];
+
   beforeEach(() => {
     vi.clearAllMocks();
-  });
 
-  it('renders desktop navigation when not on mobile', () => {
-    mockUseMediaQuery.mockReturnValue(false);
+    mockUseMessages.mockReturnValue({
+      title: 'Sidebar navigation',
+      hide: 'Hide navigation',
+      show: 'Show navigation',
+    });
 
-    render(<SidebarNavigation items={items} />);
-
-    expect(screen.getByRole('navigation', { name: 'Sidebar navigation' })).toBeInTheDocument();
-
-    expect(screen.getByText('Section One')).toBeInTheDocument();
-    expect(screen.getByText('Section Two')).toBeInTheDocument();
-
-    expect(screen.getByRole('link', { name: 'Overview' })).toHaveAttribute('href', '/overview');
-    expect(screen.getByRole('link', { name: 'Getting Started' })).toHaveAttribute(
-      'href',
-      '/getting-started'
-    );
-    expect(screen.getByRole('link', { name: 'Components' })).toHaveAttribute('href', '/components');
-
-    expect(
-      screen.queryByRole('button', { name: /show navigation|hide navigation/i })
-    ).not.toBeInTheDocument();
-  });
-
-  it('renders mobile toggle button when on mobile', () => {
     mockUseMediaQuery.mockReturnValue(true);
-
-    render(<SidebarNavigation items={items} />);
-
-    expect(screen.getByRole('button', { name: 'Show navigation' })).toBeInTheDocument();
   });
 
-  it('toggles the mobile button text when clicked', async () => {
-    const user = userEvent.setup();
-    mockUseMediaQuery.mockReturnValue(true);
+  describe('desktop', () => {
+    it('renders a nav with the default translated aria-label', () => {
+      render(<SidebarNavigation items={items} />);
 
-    render(<SidebarNavigation items={items} />);
+      expect(mockUseMessages).toHaveBeenCalledWith('sidebarNavigation');
+      expect(mockUseMediaQuery).toHaveBeenCalledWith('(min-width: 40rem)');
 
-    const button = screen.getByRole('button', { name: 'Show navigation' });
+      const nav = screen.getByRole('navigation', { name: 'Sidebar navigation' });
+      expect(nav).toBeInTheDocument();
+    });
 
-    await user.click(button);
+    it('renders a nav with a custom aria-label', () => {
+      render(
+        <SidebarNavigation
+          items={items}
+          aria-label="Documentation sections"
+        />
+      );
 
-    expect(screen.getByRole('button', { name: 'Hide navigation' })).toBeInTheDocument();
+      expect(
+        screen.getByRole('navigation', { name: 'Documentation sections' })
+      ).toBeInTheDocument();
+    });
 
-    await user.click(screen.getByRole('button', { name: 'Hide navigation' }));
+    it('renders top-level section headings and child links', () => {
+      render(<SidebarNavigation items={items} />);
 
-    expect(screen.getByRole('button', { name: 'Show navigation' })).toBeInTheDocument();
+      const nav = screen.getByRole('navigation', { name: 'Sidebar navigation' });
+
+      expect(within(nav).getByRole('heading', { name: 'Section One' })).toBeInTheDocument();
+      expect(within(nav).getByRole('heading', { name: 'Section Two' })).toBeInTheDocument();
+
+      const firstLink = within(nav).getByRole('link', { name: 'First Link' });
+      const secondLink = within(nav).getByRole('link', { name: 'Second Link' });
+      const thirdLink = within(nav).getByRole('link', { name: 'Third Link' });
+
+      expect(firstLink).toHaveAttribute('href', '/first');
+      expect(secondLink).toHaveAttribute('href', '/second');
+      expect(thirdLink).toHaveAttribute('href', '/third');
+    });
+
+    it('renders no links when items are omitted', () => {
+      render(<SidebarNavigation />);
+
+      const nav = screen.getByRole('navigation', { name: 'Sidebar navigation' });
+      expect(nav).toBeInTheDocument();
+      expect(within(nav).queryAllByRole('link')).toHaveLength(0);
+      expect(within(nav).queryAllByRole('heading')).toHaveLength(0);
+    });
+
+    it('renders a section with no child links when a top-level item has no items', () => {
+      render(
+        <SidebarNavigation
+          items={[
+            {
+              id: 'section-empty',
+              label: 'Empty Section',
+            },
+          ]}
+        />
+      );
+
+      const nav = screen.getByRole('navigation', { name: 'Sidebar navigation' });
+      expect(within(nav).getByRole('heading', { name: 'Empty Section' })).toBeInTheDocument();
+      expect(within(nav).queryAllByRole('link')).toHaveLength(0);
+    });
   });
 
-  it('renders accordion content in mobile mode after opening the navigation', async () => {
-    const user = userEvent.setup();
-    mockUseMediaQuery.mockReturnValue(true);
+  describe('mobile', () => {
+    beforeEach(() => {
+      mockUseMediaQuery.mockReturnValue(false);
+    });
 
-    render(<SidebarNavigation items={items} />);
+    it('renders the show button with default translated label when closed', () => {
+      render(<SidebarNavigation items={items} />);
 
-    expect(screen.getByTestId('accordion')).toBeInTheDocument();
-    expect(screen.getAllByTestId('accordion-item')).toHaveLength(2);
+      const button = screen.getByRole('button', { name: 'Show navigation' });
+      expect(button).toBeInTheDocument();
+      expect(button).toHaveAttribute('data-icon', 'caret-right');
+      expect(button).toHaveAttribute('data-size', 'small');
 
-    await user.click(screen.getByRole('button', { name: 'Show navigation' }));
+      const activity = screen.getByTestId('activity');
+      expect(activity).toHaveAttribute('data-mode', 'hidden');
+    });
 
-    expect(screen.getByText('Section One')).toBeInTheDocument();
-    expect(screen.getByText('Section Two')).toBeInTheDocument();
+    it('toggles to open state and shows the hide label', () => {
+      render(<SidebarNavigation items={items} />);
 
-    expect(screen.getByRole('link', { name: 'Overview' })).toHaveAttribute('href', '/overview');
-    expect(screen.getByRole('link', { name: 'Components' })).toHaveAttribute('href', '/components');
-  });
+      const button = screen.getByRole('button', { name: 'Show navigation' });
+      fireEvent.click(button);
 
-  it('renders no links when items is empty', () => {
-    mockUseMediaQuery.mockReturnValue(false);
+      const openButton = screen.getByRole('button', { name: 'Hide navigation' });
+      expect(openButton).toBeInTheDocument();
+      expect(openButton).toHaveAttribute('data-icon', 'caret-down');
 
-    render(<SidebarNavigation items={[]} />);
+      const activity = screen.getByTestId('activity');
+      expect(activity).toHaveAttribute('data-mode', 'visible');
+    });
 
-    expect(screen.getByRole('navigation', { name: 'Sidebar navigation' })).toBeInTheDocument();
-    expect(screen.queryAllByRole('link')).toHaveLength(0);
+    it('toggles open and closed repeatedly', () => {
+      render(<SidebarNavigation items={items} />);
+
+      fireEvent.click(screen.getByRole('button', { name: 'Show navigation' }));
+      expect(screen.getByTestId('activity')).toHaveAttribute('data-mode', 'visible');
+
+      fireEvent.click(screen.getByRole('button', { name: 'Hide navigation' }));
+      expect(screen.getByTestId('activity')).toHaveAttribute('data-mode', 'hidden');
+
+      expect(screen.getByRole('button', { name: 'Show navigation' })).toBeInTheDocument();
+    });
+
+    it('renders accordion items and child links', () => {
+      render(<SidebarNavigation items={items} />);
+
+      expect(screen.getByTestId('accordion')).toBeInTheDocument();
+      expect(screen.getAllByTestId('accordion-item')).toHaveLength(2);
+
+      expect(screen.getByRole('heading', { name: 'Section One' })).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: 'Section Two' })).toBeInTheDocument();
+
+      expect(screen.getByRole('link', { name: 'First Link' })).toHaveAttribute('href', '/first');
+      expect(screen.getByRole('link', { name: 'Second Link' })).toHaveAttribute('href', '/second');
+      expect(screen.getByRole('link', { name: 'Third Link' })).toHaveAttribute('href', '/third');
+    });
+
+    it('uses custom show and hide labels when provided', () => {
+      render(
+        <SidebarNavigation
+          items={items}
+          showLabel="Open sections"
+          hideLabel="Close sections"
+        />
+      );
+
+      const button = screen.getByRole('button', { name: 'Open sections' });
+      expect(button).toBeInTheDocument();
+
+      fireEvent.click(button);
+
+      expect(screen.getByRole('button', { name: 'Close sections' })).toBeInTheDocument();
+    });
+
+    it('renders no accordion items when items are omitted', () => {
+      render(<SidebarNavigation />);
+
+      expect(screen.getByRole('button', { name: 'Show navigation' })).toBeInTheDocument();
+      expect(screen.getByTestId('accordion')).toBeInTheDocument();
+      expect(screen.queryAllByTestId('accordion-item')).toHaveLength(0);
+      expect(screen.queryAllByRole('link')).toHaveLength(0);
+    });
+
+    it('renders an accordion section with no child links when a top-level item has no items', () => {
+      render(
+        <SidebarNavigation
+          items={[
+            {
+              id: 'section-empty',
+              label: 'Empty Section',
+            },
+          ]}
+        />
+      );
+
+      expect(screen.getByRole('heading', { name: 'Empty Section' })).toBeInTheDocument();
+      expect(screen.getAllByTestId('accordion-item')).toHaveLength(1);
+      expect(screen.queryAllByRole('link')).toHaveLength(0);
+    });
   });
 });

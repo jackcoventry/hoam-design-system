@@ -1,16 +1,73 @@
-/* eslint-disable react/display-name */
-import { act, fireEvent, render, screen } from '@testing-library/react';
-import type { ButtonHTMLAttributes, ReactNode, SelectHTMLAttributes } from 'react';
-import { vi } from 'vitest';
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
+import type { ReactNode } from 'react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { ProductInfo, type ProductInfoProps } from '@/components/ProductInfo/ProductInfo';
 
-vi.mock('@/components/BadgeList', () => ({
-  BadgeList: ({ children }: { children?: ReactNode }) => (
-    <div data-testid="badge-list">{children}</div>
+const mockUseMessages = vi.fn<
+  (namespace: string) => {
+    new: string;
+    lowStock: string;
+    addToCart: string;
+    addedToCart: string;
+  }
+>();
+
+const mockConvertNumberToCurrency = vi.fn<(args: { value: number; currency: string }) => string>();
+
+const mockLoggerError = vi.fn<(message: string) => void>();
+
+vi.mock('@/hooks/useMessages', () => ({
+  useMessages: (namespace: string) => mockUseMessages(namespace),
+}));
+
+vi.mock('@/utils/convertNumberToCurrency', () => ({
+  convertNumberToCurrency: (args: { value: number; currency: string }) =>
+    mockConvertNumberToCurrency(args),
+}));
+
+vi.mock('@/utils/logger', () => ({
+  logger: {
+    error: (message: string) => mockLoggerError(message),
+  },
+}));
+
+vi.mock('@/components/Accordion', () => ({
+  Accordion: ({ children, defaultOpenIds }: { children: ReactNode; defaultOpenIds?: string[] }) => (
+    <div
+      data-testid="accordion"
+      data-default-open-ids={defaultOpenIds?.join(',') ?? ''}
+    >
+      {children}
+    </div>
   ),
-  BadgeListItem: ({ children }: { children?: ReactNode }) => (
-    <span data-testid="badge-list-item">{children}</span>
+  AccordionItem: ({ children, id }: { children: ReactNode; id: string }) => (
+    <section
+      data-testid="accordion-item"
+      data-id={id}
+    >
+      {children}
+    </section>
+  ),
+  AccordionHeader: ({ children }: { children: ReactNode }) => (
+    <h3 data-testid="accordion-header">{children}</h3>
+  ),
+  AccordionPanel: ({ children }: { children: ReactNode }) => (
+    <div data-testid="accordion-panel">{children}</div>
+  ),
+}));
+
+vi.mock('@/components/BadgeList', () => ({
+  BadgeList: ({ children }: { children: ReactNode }) => (
+    <ul data-testid="badge-list">{children}</ul>
+  ),
+  BadgeListItem: ({ children, variant }: { children: ReactNode; variant?: string }) => (
+    <li
+      data-testid="badge-item"
+      data-variant={variant}
+    >
+      {children}
+    </li>
   ),
 }));
 
@@ -19,41 +76,100 @@ vi.mock('@/components/Button', () => ({
     children,
     disabled,
     type,
+    className,
   }: {
-    children?: ReactNode;
+    children: ReactNode;
     disabled?: boolean;
-    type?: ButtonHTMLAttributes<HTMLButtonElement>['type'];
+    type?: 'button' | 'submit' | 'reset';
+    className?: string;
   }) => (
     <button
-      type={type ?? 'button'}
+      type={type}
       disabled={disabled}
+      className={className}
     >
       {children}
     </button>
   ),
 }));
 
+vi.mock('@/components/Common/BodyText', () => ({
+  BodyText: ({ children }: { children: ReactNode }) => (
+    <div data-testid="body-text">{children}</div>
+  ),
+}));
+
+vi.mock('@/components/Layout', () => ({
+  Section: ({ children, className }: { children: ReactNode; className?: string }) => (
+    <section className={className}>{children}</section>
+  ),
+  Stack: ({ children }: { children: ReactNode; gap?: string }) => (
+    <div data-testid="stack">{children}</div>
+  ),
+}));
+
 vi.mock('@/components/Form', () => {
+  function SelectPlaceholder({ children }: Readonly<{ children: ReactNode }>) {
+    return <option value="">{children}</option>;
+  }
+
+  SelectPlaceholder.displayName = 'Select.Placeholder';
+
+  function SelectOptGroup({ children, label }: Readonly<{ children: ReactNode; label: string }>) {
+    return <optgroup label={label}>{children}</optgroup>;
+  }
+
+  SelectOptGroup.displayName = 'Select.OptGroup';
+
+  function SelectOption({
+    children,
+    value,
+    disabled,
+  }: Readonly<{
+    children: ReactNode;
+    value: string;
+    disabled?: boolean;
+  }>) {
+    return (
+      <option
+        value={value}
+        disabled={disabled}
+      >
+        {children}
+      </option>
+    );
+  }
+
+  SelectOption.displayName = 'Select.Option';
+
   function SelectRoot({
     children,
     label,
+    name,
     value,
     onChange,
-    ...rest
-  }: {
-    children?: ReactNode;
-    label?: string;
+  }: Readonly<{
+    children: ReactNode;
+    label: string;
+    name?: string;
     value?: string;
-    onChange?: (value: string) => void;
-  } & Omit<SelectHTMLAttributes<HTMLSelectElement>, 'onChange' | 'value'>) {
+    onChange?: (event: { target: { value: string; name?: string } }) => void;
+  }>) {
     return (
       <label>
         <span>{label}</span>
         <select
           aria-label={label}
-          value={value}
-          onChange={(event) => onChange?.(event.target.value)}
-          {...rest}
+          name={name}
+          value={value ?? ''}
+          onChange={(event) =>
+            onChange?.({
+              target: {
+                value: event.currentTarget.value,
+                name: event.currentTarget.name,
+              },
+            })
+          }
         >
           {children}
         </select>
@@ -61,95 +177,65 @@ vi.mock('@/components/Form', () => {
     );
   }
 
-  SelectRoot.Placeholder = ({ children }: { children?: ReactNode }) => (
-    <option value="">{children}</option>
-  );
+  SelectRoot.displayName = 'Select';
 
-  SelectRoot.OptGroup = ({ children, label }: { children?: ReactNode; label: string }) => (
-    <optgroup label={label}>{children}</optgroup>
-  );
+  SelectRoot.Placeholder = SelectPlaceholder;
+  SelectRoot.OptGroup = SelectOptGroup;
+  SelectRoot.Option = SelectOption;
 
-  SelectRoot.Option = ({
-    children,
-    value,
-    disabled,
-  }: {
-    children?: ReactNode;
-    value: string;
-    disabled?: boolean;
-  }) => (
-    <option
-      value={value}
-      disabled={disabled}
-    >
-      {children}
-    </option>
-  );
-
-  return {
-    FieldWrapper: ({ children, error }: { children?: ReactNode; error?: string }) => (
-      <div>
+  function FieldWrapper({ children, error }: Readonly<{ children: ReactNode; error?: string }>) {
+    return (
+      <div data-testid="field-wrapper">
         {children}
         {error ? <div role="alert">{error}</div> : null}
       </div>
-    ),
+    );
+  }
+
+  FieldWrapper.displayName = 'FieldWrapper';
+
+  return {
+    FieldWrapper,
     Select: SelectRoot,
   };
 });
-
-vi.mock('@/components/QuantitySelector', () => ({
-  QuantitySelector: ({
-    value,
-    onChange,
-    'aria-label': ariaLabel,
-    max,
-  }: {
-    value: number;
-    onChange: (value: number) => void;
-    'aria-label'?: string;
-    max?: number;
-  }) => (
-    <div>
-      <span>Quantity value: {value}</span>
-      <button
-        type="button"
-        aria-label={ariaLabel ?? 'Quantity'}
-        onClick={() => onChange(Math.min(value + 1, max ?? value + 1))}
-      >
-        Increase quantity
-      </button>
-    </div>
-  ),
-}));
 
 vi.mock('@/components/VariantSelector', () => ({
   VariantSelector: ({
     label,
     name,
-    options,
     value,
     onChange,
+    options,
+    variant,
   }: {
-    label: string;
+    label?: string;
     name: string;
-    options: Array<{ value: string; displayValue: string }>;
-    value?: string;
-    onChange?: (value: string) => void;
+    value: string | null;
+    onChange: (value: string) => void;
+    options: Array<{
+      label: string;
+      value: string;
+      disabled?: boolean;
+    }>;
+    variant?: string;
   }) => (
     <label>
       <span>{label}</span>
       <select
-        aria-label={label}
+        aria-label={label ?? name}
         name={name}
-        value={value}
-        onChange={(event) => onChange?.(event.target.value)}
+        value={value ?? ''}
+        data-variant={variant}
+        onChange={(event) => onChange(event.currentTarget.value)}
       >
         {options.map((option) => (
           <option
             key={option.value}
             value={option.value}
+            disabled={option.disabled}
           >
-            {option.displayValue}
+            {option.label}
           </option>
         ))}
       </select>
@@ -157,141 +243,277 @@ vi.mock('@/components/VariantSelector', () => ({
   ),
 }));
 
-vi.mock('@/components/Accordion', () => ({
-  Accordion: ({ children }: { children?: ReactNode }) => <div>{children}</div>,
-  AccordionItem: ({ children }: { children?: ReactNode; id: string }) => <div>{children}</div>,
-  AccordionHeader: ({ children }: { children?: ReactNode }) => <div>{children}</div>,
-  AccordionPanel: ({ children }: { children?: ReactNode }) => <div>{children}</div>,
-}));
-
-vi.mock('@/utils/convertNumberToCurrency', () => ({
-  convertNumberToCurrency: ({ value, currency }: { value: number; currency?: string }) =>
-    value > 0 ? `${currency ?? 'GBP'}-${value.toFixed(2)}` : undefined,
+vi.mock('@/components/ProductInfo/ProductInfo.module.css', () => ({
+  default: {
+    root: 'root',
+    content: 'content',
+    title: 'title',
+    price: 'price',
+    pricePrevious: 'pricePrevious',
+    description: 'description',
+    button: 'button',
+    information: 'information',
+  },
 }));
 
 describe('ProductInfo', () => {
-  const defaultProps: ProductInfoProps = {
-    title: 'HOAM T-Shirt',
-    description: 'A heavyweight cotton t-shirt.',
-    productId: 'hoam-tshirt',
+  const baseProps: ProductInfoProps = {
+    title: 'Classic T-Shirt',
+    description: 'A soft and comfortable everyday tee.',
+    productId: 'product-123',
     price: {
-      amount: 30,
+      amount: 25,
       saleAmount: 20,
       currency: 'GBP',
     },
     inStock: true,
     newItem: true,
-    lowStock: false,
+    lowStock: true,
+    isSubmitting: false,
+    onSubmit: vi.fn(),
     data: {
       options: {
         color: [
-          { label: 'Black', value: 'black', displayValue: 'Black' },
-          { label: 'White', value: 'white', displayValue: 'White' },
+          { label: 'Red', value: 'red', displayValue: '#ff0000' },
+          { label: 'Blue', value: 'blue', displayValue: '#0000ff' },
         ],
         size: [
           { label: 'Small', value: 's', displayValue: 'Small' },
           { label: 'Medium', value: 'm', displayValue: 'Medium' },
         ],
         image: [
-          { label: 'Front', value: 'front', displayValue: 'Front' },
-          { label: 'Back', value: 'back', displayValue: 'Back' },
+          { label: 'Front', value: 'front', displayValue: '/front.jpg' },
+          { label: 'Back', value: 'back', displayValue: '/back.jpg' },
         ],
         tshirt: [
-          { label: 'S', value: 's-black', displayValue: 'Small / Black', category: 'Black' },
-          { label: 'M', value: 'm-black', displayValue: 'Medium / Black', category: 'Black' },
-          { label: 'S', value: 's-white', displayValue: 'Small / White', category: 'White' },
+          { label: 'Kids S', value: 'kids-s', displayValue: 'Kids Small', category: 'Kids' },
+          { label: 'Kids M', value: 'kids-m', displayValue: 'Kids Medium', category: 'Kids' },
+          { label: 'Adult S', value: 'adult-s', displayValue: 'Adult Small', category: 'Adults' },
           {
-            label: 'XL',
-            value: 'xl-white',
-            displayValue: 'XL / White',
-            category: 'White',
+            label: 'Adult M',
+            value: 'adult-m',
+            displayValue: 'Adult Medium',
+            category: 'Adults',
             disabled: true,
           },
         ],
       },
     },
-    onSubmit: () => {},
-    isSubmitting: false,
   };
 
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
+  beforeEach(() => {
+    vi.clearAllMocks();
 
-  it('renders the main product content', () => {
-    render(<ProductInfo {...defaultProps} />);
+    mockUseMessages.mockReturnValue({
+      new: 'New',
+      lowStock: 'Low stock',
+      addToCart: 'Add to cart',
+      addedToCart: 'Added to cart',
+    });
 
-    expect(screen.getByRole('heading', { level: 1, name: 'HOAM T-Shirt' })).toBeInTheDocument();
-    expect(screen.getByText('A heavyweight cotton t-shirt.')).toBeInTheDocument();
-    expect(screen.getByText('GBP-20.00')).toBeInTheDocument();
-    expect(screen.getByText('GBP-30.00')).toBeInTheDocument();
-  });
-
-  it('renders the NEW badge when newItem is true', () => {
-    render(<ProductInfo {...defaultProps} />);
-
-    expect(screen.getByTestId('badge-list')).toBeInTheDocument();
-    expect(screen.getByTestId('badge-list-item')).toHaveTextContent('NEW');
-  });
-
-  it('renders the badge list when lowStock is true', () => {
-    render(
-      <ProductInfo
-        {...defaultProps}
-        newItem={false}
-        lowStock
-      />
+    mockConvertNumberToCurrency.mockImplementation(
+      ({ value, currency }: { value: number; currency: string }) =>
+        `${currency} ${value.toFixed(2)}`
     );
-
-    expect(screen.getByTestId('badge-list')).toBeInTheDocument();
-    expect(screen.queryByTestId('badge-list-item')).not.toBeInTheDocument();
   });
 
-  it('does not render badges when neither newItem nor lowStock is true', () => {
+  it('renders the main product details', () => {
+    render(<ProductInfo {...baseProps} />);
+
+    expect(screen.getByRole('heading', { name: 'Classic T-Shirt', level: 1 })).toBeInTheDocument();
+    expect(screen.getByText('A soft and comfortable everyday tee.')).toBeInTheDocument();
+  });
+
+  it('calls useMessages with the productTile namespace', () => {
+    render(<ProductInfo {...baseProps} />);
+
+    expect(mockUseMessages).toHaveBeenCalledWith('productTile');
+  });
+
+  it('renders new and low stock badges when both flags are true', () => {
+    render(<ProductInfo {...baseProps} />);
+
+    const badges = screen.getAllByTestId('badge-item');
+    expect(badges).toHaveLength(2);
+
+    expect(screen.getByText('New')).toBeInTheDocument();
+    expect(screen.getByText('Low stock')).toBeInTheDocument();
+
+    expect(badges[0]).toHaveAttribute('data-variant', 'default');
+    expect(badges[1]).toHaveAttribute('data-variant', 'alert');
+  });
+
+  it('renders no badges when newItem and lowStock are false', () => {
     render(
       <ProductInfo
-        {...defaultProps}
+        {...baseProps}
         newItem={false}
         lowStock={false}
       />
     );
 
     expect(screen.queryByTestId('badge-list')).not.toBeInTheDocument();
+    expect(screen.queryByText('New')).not.toBeInTheDocument();
+    expect(screen.queryByText('Low stock')).not.toBeInTheDocument();
   });
 
-  it('renders all selectors and the quantity control', () => {
-    render(<ProductInfo {...defaultProps} />);
+  it('renders the sale price and previous price when sale price is present', () => {
+    render(<ProductInfo {...baseProps} />);
 
-    expect(screen.getByLabelText('Color')).toBeInTheDocument();
-    expect(screen.getByLabelText('Size')).toBeInTheDocument();
-    expect(screen.getByLabelText('Image')).toBeInTheDocument();
-    expect(screen.getByLabelText('T-Shirt Size')).toBeInTheDocument();
-    expect(screen.getByLabelText('Quantity')).toBeInTheDocument();
-    expect(screen.getByText('Quantity value: 1')).toBeInTheDocument();
+    expect(mockConvertNumberToCurrency).toHaveBeenCalledWith({ value: 25, currency: 'GBP' });
+    expect(mockConvertNumberToCurrency).toHaveBeenCalledWith({ value: 20, currency: 'GBP' });
+
+    expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent('GBP 20.00');
+    expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent('GBP 25.00');
   });
 
-  it('renders grouped t-shirt options', () => {
-    render(<ProductInfo {...defaultProps} />);
+  it('renders only the regular price when the sale price string is empty', () => {
+    mockConvertNumberToCurrency.mockImplementation(
+      ({ value, currency }: { value: number; currency: string }) => {
+        if (value === 20) {
+          return '';
+        }
 
-    expect(screen.getByRole('group', { name: 'Black' })).toBeInTheDocument();
-    expect(screen.getByRole('group', { name: 'White' })).toBeInTheDocument();
+        return `${currency} ${value.toFixed(2)}`;
+      }
+    );
 
-    expect(screen.getByRole('option', { name: 'Small / Black' })).toBeInTheDocument();
-    expect(screen.getByRole('option', { name: 'Medium / Black' })).toBeInTheDocument();
-    expect(screen.getByRole('option', { name: 'Small / White' })).toBeInTheDocument();
-    expect(screen.getByRole('option', { name: 'XL / White' })).toBeDisabled();
+    render(<ProductInfo {...baseProps} />);
+
+    const priceHeading = screen.getByRole('heading', { level: 2 });
+    expect(priceHeading).toHaveTextContent('GBP 25.00');
+    expect(priceHeading).not.toHaveTextContent('GBP 20.00');
   });
 
-  it('renders an enabled Add to cart button when in stock', () => {
-    render(<ProductInfo {...defaultProps} />);
-
-    expect(screen.getByRole('button', { name: 'Add to cart' })).toBeEnabled();
-  });
-
-  it('renders a disabled Add to cart button when out of stock', () => {
+  it('omits the description when it is not provided', () => {
     render(
       <ProductInfo
-        {...defaultProps}
+        {...baseProps}
+        description={undefined}
+      />
+    );
+
+    expect(screen.queryByText('A soft and comfortable everyday tee.')).not.toBeInTheDocument();
+  });
+
+  it('renders the form controls with their labels', () => {
+    render(<ProductInfo {...baseProps} />);
+
+    expect(screen.getByRole('combobox', { name: 'Color' })).toBeInTheDocument();
+    expect(screen.getByRole('combobox', { name: 'Size' })).toBeInTheDocument();
+    expect(screen.getByRole('combobox', { name: 'Image' })).toBeInTheDocument();
+    expect(screen.getByRole('combobox', { name: 'T-Shirt Size' })).toBeInTheDocument();
+  });
+
+  it('renders grouped t-shirt options by category', () => {
+    render(<ProductInfo {...baseProps} />);
+
+    const tshirtSelect = screen.getByRole('combobox', { name: 'T-Shirt Size' });
+
+    expect(within(tshirtSelect).getByRole('group', { name: 'Kids' })).toBeInTheDocument();
+    expect(within(tshirtSelect).getByRole('group', { name: 'Adults' })).toBeInTheDocument();
+
+    expect(within(tshirtSelect).getByRole('option', { name: 'Kids Small' })).toHaveValue('kids-s');
+    expect(within(tshirtSelect).getByRole('option', { name: 'Adult Small' })).toHaveValue(
+      'adult-s'
+    );
+  });
+
+  it('falls back to Other category when tshirt option category is missing', () => {
+    render(
+      <ProductInfo
+        {...baseProps}
+        data={{
+          options: {
+            ...baseProps.data.options,
+            tshirt: [{ label: 'Mystery', value: 'mystery', displayValue: 'Mystery Size' }],
+          },
+        }}
+      />
+    );
+
+    const tshirtSelect = screen.getByRole('combobox', { name: 'T-Shirt Size' });
+    expect(within(tshirtSelect).getByRole('group', { name: 'Other' })).toBeInTheDocument();
+  });
+
+  it('renders disabled tshirt options', () => {
+    render(<ProductInfo {...baseProps} />);
+
+    const tshirtSelect = screen.getByRole('combobox', { name: 'T-Shirt Size' });
+    const disabledOption = within(tshirtSelect).getByRole('option', { name: 'Adult Medium' });
+
+    expect(disabledOption).toBeDisabled();
+  });
+
+  it('submits the default selected values', async () => {
+    const onSubmit = vi.fn();
+
+    render(
+      <ProductInfo
+        {...baseProps}
+        onSubmit={onSubmit}
+      />
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: 'Add to cart' }));
+
+    await waitFor(() => {
+      expect(onSubmit).toHaveBeenCalled();
+    });
+
+    expect(onSubmit.mock.calls[0]?.[0]).toEqual({
+      color: 'red',
+      size: 's',
+      image: 'front',
+      tshirt: 'kids-s',
+    });
+  });
+
+  it('submits changed values', async () => {
+    const onSubmit = vi.fn();
+
+    render(
+      <ProductInfo
+        {...baseProps}
+        onSubmit={onSubmit}
+      />
+    );
+
+    const colorSelect = screen.getByRole('combobox', { name: 'Color' });
+    const sizeSelect = screen.getByRole('combobox', { name: 'Size' });
+    const imageSelect = screen.getByRole('combobox', { name: 'Image' });
+    const tshirtSelect = screen.getByRole('combobox', { name: 'T-Shirt Size' });
+
+    fireEvent.change(colorSelect, { target: { value: 'blue' } });
+    fireEvent.change(sizeSelect, { target: { value: 'm' } });
+    fireEvent.change(imageSelect, { target: { value: 'back' } });
+    fireEvent.change(tshirtSelect, { target: { value: 'adult-s' } });
+
+    await waitFor(() => {
+      expect(colorSelect).toHaveValue('blue');
+      expect(sizeSelect).toHaveValue('m');
+      expect(imageSelect).toHaveValue('back');
+      expect(tshirtSelect).toHaveValue('adult-s');
+    });
+
+    fireEvent.click(screen.getByRole('button', { name: 'Add to cart' }));
+
+    await waitFor(() => {
+      expect(onSubmit).toHaveBeenCalled();
+    });
+
+    expect(onSubmit.mock.calls[0]?.[0]).toEqual({
+      color: 'blue',
+      size: 'm',
+      image: 'back',
+      tshirt: 'adult-s',
+    });
+  });
+
+  it('disables the submit button when the item is out of stock', () => {
+    render(
+      <ProductInfo
+        {...baseProps}
         inStock={false}
       />
     );
@@ -299,131 +521,52 @@ describe('ProductInfo', () => {
     expect(screen.getByRole('button', { name: 'Add to cart' })).toBeDisabled();
   });
 
-  it('renders Added! and disables the submit button when isSubmitting is true', () => {
+  it('disables the submit button and changes label while submitting', () => {
     render(
       <ProductInfo
-        {...defaultProps}
+        {...baseProps}
         isSubmitting
       />
     );
 
-    expect(screen.getByRole('button', { name: 'Added!' })).toBeDisabled();
-    expect(screen.queryByRole('button', { name: 'Add to cart' })).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Added to cart' })).toBeDisabled();
   });
 
-  it('submits the default form values', async () => {
-    const handleSubmit = vi.fn();
-    const { container } = render(
-      <ProductInfo
-        {...defaultProps}
-        onSubmit={handleSubmit}
-      />
-    );
+  it('renders accordion information sections', () => {
+    render(<ProductInfo {...baseProps} />);
 
-    const form = container.querySelector('form');
-    if (!form) {
-      throw new Error('Expected form to be rendered');
-    }
-
-    await act(async () => {
-      fireEvent.submit(form);
-      await Promise.resolve();
-    });
-
-    expect(handleSubmit).toHaveBeenCalledTimes(1);
-    expect(handleSubmit).toHaveBeenCalledWith(
-      {
-        color: 'black',
-        size: 's',
-        image: 'front',
-        tshirt: 's-black',
-        quantity: 1,
-      },
-      expect.anything()
-    );
+    expect(screen.getByTestId('accordion')).toHaveAttribute('data-default-open-ids', 'one');
+    expect(screen.getByText('Description')).toBeInTheDocument();
+    expect(screen.getByText('Returns Policy')).toBeInTheDocument();
+    expect(screen.getAllByTestId('accordion-item')).toHaveLength(2);
+    expect(screen.getAllByTestId('accordion-panel')).toHaveLength(2);
   });
 
-  it('uses default form values initially', () => {
-    render(<ProductInfo {...defaultProps} />);
-
-    expect(screen.getByLabelText('Color')).toHaveValue('black');
-    expect(screen.getByLabelText('Size')).toHaveValue('s');
-    expect(screen.getByLabelText('Image')).toHaveValue('front');
-    expect(screen.getByLabelText('T-Shirt Size')).toHaveValue('s-black');
-    expect(screen.getByText('Quantity value: 1')).toBeInTheDocument();
-  });
-
-  it('updates form-controlled values', () => {
-    render(<ProductInfo {...defaultProps} />);
-
-    fireEvent.change(screen.getByLabelText('Color'), {
-      target: { value: 'white' },
-    });
-    fireEvent.change(screen.getByLabelText('Size'), {
-      target: { value: 'm' },
-    });
-    fireEvent.change(screen.getByLabelText('Image'), {
-      target: { value: 'back' },
-    });
-    fireEvent.change(screen.getByLabelText('T-Shirt Size'), {
-      target: { value: 's-white' },
-    });
-    fireEvent.click(screen.getByLabelText('Quantity'));
-
-    expect(screen.getByLabelText('Color')).toHaveValue('white');
-    expect(screen.getByLabelText('Size')).toHaveValue('m');
-    expect(screen.getByLabelText('Image')).toHaveValue('back');
-    expect(screen.getByLabelText('T-Shirt Size')).toHaveValue('s-white');
-    expect(screen.getByText('Quantity value: 2')).toBeInTheDocument();
-  });
-
-  it('renders the regular price only when there is no sale price', () => {
-    render(
-      <ProductInfo
-        {...defaultProps}
-        price={{
-          amount: 30,
-          saleAmount: 0,
-          currency: 'GBP',
-        }}
-      />
-    );
-
-    expect(screen.getByText('GBP-30.00')).toBeInTheDocument();
-    expect(screen.queryByText('GBP-0.00')).not.toBeInTheDocument();
-  });
-
-  it('does not render the description when it is not provided', () => {
-    render(
-      <ProductInfo
-        {...defaultProps}
-        description={undefined}
-      />
-    );
-
-    expect(screen.queryByText('A heavyweight cotton t-shirt.')).not.toBeInTheDocument();
-  });
-
-  it('throws when any required option list is empty', () => {
+  it('logs an error and then throws when any required option group is empty', () => {
     expect(() =>
       render(
         <ProductInfo
-          {...defaultProps}
+          {...baseProps}
           data={{
             options: {
-              ...defaultProps.data.options,
               color: [],
+              size: baseProps.data.options.size,
+              image: baseProps.data.options.image,
+              tshirt: baseProps.data.options.tshirt,
             },
           }}
         />
       )
-    ).toThrow('ProductInfo requires at least one option for color, size, image, and tshirt.');
+    ).toThrow();
+
+    expect(mockLoggerError).toHaveBeenCalledWith(
+      'ProductInfo requires at least one option for color, size, image, and tshirt.'
+    );
   });
 
-  it('renders accordion content headings', () => {
-    render(<ProductInfo {...defaultProps} />);
+  it('does not log an error when all required option groups have at least one option', () => {
+    render(<ProductInfo {...baseProps} />);
 
-    expect(screen.getByText('Description')).toBeInTheDocument();
-    expect(screen.getByText('Returns Policy')).toBeInTheDocument();
+    expect(mockLoggerError).not.toHaveBeenCalled();
   });
 });
