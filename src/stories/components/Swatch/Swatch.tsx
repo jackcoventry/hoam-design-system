@@ -16,7 +16,7 @@ export function Swatch({ name, value, cssVar }: Readonly<SwatchProps>) {
         }}
       />
       <div className={styles.content}>
-        {/* <strong className={styles.name}>{name}</strong> */}
+        <strong className={styles.name}>{name}</strong>
         {cssVar ? <code className={styles.code}>{cssVar}</code> : null}
         <span className={styles.value}>{value}</span>
       </div>

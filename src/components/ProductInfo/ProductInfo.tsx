@@ -186,7 +186,6 @@ export function ProductInfo({
                       name="image"
                       options={imageOptions}
                       variant="image"
-                      orientation="horizontal"
                     />
                   )}
                 />

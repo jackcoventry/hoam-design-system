@@ -97,7 +97,6 @@ function TestHarness({
         setSortValue(nextSortValue);
         onSortChange(nextSortValue);
       }}
-      stackAt="md"
     />
   );
 }

@@ -214,7 +214,6 @@ describe('VariantSelector', () => {
         value="m"
         onChange={onChange}
         options={labelOptions}
-        orientation="vertical"
       />
     );
 

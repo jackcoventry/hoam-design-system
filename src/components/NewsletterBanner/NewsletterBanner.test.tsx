@@ -5,13 +5,6 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { NewsletterBanner } from '@/components/NewsletterBanner';
 
-vi.mock('@/mocks/socialLinks', () => ({
-  default: [
-    { label: 'Facebook', href: 'https://example.com/facebook', icon: 'facebook' },
-    { label: 'Instagram', href: 'https://example.com/instagram', icon: 'instagram' },
-  ],
-}));
-
 describe('NewsletterBanner', () => {
   afterEach(() => {
     vi.useRealTimers();
@@ -88,34 +81,5 @@ describe('NewsletterBanner', () => {
 
     expect(screen.getByRole('button', { name: 'Subscribe' })).toBeInTheDocument();
     expect(input).not.toBeDisabled();
-  });
-
-  it('renders social links', () => {
-    const socialLinks = [
-      { label: 'Facebook', href: 'https://example.com/facebook', icon: 'facebook' },
-      { label: 'Instagram', href: 'https://example.com/instagram', icon: 'instagram' },
-    ];
-
-    render(
-      <NewsletterBanner
-        title="Join our newsletter"
-        socialLinks={socialLinks}
-      />
-    );
-
-    expect(screen.getByRole('link', { name: 'Facebook' })).toHaveAttribute(
-      'href',
-      'https://example.com/facebook'
-    );
-    expect(screen.getByRole('link', { name: 'Instagram' })).toHaveAttribute(
-      'href',
-      'https://example.com/instagram'
-    );
-  });
-
-  it('does not render social links when not provided', () => {
-    render(<NewsletterBanner title="Join our newsletter" />);
-
-    expect(screen.queryByRole('link')).not.toBeInTheDocument();
   });
 });

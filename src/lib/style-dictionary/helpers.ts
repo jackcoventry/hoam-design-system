@@ -207,6 +207,11 @@ export function getSpacingEntries(rawTokens: TokenRecord): SpacingEntry[] {
     });
 }
 
+function startsWithNumber(str: string) {
+  if (!str || str.length === 0) return false;
+  return /\d/.test(str.charAt(0));
+}
+
 export function buildSpacingFile(rawTokens: TokenRecord): string {
   const spacingEntries = getSpacingEntries(rawTokens);
 
@@ -221,11 +226,17 @@ export function buildSpacingFile(rawTokens: TokenRecord): string {
           ? entry.value
           : `var(--${PREFIX}-spacing-${entry.tokenKey}, ${entry.value})`;
 
-      return `  '${entry.key}': '${mapValue}',`;
+      const key = startsWithNumber(entry.key) ? `'${entry.key}'` : entry.key;
+
+      return `  ${key}: '${mapValue}',`;
     })
     .join('\n');
 
-  return `export const spacingMap = {
+  return `/**
+ * Do not edit directly, this file was auto-generated.
+ */
+
+export const spacingMap = {
 ${spacingMapEntries}
 } as const;
 
@@ -302,7 +313,13 @@ export function buildBreakpointsCssFile(rawTokens: TokenRecord): string {
 
   return breakpointEntries
     .map(
-      (entry) => `@custom-media --${PREFIX}-breakpoint-${entry.key}-up (min-width: ${entry.value});`
+      (entry, index) =>
+        `@custom-media --${PREFIX}-breakpoint-${entry.key}-up (min-width: ${entry.value});${
+          index === breakpointEntries.length - 1
+            ? `
+`
+            : ''
+        }`
     )
     .join('\n');
 }
@@ -315,7 +332,7 @@ export function buildSectionCssFile(rawTokens: TokenRecord): string {
   }
 
   return spacingEntries
-    .map((entry) => {
+    .map((entry, index) => {
       const value =
         entry.key === 'none'
           ? entry.value
@@ -323,7 +340,12 @@ export function buildSectionCssFile(rawTokens: TokenRecord): string {
 
       return `.root[data-space="${entry.key}"] {
   padding-block: ${value};
-}`;
+}${
+        index === spacingEntries.length - 1
+          ? `
+`
+          : ''
+      }`;
     })
     .join('\n\n');
 }

@@ -5,7 +5,7 @@ import { BadgeList, BadgeListItem } from '@/components/BadgeList';
 
 describe('BadgeListItem', () => {
   it('renders a span by default', () => {
-    render(<BadgeListItem>News</BadgeListItem>);
+    render(<BadgeListItem variant="default">News</BadgeListItem>);
 
     const item = screen.getByText('News');
 
@@ -13,23 +13,14 @@ describe('BadgeListItem', () => {
     expect(item).toHaveAttribute('data-theme', 'default');
   });
 
-  it('renders an anchor when href is provided', () => {
-    render(<BadgeListItem href="/blog">Blog</BadgeListItem>);
-
-    const item = screen.getByRole('link', { name: 'Blog' });
-
-    expect(item).toHaveAttribute('href', '/blog');
-    expect(item).toHaveAttribute('data-theme', 'default');
-  });
-
   it('renders the alert theme when provided', () => {
-    render(<BadgeListItem theme="alert">Warning</BadgeListItem>);
+    render(<BadgeListItem variant="alert">Warning</BadgeListItem>);
 
     expect(screen.getByText('Warning')).toHaveAttribute('data-theme', 'alert');
   });
 
   it('renders nothing when children are missing', () => {
-    const { container } = render(<BadgeListItem />);
+    const { container } = render(<BadgeListItem variant="alert" />);
 
     expect(container).toBeEmptyDOMElement();
   });
@@ -43,8 +34,8 @@ describe('BadgeList', () => {
   it('renders valid BadgeListItem children', () => {
     render(
       <BadgeList>
-        <BadgeListItem>One</BadgeListItem>
-        <BadgeListItem href="/two">Two</BadgeListItem>
+        <BadgeListItem variant="default">One</BadgeListItem>
+        <BadgeListItem variant="alert">Two</BadgeListItem>
       </BadgeList>
     );
 
@@ -55,7 +46,7 @@ describe('BadgeList', () => {
   it('filters invalid children and logs an error', () => {
     render(
       <BadgeList>
-        <BadgeListItem>Valid</BadgeListItem>
+        <BadgeListItem variant="default">Valid</BadgeListItem>
         <div>Invalid</div>
         Plain text
       </BadgeList>

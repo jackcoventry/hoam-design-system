@@ -113,11 +113,13 @@ describe('SearchResults', () => {
 describe('SearchForm', () => {
   function renderComponent(props?: Partial<SearchFormProps>) {
     const onSubmit: SearchFormProps['onSubmit'] = vi.fn();
+    const onClose: SearchFormProps['onClose'] = vi.fn();
 
     render(
       <SearchForm
         onSubmit={onSubmit}
         loading={false}
+        onClose={onClose}
         {...props}
       />
     );
