@@ -1,178 +1,348 @@
-import { act } from 'react';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { NotificationBar } from '@/components/NotificationBar';
+import { NotificationBar } from './NotificationBar';
 
-const { mockUsePrefersReducedMotion } = vi.hoisted(() => ({
-  mockUsePrefersReducedMotion: vi.fn<() => boolean>(),
-}));
+const mockUsePrefersReducedMotion = vi.fn<() => boolean>();
+const clearIntervalSafeMock = vi.fn(
+  (ref: { current: ReturnType<typeof globalThis.setInterval> | null } | null) => {
+    if (ref?.current != null) {
+      clearInterval(ref.current);
+      ref.current = null;
+    }
+  }
+);
+const clearTimeoutSafeMock = vi.fn(
+  (ref: { current: ReturnType<typeof globalThis.setTimeout> | null } | null) => {
+    if (ref?.current != null) {
+      clearTimeout(ref.current);
+      ref.current = null;
+    }
+  }
+);
 
 vi.mock('@/hooks/usePrefersReducedMotion', () => ({
-  usePrefersReducedMotion: mockUsePrefersReducedMotion,
+  usePrefersReducedMotion: () => mockUsePrefersReducedMotion(),
+}));
+
+vi.mock('@/utils/clearIntervalTimeout', () => ({
+  clearIntervalSafe: (
+    ref: { current: ReturnType<typeof globalThis.setInterval> | null } | null
+  ) => {
+    clearIntervalSafeMock(ref);
+  },
+  clearTimeoutSafe: (ref: { current: ReturnType<typeof globalThis.setTimeout> | null } | null) => {
+    clearTimeoutSafeMock(ref);
+  },
 }));
 
 describe('NotificationBar', () => {
   beforeEach(() => {
     vi.useFakeTimers();
-    vi.clearAllMocks();
+    mockUsePrefersReducedMotion.mockReturnValue(false);
+    clearIntervalSafeMock.mockClear();
+    clearTimeoutSafeMock.mockClear();
   });
 
   afterEach(() => {
-    vi.clearAllTimers();
+    act(() => {
+      vi.runOnlyPendingTimers();
+    });
     vi.useRealTimers();
+    vi.clearAllMocks();
   });
 
-  it('renders a single message', () => {
-    mockUsePrefersReducedMotion.mockReturnValue(false);
+  it('renders the first message', () => {
+    act(() => {
+      render(<NotificationBar messages={['<strong>First</strong>', 'Second']} />);
+    });
 
-    render(<NotificationBar messages={['Hello world']} />);
+    const region = screen.getByLabelText('Notifications');
+    const output = region.querySelector('output');
 
-    expect(screen.getByText('Hello world')).toBeInTheDocument();
+    expect(output).toBeInTheDocument();
+    expect(output).toContainHTML('<strong>First</strong>');
+  });
 
-    const section = screen.getByLabelText('Notifications');
-    const output = screen.getByText('Hello world').closest('output');
+  it('uses a custom aria-label when provided', () => {
+    act(() => {
+      render(
+        <NotificationBar
+          messages={['First']}
+          aria-label="Site notifications"
+        />
+      );
+    });
 
-    expect(section).not.toHaveAttribute('tabindex');
+    expect(screen.getByLabelText('Site notifications')).toBeInTheDocument();
+  });
+
+  it('uses aria-live off when there is only one message', () => {
+    act(() => {
+      render(<NotificationBar messages={['Only one']} />);
+    });
+
+    const output = screen.getByLabelText('Notifications').querySelector('output');
     expect(output).toHaveAttribute('aria-live', 'off');
   });
 
-  it('renders a custom aria-label', () => {
-    mockUsePrefersReducedMotion.mockReturnValue(false);
+  it('uses aria-live polite when multiple messages can rotate', () => {
+    act(() => {
+      render(<NotificationBar messages={['First', 'Second']} />);
+    });
 
-    render(
-      <NotificationBar
-        messages={['Hello world']}
-        aria-label="Site notices"
-      />
-    );
-
-    expect(screen.getByLabelText('Site notices')).toBeInTheDocument();
+    const output = screen.getByLabelText('Notifications').querySelector('output');
+    expect(output).toHaveAttribute('aria-live', 'polite');
   });
 
-  it('enables interactive behaviour when there are multiple messages and motion is allowed', () => {
-    mockUsePrefersReducedMotion.mockReturnValue(false);
+  it('rotates to the next message after the interval and fade time', () => {
+    act(() => {
+      render(<NotificationBar messages={['First', 'Second']} />);
+    });
 
-    render(<NotificationBar messages={['One', 'Two']} />);
+    const region = screen.getByLabelText('Notifications');
+    const output = region.querySelector('output');
 
-    const section = screen.getByLabelText('Notifications');
-    const output = screen.getByText('One').closest('output');
+    expect(output).toHaveTextContent('First');
 
-    expect(section).toHaveAttribute('tabindex', '0');
-    expect(output).toHaveAttribute('aria-live', 'polite');
+    act(() => {
+      vi.advanceTimersByTime(5000);
+    });
+
+    expect(output).toHaveStyle({ opacity: '0' });
+    expect(output?.style.transition).toBe('opacity 500ms linear');
+
+    act(() => {
+      vi.advanceTimersByTime(500);
+    });
+
+    expect(output).toHaveTextContent('Second');
+    expect(output).toHaveStyle({ opacity: '1' });
+  });
+
+  it('wraps back to the first message after the last one', () => {
+    act(() => {
+      render(<NotificationBar messages={['First', 'Second']} />);
+    });
+
+    const output = screen.getByLabelText('Notifications').querySelector('output');
+    expect(output).toHaveTextContent('First');
+
+    act(() => {
+      vi.advanceTimersByTime(5500);
+    });
+
+    expect(output).toHaveTextContent('Second');
+
+    act(() => {
+      vi.advanceTimersByTime(5500);
+    });
+
+    expect(output).toHaveTextContent('First');
   });
 
   it('does not rotate when reduced motion is preferred', () => {
     mockUsePrefersReducedMotion.mockReturnValue(true);
 
-    render(<NotificationBar messages={['One', 'Two']} />);
-
     act(() => {
-      vi.advanceTimersByTime(6000);
+      render(<NotificationBar messages={['First', 'Second']} />);
     });
 
-    expect(screen.getByText('One')).toBeInTheDocument();
-
-    const section = screen.getByLabelText('Notifications');
-    const output = screen.getByText('One').closest('output');
-
-    expect(section).not.toHaveAttribute('tabindex');
+    const output = screen.getByLabelText('Notifications').querySelector('output');
     expect(output).toHaveAttribute('aria-live', 'off');
+    expect(output?.getAttribute('style') ?? '').toBe('');
+
+    act(() => {
+      vi.advanceTimersByTime(12000);
+    });
+
+    expect(output).toHaveTextContent('First');
   });
 
-  it('rotates to the next message after the interval and fade time', () => {
-    mockUsePrefersReducedMotion.mockReturnValue(false);
-
-    render(<NotificationBar messages={['One', 'Two']} />);
-
-    expect(screen.getByText('One')).toBeInTheDocument();
-
+  it('does not rotate when there is only one message even without reduced motion', () => {
     act(() => {
-      vi.advanceTimersByTime(5000);
+      render(<NotificationBar messages={['Only one']} />);
     });
 
-    expect(screen.getByText('One')).toBeInTheDocument();
+    const output = screen.getByLabelText('Notifications').querySelector('output');
 
     act(() => {
-      vi.advanceTimersByTime(500);
+      vi.advanceTimersByTime(12000);
     });
 
-    expect(screen.getByText('Two')).toBeInTheDocument();
+    expect(output).toHaveTextContent('Only one');
   });
 
-  it('pauses rotation on mouse enter and resumes after mouse leave plus restart delay', () => {
-    mockUsePrefersReducedMotion.mockReturnValue(false);
-
-    render(<NotificationBar messages={['One', 'Two']} />);
-
-    const section = screen.getByLabelText('Notifications');
-
-    fireEvent.mouseEnter(section);
-
+  it('pauses rotation on mouse enter and resumes after mouse leave and delay', () => {
     act(() => {
-      vi.advanceTimersByTime(6000);
+      render(<NotificationBar messages={['First', 'Second']} />);
     });
 
-    expect(screen.getByText('One')).toBeInTheDocument();
+    const region = screen.getByLabelText('Notifications');
+    const output = region.querySelector('output');
 
-    fireEvent.mouseLeave(section);
+    act(() => {
+      fireEvent.mouseEnter(region);
+    });
+    expect(output).toHaveAttribute('aria-live', 'off');
+
+    act(() => {
+      vi.advanceTimersByTime(7000);
+    });
+
+    expect(output).toHaveTextContent('First');
+
+    act(() => {
+      fireEvent.mouseLeave(region);
+    });
 
     act(() => {
       vi.advanceTimersByTime(1999);
     });
 
-    expect(screen.getByText('One')).toBeInTheDocument();
+    expect(output).toHaveTextContent('First');
 
-    // Resume timeout fires -> userPaused becomes false
     act(() => {
       vi.advanceTimersByTime(1);
     });
 
-    // Let the newly-created interval elapse
+    expect(output).toHaveAttribute('aria-live', 'polite');
+
     act(() => {
-      vi.advanceTimersByTime(5000);
+      vi.advanceTimersByTime(5500);
     });
 
-    // Let fade complete and index update
-    act(() => {
-      vi.advanceTimersByTime(500);
-    });
-
-    expect(screen.getByText('Two')).toBeInTheDocument();
+    expect(output).toHaveTextContent('Second');
   });
 
-  it('pauses rotation on focus and resumes after blur plus restart delay', () => {
-    mockUsePrefersReducedMotion.mockReturnValue(false);
-
-    render(<NotificationBar messages={['One', 'Two']} />);
-
-    const section = screen.getByLabelText('Notifications');
-
-    fireEvent.focus(section);
-
+  it('pauses rotation on focus and resumes after blur and delay', () => {
     act(() => {
-      vi.advanceTimersByTime(6000);
+      render(<NotificationBar messages={['First', 'Second']} />);
     });
 
-    expect(screen.getByText('One')).toBeInTheDocument();
+    const region = screen.getByLabelText('Notifications');
+    const output = region.querySelector('output');
 
-    fireEvent.blur(section);
+    act(() => {
+      fireEvent.focus(region);
+    });
+    expect(output).toHaveAttribute('aria-live', 'off');
 
-    // Resume timeout fires -> userPaused becomes false
+    act(() => {
+      vi.advanceTimersByTime(7000);
+    });
+
+    expect(output).toHaveTextContent('First');
+
+    act(() => {
+      fireEvent.blur(region);
+    });
+
     act(() => {
       vi.advanceTimersByTime(2000);
     });
 
-    // Newly-created interval runs
     act(() => {
-      vi.advanceTimersByTime(5000);
+      vi.advanceTimersByTime(5500);
     });
 
-    // Fade timeout completes
+    expect(output).toHaveTextContent('Second');
+  });
+
+  it('resets the resume timeout if interaction happens again before resume', () => {
     act(() => {
-      vi.advanceTimersByTime(500);
+      render(<NotificationBar messages={['First', 'Second']} />);
     });
 
-    expect(screen.getByText('Two')).toBeInTheDocument();
+    const region = screen.getByLabelText('Notifications');
+    const output = region.querySelector('output');
+
+    act(() => {
+      fireEvent.mouseEnter(region);
+      fireEvent.mouseLeave(region);
+    });
+
+    act(() => {
+      vi.advanceTimersByTime(1000);
+    });
+
+    act(() => {
+      fireEvent.mouseEnter(region);
+      fireEvent.mouseLeave(region);
+    });
+
+    act(() => {
+      vi.advanceTimersByTime(1000);
+    });
+
+    expect(output).toHaveTextContent('First');
+
+    act(() => {
+      vi.advanceTimersByTime(1000);
+    });
+
+    act(() => {
+      vi.advanceTimersByTime(5500);
+    });
+
+    expect(output).toHaveTextContent('Second');
+  });
+
+  it('updates to the first message if the current index would be out of bounds after rerender', () => {
+    let rerender: ReturnType<typeof render>['rerender'];
+
+    act(() => {
+      ({ rerender } = render(<NotificationBar messages={['First', 'Second']} />));
+    });
+
+    const output = screen.getByLabelText('Notifications').querySelector('output');
+
+    act(() => {
+      vi.advanceTimersByTime(5500);
+    });
+
+    expect(output).toHaveTextContent('Second');
+
+    act(() => {
+      rerender(<NotificationBar messages={['Only one now']} />);
+    });
+
+    expect(output).toHaveTextContent('Only one now');
+  });
+
+  it('renders null-like current message safely as empty output', () => {
+    act(() => {
+      render(<NotificationBar messages={['']} />);
+    });
+
+    const output = screen.getByLabelText('Notifications').querySelector('output');
+    expect(output).toBeInTheDocument();
+    expect(output).toHaveTextContent('');
+  });
+
+  it('calls cleanup helpers on unmount', () => {
+    let unmount: ReturnType<typeof render>['unmount'];
+
+    act(() => {
+      ({ unmount } = render(<NotificationBar messages={['First', 'Second']} />));
+    });
+
+    act(() => {
+      unmount();
+    });
+
+    expect(clearIntervalSafeMock).toHaveBeenCalled();
+    expect(clearTimeoutSafeMock).toHaveBeenCalled();
+  });
+
+  it('applies fading styles only when rotation is allowed', () => {
+    act(() => {
+      render(<NotificationBar messages={['First', 'Second']} />);
+    });
+
+    const output = screen.getByLabelText('Notifications').querySelector('output');
+
+    expect(output).toHaveStyle({ opacity: '1' });
+    expect(output?.style.transition).toBe('opacity 500ms linear');
   });
 });

@@ -1,253 +1,239 @@
-import { render, screen, within } from '@testing-library/react';
-import type { ReactNode } from 'react';
+import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 
 import { PromoSection } from '@/components/PromoSection';
 
-import '@testing-library/jest-dom';
-
 vi.mock('@/components/Button', () => ({
   Button: ({
     children,
-    className,
     as,
     href,
+    className,
+    variant,
+    ...rest
   }: {
-    children: ReactNode;
-    className?: string;
-    as?: 'a' | 'button';
+    children: React.ReactNode;
+    as?: string;
     href?: string;
-  }) =>
-    as === 'a' ? (
-      <a
-        data-testid="hoam-button"
-        className={className}
-        href={href}
-      >
-        {children}
-      </a>
-    ) : (
+    className?: string;
+    variant?: string;
+  }) => {
+    if (as === 'a') {
+      return (
+        <a
+          href={href}
+          className={className}
+          data-variant={variant}
+          {...rest}
+        >
+          {children}
+        </a>
+      );
+    }
+
+    return (
       <button
-        data-testid="hoam-button"
         className={className}
+        data-variant={variant}
+        {...rest}
       >
         {children}
       </button>
-    ),
+    );
+  },
 }));
 
 vi.mock('@/components/Layout', () => ({
-  Container: ({ children }: { children: ReactNode }) => (
+  Container: ({ children }: { children: React.ReactNode }) => (
     <div data-testid="container">{children}</div>
   ),
-  Grid: ({ children }: { children: ReactNode }) => <div data-testid="grid">{children}</div>,
+  Grid: ({ children }: { children: React.ReactNode }) => <div data-testid="grid">{children}</div>,
   GridItem: ({
     children,
     span,
     spanLg,
+    ...rest
   }: {
-    children?: ReactNode;
+    children?: React.ReactNode;
     span?: number;
     spanLg?: number;
-  }) => (
+  } & React.HTMLAttributes<HTMLDivElement>) => (
     <div
       data-testid="grid-item"
       data-span={span}
       data-span-lg={spanLg}
+      {...rest}
+    >
+      {children}
+    </div>
+  ),
+  Stack: ({
+    children,
+    gap,
+    className,
+    ...rest
+  }: {
+    children: React.ReactNode;
+    gap?: string;
+    className?: string;
+  } & React.HTMLAttributes<HTMLDivElement>) => (
+    <div
+      data-testid="stack"
+      data-gap={gap}
+      className={className}
+      {...rest}
     >
       {children}
     </div>
   ),
 }));
 
-const baseProps = {
-  title: 'Big Promo',
-  subtitle: 'Smaller Subtitle',
-  description: 'This is a lovely description.',
-  linkUrl: '/promo',
-  linkText: 'Shop now',
-  imageUrl: 'https://example.com/promo.jpg',
-} as const;
+describe('PromoSection', () => {
+  it('renders the required title', () => {
+    render(<PromoSection title="Big promo" />);
 
-describe('<PromoSection />', () => {
-  it('renders the required title and image with correct alt text', () => {
-    render(
-      <PromoSection
-        title="Big Promo"
-        imageUrl="https://example.com/promo.jpg"
-      />
-    );
-
-    expect(screen.getByRole('heading', { level: 2, name: 'Big Promo' })).toBeInTheDocument();
-
-    const img = screen.getByRole('img', { name: 'Big Promo' });
-    expect(img).toBeInTheDocument();
-    expect(img).toHaveAttribute('src', 'https://example.com/promo.jpg');
+    expect(screen.getByRole('heading', { level: 2, name: 'Big promo' })).toBeInTheDocument();
   });
 
   it('renders subtitle and description when provided', () => {
     render(
       <PromoSection
-        title={baseProps.title}
-        subtitle={baseProps.subtitle}
-        description={baseProps.description}
-        imageUrl={baseProps.imageUrl}
+        title="Big promo"
+        subtitle="Limited time"
+        description="Save money on something great."
       />
     );
 
-    expect(screen.getByRole('heading', { level: 3, name: baseProps.subtitle })).toBeInTheDocument();
-    expect(screen.getByText(baseProps.description)).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 3, name: 'Limited time' })).toBeInTheDocument();
+    expect(screen.getByText('Save money on something great.')).toBeInTheDocument();
   });
 
-  it('renders a link button only when both linkUrl and linkText are provided', () => {
-    const { rerender } = render(
-      <PromoSection
-        title={baseProps.title}
-        imageUrl={baseProps.imageUrl}
-        linkUrl={baseProps.linkUrl}
-        linkText={baseProps.linkText}
-      />
-    );
+  it('does not render subtitle or description when not provided', () => {
+    render(<PromoSection title="Big promo" />);
 
-    const button = screen.getByTestId('hoam-button');
-    expect(button).toBeInTheDocument();
-    expect(button).toHaveTextContent(baseProps.linkText);
-    expect(button).toHaveAttribute('href', baseProps.linkUrl);
-
-    rerender(
-      <PromoSection
-        title={baseProps.title}
-        imageUrl={baseProps.imageUrl}
-        linkUrl={baseProps.linkUrl}
-      />
-    );
-    expect(screen.queryByTestId('hoam-button')).not.toBeInTheDocument();
-
-    rerender(
-      <PromoSection
-        title={baseProps.title}
-        imageUrl={baseProps.imageUrl}
-        linkText={baseProps.linkText}
-      />
-    );
-    expect(screen.queryByTestId('hoam-button')).not.toBeInTheDocument();
+    expect(screen.queryByRole('heading', { level: 3 })).not.toBeInTheDocument();
+    expect(screen.queryByText(/save money/i)).not.toBeInTheDocument();
   });
 
-  it('orders image then spacer then text when alignment="left"', () => {
+  it('renders an image when imageUrl is provided', () => {
     render(
       <PromoSection
-        title={baseProps.title}
-        subtitle={baseProps.subtitle}
-        description={baseProps.description}
-        linkUrl={baseProps.linkUrl}
-        linkText={baseProps.linkText}
-        imageUrl={baseProps.imageUrl}
-        alignment="left"
+        title="Big promo"
+        imageUrl="/promo.jpg"
+      />
+    );
+
+    const image = screen.getByRole('img', { name: 'Big promo' });
+    expect(image).toBeInTheDocument();
+    expect(image).toHaveAttribute('src', '/promo.jpg');
+  });
+
+  it('does not render an image when imageUrl is not provided', () => {
+    render(<PromoSection title="Big promo" />);
+
+    expect(screen.queryByRole('img')).not.toBeInTheDocument();
+  });
+
+  it('renders a link button when linkUrl and linkText are both provided', () => {
+    render(
+      <PromoSection
+        title="Big promo"
+        linkUrl="/shop"
+        linkText="Shop now"
+      />
+    );
+
+    const link = screen.getByRole('link', { name: 'Shop now' });
+    expect(link).toBeInTheDocument();
+    expect(link).toHaveAttribute('href', '/shop');
+    expect(link).toHaveAttribute('data-variant', 'primary');
+  });
+
+  it('does not render a link when only linkUrl is provided', () => {
+    render(
+      <PromoSection
+        title="Big promo"
+        linkUrl="/shop"
+      />
+    );
+
+    expect(screen.queryByRole('link')).not.toBeInTheDocument();
+  });
+
+  it('does not render a link when only linkText is provided', () => {
+    render(
+      <PromoSection
+        title="Big promo"
+        linkText="Shop now"
+      />
+    );
+
+    expect(screen.queryByRole('link')).not.toBeInTheDocument();
+  });
+
+  it('renders text block after image block by default when alignment is left', () => {
+    render(
+      <PromoSection
+        title="Big promo"
+        imageUrl="/promo.jpg"
       />
     );
 
     const grid = screen.getByTestId('grid');
-    const items = within(grid).getAllByTestId('grid-item');
+    const gridItems = Array.from(grid.children);
 
-    expect(items).toHaveLength(3);
+    expect(gridItems).toHaveLength(3);
 
-    const first = items[0];
-    const second = items[1];
-    const third = items[2];
-
-    if (!first || !second || !third) {
-      throw new TypeError('Expected three grid items');
-    }
-
-    expect(within(first).getByRole('img', { name: baseProps.title })).toBeInTheDocument();
-    expect(second).toBeEmptyDOMElement();
-    expect(
-      within(third).getByRole('heading', { level: 2, name: baseProps.title })
-    ).toBeInTheDocument();
-
-    expect(first).toHaveAttribute('data-span', '12');
-    expect(first).toHaveAttribute('data-span-lg', '5');
-    expect(second).toHaveAttribute('data-span-lg', '1');
-    expect(third).toHaveAttribute('data-span', '12');
-    expect(third).toHaveAttribute('data-span-lg', '6');
+    expect(gridItems[0]).toContainElement(screen.getByRole('img', { name: 'Big promo' }));
+    expect(gridItems[1]).toHaveAttribute('aria-hidden', 'true');
+    expect(gridItems[2]).toContainElement(
+      screen.getByRole('heading', { level: 2, name: 'Big promo' })
+    );
   });
 
-  it('orders text then spacer then image when alignment="right"', () => {
+  it('renders text block before image block when alignment is right', () => {
     render(
       <PromoSection
-        title={baseProps.title}
-        subtitle={baseProps.subtitle}
-        description={baseProps.description}
-        linkUrl={baseProps.linkUrl}
-        linkText={baseProps.linkText}
-        imageUrl={baseProps.imageUrl}
+        title="Big promo"
+        imageUrl="/promo.jpg"
         alignment="right"
       />
     );
 
     const grid = screen.getByTestId('grid');
-    const items = within(grid).getAllByTestId('grid-item');
+    const gridItems = Array.from(grid.children);
 
-    expect(items).toHaveLength(3);
+    expect(gridItems).toHaveLength(3);
 
-    const first = items[0];
-    const second = items[1];
-    const third = items[2];
-
-    if (!first || !second || !third) {
-      throw new TypeError('Expected three grid items');
-    }
-
-    expect(
-      within(first).getByRole('heading', { level: 2, name: baseProps.title })
-    ).toBeInTheDocument();
-    expect(second).toBeEmptyDOMElement();
-    expect(within(third).getByRole('img', { name: baseProps.title })).toBeInTheDocument();
-
-    expect(first).toHaveAttribute('data-span', '12');
-    expect(first).toHaveAttribute('data-span-lg', '6');
-    expect(second).toHaveAttribute('data-span-lg', '1');
-    expect(third).toHaveAttribute('data-span', '12');
-    expect(third).toHaveAttribute('data-span-lg', '5');
+    expect(gridItems[0]).toContainElement(
+      screen.getByRole('heading', { level: 2, name: 'Big promo' })
+    );
+    expect(gridItems[1]).toHaveAttribute('aria-hidden', 'true');
+    expect(gridItems[2]).toContainElement(screen.getByRole('img', { name: 'Big promo' }));
   });
 
-  it('does not render optional elements when not provided', () => {
-    render(
-      <PromoSection
-        title="Only Title"
-        imageUrl="https://example.com/only.jpg"
-      />
-    );
-
-    expect(screen.queryByRole('heading', { level: 3 })).not.toBeInTheDocument();
-    expect(screen.queryByText(baseProps.description)).not.toBeInTheDocument();
-    expect(screen.queryByTestId('hoam-button')).not.toBeInTheDocument();
-
-    expect(screen.getByRole('heading', { level: 2, name: 'Only Title' })).toBeInTheDocument();
-    expect(screen.getByRole('img', { name: 'Only Title' })).toBeInTheDocument();
-  });
-
-  it('does not render image or spacer when imageUrl is not provided', () => {
-    render(
-      <PromoSection
-        title="Text Only"
-        subtitle="Subtitle"
-        description="Description"
-        alignment="left"
-      />
-    );
+  it('does not render a spacer when there is no image', () => {
+    render(<PromoSection title="Big promo" />);
 
     const grid = screen.getByTestId('grid');
-    const items = within(grid).getAllByTestId('grid-item');
+    const gridItems = Array.from(grid.children);
 
-    const first = items[0];
+    expect(gridItems).toHaveLength(1);
+    expect(gridItems[0]).toContainElement(
+      screen.getByRole('heading', { level: 2, name: 'Big promo' })
+    );
+  });
 
-    if (!first) {
-      throw new TypeError('Expected at least one grid item');
-    }
+  it('passes the expected gap to Stack', () => {
+    render(<PromoSection title="Big promo" />);
 
-    expect(items).toHaveLength(1);
-    expect(screen.queryByRole('img')).not.toBeInTheDocument();
-    expect(within(first).getByRole('heading', { level: 2, name: 'Text Only' })).toBeInTheDocument();
+    expect(screen.getByTestId('stack')).toHaveAttribute('data-gap', 'md');
+  });
+
+  it('renders inside container and grid layout wrappers', () => {
+    render(<PromoSection title="Big promo" />);
+
+    expect(screen.getByTestId('container')).toBeInTheDocument();
+    expect(screen.getByTestId('grid')).toBeInTheDocument();
   });
 });

@@ -1,34 +1,67 @@
 import { render, screen } from '@testing-library/react';
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { BadgeList, BadgeListItem } from '@/components/BadgeList';
 
+const warnMock = vi.fn();
+
+vi.mock('@/utils/logger', () => ({
+  logger: {
+    warn: (...args: unknown[]) => {
+      warnMock(...args);
+    },
+  },
+}));
+
 describe('BadgeListItem', () => {
-  it('renders a span by default', () => {
-    render(<BadgeListItem variant="default">News</BadgeListItem>);
-
-    const item = screen.getByText('News');
-
-    expect(item.tagName).toBe('SPAN');
-    expect(item).toHaveAttribute('data-theme', 'default');
+  afterEach(() => {
+    vi.clearAllMocks();
   });
 
-  it('renders the alert theme when provided', () => {
+  it('renders its children', () => {
+    render(<BadgeListItem variant="default">New</BadgeListItem>);
+
+    expect(screen.getByText('New')).toBeInTheDocument();
+  });
+
+  it('applies the default variant', () => {
+    render(<BadgeListItem variant="default">New</BadgeListItem>);
+
+    expect(screen.getByText('New')).toHaveAttribute('data-variant', 'default');
+  });
+
+  it('applies the alert variant', () => {
     render(<BadgeListItem variant="alert">Warning</BadgeListItem>);
 
-    expect(screen.getByText('Warning')).toHaveAttribute('data-theme', 'alert');
+    expect(screen.getByText('Warning')).toHaveAttribute('data-variant', 'alert');
   });
 
-  it('renders nothing when children are missing', () => {
-    const { container } = render(<BadgeListItem variant="alert" />);
+  it('applies the highlight variant', () => {
+    render(<BadgeListItem variant="highlight">Featured</BadgeListItem>);
 
-    expect(container).toBeEmptyDOMElement();
+    expect(screen.getByText('Featured')).toHaveAttribute('data-variant', 'highlight');
+  });
+
+  it('returns null when children is empty', () => {
+    const { container } = render(<BadgeListItem variant="default">{null}</BadgeListItem>);
+
+    expect(container.firstChild).toBeNull();
+  });
+
+  it('returns null when children is falsey text input', () => {
+    const { container } = render(<BadgeListItem variant="default">{''}</BadgeListItem>);
+
+    expect(container.firstChild).toBeNull();
   });
 });
 
 describe('BadgeList', () => {
+  beforeEach(() => {
+    warnMock.mockClear();
+  });
+
   afterEach(() => {
-    vi.restoreAllMocks();
+    vi.clearAllMocks();
   });
 
   it('renders valid BadgeListItem children', () => {
@@ -40,27 +73,88 @@ describe('BadgeList', () => {
     );
 
     expect(screen.getByText('One')).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Two' })).toBeInTheDocument();
+    expect(screen.getByText('Two')).toBeInTheDocument();
+    expect(warnMock).not.toHaveBeenCalled();
   });
 
-  it('filters invalid children and logs an error', () => {
+  it('renders only BadgeListItem children when mixed with invalid children', () => {
     render(
       <BadgeList>
         <BadgeListItem variant="default">Valid</BadgeListItem>
-        <div>Invalid</div>
+        <span>Invalid span</span>
         Plain text
+        <BadgeListItem variant="highlight">Also valid</BadgeListItem>
       </BadgeList>
     );
 
     expect(screen.getByText('Valid')).toBeInTheDocument();
-    expect(screen.queryByText('Invalid')).not.toBeInTheDocument();
+    expect(screen.getByText('Also valid')).toBeInTheDocument();
+    expect(screen.queryByText('Invalid span')).not.toBeInTheDocument();
     expect(screen.queryByText('Plain text')).not.toBeInTheDocument();
+    expect(warnMock).toHaveBeenCalledTimes(2);
+    expect(warnMock).toHaveBeenCalledWith(
+      'BadgeList component only accepts children of type BadgeListItem'
+    );
   });
 
-  it('renders an empty wrapper when no children are provided', () => {
+  it('warns and omits invalid element children', () => {
+    render(
+      <BadgeList>
+        <div>Not allowed</div>
+      </BadgeList>
+    );
+
+    expect(screen.queryByText('Not allowed')).not.toBeInTheDocument();
+    expect(warnMock).toHaveBeenCalledTimes(1);
+    expect(warnMock).toHaveBeenCalledWith(
+      'BadgeList component only accepts children of type BadgeListItem'
+    );
+  });
+
+  it('warns and omits non-element children', () => {
+    render(<BadgeList>{'Just text'}</BadgeList>);
+
+    expect(screen.queryByText('Just text')).not.toBeInTheDocument();
+    expect(warnMock).toHaveBeenCalledTimes(1);
+    expect(warnMock).toHaveBeenCalledWith(
+      'BadgeList component only accepts children of type BadgeListItem'
+    );
+  });
+
+  it('renders an empty root when there are no children', () => {
     const { container } = render(<BadgeList />);
 
     expect(container.firstChild).toBeInTheDocument();
     expect(container.firstChild).toBeEmptyDOMElement();
+    expect(warnMock).not.toHaveBeenCalled();
+  });
+
+  it('renders an empty root when all children are invalid', () => {
+    const { container } = render(
+      <BadgeList>
+        <div>Wrong</div>
+        {'Nope'}
+      </BadgeList>
+    );
+
+    expect(screen.queryByText('Wrong')).not.toBeInTheDocument();
+    expect(screen.queryByText('Nope')).not.toBeInTheDocument();
+    expect(container.firstChild).toBeInTheDocument();
+    expect(container.firstChild).toBeEmptyDOMElement();
+    expect(warnMock).toHaveBeenCalledTimes(2);
+  });
+
+  it('preserves item variants through BadgeList rendering', () => {
+    render(
+      <BadgeList>
+        <BadgeListItem variant="default">Default badge</BadgeListItem>
+        <BadgeListItem variant="alert">Alert badge</BadgeListItem>
+        <BadgeListItem variant="highlight">Highlight badge</BadgeListItem>
+      </BadgeList>
+    );
+
+    expect(screen.getByText('Default badge')).toHaveAttribute('data-variant', 'default');
+    expect(screen.getByText('Alert badge')).toHaveAttribute('data-variant', 'alert');
+    expect(screen.getByText('Highlight badge')).toHaveAttribute('data-variant', 'highlight');
   });
 });

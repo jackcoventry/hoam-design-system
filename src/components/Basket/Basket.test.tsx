@@ -1,26 +1,27 @@
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import type { ReactNode } from 'react';
-import { vi } from 'vitest';
+import { fireEvent, render, screen } from '@testing-library/react';
+import type { PropsWithChildren } from 'react';
+import { describe, expect, it, vi } from 'vitest';
 
-import { Basket, BasketFooter, BasketItem, type BasketItemProps } from '@/components/Basket';
+import { Basket, BasketFooter, BasketItem, type BasketItemProps } from './Basket';
 
 vi.mock('@/components/Button', () => ({
   Button: ({
     children,
     title,
     onClick,
-  }: {
-    children?: ReactNode;
+    disabled,
+  }: PropsWithChildren<{
     title?: string;
-    onClick?: React.MouseEventHandler<HTMLButtonElement>;
-  }) => (
+    onClick?: () => void;
+    disabled?: boolean;
+  }>) => (
     <button
       type="button"
-      title={title}
+      aria-label={title}
       onClick={onClick}
+      disabled={disabled}
     >
-      {children ?? title}
+      {children}
     </button>
   ),
 }));
@@ -28,213 +29,309 @@ vi.mock('@/components/Button', () => ({
 vi.mock('@/components/QuantitySelector', () => ({
   QuantitySelector: ({ value, onChange }: { value: number; onChange: (value: number) => void }) => (
     <div>
-      <span>Quantity selector value: {value}</span>
+      <span data-testid="quantity-value">{value}</span>
       <button
         type="button"
-        data-testid={`quantity-change-${value}`}
         onClick={() => onChange(value + 1)}
       >
-        Change quantity
+        Increase quantity
       </button>
     </div>
   ),
+}));
+
+vi.mock('@/hooks/useMessages', () => ({
+  useMessages: (namespace: string) => {
+    if (namespace === 'basket') {
+      return {
+        price: 'Price',
+        remove: 'Remove',
+        save: 'Save',
+        total: 'Total',
+        subTotal: 'Subtotal',
+        checkout: 'Checkout',
+        columnProduct: 'Product',
+        columnQuantity: 'Quantity',
+        columnTotal: 'Total',
+      };
+    }
+
+    return {};
+  },
 }));
 
 vi.mock('@/utils/convertNumberToCurrency', () => ({
   convertNumberToCurrency: ({ value }: { value: number }) => `£${value.toFixed(2)}`,
 }));
 
-function renderInTable(ui: ReactNode) {
-  return render(
-    <table>
-      <tbody>{ui}</tbody>
-    </table>
-  );
-}
-
 describe('BasketItem', () => {
-  const onChange = vi.fn<(value: number) => void>();
-
-  const defaultProps: BasketItemProps = {
-    id: '1',
-    title: 'Coffee Beans',
-    summary: 'Rich and smooth roast',
-    price: 12.5,
+  const baseItem: BasketItemProps = {
+    id: 'item-1',
+    title: 'Oak Chair',
+    summary: 'Comfortable wooden chair',
+    price: 25,
     thumbnail: {
-      src: '/coffee.jpg',
-      alt: 'Coffee Beans',
+      src: '/chair.jpg',
+      alt: 'Oak Chair',
     },
-    url: '/products/coffee-beans',
-    onChange,
+    url: '/products/oak-chair',
+    onChange: vi.fn(),
     quantity: 3,
   };
 
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
+  it('renders the item title, image and links', () => {
+    render(
+      <table>
+        <tbody>
+          <BasketItem {...baseItem} />
+        </tbody>
+      </table>
+    );
 
-  it('renders product information, controls, quantity selector, and total price', () => {
-    const { container } = renderInTable(<BasketItem {...defaultProps} />);
+    expect(screen.getByRole('heading', { level: 4, name: 'Oak Chair' })).toBeInTheDocument();
 
-    const links = container.querySelectorAll('a');
+    const links = screen.getAllByRole('link');
     expect(links).toHaveLength(2);
+    expect(links[0]).toHaveAttribute('href', '/products/oak-chair');
+    expect(links[1]).toHaveAttribute('href', '/products/oak-chair');
 
-    expect(screen.getByText('Coffee Beans')).toBeInTheDocument();
-    expect(screen.getByText('£12.50')).toBeInTheDocument();
-    expect(screen.getByText('Quantity selector value: 3')).toBeInTheDocument();
-    expect(screen.getByText('£37.50')).toBeInTheDocument();
-
-    expect(screen.getByTitle('Remove item from basket')).toBeInTheDocument();
-    expect(screen.getByText('Save for later')).toBeInTheDocument();
-    expect(screen.getByTestId('quantity-change-3')).toBeInTheDocument();
+    const image = screen.getByRole('img', { name: 'Oak Chair' });
+    expect(image).toHaveAttribute('src', '/chair.jpg');
   });
 
-  it('uses the provided product URL on both links', () => {
-    const { container } = renderInTable(<BasketItem {...defaultProps} />);
-
-    const links = container.querySelectorAll('a');
-    expect(links).toHaveLength(2);
-
-    expect(links[0]).toHaveAttribute('href', '/products/coffee-beans');
-    expect(links[1]).toHaveAttribute('href', '/products/coffee-beans');
-  });
-
-  it('calls onChange with the updated value when the quantity selector changes', async () => {
-    const user = userEvent.setup();
-
-    renderInTable(<BasketItem {...defaultProps} />);
-
-    await user.click(screen.getByTestId('quantity-change-3'));
-
-    expect(onChange).toHaveBeenCalledTimes(1);
-    expect(onChange).toHaveBeenCalledWith(4);
-  });
-
-  it('renders the image with an empty alt attribute when no thumbnail alt is provided', () => {
-    const { container } = renderInTable(
-      <BasketItem
-        {...defaultProps}
-        thumbnail={{ src: '/coffee.jpg' }}
-      />
+  it('uses an empty alt attribute when thumbnail alt is missing', () => {
+    const { container } = render(
+      <table>
+        <tbody>
+          <BasketItem
+            {...baseItem}
+            thumbnail={{ src: '/chair.jpg' }}
+          />
+        </tbody>
+      </table>
     );
 
     const image = container.querySelector('img');
-
-    expect(image).not.toBeNull();
+    expect(image).toBeInTheDocument();
     expect(image).toHaveAttribute('alt', '');
-    expect(image).toHaveAttribute('src', '/coffee.jpg');
+  });
+
+  it('renders the unit price and total price', () => {
+    render(
+      <table>
+        <tbody>
+          <BasketItem {...baseItem} />
+        </tbody>
+      </table>
+    );
+
+    expect(screen.getByText((content) => content.includes('Price:'))).toBeInTheDocument();
+    expect(screen.getByText((content) => content.includes('Total:'))).toBeInTheDocument();
+    expect(screen.getByText((content) => content.includes('£25.00'))).toBeInTheDocument();
+    expect(screen.getByText((content) => content.includes('£75.00'))).toBeInTheDocument();
+  });
+
+  it('renders the quantity selector with the current quantity', () => {
+    render(
+      <table>
+        <tbody>
+          <BasketItem {...baseItem} />
+        </tbody>
+      </table>
+    );
+
+    expect(screen.getByTestId('quantity-value')).toHaveTextContent('3');
+  });
+
+  it('passes quantity changes through to onChange', () => {
+    const onChange = vi.fn();
+
+    render(
+      <table>
+        <tbody>
+          <BasketItem
+            {...baseItem}
+            quantity={2}
+            onChange={onChange}
+          />
+        </tbody>
+      </table>
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: 'Increase quantity' }));
+    expect(onChange).toHaveBeenCalledTimes(1);
+    expect(onChange).toHaveBeenCalledWith(3);
+  });
+
+  it('renders remove and save controls', () => {
+    render(
+      <table>
+        <tbody>
+          <BasketItem {...baseItem} />
+        </tbody>
+      </table>
+    );
+
+    expect(screen.getByRole('button', { name: 'Remove' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Save' })).toBeInTheDocument();
   });
 });
 
 describe('BasketFooter', () => {
   it('renders the subtotal and checkout button', () => {
-    renderInTable(<BasketFooter total={99.99} />);
+    render(<BasketFooter total={125} />);
 
-    expect(screen.getByText('Sub-total: £99.99')).toBeInTheDocument();
-    expect(screen.getByText('Proceed to Checkout')).toBeInTheDocument();
-  });
-
-  it('renders a zero subtotal correctly', () => {
-    renderInTable(<BasketFooter total={0} />);
-
-    expect(screen.getByText('Sub-total: £0.00')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 4 })).toHaveTextContent('Subtotal: £125.00');
+    expect(screen.getByRole('button', { name: 'Checkout' })).toBeInTheDocument();
   });
 });
 
 describe('Basket', () => {
   const items: BasketItemProps[] = [
     {
-      id: '1',
-      title: 'Coffee Beans',
-      summary: 'Rich and smooth roast',
-      price: 12.5,
+      id: 'item-1',
+      title: 'Oak Chair',
+      summary: 'Comfortable wooden chair',
+      price: 25,
       thumbnail: {
-        src: '/coffee.jpg',
-        alt: 'Coffee Beans',
+        src: '/chair.jpg',
+        alt: 'Oak Chair',
       },
-      url: '/products/coffee-beans',
-      onChange: vi.fn<(value: number) => void>(),
+      url: '/products/oak-chair',
+      onChange: vi.fn(),
       quantity: 2,
     },
     {
-      id: '2',
-      title: 'Espresso Cups',
-      summary: 'Set of two',
-      price: 8,
+      id: 'item-2',
+      title: 'Desk Lamp',
+      summary: 'Brass desk lamp',
+      price: 40,
       thumbnail: {
-        src: '/cups.jpg',
-        alt: 'Espresso Cups',
+        src: '/lamp.jpg',
+        alt: 'Desk Lamp',
       },
-      url: '/products/espresso-cups',
-      onChange: vi.fn<(value: number) => void>(),
-      quantity: 4,
+      url: '/products/desk-lamp',
+      onChange: vi.fn(),
+      quantity: 1,
     },
   ];
 
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
-  it('renders the table headings and all basket items', () => {
+  it('renders the table headers', () => {
     render(
       <Basket
         items={items}
-        total={33}
+        total={90}
       />
     );
 
-    expect(screen.getByText('Product')).toBeInTheDocument();
-    expect(screen.getByText('Quantity')).toBeInTheDocument();
-    expect(screen.getByText('Price')).toBeInTheDocument();
-
-    expect(screen.getByText('Coffee Beans')).toBeInTheDocument();
-    expect(screen.getByText('Espresso Cups')).toBeInTheDocument();
-
-    expect(screen.getByText('Quantity selector value: 2')).toBeInTheDocument();
-    expect(screen.getByText('Quantity selector value: 4')).toBeInTheDocument();
-
-    expect(screen.getByText('£25.00')).toBeInTheDocument();
-    expect(screen.getByText('£32.00')).toBeInTheDocument();
+    expect(screen.getByRole('columnheader', { name: 'Product' })).toBeInTheDocument();
+    expect(screen.getByRole('columnheader', { name: 'Quantity' })).toBeInTheDocument();
+    expect(screen.getAllByRole('columnheader', { name: 'Total' })).toHaveLength(1);
   });
 
-  it('renders no basket item rows when items is empty', () => {
-    const { container } = render(
+  it('renders all basket items', () => {
+    render(
+      <Basket
+        items={items}
+        total={90}
+      />
+    );
+
+    expect(screen.getByRole('heading', { level: 4, name: 'Oak Chair' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 4, name: 'Desk Lamp' })).toBeInTheDocument();
+  });
+
+  it('renders the correct number of body rows', () => {
+    render(
+      <Basket
+        items={items}
+        total={90}
+      />
+    );
+
+    const rows = screen.getAllByRole('row');
+    expect(rows).toHaveLength(3);
+  });
+
+  it('renders an empty tbody when items is empty', () => {
+    render(
       <Basket
         items={[]}
         total={0}
       />
     );
 
-    expect(screen.queryByText('Coffee Beans')).not.toBeInTheDocument();
-    expect(container.querySelectorAll('tbody tr')).toHaveLength(0);
+    expect(screen.getAllByRole('row')).toHaveLength(1);
+    expect(screen.queryByRole('heading', { level: 4 })).not.toBeInTheDocument();
   });
 
-  it('passes each item onChange handler through to its quantity selector', async () => {
-    const user = userEvent.setup();
-
+  it('renders an empty tbody when items is null', () => {
     render(
       <Basket
-        items={items}
+        items={null}
         total={0}
       />
     );
 
-    const firstButton = screen.getByTestId('quantity-change-2');
-    const secondButton = screen.getByTestId('quantity-change-4');
+    expect(screen.getAllByRole('row')).toHaveLength(1);
+    expect(screen.queryByRole('heading', { level: 4 })).not.toBeInTheDocument();
+  });
 
-    const [firstItem, secondItem] = items;
+  it('wires each item quantity selector to its own onChange handler', () => {
+    const firstOnChange = vi.fn();
+    const secondOnChange = vi.fn();
 
-    if (!firstItem || !secondItem) {
-      throw new Error('Expected two basket items');
+    const testItems: BasketItemProps[] = [
+      {
+        id: 'item-1',
+        title: 'Oak Chair',
+        summary: 'Comfortable wooden chair',
+        price: 25,
+        thumbnail: {
+          src: '/chair.jpg',
+          alt: 'Oak Chair',
+        },
+        url: '/products/oak-chair',
+        onChange: firstOnChange,
+        quantity: 1,
+      },
+      {
+        id: 'item-2',
+        title: 'Desk Lamp',
+        summary: 'Brass desk lamp',
+        price: 40,
+        thumbnail: {
+          src: '/lamp.jpg',
+          alt: 'Desk Lamp',
+        },
+        url: '/products/desk-lamp',
+        onChange: secondOnChange,
+        quantity: 4,
+      },
+    ];
+
+    render(
+      <Basket
+        items={testItems}
+        total={0}
+      />
+    );
+
+    const buttons = screen.getAllByRole('button', { name: 'Increase quantity' });
+    const firstButton = buttons[0];
+    const secondButton = buttons[1];
+
+    expect(firstButton).toBeDefined();
+    expect(secondButton).toBeDefined();
+
+    if (!firstButton || !secondButton) {
+      throw new Error('Expected quantity buttons to exist');
     }
 
-    await user.click(firstButton);
-    await user.click(secondButton);
+    fireEvent.click(firstButton);
+    fireEvent.click(secondButton);
 
-    expect(firstItem.onChange).toHaveBeenCalledTimes(1);
-    expect(firstItem.onChange).toHaveBeenCalledWith(3);
-
-    expect(secondItem.onChange).toHaveBeenCalledTimes(1);
-    expect(secondItem.onChange).toHaveBeenCalledWith(5);
+    expect(firstOnChange).toHaveBeenCalledWith(2);
+    expect(secondOnChange).toHaveBeenCalledWith(5);
   });
 });

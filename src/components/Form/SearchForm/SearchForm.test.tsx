@@ -1,11 +1,9 @@
-import { render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import type { ButtonHTMLAttributes, ReactNode } from 'react';
-import { vi } from 'vitest';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import type { PropsWithChildren, ReactNode } from 'react';
+import { describe, expect, it, vi } from 'vitest';
 
 import {
   SearchForm,
-  type SearchFormProps,
   type SearchFormResult,
   type SearchFormSchemaType,
   SearchLoader,
@@ -16,35 +14,68 @@ import {
 vi.mock('@/components/Button', () => ({
   Button: ({
     children,
-    ...props
-  }: {
-    children?: ReactNode;
-  } & ButtonHTMLAttributes<HTMLButtonElement>) => <button {...props}>{children}</button>,
+    as,
+    href,
+    onClick,
+    type = 'button',
+    disabled,
+    className,
+  }: PropsWithChildren<{
+    as?: 'a';
+    href?: string;
+    onClick?: () => void;
+    type?: 'button' | 'submit' | 'reset';
+    disabled?: boolean;
+    className?: string;
+  }>) =>
+    as === 'a' ? (
+      <a
+        href={href}
+        className={className}
+      >
+        {children}
+      </a>
+    ) : (
+      <button
+        type={type}
+        onClick={onClick}
+        disabled={disabled}
+        className={className}
+      >
+        {children}
+      </button>
+    ),
+}));
+
+vi.mock('@/components/Layout', () => ({
+  Stack: ({ children }: { children: ReactNode }) => <div data-testid="stack">{children}</div>,
 }));
 
 vi.mock('@/components/Loading', () => ({
-  Spinner: () => <div data-testid="spinner">Loading...</div>,
+  Spinner: () => <div data-testid="spinner">Loading…</div>,
+}));
+
+vi.mock('@/components/Pagination', () => ({
+  Pagination: ({ currentPage }: { currentPage: number }) => (
+    <div data-testid="pagination">Page {currentPage}</div>
+  ),
 }));
 
 describe('SearchResult', () => {
-  it('renders the result title, preview, and link', () => {
+  it('renders the title, preview and link', () => {
     render(
       <SearchResult
-        title="Coffee Guide"
-        preview="Everything you need to know about brewing better coffee."
-        url="/guides/coffee"
+        title="Useful result"
+        preview="A short preview"
+        url="/result"
       />
     );
 
-    expect(screen.getByText('Coffee Guide')).toBeInTheDocument();
-    expect(
-      screen.getByText('Everything you need to know about brewing better coffee.')
-    ).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 4, name: 'Useful result' })).toBeInTheDocument();
+    expect(screen.getByText('A short preview')).toBeInTheDocument();
 
-    expect(screen.getByRole('link', { name: 'Read more' })).toHaveAttribute(
-      'href',
-      '/guides/coffee'
-    );
+    const link = screen.getByRole('link', { name: 'Read more' });
+    expect(link).toHaveAttribute('href', '/result');
   });
 });
 
@@ -60,150 +91,236 @@ describe('SearchResults', () => {
   const items: SearchFormResult[] = [
     {
       id: 1,
-      title: 'Coffee Guide',
-      url: '/guides/coffee',
-      preview: 'Everything you need to know about brewing better coffee.',
+      title: 'First result',
+      url: '/first',
+      preview: 'First preview',
     },
     {
-      title: 'Espresso Basics',
-      url: '/guides/espresso',
-      preview: 'Learn the fundamentals of espresso extraction.',
+      title: 'Second result',
+      url: '/second',
+      preview: 'Second preview',
     },
   ];
 
-  it('renders a no results message when there are no items', () => {
+  it('renders a no results message when items is empty', () => {
     render(<SearchResults items={[]} />);
 
     expect(screen.getByText('No results!')).toBeInTheDocument();
+    expect(screen.queryByRole('list')).not.toBeInTheDocument();
+    expect(screen.queryByTestId('pagination')).not.toBeInTheDocument();
   });
 
-  it('renders a list of search results', () => {
+  it('renders a list of results', () => {
     render(<SearchResults items={items} />);
 
-    expect(screen.getByRole('list')).toBeInTheDocument();
-    expect(screen.getAllByRole('listitem')).toHaveLength(2);
+    const list = screen.getByRole('list');
+    expect(list.tagName).toBe('OL');
 
-    expect(screen.getByText('Coffee Guide')).toBeInTheDocument();
-    expect(screen.getByText('Espresso Basics')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 4, name: 'First result' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { level: 4, name: 'Second result' })).toBeInTheDocument();
+
+    expect(screen.getByText('First preview')).toBeInTheDocument();
+    expect(screen.getByText('Second preview')).toBeInTheDocument();
 
     const links = screen.getAllByRole('link', { name: 'Read more' });
     expect(links).toHaveLength(2);
-    expect(links[0]).toHaveAttribute('href', '/guides/coffee');
-    expect(links[1]).toHaveAttribute('href', '/guides/espresso');
+    expect(links[0]).toHaveAttribute('href', '/first');
+    expect(links[1]).toHaveAttribute('href', '/second');
   });
 
-  it('uses the fallback key path safely when id is missing', () => {
-    render(
-      <SearchResults
-        items={[
-          {
-            title: 'Espresso Basics',
-            url: '/guides/espresso',
-            preview: 'Learn the fundamentals of espresso extraction.',
-          },
-        ]}
-      />
-    );
+  it('renders pagination when there are results', () => {
+    render(<SearchResults items={items} />);
 
-    expect(screen.getByText('Espresso Basics')).toBeInTheDocument();
-    expect(screen.getAllByRole('listitem')).toHaveLength(1);
+    expect(screen.getByTestId('pagination')).toHaveTextContent('Page 1');
+  });
+
+  it('renders one list item per result', () => {
+    render(<SearchResults items={items} />);
+
+    expect(screen.getAllByRole('listitem')).toHaveLength(2);
   });
 });
 
 describe('SearchForm', () => {
-  function renderComponent(props?: Partial<SearchFormProps>) {
-    const onSubmit: SearchFormProps['onSubmit'] = vi.fn();
-    const onClose: SearchFormProps['onClose'] = vi.fn();
-
+  it('renders the form controls with default labels and placeholder', () => {
     render(
       <SearchForm
-        onSubmit={onSubmit}
+        onClose={() => {}}
+        onSubmit={() => {}}
         loading={false}
-        onClose={onClose}
-        {...props}
       />
     );
 
-    return { onSubmit };
-  }
-
-  it('renders the search input and submit button', () => {
-    renderComponent();
-
-    expect(screen.getByLabelText('Search')).toBeInTheDocument();
-    expect(screen.getByRole('searchbox')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Close Modal' })).toBeInTheDocument();
+    expect(screen.getByRole('searchbox', { name: 'Search' })).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Enter keywords...')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Search' })).toBeInTheDocument();
   });
 
-  it('submits valid search input', async () => {
-    const user = userEvent.setup();
-    const { onSubmit } = renderComponent();
+  it('renders custom submit label and placeholder text', () => {
+    render(
+      <SearchForm
+        onClose={() => {}}
+        onSubmit={() => {}}
+        loading={false}
+        submitLabel="Find"
+        placeholderText="Search articles..."
+      />
+    );
 
-    await user.type(screen.getByLabelText('Search'), 'coffee beans');
-    await user.click(screen.getByRole('button', { name: 'Search' }));
+    expect(screen.getByRole('searchbox', { name: 'Find' })).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Search articles...')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Find' })).toBeInTheDocument();
+  });
+
+  it('calls onClose when the close button is clicked', () => {
+    const onClose = vi.fn();
+
+    render(
+      <SearchForm
+        onClose={onClose}
+        onSubmit={() => {}}
+        loading={false}
+      />
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: 'Close Modal' }));
+
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it('calls onSubmit with the entered query when the form is valid', async () => {
+    const onSubmit = vi.fn<(data: SearchFormSchemaType) => void | Promise<void>>();
+
+    render(
+      <SearchForm
+        onClose={() => {}}
+        onSubmit={onSubmit}
+        loading={false}
+      />
+    );
+
+    const input = screen.getByRole('searchbox', { name: 'Search' });
+    fireEvent.change(input, { target: { value: 'kitchen sinks' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Search' }));
 
     await waitFor(() => {
       expect(onSubmit).toHaveBeenCalledTimes(1);
     });
 
-    expect(onSubmit).toHaveBeenCalledWith(
-      { q: 'coffee beans' } satisfies SearchFormSchemaType,
-      expect.anything()
+    expect(onSubmit.mock.calls[0]?.[0]).toEqual({ q: 'kitchen sinks' });
+  });
+
+  it('trims the submitted value via schema validation', async () => {
+    const onSubmit = vi.fn<(data: SearchFormSchemaType) => void | Promise<void>>();
+
+    render(
+      <SearchForm
+        onClose={() => {}}
+        onSubmit={onSubmit}
+        loading={false}
+      />
     );
+
+    const input = screen.getByRole('searchbox', { name: 'Search' });
+    fireEvent.change(input, { target: { value: '  trimmed query  ' } });
+    fireEvent.submit(input.closest('form') as HTMLFormElement);
+
+    await waitFor(() => {
+      expect(onSubmit).toHaveBeenCalledTimes(1);
+    });
+
+    expect(onSubmit.mock.calls[0]?.[0]).toEqual({ q: 'trimmed query' });
   });
 
-  it('does not submit an empty query', async () => {
-    const user = userEvent.setup();
-    const { onSubmit } = renderComponent();
+  it('does not call onSubmit when the query is empty', async () => {
+    const onSubmit = vi.fn<(data: SearchFormSchemaType) => void | Promise<void>>();
 
-    await user.click(screen.getByRole('button', { name: 'Search' }));
+    render(
+      <SearchForm
+        onClose={() => {}}
+        onSubmit={onSubmit}
+        loading={false}
+      />
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: 'Search' }));
 
     await waitFor(() => {
       expect(onSubmit).not.toHaveBeenCalled();
     });
   });
 
-  it('does not submit a whitespace-only query', async () => {
-    const user = userEvent.setup();
-    const { onSubmit } = renderComponent();
+  it('shows the validation error in the placeholder and marks the field invalid', async () => {
+    render(
+      <SearchForm
+        onClose={() => {}}
+        onSubmit={() => {}}
+        loading={false}
+      />
+    );
 
-    await user.type(screen.getByLabelText('Search'), '   ');
-    await user.click(screen.getByRole('button', { name: 'Search' }));
+    const input = screen.getByRole('searchbox', { name: 'Search' });
+    fireEvent.click(screen.getByRole('button', { name: 'Search' }));
 
     await waitFor(() => {
-      expect(onSubmit).not.toHaveBeenCalled();
+      expect(input).toHaveAttribute('aria-invalid', 'true');
     });
+
+    expect(input).toHaveAttribute('data-valid', 'false');
+    expect(input).toHaveAttribute('placeholder', 'Required');
   });
 
-  it('shows the validation message in the placeholder when the query is invalid', async () => {
-    const user = userEvent.setup();
-    renderComponent();
+  it('marks the field valid before validation errors occur', () => {
+    render(
+      <SearchForm
+        onClose={() => {}}
+        onSubmit={() => {}}
+        loading={false}
+      />
+    );
 
-    await user.click(screen.getByRole('button', { name: 'Search' }));
-
-    expect(await screen.findByPlaceholderText('Required')).toBeInTheDocument();
-  });
-
-  it('sets aria-invalid when the query is invalid', async () => {
-    const user = userEvent.setup();
-    renderComponent();
-
-    const input = screen.getByLabelText('Search');
-
+    const input = screen.getByRole('searchbox', { name: 'Search' });
     expect(input).toHaveAttribute('aria-invalid', 'false');
-
-    await user.click(screen.getByRole('button', { name: 'Search' }));
-
-    await waitFor(() => {
-      expect(screen.getByLabelText('Search')).toHaveAttribute('aria-invalid', 'true');
-    });
+    expect(input).toHaveAttribute('data-valid', 'true');
+    expect(input).toHaveAttribute('placeholder', 'Enter keywords...');
   });
 
-  it('disables the input and submit button when loading is true', () => {
-    renderComponent({ loading: true });
+  it('disables the input and submit button while loading', () => {
+    render(
+      <SearchForm
+        onClose={() => {}}
+        onSubmit={() => {}}
+        loading
+      />
+    );
 
-    expect(screen.getByLabelText('Search')).toBeDisabled();
+    expect(screen.getByRole('searchbox', { name: 'Search' })).toBeDisabled();
     expect(screen.getByRole('button', { name: 'Search' })).toBeDisabled();
+  });
+
+  it('does not disable the close button while loading', () => {
+    render(
+      <SearchForm
+        onClose={() => {}}
+        onSubmit={() => {}}
+        loading
+      />
+    );
+
+    expect(screen.getByRole('button', { name: 'Close Modal' })).not.toBeDisabled();
+  });
+
+  it('uses the expected input id and label association', () => {
+    render(
+      <SearchForm
+        onClose={() => {}}
+        onSubmit={() => {}}
+        loading={false}
+      />
+    );
+
+    const input = screen.getByRole('searchbox', { name: 'Search' });
+    expect(input).toHaveAttribute('id', 'hoam-search-form-input');
   });
 });
