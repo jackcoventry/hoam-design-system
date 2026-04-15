@@ -1,10 +1,3 @@
-import merge from 'deepmerge';
-import { glob } from 'glob';
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
-import { dirname, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
-import StyleDictionary from 'style-dictionary';
-
 import { resolveReferences } from '@/utils/get';
 import type {
   Token,
@@ -14,59 +7,25 @@ import type {
   TypographyToken,
 } from '@/design-tokens/types';
 
-const PREFIX = 'hoam';
+import {
+  BreakpointEntry,
+  SDConfig,
+  SpacingEntry,
+  StyleDictionaryToken,
+  TokenRecord,
+} from './types';
 
-type TokenRecord = Record<string, unknown>;
+export const PREFIX = 'hoam';
 
-type RawTypographyValue = {
-  fontFamily?: unknown;
-  fontSize?: unknown;
-  fontWeight?: unknown;
-  lineHeight?: unknown;
-};
-
-type StyleDictionaryToken = {
-  name: string;
-  path: string[];
-  $type?: string;
-  $value?: unknown;
-  original?: {
-    $value?: RawTypographyValue;
-  };
-  attributes?: {
-    group?: string | null;
-    set?: string | null;
-  };
-};
-
-type StyleDictionaryDictionary = {
-  allTokens: StyleDictionaryToken[];
-};
-
-type StyleDictionaryFormatArgs = {
-  dictionary: StyleDictionaryDictionary;
-};
-
-type SpacingEntry = {
-  key: string;
-  tokenKey: string;
-  value: string;
-};
-
-type BreakpointEntry = {
-  key: string;
-  value: string;
-};
-
-function isRecord(value: unknown): value is TokenRecord {
+export function isRecord(value: unknown): value is TokenRecord {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
-function getRecordValue(obj: TokenRecord, key: string): unknown {
+export function getRecordValue(obj: TokenRecord, key: string): unknown {
   return obj[key];
 }
 
-function getNodeAtPath(obj: unknown, path: string[]): TokenRecord | undefined {
+export function getNodeAtPath(obj: unknown, path: string[]): TokenRecord | undefined {
   let current: unknown = obj;
 
   for (const key of path) {
@@ -80,7 +39,7 @@ function getNodeAtPath(obj: unknown, path: string[]): TokenRecord | undefined {
   return isRecord(current) ? current : undefined;
 }
 
-function getLeafExtensions(rawTokens: TokenRecord, path: string[]): TokenExtensions | null {
+export function getLeafExtensions(rawTokens: TokenRecord, path: string[]): TokenExtensions | null {
   const node = getNodeAtPath(rawTokens, path);
 
   if (!node) {
@@ -91,7 +50,7 @@ function getLeafExtensions(rawTokens: TokenRecord, path: string[]): TokenExtensi
   return isRecord(extensions) ? (extensions as TokenExtensions) : null;
 }
 
-function findGroup(rawTokens: TokenRecord, path: string[]): string | null {
+export function findGroup(rawTokens: TokenRecord, path: string[]): string | null {
   for (let i = path.length - 1; i >= 0; i--) {
     const node = getNodeAtPath(rawTokens, path.slice(0, i));
 
@@ -115,7 +74,7 @@ function findGroup(rawTokens: TokenRecord, path: string[]): string | null {
   return null;
 }
 
-function extractResolvedValue(value: unknown): string | number | null {
+export function extractResolvedValue(value: unknown): string | number | null {
   if (typeof value === 'string' || typeof value === 'number') {
     return value;
   }
@@ -131,7 +90,7 @@ function extractResolvedValue(value: unknown): string | number | null {
   return null;
 }
 
-function extractFontFamily(value: unknown): string | null {
+export function extractFontFamily(value: unknown): string | null {
   if (typeof value === 'string') {
     return value;
   }
@@ -157,7 +116,7 @@ function extractFontFamily(value: unknown): string | null {
   return null;
 }
 
-function buildBaseToken(token: StyleDictionaryToken, rawTokens: TokenRecord): TokenBase {
+export function buildBaseToken(token: StyleDictionaryToken, rawTokens: TokenRecord): TokenBase {
   const leafExtensions = getLeafExtensions(rawTokens, token.path);
   const inheritedScope = getInheritedScope(rawTokens, token.path);
 
@@ -180,7 +139,7 @@ function buildBaseToken(token: StyleDictionaryToken, rawTokens: TokenRecord): To
   };
 }
 
-function buildTypographyOriginalValues(
+export function buildTypographyOriginalValues(
   token: StyleDictionaryToken,
   rawTokens: TokenRecord
 ): TokenOriginalValues {
@@ -194,7 +153,7 @@ function buildTypographyOriginalValues(
   };
 }
 
-function buildFlatToken(token: StyleDictionaryToken, rawTokens: TokenRecord): Token {
+export function buildFlatToken(token: StyleDictionaryToken, rawTokens: TokenRecord): Token {
   const baseToken = buildBaseToken(token, rawTokens);
 
   if (token.$type !== 'typography') {
@@ -210,21 +169,21 @@ function buildFlatToken(token: StyleDictionaryToken, rawTokens: TokenRecord): To
   return typographyToken;
 }
 
-function getSpacingNode(rawTokens: TokenRecord): TokenRecord | null {
+export function getSpacingNode(rawTokens: TokenRecord): TokenRecord | null {
   const spacing = getRecordValue(rawTokens, 'spacing');
   return isRecord(spacing) ? spacing : null;
 }
 
-function normaliseSpacingKey(key: string): string {
+export function normaliseSpacingKey(key: string): string {
   return key === '0' ? 'none' : key;
 }
 
-function isSpacingEntry(entry: [string, unknown]): entry is [string, TokenRecord] {
+export function isSpacingEntry(entry: [string, unknown]): entry is [string, TokenRecord] {
   const [key, value] = entry;
   return key !== '$type' && isRecord(value);
 }
 
-function getSpacingEntries(rawTokens: TokenRecord): SpacingEntry[] {
+export function getSpacingEntries(rawTokens: TokenRecord): SpacingEntry[] {
   const spacingNode = getSpacingNode(rawTokens);
 
   if (!spacingNode) {
@@ -248,7 +207,7 @@ function getSpacingEntries(rawTokens: TokenRecord): SpacingEntry[] {
     });
 }
 
-function buildSpacingFile(rawTokens: TokenRecord): string {
+export function buildSpacingFile(rawTokens: TokenRecord): string {
   const spacingEntries = getSpacingEntries(rawTokens);
 
   if (spacingEntries.length === 0) {
@@ -278,17 +237,17 @@ export function mapGapToValue(gap: Spacing): string {
 `;
 }
 
-function getBreakpointNode(rawTokens: TokenRecord): TokenRecord | null {
+export function getBreakpointNode(rawTokens: TokenRecord): TokenRecord | null {
   const breakpoint = getRecordValue(rawTokens, 'breakpoint');
   return isRecord(breakpoint) ? breakpoint : null;
 }
 
-function isBreakpointEntry(entry: [string, unknown]): entry is [string, TokenRecord] {
+export function isBreakpointEntry(entry: [string, unknown]): entry is [string, TokenRecord] {
   const [key, value] = entry;
   return key !== '$type' && key !== '$extensions' && isRecord(value);
 }
 
-function getBreakpointEntries(rawTokens: TokenRecord): BreakpointEntry[] {
+export function getBreakpointEntries(rawTokens: TokenRecord): BreakpointEntry[] {
   const breakpointNode = getBreakpointNode(rawTokens);
 
   if (!breakpointNode) {
@@ -311,7 +270,7 @@ function getBreakpointEntries(rawTokens: TokenRecord): BreakpointEntry[] {
     });
 }
 
-function buildBreakpointsTsFile(rawTokens: TokenRecord): string {
+export function buildBreakpointsTsFile(rawTokens: TokenRecord): string {
   const breakpointEntries = getBreakpointEntries(rawTokens);
 
   if (breakpointEntries.length === 0) {
@@ -334,7 +293,7 @@ export type BreakpointUpKey = ${keys};
 `;
 }
 
-function buildBreakpointsCssFile(rawTokens: TokenRecord): string {
+export function buildBreakpointsCssFile(rawTokens: TokenRecord): string {
   const breakpointEntries = getBreakpointEntries(rawTokens);
 
   if (breakpointEntries.length === 0) {
@@ -348,7 +307,7 @@ function buildBreakpointsCssFile(rawTokens: TokenRecord): string {
     .join('\n');
 }
 
-function buildSectionCssFile(rawTokens: TokenRecord): string {
+export function buildSectionCssFile(rawTokens: TokenRecord): string {
   const spacingEntries = getSpacingEntries(rawTokens);
 
   if (spacingEntries.length === 0) {
@@ -369,7 +328,7 @@ function buildSectionCssFile(rawTokens: TokenRecord): string {
     .join('\n\n');
 }
 
-function getExtensions(node: TokenRecord | undefined): TokenRecord | null {
+export function getExtensions(node: TokenRecord | undefined): TokenRecord | null {
   if (!node) {
     return null;
   }
@@ -378,7 +337,7 @@ function getExtensions(node: TokenRecord | undefined): TokenRecord | null {
   return isRecord(extensions) ? extensions : null;
 }
 
-function getInheritedScope(rawTokens: TokenRecord, path: string[]): string | null {
+export function getInheritedScope(rawTokens: TokenRecord, path: string[]): string | null {
   for (let i = path.length; i >= 0; i--) {
     const node = getNodeAtPath(rawTokens, path.slice(0, i));
 
@@ -402,21 +361,11 @@ function getInheritedScope(rawTokens: TokenRecord, path: string[]): string | nul
   return null;
 }
 
-function isPrivateToken(rawTokens: TokenRecord, path: string[]): boolean {
+export function isPrivateToken(rawTokens: TokenRecord, path: string[]): boolean {
   return getInheritedScope(rawTokens, path) === 'private';
 }
 
-type ConfigFile = {
-  destination?: string;
-  format?: string;
-  filter?: ((token: { path: string[] }) => boolean) | string;
-};
-
-type ConfigPlatform = {
-  files?: ConfigFile[];
-};
-
-function applyPrivateScopeFilters(config: SDConfig, rawTokens: TokenRecord): void {
+export function applyPrivateScopeFilters(config: SDConfig, rawTokens: TokenRecord): void {
   const platforms = config.platforms;
 
   if (!platforms) {
@@ -440,7 +389,7 @@ function applyPrivateScopeFilters(config: SDConfig, rawTokens: TokenRecord): voi
   }
 }
 
-function addBreakpointOutputs(config: SDConfig): void {
+export function addBreakpointOutputs(config: SDConfig): void {
   const cssPlatform = config.platforms?.css;
 
   if (!cssPlatform) {
@@ -460,113 +409,3 @@ function addBreakpointOutputs(config: SDConfig): void {
     }
   );
 }
-
-const tokenFiles = await glob([
-  'src/design-tokens/**/*.json',
-  '!src/design-tokens/build/**/*.json',
-]);
-
-console.log('📦 Tokens found:', tokenFiles);
-
-const rawTokenObjects = await Promise.all(
-  tokenFiles.map(async (file) => JSON.parse(await readFile(file, 'utf8')) as TokenRecord)
-);
-
-const rawTokens = rawTokenObjects.reduce<TokenRecord>(
-  (acc, obj) => merge(acc, obj) as TokenRecord,
-  {}
-);
-
-StyleDictionary.registerTransform({
-  name: 'attribute/group',
-  type: 'attribute',
-  transform: (token: { path: string[] }) => {
-    return { group: findGroup(rawTokens, token.path) };
-  },
-});
-
-StyleDictionary.registerTransform({
-  name: 'attribute/set',
-  type: 'attribute',
-  transform: (token: { path: string[] }) => {
-    const set = token.path.length >= 2 ? (token.path.at(-2) ?? null) : null;
-    return { set };
-  },
-});
-
-StyleDictionary.registerFormat({
-  name: 'custom/json/flat-with-meta',
-  format: (args: StyleDictionaryFormatArgs) => {
-    const flat: Token[] = args.dictionary.allTokens.map((token) =>
-      buildFlatToken(token, rawTokens)
-    );
-
-    return JSON.stringify(flat, null, 2);
-  },
-});
-
-StyleDictionary.registerFormat({
-  name: 'custom/types/flat-tokens',
-  format: () => {
-    return `import type { Token } from '@/design-tokens/types';
-
-declare const tokens: Token[];
-export default tokens;
-`;
-  },
-});
-
-StyleDictionary.registerFormat({
-  name: 'custom/types/breakpoints',
-  format: () => buildBreakpointsTsFile(rawTokens),
-});
-
-StyleDictionary.registerFormat({
-  name: 'custom/css/custom-media-breakpoints',
-  format: () => buildBreakpointsCssFile(rawTokens),
-});
-
-const rawConfig = await readFile(new URL('../../style-dictionary.json', import.meta.url), 'utf-8');
-
-type SDConfig = {
-  platforms?: Record<string, ConfigPlatform>;
-};
-
-function isSDConfig(value: unknown): value is SDConfig {
-  return typeof value === 'object' && value !== null && !Array.isArray(value);
-}
-
-const parsedConfig = JSON.parse(rawConfig) as unknown;
-
-if (!isSDConfig(parsedConfig)) {
-  throw new TypeError('Style Dictionary config must be an object.');
-}
-
-const config: SDConfig = parsedConfig;
-
-applyPrivateScopeFilters(config, rawTokens);
-addBreakpointOutputs(config);
-
-const sd = new StyleDictionary(config);
-
-await sd.buildAllPlatforms();
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const buildDir = resolve(__dirname, '../../src/design-tokens/');
-
-await mkdir(buildDir, { recursive: true });
-
-await writeFile(resolve(buildDir, 'spacing.ts'), buildSpacingFile(rawTokens), 'utf8');
-
-console.log(`📏 Spacing helpers written: ${resolve(buildDir, 'spacing.ts')}`);
-
-await writeFile(
-  resolve(__dirname, '../../src/components/Layout/Section/Section.module.css'),
-  buildSectionCssFile(rawTokens),
-  'utf8'
-);
-
-console.log(
-  `🧩 Section CSS written: ${resolve(__dirname, '../../src/components/Layout/Section/Section.module.css')}`
-);

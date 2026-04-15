@@ -27,7 +27,7 @@
     "prettier": "prettier . --check",
     "icon:tokens": "tsx src/scripts/generate-icons.ts",
     "icons": "npm run icon:tokens && svg-sprite --config svg.json --log=info \"src/icons/*.svg\"",
-    "tokens": "tsx src/scripts/register-style-dictionary.ts",
+    "tokens": "tsx src/lib/style-dictionary/register.ts",
     "generate": "npm run icons && npm run tokens",
     "dev": "npm run generate && storybook dev -p 6006",
     "build": "npm run generate && vite build",

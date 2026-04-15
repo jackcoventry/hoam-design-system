@@ -69,35 +69,6 @@ function BasicModalStory(props: Readonly<ModalRootProps>) {
   );
 }
 
-function NoTitleModalStory() {
-  const [open, setOpen] = useState(false);
-
-  return (
-    <div>
-      <Button
-        type="button"
-        onClick={() => setOpen(true)}
-      >
-        Open modal
-      </Button>
-
-      <Modal
-        isOpen={open}
-        onClose={() => setOpen(false)}
-        aria-label="My simple modal"
-      >
-        <Modal.Header>
-          <Modal.CloseButton />
-        </Modal.Header>
-
-        <Modal.Body>
-          <p>Hello from the modal</p>
-        </Modal.Body>
-      </Modal>
-    </div>
-  );
-}
-
 function CustomHeaderModalStory() {
   const [open, setOpen] = useState(false);
 
@@ -128,17 +99,19 @@ function CustomHeaderModalStory() {
         <Modal.Body>
           <Stack>
             <p>This action cannot be undone.</p>
-            <Button
-              type="button"
-              onClick={confirmDelete}
-              style={{
-                marginLeft: 'auto',
-              }}
-            >
-              Delete project
-            </Button>
           </Stack>
         </Modal.Body>
+        <Modal.Footer>
+          <Button
+            type="button"
+            onClick={confirmDelete}
+            style={{
+              marginLeft: 'auto',
+            }}
+          >
+            Delete project
+          </Button>
+        </Modal.Footer>
       </Modal>
     </div>
   );
@@ -207,10 +180,6 @@ function SearchModalStory({ data }: Readonly<SearchModalStoryProps>) {
 
 export const Default: Story = {
   render: (args) => <BasicModalStory {...args} />,
-};
-
-export const NoTitle: Story = {
-  render: () => <NoTitleModalStory />,
 };
 
 export const Drawer: Story = {
