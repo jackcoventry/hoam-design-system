@@ -302,7 +302,7 @@ describe('SearchModal', () => {
     expect(props.onClose).toHaveBeenCalledTimes(1);
   });
 
-  it('calls reload when the search form submits', async () => {
+  it('calls reload when the search form submits', () => {
     const reload = vi.fn<() => Promise<void>>(() => Promise.resolve());
 
     mockUseFetchSignal(
