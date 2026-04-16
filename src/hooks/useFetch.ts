@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-type UseFetchResult<T> = {
+export type UseFetchResult<T> = {
   data: T | null;
   error: Error | null;
   loading: boolean;
   reload: () => Promise<void>;
 };
 
-type UseFetchOptions = {
+export type UseFetchOptions = {
   manual?: boolean;
 };
 

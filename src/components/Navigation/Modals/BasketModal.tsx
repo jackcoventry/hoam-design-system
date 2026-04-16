@@ -22,10 +22,7 @@ export function BasketModal({ endpoint, open, onClose, variant }: Readonly<Baske
 
   const { data } = useFetchSignal(fetcher);
 
-  const basketTotal =
-    data?.reduce((acc, item) => {
-      return acc + item.price * item.quantity;
-    }, 0) || 0;
+  const basketTotal = data?.reduce((acc, item) => acc + item.price * item.quantity, 0) ?? 0;
 
   return (
     <Modal

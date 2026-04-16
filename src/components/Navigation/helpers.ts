@@ -17,7 +17,10 @@ export const focusNextTick = (el?: HTMLElement | null) => {
   if (el) requestAnimationFrame(() => el.focus());
 };
 
-export const wrapIndex = (i: number, len: number) => (i + len) % len;
+export const wrapIndex = (i: number, len: number) => {
+  if (len <= 0) return 0;
+  return ((i % len) + len) % len;
+};
 
 export const moveInList = (list: HTMLElement[], current: HTMLElement, delta: number) => {
   if (!list.length) return;

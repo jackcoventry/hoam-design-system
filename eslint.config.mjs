@@ -139,5 +139,14 @@ export default defineConfig(
         },
       ],
     },
+    overrides: [
+      {
+        files: ['**/*.test.tsx'],
+        rules: {
+          'react/display-name': 'off',
+          'react/prop-types': 'off',
+        },
+      },
+    ],
   }
 );
