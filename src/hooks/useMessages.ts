@@ -1,7 +1,7 @@
-import { defaultMessages } from '@/i18n/defaults';
-import type { DeepPartial, LibraryMessages } from '@/i18n/types';
-import { deepMerge } from '@/i18n/utils/merge';
-import { useLibraryi18n } from '@/i18n/utils/useLibraryi18n';
+import { deepMerge, type DeepPartial } from '@/utils/merge';
+import { defaultMessages } from '@/lib/i18n/defaults';
+import type { LibraryMessages } from '@/lib/i18n/types';
+import { useLibraryi18n } from '@/lib/i18n/useLibraryi18n';
 
 export function useMessages<K extends keyof LibraryMessages>(
   key: K,

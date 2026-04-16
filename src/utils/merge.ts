@@ -1,4 +1,10 @@
-import type { DeepPartial } from '@/i18n/types';
+export type DeepPartial<T> = {
+  [K in keyof T]?: T[K] extends (...args: never[]) => unknown
+    ? T[K]
+    : T[K] extends object
+      ? DeepPartial<T[K]>
+      : T[K];
+};
 
 function isPlainObject(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);

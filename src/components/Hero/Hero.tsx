@@ -10,10 +10,14 @@ export type HeroProps = {
 };
 
 export function Hero({ items, 'aria-label': ariaLabel = 'Hero carousel' }: Readonly<HeroProps>) {
-  if (!items.length) return null;
-  if (items?.length === 1) {
-    return <HeroSlide {...(items[0] as HeroSlideProps)} />;
+  if (items.length === 0) return null;
+  if (items.length === 1) {
+    const firstItem = items[0];
+    if (!firstItem) return null;
+
+    return <HeroSlide {...firstItem} />;
   }
+
   return (
     <div className={styles.root}>
       <Carousel

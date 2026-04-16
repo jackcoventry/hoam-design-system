@@ -6,7 +6,6 @@ type ImageProps = {
   id: string | number;
   src: string;
   alt?: string;
-  title?: string;
 };
 
 export type ImageGalleryProps = {

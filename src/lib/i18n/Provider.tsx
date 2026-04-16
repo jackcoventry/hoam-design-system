@@ -1,9 +1,9 @@
 import { type PropsWithChildren, useMemo } from 'react';
 
-import { I18nContext } from '@/i18n/Context';
-import { defaultMessages } from '@/i18n/defaults';
-import type { DeepPartial, LibraryMessages } from '@/i18n/types';
-import { deepMerge } from '@/i18n/utils/merge';
+import { deepMerge, type DeepPartial } from '@/utils/merge';
+import { I18nContext } from '@/lib/i18n/Context';
+import { defaultMessages } from '@/lib/i18n/defaults';
+import type { LibraryMessages } from '@/lib/i18n/types';
 
 export type LibraryI18nProviderProps = PropsWithChildren<{
   messages?: DeepPartial<LibraryMessages>;
