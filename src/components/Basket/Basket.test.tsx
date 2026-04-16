@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import type { PropsWithChildren } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 
-import { Basket, BasketFooter, BasketItem, type BasketItemProps } from './Basket';
+import { Basket, BasketFooter, BasketItem, type BasketItemProps } from '@/components/Basket';
 
 vi.mock('@/components/Button', () => ({
   Button: ({

@@ -1,9 +1,7 @@
-import { describe, expect, it, vi, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { resolveReferences } from '@/utils/get';
-
 import {
-  PREFIX,
   addBreakpointOutputs,
   applyPrivateScopeFilters,
   buildBaseToken,
@@ -30,8 +28,8 @@ import {
   isRecord,
   isSpacingEntry,
   normaliseSpacingKey,
+  PREFIX,
 } from '@/lib/style-dictionary/helpers';
-
 import type { SDConfig, StyleDictionaryToken, TokenRecord } from '@/lib/style-dictionary/types';
 
 vi.mock('@/utils/get', () => ({

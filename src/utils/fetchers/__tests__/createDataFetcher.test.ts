@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { createDataFetcher } from '@/utils/fetchers/createDataFetcher';
 import { delay } from '@/utils/delay';
+import { createDataFetcher } from '@/utils/fetchers/createDataFetcher';
 
 vi.mock('@/utils/delay', () => ({
   delay: vi.fn(),

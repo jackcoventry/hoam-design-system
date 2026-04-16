@@ -1,7 +1,7 @@
-import { describe, expect, it, vi, beforeEach } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { getBasketItems } from '@/utils/fetchers/getBasketItems';
 import { createDataFetcher } from '@/utils/fetchers/createDataFetcher';
+import { getBasketItems } from '@/utils/fetchers/getBasketItems';
 import basketData from '@/mocks/components/Basket';
 
 vi.mock('@/utils/fetchers/createDataFetcher', () => ({

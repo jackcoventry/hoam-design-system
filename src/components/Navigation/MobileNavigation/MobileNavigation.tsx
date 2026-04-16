@@ -10,7 +10,7 @@ import { SITE } from '@/constants/site';
 
 import styles from '@/components/Navigation/MobileNavigation/MobileNavigation.module.css';
 
-type MobileNavigationProps = {
+export type MobileNavigationProps = {
   items: NavTreeItem[];
 };
 

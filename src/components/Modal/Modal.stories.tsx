@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { SubmitHandler } from 'react-hook-form';
 
 import { Button } from '@/components/Button';
 import {
@@ -8,12 +9,10 @@ import {
   SearchLoader,
   SearchResults,
 } from '@/components/Form/SearchForm';
-import { Modal, type ModalRootProps, Variants } from '@/components/Modal';
-
 import { Stack } from '@/components/Layout';
-import { getSearchResults } from '@/utils/fetchers/getSearchResults';
+import { Modal, type ModalRootProps, Variants } from '@/components/Modal';
 import { useFetchSignal } from '@/hooks/useFetch';
-import { SubmitHandler } from 'react-hook-form';
+import { getSearchResults } from '@/utils/fetchers/getSearchResults';
 
 const meta: Meta<typeof Modal> = {
   title: 'Components/Modal',
@@ -130,7 +129,7 @@ function SearchModalStory({ noResults = false }: Readonly<SearchModalStoryProps>
   });
 
   const onSubmit: SubmitHandler<SearchFormSchemaType> = async () => {
-    reload();
+    await reload();
   };
 
   const safeError = error instanceof Error ? error : undefined;
@@ -139,7 +138,7 @@ function SearchModalStory({ noResults = false }: Readonly<SearchModalStoryProps>
     setOpen(false);
 
     setTimeout(() => {
-      reload();
+      void reload();
     }, 500);
   };
 

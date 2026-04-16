@@ -2,9 +2,8 @@ import { render, screen } from '@testing-library/react';
 import type { ReactNode } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { Banner, type BannerProps } from '@/components/Banner';
 import { useMessages } from '@/hooks/useMessages';
-
-import { Banner, type BannerProps } from './Banner';
 
 vi.mock('@/hooks/useMessages', () => ({
   useMessages: vi.fn(),

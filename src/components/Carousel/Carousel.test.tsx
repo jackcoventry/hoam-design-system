@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import type { ReactNode } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { Carousel, type CarouselProps } from './Carousel';
+import { Carousel, type CarouselProps } from '@/components/Carousel';
 
 vi.mock('swiper/css', () => ({}));
 vi.mock('swiper/css/navigation', () => ({}));

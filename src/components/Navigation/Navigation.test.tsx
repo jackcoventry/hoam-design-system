@@ -1,42 +1,18 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { DesktopNavigationProps } from '@/components/Navigation/DesktopNavigation/DesktopNavigation';
+import { MobileNavigationProps } from '@/components/Navigation/MobileNavigation/MobileNavigation';
+import { BasketModalProps } from '@/components/Navigation/Modals/BasketModal';
 import { Navigation } from '@/components/Navigation/Navigation';
 import type { NavigationProps, NavTopLevelItem, NavUserItem } from '@/components/Navigation/types';
 import { useMegaNavState } from '@/hooks/useNavState';
-
-type MobileNavigationProps = {
-  items: Array<NavTopLevelItem | NavUserItem>;
-};
-
-type DesktopNavigationProps = {
-  items: NavTopLevelItem[];
-  userItems: NavUserItem[];
-  openIndex: number | null;
-  resetNavigation: () => void;
-  setOpenIndex: (index: number | null) => void;
-  openGroupId: string | null;
-  setOpenGroupId: (id: string | null) => void;
-  setKeyboarding: () => void;
-  handleTopNavigationOpen: (index: number) => void;
-  handleAllNavigationClose: () => void;
-  clearLeave: () => void;
-  onOpenSearch: () => void;
-  onOpenBasket: () => void;
-};
 
 type SearchModalProps = {
   endpoint: string;
   open: boolean;
   onClose: () => void;
   variant: 'modal';
-};
-
-type BasketModalProps = {
-  endpoint: string;
-  open: boolean;
-  onClose: () => void;
-  variant: 'drawer';
 };
 
 type MegaNavState = ReturnType<typeof useMegaNavState>;

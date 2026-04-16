@@ -1,23 +1,11 @@
-import { forwardRef, type ReactNode } from 'react';
+import { forwardRef } from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 
-import { Button } from '@/components/Button';
+import { Button, type LinkComponentProps } from '@/components/Button';
 
-type MockLinkProps = {
-  href: string;
-  className?: string | undefined;
-  children?: ReactNode | undefined;
-  target?: React.HTMLAttributeAnchorTarget | undefined;
-  rel?: string | undefined;
-  'aria-label'?: string | undefined;
-  'data-icon-position'?: 'left' | 'right' | undefined;
-  'data-variant'?: 'primary' | 'secondary' | 'tertiary' | undefined;
-  'data-size'?: 'default' | 'small' | undefined;
-};
-
-const MockLink = forwardRef<HTMLAnchorElement, MockLinkProps>(function MockLink(
+const MockLink = forwardRef<HTMLAnchorElement, LinkComponentProps>(function MockLink(
   { children, ...props },
   ref
 ) {

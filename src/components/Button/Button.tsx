@@ -46,7 +46,7 @@ type AnchorElementProps = {
   'as' | 'className' | 'children' | 'aria-label' | 'href' | 'type'
 >;
 
-type LinkComponentProps = {
+export type LinkComponentProps = {
   href: string;
   className?: string | undefined;
   children?: ReactNode | undefined;

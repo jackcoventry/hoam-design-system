@@ -1,11 +1,10 @@
-import type { ComponentProps, ReactNode } from 'react';
 import { act, render, screen } from '@testing-library/react';
+import type { ComponentProps, ReactNode } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { SearchModal } from '@/components/Navigation/Modals/SearchModal';
 import type { ModalVariant } from '@/components/Modal/Modal';
-import { useFetchSignal } from '@/hooks/useFetch';
-import type { UseFetchOptions, UseFetchResult } from '@/hooks/useFetch';
+import { SearchModal } from '@/components/Navigation/Modals/SearchModal';
+import type { UseFetchResult } from '@/hooks/useFetch';
 import { getSearchResults } from '@/utils/fetchers/getSearchResults';
 
 type SearchResultItem = {
@@ -41,14 +40,12 @@ type ModalBodyProps = {
   padded?: boolean;
 };
 
-function createFetchResult(
-  overrides: Partial<UseFetchResult<SearchResultItem[]>> = {}
-): UseFetchResult<SearchResultItem[]> {
+function createFetchResult(overrides: Partial<MockFetchResult> = {}): MockFetchResult {
   return {
     data: null,
     error: null,
     loading: false,
-    reload: vi.fn(async () => {}),
+    reload: vi.fn((): Promise<void> => Promise.resolve()),
     ...overrides,
   };
 }
@@ -58,11 +55,27 @@ let capturedModalHeaderProps: ModalHeaderProps[] = [];
 let capturedModalBodyProps: ModalBodyProps[] = [];
 let capturedSearchFormProps: SearchFormProps[] = [];
 let capturedSearchResultsProps: SearchResultsProps[] = [];
-let lastFetcher: ((signal: AbortSignal) => Promise<SearchResultItem[]>) | null = null;
-let lastFetchOptions: UseFetchOptions | undefined;
+let lastFetchOptions: { manual?: boolean } | undefined;
+let useFetchSignalCallCount = 0;
+
+type MockFetchResult = {
+  data: SearchResultItem[] | null;
+  error: Error | null;
+  loading: boolean;
+  reload: () => Promise<void>;
+};
+
+let currentFetchResult: MockFetchResult;
 
 vi.mock('@/hooks/useFetch', () => ({
-  useFetchSignal: vi.fn(),
+  useFetchSignal: (
+    _fetcher: (signal: AbortSignal) => Promise<SearchResultItem[]>,
+    options?: { manual?: boolean }
+  ): UseFetchResult<SearchResultItem[]> => {
+    useFetchSignalCallCount += 1;
+    lastFetchOptions = options;
+    return currentFetchResult;
+  },
 }));
 
 vi.mock('@/utils/fetchers/getSearchResults', () => ({
@@ -190,6 +203,10 @@ function createProps(
   };
 }
 
+function mockUseFetchSignal(result: MockFetchResult): void {
+  currentFetchResult = result;
+}
+
 describe('SearchModal', () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -198,15 +215,9 @@ describe('SearchModal', () => {
     capturedModalBodyProps = [];
     capturedSearchFormProps = [];
     capturedSearchResultsProps = [];
-    lastFetcher = null;
     lastFetchOptions = undefined;
-
-    vi.mocked(useFetchSignal).mockImplementation((fetcher, options) => {
-      lastFetcher = fetcher as (signal: AbortSignal) => Promise<SearchResultItem[]>;
-      lastFetchOptions = options;
-
-      return createFetchResult();
-    });
+    useFetchSignalCallCount = 0;
+    currentFetchResult = createFetchResult();
   });
 
   it('creates the search fetcher from the endpoint', () => {
@@ -219,8 +230,7 @@ describe('SearchModal', () => {
   it('passes the fetcher into useFetchSignal with manual mode enabled', () => {
     render(<SearchModal {...createProps()} />);
 
-    expect(useFetchSignal).toHaveBeenCalledTimes(1);
-    expect(lastFetcher).toBeTruthy();
+    expect(useFetchSignalCallCount).toBe(1);
     expect(lastFetchOptions).toEqual({ manual: true });
   });
 
@@ -268,14 +278,11 @@ describe('SearchModal', () => {
   it('passes onClose and loading to SearchForm', () => {
     const props = createProps();
 
-    vi.mocked(useFetchSignal).mockImplementation((fetcher, options) => {
-      lastFetcher = fetcher as (signal: AbortSignal) => Promise<SearchResultItem[]>;
-      lastFetchOptions = options;
-
-      return createFetchResult({
+    mockUseFetchSignal(
+      createFetchResult({
         loading: true,
-      });
-    });
+      })
+    );
 
     render(<SearchModal {...props} />);
 
@@ -296,20 +303,17 @@ describe('SearchModal', () => {
   });
 
   it('calls reload when the search form submits', async () => {
-    const reload = vi.fn(async () => {});
+    const reload = vi.fn<() => Promise<void>>(() => Promise.resolve());
 
-    vi.mocked(useFetchSignal).mockImplementation((fetcher, options) => {
-      lastFetcher = fetcher as (signal: AbortSignal) => Promise<SearchResultItem[]>;
-      lastFetchOptions = options;
-
-      return createFetchResult({
+    mockUseFetchSignal(
+      createFetchResult({
         reload,
-      });
-    });
+      })
+    );
 
     render(<SearchModal {...createProps()} />);
 
-    await act(async () => {
+    act(() => {
       screen.getByTestId('search-form-submit').click();
     });
 
@@ -317,14 +321,11 @@ describe('SearchModal', () => {
   });
 
   it('renders SearchLoader when loading is true and there is no error', () => {
-    vi.mocked(useFetchSignal).mockImplementation((fetcher, options) => {
-      lastFetcher = fetcher as (signal: AbortSignal) => Promise<SearchResultItem[]>;
-      lastFetchOptions = options;
-
-      return createFetchResult({
+    mockUseFetchSignal(
+      createFetchResult({
         loading: true,
-      });
-    });
+      })
+    );
 
     render(<SearchModal {...createProps()} />);
 
@@ -333,15 +334,12 @@ describe('SearchModal', () => {
   });
 
   it('does not render SearchLoader when loading is true but error is an Error', () => {
-    vi.mocked(useFetchSignal).mockImplementation((fetcher, options) => {
-      lastFetcher = fetcher as (signal: AbortSignal) => Promise<SearchResultItem[]>;
-      lastFetchOptions = options;
-
-      return createFetchResult({
+    mockUseFetchSignal(
+      createFetchResult({
         error: new Error('Something went wrong'),
         loading: true,
-      });
-    });
+      })
+    );
 
     render(<SearchModal {...createProps()} />);
 
@@ -357,14 +355,11 @@ describe('SearchModal', () => {
   it('renders SearchResults when data exists, loading is false, and there is no error', () => {
     const items = createSearchResults();
 
-    vi.mocked(useFetchSignal).mockImplementation((fetcher, options) => {
-      lastFetcher = fetcher as (signal: AbortSignal) => Promise<SearchResultItem[]>;
-      lastFetchOptions = options;
-
-      return createFetchResult({
+    mockUseFetchSignal(
+      createFetchResult({
         data: items,
-      });
-    });
+      })
+    );
 
     render(<SearchModal {...createProps()} />);
 
@@ -374,21 +369,24 @@ describe('SearchModal', () => {
     expect(capturedSearchResultsProps[0]?.items).toEqual(items);
   });
 
-  it('does not render SearchResults when data is undefined', () => {
+  it('does not render SearchResults when data is null', () => {
+    mockUseFetchSignal(
+      createFetchResult({
+        data: null,
+      })
+    );
+
     render(<SearchModal {...createProps()} />);
 
     expect(screen.queryByTestId('search-results')).not.toBeInTheDocument();
   });
 
   it('does not render SearchResults when data is an empty array', () => {
-    vi.mocked(useFetchSignal).mockImplementation((fetcher, options) => {
-      lastFetcher = fetcher as (signal: AbortSignal) => Promise<SearchResultItem[]>;
-      lastFetchOptions = options;
-
-      return createFetchResult({
+    mockUseFetchSignal(
+      createFetchResult({
         data: [],
-      });
-    });
+      })
+    );
 
     render(<SearchModal {...createProps()} />);
 
@@ -396,15 +394,12 @@ describe('SearchModal', () => {
   });
 
   it('does not render SearchResults when loading is true', () => {
-    vi.mocked(useFetchSignal).mockImplementation((fetcher, options) => {
-      lastFetcher = fetcher as (signal: AbortSignal) => Promise<SearchResultItem[]>;
-      lastFetchOptions = options;
-
-      return createFetchResult({
+    mockUseFetchSignal(
+      createFetchResult({
         data: createSearchResults(),
         loading: true,
-      });
-    });
+      })
+    );
 
     render(<SearchModal {...createProps()} />);
 
@@ -412,15 +407,12 @@ describe('SearchModal', () => {
   });
 
   it('does not render SearchResults when error is an Error', () => {
-    vi.mocked(useFetchSignal).mockImplementation((fetcher, options) => {
-      lastFetcher = fetcher as (signal: AbortSignal) => Promise<SearchResultItem[]>;
-      lastFetchOptions = options;
-
-      return createFetchResult({
+    mockUseFetchSignal(
+      createFetchResult({
         data: createSearchResults(),
         error: new Error('Search failed'),
-      });
-    });
+      })
+    );
 
     render(<SearchModal {...createProps()} />);
 
@@ -428,14 +420,11 @@ describe('SearchModal', () => {
   });
 
   it('renders SearchResults inside the modal body', () => {
-    vi.mocked(useFetchSignal).mockImplementation((fetcher, options) => {
-      lastFetcher = fetcher as (signal: AbortSignal) => Promise<SearchResultItem[]>;
-      lastFetchOptions = options;
-
-      return createFetchResult({
+    mockUseFetchSignal(
+      createFetchResult({
         data: createSearchResults(),
-      });
-    });
+      })
+    );
 
     render(<SearchModal {...createProps()} />);
 

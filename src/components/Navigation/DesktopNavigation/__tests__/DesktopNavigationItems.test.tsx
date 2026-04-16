@@ -17,19 +17,11 @@ import type {
 } from '@/components/Navigation/types';
 import { useMessages } from '@/hooks/useMessages';
 
-// -------------------------
-// Captured props
-// -------------------------
-
 let capturedTopNavigationItemProps: TopNavigationItemProps[] = [];
 let capturedPanelProps: PanelProps[] = [];
 let capturedCategoryGroupProps: CategoryGroupProps[] = [];
 let capturedThirdLevelItemsProps: ThirdLevelItemsProps[] = [];
 let capturedPromoBlockProps: PromoBlockProps[] = [];
-
-// -------------------------
-// Mocks
-// -------------------------
 
 vi.mock('@/hooks/useMessages', () => ({
   useMessages: vi.fn(),
@@ -171,10 +163,6 @@ vi.mock('@/components/Navigation', () => ({
   },
 }));
 
-// -------------------------
-// Fixtures
-// -------------------------
-
 function createLeafPanelItem(
   overrides: {
     id?: string;
@@ -265,10 +253,6 @@ function createProps(
     ...overrides,
   };
 }
-
-// -------------------------
-// Tests
-// -------------------------
 
 describe('DesktopNavigationItems', () => {
   beforeEach(() => {

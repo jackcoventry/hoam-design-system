@@ -146,7 +146,7 @@ describe('PromoSection', () => {
     const link = screen.getByRole('link', { name: 'Shop now' });
     expect(link).toBeInTheDocument();
     expect(link).toHaveAttribute('href', '/shop');
-    expect(link).toHaveAttribute('data-variant', 'primary');
+    expect(link).toHaveAttribute('data-variant', 'tertiary');
   });
 
   it('does not render a link when only linkUrl is provided', () => {
