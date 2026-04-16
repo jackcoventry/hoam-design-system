@@ -1,12 +1,11 @@
 import { groupBtnId, groupPanelId } from '@/components/Navigation/helpers';
-import type { NavBranchItem, NavGroupItem, NavThumbnailItem } from '@/components/Navigation/types';
+import type {
+  NavBranchItem,
+  NavThumbnailItem,
+  ThirdLevelItemsProps,
+} from '@/components/Navigation/types';
 
 import styles from '@/components/Navigation/Navigation.module.css';
-
-type ThirdLevelItemsProps = {
-  group: NavGroupItem;
-  open: boolean;
-};
 
 export function ThirdLevelItems({ group, open }: Readonly<ThirdLevelItemsProps>) {
   return (

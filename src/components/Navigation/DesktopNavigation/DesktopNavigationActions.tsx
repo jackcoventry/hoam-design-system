@@ -1,22 +1,12 @@
 import type { FocusEventHandler, MouseEvent, PointerEventHandler } from 'react';
 
 import { Icon } from '@/components/Icon';
-import type { NavigationProps } from '@/components/Navigation/types';
+import { DesktopNavigationActionsProps, UserAction } from '@/components/Navigation/types';
 import { useMessages } from '@/hooks/useMessages';
 import { IconId } from '@/design-tokens/icons';
 
 import styles from '@/components/Navigation/Navigation.module.css';
 import utils from '@/styles/Util.module.css';
-
-type UserItem = NonNullable<NavigationProps['userItems']>[number];
-type UserAction = NonNullable<UserItem['action']>;
-
-export type DesktopNavigationActionsProps = {
-  userItems: NavigationProps['userItems'];
-  onResetNavigation: () => void;
-  onOpenSearch: () => void;
-  onOpenBasket: () => void;
-};
 
 export function DesktopNavigationActions({
   userItems = [],

@@ -1,17 +1,7 @@
 import { panelId, topTriggerId } from '@/components/Navigation/helpers';
-import type { NavTopLevelItem } from '@/components/Navigation/types';
+import type { TopNavigationItemProps } from '@/components/Navigation/types';
 
 import styles from '@/components/Navigation/Navigation.module.css';
-
-export type TopNavigationItemProps = {
-  item: NavTopLevelItem;
-  isOpen: boolean;
-  hasPanel: boolean;
-  onFocusOpen: () => void;
-  onHoverOpen: () => void;
-  onHoverClose: () => void;
-  children?: React.ReactNode;
-};
 
 export function TopNavigationItem({
   item,

@@ -80,3 +80,67 @@ export interface NavigationProps {
   basketEndpoint: string;
   searchEndpoint: string;
 }
+
+export type UserItem = NonNullable<NavigationProps['userItems']>[number];
+export type UserAction = NonNullable<UserItem['action']>;
+
+export type DesktopNavigationActionsProps = {
+  userItems: NavigationProps['userItems'];
+  onResetNavigation: () => void;
+  onOpenSearch: () => void;
+  onOpenBasket: () => void;
+};
+
+export type DesktopNavigationItemsProps = {
+  items: NavTopLevelItem[];
+  openIndex: number | null;
+  openGroupId: string | null;
+  setOpenGroupId: (id: string | null) => void;
+  handleTopNavigationOpen: (index: number) => void;
+  clearLeave: () => void;
+  onOpenFirstCategory: (topIndex: number) => void;
+  onResetNavigation: () => void;
+};
+
+export type DesktopNavigationLogoProps = {
+  onResetNavigation: () => void;
+};
+
+export type CategoryGroupProps = {
+  subitem: NavGroupItem;
+  open: boolean;
+  onHoverOpen: () => void;
+  onFocusOpen: () => void;
+  children?: React.ReactNode;
+};
+
+export type PanelProps = {
+  id: string;
+  labelledBy: string;
+  hidden: boolean;
+  onEnter: () => void;
+  left: React.ReactNode;
+  right: React.ReactNode;
+};
+
+export type PromoBlockProps = {
+  title: string;
+  subtitle: string;
+  href: string;
+  image: string;
+};
+
+export type ThirdLevelItemsProps = {
+  group: NavGroupItem;
+  open: boolean;
+};
+
+export type TopNavigationItemProps = {
+  item: NavTopLevelItem;
+  isOpen: boolean;
+  hasPanel: boolean;
+  onFocusOpen: () => void;
+  onHoverOpen: () => void;
+  onHoverClose: () => void;
+  children?: React.ReactNode;
+};

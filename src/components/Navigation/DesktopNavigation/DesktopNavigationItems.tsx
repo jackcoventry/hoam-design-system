@@ -7,21 +7,14 @@ import {
   TopNavigationItem,
 } from '@/components/Navigation';
 import { panelId, topTriggerId } from '@/components/Navigation/helpers';
-import type { NavGroupItem, NavPanelItem, NavTopLevelItem } from '@/components/Navigation/types';
+import type {
+  DesktopNavigationItemsProps,
+  NavGroupItem,
+  NavPanelItem,
+} from '@/components/Navigation/types';
 import { useMessages } from '@/hooks/useMessages';
 
 import styles from '@/components/Navigation/Navigation.module.css';
-
-export type DesktopNavigationItemsProps = {
-  items: NavTopLevelItem[];
-  openIndex: number | null;
-  openGroupId: string | null;
-  setOpenGroupId: (id: string | null) => void;
-  handleTopNavigationOpen: (index: number) => void;
-  clearLeave: () => void;
-  onOpenFirstCategory: (topIndex: number) => void;
-  onResetNavigation: () => void;
-};
 
 function isNavGroupItem(item: NavPanelItem): item is NavGroupItem {
   return 'layout' in item && 'items' in item;

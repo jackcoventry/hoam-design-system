@@ -1,13 +1,8 @@
-import styles from '@/components/Navigation/MainNavigation/PromoBlock.module.css';
+import { PromoBlockProps } from '@/components/Navigation/types';
 
-type Props = {
-  title: string;
-  subtitle: string;
-  href: string;
-  image: string;
-};
+import styles from '@/components/Navigation/MainNavigation/PromoBlock/PromoBlock.module.css';
 
-export function PromoBlock({ title, subtitle, href, image = '' }: Readonly<Props>) {
+export function PromoBlock({ title, subtitle, href, image = '' }: Readonly<PromoBlockProps>) {
   const Element = href ? 'a' : 'div';
   const interactiveProps = href
     ? {

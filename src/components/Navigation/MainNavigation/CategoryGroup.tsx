@@ -1,16 +1,8 @@
 import { Icon } from '@/components/Icon';
 import { groupBtnId, groupPanelId } from '@/components/Navigation/helpers';
-import type { NavGroupItem } from '@/components/Navigation/types';
+import { CategoryGroupProps } from '@/components/Navigation/types';
 
 import styles from '@/components/Navigation/Navigation.module.css';
-
-export type CategoryGroupProps = {
-  subitem: NavGroupItem;
-  open: boolean;
-  onHoverOpen: () => void;
-  onFocusOpen: () => void;
-  children?: React.ReactNode;
-};
 
 export function CategoryGroup({
   subitem,

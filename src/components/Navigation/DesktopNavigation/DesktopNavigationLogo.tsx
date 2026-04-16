@@ -1,12 +1,9 @@
 import type { FocusEventHandler, PointerEventHandler } from 'react';
 
+import { DesktopNavigationLogoProps } from '@/components/Navigation/types';
 import { SITE } from '@/constants/site';
 
 import styles from '@/components/Navigation/Navigation.module.css';
-
-type DesktopNavigationLogoProps = {
-  onResetNavigation: () => void;
-};
 
 export function DesktopNavigationLogo({ onResetNavigation }: Readonly<DesktopNavigationLogoProps>) {
   const handleFocus: FocusEventHandler<HTMLAnchorElement> = () => {

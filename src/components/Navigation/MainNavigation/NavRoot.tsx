@@ -1,7 +1,7 @@
 import styles from '@/components/Navigation/Navigation.module.css';
 
 export type NavRootProps = {
-  innerRef: React.RefObject<HTMLElement>;
+  innerRef: React.RefObject<HTMLElement | null>;
   onLeave: () => void;
   onEnter: () => void;
   onKeyDown: (e: React.KeyboardEvent<HTMLElement>) => void;
