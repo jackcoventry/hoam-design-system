@@ -7,6 +7,7 @@ import { panelId, topTriggerId } from '@/components/Navigation/helpers';
 import type {
   CategoryGroupProps,
   DesktopNavigationItemsProps,
+  NavBranchItem,
   NavGroupItem,
   NavPanelItem,
   NavTopLevelItem,
@@ -181,7 +182,7 @@ function createListGroupItem(
   overrides: {
     id?: string;
     label?: string;
-    items?: NavGroupItem['items'];
+    items?: NavBranchItem[];
   } = {}
 ): NavGroupItem {
   return {
