@@ -1,13 +1,8 @@
 import { Meta } from '@storybook/react-vite';
 import { SubmitHandler } from 'react-hook-form';
 
-import {
-  SignInForm,
-  type SignInFormResult,
-  type SignInFormSchemaType,
-} from '@/components/Form/SignIn/SignIn';
+import { SignInForm, type SignInFormSchemaType } from '@/components/Form/SignIn/SignIn';
 import { Container, Grid, GridItem, Section } from '@/components/Layout';
-import { useMockRequest } from '@/hooks/useMockRequest';
 import { navigateToStory } from '@/utils/navigateToStory';
 import BaseTemplate from '@/stories/templates/Base';
 
@@ -21,19 +16,13 @@ const meta: Meta = {
 export default meta;
 
 function StoryTemplate() {
-  const { data, loading, error, run } = useMockRequest<SignInFormResult>();
-
   const onSubmit: SubmitHandler<SignInFormSchemaType> = async () => {
-    await run({
-      delay: 500,
-      response: {
-        message: 'SUCCESS',
-      },
+    await new Promise<void>((resolve) => {
+      setTimeout(() => {
+        navigateToStory('Pages/Homepage', 'Default');
+      }, 500);
+      resolve();
     });
-
-    setTimeout(() => {
-      navigateToStory('Pages/Homepage', 'Default');
-    }, 3000);
   };
 
   return (
@@ -46,11 +35,12 @@ function StoryTemplate() {
               spanLg={4}
               startLg={5}
             >
+              {/* TODO: Add loading/error states */}
+
               <SignInForm
                 onSubmit={onSubmit}
-                data={data}
-                loading={loading}
-                error={error}
+                loading={false}
+                error={null}
               />
             </GridItem>
           </Grid>

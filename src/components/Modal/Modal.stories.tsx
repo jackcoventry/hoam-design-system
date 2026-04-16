@@ -1,20 +1,19 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import type { SubmitHandler } from 'react-hook-form';
 
 import { Button } from '@/components/Button';
 import {
   SearchForm,
-  type SearchFormResult,
-  type SearchFormSchemaType,
+  SearchFormSchemaType,
   SearchLoader,
   SearchResults,
 } from '@/components/Form/SearchForm';
 import { Modal, type ModalRootProps, Variants } from '@/components/Modal';
-import { useMockRequest } from '@/hooks/useMockRequest';
-import SearchResultsData from '@/mocks/components/SearchResults';
 
-import { Stack } from '../Layout';
+import { Stack } from '@/components/Layout';
+import { getSearchResults } from '@/utils/fetchers/getSearchResults';
+import { useFetchSignal } from '@/hooks/useFetch';
+import { SubmitHandler } from 'react-hook-form';
 
 const meta: Meta<typeof Modal> = {
   title: 'Components/Modal',
@@ -118,18 +117,20 @@ function CustomHeaderModalStory() {
 }
 
 type SearchModalStoryProps = {
-  data: SearchFormResult[];
+  noResults?: boolean;
 };
 
-function SearchModalStory({ data }: Readonly<SearchModalStoryProps>) {
+function SearchModalStory({ noResults = false }: Readonly<SearchModalStoryProps>) {
   const [open, setOpen] = useState(false);
-  const { data: results, loading, error, run, reset } = useMockRequest<Array<SearchFormResult>>();
+  const endpoint = '/';
+  const fetcher = useMemo(() => getSearchResults(endpoint), [endpoint]);
+
+  const { data, error, loading, reload } = useFetchSignal(fetcher, {
+    manual: true,
+  });
 
   const onSubmit: SubmitHandler<SearchFormSchemaType> = async () => {
-    await run({
-      delay: 1500,
-      response: data,
-    });
+    reload();
   };
 
   const safeError = error instanceof Error ? error : undefined;
@@ -138,7 +139,7 @@ function SearchModalStory({ data }: Readonly<SearchModalStoryProps>) {
     setOpen(false);
 
     setTimeout(() => {
-      reset();
+      reload();
     }, 500);
   };
 
@@ -171,7 +172,7 @@ function SearchModalStory({ data }: Readonly<SearchModalStoryProps>) {
               <p>{safeError.message}</p>
             </div>
           ) : null}
-          {results && !safeError && !loading ? <SearchResults items={results} /> : null}
+          {data && !safeError && !loading ? <SearchResults items={noResults ? [] : data} /> : null}
         </Modal.Body>
       </Modal>
     </div>
@@ -194,9 +195,9 @@ export const CustomHeader: Story = {
 };
 
 export const CustomSearchForm: Story = {
-  render: () => <SearchModalStory data={SearchResultsData} />,
+  render: () => <SearchModalStory />,
 };
 
 export const CustomSearchFormNoResults: Story = {
-  render: () => <SearchModalStory data={[]} />,
+  render: () => <SearchModalStory noResults={true} />,
 };

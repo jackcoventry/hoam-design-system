@@ -1,4 +1,4 @@
-import { deepMerge, type DeepPartial } from '@/utils/merge';
+import { deepMerge, type DeepPartial } from '@/utils/deepMerge';
 import { defaultMessages } from '@/lib/i18n/defaults';
 import type { LibraryMessages } from '@/lib/i18n/types';
 import { useLibraryi18n } from '@/lib/i18n/useLibraryi18n';

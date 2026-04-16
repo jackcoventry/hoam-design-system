@@ -5,7 +5,7 @@ export { DesktopNavigationLogo } from '@/components/Navigation/DesktopNavigation
 export { CategoryGroup } from '@/components/Navigation/MainNavigation/CategoryGroup';
 export { NavRoot } from '@/components/Navigation/MainNavigation/NavRoot';
 export { Panel } from '@/components/Navigation/MainNavigation/Panel';
-export { PromoBlock } from '@/components/Navigation/MainNavigation/PromoBlock';
+export { PromoBlock } from '@/components/Navigation/MainNavigation//PromoBlock/PromoBlock';
 export { ThirdLevelItems } from '@/components/Navigation/MainNavigation/ThirdLevelItems';
 export { TopNavigation } from '@/components/Navigation/MainNavigation/TopNavigation';
 export { TopNavigationItem } from '@/components/Navigation/MainNavigation/TopNavigationItem';

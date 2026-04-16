@@ -3,11 +3,9 @@ import { SubmitHandler } from 'react-hook-form';
 
 import {
   RegisterForm,
-  type RegisterFormResult,
   type RegisterFormSchemaType,
 } from '@/components/Form/RegisterForm/RegisterForm';
 import { Container, Grid, GridItem, Section } from '@/components/Layout';
-import { useMockRequest } from '@/hooks/useMockRequest';
 import { navigateToStory } from '@/utils/navigateToStory';
 import BaseTemplate from '@/stories/templates/Base';
 
@@ -20,20 +18,18 @@ const meta: Meta = {
 };
 export default meta;
 
-function StoryTemplate() {
-  const { data, loading, error, run } = useMockRequest<RegisterFormResult>();
+function StoryTemplate(props: Readonly<{ showError: boolean }>) {
+  const { showError } = props;
 
   const onSubmit: SubmitHandler<RegisterFormSchemaType> = async () => {
-    await run({
-      delay: 500,
-      response: {
-        message: 'SUCCESS',
-      },
+    await new Promise<void>((resolve) => {
+      setTimeout(() => {
+        if (!showError) {
+          navigateToStory('Pages/Homepage', 'Default');
+        }
+      }, 500);
+      resolve();
     });
-
-    setTimeout(() => {
-      navigateToStory('Pages/Homepage', 'Default');
-    }, 3000);
   };
 
   return (
@@ -46,11 +42,11 @@ function StoryTemplate() {
               spanLg={4}
               startLg={5}
             >
+              {/* TODO: Add loading/error states */}
               <RegisterForm
                 onSubmit={onSubmit}
-                data={data}
-                loading={loading}
-                error={error}
+                loading={false}
+                error={null}
               />
             </GridItem>
           </Grid>
@@ -61,7 +57,8 @@ function StoryTemplate() {
 }
 
 const Template = {
-  render: StoryTemplate,
+  render: (args: { showError: boolean }) => <StoryTemplate showError={args.showError} />,
 };
 
 export const Default = { ...Template, args: {} };
+export const WithError = { ...Template, args: { showError: true } };

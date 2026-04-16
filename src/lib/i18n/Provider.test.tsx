@@ -1,13 +1,13 @@
 import { render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { deepMerge, type DeepPartial } from '@/utils/merge';
+import { deepMerge, type DeepPartial } from '@/utils/deepMerge';
 import { I18nContext } from '@/lib/i18n/Context';
 import { defaultMessages } from '@/lib/i18n/defaults';
 import { LibraryI18nProvider } from '@/lib/i18n/Provider';
 import type { LibraryMessages } from '@/lib/i18n/types';
 
-vi.mock('@/utils/merge', () => ({
+vi.mock('@/utils/deepMerge', () => ({
   deepMerge: vi.fn(),
 }));
 

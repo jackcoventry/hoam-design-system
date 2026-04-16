@@ -48,7 +48,7 @@ export type RegisterFormProps = {
   error?: Error | null;
 };
 
-export function RegisterForm({ onSubmit, data, loading }: Readonly<RegisterFormProps>) {
+export function RegisterForm({ onSubmit, data, loading, error }: Readonly<RegisterFormProps>) {
   const {
     control,
     handleSubmit,
@@ -84,6 +84,7 @@ export function RegisterForm({ onSubmit, data, loading }: Readonly<RegisterFormP
     </div>
   ) : (
     <div className={styles.wrapper}>
+      <h1>{loading ? 'LOAD' : 'No'}</h1>
       <form
         className={styles.root}
         onSubmit={(event) => {

@@ -1,5 +1,5 @@
 .root {
-  background-color: var(--hoam-color-surface-accent-soft);
+  background-color: var(--hoam-color-surface-inverse);
   padding: var(--hoam-spacing-3xl) var(--hoam-spacing-xs);
 }
 
