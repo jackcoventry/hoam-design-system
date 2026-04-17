@@ -11,8 +11,8 @@ import {
 } from '@/components/Form/SearchForm';
 import { Stack } from '@/components/Layout';
 import { Modal, type ModalRootProps, Variants } from '@/components/Modal';
-import { useFetchSignal } from '@/hooks/useFetch';
-import { getSearchResults } from '@/utils/fetchers/getSearchResults';
+import { useAsyncTask } from '@/utils/useAsyncTask';
+import MockSearchResults from '@/mocks/components/SearchResults';
 
 const meta: Meta<typeof Modal> = {
   title: 'Components/Modal',
@@ -121,26 +121,31 @@ type SearchModalStoryProps = {
 
 function SearchModalStory({ noResults = false }: Readonly<SearchModalStoryProps>) {
   const [open, setOpen] = useState(false);
-  const endpoint = '/';
-  const fetcher = useMemo(() => getSearchResults(endpoint), [endpoint]);
 
-  const { data, error, loading, reload } = useFetchSignal(fetcher, {
-    manual: true,
-  });
+  const search = useMemo(
+    () => async () => {
+      const response = MockSearchResults;
+      await new Promise((resolve) => setTimeout(resolve, 600));
+      return response;
+    },
+    []
+  );
+
+  const { state, run, data, error } = useAsyncTask(search);
 
   const onSubmit: SubmitHandler<SearchFormSchemaType> = async () => {
-    await reload();
+    await run();
   };
-
-  const safeError = error instanceof Error ? error : undefined;
 
   const handleClose = () => {
     setOpen(false);
 
     setTimeout(() => {
-      void reload();
+      void run();
     }, 500);
   };
+
+  const loading = state.status === 'loading';
 
   return (
     <div>
@@ -165,13 +170,13 @@ function SearchModalStory({ noResults = false }: Readonly<SearchModalStoryProps>
         </Modal.Header>
 
         <Modal.Body padded={false}>
-          {loading && !safeError ? <SearchLoader /> : null}
-          {safeError ? (
+          {loading ? <SearchLoader /> : null}
+          {error ? (
             <div role="alert">
-              <p>{safeError.message}</p>
+              <p>{error.message}</p>
             </div>
           ) : null}
-          {data && !safeError && !loading ? <SearchResults items={noResults ? [] : data} /> : null}
+          {data && !error && !loading ? <SearchResults items={noResults ? [] : data} /> : null}
         </Modal.Body>
       </Modal>
     </div>

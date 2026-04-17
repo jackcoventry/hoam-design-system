@@ -89,8 +89,6 @@ export function RegisterForm({ onSubmit, data, loading }: Readonly<RegisterFormP
           void handleSubmit(onSubmit)(event);
         }}
       >
-        {/* TODO: This can be structured dynamically like a form builder */}
-
         <h2 className={styles.title}>Register</h2>
 
         <section>

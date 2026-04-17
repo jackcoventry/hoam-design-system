@@ -1,6 +1,13 @@
+import { SubmitHandler } from 'react-hook-form';
+
+import { BasketItemProps } from '@/components/Basket';
+import type { SearchFormResult, SearchFormSchemaType } from '@/components/Form';
+import { AsyncState } from '@/types/async';
+
 export type NavigationLayout = 'list' | 'thumbnail';
 export type NavigationVariant = 'default' | 'fixed' | 'sticky';
 export type NavUserAction = 'USER_SEARCH' | 'USER_BASKET';
+export type NavigationUserItems = NavUserItem[];
 
 export interface NavLeafItem {
   id: string;
@@ -73,19 +80,21 @@ export type NavTreeItem =
   | NavLeafItem
   | NavThumbnailItem;
 
-export interface NavigationProps {
+export interface NavigationProps<TData, TError extends Error = Error> {
   items?: NavTopLevelItem[];
   userItems?: NavUserItem[];
   variant?: NavigationVariant;
-  basketEndpoint: string;
-  searchEndpoint: string;
+  searchSubmit: SubmitHandler<SearchFormSchemaType>;
+  searchData: SearchFormResult[] | null;
+  searchState: AsyncState<TData, TError>;
+  basketData: BasketItemProps[];
 }
 
-export type UserItem = NonNullable<NavigationProps['userItems']>[number];
+export type UserItem = NavigationUserItems[number];
 export type UserAction = NonNullable<UserItem['action']>;
 
 export type DesktopNavigationActionsProps = {
-  userItems: NavigationProps['userItems'];
+  userItems: NavigationUserItems | undefined;
   onResetNavigation: () => void;
   onOpenSearch: () => void;
   onOpenBasket: () => void;

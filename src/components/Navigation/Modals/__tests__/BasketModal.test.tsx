@@ -6,7 +6,6 @@ import type { ModalVariant } from '@/components/Modal/Modal';
 import { BasketModal } from '@/components/Navigation/Modals/BasketModal';
 import { useFetchSignal } from '@/hooks/useFetch';
 import { useMessages } from '@/hooks/useMessages';
-import { getBasketItems } from '@/utils/fetchers/getBasketItems';
 
 type BasketItem = {
   id: string;
@@ -47,13 +46,6 @@ vi.mock('@/hooks/useMessages', () => ({
 
 vi.mock('@/hooks/useFetch', () => ({
   useFetchSignal: vi.fn(),
-}));
-
-vi.mock('@/utils/fetchers/getBasketItems', () => ({
-  getBasketItems: vi.fn((endpoint: string) => {
-    const fetcher = () => Promise.resolve([]);
-    return Object.assign(fetcher, { endpoint });
-  }),
 }));
 
 vi.mock('@/components/Basket', () => ({

@@ -1,6 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react-vite';
 
 import { NewsletterBanner } from '@/components/NewsletterBanner';
+import { NewsletterBannerDemo } from '@/stories/components/NewsletterBannerDemo';
 
 const meta: Meta<typeof NewsletterBanner> = {
   title: 'Components/Newsletter Banner',
@@ -17,12 +18,10 @@ type Story = StoryObj<typeof NewsletterBanner>;
 
 const Template: Story = {
   render: (args) => (
-    <div>
-      <NewsletterBanner
-        title={args.title}
-        description={args.description}
-      />
-    </div>
+    <NewsletterBannerDemo
+      title={args.title}
+      description={args.description}
+    />
   ),
 };
 

@@ -1,8 +1,8 @@
 import { Meta, StoryObj } from '@storybook/react-vite';
 
-import { BlogArticle } from '@/components/BlogArticle';
-import { NewsletterBanner } from '@/components/NewsletterBanner';
+import { BlogArticle, BlogArticleProps } from '@/components/BlogArticle';
 import SocialLinks from '@/mocks/socialLinks';
+import { NewsletterBannerDemo } from '@/stories/components/NewsletterBannerDemo';
 import BaseTemplate from '@/stories/templates/Base';
 
 const meta: Meta<typeof BlogArticle> = {
@@ -47,19 +47,29 @@ export default meta;
 
 type Story = StoryObj<typeof BlogArticle>;
 
-const Template: Story = {
-  render: (args) => (
+function StoryTemplate({
+  title,
+  category,
+  summary,
+  author,
+  publishDate,
+  readingTime,
+  image,
+  tags,
+  socialLinks,
+}: Readonly<BlogArticleProps>) {
+  return (
     <BaseTemplate>
       <BlogArticle
-        title={args.title}
-        category={args.category}
-        summary={args.summary}
-        author={args.author}
-        publishDate={args.publishDate}
-        readingTime={args.readingTime}
-        image={args.image}
-        tags={args.tags}
-        socialLinks={args.socialLinks}
+        title={title}
+        category={category}
+        summary={summary}
+        author={author}
+        publishDate={publishDate}
+        readingTime={readingTime}
+        image={image}
+        tags={tags}
+        socialLinks={socialLinks}
       >
         <p>
           Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per
@@ -132,12 +142,13 @@ const Template: Story = {
           Curabitur blandit tempus porttitor. Nullam quis risus eget urna mollis ornare vel eu leo.
         </p>
       </BlogArticle>
-      <NewsletterBanner
-        title="Connect with us"
-        description="Sign up to our newsletter to receive the latest news and updates from our team."
-      />
+      <NewsletterBannerDemo />
     </BaseTemplate>
-  ),
+  );
+}
+
+const Template: Story = {
+  render: (args) => <StoryTemplate {...args} />,
 };
 
 export const Default = { ...Template, args: {} };

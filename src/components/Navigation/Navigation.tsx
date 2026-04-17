@@ -9,12 +9,14 @@ import {
 import type { NavigationProps } from '@/components/Navigation/types';
 import { useMegaNavState } from '@/hooks/useNavState';
 
-export function Navigation({
+export function Navigation<TData, TError extends Error = Error>({
   items = [],
   userItems = [],
-  searchEndpoint = '',
-  basketEndpoint = '',
-}: Readonly<NavigationProps>) {
+  searchSubmit,
+  searchData = [],
+  searchState,
+  basketData = [],
+}: Readonly<NavigationProps<TData, TError>>) {
   const {
     openIndex,
     setOpenIndex,
@@ -61,17 +63,19 @@ export function Navigation({
       />
 
       <SearchModal
-        endpoint={searchEndpoint}
         open={openSearchModal}
         onClose={handleSearchModalClose}
         variant="modal"
+        data={searchData}
+        onSubmit={searchSubmit}
+        state={searchState}
       />
 
       <BasketModal
-        endpoint={basketEndpoint}
         open={openBasketModal}
         onClose={handleBasketModalClose}
         variant="drawer"
+        data={basketData}
       />
     </>
   );

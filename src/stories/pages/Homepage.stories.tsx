@@ -4,11 +4,11 @@ import { Hero } from '@/components/Hero';
 import { type HeroSlideProps } from '@/components/Hero/HeroSlide';
 import { InfoGrid, InfoGridItem } from '@/components/InfoGrid';
 import { LogoCarousel } from '@/components/LogoCarousel';
-import { NewsletterBanner } from '@/components/NewsletterBanner';
 import { PromoSection, PromoSectionProps } from '@/components/PromoSection';
 import MockSlides from '@/mocks/components/Hero';
 import LogoCarouselData from '@/mocks/components/LogoCarousel';
 import PromoSectionData from '@/mocks/components/PromoSection';
+import { NewsletterBannerDemo } from '@/stories/components/NewsletterBannerDemo';
 import BaseTemplate from '@/stories/templates/Base';
 
 const meta: Meta = {
@@ -63,10 +63,7 @@ const Template = {
             icon="dash"
           />
         </InfoGrid>
-        <NewsletterBanner
-          title="Connect with us"
-          description="Sign up to our newsletter to receive the latest news and updates from our team."
-        />
+        <NewsletterBannerDemo />
       </BaseTemplate>
     );
   },

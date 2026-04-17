@@ -1,32 +1,34 @@
-import { useMemo } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 
-import { SearchForm, SearchFormSchemaType, SearchLoader, SearchResults } from '@/components/Form';
+import {
+  SearchForm,
+  SearchFormResult,
+  SearchFormSchemaType,
+  SearchLoader,
+  SearchResults,
+} from '@/components/Form';
 import { Modal } from '@/components/Modal';
 import { ModalVariant } from '@/components/Modal/Modal';
-import { useFetchSignal } from '@/hooks/useFetch';
-import { getSearchResults } from '@/utils/fetchers/getSearchResults';
+import { AsyncState } from '@/types/async';
 
-type SearchModalTypes = {
-  endpoint: string;
+type SearchModalProps<TData, TError extends Error = Error> = {
   open: boolean;
   onClose: () => void;
+  onSubmit: SubmitHandler<SearchFormSchemaType>;
   variant: ModalVariant;
+  state: AsyncState<TData, TError>;
+  data: SearchFormResult[] | null;
 };
 
-export function SearchModal({ endpoint, open, onClose, variant }: Readonly<SearchModalTypes>) {
-  const fetcher = useMemo(() => getSearchResults(endpoint), [endpoint]);
-
-  const { data, error, loading, reload } = useFetchSignal(fetcher, {
-    manual: true,
-  });
-
-  const safeData = data ?? [];
-  const safeError = error instanceof Error ? error : undefined;
-
-  const onSubmit: SubmitHandler<SearchFormSchemaType> = async () => {
-    await reload();
-  };
+export function SearchModal<TData, TError extends Error = Error>({
+  open,
+  onClose,
+  onSubmit,
+  state,
+  variant,
+  data = [],
+}: Readonly<SearchModalProps<TData, TError>>) {
+  const loading = state?.status === 'loading';
 
   return (
     <Modal
@@ -38,13 +40,13 @@ export function SearchModal({ endpoint, open, onClose, variant }: Readonly<Searc
         <SearchForm
           onClose={onClose}
           onSubmit={onSubmit}
-          loading={loading}
+          loading={state?.status === 'loading'}
         />
       </Modal.Header>
 
       <Modal.Body padded={false}>
-        {loading && !safeError ? <SearchLoader /> : null}
-        {safeData.length > 0 && !safeError && !loading ? <SearchResults items={safeData} /> : null}
+        {loading ? <SearchLoader /> : null}
+        {data && data.length > 0 && !loading ? <SearchResults items={data} /> : null}
       </Modal.Body>
     </Modal>
   );

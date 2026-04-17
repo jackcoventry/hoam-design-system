@@ -1,9 +1,20 @@
-import { ReactNode } from 'react';
+import { ReactNode, useMemo } from 'react';
+import { SubmitHandler } from 'react-hook-form';
 
-import { Footer, Navigation, NotificationBar, SkipToContentLink } from '@/components';
+import {
+  Footer,
+  Navigation,
+  NotificationBar,
+  SearchFormResult,
+  SearchFormSchemaType,
+  SkipToContentLink,
+} from '@/components';
+import { useAsyncTask } from '@/utils/useAsyncTask';
+import BasketData from '@/mocks/components/Basket';
 import FooterData from '@/mocks/components/Footer';
 import NavigationData from '@/mocks/components/Navigation';
 import NotificationBarData from '@/mocks/components/NotificationBar';
+import SearchFormData from '@/mocks/components/SearchResults';
 import UserNavigationData from '@/mocks/components/UserNavigation';
 import SocialLinks from '@/mocks/socialLinks';
 
@@ -12,6 +23,21 @@ type BaseTemplateProps = {
 };
 
 function BaseTemplate({ children }: Readonly<BaseTemplateProps>) {
+  const search = useMemo(
+    () => async () => {
+      const response = SearchFormData as SearchFormResult[];
+      await new Promise((resolve) => setTimeout(resolve, 600));
+      return response;
+    },
+    []
+  );
+
+  const { state, run, data } = useAsyncTask(search);
+
+  const onSubmit: SubmitHandler<SearchFormSchemaType> = async () => {
+    await run();
+  };
+
   return (
     <>
       <SkipToContentLink />
@@ -20,8 +46,10 @@ function BaseTemplate({ children }: Readonly<BaseTemplateProps>) {
         items={NavigationData}
         userItems={UserNavigationData}
         variant="default"
-        searchEndpoint="/"
-        basketEndpoint="/"
+        searchSubmit={onSubmit}
+        searchData={data}
+        searchState={state}
+        basketData={BasketData}
       />
       <main id="content">{children}</main>
       <Footer

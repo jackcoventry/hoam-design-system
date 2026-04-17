@@ -5,7 +5,6 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { ModalVariant } from '@/components/Modal/Modal';
 import { SearchModal } from '@/components/Navigation/Modals/SearchModal';
 import type { UseFetchResult } from '@/hooks/useFetch';
-import { getSearchResults } from '@/utils/fetchers/getSearchResults';
 
 type SearchResultItem = {
   id: string;
@@ -76,13 +75,6 @@ vi.mock('@/hooks/useFetch', () => ({
     lastFetchOptions = options;
     return currentFetchResult;
   },
-}));
-
-vi.mock('@/utils/fetchers/getSearchResults', () => ({
-  getSearchResults: vi.fn((endpoint: string) => {
-    const fetcher = () => Promise.resolve([]);
-    return Object.assign(fetcher, { endpoint });
-  }),
 }));
 
 vi.mock('@/components/Form', () => ({
