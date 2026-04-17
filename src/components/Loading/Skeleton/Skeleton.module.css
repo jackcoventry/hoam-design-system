@@ -1,8 +1,8 @@
 @import "@/styles/media.css";
 
 .root {
-  --skeleton-base: rgba(0, 0, 0, 0.08); /* TODO: Tokenize */
-  --skeleton-highlight: rgba(0, 0, 0, 0.02);
+  --skeleton-base: var(--hoam-color-surface-alpha-strong);
+  --skeleton-highlight: var(--hoam-color-surface-alpha-soft);
 
   animation: skeleton-shimmer 2s var(--hoam-transition-function-quad) infinite;
   background: linear-gradient(90deg, var(--skeleton-base) 25%, var(--skeleton-highlight) 37%, var(--skeleton-base) 63%);

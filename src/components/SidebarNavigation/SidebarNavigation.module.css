@@ -21,7 +21,6 @@
 
 .sectionTitle {
   font: var(--hoam-typography-label-1);
-  margin-bottom: var(--hoam-spacing-2xs);
   text-transform: uppercase;
 }
 

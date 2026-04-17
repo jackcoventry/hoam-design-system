@@ -24,6 +24,10 @@
   --hoam-color-surface-inverse: #ffffff;
   --hoam-color-surface-accent: #a855f7;
   --hoam-color-surface-accent-soft: #cb99fa;
+  --hoam-color-surface-alpha: rgba(0, 0, 0, 0.3);
+  --hoam-color-surface-alpha-soft: rgba(0, 0, 0, 0.2);
+  --hoam-color-surface-alpha-strong: rgba(0, 0, 0, 0.8);
+  --hoam-color-surface-alpha-inverse: rgba(255, 255, 255, 0.2);
   --hoam-color-border-soft: #f9f9f9;
   --hoam-color-border-default: #b3b3b3;
   --hoam-color-border-strong: #666666;

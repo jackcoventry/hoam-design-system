@@ -8,7 +8,7 @@
 
 .image {
   margin: 0 auto;
-  max-width: 400px; /* TODOL container query */
+  max-width: 400px;
   width: 100%;
 }
 

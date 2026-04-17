@@ -2,7 +2,7 @@ import type { IconId } from '@/design-tokens/icons';
 
 export type IconProps = {
   id: IconId;
-  className?: string;
+  className?: string | undefined;
   size?: string | number;
   'aria-label'?: string;
 };

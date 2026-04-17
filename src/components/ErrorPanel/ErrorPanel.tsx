@@ -14,7 +14,7 @@ export type Props = {
 
 export function ErrorPanel({
   message,
-  returnLabel = 'Return to homepage',
+  returnLabel = 'Return home',
   returnUrl = '/',
 }: Readonly<Props>) {
   return (

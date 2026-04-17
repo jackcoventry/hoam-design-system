@@ -59,6 +59,7 @@ export function MobileNavigationItem({
             <Icon
               size="0.5em"
               id={isOpen ? 'caret-down' : 'caret-right'}
+              className={styles.icon}
             />
           </button>
 

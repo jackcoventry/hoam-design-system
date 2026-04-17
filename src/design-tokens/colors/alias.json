@@ -64,6 +64,18 @@
       },
       "accent-soft": {
         "$value": "{color.accent.soft}"
+      },
+      "alpha": {
+        "$value": "{palette.neutral-alpha.200}"
+      },
+      "alpha-soft": {
+        "$value": "{palette.neutral-alpha.100}"
+      },
+      "alpha-strong": {
+        "$value": "{palette.neutral-alpha.500}"
+      },
+      "alpha-inverse": {
+        "$value": "{palette.neutral-alpha.600}"
       }
     },
     "border": {

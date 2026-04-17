@@ -180,6 +180,38 @@
     "set": "surface"
   },
   {
+    "name": "hoam-color-surface-alpha",
+    "cssVar": "--hoam-color-surface-alpha",
+    "type": "color",
+    "value": "rgba(0, 0, 0, 0.3)",
+    "group": "surface",
+    "set": "surface"
+  },
+  {
+    "name": "hoam-color-surface-alpha-soft",
+    "cssVar": "--hoam-color-surface-alpha-soft",
+    "type": "color",
+    "value": "rgba(0, 0, 0, 0.2)",
+    "group": "surface",
+    "set": "surface"
+  },
+  {
+    "name": "hoam-color-surface-alpha-strong",
+    "cssVar": "--hoam-color-surface-alpha-strong",
+    "type": "color",
+    "value": "rgba(0, 0, 0, 0.8)",
+    "group": "surface",
+    "set": "surface"
+  },
+  {
+    "name": "hoam-color-surface-alpha-inverse",
+    "cssVar": "--hoam-color-surface-alpha-inverse",
+    "type": "color",
+    "value": "rgba(255, 255, 255, 0.2)",
+    "group": "surface",
+    "set": "surface"
+  },
+  {
     "name": "hoam-color-border-soft",
     "cssVar": "--hoam-color-border-soft",
     "type": "color",
@@ -481,6 +513,105 @@
     "value": "#1890ff",
     "group": "global",
     "set": "semantic",
+    "extensions": {
+      "scope": "private"
+    }
+  },
+  {
+    "name": "hoam-palette-neutral-alpha-100",
+    "cssVar": "--hoam-palette-neutral-alpha-100",
+    "type": "color",
+    "value": "rgba(0, 0, 0, 0.2)",
+    "group": "global",
+    "set": "neutral-alpha",
+    "extensions": {
+      "scope": "private"
+    }
+  },
+  {
+    "name": "hoam-palette-neutral-alpha-200",
+    "cssVar": "--hoam-palette-neutral-alpha-200",
+    "type": "color",
+    "value": "rgba(0, 0, 0, 0.3)",
+    "group": "global",
+    "set": "neutral-alpha",
+    "extensions": {
+      "scope": "private"
+    }
+  },
+  {
+    "name": "hoam-palette-neutral-alpha-300",
+    "cssVar": "--hoam-palette-neutral-alpha-300",
+    "type": "color",
+    "value": "rgba(0, 0, 0, 0.4)",
+    "group": "global",
+    "set": "neutral-alpha",
+    "extensions": {
+      "scope": "private"
+    }
+  },
+  {
+    "name": "hoam-palette-neutral-alpha-400",
+    "cssVar": "--hoam-palette-neutral-alpha-400",
+    "type": "color",
+    "value": "rgba(0, 0, 0, 0.6)",
+    "group": "global",
+    "set": "neutral-alpha",
+    "extensions": {
+      "scope": "private"
+    }
+  },
+  {
+    "name": "hoam-palette-neutral-alpha-500",
+    "cssVar": "--hoam-palette-neutral-alpha-500",
+    "type": "color",
+    "value": "rgba(0, 0, 0, 0.8)",
+    "group": "global",
+    "set": "neutral-alpha",
+    "extensions": {
+      "scope": "private"
+    }
+  },
+  {
+    "name": "hoam-palette-neutral-alpha-600",
+    "cssVar": "--hoam-palette-neutral-alpha-600",
+    "type": "color",
+    "value": "rgba(255, 255, 255, 0.2)",
+    "group": "global",
+    "set": "neutral-alpha",
+    "extensions": {
+      "scope": "private"
+    }
+  },
+  {
+    "name": "hoam-palette-neutral-alpha-700",
+    "cssVar": "--hoam-palette-neutral-alpha-700",
+    "type": "color",
+    "value": "rgba(255, 255, 255, 0.4)",
+    "group": "global",
+    "set": "neutral-alpha",
+    "extensions": {
+      "scope": "private"
+    }
+  },
+  {
+    "name": "hoam-palette-neutral-alpha-800",
+    "cssVar": "--hoam-palette-neutral-alpha-800",
+    "type": "color",
+    "value": "rgba(255, 255, 255, 0.6)",
+    "group": "global",
+    "set": "neutral-alpha",
+    "extensions": {
+      "scope": "private"
+    }
+  },
+  {
+    "name": "hoam-palette-neutral-alpha-900",
+    "cssVar": "--hoam-palette-neutral-alpha-900",
+    "type": "color",
+    "value": "rgba(255, 255, 255, 0.8)",
+    "group": "global",
+    "set": "neutral-alpha",
     "extensions": {
       "scope": "private"
     }

@@ -3,7 +3,7 @@
     "small": {
       "$type": "shadow",
       "$value": {
-        "color": "rgba(0, 0, 0, 0.3)",
+        "color": "{color.surface.alpha}",
         "offsetX": "0",
         "offsetY": "0",
         "blur": "1px",
@@ -13,7 +13,7 @@
     "medium": {
       "$type": "shadow",
       "$value": {
-        "color": "rgba(0, 0, 0, 0.3)",
+        "color": "{color.surface.alpha}",
         "offsetX": "0",
         "offsetY": "6px",
         "blur": "6px",
@@ -23,7 +23,7 @@
     "large": {
       "$type": "shadow",
       "$value": {
-        "color": "rgba(0, 0, 0, 0.3)",
+        "color": "{color.surface.alpha}",
         "offsetX": "0",
         "offsetY": "10px",
         "blur": "40px",

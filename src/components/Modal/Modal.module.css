@@ -6,7 +6,7 @@
 }
 
 .root {
-  background: rgba(0, 0, 0, 0.3);
+  background: var(--hoam-color-surface-alpha);
   box-sizing: border-box;
   display: flex;
   height: 100dvh;

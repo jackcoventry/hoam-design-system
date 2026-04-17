@@ -7,7 +7,7 @@
 }
 
 .icon {
-  background-color: rgba(255, 255, 255, 0.2); /* TODO: Tokenize */
+  background-color: var(--hoam-color-surface-alpha-soft);
   border-radius: var(--hoam-border-radius-full);
   display: inline-flex;
   margin: 0 auto;
