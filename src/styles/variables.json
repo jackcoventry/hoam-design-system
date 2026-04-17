@@ -617,6 +617,39 @@
     }
   },
   {
+    "name": "hoam-container-narrow",
+    "cssVar": "--hoam-container-narrow",
+    "type": "dimension",
+    "value": "60rem",
+    "group": "container",
+    "set": "container",
+    "extensions": {
+      "scope": "public"
+    }
+  },
+  {
+    "name": "hoam-container-default",
+    "cssVar": "--hoam-container-default",
+    "type": "dimension",
+    "value": "75rem",
+    "group": "container",
+    "set": "container",
+    "extensions": {
+      "scope": "public"
+    }
+  },
+  {
+    "name": "hoam-container-wide",
+    "cssVar": "--hoam-container-wide",
+    "type": "dimension",
+    "value": "90rem",
+    "group": "container",
+    "set": "container",
+    "extensions": {
+      "scope": "public"
+    }
+  },
+  {
     "name": "hoam-border-radius-small",
     "cssVar": "--hoam-border-radius-small",
     "type": "dimension",

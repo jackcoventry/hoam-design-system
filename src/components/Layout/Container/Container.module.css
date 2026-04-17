@@ -6,17 +6,16 @@
   padding-inline: var(--hoam-spacing-md);
 }
 
-/* TODO: these widths should be tokenised */
 .root[data-width="narrow"] {
-  max-width: 60rem;
+  max-width: var(--hoam-container-narrow);
 }
 
 .root[data-width="default"] {
-  max-width: 75rem;
+  max-width: var(--hoam-container-default);
 }
 
 .root[data-width="wide"] {
-  max-width: 90rem;
+  max-width: var(--hoam-container-wide);
 }
 
 .root[data-width="full"] {

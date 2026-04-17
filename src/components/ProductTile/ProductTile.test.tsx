@@ -97,6 +97,10 @@ describe('ProductTile', () => {
     inStock: true,
     newItem: false,
     lowStock: false,
+    image: {
+      src: 'https://images.unsplash.com/photo-1685384338018-1774719d5b69?auto=format&fit=crop&q=80&w=600&h=600',
+      alt: 'A yellow cup filled with coffee',
+    },
   };
 
   it('renders the main product content', () => {

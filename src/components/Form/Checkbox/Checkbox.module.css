@@ -9,10 +9,16 @@
 
 .root {
   display: inline-flex;
-  align-items: flex-start;
+  align-items: center;
   gap: var(--hoam-spacing-md);
   cursor: pointer;
   user-select: none;
+}
+
+@media (--hoam-hoverable) {
+  .root:hover {
+    color: var(--hoam-color-link-hover);
+  }
 }
 
 .disabled {
@@ -39,7 +45,6 @@
 .box {
   align-items: center;
   background: var(--hoam-color-surface-inverse);
-  border: var(--hoam-border-size-default) var(--hoam-color-border-default);
   display: inline-flex;
   height: var(--checkbox-box-size);
   justify-content: center;

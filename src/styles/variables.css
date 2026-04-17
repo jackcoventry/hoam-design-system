@@ -36,6 +36,9 @@
   --hoam-color-feedback-warning: #faad14;
   --hoam-color-feedback-success: #52c41a;
   --hoam-color-feedback-info: #1890ff;
+  --hoam-container-narrow: 60rem;
+  --hoam-container-default: 75rem;
+  --hoam-container-wide: 90rem;
   --hoam-border-radius-small: 4px;
   --hoam-border-radius-default: 8px;
   --hoam-border-radius-large: 12px;

@@ -4,7 +4,6 @@
   display: grid;
   position: relative;
   margin: 0 auto;
-  max-width: 32rem; /* TODO: Why this specific size? */
 }
 
 @media (--hoam-hoverable) {
@@ -18,6 +17,7 @@
   position: absolute;
   top: var(--hoam-spacing-xs);
   width: calc(100% - var(--hoam-spacing-md));
+  z-index: var(--hoam-layer-raised);
 }
 
 .imageWrapper {
@@ -58,6 +58,12 @@
   position: absolute;
   width: 100%;
   z-index: var(--hoam-layer-base);
+}
+
+@media (--hoam-hoverable) {
+  .link:hover {
+    text-decoration: underline;
+  }
 }
 
 .title {

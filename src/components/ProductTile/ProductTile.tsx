@@ -11,6 +11,11 @@ type ProductPrice = {
   currency: string;
 };
 
+type ProductImage = {
+  src: string;
+  alt?: string;
+};
+
 export type ProductTileProps = {
   title: string;
   productId: string;
@@ -19,6 +24,7 @@ export type ProductTileProps = {
   inStock: boolean;
   newItem: boolean;
   lowStock: boolean;
+  image: ProductImage;
 };
 
 function formatPrice(value = 0, currency = 'GBP') {
@@ -38,6 +44,7 @@ export function ProductTile({
   inStock,
   lowStock,
   newItem,
+  image,
 }: Readonly<ProductTileProps>) {
   const t = useMessages('productTile');
   return (
@@ -55,10 +62,9 @@ export function ProductTile({
           </div>
         ) : null}
         <figure>
-          {/* TODO: this image should be a prop */}
           <img
-            src="https://images.unsplash.com/photo-1685384338018-1774719d5b69?auto=format&fit=crop&q=80&w=600&h=600"
-            alt={title}
+            src={image.src}
+            alt={image.alt ?? title ?? ''}
             className={styles.image}
           />
         </figure>

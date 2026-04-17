@@ -1,0 +1,18 @@
+{
+  "container": {
+    "$type": "dimension",
+    "$extensions": {
+      "$group": "container",
+      "scope": "public"
+    },
+    "narrow": {
+      "$value": "60rem"
+    },
+    "default": {
+      "$value": "75rem"
+    },
+    "wide": {
+      "$value": "90rem"
+    }
+  }
+}

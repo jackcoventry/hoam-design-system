@@ -57,7 +57,7 @@ function Component() {
   const [loading, setLoading] = useState<boolean>(false);
 
   function handleChange(value: SetStateAction<FilterValue>) {
-    // TODO: This mimic's a server response, it could potentially show an actual request isntead
+    // This mimic's a server response
     setLoading(true);
 
     setTimeout(() => {

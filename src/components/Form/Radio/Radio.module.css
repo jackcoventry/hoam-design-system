@@ -10,10 +10,16 @@
 
 .root {
   display: inline-flex;
-  align-items: flex-start;
+  align-items: center;
   gap: var(--hoam-spacing-md);
   cursor: pointer;
   user-select: none;
+}
+
+@media (--hoam-hoverable) {
+  .root:hover {
+    color: var(--hoam-color-link-hover);
+  }
 }
 
 .disabled {

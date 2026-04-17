@@ -1,10 +1,9 @@
 import { type JSX, SetStateAction, useState } from 'react';
 
+import { Grid, GridItem } from '@/components/Layout';
+import { ProductTile } from '@/components/ProductTile';
 import { FilterBarData } from '@/mocks/components/FilterBar';
 import { productTile, productTileNew } from '@/mocks/components/ProductTile';
-
-import { Grid, GridItem } from '../Layout';
-import { ProductTile } from '../ProductTile';
 
 import { FilterBar } from './ProductFilters';
 import type { FilterValue } from './ProductFilters.types';
@@ -30,7 +29,7 @@ export function CoffeeFilterExample(): JSX.Element {
   const [loading, setLoading] = useState<boolean>(false);
 
   function handleChange(value: SetStateAction<FilterValue>) {
-    // TODO: This mimic's a server response, it could potentially show an actual request isntead
+    // This mimics a basic server response
     setLoading(true);
 
     setTimeout(() => {

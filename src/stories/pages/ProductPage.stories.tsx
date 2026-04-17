@@ -43,7 +43,7 @@ function DefaultStory(args: Readonly<ProductInfoProps>) {
   const onSubmit: SubmitHandler<ProductInformationSchemaType> = () => {
     setSubmitting(true);
 
-    // TODO: Mimic server response
+    // Mimic server response time
     setTimeout(() => {
       setSubmitting(false);
     }, 2000);

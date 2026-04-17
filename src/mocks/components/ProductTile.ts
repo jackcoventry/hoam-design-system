@@ -6,6 +6,10 @@ const productTile = {
   inStock: true,
   newItem: false,
   lowStock: false,
+  image: {
+    src: 'https://images.unsplash.com/photo-1685384338018-1774719d5b69?auto=format&fit=crop&q=80&w=600&h=600',
+    alt: 'A yellow cup filled with coffee',
+  },
 };
 
 const productTileOutOfStock = {
@@ -16,6 +20,10 @@ const productTileOutOfStock = {
   inStock: false,
   newItem: false,
   lowStock: false,
+  image: {
+    src: 'https://images.unsplash.com/photo-1685384338018-1774719d5b69?auto=format&fit=crop&q=80&w=600&h=600',
+    alt: 'A yellow cup filled with coffee',
+  },
 };
 
 const productTileNew = {
@@ -26,6 +34,10 @@ const productTileNew = {
   inStock: true,
   newItem: true,
   lowStock: false,
+  image: {
+    src: 'https://images.unsplash.com/photo-1685384338018-1774719d5b69?auto=format&fit=crop&q=80&w=600&h=600',
+    alt: 'A yellow cup filled with coffee',
+  },
 };
 
 const productTileLowStock = {
@@ -36,6 +48,10 @@ const productTileLowStock = {
   inStock: true,
   newItem: false,
   lowStock: true,
+  image: {
+    src: 'https://images.unsplash.com/photo-1685384338018-1774719d5b69?auto=format&fit=crop&q=80&w=600&h=600',
+    alt: 'A yellow cup filled with coffee',
+  },
 };
 
 export { productTile, productTileLowStock, productTileNew, productTileOutOfStock };
