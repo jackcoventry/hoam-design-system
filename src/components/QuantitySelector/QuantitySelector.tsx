@@ -1,5 +1,6 @@
 import { forwardRef, type KeyboardEvent, useEffect, useRef, useState } from 'react';
 
+import { useMessages } from '@/hooks/useMessages';
 import { clamp } from '@/utils/clamp';
 
 import styles from '@/components/QuantitySelector/QuantitySelector.module.css';
@@ -17,8 +18,9 @@ export interface QuantitySelectorProps {
 }
 
 export const QuantitySelector = forwardRef<HTMLInputElement, QuantitySelectorProps>(
-  (
-    {
+  (props, ref) => {
+    const t = useMessages('quantitySelector');
+    const {
       value = 0,
       onChange,
       min = 0,
@@ -26,11 +28,10 @@ export const QuantitySelector = forwardRef<HTMLInputElement, QuantitySelectorPro
       id,
       name,
       'aria-label': ariaLabel,
-      incrementLabel = 'Increase quantity',
-      decrementLabel = 'Decrease quantity',
-    },
-    ref
-  ) => {
+      incrementLabel = t.increment,
+      decrementLabel = t.decrement,
+    } = props;
+
     const ariaMin = Number.isFinite(min) ? min : undefined;
     const ariaMax = Number.isFinite(max) ? max : undefined;
     const latestValueRef = useRef(value);

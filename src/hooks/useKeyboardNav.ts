@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 
 import { focusNextTick, moveInList, querySubItemVisibility } from '@/components/Navigation/helpers';
+import { KEYS } from '@/constants/keys';
 
 type NavChildItem = {
   id: string;
@@ -26,7 +27,14 @@ type UseKeyboardNavOptions = {
   subSelectors: SubSelectors;
 };
 
-const HANDLED_KEYS = new Set(['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End']);
+const HANDLED_KEYS = new Set([
+  KEYS.ARROW_LEFT,
+  KEYS.ARROW_RIGHT,
+  KEYS.ARROW_UP,
+  KEYS.ARROW_DOWN,
+  KEYS.HOME,
+  KEYS.END,
+]);
 
 function isHTMLElement(target: EventTarget | null): target is HTMLElement {
   return target instanceof HTMLElement;
@@ -84,23 +92,23 @@ export function useKeyboardNav({
         const topItems = querySubItemVisibility<HTMLElement>(container, '[data-top-cyclable]');
 
         switch (logicalKey) {
-          case 'ArrowRight':
+          case KEYS.ARROW_RIGHT:
             moveInList(topItems, target, 1);
             return;
 
-          case 'ArrowLeft':
+          case KEYS.ARROW_LEFT:
             moveInList(topItems, target, -1);
             return;
 
-          case 'Home':
+          case KEYS.HOME:
             focusFirst(topItems);
             return;
 
-          case 'End':
+          case KEYS.END:
             focusLast(topItems);
             return;
 
-          case 'ArrowDown': {
+          case KEYS.ARROW_DOWN: {
             if (!isTopTrigger) return;
 
             const rawId = getRawId(target.id, 'trigger-');
@@ -143,29 +151,29 @@ export function useKeyboardNav({
         const categories = subSelectors.subTriggersOnly(panelEl);
 
         switch (logicalKey) {
-          case 'ArrowDown':
+          case KEYS.ARROW_DOWN:
             moveInList(categories, target, 1);
             return;
 
-          case 'ArrowUp':
+          case KEYS.ARROW_UP:
             moveInList(categories, target, -1);
             return;
 
-          case 'Home':
+          case KEYS.HOME:
             focusFirst(categories);
             return;
 
-          case 'End':
+          case KEYS.END:
             focusLast(categories);
             return;
 
-          case 'ArrowLeft': {
+          case KEYS.ARROW_LEFT: {
             const trigger = getPanelTrigger(container, panelEl);
             if (trigger) focusNextTick(trigger);
             return;
           }
 
-          case 'ArrowRight': {
+          case KEYS.ARROW_RIGHT: {
             const rawGroupId = getRawId(target.id, 'group-');
             if (!rawGroupId) return;
 
@@ -192,23 +200,23 @@ export function useKeyboardNav({
         const siblings = subSelectors.thirdList(container, groupId);
 
         switch (logicalKey) {
-          case 'ArrowDown':
+          case KEYS.ARROW_DOWN:
             moveInList(siblings, target, 1);
             return;
 
-          case 'ArrowUp':
+          case KEYS.ARROW_UP:
             moveInList(siblings, target, -1);
             return;
 
-          case 'Home':
+          case KEYS.HOME:
             focusFirst(siblings);
             return;
 
-          case 'End':
+          case KEYS.END:
             focusLast(siblings);
             return;
 
-          case 'ArrowLeft':
+          case KEYS.ARROW_LEFT:
             setOpenGroupId(null);
             focusNextTick(document.getElementById(groupId));
             return;

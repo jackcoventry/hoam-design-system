@@ -50,7 +50,6 @@ describe('Hero', () => {
     title: 'Title',
     subtitle: 'Subtitle',
     text: 'Text',
-    theme: 'default',
     button: {
       url: '/test',
       text: 'Click me',

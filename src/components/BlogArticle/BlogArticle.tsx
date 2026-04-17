@@ -32,6 +32,7 @@ export type BlogArticleProps = {
   title: string;
   summary: string;
   author: Author;
+  profileLink?: string | undefined;
   publishDate: string;
   readingTime: number;
   image: BlogImage;
@@ -45,6 +46,7 @@ export function BlogArticle({
   title,
   summary,
   author,
+  profileLink,
   publishDate,
   readingTime,
   image,
@@ -74,20 +76,32 @@ export function BlogArticle({
                     <div className={styles.meta}>
                       {author && (
                         <span className={styles.author}>
-                          {t.by}{' '}
-                          <a
-                            href={`/profile/${author.id}`}
-                            rel="author"
-                            className={styles.authorLink}
-                          >
-                            {author.name}
-                            <span className={styles.authorAvatar}>
-                              <img
-                                src={author.image}
-                                alt={`${t.avatarAria} ${author.name}`}
-                              />
+                          {t.by}
+                          {profileLink ? (
+                            <a
+                              href={profileLink}
+                              rel="author"
+                              className={styles.authorLink}
+                            >
+                              {author.name}
+                              <span className={styles.authorAvatar}>
+                                <img
+                                  src={author.image}
+                                  alt={`${t.avatarAria} ${author.name}`}
+                                />
+                              </span>
+                            </a>
+                          ) : (
+                            <span className={styles.authorLink}>
+                              {author.name}
+                              <span className={styles.authorAvatar}>
+                                <img
+                                  src={author.image}
+                                  alt={`${t.avatarAria} ${author.name}`}
+                                />
+                              </span>
                             </span>
-                          </a>
+                          )}
                         </span>
                       )}
                       <time

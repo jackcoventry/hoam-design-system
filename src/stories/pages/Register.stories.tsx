@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Meta } from '@storybook/react-vite';
 import { SubmitHandler } from 'react-hook-form';
 
@@ -20,11 +21,14 @@ export default meta;
 
 function StoryTemplate(props: Readonly<{ showError: boolean }>) {
   const { showError } = props;
+  const [error, setError] = useState<Error>();
 
   const onSubmit: SubmitHandler<RegisterFormSchemaType> = async () => {
     await new Promise<void>((resolve) => {
       setTimeout(() => {
-        if (!showError) {
+        if (showError) {
+          setError(new Error('Something went wrong!'));
+        } else {
           navigateToStory('Pages/Homepage', 'Default');
         }
       }, 500);
@@ -42,11 +46,10 @@ function StoryTemplate(props: Readonly<{ showError: boolean }>) {
               spanLg={4}
               startLg={5}
             >
-              {/* TODO: Add loading/error states */}
               <RegisterForm
                 onSubmit={onSubmit}
                 loading={false}
-                error={null}
+                error={error}
               />
             </GridItem>
           </Grid>

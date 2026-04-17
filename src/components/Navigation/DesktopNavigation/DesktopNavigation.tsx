@@ -9,6 +9,7 @@ import {
 import { querySubItemVisibility } from '@/components/Navigation/helpers';
 import type { NavTopLevelItem, NavUserItem } from '@/components/Navigation/types';
 import { useKeyboardNav } from '@/hooks/useKeyboardNav';
+import { KEYS } from '@/constants/keys';
 
 import styles from '@/components/Navigation/Navigation.module.css';
 
@@ -48,10 +49,10 @@ export function DesktopNavigation({
 
   const mapArrow = useCallback(
     (key: string) =>
-      isRTL && (key === 'ArrowLeft' || key === 'ArrowRight')
-        ? key === 'ArrowRight'
-          ? 'ArrowLeft'
-          : 'ArrowRight'
+      isRTL && (key === KEYS.ARROW_LEFT || key === KEYS.ARROW_RIGHT)
+        ? key === KEYS.ARROW_RIGHT
+          ? KEYS.ARROW_LEFT
+          : KEYS.ARROW_RIGHT
         : key,
     [isRTL]
   );

@@ -24,6 +24,7 @@ const meta: Meta<typeof BlogArticle> = {
       id: 'abc',
       image: 'https://placehold.co/20x20',
     },
+    profileLink: '/',
     publishDate: 'November 27 2025',
     readingTime: 7,
     image: {
@@ -52,6 +53,7 @@ function StoryTemplate({
   category,
   summary,
   author,
+  profileLink,
   publishDate,
   readingTime,
   image,
@@ -65,6 +67,7 @@ function StoryTemplate({
         category={category}
         summary={summary}
         author={author}
+        profileLink={profileLink}
         publishDate={publishDate}
         readingTime={readingTime}
         image={image}

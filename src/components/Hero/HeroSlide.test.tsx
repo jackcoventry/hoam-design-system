@@ -99,7 +99,6 @@ describe('HeroSlide', () => {
     title: 'Hero Title',
     subtitle: 'Hero Subtitle',
     text: 'Hero text content',
-    theme: 'default',
     button: {
       url: '/test',
       text: 'Click me',
@@ -129,17 +128,6 @@ describe('HeroSlide', () => {
     render(<HeroSlide {...baseProps} />);
 
     expect(mockUseMessages).toHaveBeenCalledWith('global');
-  });
-
-  it('applies the theme as a data attribute', () => {
-    const { container } = render(
-      <HeroSlide
-        {...baseProps}
-        theme="pink"
-      />
-    );
-
-    expect(container.firstChild).toHaveAttribute('data-theme', 'pink');
   });
 
   it('falls back to translated button text when button text is undefined', () => {

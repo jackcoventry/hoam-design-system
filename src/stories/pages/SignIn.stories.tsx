@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Meta } from '@storybook/react-vite';
 import { SubmitHandler } from 'react-hook-form';
 
@@ -15,11 +16,18 @@ const meta: Meta = {
 };
 export default meta;
 
-function StoryTemplate() {
+function StoryTemplate(props: Readonly<{ showError: boolean }>) {
+  const { showError } = props;
+  const [error, setError] = useState<Error>();
+
   const onSubmit: SubmitHandler<SignInFormSchemaType> = async () => {
     await new Promise<void>((resolve) => {
       setTimeout(() => {
-        navigateToStory('Pages/Homepage', 'Default');
+        if (showError) {
+          setError(new Error('Something went wrong!'));
+        } else {
+          navigateToStory('Pages/Homepage', 'Default');
+        }
       }, 500);
       resolve();
     });
@@ -35,12 +43,10 @@ function StoryTemplate() {
               spanLg={4}
               startLg={5}
             >
-              {/* TODO: Add loading/error states */}
-
               <SignInForm
                 onSubmit={onSubmit}
                 loading={false}
-                error={null}
+                error={error}
               />
             </GridItem>
           </Grid>
@@ -51,7 +57,8 @@ function StoryTemplate() {
 }
 
 const Template = {
-  render: StoryTemplate,
+  render: (args: { showError: boolean }) => <StoryTemplate showError={args.showError} />,
 };
 
 export const Default = { ...Template, args: {} };
+export const WithError = { ...Template, args: { showError: true } };

@@ -3,12 +3,15 @@ import { Controller, SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import z from 'zod';
 
 import { Button } from '@/components/Button';
+import { ErrorPanel } from '@/components/ErrorPanel';
 import {
   calculatePasswordStrength,
   FieldLabel,
   FieldWrapper,
   PasswordStrengthMeter,
 } from '@/components/Form';
+import { Container, Grid, GridItem } from '@/components/Layout';
+import { useMessages } from '@/hooks/useMessages';
 
 import styles from '@/components/Form/Form.module.css';
 
@@ -45,10 +48,12 @@ export type RegisterFormProps = {
   onSubmit: SubmitHandler<RegisterFormSchemaType>;
   loading: boolean;
   data?: RegisterFormResult | null | undefined;
-  error?: Error | null;
+  error?: Error | undefined;
 };
 
-export function RegisterForm({ onSubmit, data, loading }: Readonly<RegisterFormProps>) {
+export function RegisterForm({ onSubmit, data, error, loading }: Readonly<RegisterFormProps>) {
+  const t = useMessages('form');
+  const regForm = useMessages('registerForm');
   const {
     control,
     handleSubmit,
@@ -77,9 +82,21 @@ export function RegisterForm({ onSubmit, data, loading }: Readonly<RegisterFormP
 
   const textFieldClasses = styles.textField;
 
+  if (error) {
+    return (
+      <Container>
+        <Grid>
+          <GridItem span={12}>
+            <ErrorPanel message={error.message} />
+          </GridItem>
+        </Grid>
+      </Container>
+    );
+  }
+
   return submitComplete ? (
     <div className={styles.wrapper}>
-      <h1 className={styles.title}>Success! Redirecting now...</h1>
+      <h1 className={styles.title}>{t.redirect}</h1>
     </div>
   ) : (
     <div className={styles.wrapper}>
@@ -89,10 +106,10 @@ export function RegisterForm({ onSubmit, data, loading }: Readonly<RegisterFormP
           void handleSubmit(onSubmit)(event);
         }}
       >
-        <h2 className={styles.title}>Register</h2>
+        <h2 className={styles.title}>{regForm.title}</h2>
 
         <section>
-          <FieldLabel htmlFor="firstName">First Name</FieldLabel>
+          <FieldLabel htmlFor="firstName">{regForm.firstNameLabel}</FieldLabel>
           <FieldWrapper error={errors?.firstName?.message}>
             <Controller
               name="firstName"
@@ -101,7 +118,7 @@ export function RegisterForm({ onSubmit, data, loading }: Readonly<RegisterFormP
                 <input
                   {...field}
                   id="firstName"
-                  placeholder="Enter your first name"
+                  placeholder={regForm.firstNamePlaceholder}
                   className={textFieldClasses}
                   data-valid={errors?.firstName ? 'false' : 'true'}
                   disabled={loading}
@@ -112,7 +129,7 @@ export function RegisterForm({ onSubmit, data, loading }: Readonly<RegisterFormP
         </section>
 
         <section>
-          <FieldLabel htmlFor="lastName">Last Name</FieldLabel>
+          <FieldLabel htmlFor="lastName">{regForm.lastNameLabel}</FieldLabel>
           <FieldWrapper error={errors?.lastName?.message}>
             <Controller
               name="lastName"
@@ -121,7 +138,7 @@ export function RegisterForm({ onSubmit, data, loading }: Readonly<RegisterFormP
                 <input
                   {...field}
                   id="lastName"
-                  placeholder="Enter your last name"
+                  placeholder={regForm.lastNamePlaceholder}
                   className={textFieldClasses}
                   data-valid={errors?.lastName ? 'false' : 'true'}
                   disabled={loading}
@@ -132,7 +149,7 @@ export function RegisterForm({ onSubmit, data, loading }: Readonly<RegisterFormP
         </section>
 
         <section>
-          <FieldLabel htmlFor="email">Email</FieldLabel>
+          <FieldLabel htmlFor="email">{regForm.emailLabel}</FieldLabel>
           <FieldWrapper error={errors?.email?.message}>
             <Controller
               name="email"
@@ -141,7 +158,7 @@ export function RegisterForm({ onSubmit, data, loading }: Readonly<RegisterFormP
                 <input
                   {...field}
                   id="email"
-                  placeholder="Enter your email address"
+                  placeholder={regForm.emailPlaceholder}
                   className={textFieldClasses}
                   data-valid={errors?.email ? 'false' : 'true'}
                   disabled={loading}
@@ -153,7 +170,7 @@ export function RegisterForm({ onSubmit, data, loading }: Readonly<RegisterFormP
 
         <hr />
         <section>
-          <FieldLabel htmlFor="password">Password</FieldLabel>
+          <FieldLabel htmlFor="password">{regForm.passwordLabel}</FieldLabel>
           <PasswordStrengthMeter strength={passwordStrength} />
           <FieldWrapper error={errors?.password?.message}>
             <Controller
@@ -164,7 +181,7 @@ export function RegisterForm({ onSubmit, data, loading }: Readonly<RegisterFormP
                   {...field}
                   type="password"
                   id="password"
-                  placeholder="Enter your password"
+                  placeholder={regForm.passwordPlaceholder}
                   className={textFieldClasses}
                   data-valid={errors?.password ? 'false' : 'true'}
                   disabled={loading}
@@ -175,7 +192,7 @@ export function RegisterForm({ onSubmit, data, loading }: Readonly<RegisterFormP
         </section>
 
         <section>
-          <FieldLabel htmlFor="confirmPassword">Confirm Password</FieldLabel>
+          <FieldLabel htmlFor="confirmPassword">{regForm.passwordConfirmLabel}</FieldLabel>
           <FieldWrapper error={errors?.confirmPassword?.message}>
             <Controller
               name="confirmPassword"
@@ -185,7 +202,7 @@ export function RegisterForm({ onSubmit, data, loading }: Readonly<RegisterFormP
                   {...field}
                   type="password"
                   id="confirmPassword"
-                  placeholder="Confirm your password"
+                  placeholder={regForm.passwordConfirmPlaceholder}
                   className={textFieldClasses}
                   data-valid={errors?.confirmPassword ? 'false' : 'true'}
                   disabled={loading}
@@ -200,7 +217,7 @@ export function RegisterForm({ onSubmit, data, loading }: Readonly<RegisterFormP
           className={styles.submit}
           variant="tertiary"
         >
-          Register
+          {regForm.submit}
         </Button>
       </form>
     </div>

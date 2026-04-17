@@ -166,6 +166,7 @@ export function FilterBarRangePanel({
         className={styles.rangeSummary}
         aria-live="polite"
       >
+        {/* TODO: support multiple currencies */}
         <span>{group.minLabel ?? `£${group.min}`}</span>
         <span>{group.maxLabel ?? `£${group.max}`}</span>
       </div>

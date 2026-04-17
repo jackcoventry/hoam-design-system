@@ -3,6 +3,7 @@ import { Activity, type KeyboardEvent, useRef, useState } from 'react';
 import { Button } from '@/components/Button';
 import { BodyText } from '@/components/Common/BodyText';
 import type { TabsProps } from '@/components/Tabs';
+import { KEYS } from '@/constants/keys';
 
 import styles from '@/components/Tabs/Tabs.module.css';
 
@@ -42,45 +43,45 @@ export function DesktopTabs({
   const handleTabKeyDown = (event: KeyboardEvent<HTMLButtonElement>, index: number, id: string) => {
     const { key } = event;
 
-    if (key === 'Home') {
+    if (key === KEYS.HOME) {
       event.preventDefault();
       focusTabByIndex(0, { activate: isAutomatic });
       return;
     }
 
-    if (key === 'End') {
+    if (key === KEYS.END) {
       event.preventDefault();
       focusTabByIndex(items.length - 1, { activate: isAutomatic });
       return;
     }
 
     if (isVertical) {
-      if (key === 'ArrowUp') {
+      if (key === KEYS.ARROW_UP) {
         event.preventDefault();
         focusTabByIndex(index - 1, { activate: isAutomatic });
         return;
       }
 
-      if (key === 'ArrowDown') {
+      if (key === KEYS.ARROW_DOWN) {
         event.preventDefault();
         focusTabByIndex(index + 1, { activate: isAutomatic });
         return;
       }
     } else {
-      if (key === 'ArrowLeft') {
+      if (key === KEYS.ARROW_LEFT) {
         event.preventDefault();
         focusTabByIndex(index - 1, { activate: isAutomatic });
         return;
       }
 
-      if (key === 'ArrowRight') {
+      if (key === KEYS.ARROW_RIGHT) {
         event.preventDefault();
         focusTabByIndex(index + 1, { activate: isAutomatic });
         return;
       }
     }
 
-    if (key === 'Enter' || key === ' ') {
+    if (key === KEYS.ENTER || key === ' ') {
       event.preventDefault();
       setActiveTab(id);
     }

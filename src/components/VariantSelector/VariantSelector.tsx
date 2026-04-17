@@ -2,6 +2,7 @@ import { forwardRef, useId, useMemo, useRef, useState } from 'react';
 import clsx from 'clsx';
 
 import { Stack } from '@/components/Layout';
+import { KEYS } from '@/constants/keys';
 
 import styles from '@/components/VariantSelector/VariantSelector.module.css';
 import utils from '@/styles/Util.module.css';
@@ -168,10 +169,10 @@ export const VariantSelector = forwardRef<HTMLInputElement, VariantSelectorProps
               }
             }}
             onKeyDown={(event) => {
-              const left = event.key === 'ArrowLeft';
-              const right = event.key === 'ArrowRight';
-              const up = event.key === 'ArrowUp';
-              const down = event.key === 'ArrowDown';
+              const left = event.key === KEYS.ARROW_LEFT;
+              const right = event.key === KEYS.ARROW_RIGHT;
+              const up = event.key === KEYS.ARROW_UP;
+              const down = event.key === KEYS.ARROW_DOWN;
 
               const relevant = left || right;
 

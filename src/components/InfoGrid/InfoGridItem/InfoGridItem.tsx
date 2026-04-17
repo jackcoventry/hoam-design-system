@@ -1,5 +1,3 @@
-import clsx from 'clsx';
-
 import { Icon } from '@/components/Icon';
 import { IconId } from '@/design-tokens/icons';
 
@@ -13,7 +11,7 @@ export type InfoGridItemProps = {
 
 export function InfoGridItem({ title, description, icon }: Readonly<InfoGridItemProps>) {
   return (
-    <div className={clsx(styles.root, 'mb-lg lg:mb-0')}>
+    <div className={styles.root}>
       <span className={styles.icon}>
         <Icon
           id={icon as IconId}

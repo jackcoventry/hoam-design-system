@@ -32,6 +32,12 @@ type ProductOption = {
   disabled?: boolean;
 };
 
+type MoreInformationItem = {
+  id: string;
+  title: string;
+  text: string;
+};
+
 export type ProductInfoProps = {
   title: string;
   description?: string | undefined;
@@ -47,6 +53,7 @@ export type ProductInfoProps = {
       image: ProductOption[];
       tshirt: ProductOption[];
     };
+    moreInformation: MoreInformationItem[];
   };
   onSubmit: (args: ProductInformationSchemaType) => void;
   isSubmitting: boolean;
@@ -79,6 +86,12 @@ export function ProductInfo({
       {} as Record<string, { name: string; options: ProductOption[] }>
     )
   );
+
+  const defaultMoreInformation = data?.moreInformation?.[0];
+
+  if (!defaultMoreInformation) {
+    logger.error('More information requires at least one item.');
+  }
 
   const defaultColor = colorOptions[0];
   const defaultSize = sizeOptions[0];
@@ -200,7 +213,6 @@ export function ProductInfo({
                       label="T-Shirt Size"
                       {...field}
                     >
-                      <Select.Placeholder>Select size</Select.Placeholder>
                       {tshirtOptionsByCategory?.map((category) => (
                         <Select.OptGroup
                           key={category.name}
@@ -235,45 +247,22 @@ export function ProductInfo({
 
         <Section>
           <div className={styles.information}>
-            <Accordion defaultOpenIds={['one']}>
-              <AccordionItem id="one">
-                <AccordionHeader>
-                  <strong>Description</strong>
-                </AccordionHeader>
-                <AccordionPanel>
-                  <BodyText>
-                    <p>
-                      Ut minim mollit officia ad adipiscing velit duis duis fugiat. Reprehenderit
-                      voluptate dolore laboris esse in adipiscing adipiscing voluptate anim laboris
-                      qui reprehenderit eiusmod eiusmod incididunt occaecat excepteur mollit. Ad
-                      labore irure amet sit aliquip veniam pariatur veniam laboris nostrud nulla
-                      ullamco. Adipiscing veniam dolore cupidatat qui ad exercitation elit labore
-                      velit et aliquip adipiscing occaecat fugiat consequat esse sint nulla ea.
-                      Excepteur anim cillum culpa ullamco labore commodo veniam ut dolor excepteur
-                      irure duis voluptate proident ex in velit qui anim.
-                    </p>
-                  </BodyText>
-                </AccordionPanel>
-              </AccordionItem>
-              <AccordionItem id="two">
-                <AccordionHeader>
-                  <strong>Returns Policy</strong>
-                </AccordionHeader>
-                <AccordionPanel>
-                  <BodyText>
-                    <p>
-                      Fugiat esse consequat ad aliquip amet aliquip sed sit voluptate. Enim est
-                      culpa labore pariatur aliquip culpa mollit excepteur officia ea magna. Mollit
-                      ipsum nisi mollit minim laboris labore sunt et dolore ullamco reprehenderit.
-                      Dolor est velit adipiscing commodo nisi deserunt commodo ad cillum amet veniam
-                      in ea ut incididunt esse cupidatat eiusmod. Et ullamco aute elit tempor cillum
-                      id aliqua aute magna irure sit. Ex cillum sint incididunt sit adipiscing
-                      commodo labore duis nulla laborum dolor laborum. Aliqua do proident laborum in
-                      reprehenderit commodo ut adipiscing sunt.
-                    </p>
-                  </BodyText>
-                </AccordionPanel>
-              </AccordionItem>
+            <Accordion defaultOpenIds={[defaultMoreInformation.id]}>
+              {data?.moreInformation?.map((item) => (
+                <AccordionItem
+                  key={item.id}
+                  id={item.id}
+                >
+                  <AccordionHeader>
+                    <strong>{item.title}</strong>
+                  </AccordionHeader>
+                  <AccordionPanel>
+                    <BodyText>
+                      <p>{item.text}</p>
+                    </BodyText>
+                  </AccordionPanel>
+                </AccordionItem>
+              ))}
             </Accordion>
           </div>
         </Section>

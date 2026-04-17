@@ -1,3 +1,5 @@
+import { M } from 'vitest/dist/chunks/reporters.d.BFLkQcL6.js';
+
 export const defaultMessages = {
   global: {
     readMore: 'Read more',
@@ -29,7 +31,23 @@ export const defaultMessages = {
     backToTop: 'Back to top',
     socialTitle: 'Follow us',
   },
-  form: {},
+  form: {
+    redirect: 'Success! Redirecting now...',
+  },
+  registerForm: {
+    title: 'Register',
+    firstNameLabel: 'First Name',
+    firstNamePlaceholder: 'Enter your first name',
+    lastNameLabel: 'Last Name',
+    lastNamePlaceholder: 'Enter your last name',
+    emailLabel: 'Email',
+    emailPlaceholder: 'Enter your email address',
+    passwordLabel: 'Password',
+    passwordPlaceholder: 'Enter your password',
+    passwordConfirmLabel: 'Confirm Password',
+    passwordConfirmPlaceholder: 'Confirm your password',
+    submit: 'Register',
+  },
   message: {
     close: 'Close message',
   },
@@ -43,6 +61,12 @@ export const defaultMessages = {
     userNavigation: 'User navigation',
     explore: 'Explore',
     modalBasket: 'Your Basket',
+  },
+  newsletter: {
+    emailLabel: 'Email address',
+    emailPlaceholder: 'Enter your email',
+    sending: 'Sending...',
+    submit: 'Subscribe',
   },
   pagination: {
     previous: 'Previous page',
@@ -84,10 +108,24 @@ export const defaultMessages = {
     addedToCart: 'Added!',
     save: 'Save for later',
   },
+  quantitySelector: {
+    increment: 'Increase quantity',
+    decrement: 'Decrease quantity',
+  },
+  searchForm: {
+    submitLabel: 'Search',
+    placeholderText: 'Enter keywords',
+  },
   sidebarNavigation: {
     title: 'Sidebar navigation',
     hide: 'Hide navigation',
     show: 'Show navigation',
+  },
+  signIn: {
+    title: 'Sign in',
+    submit: 'Sign in',
+    emailPlaceholder: 'Enter your email',
+    passwordPlaceholder: 'Enter your password',
   },
   skipToContent: {
     text: 'Skip to main content',

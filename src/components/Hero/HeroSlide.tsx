@@ -5,8 +5,6 @@ import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 
 import styles from '@/components/Hero/HeroSlide.module.css';
 
-export type HeroTheme = 'default' | 'pink' | 'sky';
-
 export type HeroBackground =
   | {
       kind: 'image';
@@ -27,7 +25,6 @@ export type HeroSlideProps = {
   title: string;
   subtitle: string;
   text: string;
-  theme: HeroTheme;
   background?: HeroBackground | undefined;
   featuredImage?: HeroImage | undefined;
   button: {
@@ -42,7 +39,6 @@ export function HeroSlide({
   text,
   background,
   featuredImage,
-  theme = 'default',
   button,
 }: Readonly<HeroSlideProps>) {
   const t = useMessages('global');
@@ -54,10 +50,7 @@ export function HeroSlide({
   };
 
   return (
-    <div
-      className={styles.root}
-      data-theme={theme}
-    >
+    <div className={styles.root}>
       {background ? (
         <div className={styles.background}>
           {background.kind === 'image' ? (

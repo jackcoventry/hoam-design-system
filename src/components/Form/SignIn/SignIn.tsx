@@ -3,7 +3,10 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import z from 'zod';
 
 import { Button } from '@/components/Button';
+import { ErrorPanel } from '@/components/ErrorPanel';
 import { FieldWrapper } from '@/components/Form';
+import { Container, Grid, GridItem } from '@/components/Layout';
+import { useMessages } from '@/hooks/useMessages';
 
 import styles from '@/components/Form/Form.module.css';
 
@@ -21,10 +24,13 @@ export type SignInFormProps = {
   onSubmit: SubmitHandler<SignInFormSchemaType>;
   loading: boolean;
   data?: SignInFormResult | null;
-  error?: Error | null;
+  error?: Error | undefined;
 };
 
-export function SignInForm({ onSubmit, data, loading }: Readonly<SignInFormProps>) {
+export function SignInForm({ onSubmit, data, error, loading }: Readonly<SignInFormProps>) {
+  const tForm = useMessages('form');
+  const t = useMessages('signIn');
+
   const {
     control,
     handleSubmit,
@@ -42,9 +48,21 @@ export function SignInForm({ onSubmit, data, loading }: Readonly<SignInFormProps
 
   const textFieldClasses = styles.textField;
 
+  if (error) {
+    return (
+      <Container>
+        <Grid>
+          <GridItem span={12}>
+            <ErrorPanel message={error.message} />
+          </GridItem>
+        </Grid>
+      </Container>
+    );
+  }
+
   return submitComplete ? (
     <div className={styles.wrapper}>
-      <h1 className={styles.title}>Success! Redirecting now...</h1>
+      <h1 className={styles.title}>{tForm.redirect}</h1>
     </div>
   ) : (
     <div className={styles.wrapper}>
@@ -54,7 +72,7 @@ export function SignInForm({ onSubmit, data, loading }: Readonly<SignInFormProps
           void handleSubmit(onSubmit)(event);
         }}
       >
-        <h2 className={styles.title}>Sign in</h2>
+        <h2 className={styles.title}>{t.title}</h2>
 
         <FieldWrapper error={errors.email_address?.message}>
           <Controller
@@ -63,7 +81,7 @@ export function SignInForm({ onSubmit, data, loading }: Readonly<SignInFormProps
             render={({ field }) => (
               <input
                 {...field}
-                placeholder="Enter your email address"
+                placeholder={t.emailPlaceholder}
                 className={textFieldClasses}
                 data-valid={errors.email_address ? 'false' : 'true'}
                 disabled={loading}
@@ -80,7 +98,7 @@ export function SignInForm({ onSubmit, data, loading }: Readonly<SignInFormProps
               <input
                 {...field}
                 type="password"
-                placeholder="Enter your password"
+                placeholder={t.passwordPlaceholder}
                 className={textFieldClasses}
                 data-valid={errors.password ? 'false' : 'true'}
                 disabled={loading}
@@ -94,7 +112,7 @@ export function SignInForm({ onSubmit, data, loading }: Readonly<SignInFormProps
           className={styles.submit}
           variant="tertiary"
         >
-          Sign in
+          {t.submit}
         </Button>
       </form>
     </div>

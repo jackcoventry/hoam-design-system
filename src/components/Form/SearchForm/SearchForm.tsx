@@ -7,6 +7,7 @@ import { Button } from '@/components/Button';
 import { Stack } from '@/components/Layout';
 import { Spinner } from '@/components/Loading';
 import { Pagination } from '@/components/Pagination';
+import { useMessages } from '@/hooks/useMessages';
 
 import formStyles from '@/components/Form/Form.module.css';
 import styles from '@/components/Form/SearchForm/SearchForm.module.css';
@@ -93,13 +94,18 @@ export function SearchResults({ items }: Readonly<SearchResultsProps>) {
   );
 }
 
-export function SearchForm({
-  onClose,
-  onSubmit,
-  loading,
-  submitLabel = 'Search',
-  placeholderText = 'Enter keywords...',
-}: Readonly<SearchFormProps>) {
+export function SearchForm(props: Readonly<SearchFormProps>) {
+  const tModal = useMessages('modal');
+  const t = useMessages('searchForm');
+
+  const {
+    onClose,
+    onSubmit,
+    loading,
+    submitLabel = t.submitLabel,
+    placeholderText = t.placeholderText,
+  } = props;
+
   const {
     control,
     handleSubmit,
@@ -122,7 +128,7 @@ export function SearchForm({
           className={clsx(styles.srClose, utils.focusableOnly)}
           onClick={onClose}
         >
-          Close Modal
+          {tModal.close}
         </Button>
         <form
           className={styles.root}

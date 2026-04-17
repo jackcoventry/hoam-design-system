@@ -5,6 +5,7 @@ import z from 'zod';
 import { Button } from '@/components/Button';
 import { BodyText } from '@/components/Common/BodyText';
 import { Container, Grid, GridItem, Stack } from '@/components/Layout';
+import { useMessages } from '@/hooks/useMessages';
 import { AsyncState } from '@/types/async';
 
 import formStyles from '@/components/Form/Form.module.css';
@@ -41,6 +42,7 @@ export function NewsletterBanner<TData, TError extends Error = Error>({
     },
     mode: 'all',
   });
+  const t = useMessages('newsletter');
 
   const textFieldClasses = formStyles.textField;
 
@@ -83,7 +85,7 @@ export function NewsletterBanner<TData, TError extends Error = Error>({
                       htmlFor="newsletter-email"
                       className={utils.srOnly}
                     >
-                      Email address
+                      {t.emailLabel}
                     </label>
 
                     <Controller
@@ -94,7 +96,7 @@ export function NewsletterBanner<TData, TError extends Error = Error>({
                           {...field}
                           id="newsletter-email"
                           type="email"
-                          placeholder={errors.email?.message || 'Enter your email'}
+                          placeholder={errors.email?.message || t.emailPlaceholder}
                           className={textFieldClasses}
                           data-valid={errors.email ? 'false' : 'true'}
                           disabled={state.status === 'loading'}
@@ -107,7 +109,7 @@ export function NewsletterBanner<TData, TError extends Error = Error>({
                       className={styles.button}
                       variant="primary"
                     >
-                      {state.status === 'loading' ? 'Sending...' : 'Subscribe'}
+                      {state.status === 'loading' ? t.sending : t.submit}
                     </Button>
                   </form>
                 </GridItem>

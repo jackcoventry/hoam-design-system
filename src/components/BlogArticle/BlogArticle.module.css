@@ -12,14 +12,18 @@
 }
 
 .authorLink {
-  color: var(--hoam-color-link-default);
+  align-items: center;
   display: flex;
   gap: var(--hoam-spacing-xs);
+}
+
+a.authorLink {
+  color: var(--hoam-color-link-default);
   text-decoration: none;
 }
 
 @media (--hoam-hoverable) {
-  .authorLink:hover {
+  a.authorLink:hover {
     color: var(--hoam-color-link-hover);
     text-decoration: underline;
   }
