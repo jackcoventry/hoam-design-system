@@ -298,6 +298,18 @@ describe('ProductInfo', () => {
           },
         ],
       },
+      moreInformation: [
+        {
+          id: 'item-1',
+          title: 'Description',
+          text: 'Ut minim mollit officia ad adipiscing velit duis duis fugiat. Reprehenderit voluptate dolore laboris esse in adipiscing adipiscing voluptate anim laboris qui reprehenderit eiusmod eiusmod incididunt occaecat excepteur mollit. Ad labore irure amet sit aliquip veniam pariatur veniam laboris nostrud nulla ullamco. Adipiscing veniam dolore cupidatat qui ad exercitation elit labore velit et aliquip adipiscing occaecat fugiat consequat esse sint nulla ea. Excepteur anim cillum culpa ullamco labore commodo veniam ut dolor excepteur irure duis voluptate proident ex in velit qui anim.',
+        },
+        {
+          id: 'item-2',
+          title: 'Returns Policy',
+          text: 'Ut minim mollit officia ad adipiscing velit duis duis fugiat. Reprehenderit voluptate dolore laboris esse in adipiscing adipiscing voluptate anim laboris qui reprehenderit eiusmod eiusmod incididunt occaecat excepteur mollit. Ad labore irure amet sit aliquip veniam pariatur veniam laboris nostrud nulla ullamco. Adipiscing veniam dolore cupidatat qui ad exercitation elit labore velit et aliquip adipiscing occaecat fugiat consequat esse sint nulla ea. Excepteur anim cillum culpa ullamco labore commodo veniam ut dolor excepteur irure duis voluptate proident ex in velit qui anim.',
+        },
+      ],
     },
   };
 
@@ -428,6 +440,7 @@ describe('ProductInfo', () => {
             ...baseProps.data.options,
             tshirt: [{ label: 'Mystery', value: 'mystery', displayValue: 'Mystery Size' }],
           },
+          moreInformation: [],
         }}
       />
     );
@@ -535,7 +548,7 @@ describe('ProductInfo', () => {
   it('renders accordion information sections', () => {
     render(<ProductInfo {...baseProps} />);
 
-    expect(screen.getByTestId('accordion')).toHaveAttribute('data-default-open-ids', 'one');
+    expect(screen.getByTestId('accordion')).toHaveAttribute('data-default-open-ids', 'item-1');
     expect(screen.getByText('Description')).toBeInTheDocument();
     expect(screen.getByText('Returns Policy')).toBeInTheDocument();
     expect(screen.getAllByTestId('accordion-item')).toHaveLength(2);
@@ -554,6 +567,7 @@ describe('ProductInfo', () => {
               image: baseProps.data.options.image,
               tshirt: baseProps.data.options.tshirt,
             },
+            moreInformation: baseProps.data.moreInformation,
           }}
         />
       )

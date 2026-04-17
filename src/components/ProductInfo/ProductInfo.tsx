@@ -247,7 +247,7 @@ export function ProductInfo({
 
         <Section>
           <div className={styles.information}>
-            <Accordion defaultOpenIds={[defaultMoreInformation.id]}>
+            <Accordion defaultOpenIds={[defaultMoreInformation?.id]}>
               {data?.moreInformation?.map((item) => (
                 <AccordionItem
                   key={item.id}

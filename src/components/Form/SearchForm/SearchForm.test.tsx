@@ -151,7 +151,7 @@ describe('SearchForm', () => {
       />
     );
 
-    expect(screen.getByRole('button', { name: 'Close Modal' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Close dialog' })).toBeInTheDocument();
     expect(screen.getByRole('searchbox', { name: 'Search' })).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Enter keywords...')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Search' })).toBeInTheDocument();
@@ -184,7 +184,7 @@ describe('SearchForm', () => {
       />
     );
 
-    fireEvent.click(screen.getByRole('button', { name: 'Close Modal' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Close dialog' }));
 
     expect(onClose).toHaveBeenCalledTimes(1);
   });
@@ -308,7 +308,7 @@ describe('SearchForm', () => {
       />
     );
 
-    expect(screen.getByRole('button', { name: 'Close Modal' })).not.toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Close dialog' })).not.toBeDisabled();
   });
 
   it('uses the expected input id and label association', () => {

@@ -17,6 +17,7 @@ import type {
   TopNavigationItemProps,
 } from '@/components/Navigation/types';
 import { useMessages } from '@/hooks/useMessages';
+import { LibraryMessages } from '@/lib/i18n/types';
 
 let capturedTopNavigationItemProps: TopNavigationItemProps[] = [];
 let capturedPanelProps: PanelProps[] = [];
@@ -27,6 +28,8 @@ let capturedPromoBlockProps: PromoBlockProps[] = [];
 vi.mock('@/hooks/useMessages', () => ({
   useMessages: vi.fn(),
 }));
+
+const mockedUseMessages = vi.mocked(useMessages);
 
 vi.mock('@/components/Navigation/helpers', () => ({
   panelId: vi.fn((id: string) => `${id}-panel`),
@@ -265,8 +268,13 @@ describe('DesktopNavigationItems', () => {
     capturedThirdLevelItemsProps = [];
     capturedPromoBlockProps = [];
 
-    vi.mocked(useMessages).mockReturnValue({
-      explore: 'Explore',
+    mockedUseMessages.mockImplementation((key) => {
+      if (key !== 'navigation') {
+        throw new Error(`Unexpected key: ${String(key)}`);
+      }
+      return {
+        explore: 'Explore',
+      } as LibraryMessages['navigation'];
     });
   });
 
@@ -685,8 +693,13 @@ describe('DesktopNavigationItems', () => {
   });
 
   it('uses the translated explore label in the promo aside aria-label', () => {
-    vi.mocked(useMessages).mockReturnValue({
-      explore: 'Explore',
+    mockedUseMessages.mockImplementation((key) => {
+      if (key !== 'navigation') {
+        throw new Error(`Unexpected key: ${String(key)}`);
+      }
+      return {
+        explore: 'Explore',
+      } as LibraryMessages['navigation'];
     });
 
     const props = createProps({

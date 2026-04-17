@@ -6,6 +6,7 @@ import { MobileNavigation } from '@/components/Navigation/MobileNavigation/Mobil
 import type { NavTreeItem } from '@/components/Navigation/types';
 import { useMessages } from '@/hooks/useMessages';
 import { SITE } from '@/constants/site';
+import { LibraryMessages } from '@/lib/i18n/types';
 
 type MockMobileNavigationItemProps = {
   item: NavTreeItem;
@@ -102,6 +103,7 @@ function createItems(): NavTreeItem[] {
     },
   ];
 }
+const mockedUseMessages = vi.mocked(useMessages);
 
 describe('MobileNavigation', () => {
   beforeEach(() => {
@@ -109,10 +111,15 @@ describe('MobileNavigation', () => {
     capturedMobileNavigationItemProps = [];
     lastFocusTrapArgs = null;
 
-    vi.mocked(useMessages).mockReturnValue({
-      open: 'Open menu',
-      close: 'Close menu',
-      mainNavigation: 'Main navigation',
+    mockedUseMessages.mockImplementation((key) => {
+      if (key !== 'navigation') {
+        throw new Error(`Unexpected key: ${String(key)}`);
+      }
+      return {
+        open: 'Open menu',
+        close: 'Close menu',
+        mainNavigation: 'Main navigation',
+      } as LibraryMessages['navigation'];
     });
   });
 

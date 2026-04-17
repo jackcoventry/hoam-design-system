@@ -5,10 +5,13 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { TopNavigation } from '@/components/Navigation/MainNavigation/TopNavigation';
 import { useMessages } from '@/hooks/useMessages';
+import { LibraryMessages } from '@/lib/i18n/types';
 
 vi.mock('@/hooks/useMessages', () => ({
   useMessages: vi.fn(),
 }));
+
+const mockedUseMessages = vi.mocked(useMessages);
 
 vi.mock('@/components/Navigation/Navigation.module.css', () => ({
   default: {
@@ -29,8 +32,13 @@ describe('TopNavigation', () => {
   beforeEach(() => {
     vi.clearAllMocks();
 
-    vi.mocked(useMessages).mockReturnValue({
-      mainNavigation: 'Main navigation',
+    mockedUseMessages.mockImplementation((key) => {
+      if (key !== 'navigation') {
+        throw new Error(`Unexpected key: ${String(key)}`);
+      }
+      return {
+        mainNavigation: 'Main navigation',
+      } as LibraryMessages['navigation'];
     });
   });
 
@@ -99,12 +107,17 @@ describe('TopNavigation', () => {
   });
 
   it('updates aria-label when translations change', () => {
-    vi.mocked(useMessages).mockReturnValue({
-      mainNavigation: 'Primary navigation',
+    mockedUseMessages.mockImplementation((key) => {
+      if (key !== 'navigation') {
+        throw new Error(`Unexpected key: ${String(key)}`);
+      }
+      return {
+        mainNavigation: 'Main navigation',
+      } as LibraryMessages['navigation'];
     });
 
     render(<TopNavigation>{createChildren()}</TopNavigation>);
 
-    expect(screen.getByRole('navigation', { name: 'Primary navigation' })).toBeInTheDocument();
+    expect(screen.getByRole('navigation', { name: 'Main navigation' })).toBeInTheDocument();
   });
 });

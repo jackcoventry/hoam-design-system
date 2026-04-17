@@ -19,7 +19,7 @@ vi.mock('@/components/Button', () => ({
 }));
 
 async function fillValidForm(user: ReturnType<typeof userEvent.setup>) {
-  await user.type(screen.getByPlaceholderText('Enter your email address'), 'john@example.com');
+  await user.type(screen.getByPlaceholderText('Enter your email'), 'john@example.com');
   await user.type(screen.getByPlaceholderText('Enter your password'), 'abcde');
 }
 
@@ -32,7 +32,7 @@ describe('SignInForm', () => {
         onSubmit={onSubmit}
         loading={false}
         data={null}
-        error={null}
+        error={undefined}
         {...props}
       />
     );
@@ -44,7 +44,7 @@ describe('SignInForm', () => {
     renderComponent();
 
     expect(screen.getByRole('heading', { level: 2, name: 'Sign in' })).toBeInTheDocument();
-    expect(screen.getByPlaceholderText('Enter your email address')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Enter your email')).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Enter your password')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Sign in' })).toBeInTheDocument();
   });
@@ -73,7 +73,7 @@ describe('SignInForm', () => {
     const user = userEvent.setup();
     const { onSubmit } = renderComponent();
 
-    await user.type(screen.getByPlaceholderText('Enter your email address'), 'not-an-email');
+    await user.type(screen.getByPlaceholderText('Enter your email'), 'not-an-email');
     await user.type(screen.getByPlaceholderText('Enter your password'), 'abcde');
     await user.click(screen.getByRole('button', { name: 'Sign in' }));
 
@@ -86,7 +86,7 @@ describe('SignInForm', () => {
     const user = userEvent.setup();
     const { onSubmit } = renderComponent();
 
-    await user.type(screen.getByPlaceholderText('Enter your email address'), 'john@example.com');
+    await user.type(screen.getByPlaceholderText('Enter your email'), 'john@example.com');
     await user.type(screen.getByPlaceholderText('Enter your password'), '1234');
     await user.click(screen.getByRole('button', { name: 'Sign in' }));
 
@@ -99,7 +99,7 @@ describe('SignInForm', () => {
     const user = userEvent.setup();
     renderComponent();
 
-    await user.type(screen.getByPlaceholderText('Enter your email address'), 'not-an-email');
+    await user.type(screen.getByPlaceholderText('Enter your email'), 'not-an-email');
     await user.type(screen.getByPlaceholderText('Enter your password'), 'abcde');
     await user.click(screen.getByRole('button', { name: 'Sign in' }));
 
@@ -110,7 +110,7 @@ describe('SignInForm', () => {
     const user = userEvent.setup();
     renderComponent();
 
-    await user.type(screen.getByPlaceholderText('Enter your email address'), 'john@example.com');
+    await user.type(screen.getByPlaceholderText('Enter your email'), 'john@example.com');
     await user.type(screen.getByPlaceholderText('Enter your password'), '1234');
     await user.click(screen.getByRole('button', { name: 'Sign in' }));
 
@@ -122,7 +122,7 @@ describe('SignInForm', () => {
   it('disables both inputs when loading is true', () => {
     renderComponent({ loading: true });
 
-    expect(screen.getByPlaceholderText('Enter your email address')).toBeDisabled();
+    expect(screen.getByPlaceholderText('Enter your email')).toBeDisabled();
     expect(screen.getByPlaceholderText('Enter your password')).toBeDisabled();
   });
 

@@ -10,7 +10,6 @@ const items: HeroSlideProps[] = [
       src: '/hero/range.png',
       alt: '',
     },
-    theme: 'pink',
     button: {
       url: '/',
       text: 'Read more',
@@ -25,7 +24,6 @@ const items: HeroSlideProps[] = [
       src: '/hero/range.png',
       alt: '',
     },
-    theme: 'sky',
     button: {
       url: '/',
       text: 'Find out more',
@@ -44,7 +42,6 @@ const items: HeroSlideProps[] = [
       src: '/hero/range.png',
       alt: '',
     },
-    theme: 'default',
     button: {
       url: '/',
       text: 'Join now',
@@ -59,7 +56,6 @@ const items: HeroSlideProps[] = [
       kind: 'video',
       src: '/hero/hero.mp4',
     },
-    theme: 'default',
     button: {
       url: '/',
       text: 'Read more',

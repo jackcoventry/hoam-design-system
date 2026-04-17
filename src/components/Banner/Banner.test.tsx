@@ -4,6 +4,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { Banner, type BannerProps } from '@/components/Banner';
 import { useMessages } from '@/hooks/useMessages';
+import { LibraryMessages } from '@/lib/i18n/types';
 
 vi.mock('@/hooks/useMessages', () => ({
   useMessages: vi.fn(),
@@ -105,8 +106,13 @@ describe('Banner', () => {
   beforeEach(() => {
     vi.clearAllMocks();
 
-    mockedUseMessages.mockReturnValue({
-      readMore: 'Read more',
+    mockedUseMessages.mockImplementation((key) => {
+      if (key !== 'global') {
+        throw new Error(`Unexpected key: ${String(key)}`);
+      }
+      return {
+        readMore: 'Read more',
+      } as LibraryMessages['global'];
     });
   });
 

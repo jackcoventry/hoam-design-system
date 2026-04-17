@@ -35,7 +35,7 @@ describe('RegisterForm', () => {
         onSubmit={onSubmit}
         loading={false}
         data={null}
-        error={null}
+        error={undefined}
         {...props}
       />
     );

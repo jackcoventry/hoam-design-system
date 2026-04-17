@@ -1,5 +1,3 @@
-import { M } from 'vitest/dist/chunks/reporters.d.BFLkQcL6.js';
-
 export const defaultMessages = {
   global: {
     readMore: 'Read more',
@@ -41,7 +39,7 @@ export const defaultMessages = {
     lastNameLabel: 'Last Name',
     lastNamePlaceholder: 'Enter your last name',
     emailLabel: 'Email',
-    emailPlaceholder: 'Enter your email address',
+    emailPlaceholder: 'Enter your email',
     passwordLabel: 'Password',
     passwordPlaceholder: 'Enter your password',
     passwordConfirmLabel: 'Confirm Password',
@@ -114,7 +112,7 @@ export const defaultMessages = {
   },
   searchForm: {
     submitLabel: 'Search',
-    placeholderText: 'Enter keywords',
+    placeholderText: 'Enter keywords...',
   },
   sidebarNavigation: {
     title: 'Sidebar navigation',

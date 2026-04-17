@@ -4,6 +4,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { DesktopNavigationActions } from '@/components/Navigation/DesktopNavigation/DesktopNavigationActions';
 import type { DesktopNavigationActionsProps, NavUserItem } from '@/components/Navigation/types';
 import { useMessages } from '@/hooks/useMessages';
+import { LibraryMessages } from '@/lib/i18n/types';
 
 type IconProps = {
   id: string;
@@ -27,6 +28,8 @@ vi.mock('@/components/Icon', () => ({
 vi.mock('@/hooks/useMessages', () => ({
   useMessages: vi.fn(),
 }));
+
+const mockedUseMessages = vi.mocked(useMessages);
 
 vi.mock('@/components/Navigation/Navigation.module.css', () => ({
   default: {
@@ -69,8 +72,13 @@ describe('DesktopNavigationActions', () => {
     vi.clearAllMocks();
     lastIconProps = [];
 
-    vi.mocked(useMessages).mockReturnValue({
-      userNavigation: 'User navigation',
+    mockedUseMessages.mockImplementation((key) => {
+      if (key !== 'navigation') {
+        throw new Error(`Unexpected key: ${String(key)}`);
+      }
+      return {
+        userNavigation: 'User navigation',
+      } as LibraryMessages['navigation'];
     });
   });
 
