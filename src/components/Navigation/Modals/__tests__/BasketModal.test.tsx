@@ -1,114 +1,95 @@
-import { render, screen } from '@testing-library/react';
-import type { ReactNode } from 'react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import type { ModalVariant } from '@/components/Modal/Modal';
+import type { BasketItemProps } from '@/components/Basket';
 import { BasketModal } from '@/components/Navigation/Modals/BasketModal';
-import { useFetchSignal } from '@/hooks/useFetch';
-import { useMessages } from '@/hooks/useMessages';
 
-type BasketItem = {
-  id: string;
-  title: string;
-  price: number;
-  quantity: number;
-};
+const modalMock =
+  vi.fn<
+    (props: {
+      isOpen: boolean;
+      onClose: () => void;
+      variant: string;
+      children: React.ReactNode;
+    }) => void
+  >();
 
-type ModalProps = {
-  isOpen: boolean;
-  onClose: () => void;
-  variant: ModalVariant;
-  children: ReactNode;
-};
+const basketMock = vi.fn<(props: { items: BasketItemProps[]; total: number }) => void>();
 
-type BasketProps = {
-  items?: BasketItem[];
-  total: number;
-};
+const basketFooterMock = vi.fn<(props: { total: number }) => void>();
 
-type BasketFooterProps = {
-  total: number;
-};
+const closeButtonMock = vi.fn<(props: { callback: () => void }) => void>();
 
-type CloseButtonProps = {
-  callback: () => void;
-};
-
-let capturedModalProps: ModalProps[] = [];
-let capturedBasketProps: BasketProps[] = [];
-let capturedBasketFooterProps: BasketFooterProps[] = [];
-let capturedCloseButtonProps: CloseButtonProps[] = [];
-let lastFetcher: unknown = null;
+const useMessagesMock = vi.fn<(namespace: string) => { modalBasket: string }>();
 
 vi.mock('@/hooks/useMessages', () => ({
-  useMessages: vi.fn(),
-}));
-
-vi.mock('@/hooks/useFetch', () => ({
-  useFetchSignal: vi.fn(),
+  useMessages: (namespace: string) => useMessagesMock(namespace),
 }));
 
 vi.mock('@/components/Basket', () => ({
-  Basket: (props: BasketProps) => {
-    capturedBasketProps.push(props);
+  Basket: (props: { items: BasketItemProps[]; total: number }) => {
+    basketMock(props);
 
-    return (
-      <div data-testid="basket">
-        <span data-testid="basket-total">{String(props.total)}</span>
-        <span data-testid="basket-items-count">{String(props.items?.length ?? 0)}</span>
-      </div>
-    );
+    return <div data-testid="basket" />;
   },
+  BasketFooter: (props: { total: number }) => {
+    basketFooterMock(props);
 
-  BasketFooter: (props: BasketFooterProps) => {
-    capturedBasketFooterProps.push(props);
-
-    return <div data-testid="basket-footer-total">{String(props.total)}</div>;
+    return <div data-testid="basket-footer" />;
   },
 }));
 
 vi.mock('@/components/Modal', () => {
-  const ModalComponent = (props: ModalProps) => {
-    capturedModalProps.push(props);
+  const ModalComponent = ({
+    isOpen,
+    onClose,
+    variant,
+    children,
+  }: {
+    isOpen: boolean;
+    onClose: () => void;
+    variant: string;
+    children: React.ReactNode;
+  }) => {
+    modalMock({ isOpen, onClose, variant, children });
 
     return (
       <div
         data-testid="modal"
-        data-open={props.isOpen ? 'true' : 'false'}
-        data-variant={String(props.variant)}
+        data-open={String(isOpen)}
+        data-variant={variant}
       >
-        {props.children}
+        {children}
       </div>
     );
   };
 
-  ModalComponent.Header = ({ children }: { children: ReactNode }) => (
+  ModalComponent.Header = ({ children }: { children: React.ReactNode }) => (
     <div data-testid="modal-header">{children}</div>
   );
 
-  ModalComponent.Title = ({ children }: { children: ReactNode }) => (
+  ModalComponent.Title = ({ children }: { children: React.ReactNode }) => (
     <div data-testid="modal-title">{children}</div>
   );
 
-  ModalComponent.CloseButton = (props: CloseButtonProps) => {
-    capturedCloseButtonProps.push(props);
+  ModalComponent.CloseButton = ({ callback }: { callback: () => void }) => {
+    closeButtonMock({ callback });
 
     return (
       <button
         type="button"
-        data-testid="modal-close-button"
-        onClick={props.callback}
+        onClick={callback}
       >
-        Close
+        Close modal
       </button>
     );
   };
 
-  ModalComponent.Body = ({ children }: { children: ReactNode }) => (
+  ModalComponent.Body = ({ children }: { children: React.ReactNode }) => (
     <div data-testid="modal-body">{children}</div>
   );
 
-  ModalComponent.Footer = ({ children }: { children: ReactNode }) => (
+  ModalComponent.Footer = ({ children }: { children: React.ReactNode }) => (
     <div data-testid="modal-footer">{children}</div>
   );
 
@@ -117,283 +98,162 @@ vi.mock('@/components/Modal', () => {
   };
 });
 
-vi.mock('@/styles/Typography.module.css', () => ({
-  default: {
-    heading: 'heading',
-  },
-}));
-
-function createBasketItems(): BasketItem[] {
-  return [
-    {
-      id: '1',
-      title: 'Item One',
-      price: 10,
-      quantity: 2,
-    },
-    {
-      id: '2',
-      title: 'Item Two',
-      price: 7.5,
-      quantity: 3,
-    },
-  ];
-}
-
-function createProps(
-  overrides: Partial<React.ComponentProps<typeof BasketModal>> = {}
-): React.ComponentProps<typeof BasketModal> {
-  return {
-    endpoint: '/api/basket',
-    open: true,
-    onClose: vi.fn<() => void>(),
-    variant: 'right' as ModalVariant,
-    ...overrides,
-  };
-}
-
 describe('BasketModal', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    capturedModalProps = [];
-    capturedBasketProps = [];
-    capturedBasketFooterProps = [];
-    capturedCloseButtonProps = [];
-    lastFetcher = null;
 
-    vi.mocked(useMessages).mockReturnValue({
-      modalBasket: 'Basket',
-    });
-
-    vi.mocked(useFetchSignal).mockImplementation((fetcher: unknown) => {
-      lastFetcher = fetcher;
-
-      return {
-        data: createBasketItems(),
-        error: null,
-        loading: false,
-        reload: vi.fn(),
-      };
+    useMessagesMock.mockReturnValue({
+      modalBasket: 'Your basket',
     });
   });
 
-  it('calls useMessages with the navigation namespace', () => {
-    render(<BasketModal {...createProps()} />);
+  const onClose = vi.fn();
 
-    expect(useMessages).toHaveBeenCalledWith('navigation');
+  const basketItems: BasketItemProps[] = [
+    {
+      id: 'item-1',
+      title: 'Item One',
+      summary: 'First item',
+      price: 10,
+      quantity: 2,
+      url: '/item-1',
+      thumbnail: {
+        src: '/item-1.jpg',
+        alt: 'Item One',
+      },
+      onChange: vi.fn(),
+    },
+    {
+      id: 'item-2',
+      title: 'Item Two',
+      summary: 'Second item',
+      price: 5,
+      quantity: 3,
+      url: '/item-2',
+      thumbnail: {
+        src: '/item-2.jpg',
+        alt: 'Item Two',
+      },
+      onChange: vi.fn(),
+    },
+  ];
+
+  it('renders the modal with the correct props', () => {
+    render(
+      <BasketModal
+        open
+        onClose={onClose}
+        variant="drawer"
+        data={basketItems}
+      />
+    );
+
+    expect(screen.getByTestId('modal')).toHaveAttribute('data-open', 'true');
+    expect(screen.getByTestId('modal')).toHaveAttribute('data-variant', 'drawer');
+
+    expect(modalMock).toHaveBeenCalledTimes(1);
+
+    const modalProps = modalMock.mock.calls[0]?.[0];
+    expect(modalProps).toBeDefined();
+    expect(modalProps?.isOpen).toBe(true);
+    expect(modalProps?.onClose).toBe(onClose);
+    expect(modalProps?.variant).toBe('drawer');
   });
 
-  it('creates the basket fetcher from the endpoint', () => {
-    render(<BasketModal {...createProps({ endpoint: '/api/custom-basket' })} />);
+  it('renders the translated basket title', () => {
+    render(
+      <BasketModal
+        open={false}
+        onClose={onClose}
+        variant="modal"
+        data={basketItems}
+      />
+    );
 
-    expect(getBasketItems).toHaveBeenCalledTimes(1);
-    expect(getBasketItems).toHaveBeenCalledWith('/api/custom-basket');
-  });
-
-  it('passes the memoized fetcher into useFetchSignal', () => {
-    render(<BasketModal {...createProps()} />);
-
-    expect(useFetchSignal).toHaveBeenCalledTimes(1);
-    expect(lastFetcher).toBeTruthy();
-  });
-
-  it('passes open, onClose, and variant to Modal', () => {
-    const props = createProps({
-      open: false,
-      variant: 'left' as ModalVariant,
-    });
-
-    render(<BasketModal {...props} />);
-
-    expect(capturedModalProps).toHaveLength(1);
-    expect(capturedModalProps[0]?.isOpen).toBe(false);
-    expect(capturedModalProps[0]?.onClose).toBe(props.onClose);
-    expect(capturedModalProps[0]?.variant).toBe('left');
-  });
-
-  it('renders the modal structure', () => {
-    render(<BasketModal {...createProps()} />);
-
-    expect(screen.getByTestId('modal')).toBeInTheDocument();
+    expect(useMessagesMock).toHaveBeenCalledWith('navigation');
+    expect(screen.getByText('Your basket')).toBeInTheDocument();
     expect(screen.getByTestId('modal-header')).toBeInTheDocument();
     expect(screen.getByTestId('modal-title')).toBeInTheDocument();
+  });
+
+  it('passes the calculated total to Basket and BasketFooter', () => {
+    render(
+      <BasketModal
+        open
+        onClose={onClose}
+        variant="drawer"
+        data={basketItems}
+      />
+    );
+
+    const expectedTotal = 35;
+
+    expect(basketMock).toHaveBeenCalledTimes(1);
+    expect(basketFooterMock).toHaveBeenCalledTimes(1);
+
+    const basketProps = basketMock.mock.calls[0]?.[0];
+    const basketFooterProps = basketFooterMock.mock.calls[0]?.[0];
+
+    expect(basketProps).toBeDefined();
+    expect(basketProps?.items).toEqual(basketItems);
+    expect(basketProps?.total).toBe(expectedTotal);
+
+    expect(basketFooterProps).toBeDefined();
+    expect(basketFooterProps?.total).toBe(expectedTotal);
+  });
+
+  it('passes zero total when basket data is empty', () => {
+    render(
+      <BasketModal
+        open
+        onClose={onClose}
+        variant="drawer"
+        data={[]}
+      />
+    );
+
+    const basketProps = basketMock.mock.calls[0]?.[0];
+    const basketFooterProps = basketFooterMock.mock.calls[0]?.[0];
+
+    expect(basketProps).toBeDefined();
+    expect(basketProps?.items).toEqual([]);
+    expect(basketProps?.total).toBe(0);
+
+    expect(basketFooterProps).toBeDefined();
+    expect(basketFooterProps?.total).toBe(0);
+  });
+
+  it('wires Modal.CloseButton to onClose', () => {
+    render(
+      <BasketModal
+        open
+        onClose={onClose}
+        variant="drawer"
+        data={basketItems}
+      />
+    );
+
+    const closeButtonProps = closeButtonMock.mock.calls[0]?.[0];
+    expect(closeButtonProps).toBeDefined();
+    expect(closeButtonProps?.callback).toBe(onClose);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Close modal' }));
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it('renders body and footer sections', () => {
+    render(
+      <BasketModal
+        open
+        onClose={onClose}
+        variant="drawer"
+        data={basketItems}
+      />
+    );
+
     expect(screen.getByTestId('modal-body')).toBeInTheDocument();
     expect(screen.getByTestId('modal-footer')).toBeInTheDocument();
-  });
-
-  it('renders the translated basket title with the heading class', () => {
-    render(<BasketModal {...createProps()} />);
-
-    const title = screen.getByText('Basket');
-    expect(title).toBeInTheDocument();
-    expect(title.tagName).toBe('SPAN');
-    expect(title).toHaveClass('heading');
-  });
-
-  it('passes onClose to the modal close button and calls it when clicked', () => {
-    const props = createProps();
-
-    render(<BasketModal {...props} />);
-
-    expect(capturedCloseButtonProps).toHaveLength(1);
-    expect(capturedCloseButtonProps[0]?.callback).toBe(props.onClose);
-
-    screen.getByTestId('modal-close-button').click();
-
-    expect(props.onClose).toHaveBeenCalledTimes(1);
-  });
-
-  it('passes fetched items into Basket', () => {
-    const items = createBasketItems();
-
-    vi.mocked(useFetchSignal).mockImplementation((fetcher: unknown) => {
-      lastFetcher = fetcher;
-
-      return {
-        data: items,
-        error: null,
-        loading: false,
-        reload: vi.fn(),
-      };
-    });
-
-    render(<BasketModal {...createProps()} />);
-
-    expect(capturedBasketProps).toHaveLength(1);
-    expect(capturedBasketProps[0]?.items).toEqual(items);
-  });
-
-  it('calculates the basket total from price × quantity', () => {
-    const items: BasketItem[] = [
-      {
-        id: '1',
-        title: 'Item One',
-        price: 10,
-        quantity: 2,
-      },
-      {
-        id: '2',
-        title: 'Item Two',
-        price: 5,
-        quantity: 3,
-      },
-    ];
-
-    vi.mocked(useFetchSignal).mockImplementation((fetcher: unknown) => {
-      lastFetcher = fetcher;
-
-      return {
-        data: items,
-        error: null,
-        loading: false,
-        reload: vi.fn(),
-      };
-    });
-
-    render(<BasketModal {...createProps()} />);
-
-    expect(capturedBasketProps[0]?.total).toBe(35);
-    expect(capturedBasketFooterProps[0]?.total).toBe(35);
-    expect(screen.getByTestId('basket-total')).toHaveTextContent('35');
-    expect(screen.getByTestId('basket-footer-total')).toHaveTextContent('35');
-  });
-
-  it('passes total 0 when data is undefined', () => {
-    vi.mocked(useFetchSignal).mockImplementation((fetcher: unknown) => {
-      lastFetcher = fetcher;
-
-      return {
-        data: undefined,
-        error: null,
-        loading: false,
-        reload: vi.fn(),
-      };
-    });
-
-    render(<BasketModal {...createProps()} />);
-
-    expect(capturedBasketProps[0]?.items).toBeUndefined();
-    expect(capturedBasketProps[0]?.total).toBe(0);
-    expect(capturedBasketFooterProps[0]?.total).toBe(0);
-  });
-
-  it('passes total 0 when data is an empty array', () => {
-    vi.mocked(useFetchSignal).mockImplementation((fetcher: unknown) => {
-      lastFetcher = fetcher;
-
-      return {
-        data: [],
-        error: null,
-        loading: false,
-        reload: vi.fn(),
-      };
-    });
-
-    render(<BasketModal {...createProps()} />);
-
-    expect(capturedBasketProps[0]?.items).toEqual([]);
-    expect(capturedBasketProps[0]?.total).toBe(0);
-    expect(capturedBasketFooterProps[0]?.total).toBe(0);
-    expect(screen.getByTestId('basket-items-count')).toHaveTextContent('0');
-  });
-
-  it('handles decimal totals correctly', () => {
-    const items: BasketItem[] = [
-      {
-        id: '1',
-        title: 'Item One',
-        price: 12.5,
-        quantity: 2,
-      },
-      {
-        id: '2',
-        title: 'Item Two',
-        price: 3.25,
-        quantity: 4,
-      },
-    ];
-
-    vi.mocked(useFetchSignal).mockImplementation((fetcher: unknown) => {
-      lastFetcher = fetcher;
-
-      return {
-        data: items,
-        error: null,
-        loading: false,
-        reload: vi.fn(),
-      };
-    });
-
-    render(<BasketModal {...createProps()} />);
-
-    expect(capturedBasketProps[0]?.total).toBe(38);
-    expect(capturedBasketFooterProps[0]?.total).toBe(38);
-  });
-
-  it('renders Basket inside the modal body', () => {
-    render(<BasketModal {...createProps()} />);
-
-    const body = screen.getByTestId('modal-body');
-    const basket = screen.getByTestId('basket');
-
-    expect(body).toContainElement(basket);
-  });
-
-  it('renders BasketFooter inside the modal footer', () => {
-    render(<BasketModal {...createProps()} />);
-
-    const footer = screen.getByTestId('modal-footer');
-    const basketFooter = screen.getByTestId('basket-footer-total');
-
-    expect(footer).toContainElement(basketFooter);
-  });
-
-  it('recreates the fetcher when the endpoint changes', () => {
-    const { rerender } = render(<BasketModal {...createProps({ endpoint: '/api/basket-one' })} />);
-
-    rerender(<BasketModal {...createProps({ endpoint: '/api/basket-two' })} />);
-
-    expect(getBasketItems).toHaveBeenCalledWith('/api/basket-one');
-    expect(getBasketItems).toHaveBeenCalledWith('/api/basket-two');
+    expect(screen.getByTestId('basket')).toBeInTheDocument();
+    expect(screen.getByTestId('basket-footer')).toBeInTheDocument();
   });
 });

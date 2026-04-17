@@ -1,60 +1,109 @@
 import { fireEvent, render, screen } from '@testing-library/react';
+import type { Dispatch, SetStateAction } from 'react';
+import type { SubmitHandler } from 'react-hook-form';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { DesktopNavigationProps } from '@/components/Navigation/DesktopNavigation/DesktopNavigation';
-import { MobileNavigationProps } from '@/components/Navigation/MobileNavigation/MobileNavigation';
-import { BasketModalProps } from '@/components/Navigation/Modals/BasketModal';
+import type { BasketItemProps } from '@/components/Basket';
+import type { SearchFormResult, SearchFormSchemaType } from '@/components/Form';
 import { Navigation } from '@/components/Navigation/Navigation';
-import type { NavigationProps, NavTopLevelItem, NavUserItem } from '@/components/Navigation/types';
+import type { NavTopLevelItem, NavUserItem } from '@/components/Navigation/types';
 import { useMegaNavState } from '@/hooks/useNavState';
+import type { AsyncState } from '@/utils/useAsyncTask';
 
-type SearchModalProps = {
-  endpoint: string;
-  open: boolean;
-  onClose: () => void;
-  variant: 'modal';
+type MockDesktopNavigationProps = {
+  items: NavTopLevelItem[];
+  userItems: NavUserItem[];
+  openIndex: number | null;
+  setOpenIndex: (index: number | null) => void;
+  openGroupId: string | null;
+  setOpenGroupId: (id: string | null) => void;
+  setKeyboarding: () => void;
+  handleTopNavigationOpen: (index: number) => void;
+  handleAllNavigationClose: () => void;
+  clearLeave: () => void;
+  onOpenSearch: () => void;
+  onOpenBasket: () => void;
+  resetNavigation: () => void;
 };
 
-type MegaNavState = ReturnType<typeof useMegaNavState>;
+type MockSearchModalProps<TData, TError extends Error = Error> = {
+  open: boolean;
+  onClose: () => void;
+  onSubmit: SubmitHandler<SearchFormSchemaType>;
+  variant: string;
+  state: AsyncState<TData, TError>;
+  data: SearchFormResult[] | null;
+};
 
-let capturedMobileNavigationProps: MobileNavigationProps[] = [];
-let capturedDesktopNavigationProps: DesktopNavigationProps[] = [];
-let capturedSearchModalProps: SearchModalProps[] = [];
-let capturedBasketModalProps: BasketModalProps[] = [];
-let megaNavState: MegaNavState;
+type MockBasketModalProps = {
+  open: boolean;
+  onClose: () => void;
+  variant: string;
+  data: BasketItemProps[];
+};
+
+const mobileNavigationMock =
+  vi.fn<(props: { items: Array<NavTopLevelItem | NavUserItem> }) => void>();
+const desktopNavigationMock = vi.fn<(props: MockDesktopNavigationProps) => void>();
+const searchModalMock = vi.fn<(props: MockSearchModalProps<unknown, Error>) => void>();
+const basketModalMock = vi.fn<(props: MockBasketModalProps) => void>();
 
 vi.mock('@/hooks/useNavState', () => ({
   useMegaNavState: vi.fn(),
 }));
 
 vi.mock('@/components/Navigation', () => ({
-  MobileNavigation: (props: MobileNavigationProps) => {
-    capturedMobileNavigationProps.push(props);
+  MobileNavigation: (props: { items: Array<NavTopLevelItem | NavUserItem> }) => {
+    mobileNavigationMock(props);
 
-    return (
-      <div data-testid="mobile-navigation">
-        <span data-testid="mobile-navigation-count">{String(props.items.length)}</span>
-      </div>
-    );
+    return <div data-testid="mobile-navigation" />;
   },
 
-  DesktopNavigation: (props: DesktopNavigationProps) => {
-    capturedDesktopNavigationProps.push(props);
+  DesktopNavigation: (props: MockDesktopNavigationProps) => {
+    const {
+      items,
+      userItems,
+      openIndex,
+      setOpenIndex,
+      openGroupId,
+      setOpenGroupId,
+      setKeyboarding,
+      handleTopNavigationOpen,
+      handleAllNavigationClose,
+      clearLeave,
+      onOpenSearch,
+      onOpenBasket,
+      resetNavigation,
+    } = props;
+
+    desktopNavigationMock({
+      items,
+      userItems,
+      openIndex,
+      setOpenIndex,
+      openGroupId,
+      setOpenGroupId,
+      setKeyboarding,
+      handleTopNavigationOpen,
+      handleAllNavigationClose,
+      clearLeave,
+      onOpenSearch,
+      onOpenBasket,
+      resetNavigation,
+    });
 
     return (
       <div data-testid="desktop-navigation">
         <button
           type="button"
-          data-testid="desktop-open-search"
-          onClick={props.onOpenSearch}
+          onClick={onOpenSearch}
         >
           Open search
         </button>
 
         <button
           type="button"
-          data-testid="desktop-open-basket"
-          onClick={props.onOpenBasket}
+          onClick={onOpenBasket}
         >
           Open basket
         </button>
@@ -62,20 +111,28 @@ vi.mock('@/components/Navigation', () => ({
     );
   },
 
-  SearchModal: (props: SearchModalProps) => {
-    capturedSearchModalProps.push(props);
+  SearchModal: <TData, TError extends Error = Error>(
+    props: MockSearchModalProps<TData, TError>
+  ) => {
+    const { open, onClose, onSubmit, variant, state, data } = props;
+
+    searchModalMock({
+      open,
+      onClose,
+      onSubmit,
+      variant,
+      state: state as AsyncState<unknown, Error>,
+      data,
+    });
 
     return (
       <div
         data-testid="search-modal"
-        data-open={props.open ? 'true' : 'false'}
-        data-endpoint={props.endpoint}
-        data-variant={props.variant}
+        data-open={String(open)}
       >
         <button
           type="button"
-          data-testid="search-modal-close"
-          onClick={props.onClose}
+          onClick={onClose}
         >
           Close search
         </button>
@@ -83,20 +140,24 @@ vi.mock('@/components/Navigation', () => ({
     );
   },
 
-  BasketModal: (props: BasketModalProps) => {
-    capturedBasketModalProps.push(props);
+  BasketModal: (props: MockBasketModalProps) => {
+    const { open, onClose, variant, data } = props;
+
+    basketModalMock({
+      open,
+      onClose,
+      variant,
+      data,
+    });
 
     return (
       <div
         data-testid="basket-modal"
-        data-open={props.open ? 'true' : 'false'}
-        data-endpoint={props.endpoint}
-        data-variant={props.variant}
+        data-open={String(open)}
       >
         <button
           type="button"
-          data-testid="basket-modal-close"
-          onClick={props.onClose}
+          onClick={onClose}
         >
           Close basket
         </button>
@@ -105,89 +166,46 @@ vi.mock('@/components/Navigation', () => ({
   },
 }));
 
-function createItems(): NavTopLevelItem[] {
-  return [
-    {
-      id: 'shop',
-      label: 'Shop',
-      href: '/shop',
-      items: [],
-    },
-    {
-      id: 'discover',
-      label: 'Discover',
-      href: '/discover',
-      items: [],
-    },
-  ];
-}
-
-function createUserItems(): NavUserItem[] {
-  return [
-    {
-      id: 'account',
-      label: 'Account',
-      href: '/account',
-      icon: 'account',
-    },
-    {
-      id: 'basket',
-      label: 'Basket',
-      href: '/basket',
-      icon: 'basket',
-      action: 'USER_BASKET',
-    },
-  ];
-}
-
-function createProps(overrides: Partial<NavigationProps> = {}): NavigationProps {
-  return {
-    items: createItems(),
-    userItems: createUserItems(),
-    searchEndpoint: '/api/search',
-    basketEndpoint: '/api/basket',
-    ...overrides,
-  };
-}
-
-function createMegaNavState(): MegaNavState {
-  return {
-    openIndex: 1,
-    setOpenIndex: vi.fn(),
-    openGroupId: 'group-1',
-    setOpenGroupId: vi.fn(),
-    isKeyboarding: false,
-    setKeyboarding: vi.fn(),
-    handleTopNavigationOpen: vi.fn(),
-    handleAllNavigationClose: vi.fn(),
-    resetNavigation: vi.fn(),
-    clearHover: vi.fn(),
-    clearLeave: vi.fn(),
-  };
-}
-
 describe('Navigation', () => {
+  const setOpenIndex: Dispatch<SetStateAction<number | null>> = vi.fn();
+  const setOpenGroupId: Dispatch<SetStateAction<string | null>> = vi.fn();
+  const setKeyboarding = vi.fn<() => void>();
+  const handleTopNavigationOpen = vi.fn<(index: number) => void>();
+  const handleAllNavigationClose = vi.fn<() => void>();
+  const clearHover = vi.fn<() => void>();
+  const clearLeave = vi.fn<() => void>();
+  const resetNavigation = vi.fn<() => void>();
+
+  const searchSubmit: SubmitHandler<SearchFormSchemaType> = vi.fn();
+  const idleSearchState: AsyncState<unknown> = { status: 'idle' };
+
   beforeEach(() => {
     vi.clearAllMocks();
 
-    capturedMobileNavigationProps = [];
-    capturedDesktopNavigationProps = [];
-    capturedSearchModalProps = [];
-    capturedBasketModalProps = [];
-
-    megaNavState = createMegaNavState();
-
-    vi.mocked(useMegaNavState).mockImplementation(() => megaNavState);
+    vi.mocked(useMegaNavState).mockReturnValue({
+      openIndex: 2,
+      setOpenIndex,
+      openGroupId: 'group-1',
+      setOpenGroupId,
+      isKeyboarding: false,
+      setKeyboarding,
+      resetNavigation,
+      handleTopNavigationOpen,
+      handleAllNavigationClose,
+      clearHover,
+      clearLeave,
+    });
   });
 
-  it('calls useMegaNavState once', () => {
-    render(<Navigation {...createProps()} />);
-
-    expect(useMegaNavState).toHaveBeenCalledTimes(1);
-  });
-
-  it('renders the four child navigation components', () => {
-    render(<Navigation {...createProps()} />);
+  it('renders all composed navigation pieces', () => {
+    render(
+      <Navigation
+        searchSubmit={searchSubmit}
+        searchData={null}
+        searchState={idleSearchState}
+        basketData={[]}
+      />
+    );
 
     expect(screen.getByTestId('mobile-navigation')).toBeInTheDocument();
     expect(screen.getByTestId('desktop-navigation')).toBeInTheDocument();
@@ -195,185 +213,275 @@ describe('Navigation', () => {
     expect(screen.getByTestId('basket-modal')).toBeInTheDocument();
   });
 
-  it('passes merged items and userItems to MobileNavigation', () => {
-    const items = createItems();
-    const userItems = createUserItems();
+  it('passes merged items to MobileNavigation', () => {
+    const items: NavTopLevelItem[] = [
+      { id: 'shop', label: 'Shop' },
+      { id: 'about', label: 'About', href: '/about' },
+    ];
+
+    const userItems: NavUserItem[] = [
+      { id: 'account', label: 'Account', href: '/account', icon: 'user' },
+      { id: 'help', label: 'Help', href: '/help', icon: 'help-circle' },
+    ];
 
     render(
       <Navigation
-        {...createProps({
-          items,
-          userItems,
-        })}
+        items={items}
+        userItems={userItems}
+        searchSubmit={searchSubmit}
+        searchData={null}
+        searchState={idleSearchState}
+        basketData={[]}
       />
     );
 
-    expect(capturedMobileNavigationProps).toHaveLength(1);
-    expect(capturedMobileNavigationProps[0]?.items).toEqual([...items, ...userItems]);
-    expect(screen.getByTestId('mobile-navigation-count')).toHaveTextContent('4');
+    expect(mobileNavigationMock).toHaveBeenCalledTimes(1);
+    expect(mobileNavigationMock).toHaveBeenCalledWith({
+      items: [...items, ...userItems],
+    });
   });
 
-  it('passes items and userItems separately to DesktopNavigation', () => {
-    const items = createItems();
-    const userItems = createUserItems();
+  it('passes mega nav state and handlers to DesktopNavigation', () => {
+    const items: NavTopLevelItem[] = [{ id: 'shop', label: 'Shop' }];
+    const userItems: NavUserItem[] = [
+      { id: 'account', label: 'Account', href: '/account', icon: 'user' },
+    ];
 
     render(
       <Navigation
-        {...createProps({
-          items,
-          userItems,
-        })}
+        items={items}
+        userItems={userItems}
+        searchSubmit={searchSubmit}
+        searchData={null}
+        searchState={idleSearchState}
+        basketData={[]}
       />
     );
 
-    expect(capturedDesktopNavigationProps).toHaveLength(1);
-    expect(capturedDesktopNavigationProps[0]?.items).toBe(items);
-    expect(capturedDesktopNavigationProps[0]?.userItems).toBe(userItems);
+    expect(desktopNavigationMock).toHaveBeenCalledTimes(1);
+
+    const desktopProps = desktopNavigationMock.mock.calls[0]?.[0];
+
+    expect(desktopProps).toBeDefined();
+
+    expect(desktopProps?.items).toEqual(items);
+    expect(desktopProps?.userItems).toEqual(userItems);
+    expect(desktopProps?.openIndex).toBe(2);
+    expect(desktopProps?.setOpenIndex).toBe(setOpenIndex);
+    expect(desktopProps?.openGroupId).toBe('group-1');
+    expect(desktopProps?.setOpenGroupId).toBe(setOpenGroupId);
+    expect(desktopProps?.setKeyboarding).toBe(setKeyboarding);
+    expect(desktopProps?.handleTopNavigationOpen).toBe(handleTopNavigationOpen);
+    expect(desktopProps?.handleAllNavigationClose).toBe(handleAllNavigationClose);
+    expect(desktopProps?.clearLeave).toBe(clearLeave);
+    expect(desktopProps?.resetNavigation).toBe(resetNavigation);
+
+    expect(typeof desktopProps?.onOpenSearch).toBe('function');
+    expect(typeof desktopProps?.onOpenBasket).toBe('function');
   });
 
-  it('passes the hook state values through to DesktopNavigation', () => {
-    render(<Navigation {...createProps()} />);
+  it('passes search props through to SearchModal', () => {
+    const searchData: SearchFormResult[] = [
+      {
+        id: 1,
+        title: 'Result 1',
+        url: '/result-1',
+        preview: 'Preview text',
+      },
+    ];
 
-    expect(capturedDesktopNavigationProps).toHaveLength(1);
+    const searchState: AsyncState<{ results: string[] }> = {
+      status: 'success',
+      data: { results: ['one'] },
+    };
 
-    const props = capturedDesktopNavigationProps[0];
-    expect(props?.openIndex).toBe(megaNavState.openIndex);
-    expect(props?.resetNavigation).toBe(megaNavState.resetNavigation);
-    expect(props?.setOpenIndex).toBe(megaNavState.setOpenIndex);
-    expect(props?.openGroupId).toBe(megaNavState.openGroupId);
-    expect(props?.setOpenGroupId).toBe(megaNavState.setOpenGroupId);
-    expect(props?.setKeyboarding).toBe(megaNavState.setKeyboarding);
-    expect(props?.handleTopNavigationOpen).toBe(megaNavState.handleTopNavigationOpen);
-    expect(props?.handleAllNavigationClose).toBe(megaNavState.handleAllNavigationClose);
-    expect(props?.clearLeave).toBe(megaNavState.clearLeave);
-  });
-
-  it('passes the search endpoint and closed state to SearchModal by default', () => {
-    render(<Navigation {...createProps({ searchEndpoint: '/api/custom-search' })} />);
-
-    expect(capturedSearchModalProps).toHaveLength(1);
-    expect(capturedSearchModalProps[0]?.endpoint).toBe('/api/custom-search');
-    expect(capturedSearchModalProps[0]?.open).toBe(false);
-    expect(capturedSearchModalProps[0]?.variant).toBe('modal');
-
-    expect(screen.getByTestId('search-modal')).toHaveAttribute('data-open', 'false');
-    expect(screen.getByTestId('search-modal')).toHaveAttribute(
-      'data-endpoint',
-      '/api/custom-search'
-    );
-    expect(screen.getByTestId('search-modal')).toHaveAttribute('data-variant', 'modal');
-  });
-
-  it('passes the basket endpoint and closed state to BasketModal by default', () => {
-    render(<Navigation {...createProps({ basketEndpoint: '/api/custom-basket' })} />);
-
-    expect(capturedBasketModalProps).toHaveLength(1);
-    expect(capturedBasketModalProps[0]?.endpoint).toBe('/api/custom-basket');
-    expect(capturedBasketModalProps[0]?.open).toBe(false);
-    expect(capturedBasketModalProps[0]?.variant).toBe('drawer');
-
-    expect(screen.getByTestId('basket-modal')).toHaveAttribute('data-open', 'false');
-    expect(screen.getByTestId('basket-modal')).toHaveAttribute(
-      'data-endpoint',
-      '/api/custom-basket'
-    );
-    expect(screen.getByTestId('basket-modal')).toHaveAttribute('data-variant', 'drawer');
-  });
-
-  it('opens SearchModal when DesktopNavigation triggers onOpenSearch', () => {
-    render(<Navigation {...createProps()} />);
-
-    fireEvent.click(screen.getByTestId('desktop-open-search'));
-
-    expect(screen.getByTestId('search-modal')).toHaveAttribute('data-open', 'true');
-    expect(screen.getByTestId('basket-modal')).toHaveAttribute('data-open', 'false');
-  });
-
-  it('opens BasketModal when DesktopNavigation triggers onOpenBasket', () => {
-    render(<Navigation {...createProps()} />);
-
-    fireEvent.click(screen.getByTestId('desktop-open-basket'));
-
-    expect(screen.getByTestId('basket-modal')).toHaveAttribute('data-open', 'true');
-    expect(screen.getByTestId('search-modal')).toHaveAttribute('data-open', 'false');
-  });
-
-  it('closes SearchModal when its onClose handler runs', () => {
-    render(<Navigation {...createProps()} />);
-
-    fireEvent.click(screen.getByTestId('desktop-open-search'));
-    expect(screen.getByTestId('search-modal')).toHaveAttribute('data-open', 'true');
-
-    fireEvent.click(screen.getByTestId('search-modal-close'));
-    expect(screen.getByTestId('search-modal')).toHaveAttribute('data-open', 'false');
-  });
-
-  it('closes BasketModal when its onClose handler runs', () => {
-    render(<Navigation {...createProps()} />);
-
-    fireEvent.click(screen.getByTestId('desktop-open-basket'));
-    expect(screen.getByTestId('basket-modal')).toHaveAttribute('data-open', 'true');
-
-    fireEvent.click(screen.getByTestId('basket-modal-close'));
-    expect(screen.getByTestId('basket-modal')).toHaveAttribute('data-open', 'false');
-  });
-
-  it('can have both modals open at the same time', () => {
-    render(<Navigation {...createProps()} />);
-
-    fireEvent.click(screen.getByTestId('desktop-open-search'));
-    fireEvent.click(screen.getByTestId('desktop-open-basket'));
-
-    expect(screen.getByTestId('search-modal')).toHaveAttribute('data-open', 'true');
-    expect(screen.getByTestId('basket-modal')).toHaveAttribute('data-open', 'true');
-  });
-
-  it('recomputes mobile navigation when items change', () => {
-    const { rerender } = render(
-      <Navigation
-        {...createProps({
-          items: createItems(),
-          userItems: createUserItems(),
-        })}
-      />
-    );
-
-    rerender(
-      <Navigation
-        {...createProps({
-          items: [
-            ...createItems(),
-            {
-              id: 'journal',
-              label: 'Journal',
-              href: '/journal',
-              items: [],
-            },
-          ],
-          userItems: createUserItems(),
-        })}
-      />
-    );
-
-    const latestMobileProps = capturedMobileNavigationProps.at(-1);
-
-    expect(latestMobileProps?.items).toHaveLength(5);
-  });
-
-  it('renders safely with empty items and userItems', () => {
     render(
       <Navigation
-        {...createProps({
-          items: [],
-          userItems: [],
-        })}
+        searchSubmit={searchSubmit}
+        searchData={searchData}
+        searchState={searchState}
+        basketData={[]}
       />
     );
 
-    expect(screen.getByTestId('mobile-navigation')).toBeInTheDocument();
-    expect(screen.getByTestId('mobile-navigation-count')).toHaveTextContent('0');
-    expect(screen.getByTestId('desktop-navigation')).toBeInTheDocument();
+    expect(searchModalMock).toHaveBeenCalledTimes(1);
+
+    const searchModalProps = searchModalMock.mock.calls[0]?.[0];
+
+    expect(searchModalProps).toBeDefined();
+
+    expect(searchModalProps?.open).toBe(false);
+    expect(searchModalProps?.onSubmit).toBe(searchSubmit);
+    expect(searchModalProps?.variant).toBe('modal');
+    expect(searchModalProps?.state).toEqual(searchState);
+    expect(searchModalProps?.data).toEqual(searchData);
+    expect(typeof searchModalProps?.onClose).toBe('function');
+  });
+
+  it('passes basket props through to BasketModal', () => {
+    const basketData: BasketItemProps[] = [
+      {
+        id: 'basket-1',
+        title: 'Product 1',
+        summary: 'A lovely thing',
+        price: 12.99,
+        thumbnail: {
+          src: '/product.jpg',
+          alt: 'Product 1',
+        },
+        url: '/product-1',
+        onChange: vi.fn(),
+        quantity: 2,
+      },
+    ];
+
+    render(
+      <Navigation
+        searchSubmit={searchSubmit}
+        searchData={null}
+        searchState={idleSearchState}
+        basketData={basketData}
+      />
+    );
+
+    expect(basketModalMock).toHaveBeenCalledTimes(1);
+
+    const basketModalProps = basketModalMock.mock.calls[0]?.[0];
+
+    expect(basketModalProps).toBeDefined();
+
+    expect(basketModalProps?.open).toBe(false);
+    expect(basketModalProps?.variant).toBe('drawer');
+    expect(basketModalProps?.data).toEqual(basketData);
+    expect(typeof basketModalProps?.onClose).toBe('function');
+  });
+
+  it('opens the search modal when DesktopNavigation triggers onOpenSearch', () => {
+    render(
+      <Navigation
+        searchSubmit={searchSubmit}
+        searchData={null}
+        searchState={idleSearchState}
+        basketData={[]}
+      />
+    );
+
     expect(screen.getByTestId('search-modal')).toHaveAttribute('data-open', 'false');
+
+    fireEvent.click(screen.getByRole('button', { name: 'Open search' }));
+
+    expect(screen.getByTestId('search-modal')).toHaveAttribute('data-open', 'true');
+    expect(searchModalMock).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        open: true,
+      })
+    );
+  });
+
+  it('closes the search modal when SearchModal triggers onClose', () => {
+    render(
+      <Navigation
+        searchSubmit={searchSubmit}
+        searchData={null}
+        searchState={idleSearchState}
+        basketData={[]}
+      />
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: 'Open search' }));
+    expect(screen.getByTestId('search-modal')).toHaveAttribute('data-open', 'true');
+
+    fireEvent.click(screen.getByRole('button', { name: 'Close search' }));
+
+    expect(screen.getByTestId('search-modal')).toHaveAttribute('data-open', 'false');
+    expect(searchModalMock).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        open: false,
+      })
+    );
+  });
+
+  it('opens the basket modal when DesktopNavigation triggers onOpenBasket', () => {
+    render(
+      <Navigation
+        searchSubmit={searchSubmit}
+        searchData={null}
+        searchState={idleSearchState}
+        basketData={[]}
+      />
+    );
+
     expect(screen.getByTestId('basket-modal')).toHaveAttribute('data-open', 'false');
+
+    fireEvent.click(screen.getByRole('button', { name: 'Open basket' }));
+
+    expect(screen.getByTestId('basket-modal')).toHaveAttribute('data-open', 'true');
+    expect(basketModalMock).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        open: true,
+      })
+    );
+  });
+
+  it('closes the basket modal when BasketModal triggers onClose', () => {
+    render(
+      <Navigation
+        searchSubmit={searchSubmit}
+        searchData={null}
+        searchState={idleSearchState}
+        basketData={[]}
+      />
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: 'Open basket' }));
+    expect(screen.getByTestId('basket-modal')).toHaveAttribute('data-open', 'true');
+
+    fireEvent.click(screen.getByRole('button', { name: 'Close basket' }));
+
+    expect(screen.getByTestId('basket-modal')).toHaveAttribute('data-open', 'false');
+    expect(basketModalMock).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        open: false,
+      })
+    );
+  });
+
+  it('uses default empty arrays for items and userItems when omitted', () => {
+    render(
+      <Navigation
+        searchSubmit={searchSubmit}
+        searchData={null}
+        searchState={idleSearchState}
+        basketData={[]}
+      />
+    );
+
+    expect(mobileNavigationMock).toHaveBeenCalledWith({
+      items: [],
+    });
+
+    expect(desktopNavigationMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        items: [],
+        userItems: [],
+      })
+    );
+  });
+
+  it('passes null search data through to SearchModal', () => {
+    render(
+      <Navigation
+        searchSubmit={searchSubmit}
+        searchData={null}
+        searchState={idleSearchState}
+        basketData={[]}
+      />
+    );
+
+    expect(searchModalMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        data: null,
+      })
+    );
   });
 });

@@ -1,85 +1,272 @@
-import { act } from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import type { ReactNode } from 'react';
+import type { SubmitHandler } from 'react-hook-form';
+import { describe, expect, it, vi } from 'vitest';
 
-import { NewsletterBanner } from '@/components/NewsletterBanner';
+import { NewsletterBanner } from '@/components/NewsletterBanner/NewsletterBanner';
+import type { AsyncState } from '@/types/async';
+
+vi.mock('@/components/Button', () => ({
+  Button: ({
+    children,
+    type,
+    className,
+    variant,
+  }: {
+    children: ReactNode;
+    type?: 'button' | 'submit' | 'reset';
+    className?: string;
+    variant?: string;
+  }) => (
+    <button
+      type={type}
+      className={className}
+      data-variant={variant}
+    >
+      {children}
+    </button>
+  ),
+}));
+
+vi.mock('@/components/Common/BodyText', () => ({
+  BodyText: ({ children }: { children: ReactNode }) => (
+    <div data-testid="body-text">{children}</div>
+  ),
+}));
+
+vi.mock('@/components/Layout', () => ({
+  Container: ({ children }: { children: ReactNode }) => (
+    <div data-testid="container">{children}</div>
+  ),
+  Grid: ({ children }: { children: ReactNode }) => <div data-testid="grid">{children}</div>,
+  GridItem: ({ children }: { children: ReactNode }) => (
+    <div data-testid="grid-item">{children}</div>
+  ),
+  Stack: ({ children }: { children: ReactNode }) => <div data-testid="stack">{children}</div>,
+}));
 
 describe('NewsletterBanner', () => {
-  afterEach(() => {
-    vi.useRealTimers();
-    vi.restoreAllMocks();
-  });
+  const getEmailInput = (): HTMLInputElement => screen.getByLabelText('Email address');
 
-  it('renders the title', () => {
-    render(<NewsletterBanner title="Join our newsletter" />);
+  const getSubmitButton = (): HTMLButtonElement =>
+    screen.getByRole('button', { name: /subscribe|sending/i });
 
-    expect(
-      screen.getByRole('heading', { level: 2, name: 'Join our newsletter' })
-    ).toBeInTheDocument();
-  });
+  it('renders the title and description', () => {
+    const onSubmit: SubmitHandler<{ email: string }> = vi.fn();
+    const state: AsyncState<unknown> = { status: 'idle' };
 
-  it('renders the description when provided', () => {
     render(
       <NewsletterBanner
         title="Join our newsletter"
-        description="Get updates, articles, and product news."
+        description="Get updates and offers."
+        onSubmit={onSubmit}
+        state={state}
       />
     );
 
-    expect(screen.getByText('Get updates, articles, and product news.')).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Join our newsletter' })).toBeInTheDocument();
+    expect(screen.getByText('Get updates and offers.')).toBeInTheDocument();
+    expect(screen.getByTestId('body-text')).toBeInTheDocument();
   });
 
-  it('renders the email input and subscribe button', () => {
-    render(<NewsletterBanner title="Join our newsletter" />);
+  it('renders without a description', () => {
+    const onSubmit: SubmitHandler<{ email: string }> = vi.fn();
+    const state: AsyncState<unknown> = { status: 'idle' };
 
-    expect(screen.getByLabelText('Email address')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Subscribe' })).toBeInTheDocument();
+    render(
+      <NewsletterBanner
+        title="Join our newsletter"
+        onSubmit={onSubmit}
+        state={state}
+      />
+    );
+
+    expect(screen.getByRole('heading', { name: 'Join our newsletter' })).toBeInTheDocument();
+    expect(screen.queryByText('Get updates and offers.')).not.toBeInTheDocument();
   });
 
-  it('shows validation feedback for an invalid email', async () => {
-    const user = userEvent.setup();
+  it('renders the form when state is not success', () => {
+    const onSubmit: SubmitHandler<{ email: string }> = vi.fn();
+    const state: AsyncState<unknown> = { status: 'idle' };
 
-    render(<NewsletterBanner title="Join our newsletter" />);
+    render(
+      <NewsletterBanner
+        title="Newsletter"
+        onSubmit={onSubmit}
+        state={state}
+      />
+    );
 
-    const input = screen.getByLabelText('Email address');
-    const button = screen.getByRole('button', { name: 'Subscribe' });
+    expect(getEmailInput()).toBeInTheDocument();
+    expect(getSubmitButton()).toBeInTheDocument();
+    expect(getSubmitButton()).toHaveTextContent('Subscribe');
+  });
 
-    await user.type(input, 'not-an-email');
-    await user.click(button);
+  it('hides the form when state is success', () => {
+    const onSubmit: SubmitHandler<{ email: string }> = vi.fn();
+    const state: AsyncState<{ message: string }> = {
+      status: 'success',
+      data: { message: 'Thanks!' },
+    };
+
+    render(
+      <NewsletterBanner
+        title="Newsletter"
+        onSubmit={onSubmit}
+        state={state}
+      />
+    );
+
+    expect(screen.queryByLabelText('Email address')).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /subscribe|sending/i })).not.toBeInTheDocument();
+  });
+
+  it('disables the email field and shows "Sending..." while loading', () => {
+    const onSubmit: SubmitHandler<{ email: string }> = vi.fn();
+    const state: AsyncState<unknown> = { status: 'loading' };
+
+    render(
+      <NewsletterBanner
+        title="Newsletter"
+        onSubmit={onSubmit}
+        state={state}
+      />
+    );
+
+    expect(getEmailInput()).toBeDisabled();
+    expect(getSubmitButton()).toHaveTextContent('Sending...');
+  });
+
+  it('keeps the email field enabled and shows "Subscribe" when not loading', () => {
+    const onSubmit: SubmitHandler<{ email: string }> = vi.fn();
+    const state: AsyncState<unknown> = { status: 'idle' };
+
+    render(
+      <NewsletterBanner
+        title="Newsletter"
+        onSubmit={onSubmit}
+        state={state}
+      />
+    );
+
+    expect(getEmailInput()).not.toBeDisabled();
+    expect(getSubmitButton()).toHaveTextContent('Subscribe');
+  });
+
+  it('submits valid email values', async () => {
+    const onSubmit: SubmitHandler<{ email: string }> = vi.fn();
+    const state: AsyncState<unknown> = { status: 'idle' };
+
+    render(
+      <NewsletterBanner
+        title="Newsletter"
+        onSubmit={onSubmit}
+        state={state}
+      />
+    );
+
+    fireEvent.change(getEmailInput(), {
+      target: { value: 'test@example.com' },
+    });
+
+    fireEvent.click(getSubmitButton());
 
     await waitFor(() => {
-      expect(input).toHaveAttribute('data-valid', 'false');
-      expect(input).toHaveAttribute('placeholder', 'Please enter a valid email!');
+      expect(onSubmit).toHaveBeenCalledTimes(1);
+    });
+
+    expect(onSubmit).toHaveBeenCalledWith({ email: 'test@example.com' }, expect.anything());
+  });
+
+  it('does not submit invalid email values', async () => {
+    const onSubmit: SubmitHandler<{ email: string }> = vi.fn();
+    const state: AsyncState<unknown> = { status: 'idle' };
+
+    render(
+      <NewsletterBanner
+        title="Newsletter"
+        onSubmit={onSubmit}
+        state={state}
+      />
+    );
+
+    fireEvent.change(getEmailInput(), {
+      target: { value: 'not-an-email' },
+    });
+
+    fireEvent.click(getSubmitButton());
+
+    await waitFor(() => {
+      expect(onSubmit).not.toHaveBeenCalled();
     });
   });
 
-  it('shows sending state and disables input during submission', async () => {
-    vi.useFakeTimers();
+  it('shows the validation message as the placeholder when email is invalid', async () => {
+    const onSubmit: SubmitHandler<{ email: string }> = vi.fn();
+    const state: AsyncState<unknown> = { status: 'idle' };
 
-    render(<NewsletterBanner title="Join our newsletter" />);
+    render(
+      <NewsletterBanner
+        title="Newsletter"
+        onSubmit={onSubmit}
+        state={state}
+      />
+    );
 
-    const input = screen.getByLabelText('Email address');
-    const form = input.closest('form');
+    const input = getEmailInput();
 
-    expect(form).not.toBeNull();
+    expect(input).toHaveAttribute('placeholder', 'Enter your email');
+    expect(input).toHaveAttribute('data-valid', 'true');
 
-    fireEvent.change(input, { target: { value: 'test@example.com' } });
-
-    await act(async () => {
-      fireEvent.submit(form!);
-      await Promise.resolve();
+    fireEvent.change(input, {
+      target: { value: 'bad-email' },
     });
 
-    expect(screen.getByRole('button', { name: 'Sending...' })).toBeInTheDocument();
-    expect(input).toBeDisabled();
+    fireEvent.click(getSubmitButton());
 
-    await act(async () => {
-      vi.advanceTimersByTime(2000);
-      await Promise.resolve();
+    await waitFor(() => {
+      expect(input).toHaveAttribute('placeholder', 'Please enter a valid email!');
     });
 
-    expect(screen.getByRole('button', { name: 'Subscribe' })).toBeInTheDocument();
-    expect(input).not.toBeDisabled();
+    expect(input).toHaveAttribute('data-valid', 'false');
+  });
+
+  it('marks the field as valid when there is no email error', () => {
+    const onSubmit: SubmitHandler<{ email: string }> = vi.fn();
+    const state: AsyncState<unknown> = { status: 'idle' };
+
+    render(
+      <NewsletterBanner
+        title="Newsletter"
+        onSubmit={onSubmit}
+        state={state}
+      />
+    );
+
+    expect(getEmailInput()).toHaveAttribute('data-valid', 'true');
+    expect(getEmailInput()).toHaveAttribute('placeholder', 'Enter your email');
+  });
+
+  it('renders the layout wrappers', () => {
+    const onSubmit: SubmitHandler<{ email: string }> = vi.fn();
+    const state: AsyncState<unknown> = { status: 'idle' };
+
+    render(
+      <NewsletterBanner
+        title="Newsletter"
+        description="Updates and offers."
+        onSubmit={onSubmit}
+        state={state}
+      />
+    );
+
+    expect(screen.getByTestId('container')).toBeInTheDocument();
+
+    const grids = screen.getAllByTestId('grid');
+    const gridItems = screen.getAllByTestId('grid-item');
+
+    expect(grids.length).toBeGreaterThan(0);
+    expect(gridItems.length).toBeGreaterThan(0);
+    expect(screen.getByTestId('stack')).toBeInTheDocument();
   });
 });

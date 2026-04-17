@@ -52,7 +52,7 @@ describe('ErrorPanel', () => {
   it('renders a link back to the homepage', () => {
     render(<ErrorPanel message="Something went wrong" />);
 
-    const link = screen.getByRole('link', { name: 'Return to homepage' });
+    const link = screen.getByRole('link', { name: 'Return home' });
 
     expect(link).toBeInTheDocument();
     expect(link).toHaveAttribute('href', '/');
