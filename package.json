@@ -6,7 +6,16 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "files": [
-    "dist"
+    "dist/index.js",
+    "dist/index.d.ts",
+    "dist/index.css",
+    "dist/assets",
+    "dist/components",
+    "dist/constants",
+    "dist/design-tokens",
+    "dist/hooks",
+    "dist/lib/i18n",
+    "README.md"
   ],
   "exports": {
     ".": {

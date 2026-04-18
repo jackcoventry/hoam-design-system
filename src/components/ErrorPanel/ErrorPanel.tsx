@@ -2,6 +2,7 @@ import clsx from 'clsx';
 
 import { Button } from '@/components/Button';
 import { Stack } from '@/components/Layout';
+import mindfullnessIllustration from '@/assets/illustrations/mindfullness.svg';
 
 import styles from '@/components/ErrorPanel/ErrorPanel.module.css';
 import typography from '@/styles/Typography.module.css';
@@ -23,7 +24,7 @@ export function ErrorPanel({
       className={styles.root}
     >
       <img
-        src="/mindfullness.svg"
+        src={mindfullnessIllustration}
         alt="An illustration of a woman meditating"
         className={styles.image}
       />

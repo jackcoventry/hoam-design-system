@@ -199,7 +199,7 @@ describe('Button', () => {
     const use = container.querySelector('use');
 
     expect(use).toBeInTheDocument();
-    expect(use).toHaveAttribute('xlink:href', '/icons/icons.svg#arrow-right');
+    expect(use).toHaveAttribute('xlink:href', expect.stringContaining('icons.svg#arrow-right'));
   });
 
   it('applies visual data attributes in button mode', () => {

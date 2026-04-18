@@ -46,7 +46,7 @@ describe('ErrorPanel', () => {
       name: 'An illustration of a woman meditating',
     });
 
-    expect(image).toHaveAttribute('src', '/mindfullness.svg');
+    expect(image).toHaveAttribute('src', expect.stringContaining('mindfullness.svg'));
   });
 
   it('renders a link back to the homepage', () => {

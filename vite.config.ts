@@ -14,6 +14,9 @@ export default defineConfig({
         '**/*.test.*',
         '**/*.spec.*',
         '**/*.stories.*',
+        'src/stories/**',
+        'src/mocks/**',
+        'src/lib/style-dictionary/**',
         'src/scripts/**',
         '.storybook/**',
         'config/**',
@@ -28,6 +31,7 @@ export default defineConfig({
   },
 
   build: {
+    copyPublicDir: false,
     lib: {
       entry: path.resolve(__dirname, 'src/index.ts'),
       formats: ['es'],

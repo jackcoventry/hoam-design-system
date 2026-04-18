@@ -1,6 +1,6 @@
 @font-face {
   font-family: "Boldonse";
-  src: url("/fonts/Boldonse-Regular.woff") format("woff");
+  src: url("../assets/fonts/Boldonse-Regular.woff") format("woff");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -8,7 +8,7 @@
 
 @font-face {
   font-family: "DM Serif Text";
-  src: url("/fonts/DMSerifText-Regular.woff") format("woff");
+  src: url("../assets/fonts/DMSerifText-Regular.woff") format("woff");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -16,7 +16,7 @@
 
 @font-face {
   font-family: "Lato";
-  src: url("/fonts/Lato-Regular.woff") format("woff");
+  src: url("../assets/fonts/Lato-Regular.woff") format("woff");
   font-weight: normal;
   font-style: normal;
   font-display: swap;

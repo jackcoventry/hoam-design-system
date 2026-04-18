@@ -18,7 +18,7 @@ describe('Icon', () => {
     const use = container.querySelector('use');
 
     expect(use).toBeInTheDocument();
-    expect(use).toHaveAttribute('xlink:href', '/icons/icons.svg#arrow-left');
+    expect(use).toHaveAttribute('xlink:href', expect.stringContaining('icons.svg#arrow-left'));
   });
 
   it('is decorative by default', () => {

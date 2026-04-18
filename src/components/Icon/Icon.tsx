@@ -1,3 +1,4 @@
+import iconsSpriteUrl from '@/assets/icons/icons.svg';
 import type { IconId } from '@/design-tokens/icons';
 
 export type IconProps = {
@@ -23,7 +24,10 @@ export function Icon({
       fill="currentColor"
       {...(isDecorative ? { 'aria-hidden': true } : { role: 'img', 'aria-label': ariaLabel })}
     >
-      <use xlinkHref={`/icons/icons.svg#${id}`} />
+      <use
+        href={`${iconsSpriteUrl}#${id}`}
+        xlinkHref={`${iconsSpriteUrl}#${id}`}
+      />
     </svg>
   );
 }
