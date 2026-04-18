@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import type { ComponentPropsWithoutRef, ElementType } from 'react';
 
 import { VisuallyHidden } from '@/components/Common/VisuallyHidden';
+import { useMessages } from '@/hooks/useMessages';
 
 import styles from './Spinner.module.css';
 
@@ -14,11 +15,12 @@ export type SpinnerProps<T extends ElementType = 'div'> = {
 
 export function Spinner<T extends ElementType = 'div'>({
   as,
-  label = 'Loading',
+  label,
   className,
   ariaLive = 'polite',
   ...rest
 }: SpinnerProps<T>) {
+  const t = useMessages('spinner');
   const Component = as ?? 'div';
 
   return (
@@ -33,7 +35,7 @@ export function Spinner<T extends ElementType = 'div'>({
         aria-hidden="true"
       />
 
-      <VisuallyHidden>{label}</VisuallyHidden>
+      <VisuallyHidden>{label ?? t.label}</VisuallyHidden>
     </Component>
   );
 }

@@ -67,9 +67,9 @@ export function Pagination(props: Readonly<PaginationProps>) {
   const {
     pageCount = 6,
     currentPage = 1,
-    previousLabel = 'Previous page',
-    nextLabel = 'Next page',
-    'aria-label': ariaLabel = 'Pagination',
+    previousLabel = t.previous,
+    nextLabel = t.next,
+    'aria-label': ariaLabel = t.title,
     siblingCount = 1,
     onPageChange,
   } = props;

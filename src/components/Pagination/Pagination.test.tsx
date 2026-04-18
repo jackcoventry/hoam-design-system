@@ -6,6 +6,9 @@ import { Pagination } from '@/components/Pagination/Pagination';
 
 const mockUseMessages = vi.fn<
   (namespace: string) => {
+    previous: string;
+    next: string;
+    title: string;
     current: string;
     goTo: string;
   }
@@ -67,6 +70,9 @@ describe('Pagination', () => {
     vi.clearAllMocks();
 
     mockUseMessages.mockReturnValue({
+      previous: 'Previous page',
+      next: 'Next page',
+      title: 'Pagination',
       current: 'Current page',
       goTo: 'Go to page',
     });

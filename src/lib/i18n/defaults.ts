@@ -118,6 +118,9 @@ export const defaultMessages = {
     loading: 'Loading progress',
     inProgress: 'In progress',
   },
+  spinner: {
+    label: 'Loading',
+  },
   productTile: {
     new: 'New',
     lowStock: 'Low stock',
