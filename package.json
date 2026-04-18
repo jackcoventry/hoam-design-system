@@ -40,8 +40,9 @@
     "generate": "npm run icons && npm run tokens",
     "dev": "npm run generate && storybook dev -p 6006",
     "build": "npm run generate && vite build",
+    "budgets": "node src/scripts/check-budgets.mjs",
     "build-storybook": "storybook build",
-    "verify": "npm run build && npm run prettier && npm run lint && npm run typecheck && npm run test:run"
+    "verify": "npm run build && npm run budgets && npm run prettier && npm run lint && npm run typecheck && npm run test:run"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,astro,json,md,css}": [
