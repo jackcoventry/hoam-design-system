@@ -28,15 +28,15 @@ export function PasswordStrengthMeter({ strength }: Readonly<PasswordStrengthMet
   const strengthLabel = (strength: StrengthLevel) => {
     switch (strength) {
       case 0:
-        return t.stength0;
+        return t.strength0;
       case 1:
-        return t.stength1;
+        return t.strength1;
       case 2:
-        return t.stength2;
+        return t.strength2;
       case 3:
-        return t.stength3;
+        return t.strength3;
       case 4:
-        return t.stength4;
+        return t.strength4;
     }
   };
 

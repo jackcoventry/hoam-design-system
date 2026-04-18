@@ -39,6 +39,8 @@ export type SearchResultsProps = {
 };
 
 export function SearchResult({ title, url, preview }: Readonly<SearchFormResult>) {
+  const t = useMessages('searchForm');
+
   return (
     <div className={styles.result}>
       <Stack>
@@ -50,7 +52,7 @@ export function SearchResult({ title, url, preview }: Readonly<SearchFormResult>
           size="small"
           className={styles.resultButton}
         >
-          Read more
+          {t.readMore}
         </Button>
       </Stack>
     </div>
@@ -66,10 +68,12 @@ export function SearchLoader() {
 }
 
 export function SearchResults({ items }: Readonly<SearchResultsProps>) {
+  const t = useMessages('searchForm');
+
   if (items.length === 0) {
     return (
       <div className={styles.message}>
-        <p>No results!</p>
+        <p>{t.noResults}</p>
       </div>
     );
   }

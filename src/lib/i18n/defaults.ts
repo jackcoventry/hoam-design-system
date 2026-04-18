@@ -73,11 +73,11 @@ export const defaultMessages = {
     goTo: 'Go to page',
   },
   password: {
-    stength0: 'Too weak',
-    stength1: 'Weak',
-    stength2: 'Fair',
-    stength3: 'Strong',
-    stength4: 'Very strong',
+    strength0: 'Too weak',
+    strength1: 'Weak',
+    strength2: 'Fair',
+    strength3: 'Strong',
+    strength4: 'Very strong',
   },
   productFilters: {
     noFilters: 'No filters found',
@@ -112,6 +112,8 @@ export const defaultMessages = {
   searchForm: {
     submitLabel: 'Search',
     placeholderText: 'Enter keywords...',
+    readMore: 'Read more',
+    noResults: 'No results!',
   },
   sidebarNavigation: {
     title: 'Sidebar navigation',
