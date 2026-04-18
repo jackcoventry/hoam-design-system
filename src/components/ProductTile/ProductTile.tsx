@@ -1,6 +1,7 @@
 import { BadgeList, BadgeListItem } from '@/components/BadgeList';
 import { Button } from '@/components/Button';
 import { Stack } from '@/components/Layout';
+import { useCurrency } from '@/hooks/useCurrency';
 import { useMessages } from '@/hooks/useMessages';
 
 import styles from '@/components/ProductTile/ProductTile.module.css';
@@ -8,7 +9,6 @@ import styles from '@/components/ProductTile/ProductTile.module.css';
 type ProductPrice = {
   amount: number;
   saleAmount?: number;
-  currency: string;
 };
 
 type ProductImage = {
@@ -27,15 +27,6 @@ export type ProductTileProps = {
   image: ProductImage;
 };
 
-function formatPrice(value = 0, currency = 'GBP') {
-  const amount = value;
-  const result = amount.toLocaleString('en-GB', {
-    style: 'currency',
-    currency: currency,
-  });
-  return result;
-}
-
 export function ProductTile({
   title,
   productId,
@@ -47,6 +38,8 @@ export function ProductTile({
   image,
 }: Readonly<ProductTileProps>) {
   const t = useMessages('productTile');
+  const { formatCurrency } = useCurrency();
+
   return (
     <Stack
       gap="sm"
@@ -97,14 +90,14 @@ export function ProductTile({
             className={styles.price}
             data-price-status="current"
           >
-            {formatPrice(price?.saleAmount || price?.amount, price?.currency)}
+            {formatCurrency(price?.saleAmount || price?.amount)}
           </span>
           {!!price?.saleAmount && (
             <span
               className={styles.price}
               data-price-status="previous"
             >
-              {formatPrice(price?.amount, price?.currency)}
+              {formatCurrency(price?.amount)}
             </span>
           )}
         </p>

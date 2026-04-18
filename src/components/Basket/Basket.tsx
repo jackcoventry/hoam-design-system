@@ -1,7 +1,7 @@
 import { Button } from '@/components/Button';
 import { QuantitySelector } from '@/components/QuantitySelector';
+import { useCurrency } from '@/hooks/useCurrency';
 import { useMessages } from '@/hooks/useMessages';
-import { convertNumberToCurrency } from '@/utils/convertNumberToCurrency';
 
 import styles from '@/components/Basket/Basket.module.css';
 import typography from '@/styles/Typography.module.css';
@@ -37,6 +37,7 @@ export function BasketItem({
 }: Readonly<BasketItemProps>) {
   const totalPrice = quantity * price;
   const t = useMessages('basket');
+  const { formatCurrency } = useCurrency();
 
   return (
     <tr className={styles.row}>
@@ -60,7 +61,7 @@ export function BasketItem({
             <h4 className={styles.title}>{title}</h4>
           </a>
           <span className={styles.summary}>
-            {t.price}: {convertNumberToCurrency({ value: price })}
+            {t.price}: {formatCurrency(price)}
           </span>
           <div className={styles.controls}>
             <Button
@@ -91,7 +92,7 @@ export function BasketItem({
       <td>
         <div className={styles.price}>
           <span className={styles.priceLabel}>{t.total}:</span>
-          {convertNumberToCurrency({ value: totalPrice })}
+          {formatCurrency(totalPrice)}
         </div>
       </td>
     </tr>
@@ -100,12 +101,13 @@ export function BasketItem({
 
 export function BasketFooter({ total = 0 }: Readonly<{ total: number }>) {
   const t = useMessages('basket');
+  const { formatCurrency } = useCurrency();
 
   return (
     <div className={styles.footer}>
       <div className={styles.footerContent}>
         <h4 className={typography.heading}>
-          {t.subTotal}: {convertNumberToCurrency({ value: total })}
+          {t.subTotal}: {formatCurrency(total)}
         </h4>
         <Button
           size="small"

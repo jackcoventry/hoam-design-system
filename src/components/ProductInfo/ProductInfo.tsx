@@ -9,8 +9,8 @@ import { BodyText } from '@/components/Common/BodyText';
 import { FieldWrapper, Select } from '@/components/Form';
 import { Section, Stack } from '@/components/Layout';
 import { VariantSelector } from '@/components/VariantSelector';
+import { useCurrency } from '@/hooks/useCurrency';
 import { useMessages } from '@/hooks/useMessages';
-import { convertNumberToCurrency } from '@/utils/convertNumberToCurrency';
 import { logger } from '@/utils/logger';
 
 import styles from '@/components/ProductInfo/ProductInfo.module.css';
@@ -42,7 +42,7 @@ export type ProductInfoProps = {
   title: string;
   description?: string | undefined;
   productId: string;
-  price: { amount: number; saleAmount: number; currency: string };
+  price: { amount: number; saleAmount: number };
   inStock: boolean;
   newItem: boolean;
   lowStock: boolean;
@@ -71,6 +71,8 @@ export function ProductInfo({
   isSubmitting = false,
 }: Readonly<ProductInfoProps>) {
   const t = useMessages('productTile');
+  const { formatCurrency } = useCurrency();
+
   const colorOptions = data.options.color;
   const sizeOptions = data.options.size;
   const imageOptions = data.options.image;
@@ -117,11 +119,8 @@ export function ProductInfo({
     mode: 'all',
   });
 
-  const priceString = convertNumberToCurrency({ value: price.amount, currency: price.currency });
-  const salePriceString = convertNumberToCurrency({
-    value: price.saleAmount,
-    currency: price.currency,
-  });
+  const priceString = formatCurrency(price.amount);
+  const salePriceString = formatCurrency(price.saleAmount);
 
   return (
     <div className={styles.root}>

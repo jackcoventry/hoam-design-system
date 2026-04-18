@@ -25,12 +25,6 @@ vi.mock('@/hooks/useMessages', () => ({
   useMessages: (namespace: string) => useMessagesMock(namespace),
 }));
 
-vi.mock('@/utils/convertDates', () => ({
-  parseLooseDate: (value: string) => parseLooseDateMock(value),
-  formatReadableDate: (value: Date) => formatReadableDateMock(value),
-  formatISODate: (value: Date) => formatISODateMock(value),
-}));
-
 vi.mock('@/components/Common/BodyText', () => ({
   BodyText: ({ children }: { children: ReactNode }) => (
     <div data-testid="body-text">{children}</div>

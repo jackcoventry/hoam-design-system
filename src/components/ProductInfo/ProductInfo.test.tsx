@@ -264,7 +264,6 @@ describe('ProductInfo', () => {
     price: {
       amount: 25,
       saleAmount: 20,
-      currency: 'GBP',
     },
     inStock: true,
     newItem: true,
@@ -372,11 +371,11 @@ describe('ProductInfo', () => {
   it('renders the sale price and previous price when sale price is present', () => {
     render(<ProductInfo {...baseProps} />);
 
-    expect(mockConvertNumberToCurrency).toHaveBeenCalledWith({ value: 25, currency: 'GBP' });
-    expect(mockConvertNumberToCurrency).toHaveBeenCalledWith({ value: 20, currency: 'GBP' });
+    expect(mockConvertNumberToCurrency).toHaveBeenCalledWith({ value: 25 });
+    expect(mockConvertNumberToCurrency).toHaveBeenCalledWith({ value: 20 });
 
-    expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent('GBP 20.00');
-    expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent('GBP 25.00');
+    expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent('£20.00');
+    expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent('£25.00');
   });
 
   it('renders only the regular price when the sale price string is empty', () => {
@@ -393,8 +392,8 @@ describe('ProductInfo', () => {
     render(<ProductInfo {...baseProps} />);
 
     const priceHeading = screen.getByRole('heading', { level: 2 });
-    expect(priceHeading).toHaveTextContent('GBP 25.00');
-    expect(priceHeading).not.toHaveTextContent('GBP 20.00');
+    expect(priceHeading).toHaveTextContent('£25.00');
+    expect(priceHeading).not.toHaveTextContent('£20.00');
   });
 
   it('omits the description when it is not provided', () => {

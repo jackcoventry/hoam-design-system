@@ -4,8 +4,8 @@ import { BodyText } from '@/components/Common/BodyText';
 import type { Link } from '@/components/Footer';
 import { Icon } from '@/components/Icon';
 import { Container, Grid, GridItem, Stack } from '@/components/Layout';
+import { useDate } from '@/hooks/useDate';
 import { useMessages } from '@/hooks/useMessages';
-import { formatISODate, formatReadableDate, parseLooseDate } from '@/utils/convertDates';
 import type { IconId } from '@/design-tokens/icons';
 
 import styles from '@/components/BlogArticle/BlogArticle.module.css';
@@ -47,11 +47,13 @@ export function BlogArticle({
   socialLinks = [],
   children,
 }: Readonly<BlogArticleProps>) {
-  const parsedDate = parseLooseDate(publishDate);
-  const stringDate = parsedDate ? formatReadableDate(parsedDate) : '';
-  const formattedDate = parsedDate ? formatISODate(parsedDate) : '';
   const t = useMessages('blogArticle');
   const tGlobal = useMessages('global');
+  const { formatDate } = useDate();
+
+  const parsedDate = formatDate(publishDate, {
+    dateStyle: 'long',
+  });
 
   return (
     <div className={styles.wrapper}>
@@ -99,9 +101,9 @@ export function BlogArticle({
                       )}
                       <time
                         className={styles.date}
-                        dateTime={formattedDate}
+                        dateTime={parsedDate}
                       >
-                        {stringDate}
+                        {parsedDate}
                       </time>
                       <span className={styles.readingTime}>
                         <Icon id="clock" />

@@ -56,7 +56,6 @@ describe('ProductTile', () => {
     description: 'A lovely item',
     price: {
       amount: 100,
-      currency: 'GBP',
     },
     inStock: true,
     newItem: false,
@@ -152,7 +151,6 @@ describe('ProductTile', () => {
         price={{
           amount: 100,
           saleAmount: 80,
-          currency: 'GBP',
         }}
       />
     );
@@ -168,7 +166,6 @@ describe('ProductTile', () => {
         price={{
           amount: 100,
           saleAmount: 80,
-          currency: 'GBP',
         }}
       />
     );
