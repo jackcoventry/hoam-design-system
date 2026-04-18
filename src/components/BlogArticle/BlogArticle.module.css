@@ -91,33 +91,6 @@ a.authorLink {
   font: var(--hoam-typography-title-4);
 }
 
-.tags {
-  align-items: center;
-  display: flex;
-  gap: var(--hoam-spacing-xs);
-  padding: var(--hoam-spacing-xs) 0;
-}
-
-.tag {
-  border: var(--hoam-border-size-default) var(--hoam-color-border-accent);
-  border-radius: var(--hoam-border-radius-default);
-  color: var(--hoam-color-link-default);
-  font: var(--hoam-typography-label-1);
-  padding: var(--hoam-spacing-2xs) var(--hoam-spacing-xs);
-  text-decoration: none;
-}
-
-@media (--hoam-hoverable) {
-  .tag:hover {
-    background-color: var(--hoam-color-link-hover);
-  }
-}
-
-.tagsTitle {
-  font: var(--hoam-typography-label-2);
-  text-transform: uppercase;
-}
-
 .title {
   font: var(--hoam-typography-title-5);
 }

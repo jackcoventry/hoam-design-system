@@ -23,7 +23,6 @@ export const defaultMessages = {
     avatarAria: 'The avatar of',
     by: 'By',
     readingTime: 'minute read',
-    tags: 'Tags',
   },
   footer: {
     backToTop: 'Back to top',

@@ -45,7 +45,6 @@ function BaseTemplate({ children }: Readonly<BaseTemplateProps>) {
       <Navigation
         items={NavigationData}
         userItems={UserNavigationData}
-        variant="default"
         searchSubmit={onSubmit}
         searchData={data}
         searchState={state}

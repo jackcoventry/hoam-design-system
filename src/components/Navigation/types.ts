@@ -5,7 +5,6 @@ import type { SearchFormResult, SearchFormSchemaType } from '@/components/Form';
 import { AsyncState } from '@/types/async';
 
 export type NavigationLayout = 'list' | 'thumbnail';
-export type NavigationVariant = 'default' | 'fixed' | 'sticky';
 export type NavUserAction = 'USER_SEARCH' | 'USER_BASKET';
 export type NavigationUserItems = NavUserItem[];
 
@@ -83,7 +82,6 @@ export type NavTreeItem =
 export interface NavigationProps<TData, TError extends Error = Error> {
   items?: NavTopLevelItem[];
   userItems?: NavUserItem[];
-  variant?: NavigationVariant;
   searchSubmit: SubmitHandler<SearchFormSchemaType>;
   searchData: SearchFormResult[] | null;
   searchState: AsyncState<TData, TError>;

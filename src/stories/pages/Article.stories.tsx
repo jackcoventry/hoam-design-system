@@ -57,7 +57,6 @@ function StoryTemplate({
   publishDate,
   readingTime,
   image,
-  tags,
   socialLinks,
 }: Readonly<BlogArticleProps>) {
   return (
@@ -71,7 +70,6 @@ function StoryTemplate({
         publishDate={publishDate}
         readingTime={readingTime}
         image={image}
-        tags={tags}
         socialLinks={socialLinks}
       >
         <p>

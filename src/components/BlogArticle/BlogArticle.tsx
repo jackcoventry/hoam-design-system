@@ -22,11 +22,6 @@ type Author = {
   image: string;
 };
 
-type Tag = {
-  name: string;
-  id: string;
-};
-
 export type BlogArticleProps = {
   category: string;
   title: string;
@@ -36,7 +31,6 @@ export type BlogArticleProps = {
   publishDate: string;
   readingTime: number;
   image: BlogImage;
-  tags: Tag[];
   children: ReactNode;
   socialLinks: Array<Link>;
 };
@@ -50,7 +44,6 @@ export function BlogArticle({
   publishDate,
   readingTime,
   image,
-  tags,
   socialLinks = [],
   children,
 }: Readonly<BlogArticleProps>) {
@@ -168,33 +161,6 @@ export function BlogArticle({
             </GridItem>
           </Grid>
         </Container>
-
-        <footer className={styles.footer}>
-          <Container>
-            <Grid>
-              <GridItem
-                span={12}
-                startLg={3}
-                spanLg={8}
-              >
-                {tags?.length > 0 ? (
-                  <p className={styles.tags}>
-                    <span className={styles.tagsTitle}>{t.tags}: </span>
-                    {tags?.map((tag) => (
-                      <a
-                        key={tag.id}
-                        href={`/blog/tag/${tag.id}`}
-                        className={styles.tag}
-                      >
-                        {tag.name}
-                      </a>
-                    ))}
-                  </p>
-                ) : null}
-              </GridItem>
-            </Grid>
-          </Container>
-        </footer>
       </article>
     </div>
   );

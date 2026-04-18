@@ -8,7 +8,6 @@ type UseMessagesBlogArticle = {
   by: string;
   avatarAria: string;
   readingTime: string;
-  tags: string;
 };
 
 type UseMessagesGlobal = {
@@ -65,7 +64,6 @@ describe('BlogArticle', () => {
           by: 'By ',
           avatarAria: 'Avatar for',
           readingTime: 'min read',
-          tags: 'Tags',
         };
       }
 
@@ -97,10 +95,6 @@ describe('BlogArticle', () => {
       alt: 'Article hero image',
       caption: 'A lovely caption',
     },
-    tags: [
-      { id: 'design-systems', name: 'Design Systems' },
-      { id: 'react', name: 'React' },
-    ],
     socialLinks: [
       { label: 'Twitter', href: 'https://example.com/twitter', icon: 'twitter' },
       { label: 'LinkedIn', href: 'https://example.com/linkedin', icon: 'linkedin' },
@@ -208,29 +202,6 @@ describe('BlogArticle', () => {
 
     expect(heroImage).toHaveAttribute('src', '/blog/hero.jpg');
     expect(screen.getByText('A lovely caption')).toBeInTheDocument();
-  });
-
-  it('renders tags with correct links when tags exist', () => {
-    render(<BlogArticle {...baseProps} />);
-
-    expect(screen.getByText('Tags:')).toBeInTheDocument();
-
-    const designSystemsTag = screen.getByRole('link', { name: 'Design Systems' });
-    const reactTag = screen.getByRole('link', { name: 'React' });
-
-    expect(designSystemsTag).toHaveAttribute('href', '/blog/tag/design-systems');
-    expect(reactTag).toHaveAttribute('href', '/blog/tag/react');
-  });
-
-  it('does not render the tags section when tags are empty', () => {
-    render(
-      <BlogArticle
-        {...baseProps}
-        tags={[]}
-      />
-    );
-
-    expect(screen.queryByText('Tags:')).not.toBeInTheDocument();
   });
 
   it('does not render category when empty', () => {
