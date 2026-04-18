@@ -5,7 +5,6 @@ import { Accordion, AccordionHeader, AccordionItem, AccordionPanel } from '@/com
 import { Button } from '@/components/Button';
 import { Select } from '@/components/Form/Select/Select';
 import { Stack } from '@/components/Layout';
-import { Spinner } from '@/components/Loading';
 import { FilterBarOptionPanel } from '@/components/ProductFilters/FilterBarOptionPanel';
 import { FilterBarRangePanel } from '@/components/ProductFilters/FilterBarRangePanel';
 import type { FilterBarProps } from '@/components/ProductFilters/ProductFilters.types';
@@ -21,11 +20,14 @@ import {
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { useMessages } from '@/hooks/useMessages';
 import { BREAKPOINTS } from '@/styles/breakpoints';
+import { useFormatting } from '@/lib/i18n/formatting/useFormatting';
 
 import styles from '@/components/ProductFilters/ProductFilters.module.css';
 
 export function FilterBar(props: PropsWithChildren<FilterBarProps>) {
   const t = useMessages('productFilters');
+  const { locale, currency } = useFormatting();
+
   const {
     title = t.title,
     groups,
@@ -37,13 +39,15 @@ export function FilterBar(props: PropsWithChildren<FilterBarProps>) {
     sortOptions,
     sortValue = '',
     onSortChange,
-    loading = false,
     children,
   } = props;
 
   const baseId = useId();
   const rootRef = useRef<HTMLDivElement | null>(null);
-  const chips = useMemo(() => buildChips(groups, value), [groups, value]);
+  const chips = useMemo(
+    () => buildChips(groups, value, locale, currency),
+    [groups, value, locale, currency]
+  );
   const isDesktop = useMediaQuery(`(min-width: ${BREAKPOINTS.UP.MD})`);
   const [filtersCollapsed, setFiltersCollapsed] = useState<boolean>(!isDesktop);
   const handleFilterCollapse = () => {
@@ -215,15 +219,7 @@ export function FilterBar(props: PropsWithChildren<FilterBarProps>) {
                 ))
               : null}
           </div>
-          <div className={styles.items}>
-            {loading ? (
-              <span className={styles.spinnerWrapper}>
-                <Spinner />
-              </span>
-            ) : (
-              children
-            )}
-          </div>
+          <div className={styles.items}>{children}</div>
         </div>
       </div>
     </div>

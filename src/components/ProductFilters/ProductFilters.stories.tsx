@@ -26,16 +26,9 @@ const dataSet = [productTile, productTile, productTile, productTileNew];
 export function CoffeeFilterExample(): JSX.Element {
   const [value, setValue] = useState<FilterValue>(initialValue);
   const [sortValue, setSortValue] = useState<string>('featured');
-  const [loading, setLoading] = useState<boolean>(false);
 
   function handleChange(value: SetStateAction<FilterValue>) {
-    // This mimics a basic server response
-    setLoading(true);
-
-    setTimeout(() => {
-      setValue(value);
-      setLoading(false);
-    }, 500);
+    setValue(value);
   }
 
   return (
@@ -56,7 +49,6 @@ export function CoffeeFilterExample(): JSX.Element {
       ]}
       sortValue={sortValue}
       onSortChange={setSortValue}
-      loading={loading}
     >
       <Grid>
         {dataSet.map((product) => (

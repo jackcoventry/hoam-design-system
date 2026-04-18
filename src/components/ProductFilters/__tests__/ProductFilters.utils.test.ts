@@ -1,8 +1,7 @@
-import { describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import type {
   CheckboxGroup,
-  FilterGroup,
   FilterOption,
   FilterValue,
   RadioGroup,
@@ -27,6 +26,19 @@ import {
   toggleOptionSelection,
 } from '@/components/ProductFilters/ProductFilters.utils';
 
+const formatCurrencyRangeValueMock =
+  vi.fn<(min: number, max: number, locale: string, currency: string) => string>();
+
+const formatCurrencyValueMock =
+  vi.fn<(value: number, locale: string, currency: string) => string>();
+
+vi.mock('@/lib/i18n/formatting/currency', () => ({
+  formatCurrencyRangeValue: (min: number, max: number, locale: string, currency: string) =>
+    formatCurrencyRangeValueMock(min, max, locale, currency),
+  formatCurrencyValue: (value: number, locale: string, currency: string) =>
+    formatCurrencyValueMock(value, locale, currency),
+}));
+
 describe('ProductFilters.utils', () => {
   const checkboxGroup: CheckboxGroup = {
     id: 'colour',
@@ -36,12 +48,15 @@ describe('ProductFilters.utils', () => {
       { id: 'red', label: 'Red' },
       { id: 'blue', label: 'Blue' },
     ],
-  };
-
-  const searchableCheckboxGroup: CheckboxGroup = {
-    ...checkboxGroup,
     searchable: true,
     searchPlaceholder: 'Search colours',
+  };
+
+  const nonSearchableCheckboxGroup: CheckboxGroup = {
+    id: 'brand',
+    label: 'Brand',
+    kind: 'checkbox',
+    options: [{ id: 'nike', label: 'Nike' }],
   };
 
   const radioGroup: RadioGroup = {
@@ -49,8 +64,8 @@ describe('ProductFilters.utils', () => {
     label: 'Size',
     kind: 'radio',
     options: [
-      { id: 's', label: 'Small' },
-      { id: 'm', label: 'Medium' },
+      { id: 'small', label: 'Small' },
+      { id: 'large', label: 'Large' },
     ],
   };
 
@@ -59,21 +74,34 @@ describe('ProductFilters.utils', () => {
     label: 'Price',
     kind: 'range',
     min: 0,
-    max: 500,
-    step: 10,
+    max: 100,
+    step: 5,
   };
 
-  const groups: readonly FilterGroup[] = [checkboxGroup, radioGroup, rangeGroup];
-
-  const value: FilterValue = {
+  const baseValue: FilterValue = {
     options: {
       colour: ['red'],
-      size: ['m'],
+      size: ['large'],
     },
     ranges: {
-      price: { min: 50, max: 200 },
+      price: {
+        min: 10,
+        max: 50,
+      },
     },
   };
+
+  beforeEach(() => {
+    vi.clearAllMocks();
+
+    formatCurrencyRangeValueMock.mockImplementation(
+      (min, max, locale, currency) => `${currency} ${locale} ${min}-${max}`
+    );
+
+    formatCurrencyValueMock.mockImplementation(
+      (value, locale, currency) => `${currency} ${locale} ${value}`
+    );
+  });
 
   describe('type guards', () => {
     it('identifies range groups', () => {
@@ -84,8 +112,8 @@ describe('ProductFilters.utils', () => {
 
     it('identifies radio groups', () => {
       expect(isRadioGroup(radioGroup)).toBe(true);
-      expect(isRadioGroup(checkboxGroup)).toBe(false);
       expect(isRadioGroup(rangeGroup)).toBe(false);
+      expect(isRadioGroup(checkboxGroup)).toBe(false);
     });
 
     it('identifies option groups', () => {
@@ -94,256 +122,294 @@ describe('ProductFilters.utils', () => {
       expect(isOptionGroup(rangeGroup)).toBe(false);
     });
 
-    it('identifies searchable option groups only when searchable is truthy', () => {
-      expect(isSearchableGroup(searchableCheckboxGroup)).toBe(true);
-      expect(isSearchableGroup(checkboxGroup)).toBe(false);
+    it('identifies searchable option groups', () => {
+      expect(isSearchableGroup(checkboxGroup)).toBe(true);
+      expect(isSearchableGroup(nonSearchableCheckboxGroup)).toBe(false);
       expect(isSearchableGroup(radioGroup)).toBe(false);
       expect(isSearchableGroup(rangeGroup)).toBe(false);
     });
   });
 
-  describe('selection helpers', () => {
-    it('returns option selections for a group', () => {
-      expect(getOptionSelections(value, 'colour')).toEqual(['red']);
-      expect(getOptionSelections(value, 'size')).toEqual(['m']);
+  describe('option selection helpers', () => {
+    it('returns selected options for a group', () => {
+      expect(getOptionSelections(baseValue, 'colour')).toEqual(['red']);
     });
 
-    it('returns an empty array when no option selections exist for a group', () => {
-      expect(getOptionSelections(value, 'brand')).toEqual([]);
+    it('returns an empty array when a group has no option selections', () => {
+      expect(getOptionSelections(baseValue, 'missing')).toEqual([]);
     });
 
-    it('checks whether an option is selected', () => {
-      expect(isOptionSelected(value, 'colour', 'red')).toBe(true);
-      expect(isOptionSelected(value, 'colour', 'blue')).toBe(false);
-      expect(isOptionSelected(value, 'missing', 'red')).toBe(false);
+    it('returns true when an option is selected', () => {
+      expect(isOptionSelected(baseValue, 'colour', 'red')).toBe(true);
     });
 
-    it('returns the range value for a group', () => {
-      expect(getRangeValue(value, 'price')).toEqual({ min: 50, max: 200 });
+    it('returns false when an option is not selected', () => {
+      expect(isOptionSelected(baseValue, 'colour', 'blue')).toBe(false);
+    });
+  });
+
+  describe('range helpers', () => {
+    it('returns the current range value for a group', () => {
+      expect(getRangeValue(baseValue, 'price')).toEqual({
+        min: 10,
+        max: 50,
+      });
     });
 
     it('returns undefined when no range value exists for a group', () => {
-      expect(getRangeValue(value, 'weight')).toBeUndefined();
+      expect(getRangeValue(baseValue, 'missing')).toBeUndefined();
     });
 
     it('sets a range value immutably', () => {
-      const next = setRangeValue(value, 'price', { min: 100, max: 300 });
+      const result = setRangeValue(baseValue, 'price', { min: 20, max: 80 });
 
-      expect(next).toEqual({
+      expect(result).toEqual({
         options: {
           colour: ['red'],
-          size: ['m'],
+          size: ['large'],
         },
         ranges: {
-          price: { min: 100, max: 300 },
+          price: {
+            min: 20,
+            max: 80,
+          },
         },
       });
 
-      expect(next).not.toBe(value);
-      expect(next.ranges).not.toBe(value.ranges);
-      expect(value.ranges.price).toEqual({ min: 50, max: 200 });
+      expect(result).not.toBe(baseValue);
+      expect(result.ranges).not.toBe(baseValue.ranges);
+      expect(result.options).toBe(baseValue.options);
     });
   });
 
   describe('toggleOptionSelection', () => {
-    it('adds a checkbox option when it is not already selected', () => {
-      const next = toggleOptionSelection(
-        {
-          options: { colour: ['red'] },
-          ranges: {},
-        },
-        checkboxGroup,
-        'blue'
-      );
+    it('adds an option for checkbox groups when not currently selected', () => {
+      const result = toggleOptionSelection(baseValue, checkboxGroup, 'blue');
 
-      expect(next.options.colour).toEqual(['red', 'blue']);
+      expect(result).toEqual({
+        options: {
+          colour: ['red', 'blue'],
+          size: ['large'],
+        },
+        ranges: {
+          price: {
+            min: 10,
+            max: 50,
+          },
+        },
+      });
     });
 
-    it('removes a checkbox option when it is already selected', () => {
-      const next = toggleOptionSelection(
-        {
-          options: { colour: ['red', 'blue'] },
-          ranges: {},
-        },
-        checkboxGroup,
-        'red'
-      );
+    it('removes an option for checkbox groups when currently selected', () => {
+      const result = toggleOptionSelection(baseValue, checkboxGroup, 'red');
 
-      expect(next.options.colour).toEqual(['blue']);
+      expect(result).toEqual({
+        options: {
+          colour: [],
+          size: ['large'],
+        },
+        ranges: {
+          price: {
+            min: 10,
+            max: 50,
+          },
+        },
+      });
     });
 
-    it('selects a radio option when it is not already selected', () => {
-      const next = toggleOptionSelection(
-        {
-          options: { size: ['s'] },
-          ranges: {},
-        },
-        radioGroup,
-        'm'
-      );
+    it('selects a radio option when not currently selected', () => {
+      const result = toggleOptionSelection(baseValue, radioGroup, 'small');
 
-      expect(next.options.size).toEqual(['m']);
+      expect(result).toEqual({
+        options: {
+          colour: ['red'],
+          size: ['small'],
+        },
+        ranges: {
+          price: {
+            min: 10,
+            max: 50,
+          },
+        },
+      });
     });
 
     it('clears a radio option when it is already selected', () => {
-      const next = toggleOptionSelection(
-        {
-          options: { size: ['m'] },
-          ranges: {},
+      const result = toggleOptionSelection(baseValue, radioGroup, 'large');
+
+      expect(result).toEqual({
+        options: {
+          colour: ['red'],
+          size: [],
         },
-        radioGroup,
-        'm'
-      );
-
-      expect(next.options.size).toEqual([]);
-    });
-
-    it('creates a new checkbox selection array when the group has no current value', () => {
-      const next = toggleOptionSelection(
-        {
-          options: {},
-          ranges: {},
+        ranges: {
+          price: {
+            min: 10,
+            max: 50,
+          },
         },
-        checkboxGroup,
-        'red'
-      );
-
-      expect(next.options.colour).toEqual(['red']);
-    });
-
-    it('creates a new radio selection array when the group has no current value', () => {
-      const next = toggleOptionSelection(
-        {
-          options: {},
-          ranges: {},
-        },
-        radioGroup,
-        's'
-      );
-
-      expect(next.options.size).toEqual(['s']);
+      });
     });
   });
 
   describe('clearGroup', () => {
-    it('clears a range group by setting it to an empty object', () => {
-      const next = clearGroup(value, rangeGroup);
+    it('clears a range group by setting an empty range object', () => {
+      const result = clearGroup(baseValue, rangeGroup);
 
-      expect(next.ranges.price).toEqual({});
-      expect(next.options).toEqual(value.options);
+      expect(result).toEqual({
+        options: {
+          colour: ['red'],
+          size: ['large'],
+        },
+        ranges: {
+          price: {},
+        },
+      });
     });
 
-    it('clears an option group by setting it to an empty array', () => {
-      const next = clearGroup(value, checkboxGroup);
+    it('clears an option group by setting its selections to an empty array', () => {
+      const result = clearGroup(baseValue, checkboxGroup);
 
-      expect(next.options.colour).toEqual([]);
-      expect(next.ranges).toEqual(value.ranges);
-    });
-
-    it('clears a radio group by setting it to an empty array', () => {
-      const next = clearGroup(value, radioGroup);
-
-      expect(next.options.size).toEqual([]);
+      expect(result).toEqual({
+        options: {
+          colour: [],
+          size: ['large'],
+        },
+        ranges: {
+          price: {
+            min: 10,
+            max: 50,
+          },
+        },
+      });
     });
   });
 
   describe('clamp', () => {
-    it('returns the input when it is within bounds', () => {
-      expect(clamp(5, 1, 10)).toBe(5);
+    it('returns the input when it is within range', () => {
+      expect(clamp(50, 0, 100)).toBe(50);
     });
 
     it('clamps values below the minimum', () => {
-      expect(clamp(-1, 1, 10)).toBe(1);
+      expect(clamp(-10, 0, 100)).toBe(0);
     });
 
     it('clamps values above the maximum', () => {
-      expect(clamp(999, 1, 10)).toBe(10);
+      expect(clamp(110, 0, 100)).toBe(100);
     });
   });
 
   describe('getSelectedCount', () => {
-    it('counts selected options for option groups', () => {
-      expect(getSelectedCount(checkboxGroup, value)).toBe(1);
-      expect(getSelectedCount(radioGroup, value)).toBe(1);
-    });
+    it('returns 1 for range groups with a minimum value', () => {
+      const value: FilterValue = {
+        options: {},
+        ranges: {
+          price: { min: 5 },
+        },
+      };
 
-    it('returns zero for option groups with no selections', () => {
-      expect(
-        getSelectedCount(checkboxGroup, {
-          options: {},
-          ranges: {},
-        })
-      ).toBe(0);
-    });
-
-    it('returns 1 for a range group when min exists', () => {
-      expect(
-        getSelectedCount(rangeGroup, {
-          options: {},
-          ranges: {
-            price: { min: 10 },
-          },
-        })
-      ).toBe(1);
-    });
-
-    it('returns 1 for a range group when max exists', () => {
-      expect(
-        getSelectedCount(rangeGroup, {
-          options: {},
-          ranges: {
-            price: { max: 100 },
-          },
-        })
-      ).toBe(1);
-    });
-
-    it('returns 1 for a range group when both min and max exist', () => {
       expect(getSelectedCount(rangeGroup, value)).toBe(1);
     });
 
-    it('returns 0 for a range group when neither min nor max exists', () => {
-      expect(
-        getSelectedCount(rangeGroup, {
-          options: {},
-          ranges: {
-            price: {},
-          },
-        })
-      ).toBe(0);
+    it('returns 1 for range groups with a maximum value', () => {
+      const value: FilterValue = {
+        options: {},
+        ranges: {
+          price: { max: 25 },
+        },
+      };
+
+      expect(getSelectedCount(rangeGroup, value)).toBe(1);
     });
 
-    it('returns 0 for a range group when the range is missing', () => {
-      expect(
-        getSelectedCount(rangeGroup, {
-          options: {},
-          ranges: {},
-        })
-      ).toBe(0);
+    it('returns 0 for range groups with no min or max', () => {
+      const value: FilterValue = {
+        options: {},
+        ranges: {
+          price: {},
+        },
+      };
+
+      expect(getSelectedCount(rangeGroup, value)).toBe(0);
+    });
+
+    it('returns 0 for range groups with no stored range value', () => {
+      const value: FilterValue = {
+        options: {},
+        ranges: {},
+      };
+
+      expect(getSelectedCount(rangeGroup, value)).toBe(0);
+    });
+
+    it('returns the number of selected options for option groups', () => {
+      const value: FilterValue = {
+        options: {
+          colour: ['red', 'blue'],
+        },
+        ranges: {},
+      };
+
+      expect(getSelectedCount(checkboxGroup, value)).toBe(2);
     });
   });
 
   describe('formatRangeChip', () => {
-    it('formats a chip when both min and max exist', () => {
-      expect(formatRangeChip(rangeGroup, { min: 50, max: 200 })).toBe('£50–£200');
+    it('formats a full min/max currency range', () => {
+      const result = formatRangeChip(rangeGroup, { min: 10, max: 50 }, 'en-GB', 'GBP');
+
+      expect(formatCurrencyRangeValueMock).toHaveBeenCalledWith(10, 50, 'en-GB', 'GBP');
+      expect(result).toBe('GBP en-GB 10-50');
     });
 
-    it('formats a chip when only min exists', () => {
-      expect(formatRangeChip(rangeGroup, { min: 50 })).toBe('From £50');
+    it('formats a minimum-only value', () => {
+      const result = formatRangeChip(rangeGroup, { min: 10 }, 'en-GB', 'GBP');
+
+      expect(formatCurrencyValueMock).toHaveBeenCalledWith(10, 'en-GB', 'GBP');
+      expect(result).toBe('GBP en-GB 10');
     });
 
-    it('formats a chip when only max exists', () => {
-      expect(formatRangeChip(rangeGroup, { max: 200 })).toBe('Up to £200');
+    it('formats a minimum-only zero value', () => {
+      const result = formatRangeChip(rangeGroup, { min: 0 }, 'en-GB', 'GBP');
+
+      expect(formatCurrencyValueMock).toHaveBeenCalledWith(0, 'en-GB', 'GBP');
+      expect(result).toBe('GBP en-GB 0');
     });
 
-    it('falls back to the group label when neither min nor max exists', () => {
-      expect(formatRangeChip(rangeGroup, {})).toBe('Price');
+    it('formats a maximum-only value', () => {
+      const result = formatRangeChip(rangeGroup, { max: 50 }, 'en-GB', 'GBP');
+
+      expect(formatCurrencyValueMock).toHaveBeenCalledWith(50, 'en-GB', 'GBP');
+      expect(result).toBe('GBP en-GB 50');
+    });
+
+    it('formats a maximum-only zero value', () => {
+      const result = formatRangeChip(rangeGroup, { max: 0 }, 'en-GB', 'GBP');
+
+      expect(formatCurrencyValueMock).toHaveBeenCalledWith(0, 'en-GB', 'GBP');
+      expect(result).toBe('GBP en-GB 0');
+    });
+
+    it('falls back to the group label when no min or max exists', () => {
+      const result = formatRangeChip(rangeGroup, {}, 'en-GB', 'GBP');
+
+      expect(result).toBe('Price');
+      expect(formatCurrencyRangeValueMock).not.toHaveBeenCalled();
+      expect(formatCurrencyValueMock).not.toHaveBeenCalled();
     });
   });
 
   describe('buildChips', () => {
-    it('builds chips for selected checkbox, radio, and range filters', () => {
-      expect(buildChips(groups, value)).toEqual([
+    it('builds chips for selected range and option values', () => {
+      const result = buildChips([rangeGroup, checkboxGroup, radioGroup], baseValue, 'en-GB', 'GBP');
+
+      expect(result).toEqual([
+        {
+          key: 'price-range',
+          groupId: 'price',
+          groupLabel: 'Price',
+          label: 'GBP en-GB 10-50',
+        },
         {
           key: 'colour-red',
           groupId: 'colour',
@@ -351,127 +417,109 @@ describe('ProductFilters.utils', () => {
           label: 'Red',
         },
         {
-          key: 'size-m',
+          key: 'size-large',
           groupId: 'size',
           groupLabel: 'Size',
-          label: 'Medium',
-        },
-        {
-          key: 'price-range',
-          groupId: 'price',
-          groupLabel: 'Price',
-          label: '£50–£200',
+          label: 'Large',
         },
       ]);
     });
 
-    it('skips option ids that do not exist in the group options', () => {
-      const nextValue: FilterValue = {
-        options: {
-          colour: ['missing'],
-        },
-        ranges: {},
-      };
-
-      expect(buildChips([checkboxGroup], nextValue)).toEqual([]);
-    });
-
-    it('skips range chips when neither min nor max is present', () => {
-      const nextValue: FilterValue = {
+    it('does not build a range chip when the range exists but has no selected bounds', () => {
+      const value: FilterValue = {
         options: {},
         ranges: {
           price: {},
         },
       };
 
-      expect(buildChips([rangeGroup], nextValue)).toEqual([]);
+      const result = buildChips([rangeGroup], value, 'en-GB', 'GBP');
+
+      expect(result).toEqual([]);
     });
 
-    it('builds a range chip when only min is present', () => {
-      const nextValue: FilterValue = {
+    it('does not build a range chip when the range is missing', () => {
+      const value: FilterValue = {
         options: {},
-        ranges: {
-          price: { min: 100 },
-        },
+        ranges: {},
       };
 
-      expect(buildChips([rangeGroup], nextValue)).toEqual([
-        {
-          key: 'price-range',
-          groupId: 'price',
-          groupLabel: 'Price',
-          label: 'From £100',
-        },
-      ]);
+      const result = buildChips([rangeGroup], value, 'en-GB', 'GBP');
+
+      expect(result).toEqual([]);
     });
 
-    it('builds a range chip when only max is present', () => {
-      const nextValue: FilterValue = {
-        options: {},
-        ranges: {
-          price: { max: 250 },
+    it('skips missing option ids when building chips', () => {
+      const value: FilterValue = {
+        options: {
+          colour: ['red', 'missing'],
         },
+        ranges: {},
       };
 
-      expect(buildChips([rangeGroup], nextValue)).toEqual([
+      const result = buildChips([checkboxGroup], value, 'en-GB', 'GBP');
+
+      expect(result).toEqual([
         {
-          key: 'price-range',
-          groupId: 'price',
-          groupLabel: 'Price',
-          label: 'Up to £250',
+          key: 'colour-red',
+          groupId: 'colour',
+          groupLabel: 'Colour',
+          label: 'Red',
         },
       ]);
-    });
-
-    it('returns an empty array when nothing is selected', () => {
-      expect(
-        buildChips(groups, {
-          options: {},
-          ranges: {},
-        })
-      ).toEqual([]);
     });
   });
 
   describe('search helpers', () => {
-    const options: readonly FilterOption[] = [
-      { id: 'red', label: 'Red' },
-      { id: 'blue', label: 'Blue' },
-      { id: 'green', label: 'Dark Green' },
-    ];
+    const option: FilterOption = {
+      id: 'red',
+      label: 'Red Shirt',
+    };
 
-    const redOption = options[0];
-    const greenOption = options[2];
+    it('matches when the query is empty', () => {
+      expect(matchesSearch(option, '')).toBe(true);
+    });
 
-    if (!redOption || !greenOption) {
-      throw new Error('Expected test options to exist');
-    }
-
-    it('matches all options when the query is empty', () => {
-      expect(matchesSearch(redOption, '')).toBe(true);
-      expect(matchesSearch(redOption, '   ')).toBe(true);
+    it('matches when the query is only whitespace', () => {
+      expect(matchesSearch(option, '   ')).toBe(true);
     });
 
     it('matches case-insensitively', () => {
-      expect(matchesSearch(greenOption, 'green')).toBe(true);
-      expect(matchesSearch(greenOption, 'GREEN')).toBe(true);
-      expect(matchesSearch(greenOption, 'dark')).toBe(true);
+      expect(matchesSearch(option, 'red')).toBe(true);
+      expect(matchesSearch(option, 'RED')).toBe(true);
+      expect(matchesSearch(option, 'shirt')).toBe(true);
     });
 
-    it('returns false when the option label does not include the query', () => {
-      expect(matchesSearch(redOption, 'green')).toBe(false);
+    it('returns false when the query does not match', () => {
+      expect(matchesSearch(option, 'blue')).toBe(false);
     });
 
-    it('filters visible options based on the query', () => {
-      expect(getVisibleOptions(options, 'green')).toEqual([{ id: 'green', label: 'Dark Green' }]);
+    it('returns only visible matching options', () => {
+      const options: readonly FilterOption[] = [
+        { id: 'red', label: 'Red Shirt' },
+        { id: 'blue', label: 'Blue Jeans' },
+        { id: 'green', label: 'Green Hat' },
+      ];
+
+      expect(getVisibleOptions(options, 'blue')).toEqual([{ id: 'blue', label: 'Blue Jeans' }]);
     });
 
-    it('returns all options when the query is empty', () => {
-      expect(getVisibleOptions(options, '')).toEqual(options);
+    it('returns all options when the query is blank', () => {
+      const options: readonly FilterOption[] = [
+        { id: 'red', label: 'Red Shirt' },
+        { id: 'blue', label: 'Blue Jeans' },
+      ];
+
+      expect(getVisibleOptions(options, '   ')).toEqual(options);
     });
 
-    it('returns an empty array when nothing matches', () => {
-      expect(getVisibleOptions(options, 'purple')).toEqual([]);
+    it('returns an empty array when no options match', () => {
+      const options: readonly FilterOption[] = [
+        { id: 'red', label: 'Red Shirt' },
+        { id: 'blue', label: 'Blue Jeans' },
+      ];
+
+      expect(getVisibleOptions(options, 'socks')).toEqual([]);
     });
   });
 });

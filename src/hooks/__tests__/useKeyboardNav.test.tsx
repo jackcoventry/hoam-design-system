@@ -1,24 +1,20 @@
-import { createRef } from 'react';
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import type { KeyboardEvent as ReactKeyboardEvent, ReactNode, RefObject } from 'react';
-import { vi } from 'vitest';
+import React, { createRef } from 'react';
+import { render } from '@testing-library/react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { focusNextTick, moveInList, querySubItemVisibility } from '@/components/Navigation/helpers';
 import { useKeyboardNav } from '@/hooks/useKeyboardNav';
-
-const mockFocusNextTick = vi.fn<(element: HTMLElement | null | undefined) => void>();
-const mockMoveInList =
-  vi.fn<(items: HTMLElement[], current: HTMLElement, direction: number) => void>();
-const mockQuerySubItemVisibility =
-  vi.fn<<T extends HTMLElement>(container: Element, selector: string) => T[]>();
+import { KEYS } from '@/constants/keys';
 
 vi.mock('@/components/Navigation/helpers', () => ({
-  focusNextTick: (element: HTMLElement | null | undefined) => mockFocusNextTick(element),
-  moveInList: (items: HTMLElement[], current: HTMLElement, direction: number) =>
-    mockMoveInList(items, current, direction),
-  querySubItemVisibility: (container: Element, selector: string) =>
-    mockQuerySubItemVisibility(container, selector),
+  focusNextTick: vi.fn(),
+  moveInList: vi.fn(),
+  querySubItemVisibility: vi.fn(),
 }));
+
+const mockedFocusNextTick = vi.mocked(focusNextTick);
+const mockedMoveInList = vi.mocked(moveInList);
+const mockedQuerySubItemVisibility = vi.mocked(querySubItemVisibility);
 
 type NavChildItem = {
   id: string;
@@ -35,33 +31,26 @@ type SubSelectors = {
   thirdList: (container: Element, groupBtnDomId: string) => HTMLElement[];
 };
 
-type HarnessProps = {
+type TestHarnessProps = {
+  rootRef: React.RefObject<HTMLElement | null>;
   items: NavItem[];
-  setOpenIndex?: (index: number | null) => void;
-  setOpenGroupId?: (id: string | null) => void;
-  mapArrow?: (key: string) => string;
-  subSelectors?: SubSelectors;
-  rootRef?: RefObject<HTMLDivElement | null>;
-  children: ReactNode;
+  setOpenIndex: (index: number | null) => void;
+  setOpenGroupId: (id: string | null) => void;
+  mapArrow: (key: string) => string;
+  subSelectors: SubSelectors;
+  onReady: (handler: ReturnType<typeof useKeyboardNav>) => void;
 };
 
-function KeyboardNavHarness({
+function TestHarness({
+  rootRef,
   items,
-  setOpenIndex = vi.fn(),
-  setOpenGroupId = vi.fn(),
-  mapArrow = (key) => key,
-  subSelectors = {
-    subTriggersOnly: () => [],
-    subInteractive: () => [],
-    thirdList: () => [],
-  },
-  rootRef: externalRef,
-  children,
-}: Readonly<HarnessProps>) {
-  const internalRef = createRef<HTMLDivElement>();
-  const rootRef = externalRef ?? internalRef;
-
-  const onKeyDown = useKeyboardNav({
+  setOpenIndex,
+  setOpenGroupId,
+  mapArrow,
+  subSelectors,
+  onReady,
+}: Readonly<TestHarnessProps>) {
+  const handler = useKeyboardNav({
     rootRef,
     items,
     setOpenIndex,
@@ -70,457 +59,487 @@ function KeyboardNavHarness({
     subSelectors,
   });
 
-  return (
-    <div
-      ref={rootRef}
-      role="menu"
-      tabIndex={-1}
-      onKeyDown={(event) => onKeyDown(event as ReactKeyboardEvent<HTMLElement>)}
-      data-testid="nav-root"
-    >
-      {children}
-    </div>
-  );
+  onReady(handler);
+
+  return null;
+}
+
+function createKeyboardEvent(
+  key: string,
+  target: EventTarget | null
+): {
+  event: React.KeyboardEvent<HTMLElement>;
+  preventDefault: ReturnType<typeof vi.fn>;
+  stopPropagation: ReturnType<typeof vi.fn>;
+} {
+  const preventDefault = vi.fn();
+  const stopPropagation = vi.fn();
+
+  const event = {
+    key,
+    target,
+    preventDefault,
+    stopPropagation,
+  } as unknown as React.KeyboardEvent<HTMLElement>;
+
+  return { event, preventDefault, stopPropagation };
 }
 
 describe('useKeyboardNav', () => {
+  const setOpenIndex = vi.fn();
+  const setOpenGroupId = vi.fn();
+  const mapArrow = vi.fn((key: string) => key);
+
+  const subSelectors: SubSelectors = {
+    subTriggersOnly: vi.fn(),
+    subInteractive: vi.fn(),
+    thirdList: vi.fn(),
+  };
+
+  const items: NavItem[] = [
+    {
+      id: 'shop',
+      items: [{ id: 'group-a' }, { id: 'group-b' }],
+    },
+    {
+      id: 'about',
+    },
+  ];
+
+  let rootRef: React.RefObject<HTMLElement | null>;
+  let container: HTMLElement;
+  let handler: ReturnType<typeof useKeyboardNav>;
+
   beforeEach(() => {
     vi.clearAllMocks();
-  });
 
-  it('does nothing when rootRef.current is null', async () => {
-    const user = userEvent.setup();
-    const rootRef = { current: null };
-    const setOpenIndex = vi.fn();
-    const setOpenGroupId = vi.fn();
+    rootRef = createRef<HTMLElement>();
+    container = document.createElement('div');
+    rootRef.current = container;
+
+    vi.stubGlobal('requestAnimationFrame', (cb: FrameRequestCallback) => {
+      cb(0);
+      return 1;
+    });
 
     render(
-      <KeyboardNavHarness
+      <TestHarness
         rootRef={rootRef}
-        items={[]}
+        items={items}
         setOpenIndex={setOpenIndex}
         setOpenGroupId={setOpenGroupId}
-      >
-        <button type="button">Test</button>
-      </KeyboardNavHarness>
+        mapArrow={mapArrow}
+        subSelectors={subSelectors}
+        onReady={(value) => {
+          handler = value;
+        }}
+      />
+    );
+  });
+
+  it('returns early when rootRef.current is null', () => {
+    rootRef.current = null;
+
+    const target = document.createElement('button');
+    const { event, preventDefault, stopPropagation } = createKeyboardEvent(
+      KEYS.ARROW_RIGHT,
+      target
     );
 
-    await user.keyboard('{ArrowRight}');
+    handler(event);
 
-    expect(mockMoveInList).not.toHaveBeenCalled();
+    expect(preventDefault).not.toHaveBeenCalled();
+    expect(stopPropagation).not.toHaveBeenCalled();
+  });
+
+  it('returns early when the mapped key is not handled', () => {
+    const target = document.createElement('button');
+    const { event, preventDefault, stopPropagation } = createKeyboardEvent('Tab', target);
+
+    handler(event);
+
+    expect(mapArrow).toHaveBeenCalledWith('Tab');
+    expect(preventDefault).not.toHaveBeenCalled();
+    expect(stopPropagation).not.toHaveBeenCalled();
+  });
+
+  it('returns early when the event target is not an HTMLElement', () => {
+    const nonElementTarget = new EventTarget();
+    const { event, preventDefault, stopPropagation } = createKeyboardEvent(
+      KEYS.ARROW_RIGHT,
+      nonElementTarget
+    );
+
+    handler(event);
+
+    expect(preventDefault).not.toHaveBeenCalled();
+    expect(stopPropagation).not.toHaveBeenCalled();
+  });
+
+  it('prevents default and stops propagation for handled keys', () => {
+    const target = document.createElement('button');
+    target.dataset.topCyclable = '';
+
+    mockedQuerySubItemVisibility.mockReturnValue([target]);
+
+    const { event, preventDefault, stopPropagation } = createKeyboardEvent(KEYS.HOME, target);
+
+    handler(event);
+
+    expect(preventDefault).toHaveBeenCalledTimes(1);
+    expect(stopPropagation).toHaveBeenCalledTimes(1);
+  });
+
+  it('moves right through top cyclable items', () => {
+    const target = document.createElement('button');
+    target.dataset.topCyclable = '';
+
+    const topItems = [target, document.createElement('button')];
+    mockedQuerySubItemVisibility.mockReturnValue(topItems);
+
+    const { event } = createKeyboardEvent(KEYS.ARROW_RIGHT, target);
+
+    handler(event);
+
+    expect(mockedQuerySubItemVisibility).toHaveBeenCalledWith(container, '[data-top-cyclable]');
+    expect(mockedMoveInList).toHaveBeenCalledWith(topItems, target, 1);
+  });
+
+  it('moves left through top cyclable items', () => {
+    const target = document.createElement('button');
+    target.dataset.topCyclable = '';
+
+    const topItems = [document.createElement('button'), target];
+    mockedQuerySubItemVisibility.mockReturnValue(topItems);
+
+    const { event } = createKeyboardEvent(KEYS.ARROW_LEFT, target);
+
+    handler(event);
+
+    expect(mockedMoveInList).toHaveBeenCalledWith(topItems, target, -1);
+  });
+
+  it('focuses the first top cyclable item on HOME', () => {
+    const target = document.createElement('button');
+    target.dataset.topCyclable = '';
+
+    const first = document.createElement('button');
+    const second = document.createElement('button');
+    mockedQuerySubItemVisibility.mockReturnValue([first, second]);
+
+    const { event } = createKeyboardEvent(KEYS.HOME, target);
+
+    handler(event);
+
+    expect(mockedFocusNextTick).toHaveBeenCalledWith(first);
+  });
+
+  it('focuses the last top cyclable item on END', () => {
+    const target = document.createElement('button');
+    target.dataset.topCyclable = '';
+
+    const first = document.createElement('button');
+    const last = document.createElement('button');
+    mockedQuerySubItemVisibility.mockReturnValue([first, last]);
+
+    const { event } = createKeyboardEvent(KEYS.END, target);
+
+    handler(event);
+
+    expect(mockedFocusNextTick).toHaveBeenCalledWith(last);
+  });
+
+  it('opens a top trigger on ARROW_DOWN and focuses the first sub trigger', () => {
+    const target = document.createElement('button');
+    target.id = 'trigger-shop';
+    target.dataset.topCyclable = '';
+    target.dataset.topTrigger = '';
+
+    const panel = document.createElement('div');
+    panel.id = 'panel-shop';
+    container.append(panel);
+
+    const firstSubTrigger = document.createElement('button');
+
+    mockedQuerySubItemVisibility.mockImplementation((root, selector) => {
+      if (root === container && selector === '[data-top-cyclable]') {
+        return [target];
+      }
+
+      if (root === panel && selector === '[data-sub-trigger]') {
+        return [firstSubTrigger];
+      }
+
+      return [];
+    });
+
+    const focusSpy = vi.spyOn(firstSubTrigger, 'focus').mockImplementation(() => {});
+
+    const { event } = createKeyboardEvent(KEYS.ARROW_DOWN, target);
+
+    handler(event);
+
+    expect(setOpenIndex).toHaveBeenCalledWith(0);
+    expect(setOpenGroupId).toHaveBeenCalledWith('group-a');
+    expect(focusSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not open a top trigger on ARROW_DOWN when the item has no children', () => {
+    const target = document.createElement('button');
+    target.id = 'trigger-about';
+    target.dataset.topCyclable = '';
+    target.dataset.topTrigger = '';
+
+    mockedQuerySubItemVisibility.mockReturnValue([target]);
+
+    const { event } = createKeyboardEvent(KEYS.ARROW_DOWN, target);
+
+    handler(event);
+
     expect(setOpenIndex).not.toHaveBeenCalled();
     expect(setOpenGroupId).not.toHaveBeenCalled();
   });
 
-  it('ignores keys that are not handled', () => {
-    render(
-      <KeyboardNavHarness items={[]}>
-        <button
-          type="button"
-          data-top-cyclable
-        >
-          Top item
-        </button>
-      </KeyboardNavHarness>
-    );
+  it('moves down through sub triggers', () => {
+    const panel = document.createElement('div');
+    panel.id = 'panel-shop';
 
-    const button = screen.getByRole('button', { name: 'Top item' });
+    const target = document.createElement('button');
+    target.id = 'group-group-a';
+    target.dataset.subTrigger = '';
+    panel.append(target);
 
-    button.dispatchEvent(
-      new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true })
-    );
+    const sibling = document.createElement('button');
+    panel.append(sibling);
 
-    expect(mockMoveInList).not.toHaveBeenCalled();
+    container.append(panel);
+
+    vi.mocked(subSelectors.subTriggersOnly).mockReturnValue([target, sibling]);
+
+    const { event } = createKeyboardEvent(KEYS.ARROW_DOWN, target);
+
+    handler(event);
+
+    expect(subSelectors.subTriggersOnly).toHaveBeenCalledWith(panel);
+    expect(mockedMoveInList).toHaveBeenCalledWith([target, sibling], target, 1);
   });
 
-  it('moves focus right among top-level cyclable items', () => {
+  it('moves up through sub triggers', () => {
+    const panel = document.createElement('div');
+    panel.id = 'panel-shop';
+
+    const previous = document.createElement('button');
+    const target = document.createElement('button');
+    target.id = 'group-group-a';
+    target.dataset.subTrigger = '';
+
+    panel.append(previous, target);
+    container.append(panel);
+
+    vi.mocked(subSelectors.subTriggersOnly).mockReturnValue([previous, target]);
+
+    const { event } = createKeyboardEvent(KEYS.ARROW_UP, target);
+
+    handler(event);
+
+    expect(mockedMoveInList).toHaveBeenCalledWith([previous, target], target, -1);
+  });
+
+  it('focuses the first sub trigger on HOME', () => {
+    const panel = document.createElement('div');
+    panel.id = 'panel-shop';
+
+    const target = document.createElement('button');
+    target.id = 'group-group-a';
+    target.dataset.subTrigger = '';
+
     const first = document.createElement('button');
-    const second = document.createElement('button');
 
-    mockQuerySubItemVisibility.mockReturnValue([first, second]);
+    panel.append(target);
+    container.append(panel);
 
-    render(
-      <KeyboardNavHarness items={[]}>
-        <button
-          id="trigger-products"
-          type="button"
-          data-top-cyclable
-          data-top-trigger
-        >
-          Products
-        </button>
-      </KeyboardNavHarness>
-    );
+    vi.mocked(subSelectors.subTriggersOnly).mockReturnValue([first, target]);
 
-    const trigger = screen.getByRole('button', { name: 'Products' });
+    const { event } = createKeyboardEvent(KEYS.HOME, target);
 
-    trigger.dispatchEvent(
-      new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true, cancelable: true })
-    );
+    handler(event);
 
-    expect(mockMoveInList).toHaveBeenCalledWith([first, second], trigger, 1);
+    expect(mockedFocusNextTick).toHaveBeenCalledWith(first);
   });
 
-  it('moves focus left among top-level cyclable items', () => {
-    const first = document.createElement('button');
-    const second = document.createElement('button');
+  it('focuses the last sub trigger on END', () => {
+    const panel = document.createElement('div');
+    panel.id = 'panel-shop';
 
-    mockQuerySubItemVisibility.mockReturnValue([first, second]);
+    const target = document.createElement('button');
+    target.id = 'group-group-a';
+    target.dataset.subTrigger = '';
 
-    render(
-      <KeyboardNavHarness items={[]}>
-        <button
-          id="trigger-products"
-          type="button"
-          data-top-cyclable
-          data-top-trigger
-        >
-          Products
-        </button>
-      </KeyboardNavHarness>
-    );
+    const last = document.createElement('button');
 
-    const trigger = screen.getByRole('button', { name: 'Products' });
+    panel.append(target);
+    container.append(panel);
 
-    trigger.dispatchEvent(
-      new KeyboardEvent('keydown', { key: 'ArrowLeft', bubbles: true, cancelable: true })
-    );
+    vi.mocked(subSelectors.subTriggersOnly).mockReturnValue([target, last]);
 
-    expect(mockMoveInList).toHaveBeenCalledWith([first, second], trigger, -1);
+    const { event } = createKeyboardEvent(KEYS.END, target);
+
+    handler(event);
+
+    expect(mockedFocusNextTick).toHaveBeenCalledWith(last);
   });
 
-  it('focuses the first top-level item on Home', () => {
-    const first = document.createElement('button');
-    const second = document.createElement('button');
+  it('focuses the parent panel trigger from a sub trigger on ARROW_LEFT', () => {
+    const panel = document.createElement('div');
+    panel.id = 'panel-shop';
+    panel.setAttribute('aria-labelledby', 'trigger-shop');
 
-    mockQuerySubItemVisibility.mockReturnValue([first, second]);
+    const trigger = document.createElement('button');
+    trigger.id = 'trigger-shop';
+    container.append(trigger, panel);
 
-    render(
-      <KeyboardNavHarness items={[]}>
-        <button
-          id="trigger-products"
-          type="button"
-          data-top-cyclable
-        >
-          Products
-        </button>
-      </KeyboardNavHarness>
-    );
+    const target = document.createElement('button');
+    target.id = 'group-group-a';
+    target.dataset.subTrigger = '';
+    panel.append(target);
 
-    const trigger = screen.getByRole('button', { name: 'Products' });
+    vi.mocked(subSelectors.subTriggersOnly).mockReturnValue([target]);
 
-    trigger.dispatchEvent(
-      new KeyboardEvent('keydown', { key: 'Home', bubbles: true, cancelable: true })
-    );
+    const { event } = createKeyboardEvent(KEYS.ARROW_LEFT, target);
 
-    expect(mockFocusNextTick).toHaveBeenCalledWith(first);
+    handler(event);
+
+    expect(mockedFocusNextTick).toHaveBeenCalledWith(trigger);
   });
 
-  it('focuses the last top-level item on End', () => {
-    const first = document.createElement('button');
-    const second = document.createElement('button');
+  it('opens a sub trigger on ARROW_RIGHT and focuses the first third-level item', () => {
+    const panel = document.createElement('div');
+    panel.id = 'panel-shop';
 
-    mockQuerySubItemVisibility.mockReturnValue([first, second]);
+    const target = document.createElement('button');
+    target.id = 'group-group-a';
+    target.dataset.subTrigger = '';
+    panel.append(target);
 
-    render(
-      <KeyboardNavHarness items={[]}>
-        <button
-          id="trigger-products"
-          type="button"
-          data-top-cyclable
-        >
-          Products
-        </button>
-      </KeyboardNavHarness>
-    );
+    container.append(panel);
 
-    const trigger = screen.getByRole('button', { name: 'Products' });
-
-    trigger.dispatchEvent(
-      new KeyboardEvent('keydown', { key: 'End', bubbles: true, cancelable: true })
-    );
-
-    expect(mockFocusNextTick).toHaveBeenCalledWith(second);
-  });
-
-  it('opens a top-level panel and group on ArrowDown', () => {
-    const firstSubTrigger = document.createElement('button');
-    const setOpenIndex = vi.fn();
-    const setOpenGroupId = vi.fn();
-
-    vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => {
-      callback(0);
-      return 1;
-    });
-
-    mockQuerySubItemVisibility.mockImplementation((_container, selector) => {
-      if (selector === '[data-top-cyclable]') return [];
-      if (selector === '[data-sub-trigger]') return [firstSubTrigger];
-      if (selector === '[data-sub-trigger], [data-sub-link]') return [firstSubTrigger];
-      return [];
-    });
-
-    render(
-      <KeyboardNavHarness
-        items={[
-          {
-            id: 'products',
-            items: [{ id: 'coffee' }],
-          },
-        ]}
-        setOpenIndex={setOpenIndex}
-        setOpenGroupId={setOpenGroupId}
-      >
-        <button
-          id="trigger-products"
-          type="button"
-          data-top-cyclable
-          data-top-trigger
-        >
-          Products
-        </button>
-        <div id="panel-products" />
-      </KeyboardNavHarness>
-    );
-
-    const trigger = screen.getByRole('button', { name: 'Products' });
-
-    const focusSpy = vi.spyOn(firstSubTrigger, 'focus');
-
-    trigger.dispatchEvent(
-      new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true, cancelable: true })
-    );
-
-    expect(setOpenIndex).toHaveBeenCalledWith(0);
-    expect(setOpenGroupId).toHaveBeenCalledWith('coffee');
-    expect(focusSpy).toHaveBeenCalled();
-  });
-
-  it('moves within sub-trigger categories on ArrowDown and ArrowUp', () => {
-    const first = document.createElement('button');
-    const second = document.createElement('button');
-    const subSelectors = {
-      subTriggersOnly: vi.fn(() => [first, second]),
-      subInteractive: vi.fn(() => []),
-      thirdList: vi.fn(() => []),
-    };
-
-    render(
-      <KeyboardNavHarness
-        items={[]}
-        subSelectors={subSelectors}
-      >
-        <div
-          id="panel-products"
-          aria-labelledby="trigger-products"
-        >
-          <button
-            id="group-coffee"
-            type="button"
-            data-sub-trigger
-          >
-            Coffee
-          </button>
-        </div>
-      </KeyboardNavHarness>
-    );
-
-    const trigger = screen.getByRole('button', { name: 'Coffee' });
-
-    trigger.dispatchEvent(
-      new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true, cancelable: true })
-    );
-    expect(mockMoveInList).toHaveBeenCalledWith([first, second], trigger, 1);
-
-    trigger.dispatchEvent(
-      new KeyboardEvent('keydown', { key: 'ArrowUp', bubbles: true, cancelable: true })
-    );
-    expect(mockMoveInList).toHaveBeenCalledWith([first, second], trigger, -1);
-  });
-
-  it('returns focus to the panel trigger on ArrowLeft from a sub-trigger', () => {
-    render(
-      <KeyboardNavHarness items={[]}>
-        <button
-          id="trigger-products"
-          type="button"
-        >
-          Products
-        </button>
-        <div
-          id="panel-products"
-          aria-labelledby="trigger-products"
-        >
-          <button
-            id="group-coffee"
-            type="button"
-            data-sub-trigger
-          >
-            Coffee
-          </button>
-        </div>
-      </KeyboardNavHarness>
-    );
-
-    const subTrigger = screen.getByRole('button', { name: 'Coffee' });
-    const topTrigger = screen.getByRole('button', { name: 'Products' });
-
-    subTrigger.dispatchEvent(
-      new KeyboardEvent('keydown', { key: 'ArrowLeft', bubbles: true, cancelable: true })
-    );
-
-    expect(mockFocusNextTick).toHaveBeenCalledWith(topTrigger);
-  });
-
-  it('opens a group and focuses the first third-level item on ArrowRight from a sub-trigger', () => {
     const thirdItem = document.createElement('a');
-    const setOpenGroupId = vi.fn();
-    const subSelectors = {
-      subTriggersOnly: vi.fn(() => []),
-      subInteractive: vi.fn(() => []),
-      thirdList: vi.fn(() => [thirdItem]),
-    };
+    const focusSpy = vi.spyOn(thirdItem, 'focus').mockImplementation(() => {});
 
-    vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => {
-      callback(0);
-      return 1;
-    });
+    vi.mocked(subSelectors.subTriggersOnly).mockReturnValue([target]);
+    vi.mocked(subSelectors.thirdList).mockReturnValue([thirdItem]);
 
-    const focusSpy = vi.spyOn(thirdItem, 'focus');
+    const { event } = createKeyboardEvent(KEYS.ARROW_RIGHT, target);
 
-    render(
-      <KeyboardNavHarness
-        items={[]}
-        setOpenGroupId={setOpenGroupId}
-        subSelectors={subSelectors}
-      >
-        <div id="panel-products">
-          <button
-            id="group-coffee"
-            type="button"
-            data-sub-trigger
-          >
-            Coffee
-          </button>
-        </div>
-      </KeyboardNavHarness>
-    );
+    handler(event);
 
-    const subTrigger = screen.getByRole('button', { name: 'Coffee' });
-
-    subTrigger.dispatchEvent(
-      new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true, cancelable: true })
-    );
-
-    expect(setOpenGroupId).toHaveBeenCalledWith('coffee');
-    expect(subSelectors.thirdList).toHaveBeenCalled();
-    expect(focusSpy).toHaveBeenCalled();
+    expect(setOpenGroupId).toHaveBeenCalledWith('group-a');
+    expect(subSelectors.thirdList).toHaveBeenCalledWith(container, target.id);
+    expect(focusSpy).toHaveBeenCalledTimes(1);
   });
 
-  it('moves among third-level links on ArrowDown and ArrowUp', () => {
+  it('moves down through third-level links', () => {
+    const panel = document.createElement('div');
+    panel.id = 'group-a-panel';
+
+    const target = document.createElement('a');
+    target.dataset.subLink = '';
+    panel.append(target);
+
+    container.append(panel);
+
+    const sibling = document.createElement('a');
+    vi.mocked(subSelectors.thirdList).mockReturnValue([target, sibling]);
+
+    const { event } = createKeyboardEvent(KEYS.ARROW_DOWN, target);
+
+    handler(event);
+
+    expect(subSelectors.thirdList).toHaveBeenCalledWith(container, 'group-a');
+    expect(mockedMoveInList).toHaveBeenCalledWith([target, sibling], target, 1);
+  });
+
+  it('moves up through third-level links', () => {
+    const panel = document.createElement('div');
+    panel.id = 'group-a-panel';
+
+    const previous = document.createElement('a');
+    const target = document.createElement('a');
+    target.dataset.subLink = '';
+    panel.append(target);
+
+    container.append(panel);
+
+    vi.mocked(subSelectors.thirdList).mockReturnValue([previous, target]);
+
+    const { event } = createKeyboardEvent(KEYS.ARROW_UP, target);
+
+    handler(event);
+
+    expect(mockedMoveInList).toHaveBeenCalledWith([previous, target], target, -1);
+  });
+
+  it('focuses the first third-level link on HOME', () => {
+    const panel = document.createElement('div');
+    panel.id = 'group-a-panel';
+
     const first = document.createElement('a');
-    const second = document.createElement('a');
-    const subSelectors = {
-      subTriggersOnly: vi.fn(() => []),
-      subInteractive: vi.fn(() => []),
-      thirdList: vi.fn(() => [first, second]),
-    };
+    const target = document.createElement('a');
+    target.dataset.subLink = '';
 
-    render(
-      <KeyboardNavHarness
-        items={[]}
-        subSelectors={subSelectors}
-      >
-        <div id="group-coffee-panel">
-          <a
-            href="/coffee"
-            data-sub-link
-          >
-            Arabica
-          </a>
-        </div>
-      </KeyboardNavHarness>
-    );
+    panel.append(target);
+    container.append(panel);
 
-    const link = screen.getByRole('link', { name: 'Arabica' });
+    vi.mocked(subSelectors.thirdList).mockReturnValue([first, target]);
 
-    link.dispatchEvent(
-      new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true, cancelable: true })
-    );
-    expect(mockMoveInList).toHaveBeenCalledWith([first, second], link, 1);
+    const { event } = createKeyboardEvent(KEYS.HOME, target);
 
-    link.dispatchEvent(
-      new KeyboardEvent('keydown', { key: 'ArrowUp', bubbles: true, cancelable: true })
-    );
-    expect(mockMoveInList).toHaveBeenCalledWith([first, second], link, -1);
+    handler(event);
+
+    expect(mockedFocusNextTick).toHaveBeenCalledWith(first);
   });
 
-  it('closes the third-level group and focuses the parent trigger on ArrowLeft from a third-level link', () => {
-    const setOpenGroupId = vi.fn();
+  it('focuses the last third-level link on END', () => {
+    const panel = document.createElement('div');
+    panel.id = 'group-a-panel';
 
-    render(
-      <KeyboardNavHarness
-        items={[]}
-        setOpenGroupId={setOpenGroupId}
-      >
-        <button
-          id="group-coffee"
-          type="button"
-        >
-          Coffee
-        </button>
-        <div id="group-coffee-panel">
-          <a
-            href="/coffee"
-            data-sub-link
-          >
-            Arabica
-          </a>
-        </div>
-      </KeyboardNavHarness>
-    );
+    const target = document.createElement('a');
+    target.dataset.subLink = '';
+    const last = document.createElement('a');
 
-    const link = screen.getByRole('link', { name: 'Arabica' });
-    const parentTrigger = screen.getByRole('button', { name: 'Coffee' });
+    panel.append(target);
+    container.append(panel);
 
-    link.dispatchEvent(
-      new KeyboardEvent('keydown', { key: 'ArrowLeft', bubbles: true, cancelable: true })
-    );
+    vi.mocked(subSelectors.thirdList).mockReturnValue([target, last]);
+
+    const { event } = createKeyboardEvent(KEYS.END, target);
+
+    handler(event);
+
+    expect(mockedFocusNextTick).toHaveBeenCalledWith(last);
+  });
+
+  it('closes the third-level panel and focuses the parent group trigger on ARROW_LEFT', () => {
+    const panel = document.createElement('div');
+    panel.id = 'group-a-panel';
+
+    const target = document.createElement('a');
+    target.dataset.subLink = '';
+    panel.append(target);
+
+    const groupTrigger = document.createElement('button');
+    groupTrigger.id = 'group-a';
+    document.body.append(groupTrigger);
+
+    container.append(panel);
+
+    const { event } = createKeyboardEvent(KEYS.ARROW_LEFT, target);
+
+    handler(event);
 
     expect(setOpenGroupId).toHaveBeenCalledWith(null);
-    expect(mockFocusNextTick).toHaveBeenCalledWith(parentTrigger);
-  });
+    expect(mockedFocusNextTick).toHaveBeenCalledWith(groupTrigger);
 
-  it('uses mapArrow to normalize keys', () => {
-    const first = document.createElement('button');
-    const second = document.createElement('button');
-
-    mockQuerySubItemVisibility.mockReturnValue([first, second]);
-
-    const mapArrow = vi.fn((key: string) => (key === 'ArrowRight' ? 'ArrowRight' : key));
-
-    render(
-      <KeyboardNavHarness
-        items={[]}
-        mapArrow={mapArrow}
-      >
-        <button
-          id="trigger-products"
-          type="button"
-          data-top-cyclable
-        >
-          Products
-        </button>
-      </KeyboardNavHarness>
-    );
-
-    const trigger = screen.getByRole('button', { name: 'Products' });
-
-    trigger.dispatchEvent(
-      new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true, cancelable: true })
-    );
-
-    expect(mapArrow).toHaveBeenCalledWith('ArrowRight');
-    expect(mockMoveInList).toHaveBeenCalledWith([first, second], trigger, 1);
+    groupTrigger.remove();
   });
 });

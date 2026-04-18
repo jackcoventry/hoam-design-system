@@ -2,444 +2,478 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { FilterBarRangePanel } from '@/components/ProductFilters/FilterBarRangePanel';
-import type {
-  FilterRangeValue,
-  FilterValue,
-  RangeGroup,
-} from '@/components/ProductFilters/ProductFilters.types';
+import type { FilterValue, RangeGroup } from '@/components/ProductFilters/ProductFilters.types';
 
-const mockUseMessages = vi.fn<
-  (namespace: string) => {
-    minimumShort: string;
-    maximumShort: string;
-    minimum: string;
-    maximum: string;
-  }
->();
+type ProductFiltersMessages = {
+  minimumShort: string;
+  maximumShort: string;
+  minimum: string;
+  maximum: string;
+};
 
-const mockClamp = vi.fn<(input: number, min: number, max: number) => number>();
+type RangeValue = {
+  min?: number;
+  max?: number;
+};
 
-const mockGetRangeValue =
-  vi.fn<(value: FilterValue, groupId: string) => FilterRangeValue | undefined>();
+const useMessagesMock = vi.fn<(key: 'productFilters') => ProductFiltersMessages>();
 
-const mockSetRangeValue =
-  vi.fn<(value: FilterValue, groupId: string, nextRange: FilterRangeValue) => FilterValue>();
+const clampMock = vi.fn<(value: number, min: number, max: number) => number>();
+const getRangeValueMock = vi.fn<(value: FilterValue, groupId: string) => RangeValue | undefined>();
+const setRangeValueMock =
+  vi.fn<
+    (value: FilterValue, groupId: string, nextRange: { min: number; max: number }) => FilterValue
+  >();
 
 vi.mock('@/hooks/useMessages', () => ({
-  useMessages: (namespace: string) => mockUseMessages(namespace),
+  useMessages: (key: 'productFilters') => useMessagesMock(key),
 }));
 
 vi.mock('@/components/ProductFilters/ProductFilters.utils', () => ({
-  clamp: (input: number, min: number, max: number): number => mockClamp(input, min, max),
-  getRangeValue: (value: FilterValue, groupId: string): FilterRangeValue | undefined =>
-    mockGetRangeValue(value, groupId),
-  setRangeValue: (value: FilterValue, groupId: string, nextRange: FilterRangeValue): FilterValue =>
-    mockSetRangeValue(value, groupId, nextRange),
-}));
-
-vi.mock('@/components/ProductFilters/ProductFilters.module.css', () => ({
-  default: {
-    rangePanelBody: 'rangePanelBody',
-    rangeInputs: 'rangeInputs',
-    rangeField: 'rangeField',
-    rangeFieldLabel: 'rangeFieldLabel',
-    numberInput: 'numberInput',
-    dualSlider: 'dualSlider',
-    sliderTrack: 'sliderTrack',
-    sliderRange: 'sliderRange',
-    slider: 'slider',
-    rangeSummary: 'rangeSummary',
-  },
-}));
-
-vi.mock('@/styles/Util.module.css', () => ({
-  default: {
-    srOnly: 'srOnly',
-  },
+  clamp: (value: number, min: number, max: number) => clampMock(value, min, max),
+  getRangeValue: (value: FilterValue, groupId: string) => getRangeValueMock(value, groupId),
+  setRangeValue: (value: FilterValue, groupId: string, nextRange: { min: number; max: number }) =>
+    setRangeValueMock(value, groupId, nextRange),
 }));
 
 describe('FilterBarRangePanel', () => {
+  const onChangeMock = vi.fn<(nextValue: FilterValue) => void>();
+
   const group: RangeGroup = {
+    kind: 'range',
     id: 'price',
     label: 'Price',
-    kind: 'range',
     min: 0,
-    max: 500,
-    step: 10,
-    minLabel: '£0',
-    maxLabel: '£500',
+    max: 100,
+    step: 5,
   };
 
   const value: FilterValue = {
     options: {},
-    ranges: {
-      price: { min: 50, max: 300 },
-    },
+    ranges: {},
   };
 
   beforeEach(() => {
     vi.clearAllMocks();
 
-    mockUseMessages.mockReturnValue({
+    useMessagesMock.mockReturnValue({
       minimumShort: 'Min',
       maximumShort: 'Max',
       minimum: 'Minimum',
       maximum: 'Maximum',
     });
 
-    mockGetRangeValue.mockReturnValue({ min: 50, max: 300 });
-
-    mockClamp.mockImplementation((input: number, min: number, max: number) =>
-      Math.min(Math.max(input, min), max)
+    clampMock.mockImplementation((valueToClamp, min, max) =>
+      Math.min(Math.max(valueToClamp, min), max)
     );
 
-    mockSetRangeValue.mockImplementation(
-      (currentValue: FilterValue, groupId: string, nextRange: FilterRangeValue) => ({
-        ...currentValue,
-        ranges: {
-          ...currentValue.ranges,
-          [groupId]: nextRange,
-        },
-      })
-    );
+    getRangeValueMock.mockReturnValue({
+      min: 20,
+      max: 80,
+    });
+
+    setRangeValueMock.mockImplementation((currentValue, groupId, nextRange) => ({
+      ...currentValue,
+      ranges: {
+        ...currentValue.ranges,
+        [groupId]: nextRange,
+      },
+    }));
   });
 
-  it('renders number inputs and range sliders with current values', () => {
+  it('renders number inputs and sliders with the current clamped values', () => {
     render(
       <FilterBarRangePanel
         baseId="filters"
         group={group}
         value={value}
-        onChange={vi.fn()}
+        onChange={onChangeMock}
       />
     );
 
-    const spinbuttons = screen.getAllByRole('spinbutton');
-    const sliders = screen.getAllByRole('slider');
+    expect(screen.getByRole('spinbutton', { name: 'Min' })).toHaveValue(20);
+    expect(screen.getByRole('spinbutton', { name: 'Max' })).toHaveValue(80);
 
-    expect(spinbuttons).toHaveLength(2);
-    expect(spinbuttons[0]).toHaveValue(50);
-    expect(spinbuttons[1]).toHaveValue(300);
-
-    expect(sliders).toHaveLength(2);
-    expect(sliders[0]).toHaveValue('50');
-    expect(sliders[1]).toHaveValue('300');
+    expect(screen.getByRole('slider', { name: 'Minimum Price' })).toHaveValue('20');
+    expect(screen.getByRole('slider', { name: 'Maximum Price' })).toHaveValue('80');
   });
 
-  it('renders summary labels', () => {
+  it('uses the group min and max when no current range value exists', () => {
+    getRangeValueMock.mockReturnValue(undefined);
+
     render(
       <FilterBarRangePanel
         baseId="filters"
         group={group}
         value={value}
-        onChange={vi.fn()}
+        onChange={onChangeMock}
       />
     );
 
-    expect(screen.getByText('£0')).toBeInTheDocument();
-    expect(screen.getByText('£500')).toBeInTheDocument();
+    expect(screen.getByRole('spinbutton', { name: 'Min' })).toHaveValue(0);
+    expect(screen.getByRole('spinbutton', { name: 'Max' })).toHaveValue(100);
+    expect(screen.getByRole('slider', { name: 'Minimum Price' })).toHaveValue('0');
+    expect(screen.getByRole('slider', { name: 'Maximum Price' })).toHaveValue('100');
   });
 
-  it('falls back to generated currency summary labels when custom labels are missing', () => {
-    const groupWithoutLabels: RangeGroup = (({ ...rest }) => rest)(group);
-
-    render(
-      <FilterBarRangePanel
-        baseId="filters"
-        group={groupWithoutLabels}
-        value={value}
-        onChange={vi.fn()}
-      />
-    );
-
-    expect(screen.getByText('£0')).toBeInTheDocument();
-    expect(screen.getByText('£500')).toBeInTheDocument();
-  });
-
-  it('renders accessible labels for the sliders', () => {
-    render(
-      <FilterBarRangePanel
-        baseId="filters"
-        group={group}
-        value={value}
-        onChange={vi.fn()}
-      />
-    );
-
-    expect(screen.getByRole('slider', { name: 'Minimum Price' })).toBeInTheDocument();
-    expect(screen.getByRole('slider', { name: 'Maximum Price' })).toBeInTheDocument();
-  });
-
-  it('uses group step when provided', () => {
-    render(
-      <FilterBarRangePanel
-        baseId="filters"
-        group={group}
-        value={value}
-        onChange={vi.fn()}
-      />
-    );
-
-    const spinbuttons = screen.getAllByRole('spinbutton');
-    const sliders = screen.getAllByRole('slider');
-
-    expect(spinbuttons[0]).toHaveAttribute('step', '10');
-    expect(spinbuttons[1]).toHaveAttribute('step', '10');
-    expect(sliders[0]).toHaveAttribute('step', '10');
-    expect(sliders[1]).toHaveAttribute('step', '10');
-  });
-
-  it('defaults step to 1 when omitted', () => {
-    const groupWithoutStep: RangeGroup = Object.fromEntries(
-      Object.entries(group).filter(([key]) => key !== 'step')
-    ) as RangeGroup;
+  it('uses the default step of 1 when group.step is not provided', () => {
+    const groupWithoutStep: RangeGroup = { ...group };
+    delete (groupWithoutStep as Partial<RangeGroup>).step;
 
     render(
       <FilterBarRangePanel
         baseId="filters"
         group={groupWithoutStep}
         value={value}
-        onChange={vi.fn()}
+        onChange={onChangeMock}
       />
     );
 
-    const spinbuttons = screen.getAllByRole('spinbutton');
-    expect(spinbuttons[0]).toHaveAttribute('step', '1');
-    expect(spinbuttons[1]).toHaveAttribute('step', '1');
+    expect(screen.getByRole('spinbutton', { name: 'Min' })).toHaveAttribute('step', '1');
+    expect(screen.getByRole('spinbutton', { name: 'Max' })).toHaveAttribute('step', '1');
+    expect(screen.getByRole('slider', { name: 'Minimum Price' })).toHaveAttribute('step', '1');
+    expect(screen.getByRole('slider', { name: 'Maximum Price' })).toHaveAttribute('step', '1');
   });
 
-  it('calls onChange when the minimum number input changes', () => {
-    const onChange = vi.fn();
+  it('clamps and normalises reversed current values before rendering', () => {
+    getRangeValueMock.mockReturnValue({
+      min: 90,
+      max: 10,
+    });
 
     render(
       <FilterBarRangePanel
         baseId="filters"
         group={group}
         value={value}
-        onChange={onChange}
+        onChange={onChangeMock}
       />
     );
 
-    const spinbuttons = screen.getAllByRole('spinbutton');
-    const minInput = spinbuttons[0];
-    if (!minInput) {
-      throw new Error('Expected minimum input to exist');
-    }
+    expect(screen.getByRole('spinbutton', { name: 'Min' })).toHaveValue(10);
+    expect(screen.getByRole('spinbutton', { name: 'Max' })).toHaveValue(90);
+  });
 
-    fireEvent.change(minInput, {
+  it('clamps out-of-bounds current values before rendering', () => {
+    getRangeValueMock.mockReturnValue({
+      min: -25,
+      max: 125,
+    });
+
+    render(
+      <FilterBarRangePanel
+        baseId="filters"
+        group={group}
+        value={value}
+        onChange={onChangeMock}
+      />
+    );
+
+    expect(screen.getByRole('spinbutton', { name: 'Min' })).toHaveValue(0);
+    expect(screen.getByRole('spinbutton', { name: 'Max' })).toHaveValue(100);
+  });
+
+  it('renders slider ids using the baseId and group id', () => {
+    render(
+      <FilterBarRangePanel
+        baseId="filters"
+        group={group}
+        value={value}
+        onChange={onChangeMock}
+      />
+    );
+
+    expect(screen.getByRole('slider', { name: 'Minimum Price' })).toHaveAttribute(
+      'id',
+      'filters-price-min'
+    );
+    expect(screen.getByRole('slider', { name: 'Maximum Price' })).toHaveAttribute(
+      'id',
+      'filters-price-max'
+    );
+  });
+
+  it('updates the minimum value from the number input', () => {
+    render(
+      <FilterBarRangePanel
+        baseId="filters"
+        group={group}
+        value={value}
+        onChange={onChangeMock}
+      />
+    );
+
+    fireEvent.change(screen.getByRole('spinbutton', { name: 'Min' }), {
+      target: { value: '30' },
+    });
+
+    expect(setRangeValueMock).toHaveBeenCalledWith(value, 'price', {
+      min: 30,
+      max: 80,
+    });
+
+    expect(onChangeMock).toHaveBeenCalledWith({
+      options: {},
+      ranges: {
+        price: {
+          min: 30,
+          max: 80,
+        },
+      },
+    });
+  });
+
+  it('clamps the minimum number input against the current safe maximum', () => {
+    render(
+      <FilterBarRangePanel
+        baseId="filters"
+        group={group}
+        value={value}
+        onChange={onChangeMock}
+      />
+    );
+
+    fireEvent.change(screen.getByRole('spinbutton', { name: 'Min' }), {
+      target: { value: '999' },
+    });
+
+    expect(setRangeValueMock).toHaveBeenCalledWith(value, 'price', {
+      min: 80,
+      max: 80,
+    });
+  });
+
+  it('treats an empty minimum number input as 0', () => {
+    render(
+      <FilterBarRangePanel
+        baseId="filters"
+        group={group}
+        value={value}
+        onChange={onChangeMock}
+      />
+    );
+
+    fireEvent.change(screen.getByRole('spinbutton', { name: 'Min' }), {
+      target: { value: '' },
+    });
+
+    expect(setRangeValueMock).toHaveBeenCalledWith(value, 'price', {
+      min: 0,
+      max: 80,
+    });
+  });
+
+  it('updates the maximum value from the number input', () => {
+    render(
+      <FilterBarRangePanel
+        baseId="filters"
+        group={group}
+        value={value}
+        onChange={onChangeMock}
+      />
+    );
+
+    fireEvent.change(screen.getByRole('spinbutton', { name: 'Max' }), {
+      target: { value: '60' },
+    });
+
+    expect(setRangeValueMock).toHaveBeenCalledWith(value, 'price', {
+      min: 20,
+      max: 60,
+    });
+
+    expect(onChangeMock).toHaveBeenCalledWith({
+      options: {},
+      ranges: {
+        price: {
+          min: 20,
+          max: 60,
+        },
+      },
+    });
+  });
+
+  it('clamps the maximum number input against the current safe minimum', () => {
+    render(
+      <FilterBarRangePanel
+        baseId="filters"
+        group={group}
+        value={value}
+        onChange={onChangeMock}
+      />
+    );
+
+    fireEvent.change(screen.getByRole('spinbutton', { name: 'Max' }), {
+      target: { value: '-100' },
+    });
+
+    expect(setRangeValueMock).toHaveBeenCalledWith(value, 'price', {
+      min: 20,
+      max: 20,
+    });
+  });
+
+  it('treats an empty maximum number input as the safe minimum', () => {
+    render(
+      <FilterBarRangePanel
+        baseId="filters"
+        group={group}
+        value={value}
+        onChange={onChangeMock}
+      />
+    );
+
+    fireEvent.change(screen.getByRole('spinbutton', { name: 'Max' }), {
+      target: { value: '' },
+    });
+
+    expect(setRangeValueMock).toHaveBeenCalledWith(value, 'price', {
+      min: 20,
+      max: 20,
+    });
+  });
+
+  it('updates the minimum value from the minimum slider', () => {
+    render(
+      <FilterBarRangePanel
+        baseId="filters"
+        group={group}
+        value={value}
+        onChange={onChangeMock}
+      />
+    );
+
+    fireEvent.change(screen.getByRole('slider', { name: 'Minimum Price' }), {
+      target: { value: '35' },
+    });
+
+    expect(setRangeValueMock).toHaveBeenCalledWith(value, 'price', {
+      min: 35,
+      max: 80,
+    });
+
+    expect(onChangeMock).toHaveBeenCalledWith({
+      options: {},
+      ranges: {
+        price: {
+          min: 35,
+          max: 80,
+        },
+      },
+    });
+  });
+
+  it('updates the maximum value from the maximum slider', () => {
+    render(
+      <FilterBarRangePanel
+        baseId="filters"
+        group={group}
+        value={value}
+        onChange={onChangeMock}
+      />
+    );
+
+    fireEvent.change(screen.getByRole('slider', { name: 'Maximum Price' }), {
       target: { value: '70' },
     });
 
-    expect(mockSetRangeValue).toHaveBeenCalledWith(value, 'price', {
-      min: 70,
-      max: 300,
+    expect(setRangeValueMock).toHaveBeenCalledWith(value, 'price', {
+      min: 20,
+      max: 70,
     });
-    expect(onChange).toHaveBeenCalledWith({
+
+    expect(onChangeMock).toHaveBeenCalledWith({
       options: {},
       ranges: {
-        price: { min: 70, max: 300 },
+        price: {
+          min: 20,
+          max: 70,
+        },
       },
     });
   });
 
-  it('calls onChange when the maximum number input changes', () => {
-    const onChange = vi.fn();
-
+  it('clamps the minimum slider against the safe maximum', () => {
     render(
       <FilterBarRangePanel
         baseId="filters"
         group={group}
         value={value}
-        onChange={onChange}
+        onChange={onChangeMock}
       />
     );
 
-    const spinbuttons = screen.getAllByRole('spinbutton');
-    const maxInput = spinbuttons[1];
-    if (!maxInput) {
-      throw new Error('Expected maximum input to exist');
-    }
-
-    fireEvent.change(maxInput, {
-      target: { value: '280' },
+    fireEvent.change(screen.getByRole('slider', { name: 'Minimum Price' }), {
+      target: { value: '95' },
     });
 
-    expect(mockSetRangeValue).toHaveBeenCalledWith(value, 'price', {
-      min: 50,
-      max: 280,
-    });
-    expect(onChange).toHaveBeenCalledWith({
-      options: {},
-      ranges: {
-        price: { min: 50, max: 280 },
-      },
+    expect(setRangeValueMock).toHaveBeenCalledWith(value, 'price', {
+      min: 80,
+      max: 80,
     });
   });
 
-  it('calls onChange when the minimum slider changes', () => {
-    const onChange = vi.fn();
-
+  it('clamps the maximum slider against the safe minimum', () => {
     render(
       <FilterBarRangePanel
         baseId="filters"
         group={group}
         value={value}
-        onChange={onChange}
+        onChange={onChangeMock}
       />
     );
 
-    const minSlider = screen.getByRole('slider', { name: 'Minimum Price' });
-
-    fireEvent.change(minSlider, {
-      target: { value: '90' },
+    fireEvent.change(screen.getByRole('slider', { name: 'Maximum Price' }), {
+      target: { value: '10' },
     });
 
-    expect(mockSetRangeValue).toHaveBeenCalledWith(value, 'price', {
-      min: 90,
-      max: 300,
-    });
-    expect(onChange).toHaveBeenCalledWith({
-      options: {},
-      ranges: {
-        price: { min: 90, max: 300 },
-      },
+    expect(setRangeValueMock).toHaveBeenCalledWith(value, 'price', {
+      min: 20,
+      max: 20,
     });
   });
 
-  it('calls onChange when the maximum slider changes', () => {
-    const onChange = vi.fn();
+  it('renders the slider range track styles from the computed percentages', () => {
+    const { container } = render(
+      <FilterBarRangePanel
+        baseId="filters"
+        group={group}
+        value={value}
+        onChange={onChangeMock}
+      />
+    );
 
+    const sliderRange = container.querySelector('div[style]');
+
+    expect(sliderRange).toHaveStyle({
+      left: '20%',
+      right: '20%',
+    });
+  });
+
+  it('requests the expected message namespace', () => {
     render(
       <FilterBarRangePanel
         baseId="filters"
         group={group}
         value={value}
-        onChange={onChange}
+        onChange={onChangeMock}
       />
     );
 
-    const maxSlider = screen.getByRole('slider', { name: 'Maximum Price' });
-
-    fireEvent.change(maxSlider, {
-      target: { value: '250' },
-    });
-
-    expect(mockSetRangeValue).toHaveBeenCalledWith(value, 'price', {
-      min: 50,
-      max: 250,
-    });
-    expect(onChange).toHaveBeenCalledWith({
-      options: {},
-      ranges: {
-        price: { min: 50, max: 250 },
-      },
-    });
+    expect(useMessagesMock).toHaveBeenCalledWith('productFilters');
   });
 
-  it('clamps the minimum number input to the group minimum when cleared', () => {
-    const onChange = vi.fn();
-
+  it('calls getRangeValue with the provided filter value and group id', () => {
     render(
       <FilterBarRangePanel
         baseId="filters"
         group={group}
         value={value}
-        onChange={onChange}
+        onChange={onChangeMock}
       />
     );
 
-    const spinbuttons = screen.getAllByRole('spinbutton');
-    const minInput = spinbuttons[0];
-    if (!minInput) {
-      throw new Error('Expected minimum input to exist');
-    }
-
-    fireEvent.change(minInput, {
-      target: { value: '' },
-    });
-
-    expect(mockSetRangeValue).toHaveBeenCalledWith(value, 'price', {
-      min: 0,
-      max: 300,
-    });
-
-    expect(onChange).toHaveBeenCalledWith({
-      options: {},
-      ranges: {
-        price: { min: 0, max: 300 },
-      },
-    });
-  });
-
-  it('clamps the maximum number input to the current minimum when cleared', () => {
-    const onChange = vi.fn();
-
-    render(
-      <FilterBarRangePanel
-        baseId="filters"
-        group={group}
-        value={value}
-        onChange={onChange}
-      />
-    );
-
-    const spinbuttons = screen.getAllByRole('spinbutton');
-    const maxInput = spinbuttons[1];
-    if (!maxInput) {
-      throw new Error('Expected maximum input to exist');
-    }
-
-    fireEvent.change(maxInput, {
-      target: { value: '' },
-    });
-
-    expect(mockSetRangeValue).toHaveBeenCalledWith(value, 'price', {
-      min: 50,
-      max: 50,
-    });
-
-    expect(onChange).toHaveBeenCalledWith({
-      options: {},
-      ranges: {
-        price: { min: 50, max: 50 },
-      },
-    });
-  });
-
-  it('uses group min and max when no current range value exists', () => {
-    mockGetRangeValue.mockReturnValue(undefined);
-
-    render(
-      <FilterBarRangePanel
-        baseId="filters"
-        group={group}
-        value={{
-          options: {},
-          ranges: {},
-        }}
-        onChange={vi.fn()}
-      />
-    );
-
-    const spinbuttons = screen.getAllByRole('spinbutton');
-    expect(spinbuttons[0]).toHaveValue(0);
-    expect(spinbuttons[1]).toHaveValue(500);
-  });
-
-  it('clamps and normalises reversed min and max values', () => {
-    mockGetRangeValue.mockReturnValue({ min: 400, max: 100 });
-
-    render(
-      <FilterBarRangePanel
-        baseId="filters"
-        group={group}
-        value={value}
-        onChange={vi.fn()}
-      />
-    );
-
-    const spinbuttons = screen.getAllByRole('spinbutton');
-    expect(spinbuttons[0]).toHaveValue(100);
-    expect(spinbuttons[1]).toHaveValue(400);
+    expect(getRangeValueMock).toHaveBeenCalledWith(value, 'price');
   });
 });

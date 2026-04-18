@@ -54,16 +54,9 @@ const dataSet = [
 function Component() {
   const [value, setValue] = useState<FilterValue>(initialValue);
   const [sortValue, setSortValue] = useState<string>('featured');
-  const [loading, setLoading] = useState<boolean>(false);
 
   function handleChange(value: SetStateAction<FilterValue>) {
-    // This mimic's a server response
-    setLoading(true);
-
-    setTimeout(() => {
-      setValue(value);
-      setLoading(false);
-    }, 1000);
+    setValue(value);
   }
 
   return (
@@ -84,7 +77,6 @@ function Component() {
       ]}
       sortValue={sortValue}
       onSortChange={setSortValue}
-      loading={loading}
     >
       <Grid>
         {dataSet.map((product) => (

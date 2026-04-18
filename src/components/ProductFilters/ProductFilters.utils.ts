@@ -1,3 +1,5 @@
+import { formatCurrencyRangeValue, formatCurrencyValue } from '@/lib/i18n/formatting/currency';
+
 import type {
   ActiveChip,
   CheckboxGroup,
@@ -105,26 +107,39 @@ export function getSelectedCount(group: FilterGroup, value: FilterValue): number
   return getOptionSelections(value, group.id).length;
 }
 
-export function formatRangeChip(group: RangeGroup, range: FilterRangeValue): string {
+export function formatRangeChip(
+  group: RangeGroup,
+  range: FilterRangeValue,
+  locale: string,
+  currency: string
+): string {
   const hasMin = typeof range.min === 'number';
   const hasMax = typeof range.max === 'number';
 
   if (hasMin && hasMax) {
-    return `£${range.min}–£${range.max}`;
+    const label = formatCurrencyRangeValue(range.min, range.max, locale, currency);
+    return label;
   }
 
   if (hasMin) {
-    return `From £${range.min}`;
+    const label = formatCurrencyValue(range.min || 0, locale, currency);
+    return label;
   }
 
   if (hasMax) {
-    return `Up to £${range.max}`;
+    const label = formatCurrencyValue(range.max || 0, locale, currency);
+    return label;
   }
 
   return group.label;
 }
 
-export function buildChips(groups: readonly FilterGroup[], value: FilterValue): ActiveChip[] {
+export function buildChips(
+  groups: readonly FilterGroup[],
+  value: FilterValue,
+  locale: string,
+  currency: string
+): ActiveChip[] {
   const chips: ActiveChip[] = [];
 
   for (const group of groups) {
@@ -136,7 +151,7 @@ export function buildChips(groups: readonly FilterGroup[], value: FilterValue): 
           key: `${group.id}-range`,
           groupId: group.id,
           groupLabel: group.label,
-          label: formatRangeChip(group, range),
+          label: formatRangeChip(group, range, locale, currency),
         });
       }
 

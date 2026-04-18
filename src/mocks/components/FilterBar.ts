@@ -37,7 +37,7 @@ export const FilterBarData: FilterGroup[] = [
     min: 5,
     max: 40,
     step: 1,
-    minLabel: '£5',
-    maxLabel: '£40',
+    minLabel: '5',
+    maxLabel: '40',
   },
 ];

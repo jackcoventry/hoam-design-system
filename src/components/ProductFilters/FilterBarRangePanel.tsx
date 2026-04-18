@@ -25,6 +25,7 @@ export function FilterBarRangePanel({
   onChange,
 }: Readonly<FilterBarRangePanelProps>) {
   const t = useMessages('productFilters');
+
   const current = getRangeValue(value, group.id);
   const step = group.step ?? 1;
 
@@ -160,14 +161,6 @@ export function FilterBarRangePanel({
             );
           }}
         />
-      </div>
-
-      <div
-        className={styles.rangeSummary}
-        aria-live="polite"
-      >
-        <span>{group.minLabel ?? `£${group.min}`}</span>
-        <span>{group.maxLabel ?? `£${group.max}`}</span>
       </div>
     </div>
   );

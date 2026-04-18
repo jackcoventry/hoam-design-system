@@ -4,8 +4,21 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { deepMerge, type DeepPartial } from '@/utils/deepMerge';
 import { I18nContext } from '@/lib/i18n/Context';
 import { defaultMessages } from '@/lib/i18n/defaults';
+import { FormattingContext } from '@/lib/i18n/formatting/Context';
 import { LibraryI18nProvider } from '@/lib/i18n/Provider';
 import type { LibraryMessages } from '@/lib/i18n/types';
+
+function FormattingConsumer() {
+  return (
+    <FormattingContext.Consumer>
+      {(value) => (
+        <div>
+          {value.locale} | {value.currency}
+        </div>
+      )}
+    </FormattingContext.Consumer>
+  );
+}
 
 vi.mock('@/utils/deepMerge', () => ({
   deepMerge: vi.fn(),
@@ -111,5 +124,52 @@ describe('LibraryI18nProvider', () => {
     );
 
     expect(screen.getByText(defaultMessages.global.readMore)).toBeInTheDocument();
+  });
+
+  it('provides default formatting values when locale and currency are not provided', () => {
+    render(
+      <LibraryI18nProvider>
+        <FormattingConsumer />
+      </LibraryI18nProvider>
+    );
+
+    expect(screen.getByText('en-GB | GBP')).toBeInTheDocument();
+  });
+
+  it('provides the supplied locale and currency values', () => {
+    render(
+      <LibraryI18nProvider
+        locale="en-US"
+        currency="USD"
+      >
+        <FormattingConsumer />
+      </LibraryI18nProvider>
+    );
+
+    expect(screen.getByText('en-US | USD')).toBeInTheDocument();
+  });
+
+  it('updates formatting values when locale and currency props change', () => {
+    const { rerender } = render(
+      <LibraryI18nProvider
+        locale="en-GB"
+        currency="GBP"
+      >
+        <FormattingConsumer />
+      </LibraryI18nProvider>
+    );
+
+    expect(screen.getByText('en-GB | GBP')).toBeInTheDocument();
+
+    rerender(
+      <LibraryI18nProvider
+        locale="en-US"
+        currency="USD"
+      >
+        <FormattingConsumer />
+      </LibraryI18nProvider>
+    );
+
+    expect(screen.getByText('en-US | USD')).toBeInTheDocument();
   });
 });

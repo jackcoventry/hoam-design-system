@@ -1,28 +1,39 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import type { ReactNode } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { BlogArticle } from '@/components/BlogArticle/BlogArticle';
+import { BlogArticle, type BlogArticleProps } from '@/components/BlogArticle/BlogArticle';
 
-type UseMessagesBlogArticle = {
+type MessageKey = 'blogArticle' | 'global';
+
+type BlogArticleMessages = {
   by: string;
   avatarAria: string;
   readingTime: string;
 };
 
-type UseMessagesGlobal = {
+type GlobalMessages = {
   share: string;
   shareAria: string;
 };
 
-const useMessagesMock = vi.fn<(namespace: string) => UseMessagesBlogArticle | UseMessagesGlobal>();
+type MessageMap = {
+  blogArticle: BlogArticleMessages;
+  global: GlobalMessages;
+};
 
-const parseLooseDateMock = vi.fn<(value: string) => Date | null>();
-const formatReadableDateMock = vi.fn<(value: Date) => string>();
-const formatISODateMock = vi.fn<(value: Date) => string>();
+const formatDateMock = vi.fn<(value: string, options?: Intl.DateTimeFormatOptions) => string>();
+
+const useMessagesMock = vi.fn<(key: MessageKey) => MessageMap[MessageKey]>();
+
+vi.mock('@/hooks/useDate', () => ({
+  useDate: () => ({
+    formatDate: formatDateMock,
+  }),
+}));
 
 vi.mock('@/hooks/useMessages', () => ({
-  useMessages: (namespace: string) => useMessagesMock(namespace),
+  useMessages: (key: MessageKey) => useMessagesMock(key),
 }));
 
 vi.mock('@/components/Common/BodyText', () => ({
@@ -32,7 +43,7 @@ vi.mock('@/components/Common/BodyText', () => ({
 }));
 
 vi.mock('@/components/Icon', () => ({
-  Icon: ({ id }: { id: string }) => <span data-testid={`icon-${id}`} />,
+  Icon: ({ id }: { id: string }) => <span data-testid="icon">{id}</span>,
 }));
 
 vi.mock('@/components/Layout', () => ({
@@ -47,16 +58,48 @@ vi.mock('@/components/Layout', () => ({
 }));
 
 describe('BlogArticle', () => {
-  const parsedDate = new Date('2026-04-17T12:00:00.000Z');
+  const baseProps: BlogArticleProps = {
+    category: 'Engineering',
+    title: 'Building a design system',
+    summary: 'How we approached architecture and scaling.',
+    author: {
+      name: 'Jane Smith',
+      id: 'jane-smith',
+      image: '/authors/jane.jpg',
+    },
+    profileLink: '/authors/jane-smith',
+    publishDate: '2026-04-18',
+    readingTime: 8,
+    image: {
+      src: '/images/article-hero.jpg',
+      alt: 'A design system moodboard',
+      caption: 'Our design system in progress',
+    },
+    socialLinks: [
+      {
+        label: 'Twitter',
+        href: 'https://twitter.com/share',
+        icon: 'twitter',
+      },
+      {
+        label: 'LinkedIn',
+        href: 'https://linkedin.com/shareArticle',
+        icon: 'linkedin',
+      },
+    ],
+    children: <p>Article body content</p>,
+  };
 
   beforeEach(() => {
     vi.clearAllMocks();
 
-    useMessagesMock.mockImplementation((namespace: string) => {
-      if (namespace === 'blogArticle') {
+    formatDateMock.mockReturnValue('April 18, 2026');
+
+    useMessagesMock.mockImplementation((key) => {
+      if (key === 'blogArticle') {
         return {
           by: 'By ',
-          avatarAria: 'Avatar for',
+          avatarAria: 'Avatar of',
           readingTime: 'min read',
         };
       }
@@ -66,65 +109,54 @@ describe('BlogArticle', () => {
         shareAria: 'Share on',
       };
     });
-
-    parseLooseDateMock.mockReturnValue(parsedDate);
-    formatReadableDateMock.mockReturnValue('17 April 2026');
-    formatISODateMock.mockReturnValue('2026-04-17');
   });
-
-  const baseProps = {
-    category: 'Design',
-    title: 'How to build a design system',
-    summary: 'A practical guide to components and tokens.',
-    author: {
-      name: 'Jane Smith',
-      id: 'jane-smith',
-      image: '/authors/jane.jpg',
-    },
-    profileLink: '/authors/jane-smith',
-    publishDate: '2026-04-17',
-    readingTime: 8,
-    image: {
-      src: '/blog/hero.jpg',
-      alt: 'Article hero image',
-      caption: 'A lovely caption',
-    },
-    socialLinks: [
-      { label: 'Twitter', href: 'https://example.com/twitter', icon: 'twitter' },
-      { label: 'LinkedIn', href: 'https://example.com/linkedin', icon: 'linkedin' },
-    ],
-    children: <p>Article body content</p>,
-  };
 
   it('renders the main article content', () => {
     render(<BlogArticle {...baseProps} />);
 
-    expect(screen.getByText('Design')).toBeInTheDocument();
     expect(
-      screen.getByRole('heading', { level: 1, name: 'How to build a design system' })
+      screen.getByRole('heading', {
+        level: 1,
+        name: 'Building a design system',
+      })
     ).toBeInTheDocument();
+
     expect(
       screen.getByRole('heading', {
         level: 2,
-        name: 'A practical guide to components and tokens.',
+        name: 'How we approached architecture and scaling.',
       })
     ).toBeInTheDocument();
-    expect(screen.getByTestId('body-text')).toBeInTheDocument();
+
+    expect(screen.getByText('Engineering')).toBeInTheDocument();
     expect(screen.getByText('Article body content')).toBeInTheDocument();
+    expect(screen.getByTestId('body-text')).toBeInTheDocument();
   });
 
-  it('renders author as a profile link when profileLink is provided', () => {
+  it('formats and renders the publish date', () => {
     render(<BlogArticle {...baseProps} />);
 
-    const authorLink = screen.getByRole('link', { name: /Jane Smith/i });
+    expect(formatDateMock).toHaveBeenCalledWith('2026-04-18', {
+      dateStyle: 'long',
+    });
+
+    const time = screen.getByText('April 18, 2026');
+    expect(time.tagName).toBe('TIME');
+    expect(time).toHaveAttribute('datetime', 'April 18, 2026');
+  });
+
+  it('renders the author as a link when profileLink is provided', () => {
+    render(<BlogArticle {...baseProps} />);
+
+    const authorLink = screen.getByRole('link', { name: /jane smith/i });
     expect(authorLink).toHaveAttribute('href', '/authors/jane-smith');
     expect(authorLink).toHaveAttribute('rel', 'author');
 
-    const avatar = screen.getByRole('img', { name: 'Avatar for Jane Smith' });
+    const avatar = screen.getByRole('img', { name: 'Avatar of Jane Smith' });
     expect(avatar).toHaveAttribute('src', '/authors/jane.jpg');
   });
 
-  it('renders author without a link when profileLink is not provided', () => {
+  it('renders the author as plain text when profileLink is not provided', () => {
     render(
       <BlogArticle
         {...baseProps}
@@ -132,106 +164,50 @@ describe('BlogArticle', () => {
       />
     );
 
+    expect(screen.queryByRole('link', { name: /jane smith/i })).not.toBeInTheDocument();
+
     expect(screen.getByText('Jane Smith')).toBeInTheDocument();
-    expect(screen.queryByRole('link', { name: /Jane Smith/i })).not.toBeInTheDocument();
 
-    const avatar = screen.getByRole('img', { name: 'Avatar for Jane Smith' });
-    expect(avatar).toBeInTheDocument();
+    const avatar = screen.getByRole('img', { name: 'Avatar of Jane Smith' });
+    expect(avatar).toHaveAttribute('src', '/authors/jane.jpg');
   });
 
-  it('formats and renders the publish date', () => {
-    render(<BlogArticle {...baseProps} />);
-
-    expect(parseLooseDateMock).toHaveBeenCalledWith('2026-04-17');
-    expect(formatReadableDateMock).toHaveBeenCalledWith(parsedDate);
-    expect(formatISODateMock).toHaveBeenCalledWith(parsedDate);
-
-    const time = screen.getByText('17 April 2026');
-    expect(time.tagName.toLowerCase()).toBe('time');
-    expect(time).toHaveAttribute('datetime', '2026-04-17');
-  });
-
-  it('renders an empty date when parsing fails', () => {
-    parseLooseDateMock.mockReturnValueOnce(null);
-
-    render(<BlogArticle {...baseProps} />);
-
-    const timeElements = document.querySelectorAll('time');
-    expect(timeElements).toHaveLength(1);
-    expect(timeElements[0]).toHaveTextContent('');
-    expect(timeElements[0]).toHaveAttribute('datetime', '');
-  });
-
-  it('renders reading time and clock icon', () => {
+  it('renders reading time with the clock icon', () => {
     render(<BlogArticle {...baseProps} />);
 
     expect(screen.getByText('8 min read')).toBeInTheDocument();
-    expect(screen.getByTestId('icon-clock')).toBeInTheDocument();
+
+    const icons = screen.getAllByTestId('icon').map((icon) => icon.textContent);
+    expect(icons).toContain('clock');
   });
 
-  it('renders social share links and icons', () => {
+  it('renders the social sharing section and links', () => {
     render(<BlogArticle {...baseProps} />);
 
     expect(screen.getByText('Share')).toBeInTheDocument();
 
     const twitterLink = screen.getByRole('link', { name: 'Share on Twitter' });
-    const linkedInLink = screen.getByRole('link', { name: 'Share on LinkedIn' });
-
-    expect(twitterLink).toHaveAttribute('href', 'https://example.com/twitter');
+    expect(twitterLink).toHaveAttribute('href', 'https://twitter.com/share');
     expect(twitterLink).toHaveAttribute('target', '_blank');
     expect(twitterLink).toHaveAttribute('rel', 'noopener noreferrer');
 
-    expect(linkedInLink).toHaveAttribute('href', 'https://example.com/linkedin');
+    const linkedInLink = screen.getByRole('link', { name: 'Share on LinkedIn' });
+    expect(linkedInLink).toHaveAttribute('href', 'https://linkedin.com/shareArticle');
     expect(linkedInLink).toHaveAttribute('target', '_blank');
     expect(linkedInLink).toHaveAttribute('rel', 'noopener noreferrer');
-
-    expect(screen.getByTestId('icon-twitter')).toBeInTheDocument();
-    expect(screen.getByTestId('icon-linkedin')).toBeInTheDocument();
   });
 
-  it('renders the hero image and caption', () => {
+  it('renders the share icons for each social link', () => {
     render(<BlogArticle {...baseProps} />);
 
-    const heroImage = screen.getByRole('img', { name: 'Article hero image' });
+    const icons = screen.getAllByTestId('icon').map((icon) => icon.textContent);
 
-    expect(heroImage).toHaveAttribute('src', '/blog/hero.jpg');
-    expect(screen.getByText('A lovely caption')).toBeInTheDocument();
+    expect(icons).toContain('clock');
+    expect(icons).toContain('twitter');
+    expect(icons).toContain('linkedin');
   });
 
-  it('does not render category when empty', () => {
-    render(
-      <BlogArticle
-        {...baseProps}
-        category=""
-      />
-    );
-
-    expect(screen.queryByText('Design')).not.toBeInTheDocument();
-  });
-
-  it('does not render title when empty', () => {
-    render(
-      <BlogArticle
-        {...baseProps}
-        title=""
-      />
-    );
-
-    expect(screen.queryByRole('heading', { level: 1 })).not.toBeInTheDocument();
-  });
-
-  it('does not render summary when empty', () => {
-    render(
-      <BlogArticle
-        {...baseProps}
-        summary=""
-      />
-    );
-
-    expect(screen.queryByRole('heading', { level: 2 })).not.toBeInTheDocument();
-  });
-
-  it('does not render social links when none are provided', () => {
+  it('renders no social link anchors when socialLinks is empty', () => {
     render(
       <BlogArticle
         {...baseProps}
@@ -240,6 +216,54 @@ describe('BlogArticle', () => {
     );
 
     expect(screen.getByText('Share')).toBeInTheDocument();
-    expect(screen.queryByRole('link', { name: /Share on/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('link', { name: /share on/i })).not.toBeInTheDocument();
+  });
+
+  it('renders the hero image and caption', () => {
+    render(<BlogArticle {...baseProps} />);
+
+    const heroImage = screen.getByRole('img', {
+      name: 'A design system moodboard',
+    });
+
+    expect(heroImage).toHaveAttribute('src', '/images/article-hero.jpg');
+    expect(screen.getByText('Our design system in progress')).toBeInTheDocument();
+  });
+
+  it('does not render empty category, title, or summary content', () => {
+    render(
+      <BlogArticle
+        {...baseProps}
+        category=""
+        title=""
+        summary=""
+      />
+    );
+
+    expect(screen.queryByRole('heading', { level: 1 })).not.toBeInTheDocument();
+    expect(screen.queryByRole('heading', { level: 2 })).not.toBeInTheDocument();
+    expect(screen.queryByText('Engineering')).not.toBeInTheDocument();
+  });
+
+  it('renders children inside the article body section', () => {
+    render(
+      <BlogArticle {...baseProps}>
+        <div>
+          <p>First paragraph</p>
+          <p>Second paragraph</p>
+        </div>
+      </BlogArticle>
+    );
+
+    const bodyText = screen.getByTestId('body-text');
+    expect(within(bodyText).getByText('First paragraph')).toBeInTheDocument();
+    expect(within(bodyText).getByText('Second paragraph')).toBeInTheDocument();
+  });
+
+  it('requests the expected message namespaces', () => {
+    render(<BlogArticle {...baseProps} />);
+
+    expect(useMessagesMock).toHaveBeenCalledWith('blogArticle');
+    expect(useMessagesMock).toHaveBeenCalledWith('global');
   });
 });
