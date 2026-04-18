@@ -12,6 +12,8 @@ import {
 import type { SwiperProps } from 'swiper/react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
+import { useMessages } from '@/hooks/useMessages';
+
 import styles from './Carousel.module.css';
 
 import 'swiper/css';
@@ -82,11 +84,12 @@ export function Carousel<T>({
   slidesPerView = 1,
   spaceBetween = 16,
   breakpoints,
-  'aria-label': ariaLabel = 'Carousel',
+  'aria-label': ariaLabel,
   effect = 'slide',
   keyboard = true,
   swiperProps,
 }: Readonly<CarouselProps<T>>) {
+  const t = useMessages('carousel');
   const modules = [A11y, Keyboard];
 
   if (navigation) modules.push(Navigation);
@@ -114,7 +117,7 @@ export function Carousel<T>({
         modules={modules}
         a11y={{
           enabled: true,
-          containerMessage: ariaLabel,
+          containerMessage: ariaLabel ?? t.label,
         }}
         navigation={navigation}
         pagination={pagination ? { clickable: true } : false}

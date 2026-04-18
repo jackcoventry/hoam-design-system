@@ -101,5 +101,4 @@ describe('DesktopNavigationLogo', () => {
 
     expect(props.onResetNavigation).toHaveBeenCalledTimes(2);
   });
-
 });

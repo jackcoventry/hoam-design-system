@@ -1,4 +1,5 @@
 import { Carousel } from '@/components/Carousel';
+import { useMessages } from '@/hooks/useMessages';
 
 import { HeroSlide, type HeroSlideProps } from './HeroSlide';
 
@@ -9,7 +10,9 @@ export type HeroProps = {
   'aria-label'?: string;
 };
 
-export function Hero({ items, 'aria-label': ariaLabel = 'Hero carousel' }: Readonly<HeroProps>) {
+export function Hero({ items, 'aria-label': ariaLabel }: Readonly<HeroProps>) {
+  const t = useMessages('hero');
+
   if (items.length === 0) return null;
   if (items.length === 1) {
     const firstItem = items[0];
@@ -27,7 +30,7 @@ export function Hero({ items, 'aria-label': ariaLabel = 'Hero carousel' }: Reado
         pagination
         loop
         autoplay={{ delay: 6000 }}
-        aria-label={ariaLabel}
+        aria-label={ariaLabel ?? t.carouselLabel}
         effect="fade"
       />
     </div>

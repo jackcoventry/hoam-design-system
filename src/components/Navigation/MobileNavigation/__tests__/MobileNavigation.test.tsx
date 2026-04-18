@@ -294,5 +294,4 @@ describe('MobileNavigation', () => {
     expect(screen.getByRole('navigation', { name: 'Main navigation' })).toBeInTheDocument();
     expect(capturedMobileNavigationItemProps).toHaveLength(0);
   });
-
 });

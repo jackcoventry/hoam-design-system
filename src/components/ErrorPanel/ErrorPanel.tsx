@@ -2,6 +2,7 @@ import clsx from 'clsx';
 
 import { Button } from '@/components/Button';
 import { Stack } from '@/components/Layout';
+import { useMessages } from '@/hooks/useMessages';
 import mindfullnessIllustration from '@/assets/illustrations/mindfullness.svg';
 
 import styles from '@/components/ErrorPanel/ErrorPanel.module.css';
@@ -13,11 +14,9 @@ export type Props = {
   returnUrl?: string;
 };
 
-export function ErrorPanel({
-  message,
-  returnLabel = 'Return home',
-  returnUrl = '/',
-}: Readonly<Props>) {
+export function ErrorPanel({ message, returnLabel, returnUrl = '/' }: Readonly<Props>) {
+  const t = useMessages('errorPanel');
+
   return (
     <Stack
       gap="lg"
@@ -25,7 +24,7 @@ export function ErrorPanel({
     >
       <img
         src={mindfullnessIllustration}
-        alt="An illustration of a woman meditating"
+        alt={t.illustrationAlt}
         className={styles.image}
       />
       <h2 className={clsx(styles.title, typography.heading)}>{message}</h2>
@@ -34,7 +33,7 @@ export function ErrorPanel({
         href={returnUrl}
         className={styles.button}
       >
-        {returnLabel}
+        {returnLabel ?? t.returnHome}
       </Button>
     </Stack>
   );

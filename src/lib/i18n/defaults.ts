@@ -24,6 +24,16 @@ export const defaultMessages = {
     by: 'By',
     readingTime: 'minute read',
   },
+  breadcrumb: {
+    navigationLabel: 'Breadcrumb',
+  },
+  carousel: {
+    label: 'Carousel',
+  },
+  errorPanel: {
+    returnHome: 'Return home',
+    illustrationAlt: 'An illustration of a woman meditating',
+  },
   footer: {
     backToTop: 'Back to top',
     socialTitle: 'Follow us',
@@ -54,6 +64,9 @@ export const defaultMessages = {
   },
   message: {
     close: 'Close message',
+  },
+  notificationBar: {
+    label: 'Notifications',
   },
   modal: {
     close: 'Close dialog',
@@ -123,6 +136,12 @@ export const defaultMessages = {
     readMore: 'Read more',
     noResults: 'No results!',
     required: 'Required',
+  },
+  imageGallery: {
+    label: 'Image gallery',
+  },
+  hero: {
+    carouselLabel: 'Hero carousel',
   },
   sidebarNavigation: {
     title: 'Sidebar navigation',

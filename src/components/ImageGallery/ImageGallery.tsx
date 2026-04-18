@@ -1,4 +1,5 @@
 import { Carousel } from '@/components/Carousel';
+import { useMessages } from '@/hooks/useMessages';
 
 import styles from './ImageGallery.module.css';
 
@@ -15,8 +16,10 @@ export type ImageGalleryProps = {
 
 export function ImageGallery({
   images = [],
-  'aria-label': ariaLabel = 'Image gallery',
+  'aria-label': ariaLabel,
 }: Readonly<ImageGalleryProps>) {
+  const t = useMessages('imageGallery');
+
   if (!images.length) return null;
 
   return (
@@ -36,7 +39,7 @@ export function ImageGallery({
         navigation
         pagination
         loop
-        aria-label={ariaLabel}
+        aria-label={ariaLabel ?? t.label}
       />
     </div>
   );

@@ -11,10 +11,7 @@ import { useMessages } from '@/hooks/useMessages';
 
 import styles from '@/components/Form/Form.module.css';
 
-function createSignInFormSchema(messages: {
-  invalidEmail: string;
-  passwordMinLength: string;
-}) {
+function createSignInFormSchema(messages: { invalidEmail: string; passwordMinLength: string }) {
   return z.object({
     email_address: z.email(messages.invalidEmail).trim().min(1, {
       message: messages.invalidEmail,

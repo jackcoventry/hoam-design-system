@@ -1,5 +1,6 @@
 import { type CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
 
+import { useMessages } from '@/hooks/useMessages';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { clearIntervalSafe, clearTimeoutSafe } from '@/utils/clearIntervalTimeout';
 
@@ -16,8 +17,9 @@ const FADE_TIME = 500;
 
 export function NotificationBar({
   messages,
-  'aria-label': ariaLabel = 'Notifications',
+  'aria-label': ariaLabel,
 }: Readonly<NotificationBarProps>) {
+  const t = useMessages('notificationBar');
   const prefersReducedMotion = usePrefersReducedMotion();
 
   const hasMultipleMessages = messages.length > 1;
@@ -117,7 +119,7 @@ export function NotificationBar({
 
   return (
     <section
-      aria-label={ariaLabel}
+      aria-label={ariaLabel ?? t.label}
       className={styles.root}
       {...interactiveProps}
     >
