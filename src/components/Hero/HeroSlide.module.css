@@ -1,3 +1,4 @@
+@import "@/styles/breakpoints.css";
 @import "@/styles/media.css";
 
 .root {
@@ -15,7 +16,7 @@
 .media {
   display: none;
 
-  @media (--hoam-breakpoint-sm-up) {
+  @media (--hoam-breakpoint-lg-up) {
     aspect-ratio: 16/9;
     display: block;
     object-fit: cover;
@@ -25,7 +26,7 @@
 .background {
   display: none;
 
-  @media (--hoam-breakpoint-sm-up) {
+  @media (--hoam-breakpoint-md-up) {
     position: absolute;
     z-index: var(--hoam-layer-base);
     height: 100%;

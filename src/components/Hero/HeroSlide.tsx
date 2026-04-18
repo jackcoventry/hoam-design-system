@@ -77,7 +77,7 @@ export function HeroSlide({
             {featuredImage && (
               <GridItem
                 span={2}
-                spanMd={1}
+                spanLg={1}
               >
                 <img
                   src={featuredImage.src}
@@ -89,7 +89,7 @@ export function HeroSlide({
 
             <GridItem
               span={2}
-              spanMd={featuredImage ? 1 : 2}
+              spanLg={featuredImage ? 1 : 2}
               className={styles.textContent}
             >
               <p className={styles.subtitle}>{subtitle}</p>

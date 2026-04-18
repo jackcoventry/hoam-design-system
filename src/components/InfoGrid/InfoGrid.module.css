@@ -1,5 +1,6 @@
 .root {
   background-color: var(--hoam-color-surface-accent);
+  color: var(--hoam-color-text-inverse);
 }
 
 .content {
