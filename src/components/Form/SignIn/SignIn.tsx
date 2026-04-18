@@ -4,7 +4,7 @@ import z from 'zod';
 
 import { Button } from '@/components/Button';
 import { ErrorPanel } from '@/components/ErrorPanel';
-import { FieldWrapper } from '@/components/Form';
+import { FieldLabel, FieldWrapper } from '@/components/Form';
 import { Container, Grid, GridItem } from '@/components/Layout';
 import { useMessages } from '@/hooks/useMessages';
 
@@ -47,6 +47,8 @@ export function SignInForm({ onSubmit, data, error, loading }: Readonly<SignInFo
   const submitComplete = data?.message === 'SUCCESS';
 
   const textFieldClasses = styles.textField;
+  const emailId = 'sign-in-email';
+  const passwordId = 'sign-in-password';
 
   if (error) {
     return (
@@ -75,15 +77,20 @@ export function SignInForm({ onSubmit, data, error, loading }: Readonly<SignInFo
         <h2 className={styles.title}>{t.title}</h2>
 
         <FieldWrapper error={errors.email_address?.message}>
+          <FieldLabel htmlFor={emailId}>{t.emailPlaceholder}</FieldLabel>
           <Controller
             name="email_address"
             control={control}
             render={({ field }) => (
               <input
                 {...field}
+                id={emailId}
+                type="email"
                 placeholder={t.emailPlaceholder}
                 className={textFieldClasses}
                 data-valid={errors.email_address ? 'false' : 'true'}
+                autoComplete="email"
+                aria-invalid={errors.email_address ? 'true' : 'false'}
                 disabled={loading}
               />
             )}
@@ -91,16 +98,20 @@ export function SignInForm({ onSubmit, data, error, loading }: Readonly<SignInFo
         </FieldWrapper>
 
         <FieldWrapper error={errors.password?.message}>
+          <FieldLabel htmlFor={passwordId}>{t.passwordPlaceholder}</FieldLabel>
           <Controller
             name="password"
             control={control}
             render={({ field }) => (
               <input
                 {...field}
+                id={passwordId}
                 type="password"
                 placeholder={t.passwordPlaceholder}
                 className={textFieldClasses}
                 data-valid={errors.password ? 'false' : 'true'}
+                autoComplete="current-password"
+                aria-invalid={errors.password ? 'true' : 'false'}
                 disabled={loading}
               />
             )}

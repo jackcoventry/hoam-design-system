@@ -48,7 +48,7 @@ type MockGridProps = {
 type MockGridItemProps = {
   children: ReactNode;
   span?: number;
-  spanMd?: number;
+  spanLg?: number;
   className?: string;
 };
 
@@ -84,7 +84,7 @@ vi.mock('@/components/Layout', () => ({
       <div
         data-testid="grid-item"
         data-span={props.span}
-        data-span-md={props.spanMd}
+        data-span-lg={props.spanLg}
         className={props.className}
       >
         {props.children}
@@ -258,7 +258,7 @@ describe('HeroSlide', () => {
 
     expect(screen.getAllByTestId('grid-item')).toHaveLength(1);
     expect(capturedGridItemProps[0]?.span).toBe(2);
-    expect(capturedGridItemProps[0]?.spanMd).toBe(2);
+    expect(capturedGridItemProps[0]?.spanLg).toBe(2);
   });
 
   it('renders two grid items when there is a featured image', () => {
@@ -271,9 +271,9 @@ describe('HeroSlide', () => {
 
     expect(screen.getAllByTestId('grid-item')).toHaveLength(2);
     expect(capturedGridItemProps[0]?.span).toBe(2);
-    expect(capturedGridItemProps[0]?.spanMd).toBe(1);
+    expect(capturedGridItemProps[0]?.spanLg).toBe(1);
     expect(capturedGridItemProps[1]?.span).toBe(2);
-    expect(capturedGridItemProps[1]?.spanMd).toBe(1);
+    expect(capturedGridItemProps[1]?.spanLg).toBe(1);
   });
 
   it('renders an empty heading when title is empty', () => {

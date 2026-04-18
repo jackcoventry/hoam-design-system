@@ -462,6 +462,63 @@ describe('Modal', () => {
     expect(root).toHaveAttribute('data-state', 'open');
   });
 
+  it('restores previous sibling inert and aria-hidden values after closing', async () => {
+    mockUsePrefersReducedMotion.mockReturnValue(true);
+
+    const siblingWithAria = document.createElement('div');
+    siblingWithAria.setAttribute('aria-hidden', 'false');
+    siblingWithAria.inert = false;
+
+    const siblingWithoutAria = document.createElement('div');
+    siblingWithoutAria.inert = true;
+
+    document.body.appendChild(siblingWithAria);
+    document.body.appendChild(siblingWithoutAria);
+
+    try {
+      const { rerender } = render(
+        <ModalRoot isOpen={false}>
+          <ModalHeader>
+            <ModalTitle>State restore modal</ModalTitle>
+          </ModalHeader>
+        </ModalRoot>
+      );
+
+      rerender(
+        <ModalRoot isOpen>
+          <ModalHeader>
+            <ModalTitle>State restore modal</ModalTitle>
+          </ModalHeader>
+        </ModalRoot>
+      );
+
+      await flushRafQueue();
+
+      expect(siblingWithAria.getAttribute('aria-hidden')).toBe('true');
+      expect(siblingWithAria.inert).toBe(true);
+      expect(siblingWithoutAria.getAttribute('aria-hidden')).toBe('true');
+      expect(siblingWithoutAria.inert).toBe(true);
+
+      rerender(
+        <ModalRoot isOpen={false}>
+          <ModalHeader>
+            <ModalTitle>State restore modal</ModalTitle>
+          </ModalHeader>
+        </ModalRoot>
+      );
+
+      await flushRafQueue();
+
+      expect(siblingWithAria.getAttribute('aria-hidden')).toBe('false');
+      expect(siblingWithAria.inert).toBe(false);
+      expect(siblingWithoutAria.hasAttribute('aria-hidden')).toBe(false);
+      expect(siblingWithoutAria.inert).toBe(true);
+    } finally {
+      siblingWithAria.remove();
+      siblingWithoutAria.remove();
+    }
+  });
+
   it('keeps the state open when mounted open with reduced motion', () => {
     mockUsePrefersReducedMotion.mockReturnValue(true);
 

@@ -31,6 +31,13 @@ type ModalContextValue = {
   close: () => void;
 };
 
+type SiblingDomState = {
+  element: HTMLElement;
+  inert: boolean;
+  hasAriaHidden: boolean;
+  ariaHidden: string | null;
+};
+
 const ModalContext = React.createContext<ModalContextValue | null>(null);
 
 function useModalContext(componentName: string): ModalContextValue {
@@ -196,19 +203,32 @@ function ModalRoot({
     if (!isRendered || !isTopMost) return;
 
     const siblings = Array.from(document.body.children).filter((node) => node !== rootRef.current);
+    const previousState: SiblingDomState[] = [];
 
     for (const element of siblings) {
       if (element instanceof HTMLElement) {
+        previousState.push({
+          element,
+          inert: element.inert,
+          hasAriaHidden: element.hasAttribute('aria-hidden'),
+          ariaHidden: element.getAttribute('aria-hidden'),
+        });
+
         element.inert = true;
         element.setAttribute('aria-hidden', 'true');
       }
     }
 
     return () => {
-      for (const element of siblings) {
-        if (element instanceof HTMLElement) {
-          element.inert = false;
-          element.removeAttribute('aria-hidden');
+      for (const state of previousState) {
+        state.element.inert = state.inert;
+
+        if (state.hasAriaHidden) {
+          if (state.ariaHidden !== null) {
+            state.element.setAttribute('aria-hidden', state.ariaHidden);
+          }
+        } else {
+          state.element.removeAttribute('aria-hidden');
         }
       }
     };
