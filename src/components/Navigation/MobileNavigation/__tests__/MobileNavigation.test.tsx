@@ -5,7 +5,6 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { MobileNavigation } from '@/components/Navigation/MobileNavigation/MobileNavigation';
 import type { NavTreeItem } from '@/components/Navigation/types';
 import { useMessages } from '@/hooks/useMessages';
-import { SITE } from '@/constants/site';
 import { LibraryMessages } from '@/lib/i18n/types';
 
 type MockMobileNavigationItemProps = {
@@ -106,6 +105,16 @@ function createItems(): NavTreeItem[] {
 const mockedUseMessages = vi.mocked(useMessages);
 
 describe('MobileNavigation', () => {
+  function renderComponent(items: NavTreeItem[] = createItems()) {
+    return render(
+      <MobileNavigation
+        items={items}
+        brandLabel="HOAM"
+        homeHref="/"
+      />
+    );
+  }
+
   beforeEach(() => {
     vi.clearAllMocks();
     capturedMobileNavigationItemProps = [];
@@ -124,15 +133,15 @@ describe('MobileNavigation', () => {
   });
 
   it('renders the header shell and site logo link', () => {
-    render(<MobileNavigation items={createItems()} />);
+    renderComponent();
 
-    const logo = screen.getByRole('link', { name: SITE.title });
+    const logo = screen.getByRole('link', { name: 'HOAM' });
     expect(logo).toBeInTheDocument();
     expect(logo).toHaveAttribute('href', '/');
   });
 
   it('renders the layout components', () => {
-    render(<MobileNavigation items={createItems()} />);
+    renderComponent();
 
     expect(screen.getByTestId('container')).toBeInTheDocument();
     expect(screen.getByTestId('container')).toHaveAttribute('data-width', 'full');
@@ -141,7 +150,7 @@ describe('MobileNavigation', () => {
   });
 
   it('renders the toggle button closed by default', () => {
-    render(<MobileNavigation items={createItems()} />);
+    renderComponent();
 
     const toggle = screen.getByRole('button', { name: 'Open menu' });
 
@@ -151,7 +160,7 @@ describe('MobileNavigation', () => {
   });
 
   it('renders the menu closed by default', () => {
-    const { container } = render(<MobileNavigation items={createItems()} />);
+    const { container } = renderComponent();
 
     const menu = container.querySelector('.mobileMenu');
     expect(menu).toBeInTheDocument();
@@ -159,7 +168,7 @@ describe('MobileNavigation', () => {
   });
 
   it('opens the menu when the toggle is clicked', () => {
-    const { container } = render(<MobileNavigation items={createItems()} />);
+    const { container } = renderComponent();
 
     const toggle = screen.getByRole('button', { name: 'Open menu' });
     fireEvent.click(toggle);
@@ -172,7 +181,7 @@ describe('MobileNavigation', () => {
   });
 
   it('closes the menu when the toggle is clicked twice', () => {
-    const { container } = render(<MobileNavigation items={createItems()} />);
+    const { container } = renderComponent();
 
     const toggle = screen.getByRole('button', { name: 'Open menu' });
     fireEvent.click(toggle);
@@ -186,13 +195,13 @@ describe('MobileNavigation', () => {
   });
 
   it('renders the navigation with the translated aria-label', () => {
-    render(<MobileNavigation items={createItems()} />);
+    renderComponent();
 
     expect(screen.getByRole('navigation', { name: 'Main navigation' })).toBeInTheDocument();
   });
 
   it('renders one MobileNavigationItem per top-level item', () => {
-    render(<MobileNavigation items={createItems()} />);
+    renderComponent();
 
     expect(screen.getByTestId('mobile-nav-item-shop')).toBeInTheDocument();
     expect(screen.getByTestId('mobile-nav-item-discover')).toBeInTheDocument();
@@ -202,20 +211,20 @@ describe('MobileNavigation', () => {
   it('passes the correct items to MobileNavigationItem', () => {
     const items = createItems();
 
-    render(<MobileNavigation items={items} />);
+    renderComponent(items);
 
     expect(capturedMobileNavigationItemProps[0]?.item).toBe(items[0]);
     expect(capturedMobileNavigationItemProps[1]?.item).toBe(items[1]);
   });
 
   it('calls useMessages with the navigation namespace', () => {
-    render(<MobileNavigation items={createItems()} />);
+    renderComponent();
 
     expect(useMessages).toHaveBeenCalledWith('navigation');
   });
 
   it('wires useFocusTrap with the container ref and inactive state by default', () => {
-    render(<MobileNavigation items={createItems()} />);
+    renderComponent();
 
     expect(useFocusTrapMock).toHaveBeenCalledTimes(1);
     expect(lastFocusTrapArgs).not.toBeNull();
@@ -229,7 +238,7 @@ describe('MobileNavigation', () => {
   });
 
   it('updates useFocusTrap active=true when opened', () => {
-    render(<MobileNavigation items={createItems()} />);
+    renderComponent();
 
     fireEvent.click(screen.getByRole('button', { name: 'Open menu' }));
 
@@ -243,7 +252,7 @@ describe('MobileNavigation', () => {
   });
 
   it('closes the menu when the focus trap onEscape callback runs', () => {
-    const { container } = render(<MobileNavigation items={createItems()} />);
+    const { container } = renderComponent();
 
     fireEvent.click(screen.getByRole('button', { name: 'Open menu' }));
 
@@ -264,7 +273,7 @@ describe('MobileNavigation', () => {
   });
 
   it('links the toggle button to the menu via aria-controls', () => {
-    const { container } = render(<MobileNavigation items={createItems()} />);
+    const { container } = renderComponent();
 
     const toggle = screen.getByRole('button', { name: 'Open menu' });
     const menu = container.querySelector('.mobileMenu');
@@ -278,11 +287,12 @@ describe('MobileNavigation', () => {
   });
 
   it('renders safely with an empty items array', () => {
-    render(<MobileNavigation items={[]} />);
+    renderComponent([]);
 
-    expect(screen.getByRole('link', { name: SITE.title })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'HOAM' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Open menu' })).toBeInTheDocument();
     expect(screen.getByRole('navigation', { name: 'Main navigation' })).toBeInTheDocument();
     expect(capturedMobileNavigationItemProps).toHaveLength(0);
   });
+
 });

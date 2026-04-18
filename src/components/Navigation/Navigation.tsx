@@ -8,10 +8,13 @@ import {
 } from '@/components/Navigation';
 import type { NavigationProps } from '@/components/Navigation/types';
 import { useMegaNavState } from '@/hooks/useNavState';
+import { SITE } from '@/constants/site';
 
 export function Navigation<TData, TError extends Error = Error>({
   items = [],
   userItems = [],
+  brandLabel = SITE.title,
+  homeHref = '/',
   searchSubmit,
   searchData = [],
   searchState,
@@ -44,11 +47,17 @@ export function Navigation<TData, TError extends Error = Error>({
 
   return (
     <>
-      <MobileNavigation items={mobileNavigation} />
+      <MobileNavigation
+        items={mobileNavigation}
+        brandLabel={brandLabel}
+        homeHref={homeHref}
+      />
 
       <DesktopNavigation
         items={items}
         userItems={userItems}
+        brandLabel={brandLabel}
+        homeHref={homeHref}
         openIndex={openIndex}
         resetNavigation={resetNavigation}
         setOpenIndex={setOpenIndex}

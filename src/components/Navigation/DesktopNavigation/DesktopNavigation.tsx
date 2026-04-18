@@ -16,6 +16,8 @@ import styles from '@/components/Navigation/Navigation.module.css';
 export type DesktopNavigationProps = {
   items: NavTopLevelItem[];
   userItems: NavUserItem[];
+  brandLabel: string;
+  homeHref: string;
   openIndex: number | null;
   setOpenIndex: (index: number | null) => void;
   openGroupId: string | null;
@@ -32,6 +34,8 @@ export type DesktopNavigationProps = {
 export function DesktopNavigation({
   items = [],
   userItems = [],
+  brandLabel,
+  homeHref,
   openIndex,
   setOpenIndex,
   openGroupId,
@@ -124,7 +128,11 @@ export function DesktopNavigation({
                 onResetNavigation={resetNavigation}
               />
 
-              <DesktopNavigationLogo onResetNavigation={resetNavigation} />
+              <DesktopNavigationLogo
+                onResetNavigation={resetNavigation}
+                brandLabel={brandLabel}
+                homeHref={homeHref}
+              />
 
               <DesktopNavigationActions
                 userItems={userItems}

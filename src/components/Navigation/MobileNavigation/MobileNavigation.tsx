@@ -6,15 +6,16 @@ import { MobileNavigationItem } from '@/components/Navigation/MobileNavigation/M
 import type { NavTreeItem } from '@/components/Navigation/types';
 import { useFocusTrap } from '@/hooks/useFocusTrap';
 import { useMessages } from '@/hooks/useMessages';
-import { SITE } from '@/constants/site';
 
 import styles from '@/components/Navigation/MobileNavigation/MobileNavigation.module.css';
 
 export type MobileNavigationProps = {
   items: NavTreeItem[];
+  brandLabel: string;
+  homeHref: string;
 };
 
-export function MobileNavigation({ items }: Readonly<MobileNavigationProps>) {
+export function MobileNavigation({ items, brandLabel, homeHref }: Readonly<MobileNavigationProps>) {
   const t = useMessages('navigation');
   const navigationRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -37,10 +38,10 @@ export function MobileNavigation({ items }: Readonly<MobileNavigationProps>) {
             <GridItem span={12}>
               <div className={styles.inner}>
                 <a
-                  href="/"
+                  href={homeHref}
                   className={styles.logo}
                 >
-                  {SITE.title}
+                  {brandLabel}
                 </a>
 
                 <button

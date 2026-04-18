@@ -1,11 +1,14 @@
 import type { FocusEventHandler, PointerEventHandler } from 'react';
 
 import { DesktopNavigationLogoProps } from '@/components/Navigation/types';
-import { SITE } from '@/constants/site';
 
 import styles from '@/components/Navigation/Navigation.module.css';
 
-export function DesktopNavigationLogo({ onResetNavigation }: Readonly<DesktopNavigationLogoProps>) {
+export function DesktopNavigationLogo({
+  onResetNavigation,
+  brandLabel,
+  homeHref,
+}: Readonly<DesktopNavigationLogoProps>) {
   const handleFocus: FocusEventHandler<HTMLAnchorElement> = () => {
     onResetNavigation();
   };
@@ -16,13 +19,13 @@ export function DesktopNavigationLogo({ onResetNavigation }: Readonly<DesktopNav
 
   return (
     <a
-      href="/"
+      href={homeHref}
       className={styles.logo}
       data-top-cyclable
       onFocus={handleFocus}
       onPointerEnter={handlePointerEnter}
     >
-      {SITE.title}
+      {brandLabel}
     </a>
   );
 }

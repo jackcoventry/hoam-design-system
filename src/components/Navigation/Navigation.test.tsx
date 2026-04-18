@@ -13,6 +13,8 @@ import type { AsyncState } from '@/utils/useAsyncTask';
 type MockDesktopNavigationProps = {
   items: NavTopLevelItem[];
   userItems: NavUserItem[];
+  brandLabel: string;
+  homeHref: string;
   openIndex: number | null;
   setOpenIndex: (index: number | null) => void;
   openGroupId: string | null;
@@ -53,7 +55,11 @@ vi.mock('@/hooks/useNavState', () => ({
 }));
 
 vi.mock('@/components/Navigation', () => ({
-  MobileNavigation: (props: { items: Array<NavTopLevelItem | NavUserItem> }) => {
+  MobileNavigation: (props: {
+    items: Array<NavTopLevelItem | NavUserItem>;
+    brandLabel: string;
+    homeHref: string;
+  }) => {
     mobileNavigationMock(props);
 
     return <div data-testid="mobile-navigation" />;
@@ -63,6 +69,8 @@ vi.mock('@/components/Navigation', () => ({
     const {
       items,
       userItems,
+      brandLabel,
+      homeHref,
       openIndex,
       setOpenIndex,
       openGroupId,
@@ -79,6 +87,8 @@ vi.mock('@/components/Navigation', () => ({
     desktopNavigationMock({
       items,
       userItems,
+      brandLabel,
+      homeHref,
       openIndex,
       setOpenIndex,
       openGroupId,
@@ -238,6 +248,8 @@ describe('Navigation', () => {
     expect(mobileNavigationMock).toHaveBeenCalledTimes(1);
     expect(mobileNavigationMock).toHaveBeenCalledWith({
       items: [...items, ...userItems],
+      brandLabel: 'HOAM',
+      homeHref: '/',
     });
   });
 
@@ -266,6 +278,8 @@ describe('Navigation', () => {
 
     expect(desktopProps?.items).toEqual(items);
     expect(desktopProps?.userItems).toEqual(userItems);
+    expect(desktopProps?.brandLabel).toBe('HOAM');
+    expect(desktopProps?.homeHref).toBe('/');
     expect(desktopProps?.openIndex).toBe(2);
     expect(desktopProps?.setOpenIndex).toBe(setOpenIndex);
     expect(desktopProps?.openGroupId).toBe('group-1');
@@ -458,12 +472,42 @@ describe('Navigation', () => {
 
     expect(mobileNavigationMock).toHaveBeenCalledWith({
       items: [],
+      brandLabel: 'HOAM',
+      homeHref: '/',
     });
 
     expect(desktopNavigationMock).toHaveBeenCalledWith(
       expect.objectContaining({
         items: [],
         userItems: [],
+        brandLabel: 'HOAM',
+        homeHref: '/',
+      })
+    );
+  });
+
+  it('passes custom branding props through to desktop and mobile navigation', () => {
+    render(
+      <Navigation
+        brandLabel="Acme"
+        homeHref="/welcome"
+        searchSubmit={searchSubmit}
+        searchData={null}
+        searchState={idleSearchState}
+        basketData={[]}
+      />
+    );
+
+    expect(mobileNavigationMock).toHaveBeenCalledWith({
+      items: [],
+      brandLabel: 'Acme',
+      homeHref: '/welcome',
+    });
+
+    expect(desktopNavigationMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        brandLabel: 'Acme',
+        homeHref: '/welcome',
       })
     );
   });

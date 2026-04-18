@@ -243,6 +243,8 @@ function createProps(overrides: Partial<DesktopNavigationProps> = {}): DesktopNa
   return {
     items: createNavItems(),
     userItems: createUserItems(),
+    brandLabel: 'HOAM',
+    homeHref: '/',
     openIndex: null,
     setOpenIndex: vi.fn<(index: number | null) => void>(),
     openGroupId: null,
@@ -315,6 +317,13 @@ describe('DesktopNavigation', () => {
     expect(lastDesktopNavigationItemsProps.onResetNavigation).toBe(props.resetNavigation);
 
     expect(desktopNavigationLogoMock).toHaveBeenCalledTimes(1);
+    expect(desktopNavigationLogoMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        onResetNavigation: props.resetNavigation,
+        brandLabel: 'HOAM',
+        homeHref: '/',
+      })
+    );
     expect(desktopNavigationActionsMock).toHaveBeenCalledTimes(1);
   });
 

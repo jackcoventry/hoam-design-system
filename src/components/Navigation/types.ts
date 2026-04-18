@@ -82,6 +82,8 @@ export type NavTreeItem =
 export interface NavigationProps<TData, TError extends Error = Error> {
   items?: NavTopLevelItem[];
   userItems?: NavUserItem[];
+  brandLabel?: string;
+  homeHref?: string;
   searchSubmit: SubmitHandler<SearchFormSchemaType>;
   searchData: SearchFormResult[] | null;
   searchState: AsyncState<TData, TError>;
@@ -111,6 +113,8 @@ export type DesktopNavigationItemsProps = {
 
 export type DesktopNavigationLogoProps = {
   onResetNavigation: () => void;
+  brandLabel: string;
+  homeHref: string;
 };
 
 export type CategoryGroupProps = {

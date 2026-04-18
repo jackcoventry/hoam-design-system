@@ -3,7 +3,6 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { DesktopNavigationLogo } from '@/components/Navigation/DesktopNavigation/DesktopNavigationLogo';
 import type { DesktopNavigationLogoProps } from '@/components/Navigation/types';
-import { SITE } from '@/constants/site';
 
 vi.mock('@/components/Navigation/Navigation.module.css', () => ({
   default: {
@@ -16,6 +15,8 @@ function createProps(
 ): DesktopNavigationLogoProps {
   return {
     onResetNavigation: vi.fn<() => void>(),
+    brandLabel: 'HOAM',
+    homeHref: '/',
     ...overrides,
   };
 }
@@ -30,7 +31,7 @@ describe('DesktopNavigationLogo', () => {
 
     render(<DesktopNavigationLogo {...props} />);
 
-    const link = screen.getByRole('link', { name: SITE.title });
+    const link = screen.getByRole('link', { name: 'HOAM' });
 
     expect(link).toBeInTheDocument();
     expect(link).toHaveAttribute('href', '/');
@@ -41,7 +42,7 @@ describe('DesktopNavigationLogo', () => {
 
     render(<DesktopNavigationLogo {...props} />);
 
-    expect(screen.getByText(SITE.title)).toBeInTheDocument();
+    expect(screen.getByText('HOAM')).toBeInTheDocument();
   });
 
   it('applies the logo class', () => {
@@ -49,7 +50,7 @@ describe('DesktopNavigationLogo', () => {
 
     render(<DesktopNavigationLogo {...props} />);
 
-    const link = screen.getByRole('link', { name: SITE.title });
+    const link = screen.getByRole('link', { name: 'HOAM' });
 
     expect(link).toHaveClass('logo');
   });
@@ -59,7 +60,7 @@ describe('DesktopNavigationLogo', () => {
 
     render(<DesktopNavigationLogo {...props} />);
 
-    const link = screen.getByRole('link', { name: SITE.title });
+    const link = screen.getByRole('link', { name: 'HOAM' });
 
     expect(link).toHaveAttribute('data-top-cyclable');
   });
@@ -69,7 +70,7 @@ describe('DesktopNavigationLogo', () => {
 
     render(<DesktopNavigationLogo {...props} />);
 
-    const link = screen.getByRole('link', { name: SITE.title });
+    const link = screen.getByRole('link', { name: 'HOAM' });
 
     fireEvent.focus(link);
 
@@ -81,7 +82,7 @@ describe('DesktopNavigationLogo', () => {
 
     render(<DesktopNavigationLogo {...props} />);
 
-    const link = screen.getByRole('link', { name: SITE.title });
+    const link = screen.getByRole('link', { name: 'HOAM' });
 
     fireEvent.pointerEnter(link);
 
@@ -93,11 +94,12 @@ describe('DesktopNavigationLogo', () => {
 
     render(<DesktopNavigationLogo {...props} />);
 
-    const link = screen.getByRole('link', { name: SITE.title });
+    const link = screen.getByRole('link', { name: 'HOAM' });
 
     fireEvent.focus(link);
     fireEvent.pointerEnter(link);
 
     expect(props.onResetNavigation).toHaveBeenCalledTimes(2);
   });
+
 });
