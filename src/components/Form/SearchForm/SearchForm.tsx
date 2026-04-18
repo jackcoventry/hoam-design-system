@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import clsx from 'clsx';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
@@ -13,11 +14,13 @@ import formStyles from '@/components/Form/Form.module.css';
 import styles from '@/components/Form/SearchForm/SearchForm.module.css';
 import utils from '@/styles/Util.module.css';
 
-const SearchFormSchema = z.object({
-  q: z.string().trim().min(1, { message: 'Required' }),
-});
+function createSearchFormSchema(requiredMessage: string) {
+  return z.object({
+    q: z.string().trim().min(1, { message: requiredMessage }),
+  });
+}
 
-export type SearchFormSchemaType = z.infer<typeof SearchFormSchema>;
+export type SearchFormSchemaType = z.infer<ReturnType<typeof createSearchFormSchema>>;
 
 export type SearchFormResult = {
   id?: number;
@@ -101,6 +104,7 @@ export function SearchResults({ items }: Readonly<SearchResultsProps>) {
 export function SearchForm(props: Readonly<SearchFormProps>) {
   const tModal = useMessages('modal');
   const t = useMessages('searchForm');
+  const searchFormSchema = useMemo(() => createSearchFormSchema(t.required), [t.required]);
 
   const {
     onClose,
@@ -115,7 +119,7 @@ export function SearchForm(props: Readonly<SearchFormProps>) {
     handleSubmit,
     formState: { errors },
   } = useForm<SearchFormSchemaType>({
-    resolver: zodResolver(SearchFormSchema),
+    resolver: zodResolver(searchFormSchema),
     defaultValues: {
       q: '',
     },

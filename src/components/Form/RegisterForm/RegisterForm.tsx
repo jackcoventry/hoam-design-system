@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import z from 'zod';
@@ -15,31 +16,41 @@ import { useMessages } from '@/hooks/useMessages';
 
 import styles from '@/components/Form/Form.module.css';
 
-const RegisterFormSchema = z
-  .object({
-    firstName: z.string(),
-    lastName: z.string(),
-    email: z.email(),
-    password: z
-      .string()
-      .min(8, 'Password must be at least 8 characters long')
-      .regex(/[A-Z]/, 'Must contain at least one uppercase letter')
-      .regex(/[a-z]/, 'Must contain at least one lowercase letter')
-      .regex(/\d/, 'Must contain at least one digit')
-      .regex(/[^A-Za-z0-9]/, 'Must contain at least one special character'),
-    confirmPassword: z.string(),
-  })
-  .superRefine(({ password, confirmPassword }, ctx) => {
-    if (confirmPassword !== password) {
-      ctx.addIssue({
-        code: 'custom',
-        message: 'Passwords do not match',
-        path: ['confirmPassword'],
-      });
-    }
-  });
+function createRegisterFormSchema(messages: {
+  emailInvalid: string;
+  passwordMinLength: string;
+  passwordUppercase: string;
+  passwordLowercase: string;
+  passwordDigit: string;
+  passwordSpecial: string;
+  passwordsDoNotMatch: string;
+}) {
+  return z
+    .object({
+      firstName: z.string(),
+      lastName: z.string(),
+      email: z.email(messages.emailInvalid),
+      password: z
+        .string()
+        .min(8, messages.passwordMinLength)
+        .regex(/[A-Z]/, messages.passwordUppercase)
+        .regex(/[a-z]/, messages.passwordLowercase)
+        .regex(/\d/, messages.passwordDigit)
+        .regex(/[^A-Za-z0-9]/, messages.passwordSpecial),
+      confirmPassword: z.string(),
+    })
+    .superRefine(({ password, confirmPassword }, ctx) => {
+      if (confirmPassword !== password) {
+        ctx.addIssue({
+          code: 'custom',
+          message: messages.passwordsDoNotMatch,
+          path: ['confirmPassword'],
+        });
+      }
+    });
+}
 
-export type RegisterFormSchemaType = z.infer<typeof RegisterFormSchema>;
+export type RegisterFormSchemaType = z.infer<ReturnType<typeof createRegisterFormSchema>>;
 export type RegisterFormResult = {
   message: string;
 };
@@ -54,12 +65,33 @@ export type RegisterFormProps = {
 export function RegisterForm({ onSubmit, data, error, loading }: Readonly<RegisterFormProps>) {
   const t = useMessages('form');
   const regForm = useMessages('registerForm');
+  const registerFormSchema = useMemo(
+    () =>
+      createRegisterFormSchema({
+        emailInvalid: regForm.emailInvalid,
+        passwordMinLength: regForm.passwordMinLength,
+        passwordUppercase: regForm.passwordUppercase,
+        passwordLowercase: regForm.passwordLowercase,
+        passwordDigit: regForm.passwordDigit,
+        passwordSpecial: regForm.passwordSpecial,
+        passwordsDoNotMatch: regForm.passwordsDoNotMatch,
+      }),
+    [
+      regForm.emailInvalid,
+      regForm.passwordDigit,
+      regForm.passwordLowercase,
+      regForm.passwordMinLength,
+      regForm.passwordSpecial,
+      regForm.passwordUppercase,
+      regForm.passwordsDoNotMatch,
+    ]
+  );
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm<RegisterFormSchemaType>({
-    resolver: zodResolver(RegisterFormSchema),
+    resolver: zodResolver(registerFormSchema),
     defaultValues: {
       firstName: '',
       lastName: '',

@@ -44,6 +44,13 @@ export const defaultMessages = {
     passwordConfirmLabel: 'Confirm Password',
     passwordConfirmPlaceholder: 'Confirm your password',
     submit: 'Register',
+    emailInvalid: 'Please enter a valid email address',
+    passwordMinLength: 'Password must be at least 8 characters long',
+    passwordUppercase: 'Must contain at least one uppercase letter',
+    passwordLowercase: 'Must contain at least one lowercase letter',
+    passwordDigit: 'Must contain at least one digit',
+    passwordSpecial: 'Must contain at least one special character',
+    passwordsDoNotMatch: 'Passwords do not match',
   },
   message: {
     close: 'Close message',
@@ -64,6 +71,7 @@ export const defaultMessages = {
     emailPlaceholder: 'Enter your email',
     sending: 'Sending...',
     submit: 'Subscribe',
+    invalidEmail: 'Please enter a valid email!',
   },
   pagination: {
     previous: 'Previous page',
@@ -114,6 +122,7 @@ export const defaultMessages = {
     placeholderText: 'Enter keywords...',
     readMore: 'Read more',
     noResults: 'No results!',
+    required: 'Required',
   },
   sidebarNavigation: {
     title: 'Sidebar navigation',
@@ -125,6 +134,8 @@ export const defaultMessages = {
     submit: 'Sign in',
     emailPlaceholder: 'Enter your email',
     passwordPlaceholder: 'Enter your password',
+    invalidEmail: 'Enter a valid email address!',
+    passwordMinLength: 'Password must be at least 5 characters',
   },
   skipToContent: {
     text: 'Skip to main content',

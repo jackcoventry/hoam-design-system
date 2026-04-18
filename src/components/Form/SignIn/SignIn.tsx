@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import z from 'zod';
@@ -10,12 +11,19 @@ import { useMessages } from '@/hooks/useMessages';
 
 import styles from '@/components/Form/Form.module.css';
 
-const SignInFormSchema = z.object({
-  email_address: z.email().trim().min(1, { message: 'Enter a valid email address!' }),
-  password: z.string().trim().min(5, { message: 'Password must be at least 5 characters' }),
-});
+function createSignInFormSchema(messages: {
+  invalidEmail: string;
+  passwordMinLength: string;
+}) {
+  return z.object({
+    email_address: z.email(messages.invalidEmail).trim().min(1, {
+      message: messages.invalidEmail,
+    }),
+    password: z.string().trim().min(5, { message: messages.passwordMinLength }),
+  });
+}
 
-export type SignInFormSchemaType = z.infer<typeof SignInFormSchema>;
+export type SignInFormSchemaType = z.infer<ReturnType<typeof createSignInFormSchema>>;
 export type SignInFormResult = {
   message: string;
 };
@@ -30,13 +38,21 @@ export type SignInFormProps = {
 export function SignInForm({ onSubmit, data, error, loading }: Readonly<SignInFormProps>) {
   const tForm = useMessages('form');
   const t = useMessages('signIn');
+  const signInFormSchema = useMemo(
+    () =>
+      createSignInFormSchema({
+        invalidEmail: t.invalidEmail,
+        passwordMinLength: t.passwordMinLength,
+      }),
+    [t.invalidEmail, t.passwordMinLength]
+  );
 
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm<SignInFormSchemaType>({
-    resolver: zodResolver(SignInFormSchema),
+    resolver: zodResolver(signInFormSchema),
     defaultValues: {
       email_address: '',
       password: '',

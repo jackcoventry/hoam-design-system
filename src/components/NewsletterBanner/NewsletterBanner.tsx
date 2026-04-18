@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import z from 'zod';
@@ -19,11 +20,13 @@ export type NewsletterBannerProps<TData, TError extends Error = Error> = {
   state: AsyncState<TData, TError>;
 };
 
-const NewsletterSignupSchema = z.object({
-  email: z.email('Please enter a valid email!'),
-});
+function createNewsletterSignupSchema(invalidEmail: string) {
+  return z.object({
+    email: z.email(invalidEmail),
+  });
+}
 
-export type NewsletterSignupSchemaType = z.infer<typeof NewsletterSignupSchema>;
+export type NewsletterSignupSchemaType = z.infer<ReturnType<typeof createNewsletterSignupSchema>>;
 
 export function NewsletterBanner<TData, TError extends Error = Error>({
   title,
@@ -31,18 +34,23 @@ export function NewsletterBanner<TData, TError extends Error = Error>({
   state,
   onSubmit,
 }: Readonly<NewsletterBannerProps<TData, TError>>) {
+  const t = useMessages('newsletter');
+  const newsletterSignupSchema = useMemo(
+    () => createNewsletterSignupSchema(t.invalidEmail),
+    [t.invalidEmail]
+  );
+
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm<NewsletterSignupSchemaType>({
-    resolver: zodResolver(NewsletterSignupSchema),
+    resolver: zodResolver(newsletterSignupSchema),
     defaultValues: {
       email: '',
     },
     mode: 'all',
   });
-  const t = useMessages('newsletter');
 
   const textFieldClasses = formStyles.textField;
 
