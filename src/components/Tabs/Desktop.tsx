@@ -2,7 +2,7 @@ import { Activity, type KeyboardEvent, useRef, useState } from 'react';
 
 import { Button } from '@/components/Button';
 import { BodyText } from '@/components/Common/BodyText';
-import type { TabsProps } from '@/components/Tabs';
+import type { TabsProps } from '@/components/Tabs/Tabs';
 import { KEYS } from '@/constants/keys';
 
 import styles from '@/components/Tabs/Tabs.module.css';

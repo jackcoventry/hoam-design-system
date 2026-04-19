@@ -2,12 +2,20 @@ import { useEffect, useState } from 'react';
 
 export function usePrefersReducedMotion() {
   const [reduced, setReduced] = useState(false);
+
   useEffect(() => {
-    const mq = matchMedia('(prefers-reduced-motion: reduce)');
+    if (globalThis.matchMedia === undefined) {
+      return undefined;
+    }
+
+    const mq = globalThis.matchMedia('(prefers-reduced-motion: reduce)');
     const onChange = () => setReduced(mq.matches);
+
     onChange();
     mq.addEventListener?.('change', onChange);
+
     return () => mq.removeEventListener?.('change', onChange);
   }, []);
+
   return reduced;
 }

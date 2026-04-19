@@ -1,11 +1,9 @@
 import { useCallback, useMemo, useRef } from 'react';
 
 import { Container, Grid, GridItem } from '@/components/Layout';
-import {
-  DesktopNavigationActions,
-  DesktopNavigationItems,
-  DesktopNavigationLogo,
-} from '@/components/Navigation';
+import { DesktopNavigationActions } from '@/components/Navigation/DesktopNavigation/DesktopNavigationActions';
+import { DesktopNavigationItems } from '@/components/Navigation/DesktopNavigation/DesktopNavigationItems';
+import { DesktopNavigationLogo } from '@/components/Navigation/DesktopNavigation/DesktopNavigationLogo';
 import { querySubItemVisibility } from '@/components/Navigation/helpers';
 import type { NavTopLevelItem, NavUserItem } from '@/components/Navigation/types';
 import { useKeyboardNav } from '@/hooks/useKeyboardNav';

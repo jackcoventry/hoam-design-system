@@ -54,7 +54,7 @@ vi.mock('@/hooks/useNavState', () => ({
   useMegaNavState: vi.fn(),
 }));
 
-vi.mock('@/components/Navigation', () => ({
+vi.mock('@/components/Navigation/MobileNavigation/MobileNavigation', () => ({
   MobileNavigation: (props: {
     items: Array<NavTopLevelItem | NavUserItem>;
     brandLabel: string;
@@ -64,7 +64,9 @@ vi.mock('@/components/Navigation', () => ({
 
     return <div data-testid="mobile-navigation" />;
   },
+}));
 
+vi.mock('@/components/Navigation/DesktopNavigation/DesktopNavigation', () => ({
   DesktopNavigation: (props: MockDesktopNavigationProps) => {
     const {
       items,
@@ -120,7 +122,9 @@ vi.mock('@/components/Navigation', () => ({
       </div>
     );
   },
+}));
 
+vi.mock('@/components/Navigation/Modals/SearchModal', () => ({
   SearchModal: <TData, TError extends Error = Error>(
     props: MockSearchModalProps<TData, TError>
   ) => {
@@ -149,7 +153,9 @@ vi.mock('@/components/Navigation', () => ({
       </div>
     );
   },
+}));
 
+vi.mock('@/components/Navigation/Modals/BasketModal', () => ({
   BasketModal: (props: MockBasketModalProps) => {
     const { open, onClose, variant, data } = props;
 

@@ -1,12 +1,10 @@
-import {
-  CategoryGroup,
-  Panel,
-  PromoBlock,
-  ThirdLevelItems,
-  TopNavigation,
-  TopNavigationItem,
-} from '@/components/Navigation';
 import { panelId, topTriggerId } from '@/components/Navigation/helpers';
+import { CategoryGroup } from '@/components/Navigation/MainNavigation/CategoryGroup';
+import { Panel } from '@/components/Navigation/MainNavigation/Panel';
+import { PromoBlock } from '@/components/Navigation/MainNavigation/PromoBlock/PromoBlock';
+import { ThirdLevelItems } from '@/components/Navigation/MainNavigation/ThirdLevelItems';
+import { TopNavigation } from '@/components/Navigation/MainNavigation/TopNavigation';
+import { TopNavigationItem } from '@/components/Navigation/MainNavigation/TopNavigationItem';
 import type {
   DesktopNavigationItemsProps,
   NavGroupItem,

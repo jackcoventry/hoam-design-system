@@ -5,12 +5,12 @@ import z from 'zod';
 
 import { Button } from '@/components/Button';
 import { ErrorPanel } from '@/components/ErrorPanel';
+import { FieldLabel } from '@/components/Form/FieldLabel/FieldLabel';
+import { FieldWrapper } from '@/components/Form/FieldWrapper/FieldWrapper';
 import {
   calculatePasswordStrength,
-  FieldLabel,
-  FieldWrapper,
   PasswordStrengthMeter,
-} from '@/components/Form';
+} from '@/components/Form/PasswordStrengthMeter/PasswordStrengthMeter';
 import { Container, Grid, GridItem } from '@/components/Layout';
 import { useMessages } from '@/hooks/useMessages';
 

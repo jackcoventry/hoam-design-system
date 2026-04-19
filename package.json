@@ -30,6 +30,7 @@
   "scripts": {
     "test": "vitest",
     "test:run": "vitest run",
+    "test:run:unit": "vitest run --exclude src/components/__tests__/a11y.test.tsx",
     "test:coverage": "vitest run --coverage",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
@@ -42,7 +43,11 @@
     "build": "npm run generate && vite build",
     "budgets": "node src/scripts/check-budgets.mjs",
     "build-storybook": "storybook build",
-    "verify": "npm run build && npm run budgets && npm run prettier && npm run lint && npm run typecheck && npm run test:run"
+    "storybook:ci": "python3 -m http.server 6006 --directory storybook-static --bind 127.0.0.1",
+    "test:a11y:unit": "vitest run src/components/__tests__/a11y.test.tsx",
+    "test:a11y:e2e": "npm run build-storybook && playwright test",
+    "test:a11y": "npm run test:a11y:unit && npm run test:a11y:e2e",
+    "verify": "npm run build && npm run budgets && npm run prettier && npm run lint && npm run typecheck && npm run test:run:unit && npm run test:a11y"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,astro,json,md,css}": [

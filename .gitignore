@@ -26,4 +26,6 @@ pnpm-debug.log*
 doctor-storybook.log
 *storybook.log
 storybook-static
+playwright-report
+test-results
 .NOTES

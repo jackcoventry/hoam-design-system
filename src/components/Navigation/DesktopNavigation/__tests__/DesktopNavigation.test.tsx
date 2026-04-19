@@ -58,7 +58,7 @@ type KeyboardNavConfig = {
 let lastDesktopNavigationItemsProps: DesktopNavigationItemsProps | null = null;
 let lastKeyboardNavConfig: KeyboardNavConfig | null = null;
 
-vi.mock('@/components/Navigation', () => ({
+vi.mock('@/components/Navigation/DesktopNavigation/DesktopNavigationItems', () => ({
   DesktopNavigationItems: (props: DesktopNavigationItemsProps) => {
     lastDesktopNavigationItemsProps = props;
     desktopNavigationItemsMock(props);
@@ -85,7 +85,9 @@ vi.mock('@/components/Navigation', () => ({
       </div>
     );
   },
+}));
 
+vi.mock('@/components/Navigation/DesktopNavigation/DesktopNavigationLogo', () => ({
   DesktopNavigationLogo: (props: DesktopNavigationLogoProps) => {
     desktopNavigationLogoMock(props);
 
@@ -99,7 +101,9 @@ vi.mock('@/components/Navigation', () => ({
       </button>
     );
   },
+}));
 
+vi.mock('@/components/Navigation/DesktopNavigation/DesktopNavigationActions', () => ({
   DesktopNavigationActions: (props: DesktopNavigationActionsProps) => {
     desktopNavigationActionsMock(props);
 

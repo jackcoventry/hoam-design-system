@@ -53,7 +53,7 @@ export function Footer({
               spanLg={3}
               spanXl={2}
             >
-              <h4 className={styles.sectionTitle}>{section.title}</h4>
+              <h3 className={styles.sectionTitle}>{section.title}</h3>
 
               <ul className={styles.list}>
                 {section.links.map((link) => (
@@ -70,7 +70,7 @@ export function Footer({
               span={12}
               spanXl={2}
             >
-              <h4 className={styles.sectionTitle}>{t.socialTitle}</h4>
+              <h3 className={styles.sectionTitle}>{t.socialTitle}</h3>
 
               <Stack gap="lg">
                 <div className={styles.socialLinks}>
@@ -80,6 +80,7 @@ export function Footer({
                       href={link.href}
                       target="_blank"
                       rel="noopener noreferrer"
+                      aria-label={link.label}
                     >
                       <Icon id={link.icon as IconId} />
                     </a>

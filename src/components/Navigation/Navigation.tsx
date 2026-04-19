@@ -1,11 +1,9 @@
 import { useMemo, useState } from 'react';
 
-import {
-  BasketModal,
-  DesktopNavigation,
-  MobileNavigation,
-  SearchModal,
-} from '@/components/Navigation';
+import { DesktopNavigation } from '@/components/Navigation/DesktopNavigation/DesktopNavigation';
+import { MobileNavigation } from '@/components/Navigation/MobileNavigation/MobileNavigation';
+import { BasketModal } from '@/components/Navigation/Modals/BasketModal';
+import { SearchModal } from '@/components/Navigation/Modals/SearchModal';
 import type { NavigationProps } from '@/components/Navigation/types';
 import { useMegaNavState } from '@/hooks/useNavState';
 import { SITE } from '@/constants/site';

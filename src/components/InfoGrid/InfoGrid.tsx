@@ -1,6 +1,9 @@
 import { Children, isValidElement, type ReactElement, type ReactNode } from 'react';
 
-import { InfoGridItem, type InfoGridItemProps } from '@/components/InfoGrid';
+import {
+  InfoGridItem,
+  type InfoGridItemProps,
+} from '@/components/InfoGrid/InfoGridItem/InfoGridItem';
 import { Container, Grid, GridItem, Section, Stack } from '@/components/Layout';
 import { logger } from '@/utils/logger';
 

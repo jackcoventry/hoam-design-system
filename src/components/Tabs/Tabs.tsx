@@ -1,5 +1,5 @@
 import { Accordion, AccordionHeader, AccordionItem, AccordionPanel } from '@/components/Accordion';
-import { DesktopTabs } from '@/components/Tabs';
+import { DesktopTabs } from '@/components/Tabs/Desktop';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { BREAKPOINTS } from '@/styles/breakpoints';
 

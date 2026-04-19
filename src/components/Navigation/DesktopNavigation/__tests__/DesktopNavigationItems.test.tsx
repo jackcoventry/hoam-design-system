@@ -45,11 +45,13 @@ vi.mock('@/components/Navigation/Navigation.module.css', () => ({
   },
 }));
 
-vi.mock('@/components/Navigation', () => ({
+vi.mock('@/components/Navigation/MainNavigation/TopNavigation', () => ({
   TopNavigation: ({ children }: { children: ReactNode }) => (
     <nav data-testid="top-navigation">{children}</nav>
   ),
+}));
 
+vi.mock('@/components/Navigation/MainNavigation/TopNavigationItem', () => ({
   TopNavigationItem: (props: TopNavigationItemProps) => {
     capturedTopNavigationItemProps.push(props);
 
@@ -87,7 +89,9 @@ vi.mock('@/components/Navigation', () => ({
       </section>
     );
   },
+}));
 
+vi.mock('@/components/Navigation/MainNavigation/Panel', () => ({
   Panel: (props: PanelProps) => {
     capturedPanelProps.push(props);
 
@@ -110,7 +114,9 @@ vi.mock('@/components/Navigation', () => ({
       </div>
     );
   },
+}));
 
+vi.mock('@/components/Navigation/MainNavigation/CategoryGroup', () => ({
   CategoryGroup: (props: CategoryGroupProps) => {
     capturedCategoryGroupProps.push(props);
 
@@ -139,7 +145,9 @@ vi.mock('@/components/Navigation', () => ({
       </div>
     );
   },
+}));
 
+vi.mock('@/components/Navigation/MainNavigation/ThirdLevelItems', () => ({
   ThirdLevelItems: (props: ThirdLevelItemsProps) => {
     capturedThirdLevelItemsProps.push(props);
 
@@ -152,7 +160,9 @@ vi.mock('@/components/Navigation', () => ({
       </div>
     );
   },
+}));
 
+vi.mock('@/components/Navigation/MainNavigation/PromoBlock/PromoBlock', () => ({
   PromoBlock: (props: PromoBlockProps) => {
     capturedPromoBlockProps.push(props);
 
