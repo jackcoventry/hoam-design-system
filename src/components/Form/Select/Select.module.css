@@ -21,7 +21,7 @@
 }
 
 .labelValue {
-  color: var(--hoam-color-text-default);
+  color: var(--hoam-color-accent-default);
   font: var(--hoam-typography-label-2);
 }
 

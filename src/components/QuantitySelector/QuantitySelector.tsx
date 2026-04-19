@@ -128,7 +128,7 @@ export const QuantitySelector = forwardRef<HTMLInputElement, QuantitySelectorPro
             data-position="left"
             {...createButtonHandlers(-1)}
           >
-            −
+            -
           </button>
 
           <input

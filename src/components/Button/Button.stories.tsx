@@ -90,6 +90,19 @@ export const Secondary: Story = {
   render: (args) => <Button {...args} />,
 };
 
+export const Tertiary: Story = {
+  args: {
+    children: 'Button',
+    icon: 'arrow-right',
+    iconPosition: 'right',
+    variant: 'tertiary',
+    size: 'default',
+    iconOnly: false,
+    disabled: false,
+  },
+  render: (args) => <Button {...args} />,
+};
+
 export const Small: Story = {
   args: {
     children: 'Button',

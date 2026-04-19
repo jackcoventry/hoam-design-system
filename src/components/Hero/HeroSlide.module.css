@@ -3,7 +3,7 @@
 
 .root {
   align-items: center;
-  background-color: var(--hoam-color-surface-accent-soft);
+  background-color: var(--hoam-color-surface-accent);
   color: var(--hoam-color-text-inverse);
   display: flex;
   height: calc(100dvh - var(--hoam-navigation-bar-height) - var(--hoam-notification-bar-height));

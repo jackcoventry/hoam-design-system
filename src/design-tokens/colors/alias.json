@@ -40,7 +40,7 @@
         "$value": "{color.accent.default}"
       },
       "hover": {
-        "$value": "{color.accent.strong}"
+        "$value": "{color.accent.soft}"
       }
     },
     "surface": {

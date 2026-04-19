@@ -10,20 +10,20 @@
   --hoam-breakpoint-md: 48rem;
   --hoam-breakpoint-lg: 64rem;
   --hoam-breakpoint-xl: 80rem;
-  --hoam-color-accent-soft: #cb99fa; /** A softer version of the accent color */
-  --hoam-color-accent-default: #a855f7; /** The default accent colour for this theme */
-  --hoam-color-accent-strong: #6609be; /** A stronger version of the accent color */
+  --hoam-color-accent-soft: #ba77f9; /** A softer version of the accent color */
+  --hoam-color-accent-default: #8815f4; /** The default accent colour for this theme */
+  --hoam-color-accent-strong: #44067f; /** A stronger version of the accent color */
   --hoam-color-text-default: #000000;
   --hoam-color-text-soft: #b3b3b3;
   --hoam-color-text-inverse: #ffffff;
-  --hoam-color-link-default: #a855f7;
-  --hoam-color-link-hover: #6609be;
+  --hoam-color-link-default: #8815f4;
+  --hoam-color-link-hover: #ba77f9;
   --hoam-color-surface-default: #000000;
   --hoam-color-surface-muted: #666666;
   --hoam-color-surface-soft: #f9f9f9;
   --hoam-color-surface-inverse: #ffffff;
-  --hoam-color-surface-accent: #a855f7;
-  --hoam-color-surface-accent-soft: #cb99fa;
+  --hoam-color-surface-accent: #8815f4;
+  --hoam-color-surface-accent-soft: #ba77f9;
   --hoam-color-surface-alpha: rgba(0, 0, 0, 0.3);
   --hoam-color-surface-alpha-soft: rgba(0, 0, 0, 0.2);
   --hoam-color-surface-alpha-strong: rgba(0, 0, 0, 0.8);
@@ -31,8 +31,8 @@
   --hoam-color-border-soft: #f9f9f9;
   --hoam-color-border-default: #b3b3b3;
   --hoam-color-border-strong: #666666;
-  --hoam-color-border-accent: #a855f7;
-  --hoam-color-feedback-error: #ff4d4f;
+  --hoam-color-border-accent: #8815f4;
+  --hoam-color-feedback-error: #d43739;
   --hoam-color-feedback-warning: #faad14;
   --hoam-color-feedback-success: #52c41a;
   --hoam-color-feedback-info: #1890ff;

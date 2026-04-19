@@ -23,7 +23,7 @@
 }
 
 .pricePrevious {
-  color: var(--hoam-color-text-soft);
+  color: var(--hoam-color-accent-default);
   font: var(--hoam-typography-title-4);
   text-decoration: line-through;
 }

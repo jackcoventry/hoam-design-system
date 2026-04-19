@@ -96,7 +96,7 @@ export function HeroSlide({
               <h1 className={styles.title}>{title}</h1>
               <p className={styles.text}>{text}</p>
               <div className={styles.contentLink}>
-                <Button variant="tertiary">{button?.text || t.readMore}</Button>
+                <Button variant="primary">{button?.text || t.readMore}</Button>
               </div>
             </GridItem>
           </Grid>

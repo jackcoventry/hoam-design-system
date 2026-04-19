@@ -71,7 +71,7 @@
     "name": "hoam-color-accent-soft",
     "cssVar": "--hoam-color-accent-soft",
     "type": "color",
-    "value": "#cb99fa",
+    "value": "#ba77f9",
     "group": "accent",
     "set": "accent"
   },
@@ -79,7 +79,7 @@
     "name": "hoam-color-accent-default",
     "cssVar": "--hoam-color-accent-default",
     "type": "color",
-    "value": "#a855f7",
+    "value": "#8815f4",
     "group": "accent",
     "set": "accent"
   },
@@ -87,7 +87,7 @@
     "name": "hoam-color-accent-strong",
     "cssVar": "--hoam-color-accent-strong",
     "type": "color",
-    "value": "#6609be",
+    "value": "#44067f",
     "group": "accent",
     "set": "accent"
   },
@@ -119,7 +119,7 @@
     "name": "hoam-color-link-default",
     "cssVar": "--hoam-color-link-default",
     "type": "color",
-    "value": "#a855f7",
+    "value": "#8815f4",
     "group": "link",
     "set": "link"
   },
@@ -127,7 +127,7 @@
     "name": "hoam-color-link-hover",
     "cssVar": "--hoam-color-link-hover",
     "type": "color",
-    "value": "#6609be",
+    "value": "#ba77f9",
     "group": "link",
     "set": "link"
   },
@@ -167,7 +167,7 @@
     "name": "hoam-color-surface-accent",
     "cssVar": "--hoam-color-surface-accent",
     "type": "color",
-    "value": "#a855f7",
+    "value": "#8815f4",
     "group": "surface",
     "set": "surface"
   },
@@ -175,7 +175,7 @@
     "name": "hoam-color-surface-accent-soft",
     "cssVar": "--hoam-color-surface-accent-soft",
     "type": "color",
-    "value": "#cb99fa",
+    "value": "#ba77f9",
     "group": "surface",
     "set": "surface"
   },
@@ -239,7 +239,7 @@
     "name": "hoam-color-border-accent",
     "cssVar": "--hoam-color-border-accent",
     "type": "color",
-    "value": "#a855f7",
+    "value": "#8815f4",
     "group": "border",
     "set": "border"
   },
@@ -247,7 +247,7 @@
     "name": "hoam-color-feedback-error",
     "cssVar": "--hoam-color-feedback-error",
     "type": "color",
-    "value": "#ff4d4f",
+    "value": "#d43739",
     "group": "feedback",
     "set": "feedback"
   },
@@ -279,7 +279,7 @@
     "name": "hoam-palette-primary-100",
     "cssVar": "--hoam-palette-primary-100",
     "type": "color",
-    "value": "#eeddfd",
+    "value": "#dcbbfc",
     "group": "global",
     "set": "primary",
     "extensions": {
@@ -290,7 +290,7 @@
     "name": "hoam-palette-primary-200",
     "cssVar": "--hoam-palette-primary-200",
     "type": "color",
-    "value": "#dcbbfc",
+    "value": "#cb99fa",
     "group": "global",
     "set": "primary",
     "extensions": {
@@ -301,7 +301,7 @@
     "name": "hoam-palette-primary-300",
     "cssVar": "--hoam-palette-primary-300",
     "type": "color",
-    "value": "#cb99fa",
+    "value": "#ba77f9",
     "group": "global",
     "set": "primary",
     "extensions": {
@@ -312,7 +312,7 @@
     "name": "hoam-palette-primary-400",
     "cssVar": "--hoam-palette-primary-400",
     "type": "color",
-    "value": "#ba77f9",
+    "value": "#a855f7",
     "group": "global",
     "set": "primary",
     "extensions": {
@@ -323,7 +323,7 @@
     "name": "hoam-palette-primary-500",
     "cssVar": "--hoam-palette-primary-500",
     "type": "color",
-    "value": "#a855f7",
+    "value": "#8815f4",
     "group": "global",
     "set": "primary",
     "extensions": {
@@ -334,7 +334,7 @@
     "name": "hoam-palette-primary-600",
     "cssVar": "--hoam-palette-primary-600",
     "type": "color",
-    "value": "#8815f4",
+    "value": "#6609be",
     "group": "global",
     "set": "primary",
     "extensions": {
@@ -345,7 +345,7 @@
     "name": "hoam-palette-primary-700",
     "cssVar": "--hoam-palette-primary-700",
     "type": "color",
-    "value": "#6609be",
+    "value": "#44067f",
     "group": "global",
     "set": "primary",
     "extensions": {
@@ -356,7 +356,7 @@
     "name": "hoam-palette-primary-800",
     "cssVar": "--hoam-palette-primary-800",
     "type": "color",
-    "value": "#44067f",
+    "value": "#22033f",
     "group": "global",
     "set": "primary",
     "extensions": {
@@ -367,7 +367,7 @@
     "name": "hoam-palette-primary-900",
     "cssVar": "--hoam-palette-primary-900",
     "type": "color",
-    "value": "#22033f",
+    "value": "#130025",
     "group": "global",
     "set": "primary",
     "extensions": {
@@ -477,7 +477,7 @@
     "name": "hoam-palette-semantic-error",
     "cssVar": "--hoam-palette-semantic-error",
     "type": "color",
-    "value": "#ff4d4f",
+    "value": "#d43739",
     "group": "global",
     "set": "semantic",
     "extensions": {

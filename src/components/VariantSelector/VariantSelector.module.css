@@ -22,7 +22,7 @@
 }
 
 .selected {
-  color: var(--hoam-color-text-soft);
+  color: var(--hoam-color-accent-default);
 }
 
 .visual {
