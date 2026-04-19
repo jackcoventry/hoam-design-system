@@ -2,7 +2,7 @@ import { PromoBlockProps } from '@/components/Navigation/types';
 
 import styles from '@/components/Navigation/MainNavigation/PromoBlock/PromoBlock.module.css';
 
-export function PromoBlock({ title, subtitle, href, image = '' }: Readonly<PromoBlockProps>) {
+export function PromoBlock({ title, subtitle, href, image }: Readonly<PromoBlockProps>) {
   const Element = href ? 'a' : 'div';
   const interactiveProps = href
     ? {
@@ -17,11 +17,13 @@ export function PromoBlock({ title, subtitle, href, image = '' }: Readonly<Promo
       {...interactiveProps}
       className={styles.root}
     >
-      <img
-        className={styles.image}
-        src={image}
-        alt=""
-      />
+      {image ? (
+        <img
+          className={styles.image}
+          src={image}
+          alt=""
+        />
+      ) : null}
       <span className={styles.textContent}>
         <h4 className={styles.subtitle}>{subtitle}</h4>
         <h3 className={styles.title}>{title}</h3>

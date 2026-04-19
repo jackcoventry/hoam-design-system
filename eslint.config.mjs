@@ -7,9 +7,41 @@ import reactHooks from 'eslint-plugin-react-hooks';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import storybook from 'eslint-plugin-storybook';
 import globals from 'globals';
+import fs from 'node:fs';
+import path from 'node:path';
 import tseslint from 'typescript-eslint';
 
 const jsxA11yRecommended = jsxA11y.flatConfigs.recommended;
+const componentsRoot = path.join(import.meta.dirname, 'src/components');
+const componentPackages = fs
+  .readdirSync(componentsRoot, { withFileTypes: true })
+  .filter((entry) => entry.isDirectory())
+  .map((entry) => entry.name)
+  .filter((name) => fs.existsSync(path.join(componentsRoot, name, 'index.ts')));
+
+const selfBarrelImportRules = componentPackages.map((name) => ({
+  files: [`src/components/${name}/**/*.{ts,tsx}`],
+  ignores: [
+    `src/components/${name}/index.ts`,
+    `src/components/${name}/**/*.stories.{ts,tsx}`,
+    `src/components/${name}/**/*.test.{ts,tsx}`,
+    `src/components/${name}/**/*.spec.{ts,tsx}`,
+  ],
+  rules: {
+    'no-restricted-imports': [
+      'error',
+      {
+        paths: [
+          {
+            name: `@/components/${name}`,
+            message:
+              'Use a direct file import within the same component package to avoid self-barrel cycles.',
+          },
+        ],
+      },
+    ],
+  },
+}));
 
 export default defineConfig(
   {
@@ -42,7 +74,7 @@ export default defineConfig(
       'sort-imports': 'off',
       'import/order': 'off',
       'simple-import-sort/imports': [
-        'warn',
+        'error',
         {
           groups: [
             [String.raw`^react$`, String.raw`^react-dom$`, String.raw`^@?\w`],
@@ -60,7 +92,7 @@ export default defineConfig(
           ],
         },
       ],
-      'simple-import-sort/exports': 'warn',
+      'simple-import-sort/exports': 'error',
     },
   },
 
@@ -124,7 +156,7 @@ export default defineConfig(
       'react/display-name': 'off',
       'react/prop-types': 'off',
       'no-restricted-imports': [
-        'warn',
+        'error',
         {
           paths: [
             {
@@ -141,5 +173,6 @@ export default defineConfig(
         },
       ],
     },
-  }
+  },
+  ...selfBarrelImportRules
 );

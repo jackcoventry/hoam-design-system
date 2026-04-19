@@ -4,9 +4,11 @@ import { expect, type Page, test } from 'playwright/test';
 import { assertNoAxeViolations, getAxeSource } from '../../config/a11y';
 
 const axeSource = getAxeSource();
+const AXE_RUNNING_ERROR = 'Axe is already running';
 type AxeWindow = Window &
   typeof globalThis & {
     axe: {
+      _running?: boolean;
       run: (context: Element, options?: unknown) => Promise<AxeResults>;
     };
   };
@@ -16,21 +18,48 @@ async function visitStory(page: Page, storyId: string) {
   await page.locator('#storybook-root').waitFor();
 }
 
+async function ensureAxe(page: Page) {
+  const hasAxe = await page.evaluate(() => Boolean((globalThis as Partial<AxeWindow>).axe));
+
+  if (!hasAxe) {
+    await page.addScriptTag({ content: axeSource });
+  }
+}
+
+async function waitForAxeToBeIdle(page: Page) {
+  await page.waitForFunction(() => !(globalThis as Partial<AxeWindow>).axe?._running);
+}
+
 async function runPageAxe(page: Page, selector = '#storybook-root') {
-  await page.addScriptTag({ content: axeSource });
+  await ensureAxe(page);
 
-  const results = await page.evaluate<AxeResults, string>((rootSelector) => {
-    const root = document.querySelector(rootSelector) ?? document.body;
-    const axeWindow = globalThis as AxeWindow;
+  for (let attempt = 0; attempt < 3; attempt += 1) {
+    await waitForAxeToBeIdle(page);
 
-    return axeWindow.axe.run(root, {
-      rules: {
-        'color-contrast': { enabled: false },
-      },
-    });
-  }, selector);
+    try {
+      const results = await page.evaluate<AxeResults, string>((rootSelector) => {
+        const root = document.querySelector(rootSelector) ?? document.body;
+        const axeWindow = globalThis as AxeWindow;
 
-  assertNoAxeViolations(results);
+        return axeWindow.axe.run(root, {
+          rules: {
+            'color-contrast': { enabled: false },
+          },
+        });
+      }, selector);
+
+      assertNoAxeViolations(results);
+      return;
+    } catch (error) {
+      if (
+        !(error instanceof Error) ||
+        !error.message.includes(AXE_RUNNING_ERROR) ||
+        attempt === 2
+      ) {
+        throw error;
+      }
+    }
+  }
 }
 
 test.describe('Storybook accessibility smoke tests', () => {

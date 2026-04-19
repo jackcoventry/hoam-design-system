@@ -33,7 +33,7 @@
     "test:run:unit": "vitest run --exclude src/components/__tests__/a11y.test.tsx",
     "test:coverage": "vitest run --coverage",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint .",
+    "lint": "eslint . --max-warnings=0",
     "prettier": "prettier . --check",
     "icon:tokens": "tsx src/scripts/generate-icons.ts",
     "icons": "npm run icon:tokens && svg-sprite --config svg.json --log=info \"src/icons/*.svg\"",

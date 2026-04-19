@@ -137,8 +137,8 @@ export type PanelProps = {
 export type PromoBlockProps = {
   title: string;
   subtitle: string;
-  href: string;
-  image: string;
+  href?: string;
+  image?: string;
 };
 
 export type ThirdLevelItemsProps = {

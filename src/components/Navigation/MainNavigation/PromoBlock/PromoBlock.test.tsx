@@ -105,16 +105,14 @@ describe('PromoBlock', () => {
     expect(image).toHaveAttribute('alt', '');
   });
 
-  it('renders an image element when image is not provided', () => {
+  it('does not render an image element when image is not provided', () => {
     const props = createProps();
     delete (props as { image?: string }).image;
 
     const { container } = render(<PromoBlock {...props} />);
 
     const image = container.querySelector('img');
-    expect(image).toBeInTheDocument();
-    expect(image).not.toHaveAttribute('src');
-    expect(image).toHaveAttribute('alt', '');
+    expect(image).not.toBeInTheDocument();
   });
 
   it('renders the subtitle in an h4', () => {
@@ -172,9 +170,7 @@ describe('PromoBlock', () => {
     const image = container.querySelector('img');
 
     expect(root?.tagName).toBe('DIV');
-    expect(image).toBeInTheDocument();
-    expect(image).not.toHaveAttribute('src');
-    expect(image).toHaveAttribute('alt', '');
+    expect(image).not.toBeInTheDocument();
     expect(screen.getByText('Explore')).toBeInTheDocument();
     expect(screen.getByText('Shop')).toBeInTheDocument();
   });
