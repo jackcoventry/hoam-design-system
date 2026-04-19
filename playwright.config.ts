@@ -3,13 +3,16 @@ import { defineConfig } from 'playwright/test';
 delete process.env.NO_COLOR;
 
 export default defineConfig({
-  testDir: './tests/a11y',
+  testDir: './tests',
+  snapshotPathTemplate:
+    '{testDir}/{testFileDir}/{testFileName}-snapshots/{arg}-chromium-darwin{ext}',
   fullyParallel: true,
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 2 : 0,
   reporter: process.env.CI ? 'github' : 'list',
   use: {
     baseURL: 'http://127.0.0.1:6006',
+    viewport: { width: 1440, height: 1200 },
     trace: 'retain-on-failure',
   },
   webServer: {
@@ -22,6 +25,7 @@ export default defineConfig({
     {
       name: 'chromium',
       use: {
+        colorScheme: 'light',
         browserName: 'chromium',
       },
     },

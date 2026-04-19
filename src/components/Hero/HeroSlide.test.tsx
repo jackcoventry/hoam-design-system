@@ -152,12 +152,12 @@ describe('HeroSlide', () => {
     expect(screen.getByRole('button', { name: 'Read more' })).toBeInTheDocument();
   });
 
-  it('uses the tertiary button variant', () => {
+  it('uses the primary button variant', () => {
     render(<HeroSlide {...baseProps} />);
 
     expect(screen.getByRole('button', { name: 'Click me' })).toHaveAttribute(
       'data-variant',
-      'tertiary'
+      'primary'
     );
   });
 

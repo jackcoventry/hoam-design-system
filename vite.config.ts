@@ -1,7 +1,27 @@
 import react from '@vitejs/plugin-react';
+import fs from 'node:fs';
 import path from 'node:path';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
+
+const componentsRoot = path.resolve(__dirname, 'src/components');
+
+function getComponentEntryPoints() {
+  return Object.fromEntries(
+    fs
+      .readdirSync(componentsRoot, { withFileTypes: true })
+      .filter((entry) => entry.isDirectory())
+      .flatMap((entry) => {
+        const entryPath = path.resolve(componentsRoot, entry.name, 'index.ts');
+
+        if (!fs.existsSync(entryPath)) {
+          return [];
+        }
+
+        return [[`components/${entry.name}/index`, entryPath]];
+      })
+  );
+}
 
 export default defineConfig({
   plugins: [
@@ -33,9 +53,14 @@ export default defineConfig({
   build: {
     copyPublicDir: false,
     lib: {
-      entry: path.resolve(__dirname, 'src/index.ts'),
+      entry: {
+        index: path.resolve(__dirname, 'src/index.ts'),
+        'hooks/index': path.resolve(__dirname, 'src/hooks/index.ts'),
+        ...getComponentEntryPoints(),
+      },
+      cssFileName: 'index',
       formats: ['es'],
-      fileName: 'index',
+      fileName: (_format, entryName) => `${entryName}.js`,
     },
     cssCodeSplit: false,
     rollupOptions: {
