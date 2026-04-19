@@ -44,6 +44,10 @@ export default meta;
 
 type Story = StoryObj<typeof VariantSelector>;
 
+function getOptionsByInput(input: 'color' | 'image' | 'label') {
+  return ProductInformationMockData.options.find((group) => group.input === input)?.options ?? [];
+}
+
 function StoryTemplate(args: Readonly<VariantSelectorProps>) {
   const [active, setActive] = useState<VariantValue>('');
 
@@ -72,7 +76,7 @@ const Template: Story = {
 export const Label = {
   ...Template,
   args: {
-    options: ProductInformationMockData.options.size,
+    options: getOptionsByInput('label'),
     variant: 'label',
   },
 };
@@ -80,7 +84,7 @@ export const Label = {
 export const Color = {
   ...Template,
   args: {
-    options: ProductInformationMockData.options.color,
+    options: getOptionsByInput('color'),
     variant: 'color',
   },
 };
@@ -88,7 +92,7 @@ export const Color = {
 export const Image = {
   ...Template,
   args: {
-    options: ProductInformationMockData.options.image,
+    options: getOptionsByInput('image'),
     variant: 'image',
   },
 };

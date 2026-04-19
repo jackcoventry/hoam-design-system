@@ -15,21 +15,23 @@ import { logger } from '@/utils/logger';
 
 import styles from '@/components/ProductInfo/ProductInfo.module.css';
 
-const ProductInformationSchema = z.object({
-  color: z.string(),
-  size: z.string(),
-  tshirt: z.string(),
-  image: z.string(),
-});
+const ProductInformationSchema = z.record(z.string(), z.string());
 
 export type ProductInformationSchemaType = z.infer<typeof ProductInformationSchema>;
 
-type ProductOption = {
+export type ProductOption = {
   label: string;
   value: string;
-  displayValue: string;
+  displayValue?: string;
   category?: string;
   disabled?: boolean;
+};
+
+export type ProductOptionGroup = {
+  id: string;
+  label: string;
+  input: 'color' | 'image' | 'label' | 'select';
+  options: ProductOption[];
 };
 
 type MoreInformationItem = {
@@ -47,17 +49,30 @@ export type ProductInfoProps = {
   newItem: boolean;
   lowStock: boolean;
   data: {
-    options: {
-      color: ProductOption[];
-      size: ProductOption[];
-      image: ProductOption[];
-      tshirt: ProductOption[];
-    };
+    options: ProductOptionGroup[];
     moreInformation: MoreInformationItem[];
   };
   onSubmit: (args: ProductInformationSchemaType) => void;
   isSubmitting: boolean;
 };
+
+function getDisplayValue(option: ProductOption) {
+  return option.displayValue ?? option.label;
+}
+
+function getOptionsByCategory(options: ProductOption[]) {
+  return Object.values(
+    options.reduce(
+      (acc, option) => {
+        const category = option.category ?? 'Other';
+        acc[category] ??= { name: category, options: [] };
+        acc[category].options.push(option);
+        return acc;
+      },
+      {} as Record<string, { name: string; options: ProductOption[] }>
+    )
+  );
+}
 
 export function ProductInfo({
   title,
@@ -72,22 +87,7 @@ export function ProductInfo({
 }: Readonly<ProductInfoProps>) {
   const t = useMessages('productTile');
   const { formatCurrency } = useCurrency();
-
-  const colorOptions = data.options.color;
-  const sizeOptions = data.options.size;
-  const imageOptions = data.options.image;
-  const tshirtOptions = data.options.tshirt;
-  const tshirtOptionsByCategory = Object.values(
-    tshirtOptions.reduce(
-      (acc, option) => {
-        const category = option.category ?? 'Other';
-        acc[category] ??= { name: category, options: [] };
-        acc[category].options.push(option);
-        return acc;
-      },
-      {} as Record<string, { name: string; options: ProductOption[] }>
-    )
-  );
+  const optionGroups = data.options;
 
   const defaultMoreInformation = data?.moreInformation?.[0];
 
@@ -95,13 +95,13 @@ export function ProductInfo({
     logger.error('More information requires at least one item.');
   }
 
-  const defaultColor = colorOptions[0];
-  const defaultSize = sizeOptions[0];
-  const defaultImage = imageOptions[0];
-  const defaultTshirt = tshirtOptions[0];
+  const hasInvalidOptionGroup =
+    optionGroups.length === 0 || optionGroups.some((group) => group.options.length === 0);
 
-  if (!defaultColor || !defaultSize || !defaultImage || !defaultTshirt) {
-    logger.error('ProductInfo requires at least one option for color, size, image, and tshirt.');
+  if (hasInvalidOptionGroup) {
+    const message = 'ProductInfo requires at least one option for each configured option group.';
+    logger.error(message);
+    throw new Error(message);
   }
 
   const {
@@ -110,12 +110,9 @@ export function ProductInfo({
     formState: { errors },
   } = useForm<ProductInformationSchemaType>({
     resolver: zodResolver(ProductInformationSchema),
-    defaultValues: {
-      color: defaultColor.value,
-      size: defaultSize.value,
-      image: defaultImage.value,
-      tshirt: defaultTshirt.value,
-    },
+    defaultValues: Object.fromEntries(
+      optionGroups.map((group) => [group.id, group.options[0]?.value ?? ''])
+    ) as ProductInformationSchemaType,
     mode: 'all',
   });
 
@@ -155,83 +152,79 @@ export function ProductInfo({
             }}
           >
             <Stack gap="lg">
-              <FieldWrapper error={errors?.color?.message}>
-                <Controller
-                  name="color"
-                  control={control}
-                  render={({ field }) => (
-                    <VariantSelector
-                      {...field}
-                      label="Color"
-                      name="color"
-                      options={colorOptions}
-                      variant="color"
-                    />
-                  )}
-                />
-              </FieldWrapper>
+              {optionGroups.map((group) => {
+                const errorMessage = errors[group.id]?.message;
+                const groupedOptions =
+                  group.input === 'select' && group.options.some((option) => option.category)
+                    ? getOptionsByCategory(group.options)
+                    : null;
 
-              <FieldWrapper error={errors?.size?.message}>
-                <Controller
-                  name="size"
-                  control={control}
-                  render={({ field }) => (
-                    <VariantSelector
-                      {...field}
-                      label="Size"
-                      name="size"
-                      options={sizeOptions}
-                      variant="label"
-                    />
-                  )}
-                />
-              </FieldWrapper>
+                return (
+                  <FieldWrapper
+                    key={group.id}
+                    error={typeof errorMessage === 'string' ? errorMessage : undefined}
+                  >
+                    <Controller
+                      name={group.id}
+                      control={control}
+                      render={({ field }) => {
+                        const fieldValue = typeof field.value === 'string' ? field.value : '';
 
-              <FieldWrapper error={errors?.image?.message}>
-                <Controller
-                  name="image"
-                  control={control}
-                  render={({ field }) => (
-                    <VariantSelector
-                      {...field}
-                      label="Image"
-                      name="image"
-                      options={imageOptions}
-                      variant="image"
+                        return group.input === 'select' ? (
+                          <Select
+                            ref={field.ref}
+                            label={group.label}
+                            name={field.name}
+                            value={fieldValue}
+                            onBlur={field.onBlur}
+                            onChange={(value) => field.onChange(value)}
+                          >
+                            {groupedOptions
+                              ? groupedOptions.map((category) => (
+                                  <Select.OptGroup
+                                    key={category.name}
+                                    label={category.name}
+                                  >
+                                    {category.options.map((option) => (
+                                      <Select.Option
+                                        key={option.value}
+                                        value={option.value}
+                                        disabled={option.disabled}
+                                      >
+                                        {getDisplayValue(option)}
+                                      </Select.Option>
+                                    ))}
+                                  </Select.OptGroup>
+                                ))
+                              : group.options.map((option) => (
+                                  <Select.Option
+                                    key={option.value}
+                                    value={option.value}
+                                    disabled={option.disabled}
+                                  >
+                                    {getDisplayValue(option)}
+                                  </Select.Option>
+                                ))}
+                          </Select>
+                        ) : (
+                          <VariantSelector
+                            ref={field.ref}
+                            label={group.label}
+                            name={group.id}
+                            options={group.options.map((option) => ({
+                              ...option,
+                              displayValue: getDisplayValue(option),
+                            }))}
+                            value={fieldValue}
+                            onChange={(value) => field.onChange(String(value))}
+                            variant={group.input}
+                          />
+                        );
+                      }}
                     />
-                  )}
-                />
-              </FieldWrapper>
-
-              <FieldWrapper error={errors?.tshirt?.message}>
-                <Controller
-                  name="tshirt"
-                  control={control}
-                  render={({ field }) => (
-                    <Select
-                      label="T-Shirt Size"
-                      {...field}
-                    >
-                      {tshirtOptionsByCategory?.map((category) => (
-                        <Select.OptGroup
-                          key={category.name}
-                          label={category.name}
-                        >
-                          {category.options.map((option) => (
-                            <Select.Option
-                              key={option.value}
-                              value={option.value}
-                              disabled={option.disabled}
-                            >
-                              {option.displayValue}
-                            </Select.Option>
-                          ))}
-                        </Select.OptGroup>
-                      ))}
-                    </Select>
-                  )}
-                />
-              </FieldWrapper>
+                  </FieldWrapper>
+                );
+              })}
 
               <Button
                 type="submit"
@@ -246,7 +239,7 @@ export function ProductInfo({
 
         <Section>
           <div className={styles.information}>
-            <Accordion defaultOpenIds={[defaultMoreInformation?.id]}>
+            <Accordion defaultOpenIds={defaultMoreInformation ? [defaultMoreInformation.id] : []}>
               {data?.moreInformation?.map((item) => (
                 <AccordionItem
                   key={item.id}

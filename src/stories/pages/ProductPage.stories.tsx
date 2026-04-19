@@ -5,8 +5,11 @@ import { SubmitHandler } from 'react-hook-form';
 import { Breadcrumb } from '@/components/Breadcrumb';
 import { ImageGallery } from '@/components/ImageGallery';
 import { Container, Grid, GridItem, Section, Stack } from '@/components/Layout';
-import { ProductInfo, type ProductInfoProps } from '@/components/ProductInfo';
-import { ProductInformationSchemaType } from '@/components/ProductInfo/ProductInfo';
+import {
+  ProductInfo,
+  type ProductInfoProps,
+  type ProductInformationSchemaType,
+} from '@/components/ProductInfo';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { BREAKPOINTS } from '@/styles/breakpoints';
 import BreadcrumbData from '@/mocks/components/Breadcrumb';
@@ -22,7 +25,13 @@ const meta: Meta = {
   },
   args: {
     ...productTile,
+    title: 'House Espresso Blend',
+    productId: 'house-espresso-blend',
+    description:
+      'A balanced espresso coffee with chocolate sweetness, bright citrus, and a dense crema.',
+    price: { amount: 18, saleAmount: 15 },
     newItem: true,
+    lowStock: true,
   },
   argTypes: {
     image: {

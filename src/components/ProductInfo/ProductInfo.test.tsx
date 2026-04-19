@@ -6,6 +6,7 @@ import {
   ProductInfo,
   type ProductInfoProps,
   type ProductInformationSchemaType,
+  type ProductOption,
 } from '@/components/ProductInfo/ProductInfo';
 
 type ProductTileMessages = {
@@ -217,97 +218,111 @@ describe('ProductInfo', () => {
   const onSubmitMock = vi.fn<(args: ProductInformationSchemaType) => void>();
 
   const baseProps: ProductInfoProps = {
-    title: 'Classic Tee',
-    description: 'A premium cotton t-shirt.',
-    productId: 'product-1',
+    title: 'House Espresso Blend',
+    description: 'A balanced espresso coffee with chocolate sweetness and citrus brightness.',
+    productId: 'house-espresso-blend',
     price: {
-      amount: 30,
-      saleAmount: 20,
+      amount: 18,
+      saleAmount: 15,
     },
     inStock: true,
     newItem: true,
     lowStock: true,
     data: {
-      options: {
-        color: [
-          {
-            label: 'Red',
-            value: 'red',
-            displayValue: 'Red',
-          },
-          {
-            label: 'Blue',
-            value: 'blue',
-            displayValue: 'Blue',
-          },
-        ],
-        size: [
-          {
-            label: 'Small',
-            value: 's',
-            displayValue: 'Small',
-          },
-          {
-            label: 'Medium',
-            value: 'm',
-            displayValue: 'Medium',
-          },
-        ],
-        image: [
-          {
-            label: 'Front',
-            value: 'front',
-            displayValue: 'Front',
-          },
-          {
-            label: 'Back',
-            value: 'back',
-            displayValue: 'Back',
-          },
-        ],
-        tshirt: [
-          {
-            label: 'Small',
-            value: 'small-men',
-            displayValue: 'Small',
-            category: 'Men',
-          },
-          {
-            label: 'Medium',
-            value: 'medium-men',
-            displayValue: 'Medium',
-            category: 'Men',
-          },
-          {
-            label: 'Small',
-            value: 'small-women',
-            displayValue: 'Small',
-            category: 'Women',
-          },
-          {
-            label: 'Large',
-            value: 'large-other',
-            displayValue: 'Large',
-          },
-          {
-            label: 'XL',
-            value: 'xl-disabled',
-            displayValue: 'XL',
-            category: 'Women',
-            disabled: true,
-          },
-        ],
-      },
-      moreInformation: [
+      options: [
         {
-          id: 'details',
-          title: 'Details',
-          text: 'Made from 100% cotton.',
+          id: 'roast',
+          label: 'Roast',
+          input: 'color',
+          options: [
+            {
+              label: 'Light Roast',
+              value: 'light-roast',
+              displayValue: '#c78b52',
+            },
+            {
+              label: 'Dark Roast',
+              value: 'dark-roast',
+              displayValue: '#4a2c20',
+            },
+          ],
         },
         {
-          id: 'delivery',
-          title: 'Delivery',
-          text: 'Delivered within 3-5 days.',
+          id: 'bagSize',
+          label: 'Bag Size',
+          input: 'label',
+          options: [
+            {
+              label: '250g',
+              value: '250g',
+              displayValue: '250g',
+            },
+            {
+              label: '500g',
+              value: '500g',
+              displayValue: '500g',
+            },
+          ],
+        },
+        {
+          id: 'brewStyle',
+          label: 'Brew Style',
+          input: 'image',
+          options: [
+            {
+              label: 'Espresso',
+              value: 'espresso',
+              displayValue: 'Espresso',
+            },
+            {
+              label: 'Pour Over',
+              value: 'pour-over',
+              displayValue: 'Pour Over',
+            },
+          ],
+        },
+        {
+          id: 'grind',
+          label: 'Grind',
+          input: 'select',
+          options: [
+            {
+              label: 'Whole Bean',
+              value: 'whole-bean',
+              displayValue: 'Whole Bean',
+              category: 'Whole Bean',
+            },
+            {
+              label: 'Espresso',
+              value: 'espresso-fine',
+              displayValue: 'Espresso - Fine',
+              category: 'Ground',
+            },
+            {
+              label: 'Roaster Recommendation',
+              value: 'roaster-recommendation',
+              displayValue: 'Roaster Recommendation',
+            },
+            {
+              label: 'Cold Brew',
+              value: 'cold-brew-extra-coarse',
+              displayValue: 'Cold Brew - Extra Coarse',
+              category: 'Ground',
+              disabled: true,
+            },
+          ],
+        },
+      ],
+      moreInformation: [
+        {
+          id: 'tasting-notes',
+          title: 'Tasting Notes',
+          text: 'Brown sugar, citrus, and milk chocolate.',
+        },
+        {
+          id: 'brew-guide',
+          title: 'Brew Guide',
+          text: 'Best for espresso, moka pot, or a short pour-over.',
         },
       ],
     },
@@ -334,35 +349,37 @@ describe('ProductInfo', () => {
     expect(
       screen.getByRole('heading', {
         level: 1,
-        name: 'Classic Tee',
+        name: 'House Espresso Blend',
       })
     ).toBeInTheDocument();
 
     expect(screen.getByRole('heading', { level: 2 })).toBeInTheDocument();
-    expect(screen.getByText('A premium cotton t-shirt.')).toBeInTheDocument();
+    expect(
+      screen.getByText('A balanced espresso coffee with chocolate sweetness and citrus brightness.')
+    ).toBeInTheDocument();
   });
 
   it('formats both sale and regular prices', () => {
     render(<ProductInfo {...baseProps} />);
 
-    expect(formatCurrencyMock).toHaveBeenCalledWith(30);
-    expect(formatCurrencyMock).toHaveBeenCalledWith(20);
+    expect(formatCurrencyMock).toHaveBeenCalledWith(18);
+    expect(formatCurrencyMock).toHaveBeenCalledWith(15);
 
-    expect(screen.getByText('£20.00')).toBeInTheDocument();
-    expect(screen.getByText('£30.00')).toBeInTheDocument();
+    expect(screen.getByText('£15.00')).toBeInTheDocument();
+    expect(screen.getByText('£18.00')).toBeInTheDocument();
   });
 
   it('renders the sale price and previous price when a sale price string is returned', () => {
     render(<ProductInfo {...baseProps} />);
 
     const priceHeading = screen.getByRole('heading', { level: 2 });
-    expect(within(priceHeading).getByText('£20.00')).toBeInTheDocument();
-    expect(within(priceHeading).getByText('£30.00')).toBeInTheDocument();
+    expect(within(priceHeading).getByText('£15.00')).toBeInTheDocument();
+    expect(within(priceHeading).getByText('£18.00')).toBeInTheDocument();
   });
 
   it('renders only the main price when the sale price string is empty', () => {
     formatCurrencyMock.mockImplementation((amount) => {
-      if (amount === 20) {
+      if (amount === 15) {
         return '';
       }
 
@@ -372,8 +389,8 @@ describe('ProductInfo', () => {
     render(<ProductInfo {...baseProps} />);
 
     const priceHeading = screen.getByRole('heading', { level: 2 });
-    expect(within(priceHeading).getByText('£30.00')).toBeInTheDocument();
-    expect(within(priceHeading).queryByText('£20.00')).not.toBeInTheDocument();
+    expect(within(priceHeading).getByText('£18.00')).toBeInTheDocument();
+    expect(within(priceHeading).queryByText('£15.00')).not.toBeInTheDocument();
   });
 
   it('renders both badges when newItem and lowStock are true', () => {
@@ -430,57 +447,107 @@ describe('ProductInfo', () => {
       />
     );
 
-    expect(screen.queryByText('A premium cotton t-shirt.')).not.toBeInTheDocument();
+    expect(
+      screen.queryByText(
+        'A balanced espresso coffee with chocolate sweetness and citrus brightness.'
+      )
+    ).not.toBeInTheDocument();
   });
 
-  it('renders all form controls with default values from the first option in each list', () => {
+  it('renders all configured form controls with default values from the first option in each group', () => {
     render(<ProductInfo {...baseProps} />);
 
-    expect(screen.getByLabelText('Color')).toHaveValue('red');
-    expect(screen.getByLabelText('Size')).toHaveValue('s');
-    expect(screen.getByLabelText('Image')).toHaveValue('front');
-    expect(screen.getByLabelText('T-Shirt Size')).toHaveValue('small-men');
+    expect(screen.getByLabelText('Roast')).toHaveValue('light-roast');
+    expect(screen.getByLabelText('Bag Size')).toHaveValue('250g');
+    expect(screen.getByLabelText('Brew Style')).toHaveValue('espresso');
+    expect(screen.getByLabelText('Grind')).toHaveValue('whole-bean');
   });
 
-  it('groups t-shirt options by category and falls back to Other', () => {
+  it('groups select options by category and falls back to Other for uncategorised options', () => {
     render(<ProductInfo {...baseProps} />);
 
-    const tshirtSelect = screen.getByLabelText('T-Shirt Size');
+    const grindSelect = screen.getByLabelText('Grind');
 
-    const menGroup = within(tshirtSelect).getByRole('group', { name: 'Men' });
-    const womenGroup = within(tshirtSelect).getByRole('group', { name: 'Women' });
-    const otherGroup = within(tshirtSelect).getByRole('group', { name: 'Other' });
+    const wholeBeanGroup = within(grindSelect).getByRole('group', { name: 'Whole Bean' });
+    const groundGroup = within(grindSelect).getByRole('group', { name: 'Ground' });
+    const otherGroup = within(grindSelect).getByRole('group', { name: 'Other' });
 
-    expect(within(menGroup).getByRole('option', { name: 'Small' })).toBeInTheDocument();
-    expect(within(menGroup).getByRole('option', { name: 'Medium' })).toBeInTheDocument();
-    expect(within(womenGroup).getByRole('option', { name: 'Small' })).toBeInTheDocument();
-    expect(within(otherGroup).getByRole('option', { name: 'Large' })).toBeInTheDocument();
+    expect(within(wholeBeanGroup).getByRole('option', { name: 'Whole Bean' })).toBeInTheDocument();
+    expect(
+      within(groundGroup).getByRole('option', { name: 'Espresso - Fine' })
+    ).toBeInTheDocument();
+    expect(
+      within(otherGroup).getByRole('option', { name: 'Roaster Recommendation' })
+    ).toBeInTheDocument();
   });
 
-  it('renders disabled t-shirt options as disabled', () => {
+  it('renders disabled select options as disabled', () => {
     render(<ProductInfo {...baseProps} />);
 
-    const tshirtSelect = screen.getByLabelText('T-Shirt Size');
-    const womenGroup = within(tshirtSelect).getByRole('group', { name: 'Women' });
-    const disabledOption = within(womenGroup).getByRole('option', { name: 'XL' });
+    const grindSelect = screen.getByLabelText('Grind');
+    const groundGroup = within(grindSelect).getByRole('group', { name: 'Ground' });
+    const disabledOption = within(groundGroup).getByRole('option', {
+      name: 'Cold Brew - Extra Coarse',
+    });
 
     expect(disabledOption).toBeDisabled();
+  });
+
+  it('renders ungrouped select options when categories are not provided', () => {
+    render(
+      <ProductInfo
+        {...baseProps}
+        data={{
+          ...baseProps.data,
+          options: baseProps.data.options.map((group) =>
+            group.id === 'grind'
+              ? {
+                  ...group,
+                  options: group.options.map((option) => {
+                    const nextOption: ProductOption = {
+                      label: option.label,
+                      value: option.value,
+                    };
+
+                    if (option.displayValue !== undefined) {
+                      nextOption.displayValue = option.displayValue;
+                    }
+
+                    if (option.disabled !== undefined) {
+                      nextOption.disabled = option.disabled;
+                    }
+
+                    return nextOption;
+                  }),
+                }
+              : group
+          ),
+        }}
+      />
+    );
+
+    const grindSelect = screen.getByLabelText('Grind');
+
+    expect(within(grindSelect).queryAllByRole('group')).toHaveLength(0);
+    expect(
+      within(grindSelect).getByRole('option', { name: 'Roaster Recommendation' })
+    ).toBeInTheDocument();
   });
 
   it('submits the updated form values', async () => {
     render(<ProductInfo {...baseProps} />);
 
-    fireEvent.change(screen.getByLabelText('Color'), {
-      target: { value: 'blue' },
+    fireEvent.change(screen.getByLabelText('Roast'), {
+      target: { value: 'dark-roast' },
     });
-    fireEvent.change(screen.getByLabelText('Size'), {
-      target: { value: 'm' },
+    fireEvent.change(screen.getByLabelText('Bag Size'), {
+      target: { value: '500g' },
     });
-    fireEvent.change(screen.getByLabelText('Image'), {
-      target: { value: 'back' },
+    fireEvent.change(screen.getByLabelText('Brew Style'), {
+      target: { value: 'pour-over' },
     });
-    fireEvent.change(screen.getByLabelText('T-Shirt Size'), {
-      target: { value: 'small-women' },
+    fireEvent.change(screen.getByLabelText('Grind'), {
+      target: { value: 'espresso-fine' },
     });
 
     const submitButton = screen.getByRole('button', { name: 'Add to cart' });
@@ -489,10 +556,10 @@ describe('ProductInfo', () => {
     await waitFor(() => {
       expect(onSubmitMock).toHaveBeenCalledTimes(1);
       expect(onSubmitMock.mock.calls[0]?.[0]).toEqual({
-        color: 'blue',
-        size: 'm',
-        image: 'back',
-        tshirt: 'small-women',
+        roast: 'dark-roast',
+        bagSize: '500g',
+        brewStyle: 'pour-over',
+        grind: 'espresso-fine',
       });
     });
   });
@@ -506,10 +573,10 @@ describe('ProductInfo', () => {
     await waitFor(() => {
       expect(onSubmitMock).toHaveBeenCalledTimes(1);
       expect(onSubmitMock.mock.calls[0]?.[0]).toEqual({
-        color: 'red',
-        size: 's',
-        image: 'front',
-        tshirt: 'small-men',
+        roast: 'light-roast',
+        bagSize: '250g',
+        brewStyle: 'espresso',
+        grind: 'whole-bean',
       });
     });
   });
@@ -540,12 +607,17 @@ describe('ProductInfo', () => {
   it('renders the more information accordion items', () => {
     render(<ProductInfo {...baseProps} />);
 
-    expect(screen.getByTestId('accordion')).toHaveAttribute('data-default-open-ids', 'details');
+    expect(screen.getByTestId('accordion')).toHaveAttribute(
+      'data-default-open-ids',
+      'tasting-notes'
+    );
 
-    expect(screen.getByText('Details')).toBeInTheDocument();
-    expect(screen.getByText('Delivery')).toBeInTheDocument();
-    expect(screen.getByText('Made from 100% cotton.')).toBeInTheDocument();
-    expect(screen.getByText('Delivered within 3-5 days.')).toBeInTheDocument();
+    expect(screen.getByText('Tasting Notes')).toBeInTheDocument();
+    expect(screen.getByText('Brew Guide')).toBeInTheDocument();
+    expect(screen.getByText('Brown sugar, citrus, and milk chocolate.')).toBeInTheDocument();
+    expect(
+      screen.getByText('Best for espresso, moka pot, or a short pour-over.')
+    ).toBeInTheDocument();
   });
 
   it('requests the expected message namespace', () => {
@@ -568,42 +640,39 @@ describe('ProductInfo', () => {
     expect(loggerErrorMock).toHaveBeenCalledWith('More information requires at least one item.');
   });
 
-  it('logs an error and then throws when any required option list is empty', () => {
+  it('logs an error and then throws when any configured option group has no options', () => {
     expect(() => {
       render(
         <ProductInfo
           {...baseProps}
           data={{
-            options: {
-              color: [],
-              size: baseProps.data.options.size,
-              image: baseProps.data.options.image,
-              tshirt: baseProps.data.options.tshirt,
-            },
-            moreInformation: baseProps.data.moreInformation,
+            ...baseProps.data,
+            options: baseProps.data.options.map((group) =>
+              group.id === 'roast'
+                ? {
+                    ...group,
+                    options: [],
+                  }
+                : group
+            ),
           }}
         />
       );
     }).toThrow();
 
     expect(loggerErrorMock).toHaveBeenCalledWith(
-      'ProductInfo requires at least one option for color, size, image, and tshirt.'
+      'ProductInfo requires at least one option for each configured option group.'
     );
   });
 
-  it('logs both runtime errors and then throws when moreInformation is empty and required options are missing', () => {
+  it('logs both runtime errors and then throws when moreInformation is empty and no option groups are configured', () => {
     expect(() => {
       render(
         <ProductInfo
           {...({
             ...baseProps,
             data: {
-              options: {
-                color: [],
-                size: [],
-                image: [],
-                tshirt: [],
-              },
+              options: [],
               moreInformation: [],
             },
           } as ProductInfoProps)}
@@ -613,7 +682,7 @@ describe('ProductInfo', () => {
 
     expect(loggerErrorMock).toHaveBeenCalledWith('More information requires at least one item.');
     expect(loggerErrorMock).toHaveBeenCalledWith(
-      'ProductInfo requires at least one option for color, size, image, and tshirt.'
+      'ProductInfo requires at least one option for each configured option group.'
     );
   });
 });
