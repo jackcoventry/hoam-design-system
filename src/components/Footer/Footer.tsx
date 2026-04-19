@@ -53,7 +53,7 @@ export function Footer({
               spanLg={3}
               spanXl={2}
             >
-              <h3 className={styles.sectionTitle}>{section.title}</h3>
+              <h2 className={styles.sectionTitle}>{section.title}</h2>
 
               <ul className={styles.list}>
                 {section.links.map((link) => (
@@ -70,7 +70,7 @@ export function Footer({
               span={12}
               spanXl={2}
             >
-              <h3 className={styles.sectionTitle}>{t.socialTitle}</h3>
+              <h2 className={styles.sectionTitle}>{t.socialTitle}</h2>
 
               <Stack gap="lg">
                 <div className={styles.socialLinks}>

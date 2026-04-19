@@ -16,6 +16,7 @@ export const defaultMessages = {
     total: 'Total',
     checkout: 'Proceed to checkout',
     columnProduct: 'Product',
+    columnDetails: 'Details',
     columnQuantity: 'Quantity',
     columnTotal: 'Total',
   },
@@ -130,6 +131,7 @@ export const defaultMessages = {
     save: 'Save for later',
   },
   quantitySelector: {
+    label: 'Quantity',
     increment: 'Increase quantity',
     decrement: 'Decrease quantity',
   },

@@ -3,19 +3,21 @@ import { Meta } from '@storybook/react-vite';
 import { Banner, type BannerProps } from '@/components/Banner';
 import { Button } from '@/components/Button';
 import { Container, Grid, GridItem, Section, Stack } from '@/components/Layout';
-import { ProductTile } from '@/components/ProductTile';
+import { ProductTile, type ProductTileProps } from '@/components/ProductTile';
 import { productTile } from '@/mocks/components/ProductTile';
 import BaseTemplate from '@/stories/templates/Base';
 
 import typography from '@/styles/Typography.module.css';
 import utils from '@/styles/Util.module.css';
 
-const meta: Meta = {
+const meta: Meta<ProductTileProps> = {
   title: 'Pages/Product Landing',
   parameters: {
     layout: 'fullscreen',
   },
-  args: {},
+  args: {
+    ...productTile,
+  },
 };
 export default meta;
 
@@ -32,7 +34,7 @@ const bannerMock = {
 } satisfies BannerProps;
 
 const Template = {
-  render: (args: any) => (
+  render: (args: ProductTileProps) => (
     <BaseTemplate>
       <Section space="2xl">
         <Container>
@@ -45,7 +47,7 @@ const Template = {
             <Grid gap="lg">
               <GridItem span={12}>
                 <div className={utils.justifyBetween}>
-                  <h1 className={typography.heading}>Featured products</h1>
+                  <h2 className={typography.heading}>Featured products</h2>
                   <Button
                     as="a"
                     href="/"
@@ -71,7 +73,7 @@ const Template = {
             <Grid gap="lg">
               <GridItem span={12}>
                 <div className={utils.justifyBetween}>
-                  <h1 className={typography.heading}>New products</h1>
+                  <h2 className={typography.heading}>New products</h2>
                   <Button
                     as="a"
                     href="/"

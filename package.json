@@ -39,6 +39,7 @@
     "icons": "npm run icon:tokens && svg-sprite --config svg.json --log=info \"src/icons/*.svg\"",
     "tokens": "tsx src/lib/style-dictionary/register.ts",
     "generate": "npm run icons && npm run tokens",
+    "generate:check": "npm run generate && node src/scripts/check-generated.mjs",
     "dev": "npm run generate && storybook dev -p 6006",
     "build": "npm run generate && vite build",
     "budgets": "node src/scripts/check-budgets.mjs",
@@ -47,7 +48,7 @@
     "test:a11y:unit": "vitest run src/components/__tests__/a11y.test.tsx",
     "test:a11y:e2e": "npm run build-storybook && playwright test",
     "test:a11y": "npm run test:a11y:unit && npm run test:a11y:e2e",
-    "verify": "npm run build && npm run budgets && npm run prettier && npm run lint && npm run typecheck && npm run test:run:unit && npm run test:a11y"
+    "verify": "npm run generate:check && npm run build && npm run budgets && npm run prettier && npm run lint && npm run typecheck && npm run test:run:unit && npm run test:a11y"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,astro,json,md,css}": [

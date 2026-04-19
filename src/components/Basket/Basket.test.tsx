@@ -51,6 +51,7 @@ vi.mock('@/hooks/useMessages', () => ({
         subTotal: 'Subtotal',
         checkout: 'Checkout',
         columnProduct: 'Product',
+        columnDetails: 'Details',
         columnQuantity: 'Quantity',
         columnTotal: 'Total',
       };
@@ -88,7 +89,7 @@ describe('BasketItem', () => {
       </table>
     );
 
-    expect(screen.getByRole('heading', { level: 4, name: 'Oak Chair' })).toBeInTheDocument();
+    expect(screen.getByText('Oak Chair')).toBeInTheDocument();
 
     const links = screen.getAllByRole('link');
     expect(links).toHaveLength(2);
@@ -181,7 +182,7 @@ describe('BasketFooter', () => {
   it('renders the subtotal and checkout button', () => {
     render(<BasketFooter total={125} />);
 
-    expect(screen.getByRole('heading', { level: 4 })).toHaveTextContent('Subtotal: £125.00');
+    expect(screen.getByText('Subtotal: £125.00')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Checkout' })).toBeInTheDocument();
   });
 });
@@ -225,6 +226,7 @@ describe('Basket', () => {
     );
 
     expect(screen.getByRole('columnheader', { name: 'Product' })).toBeInTheDocument();
+    expect(screen.getByRole('columnheader', { name: 'Details' })).toBeInTheDocument();
     expect(screen.getByRole('columnheader', { name: 'Quantity' })).toBeInTheDocument();
     expect(screen.getAllByRole('columnheader', { name: 'Total' })).toHaveLength(1);
   });
@@ -237,8 +239,8 @@ describe('Basket', () => {
       />
     );
 
-    expect(screen.getByRole('heading', { level: 4, name: 'Oak Chair' })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { level: 4, name: 'Desk Lamp' })).toBeInTheDocument();
+    expect(screen.getByText('Oak Chair')).toBeInTheDocument();
+    expect(screen.getByText('Desk Lamp')).toBeInTheDocument();
   });
 
   it('renders the correct number of body rows', () => {
@@ -262,7 +264,7 @@ describe('Basket', () => {
     );
 
     expect(screen.getAllByRole('row')).toHaveLength(1);
-    expect(screen.queryByRole('heading', { level: 4 })).not.toBeInTheDocument();
+    expect(screen.queryByText('Oak Chair')).not.toBeInTheDocument();
   });
 
   it('renders an empty tbody when items is null', () => {
@@ -274,7 +276,7 @@ describe('Basket', () => {
     );
 
     expect(screen.getAllByRole('row')).toHaveLength(1);
-    expect(screen.queryByRole('heading', { level: 4 })).not.toBeInTheDocument();
+    expect(screen.queryByText('Oak Chair')).not.toBeInTheDocument();
   });
 
   it('wires each item quantity selector to its own onChange handler', () => {

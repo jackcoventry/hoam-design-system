@@ -5,6 +5,18 @@ import { assertNoAxeViolations, getAxeSource } from '../../config/a11y';
 
 const axeSource = getAxeSource();
 const AXE_RUNNING_ERROR = 'Axe is already running';
+const STORY_RENDER_TIMEOUT_MS = 10000;
+
+type StorybookEntry = {
+  id: string;
+  title: string;
+  type: 'story' | 'docs';
+};
+
+type StorybookIndex = {
+  entries: Record<string, StorybookEntry>;
+};
+
 type AxeWindow = Window &
   typeof globalThis & {
     axe: {
@@ -15,7 +27,44 @@ type AxeWindow = Window &
 
 async function visitStory(page: Page, storyId: string) {
   await page.goto(`/iframe.html?id=${storyId}&viewMode=story`);
-  await page.locator('#storybook-root').waitFor();
+
+  const root = page.locator('#storybook-root');
+  const errorSummary = page.getByText('The component failed to render properly');
+
+  try {
+    await Promise.race([
+      root.waitFor({ state: 'visible', timeout: STORY_RENDER_TIMEOUT_MS }),
+      errorSummary
+        .waitFor({ state: 'visible', timeout: STORY_RENDER_TIMEOUT_MS })
+        .then(async () => {
+          const errorHeading = await page.getByRole('heading').first().textContent();
+          const errorCode = await page.locator('code').first().textContent();
+
+          throw new Error(
+            `Story "${storyId}" failed to render in Storybook: ${errorHeading ?? 'Unknown error'}${errorCode ? `\n${errorCode}` : ''}`
+          );
+        }),
+    ]);
+  } catch (error) {
+    if (error instanceof Error) {
+      throw error;
+    }
+
+    throw new Error(`Story "${storyId}" did not render within ${STORY_RENDER_TIMEOUT_MS}ms.`);
+  }
+}
+
+async function getA11yStoryIds(page: Page) {
+  const response = await page.request.get('/index.json');
+  expect(response.ok()).toBeTruthy();
+
+  const index = (await response.json()) as StorybookIndex;
+
+  return Object.values(index.entries)
+    .filter((entry) => entry.type === 'story')
+    .filter((entry) => entry.title.startsWith('Components/') || entry.title.startsWith('Pages/'))
+    .map((entry) => entry.id)
+    .sort();
 }
 
 async function ensureAxe(page: Page) {
@@ -63,16 +112,16 @@ async function runPageAxe(page: Page, selector = '#storybook-root') {
 }
 
 test.describe('Storybook accessibility smoke tests', () => {
-  test('scans key component and page stories with axe', async ({ page }) => {
-    const storyIds = [
-      'components-button--primary',
-      'components-accordion--default',
-      'pages-product-page--default',
-    ];
+  test('scans component and page stories with axe', async ({ page }) => {
+    test.setTimeout(180000);
+
+    const storyIds = await getA11yStoryIds(page);
 
     for (const storyId of storyIds) {
-      await visitStory(page, storyId);
-      await runPageAxe(page);
+      await test.step(storyId, async () => {
+        await visitStory(page, storyId);
+        await runPageAxe(page);
+      });
     }
   });
 

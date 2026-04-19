@@ -58,7 +58,7 @@ export function BasketItem({
             href={url}
             className={styles.link}
           >
-            <h4 className={styles.title}>{title}</h4>
+            <span className={styles.title}>{title}</span>
           </a>
           <span className={styles.summary}>
             {t.price}: {formatCurrency(price)}
@@ -86,6 +86,7 @@ export function BasketItem({
           <QuantitySelector
             onChange={onChange}
             value={quantity}
+            aria-label={t.columnQuantity}
           />
         </div>
       </td>
@@ -106,9 +107,9 @@ export function BasketFooter({ total = 0 }: Readonly<{ total: number }>) {
   return (
     <div className={styles.footer}>
       <div className={styles.footerContent}>
-        <h4 className={typography.heading}>
+        <p className={typography.heading}>
           {t.subTotal}: {formatCurrency(total)}
-        </h4>
+        </p>
         <Button
           size="small"
           variant="tertiary"
@@ -128,7 +129,7 @@ export function Basket({ items = [] }: Readonly<BasketProps>) {
       <thead className={styles.thead}>
         <tr className={styles.row}>
           <th scope="col">{t.columnProduct}</th>
-          <th scope="col"></th>
+          <th scope="col">{t.columnDetails}</th>
           <th scope="col">{t.columnQuantity}</th>
           <th scope="col">{t.columnTotal}</th>
         </tr>

@@ -27,7 +27,7 @@ export const QuantitySelector = forwardRef<HTMLInputElement, QuantitySelectorPro
       max = Number.POSITIVE_INFINITY,
       id,
       name,
-      'aria-label': ariaLabel,
+      'aria-label': ariaLabel = t.label,
       incrementLabel = t.increment,
       decrementLabel = t.decrement,
     } = props;
@@ -120,8 +120,6 @@ export const QuantitySelector = forwardRef<HTMLInputElement, QuantitySelectorPro
 
     return (
       <div className={styles.root}>
-        {ariaLabel ? <span className={styles.label}>{ariaLabel}</span> : null}
-
         <div className={styles.inner}>
           <button
             aria-label={decrementLabel}

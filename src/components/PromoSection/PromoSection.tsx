@@ -44,7 +44,7 @@ export function PromoSection({
         gap="md"
         className={styles.content}
       >
-        {subtitle ? <h3 className={styles.subtitle}>{subtitle}</h3> : null}
+        {subtitle ? <p className={styles.subtitle}>{subtitle}</p> : null}
         <h2 className={styles.title}>{title}</h2>
         {description ? <p className={styles.description}>{description}</p> : null}
         {linkUrl && linkText ? (

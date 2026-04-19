@@ -272,7 +272,7 @@ describe('DesktopNavigationActions', () => {
         createUserItem({
           id: 'account',
           label: 'Account',
-          href: '/account',
+          href: '#account',
           icon: 'account',
         }),
       ],
@@ -310,7 +310,7 @@ describe('DesktopNavigationActions', () => {
         createUserItem({
           id: 'account',
           label: 'Account',
-          href: '/account',
+          href: '#account',
           icon: 'account',
         }),
       ],

@@ -181,6 +181,7 @@ export function FilterBar(props: PropsWithChildren<FilterBarProps>) {
         <div className={styles.content}>
           <div
             className={styles.chips}
+            role="group"
             aria-label={t.active}
           >
             {chips.length > 0 ? <span className={styles.chipLabel}>{t.active}: </span> : null}

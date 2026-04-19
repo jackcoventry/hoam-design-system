@@ -30,6 +30,17 @@ describe('QuantitySelector', () => {
     expect(input).toHaveAttribute('aria-valuenow', '2');
   });
 
+  it('falls back to a default accessible name', () => {
+    render(
+      <QuantitySelector
+        value={2}
+        onChange={vi.fn()}
+      />
+    );
+
+    expect(screen.getByRole('spinbutton', { name: 'Quantity' })).toHaveValue('2');
+  });
+
   it('renders min and max aria values when provided', () => {
     render(
       <QuantitySelector

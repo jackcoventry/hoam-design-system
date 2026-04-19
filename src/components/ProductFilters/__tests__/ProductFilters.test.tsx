@@ -694,6 +694,7 @@ describe('FilterBar', () => {
       </FilterBar>
     );
 
+    expect(screen.getByRole('group', { name: 'Active filters' })).toBeInTheDocument();
     expect(screen.getByText('Active filters:')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Remove £10 - £20' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Remove Red' })).toBeInTheDocument();

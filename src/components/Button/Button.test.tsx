@@ -1,4 +1,4 @@
-import { forwardRef } from 'react';
+import { forwardRef, type MouseEvent } from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
@@ -248,7 +248,9 @@ describe('Button', () => {
 
   it('supports anchor onClick', async () => {
     const user = userEvent.setup();
-    const handleClick = vi.fn();
+    const handleClick = vi.fn<(event: MouseEvent<HTMLAnchorElement>) => void>((event) => {
+      event.preventDefault();
+    });
 
     render(
       <Button

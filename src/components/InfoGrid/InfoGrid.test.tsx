@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { InfoGrid, InfoGridItem } from '@/components/InfoGrid';
+import { logger } from '@/utils/logger';
 
 describe('InfoGrid', () => {
   afterEach(() => {
@@ -60,6 +61,8 @@ describe('InfoGrid', () => {
   });
 
   it('renders only the first three valid children', () => {
+    const warnSpy = vi.spyOn(logger, 'warn').mockImplementation(() => {});
+
     render(
       <InfoGrid title="Why choose us">
         <InfoGridItem
@@ -89,9 +92,14 @@ describe('InfoGrid', () => {
     expect(screen.getByRole('heading', { level: 3, name: 'Two' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { level: 3, name: 'Three' })).toBeInTheDocument();
     expect(screen.queryByRole('heading', { level: 3, name: 'Four' })).not.toBeInTheDocument();
+    expect(warnSpy).toHaveBeenCalledWith(
+      'InfoGrid component only accepts child of type InfoGridItem'
+    );
   });
 
   it('filters invalid children and logs an error', () => {
+    const warnSpy = vi.spyOn(logger, 'warn').mockImplementation(() => {});
+
     render(
       <InfoGrid title="Why choose us">
         <InfoGridItem
@@ -107,9 +115,12 @@ describe('InfoGrid', () => {
     expect(screen.getByRole('heading', { level: 3, name: 'Fast delivery' })).toBeInTheDocument();
     expect(screen.queryByText('Invalid child')).not.toBeInTheDocument();
     expect(screen.queryByText('Plain text')).not.toBeInTheDocument();
+    expect(warnSpy).toHaveBeenCalledTimes(2);
   });
 
   it('logs an error for children beyond the maximum allowed', () => {
+    const warnSpy = vi.spyOn(logger, 'warn').mockImplementation(() => {});
+
     render(
       <InfoGrid title="Why choose us">
         <InfoGridItem
@@ -133,6 +144,10 @@ describe('InfoGrid', () => {
           icon="four"
         />
       </InfoGrid>
+    );
+
+    expect(warnSpy).toHaveBeenCalledWith(
+      'InfoGrid component only accepts child of type InfoGridItem'
     );
   });
 });

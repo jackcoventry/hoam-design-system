@@ -104,14 +104,14 @@ describe('PromoSection', () => {
       />
     );
 
-    expect(screen.getByRole('heading', { level: 3, name: 'Limited time' })).toBeInTheDocument();
+    expect(screen.getByText('Limited time')).toBeInTheDocument();
     expect(screen.getByText('Save money on something great.')).toBeInTheDocument();
   });
 
   it('does not render subtitle or description when not provided', () => {
     render(<PromoSection title="Big promo" />);
 
-    expect(screen.queryByRole('heading', { level: 3 })).not.toBeInTheDocument();
+    expect(screen.queryByText('Limited time')).not.toBeInTheDocument();
     expect(screen.queryByText(/save money/i)).not.toBeInTheDocument();
   });
 
