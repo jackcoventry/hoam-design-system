@@ -114,6 +114,7 @@ This checks:
 
 - `dist/index.js` raw + gzip size
 - `dist/index.css` raw + gzip size
+- the built `Carousel` chunk raw + gzip size
 - `npm pack --dry-run` tarball + unpacked size
 
 Override thresholds with environment variables (bytes):
@@ -122,5 +123,7 @@ Override thresholds with environment variables (bytes):
 - `HOAM_BUDGET_INDEX_JS_GZIP`
 - `HOAM_BUDGET_INDEX_CSS_RAW`
 - `HOAM_BUDGET_INDEX_CSS_GZIP`
+- `HOAM_BUDGET_CAROUSEL_CHUNK_RAW`
+- `HOAM_BUDGET_CAROUSEL_CHUNK_GZIP`
 - `HOAM_BUDGET_PACK_TARBALL`
 - `HOAM_BUDGET_PACK_UNPACKED`

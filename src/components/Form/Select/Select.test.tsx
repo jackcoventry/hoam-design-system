@@ -34,6 +34,31 @@ describe('Select', () => {
     expect(screen.getByRole('combobox')).toBeInTheDocument();
   });
 
+  it('renders a decorative arrow for single-select mode only', () => {
+    const { rerender } = render(
+      <Select
+        value="uk"
+        onChange={() => {}}
+      >
+        <Select.Option value="uk">United Kingdom</Select.Option>
+      </Select>
+    );
+
+    expect(screen.getByRole('combobox').nextElementSibling).toHaveAttribute('aria-hidden', 'true');
+
+    rerender(
+      <Select
+        multiple
+        value={['uk']}
+        onChange={() => {}}
+      >
+        <Select.Option value="uk">United Kingdom</Select.Option>
+      </Select>
+    );
+
+    expect(screen.getByRole('listbox').nextElementSibling).toBeNull();
+  });
+
   it('renders the display value from option children', () => {
     render(
       <Select

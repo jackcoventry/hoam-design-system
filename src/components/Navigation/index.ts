@@ -7,7 +7,7 @@ export { DesktopNavigationItems } from '@/components/Navigation/DesktopNavigatio
 /** Brand logo link for desktop navigation. */
 export { DesktopNavigationLogo } from '@/components/Navigation/DesktopNavigation/DesktopNavigationLogo';
 /** Promotional content block for flyout navigation panels. */
-export { PromoBlock } from '@/components/Navigation/MainNavigation//PromoBlock/PromoBlock';
+export { PromoBlock } from '@/components/Navigation/MainNavigation/PromoBlock/PromoBlock';
 /** Grouped navigation category within flyout panels. */
 export { CategoryGroup } from '@/components/Navigation/MainNavigation/CategoryGroup';
 /** Root wrapper for navigation panel content. */

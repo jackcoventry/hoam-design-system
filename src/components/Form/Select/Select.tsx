@@ -213,20 +213,29 @@ const SelectRoot = forwardRef(function Select<M extends boolean = false>(
         </div>
       ) : null}
 
-      <select
-        id={actualId}
-        className={styles.input}
-        name={name}
-        ref={ref}
-        required={required}
-        disabled={disabled}
-        multiple={Boolean(multiple)}
-        value={value}
-        onChange={handleChange}
-        {...rest}
-      >
-        {children}
-      </select>
+      <div className={styles.control}>
+        <select
+          id={actualId}
+          className={styles.input}
+          name={name}
+          ref={ref}
+          required={required}
+          disabled={disabled}
+          multiple={Boolean(multiple)}
+          value={value}
+          onChange={handleChange}
+          {...rest}
+        >
+          {children}
+        </select>
+
+        {multiple ? null : (
+          <span
+            aria-hidden="true"
+            className={styles.arrow}
+          />
+        )}
+      </div>
     </div>
   );
 });

@@ -8,13 +8,13 @@ import mindfullnessIllustration from '@/assets/illustrations/mindfullness.svg';
 import styles from '@/components/ErrorPanel/ErrorPanel.module.css';
 import typography from '@/styles/Typography.module.css';
 
-export type Props = {
+export type ErrorPanelProps = {
   message: string;
   returnLabel?: string;
   returnUrl?: string;
 };
 
-export function ErrorPanel({ message, returnLabel, returnUrl = '/' }: Readonly<Props>) {
+export function ErrorPanel({ message, returnLabel, returnUrl = '/' }: Readonly<ErrorPanelProps>) {
   const t = useMessages('errorPanel');
 
   return (

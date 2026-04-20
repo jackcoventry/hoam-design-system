@@ -4,6 +4,10 @@
   gap: var(--hoam-spacing-xs);
 }
 
+.control {
+  position: relative;
+}
+
 .label {
   cursor: pointer;
   display: inline-flex;
@@ -28,13 +32,23 @@
 .input {
   appearance: none;
   background-color: var(--hoam-color-surface-inverse);
-  background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-caret-down-fill" viewBox="0 0 16 16"><path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"/></svg>');
-  background-repeat: no-repeat;
-  background-position: right var(--hoam-spacing-md) center;
   border: var(--hoam-border-size-default) var(--hoam-color-border-default);
   border-radius: var(--hoam-border-radius-default);
   color: var(--hoam-color-text-default);
   cursor: pointer;
   font: var(--hoam-typography-label-1);
   padding: var(--hoam-spacing-xs) var(--hoam-spacing-2xl) var(--hoam-spacing-xs) var(--hoam-spacing-sm);
+  width: 100%;
+}
+
+.arrow {
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 6px solid currentColor;
+  color: var(--hoam-color-text-default);
+  pointer-events: none;
+  position: absolute;
+  right: var(--hoam-spacing-md);
+  top: 50%;
+  transform: translateY(-50%);
 }

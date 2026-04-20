@@ -11,6 +11,8 @@ const DEFAULT_BUDGETS = {
   indexJsGzip: 180 * kib,
   indexCssRaw: 260 * kib,
   indexCssGzip: 150 * kib,
+  carouselChunkRaw: 180 * kib,
+  carouselChunkGzip: 50 * kib,
   packTarball: 350 * kib,
   packUnpacked: 1100 * kib,
 };
@@ -31,6 +33,12 @@ function readBudget(name, fallback) {
 
 function sizeOfFile(path) {
   return statSync(path).size;
+}
+
+function findFirstMatchingFile(path) {
+  return readdirSync(resolve(path))
+    .filter((file) => file.startsWith('Carousel-') && file.endsWith('.js'))
+    .sort((a, b) => a.localeCompare(b))[0];
 }
 
 function gzipSizeOfFile(path) {
@@ -117,9 +125,25 @@ function main() {
     indexJsGzip: readBudget('HOAM_BUDGET_INDEX_JS_GZIP', DEFAULT_BUDGETS.indexJsGzip),
     indexCssRaw: readBudget('HOAM_BUDGET_INDEX_CSS_RAW', DEFAULT_BUDGETS.indexCssRaw),
     indexCssGzip: readBudget('HOAM_BUDGET_INDEX_CSS_GZIP', DEFAULT_BUDGETS.indexCssGzip),
+    carouselChunkRaw: readBudget(
+      'HOAM_BUDGET_CAROUSEL_CHUNK_RAW',
+      DEFAULT_BUDGETS.carouselChunkRaw
+    ),
+    carouselChunkGzip: readBudget(
+      'HOAM_BUDGET_CAROUSEL_CHUNK_GZIP',
+      DEFAULT_BUDGETS.carouselChunkGzip
+    ),
     packTarball: readBudget('HOAM_BUDGET_PACK_TARBALL', DEFAULT_BUDGETS.packTarball),
     packUnpacked: readBudget('HOAM_BUDGET_PACK_UNPACKED', DEFAULT_BUDGETS.packUnpacked),
   };
+
+  const carouselChunkName = findFirstMatchingFile('dist');
+
+  if (!carouselChunkName) {
+    throw new Error('Could not find built Carousel chunk in dist/.');
+  }
+
+  const distCarouselChunk = resolve('dist', carouselChunkName);
 
   const packageStats = readPackageStats();
 
@@ -143,6 +167,16 @@ function main() {
       label: 'dist/index.css (gzip)',
       actual: gzipSizeOfFile(distIndexCss),
       limit: budgets.indexCssGzip,
+    }),
+    evaluateBudget({
+      label: `dist/${carouselChunkName} (raw)`,
+      actual: sizeOfFile(distCarouselChunk),
+      limit: budgets.carouselChunkRaw,
+    }),
+    evaluateBudget({
+      label: `dist/${carouselChunkName} (gzip)`,
+      actual: gzipSizeOfFile(distCarouselChunk),
+      limit: budgets.carouselChunkGzip,
     }),
     evaluateBudget({
       label: 'package tarball (whitelisted files)',
