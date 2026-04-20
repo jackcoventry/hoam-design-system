@@ -75,6 +75,29 @@ export function ProductActions() {
 }
 ```
 
+The main components that should normally live behind a client boundary are:
+
+- `Modal` and `ModalStackProvider`
+- `Navigation`
+- `NotificationBar`
+- `QuantitySelector`
+- `Hero` and `ImageGallery` when they render multiple slides
+- any consumer code that calls the exported hooks from `hoam-design-system/hooks`
+
+Most static presentational components can stay in server components.
+
+## SSR-safe behavior
+
+The library guards browser-only APIs inside effects and runtime checks, so importing these components from a client boundary is safe in Next.js server rendering.
+
+Notable details:
+
+- `Modal` portals only after `document` is available
+- media-query hooks fall back safely when `matchMedia` is unavailable
+- `LogoCarousel` uses an isomorphic layout effect so server rendering does not emit layout-effect warnings
+
+The main rule for consumers is still the same: if your usage relies on interaction, local state, refs, or browser APIs, create a small client wrapper for that part of the UI.
+
 ## Modal stack provider
 
 `Modal` works on its own for a single modal.
@@ -95,7 +118,34 @@ Then mount that provider near your application root.
 
 ## i18n provider
 
-If you want to override the library's default copy or formatting, wrap your app with `LibraryI18nProvider` and pass custom message or formatting overrides from a client boundary.
+If you want to override the library's default copy or formatting, wrap your app with `LibraryI18nProvider` from `hoam-design-system/i18n` and pass custom message or formatting overrides from a client boundary.
+
+```tsx
+'use client';
+
+import { LibraryI18nProvider } from 'hoam-design-system/i18n';
+
+export function Providers({ children }: Readonly<{ children: React.ReactNode }>) {
+  return (
+    <LibraryI18nProvider
+      locale="en-GB"
+      currency="GBP"
+    >
+      {children}
+    </LibraryI18nProvider>
+  );
+}
+```
+
+## Carousel and bundle cost
+
+`swiper` is only used by the `Carousel` component and components built on top of it, such as `Hero` and `ImageGallery`.
+
+Practical guidance:
+
+- `LogoCarousel` does not use `swiper`
+- import `Carousel` from the component subpath when you need it: `hoam-design-system/Carousel`
+- prefer importing only the components you actually use instead of defaulting to large convenience wrappers in performance-sensitive routes
 
 ## Troubleshooting
 

@@ -26,6 +26,10 @@
       "types": "./dist/hooks/index.d.ts",
       "import": "./dist/hooks/index.js"
     },
+    "./i18n": {
+      "types": "./dist/lib/i18n/index.d.ts",
+      "import": "./dist/lib/i18n/index.js"
+    },
     "./styles.css": "./dist/index.css",
     "./*": {
       "types": "./dist/components/*/index.d.ts",

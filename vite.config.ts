@@ -56,6 +56,7 @@ export default defineConfig({
       entry: {
         index: path.resolve(__dirname, 'src/index.ts'),
         'hooks/index': path.resolve(__dirname, 'src/hooks/index.ts'),
+        'lib/i18n/index': path.resolve(__dirname, 'src/lib/i18n/index.ts'),
         ...getComponentEntryPoints(),
       },
       cssFileName: 'index',

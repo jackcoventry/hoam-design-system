@@ -1,6 +1,7 @@
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 import { Container, Grid, GridItem, Section, Stack } from '@/components/Layout';
+import { useIsomorphicLayoutEffect } from '@/hooks/useIsomorphicLayoutEffect';
 
 import styles from '@/components/LogoCarousel/LogoCarousel.module.css';
 
@@ -37,7 +38,7 @@ export function LogoCarousel({
   const railRef = useRef<HTMLDivElement>(null);
   const [repeat, setRepeat] = useState(MIN_REPEAT);
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const container = containerRef.current;
     const rail = railRef.current;
 

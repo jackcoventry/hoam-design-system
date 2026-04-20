@@ -51,6 +51,7 @@ Available entrypoints:
 - root package: `hoam-design-system`
 - top-level component barrels: `hoam-design-system/Button`, `hoam-design-system/Hero`, `hoam-design-system/Modal`, etc.
 - hooks barrel: `hoam-design-system/hooks`
+- i18n utilities: `hoam-design-system/i18n`
 - stylesheet: `hoam-design-system/styles.css`
 
 ## TypeScript
@@ -66,6 +67,13 @@ import { type ButtonProps } from 'hoam-design-system/Button';
 Use the library in Next.js by importing the stylesheet at the app root and rendering interactive components from a client boundary.
 
 - Guide: [docs/nextjs.md](/Users/jackcoventry/dev/hoam-design-system/docs/nextjs.md)
+
+Practical notes:
+
+- `Modal`, `Navigation`, `NotificationBar`, `QuantitySelector`, and the exported hooks should normally live behind a client boundary
+- `LibraryI18nProvider` is available from `hoam-design-system/i18n`
+- `swiper` is only used by `Carousel` and components built on it, such as `Hero` and `ImageGallery`
+- `LogoCarousel` does not use `swiper`
 
 ## Theming
 
