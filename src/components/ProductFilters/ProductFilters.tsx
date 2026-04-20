@@ -213,7 +213,7 @@ export function FilterBar(props: PropsWithChildren<FilterBarProps>) {
 
                       onChange(toggleOptionSelection(value, group, option.id));
                     }}
-                    aria-label={`${t.remove} ${chip.label}`}
+                    aria-label={t.removeFilter(chip.label)}
                     icon="close"
                     size="small"
                     variant="secondary"

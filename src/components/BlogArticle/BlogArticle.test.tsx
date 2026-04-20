@@ -8,13 +8,13 @@ type MessageKey = 'blogArticle' | 'global';
 
 type BlogArticleMessages = {
   by: string;
-  avatarAria: string;
+  avatarAria: (name: string) => string;
   readingTime: (minutes: number) => string;
 };
 
 type GlobalMessages = {
   share: string;
-  shareAria: string;
+  shareAria: (label: string) => string;
 };
 
 type MessageMap = {
@@ -99,14 +99,14 @@ describe('BlogArticle', () => {
       if (key === 'blogArticle') {
         return {
           by: 'By ',
-          avatarAria: 'Avatar of',
+          avatarAria: (name: string) => `Avatar of ${name}`,
           readingTime: (minutes: number) => `${minutes} min read`,
         };
       }
 
       return {
         share: 'Share',
-        shareAria: 'Share on',
+        shareAria: (label: string) => `Share on ${label}`,
       };
     });
   });

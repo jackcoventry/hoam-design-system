@@ -82,7 +82,7 @@ export function BlogArticle({
                               <span className={styles.authorAvatar}>
                                 <img
                                   src={author.image}
-                                  alt={`${t.avatarAria} ${author.name}`}
+                                  alt={t.avatarAria(author.name)}
                                 />
                               </span>
                             </a>
@@ -92,7 +92,7 @@ export function BlogArticle({
                               <span className={styles.authorAvatar}>
                                 <img
                                   src={author.image}
-                                  alt={`${t.avatarAria} ${author.name}`}
+                                  alt={t.avatarAria(author.name)}
                                 />
                               </span>
                             </span>
@@ -117,7 +117,7 @@ export function BlogArticle({
                             href={link.href}
                             target="_blank"
                             rel="noopener noreferrer"
-                            aria-label={`${tGlobal.shareAria} ${link.label}`}
+                            aria-label={tGlobal.shareAria(link.label)}
                           >
                             <Icon id={link.icon as IconId} />
                           </a>

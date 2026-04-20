@@ -2,7 +2,7 @@ export const defaultMessages = {
   global: {
     readMore: 'Read more',
     share: 'Share',
-    shareAria: 'Share on',
+    shareAria: (label: string) => `Share on ${label}`,
   },
   accordion: {
     collapse: 'Collapse all items',
@@ -21,7 +21,7 @@ export const defaultMessages = {
     columnTotal: 'Total',
   },
   blogArticle: {
-    avatarAria: 'The avatar of',
+    avatarAria: (name: string) => `The avatar of ${name}`,
     by: 'By',
     readingTime: (minutes: number) => `${minutes} minute${minutes === 1 ? '' : 's'} read`,
   },
@@ -78,6 +78,7 @@ export const defaultMessages = {
     mainNavigation: 'Main navigation',
     userNavigation: 'User navigation',
     explore: 'Explore',
+    exploreLabel: (label: string) => `Explore ${label}`,
     modalBasket: 'Your Basket',
   },
   newsletter: {
@@ -116,6 +117,7 @@ export const defaultMessages = {
     active: 'Active filters',
     clear: 'Clear',
     remove: 'Remove',
+    removeFilter: (label: string) => `Remove ${label}`,
   },
   progress: {
     loading: 'Loading progress',

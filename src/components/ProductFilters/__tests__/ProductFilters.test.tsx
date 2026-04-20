@@ -18,6 +18,7 @@ type ProductFiltersMessages = {
   clear: string;
   active: string;
   remove: string;
+  removeFilter: (label: string) => string;
   minimumValueChip: (value: string) => string;
   maximumValueChip: (value: string) => string;
 };
@@ -301,6 +302,7 @@ describe('FilterBar', () => {
       clear: 'Clear',
       active: 'Active filters',
       remove: 'Remove',
+      removeFilter: (label: string) => `Remove ${label}`,
       minimumValueChip: (value: string) => `${value} and up`,
       maximumValueChip: (value: string) => `Up to ${value}`,
     });

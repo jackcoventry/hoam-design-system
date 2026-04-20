@@ -99,7 +99,7 @@ export function DesktopNavigationItems({
                   item.thumbnail ? (
                     <aside
                       className={styles.promoWrapper}
-                      aria-label={`${t.explore} ${item.label}`}
+                      aria-label={t.exploreLabel(item.label)}
                     >
                       <PromoBlock
                         title={item.label}

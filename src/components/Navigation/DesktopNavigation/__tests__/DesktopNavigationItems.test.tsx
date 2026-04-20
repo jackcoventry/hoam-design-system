@@ -284,6 +284,7 @@ describe('DesktopNavigationItems', () => {
       }
       return {
         explore: 'Explore',
+        exploreLabel: (label: string) => `Explore ${label}`,
       } as LibraryMessages['navigation'];
     });
   });
@@ -709,6 +710,7 @@ describe('DesktopNavigationItems', () => {
       }
       return {
         explore: 'Explore',
+        exploreLabel: (label: string) => `Explore ${label}`,
       } as LibraryMessages['navigation'];
     });
 
