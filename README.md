@@ -94,8 +94,6 @@ npm run verify
 Additional checks:
 
 - `npm run test:a11y`
-- `npm run test:visual`
-- `npm run test:visual:update`
 
 
 ## Bundle Budgets

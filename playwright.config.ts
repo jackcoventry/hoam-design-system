@@ -4,8 +4,6 @@ delete process.env.NO_COLOR;
 
 export default defineConfig({
   testDir: './tests',
-  snapshotPathTemplate:
-    '{testDir}/{testFileDir}/{testFileName}-snapshots/{arg}-chromium-darwin{ext}',
   fullyParallel: true,
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 2 : 0,
