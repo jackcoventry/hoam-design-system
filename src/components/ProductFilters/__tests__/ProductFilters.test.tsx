@@ -18,6 +18,8 @@ type ProductFiltersMessages = {
   clear: string;
   active: string;
   remove: string;
+  minimumValueChip: (value: string) => string;
+  maximumValueChip: (value: string) => string;
 };
 
 type FormattingValue = {
@@ -46,7 +48,16 @@ const useMediaQueryMock = vi.fn<(query: string) => boolean>();
 
 const buildChipsMock =
   vi.fn<
-    (groups: readonly FilterGroup[], value: FilterValue, locale: string, currency: string) => Chip[]
+    (
+      groups: readonly FilterGroup[],
+      value: FilterValue,
+      locale: string,
+      currency: string,
+      messages: {
+        minimumValueChip: (value: string) => string;
+        maximumValueChip: (value: string) => string;
+      }
+    ) => Chip[]
   >();
 const clearGroupMock = vi.fn<(value: FilterValue, group: FilterGroup) => FilterValue>();
 const getSelectedCountMock = vi.fn<(group: FilterGroup, value: FilterValue) => number>();
@@ -82,8 +93,12 @@ vi.mock('@/components/ProductFilters/ProductFilters.utils', () => ({
     groups: readonly FilterGroup[],
     value: FilterValue,
     locale: string,
-    currency: string
-  ) => buildChipsMock(groups, value, locale, currency),
+    currency: string,
+    messages: {
+      minimumValueChip: (value: string) => string;
+      maximumValueChip: (value: string) => string;
+    }
+  ) => buildChipsMock(groups, value, locale, currency, messages),
   clearGroup: (value: FilterValue, group: FilterGroup) => clearGroupMock(value, group),
   getSelectedCount: (group: FilterGroup, value: FilterValue) => getSelectedCountMock(group, value),
   isOptionGroup: (group: FilterGroup) => isOptionGroupMock(group),
@@ -286,6 +301,8 @@ describe('FilterBar', () => {
       clear: 'Clear',
       active: 'Active filters',
       remove: 'Remove',
+      minimumValueChip: (value: string) => `${value} and up`,
+      maximumValueChip: (value: string) => `Up to ${value}`,
     });
 
     useFormattingMock.mockReturnValue({
@@ -809,14 +826,17 @@ describe('FilterBar', () => {
     expect(onChangeMock).not.toHaveBeenCalled();
   });
 
-  it('calls buildChips with groups, value, locale, and currency', () => {
+  it('calls buildChips with groups, value, locale, currency, and chip formatters', () => {
     render(
       <FilterBar {...baseProps}>
         <div>Rendered products</div>
       </FilterBar>
     );
 
-    expect(buildChipsMock).toHaveBeenCalledWith(baseProps.groups, value, 'en-GB', 'GBP');
+    expect(buildChipsMock).toHaveBeenCalledWith(baseProps.groups, value, 'en-GB', 'GBP', {
+      minimumValueChip: expect.any(Function),
+      maximumValueChip: expect.any(Function),
+    });
   });
 
   it('calls useMediaQuery with the md breakpoint query', () => {

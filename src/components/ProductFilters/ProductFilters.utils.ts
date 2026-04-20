@@ -1,4 +1,5 @@
 import { formatCurrencyRangeValue, formatCurrencyValue } from '@/lib/i18n/formatting/currency';
+import type { LibraryMessages } from '@/lib/i18n/types';
 
 import type {
   ActiveChip,
@@ -10,6 +11,11 @@ import type {
   RadioGroup,
   RangeGroup,
 } from './ProductFilters.types';
+
+type ProductFilterChipMessages = Pick<
+  LibraryMessages['productFilters'],
+  'minimumValueChip' | 'maximumValueChip'
+>;
 
 export function isRangeGroup(group: FilterGroup): group is RangeGroup {
   return group.kind === 'range';
@@ -111,7 +117,8 @@ export function formatRangeChip(
   group: RangeGroup,
   range: FilterRangeValue,
   locale: string,
-  currency: string
+  currency: string,
+  messages: ProductFilterChipMessages
 ): string {
   const hasMin = typeof range.min === 'number';
   const hasMax = typeof range.max === 'number';
@@ -123,12 +130,12 @@ export function formatRangeChip(
 
   if (hasMin) {
     const label = formatCurrencyValue(range.min || 0, locale, currency);
-    return label;
+    return messages.minimumValueChip(label);
   }
 
   if (hasMax) {
     const label = formatCurrencyValue(range.max || 0, locale, currency);
-    return label;
+    return messages.maximumValueChip(label);
   }
 
   return group.label;
@@ -138,7 +145,8 @@ export function buildChips(
   groups: readonly FilterGroup[],
   value: FilterValue,
   locale: string,
-  currency: string
+  currency: string,
+  messages: ProductFilterChipMessages
 ): ActiveChip[] {
   const chips: ActiveChip[] = [];
 
@@ -151,7 +159,7 @@ export function buildChips(
           key: `${group.id}-range`,
           groupId: group.id,
           groupLabel: group.label,
-          label: formatRangeChip(group, range, locale, currency),
+          label: formatRangeChip(group, range, locale, currency, messages),
         });
       }
 

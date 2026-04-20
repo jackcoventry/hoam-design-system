@@ -107,7 +107,7 @@ export function BlogArticle({
                       </time>
                       <span className={styles.readingTime}>
                         <Icon id="clock" />
-                        {readingTime} {t.readingTime}
+                        {t.readingTime(readingTime)}
                       </span>
                       <div className={styles.socialLinks}>
                         {tGlobal.share}

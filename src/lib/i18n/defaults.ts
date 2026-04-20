@@ -23,7 +23,7 @@ export const defaultMessages = {
   blogArticle: {
     avatarAria: 'The avatar of',
     by: 'By',
-    readingTime: 'minute read',
+    readingTime: (minutes: number) => `${minutes} minute${minutes === 1 ? '' : 's'} read`,
   },
   breadcrumb: {
     navigationLabel: 'Breadcrumb',
@@ -91,8 +91,8 @@ export const defaultMessages = {
     previous: 'Previous page',
     next: 'Next page',
     title: 'Pagination',
-    current: 'Current page',
-    goTo: 'Go to page',
+    currentPage: (page: number) => `Current page, ${page}`,
+    goToPage: (page: number) => `Go to page ${page}`,
   },
   password: {
     strength0: 'Too weak',
@@ -105,8 +105,10 @@ export const defaultMessages = {
     noFilters: 'No filters found',
     maximum: 'Maximum',
     maximumShort: 'Max',
+    maximumValueChip: (value: string) => `Up to ${value}`,
     minimum: 'Minimum',
     minimumShort: 'Min',
+    minimumValueChip: (value: string) => `${value} and up`,
     title: 'Filter products',
     sortBy: 'Sort by',
     toggle: 'Toggle Filters',

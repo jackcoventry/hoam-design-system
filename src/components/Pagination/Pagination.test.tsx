@@ -9,8 +9,8 @@ const mockUseMessages = vi.fn<
     previous: string;
     next: string;
     title: string;
-    current: string;
-    goTo: string;
+    currentPage: (page: number) => string;
+    goToPage: (page: number) => string;
   }
 >();
 
@@ -73,8 +73,8 @@ describe('Pagination', () => {
       previous: 'Previous page',
       next: 'Next page',
       title: 'Pagination',
-      current: 'Current page',
-      goTo: 'Go to page',
+      currentPage: (page: number) => `Current page, ${page}`,
+      goToPage: (page: number) => `Go to page ${page}`,
     });
   });
 

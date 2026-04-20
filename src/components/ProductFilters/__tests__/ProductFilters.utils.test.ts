@@ -26,6 +26,11 @@ import {
   toggleOptionSelection,
 } from '@/components/ProductFilters/ProductFilters.utils';
 
+const productFilterChipMessages = {
+  minimumValueChip: (value: string) => `${value} and up`,
+  maximumValueChip: (value: string) => `Up to ${value}`,
+};
+
 const formatCurrencyRangeValueMock =
   vi.fn<(min: number, max: number, locale: string, currency: string) => string>();
 
@@ -356,42 +361,78 @@ describe('ProductFilters.utils', () => {
 
   describe('formatRangeChip', () => {
     it('formats a full min/max currency range', () => {
-      const result = formatRangeChip(rangeGroup, { min: 10, max: 50 }, 'en-GB', 'GBP');
+      const result = formatRangeChip(
+        rangeGroup,
+        { min: 10, max: 50 },
+        'en-GB',
+        'GBP',
+        productFilterChipMessages
+      );
 
       expect(formatCurrencyRangeValueMock).toHaveBeenCalledWith(10, 50, 'en-GB', 'GBP');
       expect(result).toBe('GBP en-GB 10-50');
     });
 
     it('formats a minimum-only value', () => {
-      const result = formatRangeChip(rangeGroup, { min: 10 }, 'en-GB', 'GBP');
+      const result = formatRangeChip(
+        rangeGroup,
+        { min: 10 },
+        'en-GB',
+        'GBP',
+        productFilterChipMessages
+      );
 
       expect(formatCurrencyValueMock).toHaveBeenCalledWith(10, 'en-GB', 'GBP');
-      expect(result).toBe('GBP en-GB 10');
+      expect(result).toBe('GBP en-GB 10 and up');
     });
 
     it('formats a minimum-only zero value', () => {
-      const result = formatRangeChip(rangeGroup, { min: 0 }, 'en-GB', 'GBP');
+      const result = formatRangeChip(
+        rangeGroup,
+        { min: 0 },
+        'en-GB',
+        'GBP',
+        productFilterChipMessages
+      );
 
       expect(formatCurrencyValueMock).toHaveBeenCalledWith(0, 'en-GB', 'GBP');
-      expect(result).toBe('GBP en-GB 0');
+      expect(result).toBe('GBP en-GB 0 and up');
     });
 
     it('formats a maximum-only value', () => {
-      const result = formatRangeChip(rangeGroup, { max: 50 }, 'en-GB', 'GBP');
+      const result = formatRangeChip(
+        rangeGroup,
+        { max: 50 },
+        'en-GB',
+        'GBP',
+        productFilterChipMessages
+      );
 
       expect(formatCurrencyValueMock).toHaveBeenCalledWith(50, 'en-GB', 'GBP');
-      expect(result).toBe('GBP en-GB 50');
+      expect(result).toBe('Up to GBP en-GB 50');
     });
 
     it('formats a maximum-only zero value', () => {
-      const result = formatRangeChip(rangeGroup, { max: 0 }, 'en-GB', 'GBP');
+      const result = formatRangeChip(
+        rangeGroup,
+        { max: 0 },
+        'en-GB',
+        'GBP',
+        productFilterChipMessages
+      );
 
       expect(formatCurrencyValueMock).toHaveBeenCalledWith(0, 'en-GB', 'GBP');
-      expect(result).toBe('GBP en-GB 0');
+      expect(result).toBe('Up to GBP en-GB 0');
     });
 
     it('falls back to the group label when no min or max exists', () => {
-      const result = formatRangeChip(rangeGroup, {}, 'en-GB', 'GBP');
+      const result = formatRangeChip(
+        rangeGroup,
+        {},
+        'en-GB',
+        'GBP',
+        productFilterChipMessages
+      );
 
       expect(result).toBe('Price');
       expect(formatCurrencyRangeValueMock).not.toHaveBeenCalled();
@@ -401,7 +442,13 @@ describe('ProductFilters.utils', () => {
 
   describe('buildChips', () => {
     it('builds chips for selected range and option values', () => {
-      const result = buildChips([rangeGroup, checkboxGroup, radioGroup], baseValue, 'en-GB', 'GBP');
+      const result = buildChips(
+        [rangeGroup, checkboxGroup, radioGroup],
+        baseValue,
+        'en-GB',
+        'GBP',
+        productFilterChipMessages
+      );
 
       expect(result).toEqual([
         {
@@ -433,7 +480,7 @@ describe('ProductFilters.utils', () => {
         },
       };
 
-      const result = buildChips([rangeGroup], value, 'en-GB', 'GBP');
+      const result = buildChips([rangeGroup], value, 'en-GB', 'GBP', productFilterChipMessages);
 
       expect(result).toEqual([]);
     });
@@ -444,7 +491,7 @@ describe('ProductFilters.utils', () => {
         ranges: {},
       };
 
-      const result = buildChips([rangeGroup], value, 'en-GB', 'GBP');
+      const result = buildChips([rangeGroup], value, 'en-GB', 'GBP', productFilterChipMessages);
 
       expect(result).toEqual([]);
     });
@@ -457,7 +504,7 @@ describe('ProductFilters.utils', () => {
         ranges: {},
       };
 
-      const result = buildChips([checkboxGroup], value, 'en-GB', 'GBP');
+      const result = buildChips([checkboxGroup], value, 'en-GB', 'GBP', productFilterChipMessages);
 
       expect(result).toEqual([
         {

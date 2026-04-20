@@ -9,7 +9,7 @@ type MessageKey = 'blogArticle' | 'global';
 type BlogArticleMessages = {
   by: string;
   avatarAria: string;
-  readingTime: string;
+  readingTime: (minutes: number) => string;
 };
 
 type GlobalMessages = {
@@ -100,7 +100,7 @@ describe('BlogArticle', () => {
         return {
           by: 'By ',
           avatarAria: 'Avatar of',
-          readingTime: 'min read',
+          readingTime: (minutes: number) => `${minutes} min read`,
         };
       }
 
@@ -179,6 +179,17 @@ describe('BlogArticle', () => {
 
     const icons = screen.getAllByTestId('icon').map((icon) => icon.textContent);
     expect(icons).toContain('clock');
+  });
+
+  it('supports singular and plural reading time formatting from messages', () => {
+    render(
+      <BlogArticle
+        {...baseProps}
+        readingTime={1}
+      />
+    );
+
+    expect(screen.getByText('1 min read')).toBeInTheDocument();
   });
 
   it('renders the social sharing section and links', () => {

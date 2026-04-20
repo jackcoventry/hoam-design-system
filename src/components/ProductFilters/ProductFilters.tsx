@@ -45,8 +45,12 @@ export function FilterBar(props: PropsWithChildren<FilterBarProps>) {
   const baseId = useId();
   const rootRef = useRef<HTMLDivElement | null>(null);
   const chips = useMemo(
-    () => buildChips(groups, value, locale, currency),
-    [groups, value, locale, currency]
+    () =>
+      buildChips(groups, value, locale, currency, {
+        minimumValueChip: t.minimumValueChip,
+        maximumValueChip: t.maximumValueChip,
+      }),
+    [groups, value, locale, currency, t]
   );
   const isDesktop = useMediaQuery(`(min-width: ${BREAKPOINTS.UP.MD})`);
   const [filtersCollapsed, setFiltersCollapsed] = useState<boolean>(!isDesktop);
