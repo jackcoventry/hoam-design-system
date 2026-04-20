@@ -23,15 +23,25 @@ type Author = {
 };
 
 export type BlogArticleProps = {
+  /** Article category label shown above the title. */
   category: string;
+  /** Main article headline. */
   title: string;
+  /** Short summary shown below the title. */
   summary: string;
+  /** Author metadata displayed in the article header. */
   author: Author;
+  /** Optional author profile destination. */
   profileLink?: string | undefined;
+  /** Publish date input passed to the library date formatter. */
   publishDate: string;
+  /** Estimated reading time in minutes. */
   readingTime: number;
+  /** Hero image shown with the article. */
   image: BlogImage;
+  /** Main article content. */
   children: ReactNode;
+  /** Social links rendered in the sharing section. */
   socialLinks: Array<Link>;
 };
 

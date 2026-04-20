@@ -9,8 +9,11 @@ import styles from '@/components/ErrorPanel/ErrorPanel.module.css';
 import typography from '@/styles/Typography.module.css';
 
 export type ErrorPanelProps = {
+  /** Main error message shown as the panel heading. */
   message: string;
+  /** Optional override for the return-action label. */
   returnLabel?: string;
+  /** Destination used by the return action. */
   returnUrl?: string;
 };
 

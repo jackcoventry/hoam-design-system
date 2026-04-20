@@ -142,7 +142,6 @@ describe('Modal', () => {
         isOpen
         {...(props.onClose ? { onClose: props.onClose } : {})}
         {...(props['aria-label'] ? { 'aria-label': props['aria-label'] } : {})}
-        {...(props.id ? { id: props.id } : {})}
         {...(props.variant ? { variant: props.variant } : {})}
       >
         {children ?? (
@@ -203,11 +202,11 @@ describe('Modal', () => {
     expect(dialog).not.toHaveAttribute('aria-labelledby');
   });
 
-  it('passes id and variant to the root element', () => {
-    renderMountedOpenModal({ id: 'my-modal', variant: 'drawer' });
+  it('passes variant to the root element', () => {
+    renderMountedOpenModal({ variant: 'drawer' });
 
     const dialog = screen.getByRole('dialog', { name: 'Example modal' });
-    const root = dialog.closest('#my-modal');
+    const root = dialog.closest('[data-variant]');
 
     expect(root).toBeInTheDocument();
     expect(root).toHaveAttribute('data-variant', 'drawer');

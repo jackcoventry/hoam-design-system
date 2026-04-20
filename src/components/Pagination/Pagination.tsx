@@ -6,12 +6,19 @@ import styles from '@/components/Pagination/Pagination.module.css';
 type PaginationItem = number | 'ellipsis-left' | 'ellipsis-right';
 
 export type PaginationProps = {
+  /** Total number of pages available. */
   pageCount?: number;
+  /** Currently active page number. */
   currentPage?: number;
+  /** Accessible label for the previous-page button. */
   previousLabel?: string;
+  /** Accessible label for the next-page button. */
   nextLabel?: string;
+  /** Accessible label for the pagination navigation landmark. */
   'aria-label'?: string;
+  /** Number of sibling pages shown on each side of the current page. */
   siblingCount?: number;
+  /** Called when the selected page changes. */
   onPageChange?: (page: number) => void;
 };
 

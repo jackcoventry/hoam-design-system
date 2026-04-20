@@ -55,8 +55,6 @@ export type ModalRootProps = {
   onClose?: () => void;
   /** Accessible name for dialogs that do not render a `Modal.Title`. */
   'aria-label'?: string;
-  /** Optional id applied to the portal root element. */
-  id?: string;
   /** Changes the presentation between a centered modal and drawer layout. */
   variant?: ModalVariant;
 };
@@ -80,7 +78,6 @@ function ModalRoot({
   onClose,
   children,
   'aria-label': ariaLabel,
-  id,
   variant = 'modal',
 }: Readonly<PropsWithChildren<ModalRootProps>>) {
   const t = useMessages('modal');
@@ -313,7 +310,6 @@ function ModalRoot({
   return createPortal(
     <div
       ref={rootRef}
-      id={id}
       className={styles.root}
       data-variant={variant}
       data-state={phase}

@@ -6,14 +6,23 @@ import { clamp } from '@/utils/clamp';
 import styles from '@/components/QuantitySelector/QuantitySelector.module.css';
 
 export interface QuantitySelectorProps {
+  /** Current numeric value shown by the selector. */
   value: number;
+  /** Called when the quantity changes. */
   onChange: (value: number) => void;
+  /** Lower bound for the selector value. */
   min?: number;
+  /** Upper bound for the selector value. */
   max?: number;
+  /** Optional id applied to the input element. */
   id?: string;
+  /** Optional name applied to the input element. */
   name?: string;
+  /** Accessible label for the spinbutton value. */
   'aria-label'?: string;
+  /** Accessible label for the increment button. */
   incrementLabel?: string;
+  /** Accessible label for the decrement button. */
   decrementLabel?: string;
 }
 

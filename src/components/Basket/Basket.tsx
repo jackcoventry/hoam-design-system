@@ -12,18 +12,28 @@ type Thumbnail = {
 };
 
 export type BasketItemProps = {
+  /** Stable identifier for the basket line item. */
   id: string;
+  /** Product name shown in the basket. */
   title: string;
+  /** Supporting summary text shown beneath the title. */
   summary: string;
+  /** Unit price for a single quantity of the item. */
   price: number;
+  /** Product thumbnail shown in the basket row. */
   thumbnail: Thumbnail;
+  /** Destination for the product link. */
   url: string;
+  /** Called when the quantity selector changes value. */
   onChange: (value: number) => void;
+  /** Current quantity for the basket item. */
   quantity: number;
 };
 
 export type BasketProps = {
+  /** Basket items rendered in the table body. */
   items?: BasketItemProps[] | null;
+  /** Basket subtotal shown in the footer. */
   total: number;
 };
 

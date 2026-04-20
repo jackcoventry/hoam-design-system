@@ -23,21 +23,31 @@ function createSearchFormSchema(requiredMessage: string) {
 export type SearchFormSchemaType = z.infer<ReturnType<typeof createSearchFormSchema>>;
 
 export type SearchFormResult = {
+  /** Optional stable identifier for the result item. */
   id?: number;
+  /** Result title shown in the list. */
   title: string;
+  /** Destination opened by the result action. */
   url: string;
+  /** Short preview text shown under the result title. */
   preview: string;
 };
 
 export type SearchFormProps = {
+  /** Called when the close action is triggered. */
   onClose: () => void;
+  /** Submit handler for the search query form. */
   onSubmit: SubmitHandler<SearchFormSchemaType>;
+  /** Disables the form while results are loading. */
   loading: boolean;
+  /** Optional override for the submit button and input label text. */
   submitLabel?: string;
+  /** Optional override for the search input placeholder text. */
   placeholderText?: string;
 };
 
 export type SearchResultsProps = {
+  /** Search results rendered in the list. */
   items: SearchFormResult[];
 };
 
