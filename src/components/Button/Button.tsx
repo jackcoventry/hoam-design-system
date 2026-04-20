@@ -22,13 +22,21 @@ export const ButtonVariants = ['primary', 'secondary', 'tertiary'] as const;
 export type ButtonVariantTypes = (typeof ButtonVariants)[number];
 
 type CommonProps = {
+  /** Adds custom class names to the rendered element. */
   className?: string | undefined;
+  /** Visible button content. Used as the fallback accessible name for icon-only buttons. */
   children?: ReactNode | undefined;
+  /** Optional icon rendered alongside the button content. */
   icon?: IconId | undefined;
+  /** Controls whether the icon appears before or after the content. */
   iconPosition?: 'left' | 'right' | undefined;
+  /** Visual treatment for the button. */
   variant?: ButtonVariantTypes | undefined;
+  /** Renders the control as an icon-only button or link. */
   iconOnly?: boolean | undefined;
+  /** Accessible name override, recommended for icon-only buttons without text children. */
   'aria-label'?: string | undefined;
+  /** Compact size used in denser layouts. */
   size?: 'default' | 'small' | undefined;
 };
 
@@ -47,15 +55,25 @@ type AnchorElementProps = {
 >;
 
 export type LinkComponentProps = {
+  /** Destination for custom link implementations. */
   href: string;
+  /** Adds custom class names to the rendered link. */
   className?: string | undefined;
+  /** Visible link content. */
   children?: ReactNode | undefined;
+  /** Link target passed through to the rendered link component. */
   target?: HTMLAttributeAnchorTarget | undefined;
+  /** Relationship attribute, automatically defaulted for `_blank` links when omitted. */
   rel?: string | undefined;
+  /** Click handler for custom link implementations. */
   onClick?: MouseEventHandler<HTMLElement> | undefined;
+  /** Accessible name override for icon-only links. */
   'aria-label'?: string | undefined;
+  /** Internal attribute passed to custom link components so Button styles can position the icon correctly. */
   'data-icon-position'?: 'left' | 'right' | undefined;
+  /** Internal attribute passed to custom link components so Button styles can apply the selected visual variant. */
   'data-variant'?: 'primary' | 'secondary' | 'tertiary' | undefined;
+  /** Internal attribute passed to custom link components so Button styles can apply the selected size. */
   'data-size'?: 'default' | 'small' | undefined;
 };
 

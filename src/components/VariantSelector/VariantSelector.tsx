@@ -10,20 +10,32 @@ import utils from '@/styles/Util.module.css';
 export type VariantValue = string | number;
 
 export type VariantOption = {
+  /** Human-readable option label. */
   label: string;
+  /** Submitted value for the option. */
   value: VariantValue;
+  /** Optional rendered value for swatches, images, or alternate labels. */
   displayValue?: string;
+  /** Prevents the option from being selected. */
   disabled?: boolean;
 };
 
 export type VariantSelectorProps = {
+  /** Shared radio input name for the selector group. */
   name: string;
+  /** Currently selected option value. */
   value: VariantValue | null;
+  /** Called when the selected option changes. */
   onChange: (value: VariantValue) => void;
+  /** Available options rendered in the selector. */
   options: VariantOption[];
+  /** Visible legend shown above the selector group. */
   label?: string | undefined;
+  /** Marks every radio input as required. */
   required?: boolean;
+  /** Allows keyboard navigation to wrap from last to first option. */
   wrap?: boolean;
+  /** Controls the visual representation of each option. */
   variant?: 'color' | 'image' | 'label' | undefined;
 };
 

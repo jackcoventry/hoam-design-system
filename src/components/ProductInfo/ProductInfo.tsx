@@ -20,17 +20,26 @@ const ProductInformationSchema = z.record(z.string(), z.string());
 export type ProductInformationSchemaType = z.infer<typeof ProductInformationSchema>;
 
 export type ProductOption = {
+  /** Human-readable option label. */
   label: string;
+  /** Submitted value for the option. */
   value: string;
+  /** Optional display-only value, used for swatches, images, or alternate labels. */
   displayValue?: string;
+  /** Optional category label used to group select options. */
   category?: string;
+  /** Prevents the option from being selected. */
   disabled?: boolean;
 };
 
 export type ProductOptionGroup = {
+  /** Stable identifier used as the submitted field name. */
   id: string;
+  /** Visible field label shown to customers. */
   label: string;
+  /** Input presentation used to render the option group. */
   input: 'color' | 'image' | 'label' | 'select';
+  /** Available choices for the group. */
   options: ProductOption[];
 };
 
@@ -41,18 +50,28 @@ type MoreInformationItem = {
 };
 
 export type ProductInfoProps = {
+  /** Product title shown above pricing and options. */
   title: string;
+  /** Optional supporting description for the product. */
   description?: string | undefined;
+  /** Stable product identifier used by consuming applications. */
   productId: string;
+  /** Current and comparison pricing for the product. */
   price: { amount: number; saleAmount: number };
+  /** Disables purchase actions when the product cannot be bought. */
   inStock: boolean;
+  /** Shows the "new" product badge. */
   newItem: boolean;
+  /** Shows the low-stock badge. */
   lowStock: boolean;
+  /** Content-driven option groups and accordion content. */
   data: {
     options: ProductOptionGroup[];
     moreInformation: MoreInformationItem[];
   };
+  /** Called with the selected option values when the form is submitted. */
   onSubmit: (args: ProductInformationSchemaType) => void;
+  /** Shows a submitting state on the call-to-action button. */
   isSubmitting: boolean;
 };
 

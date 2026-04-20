@@ -17,13 +17,21 @@ type ProductImage = {
 };
 
 export type ProductTileProps = {
+  /** Product title shown in the card. */
   title: string;
+  /** Stable product identifier used to build the default link target. */
   productId: string;
+  /** Supporting description shown below the title. */
   description: string;
+  /** Current and optional comparison pricing. */
   price: ProductPrice;
+  /** Disables the add-to-cart action when false. */
   inStock: boolean;
+  /** Shows the "new" badge when true. */
   newItem: boolean;
+  /** Shows the low-stock badge when true. */
   lowStock: boolean;
+  /** Product image displayed at the top of the card. */
   image: ProductImage;
 };
 

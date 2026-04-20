@@ -22,26 +22,37 @@ export interface SelectProps<M extends boolean = false>
     SelectHTMLAttributes<HTMLSelectElement>,
     'onChange' | 'value' | 'defaultValue' | 'multiple'
   > {
+  /** Current selected value, or selected values when `multiple` is true. */
   value: OnChangeValue<M>;
+  /** Called with the normalized selected value and the original change event. */
   onChange: (value: OnChangeValue<M>, event: ChangeEvent<HTMLSelectElement>) => void;
+  /** Enables native multi-select behavior and changes `value` to a string array. */
   multiple?: M;
+  /** Optional visible label rendered above the control. */
   label?: string;
 }
 
 export interface SelectOptionProps
   extends Omit<OptionHTMLAttributes<HTMLOptionElement>, 'label' | 'value'> {
+  /** Submitted value for the option. */
   value: string;
+  /** Optional text label used when no children are provided. */
   label?: string;
+  /** Optional custom option content. */
   children?: ReactNode;
 }
 
 export interface SelectOptGroupProps extends OptgroupHTMLAttributes<HTMLOptGroupElement> {
+  /** Visible label for the option group. */
   label: string;
+  /** Grouped options rendered inside the optgroup. */
   children?: ReactNode;
 }
 
 export interface SelectPlaceholderProps {
+  /** Placeholder content rendered as a hidden disabled option. */
   children: ReactNode;
+  /** Placeholder value, defaults to an empty string. */
   value?: string;
 }
 

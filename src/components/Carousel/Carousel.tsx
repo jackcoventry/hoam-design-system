@@ -32,23 +32,41 @@ type CarouselAutoplay =
 type CarouselEffect = 'slide' | 'fade';
 
 export type CarouselProps<T> = {
+  /** Slide data rendered by the carousel. */
   slides: T[];
+  /** Returns a stable React key for each slide. */
   getSlideKey: (slide: T, index: number) => React.Key;
+  /** Renders the contents of each slide. */
   renderSlide: (slide: T, index: number) => React.ReactNode;
+  /** Adds custom class names to the carousel wrapper. */
   className?: string;
+  /** Adds custom class names to each `SwiperSlide`. */
   slideClassName?: string;
+  /** Enables previous/next navigation controls. */
   navigation?: boolean;
+  /** Enables pagination bullets. */
   pagination?: boolean;
+  /** Enables the draggable scrollbar. */
   scrollbar?: boolean;
+  /** Repeats slides infinitely. */
   loop?: boolean;
+  /** Centers the active slide within the track. */
   centeredSlides?: boolean;
+  /** Enables autoplay with defaults or a custom Swiper autoplay config. */
   autoplay?: CarouselAutoplay;
+  /** Number of slides shown at once, or `'auto'` for intrinsic widths. */
   slidesPerView?: number | 'auto';
+  /** Spacing between slides in pixels. */
   spaceBetween?: number;
+  /** Responsive Swiper breakpoint configuration. */
   breakpoints?: SwiperProps['breakpoints'];
+  /** Accessible label used for the Swiper container message. */
   'aria-label'?: string;
+  /** Visual transition between slides. */
   effect?: CarouselEffect;
+  /** Enables keyboard interaction. */
   keyboard?: boolean;
+  /** Additional Swiper props, excluding the options controlled by this wrapper. */
   swiperProps?: Omit<
     SwiperProps,
     | 'modules'

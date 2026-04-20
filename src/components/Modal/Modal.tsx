@@ -49,21 +49,29 @@ function useModalContext(componentName: string): ModalContextValue {
 }
 
 export type ModalRootProps = {
+  /** Controls whether the modal is rendered and participates in focus management. */
   isOpen: boolean;
+  /** Called when the modal requests to close, such as backdrop click or Escape key. */
   onClose?: () => void;
+  /** Accessible name for dialogs that do not render a `Modal.Title`. */
   'aria-label'?: string;
+  /** Optional id applied to the portal root element. */
   id?: string;
+  /** Changes the presentation between a centered modal and drawer layout. */
   variant?: ModalVariant;
 };
 
 export type ModalSectionProps = PropsWithChildren<{
+  /** Applies the section's default internal spacing. */
   padded?: boolean;
 }>;
 
 export type ModalTitleProps = PropsWithChildren;
 
 export type ModalCloseButtonProps = {
+  /** Accessible name override for the close button. */
   'aria-label'?: string;
+  /** Optional callback invoked before the modal close request is dispatched. */
   callback?: () => void;
 };
 

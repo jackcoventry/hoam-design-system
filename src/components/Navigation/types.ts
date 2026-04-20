@@ -9,9 +9,13 @@ export type NavUserAction = 'USER_SEARCH' | 'USER_BASKET';
 export type NavigationUserItems = NavUserItem[];
 
 export interface NavLeafItem {
+  /** Stable identifier for the navigation item. */
   id: string;
+  /** Visible link label. */
   label: string;
+  /** Link destination. */
   href: string;
+  /** Optional supporting text for richer menus. */
   description?: string;
 }
 
@@ -56,19 +60,30 @@ export interface NavPanelLinkItem {
 export type NavPanelItem = NavPanelLinkItem | NavGroupItem;
 
 export interface NavTopLevelItem {
+  /** Stable identifier for the top-level navigation item. */
   id: string;
+  /** Visible label shown in the top navigation. */
   label: string;
+  /** Optional direct destination when the item is also a link. */
   href?: string;
+  /** Optional promo image rendered in the desktop flyout. */
   thumbnail?: string;
+  /** Optional panel content rendered when the item is expanded. */
   items?: NavPanelItem[];
 }
 
 export interface NavUserItem {
+  /** Stable identifier for the user action item. */
   id: string;
+  /** Visible label used for the action. */
   label: string;
+  /** Destination for link-based user items. */
   href: string;
+  /** Icon token id rendered for the action. */
   icon: string;
+  /** Optional longer label used in some navigation layouts. */
   title?: string;
+  /** Optional built-in behavior for search and basket actions. */
   action?: NavUserAction;
 }
 
@@ -80,13 +95,21 @@ export type NavTreeItem =
   | NavThumbnailItem;
 
 export interface NavigationProps<TData, TError extends Error = Error> {
+  /** Primary navigation tree rendered in both desktop and mobile navigation. */
   items?: NavTopLevelItem[];
+  /** Secondary user-action items such as account, search, and basket. */
   userItems?: NavUserItem[];
+  /** Accessible label for the brand or home link. */
   brandLabel?: string;
+  /** Destination used for the brand or home link. */
   homeHref?: string;
+  /** Search form submit handler used by the built-in search modal. */
   searchSubmit: SubmitHandler<SearchFormSchemaType>;
+  /** Search results rendered inside the built-in search modal. */
   searchData: SearchFormResult[] | null;
+  /** Async state object that drives the built-in search modal UI. */
   searchState: AsyncState<TData, TError>;
+  /** Basket items rendered inside the built-in basket modal. */
   basketData: BasketItemProps[];
 }
 
