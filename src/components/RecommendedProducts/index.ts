@@ -1,3 +1,4 @@
+/** Product recommendations list and its props. */
 export {
   RecommendedProducts,
   type RecommendedProductsProps,
