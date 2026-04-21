@@ -60,7 +60,7 @@
     "budgets": "node src/scripts/check-budgets.mjs",
     "build-storybook": "storybook build",
     "storybook:ci": "python3 src/scripts/serve_storybook.py",
-    "verify": "npm run generate:check && npm run build && npm run budgets && npm run prettier && npm run lint && npm run typecheck && npm run test:run:unit && npm run test:a11y"
+    "verify": "node src/scripts/verify.mjs"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,astro,json,md,css}": [

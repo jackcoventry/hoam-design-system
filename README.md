@@ -106,6 +106,12 @@ npm run dev
 npm run verify
 ```
 
+Verbose mode:
+
+```bash
+npm run verify -- --verbose
+```
+
 Additional checks:
 
 - `npm run test:a11y`
