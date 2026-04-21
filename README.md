@@ -88,6 +88,10 @@ Override the exported CSS custom properties in your app to customize colors, typ
 
 - Guide: [docs/theming.md](/Users/jackcoventry/dev/hoam-design-system/docs/theming.md)
 
+## Releasing
+
+- Guide: [docs/releasing.md](/Users/jackcoventry/dev/hoam-design-system/docs/releasing.md)
+
 ## Modal Stacking
 
 `Modal` works without a provider for single-modal usage.

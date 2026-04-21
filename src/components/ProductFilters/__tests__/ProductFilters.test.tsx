@@ -164,12 +164,12 @@ vi.mock('@/components/Form/Select/Select', () => {
     value,
     onChange,
     children,
-  }: {
+  }: Readonly<{
     id?: string;
     value?: string;
     onChange?: (nextValue: string) => void;
     children: ReactNode;
-  }) {
+  }>) {
     return (
       <select
         id={id}
