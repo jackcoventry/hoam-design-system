@@ -146,6 +146,7 @@ Practical guidance:
 - `LogoCarousel` does not use `swiper`
 - import `Carousel` from the component subpath when you need it: `hoam-design-system/Carousel`
 - prefer importing only the components you actually use instead of defaulting to large convenience wrappers in performance-sensitive routes
+- `styles.css` is intentionally a single global import for the whole brand system, so import it once at the app root rather than trying to split library CSS per route
 
 ## Troubleshooting
 

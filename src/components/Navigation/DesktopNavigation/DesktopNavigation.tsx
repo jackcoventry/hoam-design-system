@@ -62,10 +62,7 @@ export function DesktopNavigation({
   resetNavigation,
 }: Readonly<DesktopNavigationProps>) {
   const rootRef = useRef<HTMLElement | null>(null);
-  const isRTL = useMemo(
-    () => typeof document !== 'undefined' && document.dir === 'rtl',
-    []
-  );
+  const isRTL = useMemo(() => typeof document !== 'undefined' && document.dir === 'rtl', []);
 
   const mapArrow = useCallback(
     (key: string) =>

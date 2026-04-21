@@ -54,6 +54,12 @@ Available entrypoints:
 - i18n utilities: `hoam-design-system/i18n`
 - stylesheet: `hoam-design-system/styles.css`
 
+## Packaging Notes
+
+- `hoam-design-system/styles.css` is intentionally all-in. This library is designed to ship as a cohesive single-brand system rather than as per-component CSS fragments.
+- `swiper` is an intentional dependency of the library. It powers `Carousel` and components built on top of it, such as `Hero` and `ImageGallery`.
+- Form validation uses `zod/mini` internally to keep the validation/runtime bundle leaner without changing the public API.
+
 ## TypeScript
 
 The package ships declaration files for both the root export and component subpaths.
@@ -74,6 +80,7 @@ Practical notes:
 - `LibraryI18nProvider` is available from `hoam-design-system/i18n`
 - `swiper` is only used by `Carousel` and components built on it, such as `Hero` and `ImageGallery`
 - `LogoCarousel` does not use `swiper`
+- the stylesheet is intentionally a single global import: `hoam-design-system/styles.css`
 
 ## Theming
 
@@ -115,6 +122,7 @@ This checks:
 - `dist/index.js` raw + gzip size
 - `dist/index.css` raw + gzip size
 - the built `Carousel` chunk raw + gzip size
+- the built `schemas-*` chunk raw + gzip size
 - `npm pack --dry-run` tarball + unpacked size
 
 Override thresholds with environment variables (bytes):
@@ -125,5 +133,7 @@ Override thresholds with environment variables (bytes):
 - `HOAM_BUDGET_INDEX_CSS_GZIP`
 - `HOAM_BUDGET_CAROUSEL_CHUNK_RAW`
 - `HOAM_BUDGET_CAROUSEL_CHUNK_GZIP`
+- `HOAM_BUDGET_SCHEMAS_CHUNK_RAW`
+- `HOAM_BUDGET_SCHEMAS_CHUNK_GZIP`
 - `HOAM_BUDGET_PACK_TARBALL`
 - `HOAM_BUDGET_PACK_UNPACKED`

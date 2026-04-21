@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+
 import { Carousel } from '@/components/Carousel';
 import { useMessages } from '@/hooks/useMessages';
 

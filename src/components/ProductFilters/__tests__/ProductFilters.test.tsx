@@ -834,10 +834,19 @@ describe('FilterBar', () => {
       </FilterBar>
     );
 
-    expect(buildChipsMock).toHaveBeenCalledWith(baseProps.groups, value, 'en-GB', 'GBP', {
-      minimumValueChip: expect.any(Function),
-      maximumValueChip: expect.any(Function),
-    });
+    expect(buildChipsMock).toHaveBeenCalledWith(
+      baseProps.groups,
+      value,
+      'en-GB',
+      'GBP',
+      expect.anything()
+    );
+
+    const chipFormatters = buildChipsMock.mock.calls[0]?.[4];
+
+    expect(chipFormatters).toBeDefined();
+    expect(typeof chipFormatters?.minimumValueChip).toBe('function');
+    expect(typeof chipFormatters?.maximumValueChip).toBe('function');
   });
 
   it('calls useMediaQuery with the md breakpoint query', () => {

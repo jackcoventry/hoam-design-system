@@ -30,23 +30,22 @@ function createRegisterFormSchema(messages: {
       firstName: z.string(),
       lastName: z.string(),
       email: z.string().check(z.email(messages.emailInvalid)),
-      password: z.string().check(
-        z.minLength(8, messages.passwordMinLength),
-        z.regex(/[A-Z]/, messages.passwordUppercase),
-        z.regex(/[a-z]/, messages.passwordLowercase),
-        z.regex(/\d/, messages.passwordDigit),
-        z.regex(/[^A-Za-z0-9]/, messages.passwordSpecial)
-      ),
+      password: z
+        .string()
+        .check(
+          z.minLength(8, messages.passwordMinLength),
+          z.regex(/[A-Z]/, messages.passwordUppercase),
+          z.regex(/[a-z]/, messages.passwordLowercase),
+          z.regex(/\d/, messages.passwordDigit),
+          z.regex(/[^A-Za-z0-9]/, messages.passwordSpecial)
+        ),
       confirmPassword: z.string(),
     })
     .check(
-      z.refine(
-        ({ password, confirmPassword }) => confirmPassword === password,
-        {
-          error: messages.passwordsDoNotMatch,
-          path: ['confirmPassword'],
-        }
-      )
+      z.refine(({ password, confirmPassword }) => confirmPassword === password, {
+        error: messages.passwordsDoNotMatch,
+        path: ['confirmPassword'],
+      })
     );
 }
 

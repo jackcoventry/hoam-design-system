@@ -128,20 +128,11 @@ export function Carousel<T>({
     [ariaLabel, t.label]
   );
 
-  const paginationConfig = useMemo(
-    () => (pagination ? { clickable: true } : false),
-    [pagination]
-  );
+  const paginationConfig = useMemo(() => (pagination ? { clickable: true } : false), [pagination]);
 
-  const scrollbarConfig = useMemo(
-    () => (scrollbar ? { draggable: true } : false),
-    [scrollbar]
-  );
+  const scrollbarConfig = useMemo(() => (scrollbar ? { draggable: true } : false), [scrollbar]);
 
-  const keyboardConfig = useMemo(
-    () => (keyboard ? { enabled: true } : undefined),
-    [keyboard]
-  );
+  const keyboardConfig = useMemo(() => (keyboard ? { enabled: true } : undefined), [keyboard]);
 
   const fadeEffectConfig = useMemo(
     () => (effect === 'fade' ? { crossFade: true } : undefined),
