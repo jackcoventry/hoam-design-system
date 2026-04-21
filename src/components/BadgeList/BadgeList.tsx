@@ -13,6 +13,7 @@ import styles from '@/components/BadgeList/BadgeList.module.css';
 export const BadgeListVariants = ['default', 'alert', 'highlight'] as const;
 export type BadgeListItemVariant = (typeof BadgeListVariants)[number];
 export type BadgeListItemProps = {
+  /** Visual style applied to the badge item. */
   variant: BadgeListItemVariant;
 };
 

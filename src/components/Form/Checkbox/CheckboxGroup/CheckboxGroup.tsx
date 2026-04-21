@@ -5,11 +5,17 @@ import styles from './CheckboxGroup.module.css';
 import utils from '@/styles/Util.module.css';
 
 export interface CheckboxGroupProps {
+  /** Accessible legend for the checkbox group. */
   legend: string;
+  /** Optional supporting description shown below the legend. */
   description?: string;
+  /** Validation error shown below the group. */
   error?: string;
+  /** Checkbox items rendered inside the group. */
   children: ReactNode;
+  /** Adds custom class names to the fieldset. */
   className?: string;
+  /** Marks the group as required in the UI. */
   required?: boolean;
 }
 

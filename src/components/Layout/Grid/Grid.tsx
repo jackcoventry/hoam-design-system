@@ -6,9 +6,13 @@ import styles from '@/components/Layout/Grid/Grid.module.css';
 export type GridGap = 'none' | 'sm' | 'md' | 'lg' | 'xl';
 
 export type GridProps = HTMLAttributes<HTMLDivElement> & {
+  /** Grid content laid out in columns. */
   children: ReactNode;
+  /** Number of columns available in the grid. */
   cols?: number;
+  /** Horizontal column gap token. */
   gap?: GridGap;
+  /** Vertical row gap token. Defaults to `gap` when omitted. */
   rowGap?: GridGap;
 };
 

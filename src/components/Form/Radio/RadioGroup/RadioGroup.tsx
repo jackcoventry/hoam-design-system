@@ -5,11 +5,17 @@ import styles from './RadioGroup.module.css';
 import utils from '@/styles/Util.module.css';
 
 export interface RadioGroupProps {
+  /** Accessible legend for the radio group. */
   legend: string;
+  /** Optional supporting description shown below the legend. */
   description?: string;
+  /** Validation error shown below the group. */
   error?: string;
+  /** Radio items rendered inside the group. */
   children: ReactNode;
+  /** Adds custom class names to the fieldset. */
   className?: string;
+  /** Marks the group as required in the UI. */
   required?: boolean;
 }
 

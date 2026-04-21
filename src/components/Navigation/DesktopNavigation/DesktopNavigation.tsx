@@ -12,20 +12,35 @@ import { KEYS } from '@/constants/keys';
 import styles from '@/components/Navigation/Navigation.module.css';
 
 export type DesktopNavigationProps = {
+  /** Primary top-level navigation items. */
   items: NavTopLevelItem[];
+  /** Secondary user action items. */
   userItems: NavUserItem[];
+  /** Accessible label for the brand or home link. */
   brandLabel: string;
+  /** Destination used for the brand or home link. */
   homeHref: string;
+  /** Index of the currently open top-level item. */
   openIndex: number | null;
+  /** Sets the currently open top-level item index. */
   setOpenIndex: (index: number | null) => void;
+  /** Identifier of the currently open second-level group. */
   openGroupId: string | null;
+  /** Sets the currently open second-level group identifier. */
   setOpenGroupId: (id: string | null) => void;
+  /** Marks keyboard interaction as active for navigation state. */
   setKeyboarding: () => void;
+  /** Opens a top-level item by index. */
   handleTopNavigationOpen: (index: number) => void;
+  /** Closes all open desktop navigation state. */
   handleAllNavigationClose: () => void;
+  /** Clears pending leave timers or state. */
   clearLeave: () => void;
+  /** Opens the search modal action. */
   onOpenSearch: () => void;
+  /** Opens the basket modal action. */
   onOpenBasket: () => void;
+  /** Resets navigation state to its default closed position. */
   resetNavigation: () => void;
 };
 

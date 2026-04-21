@@ -4,16 +4,27 @@ import type { CSSProperties, HTMLAttributes, ReactNode } from 'react';
 import styles from '@/components/Layout/GridItem/GridItem.module.css';
 
 export type GridItemProps = HTMLAttributes<HTMLDivElement> & {
+  /** Content rendered inside the grid item. */
   children?: ReactNode;
+  /** Default column span across all breakpoints. */
   span?: number;
+  /** Column span from the small breakpoint upward. */
   spanSm?: number;
+  /** Column span from the medium breakpoint upward. */
   spanMd?: number;
+  /** Column span from the large breakpoint upward. */
   spanLg?: number;
+  /** Column span from the extra-large breakpoint upward. */
   spanXl?: number;
+  /** Default starting column. */
   start?: number;
+  /** Starting column from the small breakpoint upward. */
   startSm?: number;
+  /** Starting column from the medium breakpoint upward. */
   startMd?: number;
+  /** Starting column from the large breakpoint upward. */
   startLg?: number;
+  /** Starting column from the extra-large breakpoint upward. */
   startXl?: number;
 };
 

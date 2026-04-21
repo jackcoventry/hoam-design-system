@@ -4,8 +4,11 @@ import { IconId } from '@/design-tokens/icons';
 import styles from '@/components/InfoGrid/InfoGridItem/InfoGridItem.module.css';
 
 export type InfoGridItemProps = {
+  /** Main item heading. */
   title: string;
+  /** Optional supporting description. */
   description?: string | undefined;
+  /** Icon token id shown above the text content. */
   icon: string;
 };
 

@@ -6,8 +6,11 @@ import { mapGapToValue, Spacing } from '@/design-tokens/spacing';
 import styles from '@/components/Layout/Stack/Stack.module.css';
 
 export type StackProps = HTMLAttributes<HTMLDivElement> & {
+  /** Content stacked vertically. */
   children: ReactNode;
+  /** Spacing token between stacked children. */
   gap?: Spacing;
+  /** Cross-axis alignment for the stack. */
   align?: 'stretch' | 'start' | 'center' | 'end';
 };
 

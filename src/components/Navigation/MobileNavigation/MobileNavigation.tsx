@@ -10,8 +10,11 @@ import { useMessages } from '@/hooks/useMessages';
 import styles from '@/components/Navigation/MobileNavigation/MobileNavigation.module.css';
 
 export type MobileNavigationProps = {
+  /** Navigation items rendered in the mobile menu. */
   items: NavTreeItem[];
+  /** Accessible label for the brand or home link. */
   brandLabel: string;
+  /** Destination used for the brand or home link. */
   homeHref: string;
 };
 
