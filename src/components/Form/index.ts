@@ -1,6 +1,8 @@
 /** Accessible label helper for form controls. */
 export { FieldLabel } from '@/components/Form/FieldLabel/FieldLabel';
 /** Wrapper for form fields and inline validation errors. */
+export type { FieldWrapperProps } from '@/components/Form/FieldWrapper/FieldWrapper';
+/** Wrapper for form fields and inline validation errors. */
 export { FieldWrapper } from '@/components/Form/FieldWrapper/FieldWrapper';
 /** Password-strength utility and meter component. */
 export {

@@ -8,7 +8,7 @@ import { IconId } from '@/design-tokens/icons';
 
 import styles from '@/components/Footer/Footer.module.css';
 
-export type Link = {
+export type FooterLink = {
   /** Visible link label. */
   label: string;
   /** Link destination. */
@@ -19,16 +19,16 @@ export type Link = {
 
 type LinkSection = {
   title: string;
-  links: Array<Link>;
+  links: Array<FooterLink>;
 };
 
 export type FooterProps = {
   /** Top navigation link sections, limited to four visible groups. */
   topLinks?: LinkSection[];
   /** Secondary links shown in the footer bottom row. */
-  bottomLinks?: Array<Link>;
+  bottomLinks?: Array<FooterLink>;
   /** Social links rendered with icons. */
-  socialLinks?: Array<Link>;
+  socialLinks?: Array<FooterLink>;
 };
 
 const MAX_TOP_SECTIONS = 4;

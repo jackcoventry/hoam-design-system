@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
 import { BodyText } from '@/components/Common/BodyText';
-import type { Link } from '@/components/Footer';
+import type { FooterLink } from '@/components/Footer';
 import { Icon } from '@/components/Icon';
 import { Container, Grid, GridItem, Stack } from '@/components/Layout';
 import { useDate } from '@/hooks/useDate';
@@ -42,7 +42,7 @@ export type BlogArticleProps = {
   /** Main article content. */
   children: ReactNode;
   /** Social links rendered in the sharing section. */
-  socialLinks: Array<Link>;
+  socialLinks: Array<FooterLink>;
 };
 
 export function BlogArticle({
