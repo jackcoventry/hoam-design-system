@@ -58,7 +58,7 @@
     "dev": "npm run generate && storybook dev -p 6006",
     "build": "npm run generate && vite build",
     "budgets": "node src/scripts/check-budgets.mjs",
-    "build-storybook": "storybook build",
+    "build-storybook": "npm run generate && storybook build",
     "storybook:ci": "python3 src/scripts/serve_storybook.py",
     "verify": "node src/scripts/verify.mjs"
   },

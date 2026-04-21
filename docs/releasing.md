@@ -46,9 +46,8 @@ npm run verify -- --verbose
 ```
 
 4. Commit the release changes.
-5. Create a Git tag matching the package version.
-6. Publish the package.
-7. Push the commit and tag.
+5. Create an annotated Git tag matching the package version.
+6. Push the commit and tag.
 
 ## Suggested Commands
 
@@ -59,7 +58,6 @@ npm version 0.0.2 --no-git-tag-version
 npm run verify
 git add .
 git commit -m "Release 0.0.2"
-git tag v0.0.2
-npm publish
+git tag -a v0.0.2 -m "Release 0.0.2"
 git push origin main --follow-tags
 ```
