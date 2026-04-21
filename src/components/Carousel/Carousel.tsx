@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import clsx from 'clsx';
 import {
   A11y,
@@ -108,45 +108,77 @@ export function Carousel<T>({
   swiperProps,
 }: Readonly<CarouselProps<T>>) {
   const t = useMessages('carousel');
-  const modules = [A11y, Keyboard];
+  const modules = useMemo(() => {
+    const nextModules = [A11y, Keyboard];
 
-  if (navigation) modules.push(Navigation);
-  if (pagination) modules.push(Pagination);
-  if (scrollbar) modules.push(Scrollbar);
-  if (autoplay) modules.push(Autoplay);
-  if (effect === 'fade') modules.push(EffectFade);
+    if (navigation) nextModules.push(Navigation);
+    if (pagination) nextModules.push(Pagination);
+    if (scrollbar) nextModules.push(Scrollbar);
+    if (autoplay) nextModules.push(Autoplay);
+    if (effect === 'fade') nextModules.push(EffectFade);
 
-  const resolvedAutoplay =
-    autoplay === true
-      ? {
-          delay: 5000,
-          disableOnInteraction: false,
-        }
-      : autoplay
+    return nextModules;
+  }, [autoplay, effect, navigation, pagination, scrollbar]);
+
+  const a11yConfig = useMemo(
+    () => ({
+      enabled: true,
+      containerMessage: ariaLabel ?? t.label,
+    }),
+    [ariaLabel, t.label]
+  );
+
+  const paginationConfig = useMemo(
+    () => (pagination ? { clickable: true } : false),
+    [pagination]
+  );
+
+  const scrollbarConfig = useMemo(
+    () => (scrollbar ? { draggable: true } : false),
+    [scrollbar]
+  );
+
+  const keyboardConfig = useMemo(
+    () => (keyboard ? { enabled: true } : undefined),
+    [keyboard]
+  );
+
+  const fadeEffectConfig = useMemo(
+    () => (effect === 'fade' ? { crossFade: true } : undefined),
+    [effect]
+  );
+
+  const resolvedAutoplay = useMemo(
+    () =>
+      autoplay === true
         ? {
-            delay: autoplay.delay ?? 5000,
-            disableOnInteraction: autoplay.disableOnInteraction ?? false,
+            delay: 5000,
+            disableOnInteraction: false,
           }
-        : null;
+        : autoplay
+          ? {
+              delay: autoplay.delay ?? 5000,
+              disableOnInteraction: autoplay.disableOnInteraction ?? false,
+            }
+          : undefined,
+    [autoplay]
+  );
 
   return (
     <div className={clsx(styles.root, className)}>
       <Swiper
         modules={modules}
-        a11y={{
-          enabled: true,
-          containerMessage: ariaLabel ?? t.label,
-        }}
+        a11y={a11yConfig}
         navigation={navigation}
-        pagination={pagination ? { clickable: true } : false}
-        scrollbar={scrollbar ? { draggable: true } : false}
+        pagination={paginationConfig}
+        scrollbar={scrollbarConfig}
         loop={loop}
         centeredSlides={centeredSlides}
         slidesPerView={slidesPerView}
         spaceBetween={spaceBetween}
         effect={effect}
-        {...(keyboard ? { keyboard: { enabled: true } } : {})}
-        {...(effect === 'fade' ? { fadeEffect: { crossFade: true } } : {})}
+        {...(keyboardConfig ? { keyboard: keyboardConfig } : {})}
+        {...(fadeEffectConfig ? { fadeEffect: fadeEffectConfig } : {})}
         {...(resolvedAutoplay ? { autoplay: resolvedAutoplay } : {})}
         {...(breakpoints ? { breakpoints } : {})}
         {...swiperProps}

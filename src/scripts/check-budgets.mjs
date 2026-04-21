@@ -13,6 +13,8 @@ const DEFAULT_BUDGETS = {
   indexCssGzip: 150 * kib,
   carouselChunkRaw: 180 * kib,
   carouselChunkGzip: 50 * kib,
+  schemasChunkRaw: 75 * kib,
+  schemasChunkGzip: 20 * kib,
   packTarball: 350 * kib,
   packUnpacked: 1100 * kib,
 };
@@ -38,6 +40,12 @@ function sizeOfFile(path) {
 function findFirstMatchingFile(path) {
   return readdirSync(resolve(path))
     .filter((file) => file.startsWith('Carousel-') && file.endsWith('.js'))
+    .sort((a, b) => a.localeCompare(b))[0];
+}
+
+function findChunkByPrefix(path, prefix) {
+  return readdirSync(resolve(path))
+    .filter((file) => file.startsWith(`${prefix}-`) && file.endsWith('.js'))
     .sort((a, b) => a.localeCompare(b))[0];
 }
 
@@ -133,17 +141,28 @@ function main() {
       'HOAM_BUDGET_CAROUSEL_CHUNK_GZIP',
       DEFAULT_BUDGETS.carouselChunkGzip
     ),
+    schemasChunkRaw: readBudget('HOAM_BUDGET_SCHEMAS_CHUNK_RAW', DEFAULT_BUDGETS.schemasChunkRaw),
+    schemasChunkGzip: readBudget(
+      'HOAM_BUDGET_SCHEMAS_CHUNK_GZIP',
+      DEFAULT_BUDGETS.schemasChunkGzip
+    ),
     packTarball: readBudget('HOAM_BUDGET_PACK_TARBALL', DEFAULT_BUDGETS.packTarball),
     packUnpacked: readBudget('HOAM_BUDGET_PACK_UNPACKED', DEFAULT_BUDGETS.packUnpacked),
   };
 
   const carouselChunkName = findFirstMatchingFile('dist');
+  const schemasChunkName = findChunkByPrefix('dist', 'schemas');
 
   if (!carouselChunkName) {
     throw new Error('Could not find built Carousel chunk in dist/.');
   }
 
+  if (!schemasChunkName) {
+    throw new Error('Could not find built schemas chunk in dist/.');
+  }
+
   const distCarouselChunk = resolve('dist', carouselChunkName);
+  const distSchemasChunk = resolve('dist', schemasChunkName);
 
   const packageStats = readPackageStats();
 
@@ -177,6 +196,16 @@ function main() {
       label: `dist/${carouselChunkName} (gzip)`,
       actual: gzipSizeOfFile(distCarouselChunk),
       limit: budgets.carouselChunkGzip,
+    }),
+    evaluateBudget({
+      label: `dist/${schemasChunkName} (raw)`,
+      actual: sizeOfFile(distSchemasChunk),
+      limit: budgets.schemasChunkRaw,
+    }),
+    evaluateBudget({
+      label: `dist/${schemasChunkName} (gzip)`,
+      actual: gzipSizeOfFile(distSchemasChunk),
+      limit: budgets.schemasChunkGzip,
     }),
     evaluateBudget({
       label: 'package tarball (whitelisted files)',

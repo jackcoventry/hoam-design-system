@@ -62,7 +62,10 @@ export function DesktopNavigation({
   resetNavigation,
 }: Readonly<DesktopNavigationProps>) {
   const rootRef = useRef<HTMLElement | null>(null);
-  const isRTL = typeof document !== 'undefined' && document.dir === 'rtl';
+  const isRTL = useMemo(
+    () => typeof document !== 'undefined' && document.dir === 'rtl',
+    []
+  );
 
   const mapArrow = useCallback(
     (key: string) =>
@@ -111,15 +114,20 @@ export function DesktopNavigation({
     clearLeave();
   }, [clearLeave]);
 
+  const handleHeaderKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLElement>) => {
+      setKeyboarding();
+      handleNavigationKeyDown(event);
+    },
+    [handleNavigationKeyDown, setKeyboarding]
+  );
+
   return (
     <header
       ref={rootRef}
       onPointerLeave={handleHeaderPointerLeave}
       onPointerEnter={handleHeaderPointerEnter}
-      onKeyDown={(event) => {
-        setKeyboarding();
-        handleNavigationKeyDown(event);
-      }}
+      onKeyDown={handleHeaderKeyDown}
       role="none"
       className={styles.root}
     >

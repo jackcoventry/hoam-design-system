@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import clsx from 'clsx';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import z from 'zod';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { z } from 'zod/mini';
 
 import { Button } from '@/components/Button';
 import { Stack } from '@/components/Layout';
@@ -16,7 +16,7 @@ import utils from '@/styles/Util.module.css';
 
 function createSearchFormSchema(requiredMessage: string) {
   return z.object({
-    q: z.string().trim().min(1, { message: requiredMessage }),
+    q: z.string().check(z.trim(), z.minLength(1, requiredMessage)),
   });
 }
 
@@ -125,7 +125,7 @@ export function SearchForm(props: Readonly<SearchFormProps>) {
   } = props;
 
   const {
-    control,
+    register,
     handleSubmit,
     formState: { errors },
   } = useForm<SearchFormSchemaType>({
@@ -161,21 +161,15 @@ export function SearchForm(props: Readonly<SearchFormProps>) {
             {submitLabel}
           </label>
 
-          <Controller
-            name="q"
-            control={control}
-            render={({ field }) => (
-              <input
-                {...field}
-                id={inputId}
-                type="search"
-                placeholder={queryError || placeholderText}
-                data-valid={queryError ? 'false' : 'true'}
-                aria-invalid={queryError ? 'true' : 'false'}
-                disabled={loading}
-                className={formStyles.textField}
-              />
-            )}
+          <input
+            {...register('q')}
+            id={inputId}
+            type="search"
+            placeholder={queryError || placeholderText}
+            data-valid={queryError ? 'false' : 'true'}
+            aria-invalid={queryError ? 'true' : 'false'}
+            disabled={loading}
+            className={formStyles.textField}
           />
 
           <Button

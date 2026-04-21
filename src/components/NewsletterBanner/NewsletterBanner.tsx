@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import z from 'zod';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { z } from 'zod/mini';
 
 import { Button } from '@/components/Button';
 import { BodyText } from '@/components/Common/BodyText';
@@ -26,7 +26,7 @@ export type NewsletterBannerProps<TData, TError extends Error = Error> = {
 
 function createNewsletterSignupSchema(invalidEmail: string) {
   return z.object({
-    email: z.email(invalidEmail),
+    email: z.string().check(z.email(invalidEmail)),
   });
 }
 
@@ -45,7 +45,7 @@ export function NewsletterBanner<TData, TError extends Error = Error>({
   );
 
   const {
-    control,
+    register,
     handleSubmit,
     formState: { errors },
   } = useForm<NewsletterSignupSchemaType>({
@@ -100,20 +100,14 @@ export function NewsletterBanner<TData, TError extends Error = Error>({
                       {t.emailLabel}
                     </label>
 
-                    <Controller
-                      name="email"
-                      control={control}
-                      render={({ field }) => (
-                        <input
-                          {...field}
-                          id="newsletter-email"
-                          type="email"
-                          placeholder={errors.email?.message || t.emailPlaceholder}
-                          className={textFieldClasses}
-                          data-valid={errors.email ? 'false' : 'true'}
-                          disabled={state.status === 'loading'}
-                        />
-                      )}
+                    <input
+                      {...register('email')}
+                      id="newsletter-email"
+                      type="email"
+                      placeholder={errors.email?.message || t.emailPlaceholder}
+                      className={textFieldClasses}
+                      data-valid={errors.email ? 'false' : 'true'}
+                      disabled={state.status === 'loading'}
                     />
 
                     <Button

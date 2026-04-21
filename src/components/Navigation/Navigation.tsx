@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import { DesktopNavigation } from '@/components/Navigation/DesktopNavigation/DesktopNavigation';
 import { MobileNavigation } from '@/components/Navigation/MobileNavigation/MobileNavigation';
@@ -35,13 +35,21 @@ export function Navigation<TData, TError extends Error = Error>({
   const [openSearchModal, setOpenSearchModal] = useState(false);
   const [openBasketModal, setOpenBasketModal] = useState(false);
 
-  const handleSearchModalClose = () => {
+  const handleSearchModalClose = useCallback(() => {
     setOpenSearchModal(false);
-  };
+  }, []);
 
-  const handleBasketModalClose = () => {
+  const handleBasketModalOpen = useCallback(() => {
+    setOpenBasketModal(true);
+  }, []);
+
+  const handleBasketModalClose = useCallback(() => {
     setOpenBasketModal(false);
-  };
+  }, []);
+
+  const handleSearchModalOpen = useCallback(() => {
+    setOpenSearchModal(true);
+  }, []);
 
   return (
     <>
@@ -65,8 +73,8 @@ export function Navigation<TData, TError extends Error = Error>({
         handleTopNavigationOpen={handleTopNavigationOpen}
         handleAllNavigationClose={handleAllNavigationClose}
         clearLeave={clearLeave}
-        onOpenSearch={() => setOpenSearchModal(true)}
-        onOpenBasket={() => setOpenBasketModal(true)}
+        onOpenSearch={handleSearchModalOpen}
+        onOpenBasket={handleBasketModalOpen}
       />
 
       <SearchModal

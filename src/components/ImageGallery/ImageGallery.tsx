@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { Carousel } from '@/components/Carousel';
 import { useMessages } from '@/hooks/useMessages';
 
@@ -21,6 +22,19 @@ export function ImageGallery({
   'aria-label': ariaLabel,
 }: Readonly<ImageGalleryProps>) {
   const t = useMessages('imageGallery');
+  const getSlideKey = useCallback((item: ImageProps) => item.id, []);
+  const renderSlide = useCallback(
+    (item: ImageProps) => (
+      <div>
+        <img
+          src={item.src}
+          alt={item.alt}
+          className={styles.img}
+        />
+      </div>
+    ),
+    []
+  );
 
   if (!images.length) return null;
 
@@ -28,16 +42,8 @@ export function ImageGallery({
     <div className={styles.root}>
       <Carousel
         slides={images}
-        getSlideKey={(item) => item.id}
-        renderSlide={(item) => (
-          <div>
-            <img
-              src={item.src}
-              alt={item.alt}
-              className={styles.img}
-            />
-          </div>
-        )}
+        getSlideKey={getSlideKey}
+        renderSlide={renderSlide}
         navigation
         pagination
         loop

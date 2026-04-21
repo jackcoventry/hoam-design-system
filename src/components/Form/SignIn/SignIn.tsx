@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import z from 'zod';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { z } from 'zod/mini';
 
 import { Button } from '@/components/Button';
 import { ErrorPanel } from '@/components/ErrorPanel';
@@ -14,10 +14,10 @@ import styles from '@/components/Form/Form.module.css';
 
 function createSignInFormSchema(messages: { invalidEmail: string; passwordMinLength: string }) {
   return z.object({
-    email_address: z.email(messages.invalidEmail).trim().min(1, {
-      message: messages.invalidEmail,
-    }),
-    password: z.string().trim().min(5, { message: messages.passwordMinLength }),
+    email_address: z
+      .string()
+      .check(z.trim(), z.minLength(1, messages.invalidEmail), z.email(messages.invalidEmail)),
+    password: z.string().check(z.trim(), z.minLength(5, messages.passwordMinLength)),
   });
 }
 
@@ -51,7 +51,7 @@ export function SignInForm({ onSubmit, data, error, loading }: Readonly<SignInFo
   );
 
   const {
-    control,
+    register,
     handleSubmit,
     formState: { errors },
   } = useForm<SignInFormSchemaType>({
@@ -97,43 +97,31 @@ export function SignInForm({ onSubmit, data, error, loading }: Readonly<SignInFo
 
         <FieldWrapper error={errors.email_address?.message}>
           <FieldLabel htmlFor={emailId}>{t.emailPlaceholder}</FieldLabel>
-          <Controller
-            name="email_address"
-            control={control}
-            render={({ field }) => (
-              <input
-                {...field}
-                id={emailId}
-                type="email"
-                placeholder={t.emailPlaceholder}
-                className={textFieldClasses}
-                data-valid={errors.email_address ? 'false' : 'true'}
-                autoComplete="email"
-                aria-invalid={errors.email_address ? 'true' : 'false'}
-                disabled={loading}
-              />
-            )}
+          <input
+            {...register('email_address')}
+            id={emailId}
+            type="email"
+            placeholder={t.emailPlaceholder}
+            className={textFieldClasses}
+            data-valid={errors.email_address ? 'false' : 'true'}
+            autoComplete="email"
+            aria-invalid={errors.email_address ? 'true' : 'false'}
+            disabled={loading}
           />
         </FieldWrapper>
 
         <FieldWrapper error={errors.password?.message}>
           <FieldLabel htmlFor={passwordId}>{t.passwordPlaceholder}</FieldLabel>
-          <Controller
-            name="password"
-            control={control}
-            render={({ field }) => (
-              <input
-                {...field}
-                id={passwordId}
-                type="password"
-                placeholder={t.passwordPlaceholder}
-                className={textFieldClasses}
-                data-valid={errors.password ? 'false' : 'true'}
-                autoComplete="current-password"
-                aria-invalid={errors.password ? 'true' : 'false'}
-                disabled={loading}
-              />
-            )}
+          <input
+            {...register('password')}
+            id={passwordId}
+            type="password"
+            placeholder={t.passwordPlaceholder}
+            className={textFieldClasses}
+            data-valid={errors.password ? 'false' : 'true'}
+            autoComplete="current-password"
+            aria-invalid={errors.password ? 'true' : 'false'}
+            disabled={loading}
           />
         </FieldWrapper>
 
