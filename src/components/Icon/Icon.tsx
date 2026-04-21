@@ -2,9 +2,13 @@ import iconsSpriteUrl from '@/assets/icons/icons.svg';
 import type { IconId } from '@/design-tokens/icons';
 
 export type IconProps = {
+  /** Icon token id from the generated icon sprite. */
   id: IconId;
+  /** Adds custom class names to the SVG element. */
   className?: string | undefined;
+  /** Width and height of the icon. */
   size?: string | number;
+  /** Accessible name for non-decorative icons. */
   'aria-label'?: string;
 };
 

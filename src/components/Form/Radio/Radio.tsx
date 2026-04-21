@@ -5,8 +5,11 @@ import styles from './Radio.module.css';
 import utils from '@/styles/Util.module.css';
 
 export interface RadioProps extends Omit<ComponentPropsWithoutRef<'input'>, 'type'> {
+  /** Visible label shown next to the radio input. */
   label: string;
+  /** Optional supporting description shown below the label. */
   description?: string;
+  /** Convenience callback that receives the checked state directly. */
   onCheckedChange?: (checked: boolean) => void;
 }
 

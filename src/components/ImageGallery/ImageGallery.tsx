@@ -10,7 +10,9 @@ type ImageProps = {
 };
 
 export type ImageGalleryProps = {
+  /** Images rendered as gallery slides. */
   images?: ImageProps[];
+  /** Accessible label for the gallery carousel. */
   'aria-label'?: string;
 };
 

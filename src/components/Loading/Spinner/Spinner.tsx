@@ -7,9 +7,13 @@ import { useMessages } from '@/hooks/useMessages';
 import styles from './Spinner.module.css';
 
 export type SpinnerProps<T extends ElementType = 'div'> = {
+  /** Element or component used to render the spinner wrapper. */
   as?: T;
+  /** Accessible text announced for the loading state. */
   label?: string;
+  /** Adds custom class names to the wrapper. */
   className?: string;
+  /** `aria-live` politeness setting for the loading status. */
   ariaLive?: 'polite' | 'off';
 } & Omit<ComponentPropsWithoutRef<T>, 'as' | 'className' | 'children'>;
 

@@ -7,7 +7,9 @@ import { clearIntervalSafe, clearTimeoutSafe } from '@/utils/clearIntervalTimeou
 import styles from '@/components/NotificationBar/NotificationBar.module.css';
 
 export type NotificationBarProps = {
+  /** HTML strings rendered as rotating notification messages. */
   messages: React.ReactNode[];
+  /** Accessible label for the notification region. */
   'aria-label'?: string;
 };
 

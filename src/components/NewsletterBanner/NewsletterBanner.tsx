@@ -14,9 +14,13 @@ import styles from '@/components/NewsletterBanner/NewsletterBanner.module.css';
 import utils from '@/styles/Util.module.css';
 
 export type NewsletterBannerProps<TData, TError extends Error = Error> = {
+  /** Main newsletter heading. */
   title: string;
+  /** Optional supporting description shown above the form. */
   description?: string | undefined;
+  /** Submit handler for the newsletter signup form. */
   onSubmit: SubmitHandler<NewsletterSignupSchemaType>;
+  /** Async state that drives loading and success UI. */
   state: AsyncState<TData, TError>;
 };
 

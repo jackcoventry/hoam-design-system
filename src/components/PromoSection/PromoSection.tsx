@@ -4,12 +4,19 @@ import { Container, Grid, GridItem, Stack } from '@/components/Layout';
 import styles from '@/components/PromoSection/PromoSection.module.css';
 
 export type PromoSectionProps = {
+  /** Main section heading. */
   title: string;
+  /** Optional eyebrow or supporting heading text. */
   subtitle?: string | undefined;
+  /** Optional body copy for the promo section. */
   description?: string | undefined;
+  /** Optional destination for the call-to-action button. */
   linkUrl?: string | undefined;
+  /** Optional call-to-action label. */
   linkText?: string | undefined;
+  /** Optional image shown alongside the content. */
   imageUrl?: string | undefined;
+  /** Controls whether the image appears on the left or right. */
   alignment?: 'left' | 'right' | undefined;
 };
 

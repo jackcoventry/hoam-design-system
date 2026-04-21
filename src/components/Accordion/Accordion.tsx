@@ -22,29 +22,44 @@ import { logger } from '@/utils/logger';
 import styles from '@/components/Accordion/Accordion.module.css';
 
 export interface AccordionProps {
+  /** Allows multiple accordion items to stay open at once. */
   allowMultiple?: boolean;
+  /** Uncontrolled open item ids used on initial render. */
   defaultOpenIds?: string[];
+  /** Controlled open item ids. */
   openIds?: string[];
+  /** Called when the open item ids change. */
   onChange?: (openIds: string[]) => void;
+  /** Adds custom class names to the accordion root. */
   className?: string | undefined;
+  /** Accordion items and their panels. */
   children: ReactNode;
+  /** Shows the expand/collapse-all control when multiple items are allowed. */
   showToggleAll?: boolean;
 }
 
 export interface AccordionItemProps {
+  /** Stable identifier used for button and panel relationships. */
   id: string;
+  /** Exactly one `AccordionHeader` and one `AccordionPanel`. */
   children: ReactNode;
+  /** Adds custom class names to the item wrapper. */
   className?: string;
 }
 
 export interface AccordionHeaderProps {
+  /** Header content shown inside the item trigger button. */
   children: ReactNode;
+  /** Adds custom class names to the trigger button. */
   className?: string | undefined;
+  /** Prevents the item from being toggled. */
   disabled?: boolean;
 }
 
 export interface AccordionPanelProps {
+  /** Panel content shown when the item is open. */
   children: ReactNode;
+  /** Adds custom class names to the panel wrapper. */
   className?: string;
 }
 

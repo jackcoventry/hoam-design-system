@@ -10,8 +10,11 @@ import { logger } from '@/utils/logger';
 import styles from '@/components/InfoGrid/InfoGrid.module.css';
 
 export type InfoGridProps = {
+  /** Main section heading. */
   title: string;
+  /** Optional supporting description shown above the grid items. */
   description?: string | undefined;
+  /** One to three `InfoGridItem` children. */
   children: ReactNode | ReactNode[];
 };
 

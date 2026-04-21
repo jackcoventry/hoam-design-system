@@ -16,17 +16,26 @@ export type HeroBackground =
     };
 
 export type HeroImage = {
+  /** Image source URL. */
   src: string;
+  /** Alternative text for the image. */
   alt: string;
 };
 
 export type HeroSlideProps = {
+  /** Stable slide identifier used as the carousel key. */
   id: string;
+  /** Main slide heading. */
   title: string;
+  /** Supporting heading text shown above the title. */
   subtitle: string;
+  /** Body copy shown in the slide. */
   text: string;
+  /** Optional image or video background. */
   background?: HeroBackground | undefined;
+  /** Optional featured image shown alongside the text content. */
   featuredImage?: HeroImage | undefined;
+  /** Call-to-action configuration for the slide. */
   button: {
     url: string;
     text?: string | undefined;

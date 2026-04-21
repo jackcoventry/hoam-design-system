@@ -52,13 +52,18 @@ function createRegisterFormSchema(messages: {
 
 export type RegisterFormSchemaType = z.infer<ReturnType<typeof createRegisterFormSchema>>;
 export type RegisterFormResult = {
+  /** Backend result message used by the registration flow. */
   message: string;
 };
 
 export type RegisterFormProps = {
+  /** Submit handler for the registration form. */
   onSubmit: SubmitHandler<RegisterFormSchemaType>;
+  /** Disables the form while submission is in progress. */
   loading: boolean;
+  /** Response data from the consuming registration flow. */
   data?: RegisterFormResult | null | undefined;
+  /** Error state rendered as an error panel when present. */
   error?: Error | undefined;
 };
 

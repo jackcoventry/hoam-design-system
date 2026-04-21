@@ -23,13 +23,18 @@ function createSignInFormSchema(messages: { invalidEmail: string; passwordMinLen
 
 export type SignInFormSchemaType = z.infer<ReturnType<typeof createSignInFormSchema>>;
 export type SignInFormResult = {
+  /** Backend result message used by the sign-in flow. */
   message: string;
 };
 
 export type SignInFormProps = {
+  /** Submit handler for the sign-in form. */
   onSubmit: SubmitHandler<SignInFormSchemaType>;
+  /** Disables the form while submission is in progress. */
   loading: boolean;
+  /** Response data from the consuming sign-in flow. */
   data?: SignInFormResult | null;
+  /** Error state rendered as an error panel when present. */
   error?: Error | undefined;
 };
 

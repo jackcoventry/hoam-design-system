@@ -6,8 +6,11 @@ import { Stack } from '@/components/Layout';
 import styles from './Switch.module.css';
 
 export interface SwitchProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {
+  /** Visible label shown next to the switch. */
   label: string;
+  /** Optional supporting description shown under the label. */
   description?: string;
+  /** Convenience callback that receives the checked state directly. */
   onCheckedChange?: (checked: boolean) => void;
 }
 

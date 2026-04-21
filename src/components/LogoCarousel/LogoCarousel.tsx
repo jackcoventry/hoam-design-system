@@ -12,9 +12,13 @@ type LogoCarouselItem = {
 };
 
 export type LogoCarouselProps = {
+  /** Optional section heading shown above the logo rail. */
   title?: string;
+  /** Logos rendered in the repeating rail. */
   items: LogoCarouselItem[];
+  /** Pauses the animation while the rail is hovered. */
   pauseOnHover?: boolean;
+  /** Accessible label for the scrolling logo region. */
   'aria-label'?: string;
 };
 

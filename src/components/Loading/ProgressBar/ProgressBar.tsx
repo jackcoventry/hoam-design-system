@@ -7,14 +7,23 @@ import { clamp } from '@/utils/clamp';
 import styles from '@/components/Loading/ProgressBar/ProgressBar.module.css';
 
 export interface ProgressBarProps {
+  /** Current progress value. Omit for the indeterminate state. */
   value?: number | undefined;
+  /** Minimum value for the progress range. */
   min?: number;
+  /** Maximum value for the progress range. */
   max?: number;
+  /** Visible label shown above the progress indicator. */
   label?: string;
+  /** Shows the computed progress text alongside the label. */
   showValue?: boolean;
+  /** Adds custom class names to the root element. */
   className?: string;
+  /** Adds custom class names to the label element. */
   labelClassName?: string;
+  /** Adds custom class names to the value text element. */
   valueClassName?: string;
+  /** Custom formatter for the displayed progress text. */
   formatValueText?: (percentage: number, value: number, min: number, max: number) => string;
 }
 

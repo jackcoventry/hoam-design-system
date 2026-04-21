@@ -15,9 +15,13 @@ import styles from '@/components/Form/Checkbox/Checkbox.module.css';
 import utils from '@/styles/Util.module.css';
 
 export interface CheckboxProps extends Omit<ComponentPropsWithoutRef<'input'>, 'type'> {
+  /** Visible label shown next to the checkbox. */
   label: string;
+  /** Optional supporting description shown below the label. */
   description?: string;
+  /** Renders the checkbox in an indeterminate visual state. */
   indeterminate?: boolean;
+  /** Convenience callback that receives the checked state directly. */
   onCheckedChange?: (checked: boolean) => void;
 }
 

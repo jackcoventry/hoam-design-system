@@ -7,15 +7,22 @@ type Layout = 'horizontal' | 'vertical' | undefined;
 type Mode = 'manual' | 'automatic' | undefined;
 
 export type TabProps = {
+  /** Stable identifier used for tab and panel relationships. */
   id: string;
+  /** Visible tab label. */
   label: string;
+  /** Tab panel content. */
   content: React.ReactNode;
 };
 
 export type TabsProps = {
+  /** Accessible title for the tab set. */
   title: string;
+  /** Tabs rendered by the component. */
   items: TabProps[];
+  /** Layout direction for the desktop tab list. */
   layout?: Layout;
+  /** Keyboard activation mode for desktop tabs. */
   mode?: Mode;
 };
 

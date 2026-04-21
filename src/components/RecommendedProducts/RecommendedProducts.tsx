@@ -5,8 +5,11 @@ import { ProductTile, type ProductTileProps } from '@/components/ProductTile';
 import styles from '@/components/RecommendedProducts/RecommendedProducts.module.css';
 
 export type RecommendedProductsProps = {
+  /** Main section heading. */
   title: string;
+  /** Optional supporting copy shown above the products. */
   description?: string | undefined;
+  /** Product cards rendered in the recommendation grid. */
   products: ProductTileProps[];
 };
 

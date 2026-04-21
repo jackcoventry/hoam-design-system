@@ -4,7 +4,9 @@ import { useMessages } from '@/hooks/useMessages';
 import styles from '@/components/Breadcrumb/Breadcrumb.module.css';
 
 export type BreadcrumbProps = {
+  /** Ordered breadcrumb items from root to current page. */
   items: NavPanelLinkItem[];
+  /** Accessible label for the breadcrumb navigation landmark. */
   'aria-label'?: string | undefined;
 };
 

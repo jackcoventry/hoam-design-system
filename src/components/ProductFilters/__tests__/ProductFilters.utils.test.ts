@@ -426,13 +426,7 @@ describe('ProductFilters.utils', () => {
     });
 
     it('falls back to the group label when no min or max exists', () => {
-      const result = formatRangeChip(
-        rangeGroup,
-        {},
-        'en-GB',
-        'GBP',
-        productFilterChipMessages
-      );
+      const result = formatRangeChip(rangeGroup, {}, 'en-GB', 'GBP', productFilterChipMessages);
 
       expect(result).toBe('Price');
       expect(formatCurrencyRangeValueMock).not.toHaveBeenCalled();

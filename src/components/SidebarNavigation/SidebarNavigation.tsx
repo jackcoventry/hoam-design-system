@@ -11,16 +11,24 @@ import { BREAKPOINTS } from '@/styles/breakpoints';
 import styles from '@/components/SidebarNavigation/SidebarNavigation.module.css';
 
 export type ItemProps = {
+  /** Stable identifier for the navigation item. */
   id: string;
+  /** Optional destination for the item. */
   href?: string;
+  /** Optional nested child links. */
   items?: ItemProps[];
+  /** Visible label shown in the navigation. */
   label: string;
 };
 
 export type SidebarNavigationProps = {
+  /** Top-level navigation sections rendered in the sidebar. */
   items?: ItemProps[];
+  /** Accessible label for the navigation landmark. */
   ['aria-label']?: string;
+  /** Override for the mobile "hide navigation" label. */
   hideLabel?: string;
+  /** Override for the mobile "show navigation" label. */
   showLabel?: string;
 };
 

@@ -9,10 +9,15 @@ import styles from '@/components/Message/Message.module.css';
 export const MessageStatuses = ['info', 'warning', 'error', 'success'];
 export type MessageStatus = (typeof MessageStatuses)[number];
 export type MessageProps = {
+  /** Called when the dismiss button is pressed. */
   onClose?: (event: MouseEvent<HTMLButtonElement>) => void;
+  /** Visual status of the message. */
   status: MessageStatus;
+  /** Optional supporting copy shown below the title. */
   text?: string | undefined;
+  /** Main heading for the message. */
   title: string;
+  /** Accessible label for the dismiss button. */
   closeMessage?: string;
 };
 

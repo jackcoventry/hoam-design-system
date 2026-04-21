@@ -6,7 +6,9 @@ import { HeroSlide, type HeroSlideProps } from './HeroSlide';
 import styles from '@/components/Hero/Hero.module.css';
 
 export type HeroProps = {
+  /** Hero slides rendered by the carousel or single-slide fallback. */
   items: HeroSlideProps[];
+  /** Accessible label for the hero carousel region. */
   'aria-label'?: string;
 };
 

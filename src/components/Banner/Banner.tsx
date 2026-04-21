@@ -5,14 +5,21 @@ import { useMessages } from '@/hooks/useMessages';
 import styles from '@/components/Banner/Banner.module.css';
 
 export type BannerImage = {
+  /** Image source URL. */
   src: string;
+  /** Alternative text for the image. */
   alt: string;
 };
 export type BannerProps = {
+  /** Main banner heading. */
   title: string;
+  /** Secondary text shown above the title. */
   subtitle: string;
+  /** Body copy shown in the banner. */
   text: string;
+  /** Optional image shown alongside the content. */
   image: string | undefined;
+  /** Call-to-action configuration for the banner. */
   button: {
     url: string;
     text: string | undefined;

@@ -47,19 +47,18 @@ const useMessagesMock = vi.fn<(key: 'productFilters') => ProductFiltersMessages>
 const useFormattingMock = vi.fn<() => FormattingValue>();
 const useMediaQueryMock = vi.fn<(query: string) => boolean>();
 
-const buildChipsMock =
-  vi.fn<
-    (
-      groups: readonly FilterGroup[],
-      value: FilterValue,
-      locale: string,
-      currency: string,
-      messages: {
-        minimumValueChip: (value: string) => string;
-        maximumValueChip: (value: string) => string;
-      }
-    ) => Chip[]
-  >();
+const buildChipsMock = vi.fn<
+  (
+    groups: readonly FilterGroup[],
+    value: FilterValue,
+    locale: string,
+    currency: string,
+    messages: {
+      minimumValueChip: (value: string) => string;
+      maximumValueChip: (value: string) => string;
+    }
+  ) => Chip[]
+>();
 const clearGroupMock = vi.fn<(value: FilterValue, group: FilterGroup) => FilterValue>();
 const getSelectedCountMock = vi.fn<(group: FilterGroup, value: FilterValue) => number>();
 const isOptionGroupMock = vi.fn<(group: FilterGroup) => boolean>();

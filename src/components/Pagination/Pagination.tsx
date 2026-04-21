@@ -141,9 +141,7 @@ export function Pagination(props: Readonly<PaginationProps>) {
             <li key={item}>
               <Button
                 aria-current={isCurrentPage ? 'page' : undefined}
-                aria-label={
-                  isCurrentPage ? t.currentPage(item) : t.goToPage(item)
-                }
+                aria-label={isCurrentPage ? t.currentPage(item) : t.goToPage(item)}
                 disabled={isCurrentPage}
                 variant={isCurrentPage ? 'primary' : 'secondary'}
                 onClick={() => handlePageChange(item)}

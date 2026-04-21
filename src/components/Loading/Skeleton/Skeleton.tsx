@@ -6,9 +6,13 @@ import styles from '@/components/Loading/Skeleton/Skeleton.module.css';
 export type SkeletonVariant = 'rectangular' | 'text' | 'circular';
 
 export interface SkeletonProps extends HTMLAttributes<HTMLSpanElement> {
+  /** Explicit width for the skeleton placeholder. */
   width?: number | string;
+  /** Explicit height for the skeleton placeholder. */
   height?: number | string;
+  /** Visual style of the placeholder. */
   variant?: SkeletonVariant;
+  /** Adds custom class names to the skeleton. */
   className?: string;
 }
 
