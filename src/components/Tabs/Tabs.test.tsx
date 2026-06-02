@@ -1,10 +1,23 @@
+import { forwardRef, type ReactNode } from 'react';
 import { render, screen } from '@testing-library/react';
-import type { ReactNode } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { type TabProps, Tabs } from '@/components/Tabs';
 
 const mockUseMediaQuery = vi.fn<(query: string) => boolean>();
+
+type MockButtonProps = {
+  children: ReactNode;
+  onClick?: () => void;
+  onKeyDown?: React.KeyboardEventHandler<HTMLButtonElement>;
+  id?: string;
+  role?: string;
+  'aria-selected'?: boolean;
+  'aria-controls'?: string;
+  tabIndex?: number;
+  className?: string;
+  variant?: string;
+};
 
 vi.mock('@/hooks/useMediaQuery', () => ({
   useMediaQuery: (query: string) => mockUseMediaQuery(query),
@@ -42,37 +55,27 @@ vi.mock('@/components/Accordion', () => ({
 }));
 
 vi.mock('@/components/Button', () => ({
-  Button: ({
-    children,
-    onClick,
-    onKeyDown,
-    id,
-    role,
-    'aria-selected': ariaSelected,
-    'aria-controls': ariaControls,
-    tabIndex,
-    className,
-    variant,
-    ref,
-    ...rest
-  }: {
-    children: ReactNode;
-    onClick?: () => void;
-    onKeyDown?: React.KeyboardEventHandler<HTMLButtonElement>;
-    id?: string;
-    role?: string;
-    'aria-selected'?: boolean;
-    'aria-controls'?: string;
-    tabIndex?: number;
-    className?: string;
-    variant?: string;
-    ref?: ((element: HTMLButtonElement | null) => void) | React.RefObject<HTMLButtonElement | null>;
-  }) => {
+  Button: forwardRef<HTMLButtonElement, MockButtonProps>(function MockButton(
+    {
+      children,
+      onClick,
+      onKeyDown,
+      id,
+      role,
+      'aria-selected': ariaSelected,
+      'aria-controls': ariaControls,
+      tabIndex,
+      className,
+      variant,
+      ...rest
+    },
+    ref
+  ) {
     function setRef(element: HTMLButtonElement | null) {
       if (typeof ref === 'function') {
         ref(element);
       } else if (ref && 'current' in ref) {
-        ref.current = element;
+        (ref as React.MutableRefObject<HTMLButtonElement | null>).current = element;
       }
     }
 
@@ -94,7 +97,7 @@ vi.mock('@/components/Button', () => ({
         {children}
       </button>
     );
-  },
+  }),
 }));
 
 vi.mock('@/components/Common/BodyText', () => ({

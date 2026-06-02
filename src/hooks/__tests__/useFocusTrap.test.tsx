@@ -1,7 +1,7 @@
-import { createRef } from 'react';
+import { createRef, useRef } from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import type { ReactNode, RefObject } from 'react';
+import type { ReactNode, Ref, RefObject } from 'react';
 import { vi } from 'vitest';
 
 import { useFocusTrap } from '@/hooks/useFocusTrap';
@@ -40,7 +40,7 @@ function FocusTrapHarness({
   containerRef: externalRef,
   children,
 }: Readonly<HarnessProps>) {
-  const fallbackRef = createRef<HTMLDivElement>();
+  const fallbackRef = useRef<HTMLDivElement | null>(null);
   const containerRef = externalRef ?? fallbackRef;
   const focusTrapOptions = onEscape
     ? {
@@ -57,7 +57,7 @@ function FocusTrapHarness({
   return (
     <div>
       <button type="button">Outside before</button>
-      <div ref={containerRef}>{children}</div>
+      <div ref={containerRef as Ref<HTMLDivElement>}>{children}</div>
       <button type="button">Outside after</button>
     </div>
   );

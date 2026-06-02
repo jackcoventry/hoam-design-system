@@ -29,6 +29,7 @@ type ModalPhase = 'closed' | 'opening' | 'open' | 'closing';
 type ModalContextValue = {
   titleId: string;
   close: () => void;
+  registerTitle: () => () => void;
 };
 
 type SiblingDomState = {
@@ -88,6 +89,7 @@ function ModalRoot({
   const phaseRafRef = useRef<number | null>(null);
 
   const [phase, setPhase] = useState<ModalPhase>(isOpen ? 'open' : 'closed');
+  const [titleCount, setTitleCount] = useState(0);
   const prefersReducedMotion = usePrefersReducedMotion();
 
   const instanceId = useId();
@@ -100,6 +102,14 @@ function ModalRoot({
   const close = useCallback(() => {
     onClose?.();
   }, [onClose]);
+
+  const registerTitle = useCallback(() => {
+    setTitleCount((count) => count + 1);
+
+    return () => {
+      setTitleCount((count) => Math.max(0, count - 1));
+    };
+  }, []);
 
   const clearPhaseRaf = useCallback(() => {
     if (phaseRafRef.current !== null) {
@@ -301,11 +311,16 @@ function ModalRoot({
     () => ({
       titleId,
       close,
+      registerTitle,
     }),
-    [titleId, close]
+    [titleId, close, registerTitle]
   );
 
   if (typeof document === 'undefined' || !isRendered) return null;
+
+  const hasTitle = titleCount > 0;
+  const dialogLabel = ariaLabel ?? (hasTitle ? undefined : t.label);
+  const dialogLabelledBy = ariaLabel || !hasTitle ? undefined : titleId;
 
   return createPortal(
     <div
@@ -326,8 +341,8 @@ function ModalRoot({
         className={styles.dialog}
         role="dialog"
         aria-modal="true"
-        aria-label={ariaLabel}
-        aria-labelledby={ariaLabel ? undefined : titleId}
+        aria-label={dialogLabel}
+        aria-labelledby={dialogLabelledBy}
         onKeyDown={handleKeyDown}
         onAnimationEnd={handleAnimationEnd}
         tabIndex={-1}
@@ -351,7 +366,9 @@ function ModalHeader({ children, padded = true }: Readonly<ModalSectionProps>) {
 }
 
 function ModalTitle({ children }: Readonly<ModalTitleProps>) {
-  const { titleId } = useModalContext('Modal.Title');
+  const { titleId, registerTitle } = useModalContext('Modal.Title');
+
+  useEffect(() => registerTitle(), [registerTitle]);
 
   return (
     <h2

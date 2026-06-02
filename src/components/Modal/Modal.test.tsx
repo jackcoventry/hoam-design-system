@@ -13,6 +13,7 @@ import {
 } from './Modal';
 
 type ModalMessages = {
+  label: string;
   close: string;
 };
 
@@ -120,6 +121,7 @@ describe('Modal', () => {
     mockUseMessages.mockImplementation((namespace: string) => {
       if (namespace === 'modal') {
         return {
+          label: 'Dialog',
           close: 'Close modal',
         };
       }
@@ -192,6 +194,19 @@ describe('Modal', () => {
 
     expect(dialog).toHaveAttribute('aria-labelledby', title.getAttribute('id'));
     expect(dialog).not.toHaveAttribute('aria-label');
+  });
+
+  it('falls back to a translated aria-label when no title or aria-label is provided', () => {
+    render(
+      <ModalRoot isOpen>
+        <ModalBody>Untitled modal content</ModalBody>
+      </ModalRoot>
+    );
+
+    const dialog = screen.getByRole('dialog', { name: 'Dialog' });
+
+    expect(dialog).toHaveAttribute('aria-label', 'Dialog');
+    expect(dialog).not.toHaveAttribute('aria-labelledby');
   });
 
   it('uses aria-label instead of aria-labelledby when provided', () => {

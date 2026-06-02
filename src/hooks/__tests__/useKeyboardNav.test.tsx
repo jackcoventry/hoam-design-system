@@ -1,4 +1,4 @@
-import React, { createRef } from 'react';
+import React from 'react';
 import { render } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
@@ -32,7 +32,7 @@ type SubSelectors = {
 };
 
 type TestHarnessProps = {
-  rootRef: React.RefObject<HTMLElement | null>;
+  rootRef: React.MutableRefObject<HTMLElement | null>;
   items: NavItem[];
   setOpenIndex: (index: number | null) => void;
   setOpenGroupId: (id: string | null) => void;
@@ -106,14 +106,14 @@ describe('useKeyboardNav', () => {
     },
   ];
 
-  let rootRef: React.RefObject<HTMLElement | null>;
+  let rootRef: React.MutableRefObject<HTMLElement | null>;
   let container: HTMLElement;
   let handler: ReturnType<typeof useKeyboardNav>;
 
   beforeEach(() => {
     vi.clearAllMocks();
 
-    rootRef = createRef<HTMLElement>();
+    rootRef = { current: null };
     container = document.createElement('div');
     rootRef.current = container;
 

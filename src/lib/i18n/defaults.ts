@@ -70,6 +70,7 @@ export const defaultMessages = {
     label: 'Notifications',
   },
   modal: {
+    label: 'Dialog',
     close: 'Close dialog',
   },
   navigation: {

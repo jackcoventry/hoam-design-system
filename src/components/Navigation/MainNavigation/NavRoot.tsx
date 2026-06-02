@@ -2,7 +2,7 @@ import styles from '@/components/Navigation/Navigation.module.css';
 
 export type NavRootProps = {
   /** Ref attached to the navigation root element. */
-  innerRef: React.RefObject<HTMLElement | null>;
+  innerRef: React.MutableRefObject<HTMLElement | null>;
   /** Called when the pointer leaves the navigation root. */
   onLeave: () => void;
   /** Called when the pointer enters the navigation root. */
