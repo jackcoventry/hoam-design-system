@@ -127,7 +127,7 @@
   margin-top: var(--hoam-spacing-md);
 }
 
-@container (width > 768px) {
+@container (width > 48rem) {
   .row {
     display: grid;
     grid-template-columns: 150px minmax(0, 1fr) 100px 100px;

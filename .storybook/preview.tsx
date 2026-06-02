@@ -15,6 +15,15 @@ const withModalStack: Decorator = (Story) => (
 
 const preview: Preview = {
   parameters: {
+    options: {
+      storySort: {
+        order: [
+          'Pages',
+          'Components',
+          '*',
+        ],
+      },
+    },
     controls: {
       matchers: {
         color: /(background|color)$/i,
