@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useId, useMemo } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod/mini';
@@ -41,6 +41,7 @@ export type SignInFormProps = {
 export function SignInForm({ onSubmit, data, error, loading }: Readonly<SignInFormProps>) {
   const tForm = useMessages('form');
   const t = useMessages('signIn');
+  const baseId = useId();
   const signInFormSchema = useMemo(
     () =>
       createSignInFormSchema({
@@ -66,8 +67,10 @@ export function SignInForm({ onSubmit, data, error, loading }: Readonly<SignInFo
   const submitComplete = data?.message === 'SUCCESS';
 
   const textFieldClasses = styles.textField;
-  const emailId = 'sign-in-email';
-  const passwordId = 'sign-in-password';
+  const emailId = `${baseId}-email`;
+  const passwordId = `${baseId}-password`;
+  const emailErrorId = errors.email_address ? `${emailId}-error` : undefined;
+  const passwordErrorId = errors.password ? `${passwordId}-error` : undefined;
 
   if (error) {
     return (
@@ -95,7 +98,10 @@ export function SignInForm({ onSubmit, data, error, loading }: Readonly<SignInFo
       >
         <h2 className={styles.title}>{t.title}</h2>
 
-        <FieldWrapper error={errors.email_address?.message}>
+        <FieldWrapper
+          error={errors.email_address?.message}
+          errorId={emailErrorId}
+        >
           <FieldLabel htmlFor={emailId}>{t.emailPlaceholder}</FieldLabel>
           <input
             {...register('email_address')}
@@ -106,11 +112,15 @@ export function SignInForm({ onSubmit, data, error, loading }: Readonly<SignInFo
             data-valid={errors.email_address ? 'false' : 'true'}
             autoComplete="email"
             aria-invalid={errors.email_address ? 'true' : 'false'}
+            aria-describedby={emailErrorId}
             disabled={loading}
           />
         </FieldWrapper>
 
-        <FieldWrapper error={errors.password?.message}>
+        <FieldWrapper
+          error={errors.password?.message}
+          errorId={passwordErrorId}
+        >
           <FieldLabel htmlFor={passwordId}>{t.passwordPlaceholder}</FieldLabel>
           <input
             {...register('password')}
@@ -121,6 +131,7 @@ export function SignInForm({ onSubmit, data, error, loading }: Readonly<SignInFo
             data-valid={errors.password ? 'false' : 'true'}
             autoComplete="current-password"
             aria-invalid={errors.password ? 'true' : 'false'}
+            aria-describedby={passwordErrorId}
             disabled={loading}
           />
         </FieldWrapper>

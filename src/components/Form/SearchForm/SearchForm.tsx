@@ -138,6 +138,7 @@ export function SearchForm(props: Readonly<SearchFormProps>) {
 
   const queryError = errors.q?.message;
   const inputId = 'hoam-search-form-input';
+  const queryErrorId = queryError ? `${inputId}-error` : undefined;
 
   return (
     <div className={styles.wrapper}>
@@ -168,9 +169,20 @@ export function SearchForm(props: Readonly<SearchFormProps>) {
             placeholder={queryError || placeholderText}
             data-valid={queryError ? 'false' : 'true'}
             aria-invalid={queryError ? 'true' : 'false'}
+            aria-describedby={queryErrorId}
             disabled={loading}
             className={formStyles.textField}
           />
+
+          {queryError ? (
+            <p
+              id={queryErrorId}
+              role="alert"
+              className={formStyles.error}
+            >
+              {queryError}
+            </p>
+          ) : null}
 
           <Button
             type="submit"

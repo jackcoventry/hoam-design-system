@@ -7,7 +7,7 @@ import { clearIntervalSafe, clearTimeoutSafe } from '@/utils/clearIntervalTimeou
 import styles from '@/components/NotificationBar/NotificationBar.module.css';
 
 export type NotificationBarProps = {
-  /** HTML strings rendered as rotating notification messages. */
+  /** Trusted HTML strings or React nodes rendered as rotating notification content. Sanitize untrusted HTML before passing it here. */
   messages: React.ReactNode[];
   /** Accessible label for the notification region. */
   'aria-label'?: string;
@@ -16,6 +16,14 @@ export type NotificationBarProps = {
 const INTERVAL = 5000;
 const RESTART_DELAY = 2000;
 const FADE_TIME = 500;
+
+function NotificationMessage({ message }: Readonly<{ message: React.ReactNode }>) {
+  if (typeof message === 'string') {
+    return <span dangerouslySetInnerHTML={{ __html: message }} />;
+  }
+
+  return <>{message}</>;
+}
 
 export function NotificationBar({
   messages,
@@ -129,8 +137,9 @@ export function NotificationBar({
         aria-live={ariaLive}
         aria-atomic="true"
         style={fadeStyle}
-        dangerouslySetInnerHTML={{ __html: currentMessage || '' }}
-      />
+      >
+        <NotificationMessage message={currentMessage} />
+      </output>
     </section>
   );
 }

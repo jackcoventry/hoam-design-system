@@ -95,22 +95,6 @@ vi.mock('@/components/SidebarNavigation/SidebarNavigation.module.css', () => ({
   },
 }));
 
-vi.mock('react', async () => {
-  const actual = await vi.importActual<typeof import('react')>('react');
-
-  return {
-    ...actual,
-    Activity: ({ children, mode }: { children: ReactNode; mode: 'visible' | 'hidden' }) => (
-      <div
-        data-testid="activity"
-        data-mode={mode}
-      >
-        {children}
-      </div>
-    ),
-  };
-});
-
 describe('SidebarNavigation', () => {
   const items: ItemProps[] = [
     {
@@ -235,8 +219,7 @@ describe('SidebarNavigation', () => {
       expect(button).toHaveAttribute('data-icon', 'caret-right');
       expect(button).toHaveAttribute('data-size', 'small');
 
-      const activity = screen.getByTestId('activity');
-      expect(activity).toHaveAttribute('data-mode', 'hidden');
+      expect(screen.getByTestId('accordion').parentElement).toHaveAttribute('hidden');
     });
 
     it('toggles to open state and shows the hide label', () => {
@@ -249,24 +232,25 @@ describe('SidebarNavigation', () => {
       expect(openButton).toBeInTheDocument();
       expect(openButton).toHaveAttribute('data-icon', 'caret-down');
 
-      const activity = screen.getByTestId('activity');
-      expect(activity).toHaveAttribute('data-mode', 'visible');
+      expect(screen.getByTestId('accordion').parentElement).not.toHaveAttribute('hidden');
     });
 
     it('toggles open and closed repeatedly', () => {
       render(<SidebarNavigation items={items} />);
 
       fireEvent.click(screen.getByRole('button', { name: 'Show navigation' }));
-      expect(screen.getByTestId('activity')).toHaveAttribute('data-mode', 'visible');
+      expect(screen.getByTestId('accordion').parentElement).not.toHaveAttribute('hidden');
 
       fireEvent.click(screen.getByRole('button', { name: 'Hide navigation' }));
-      expect(screen.getByTestId('activity')).toHaveAttribute('data-mode', 'hidden');
+      expect(screen.getByTestId('accordion').parentElement).toHaveAttribute('hidden');
 
       expect(screen.getByRole('button', { name: 'Show navigation' })).toBeInTheDocument();
     });
 
     it('renders accordion items and child links', () => {
       render(<SidebarNavigation items={items} />);
+
+      fireEvent.click(screen.getByRole('button', { name: 'Show navigation' }));
 
       expect(screen.getByTestId('accordion')).toBeInTheDocument();
       expect(screen.getAllByTestId('accordion-item')).toHaveLength(2);
@@ -316,6 +300,8 @@ describe('SidebarNavigation', () => {
           ]}
         />
       );
+
+      fireEvent.click(screen.getByRole('button', { name: 'Show navigation' }));
 
       expect(screen.getByRole('heading', { name: 'Empty Section' })).toBeInTheDocument();
       expect(screen.getAllByTestId('accordion-item')).toHaveLength(1);

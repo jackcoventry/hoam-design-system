@@ -36,3 +36,9 @@
 .textField[data-valid="false"] {
   --hoam-form-color-field-border: var(--hoam-color-feedback-error);
 }
+
+.error {
+  color: var(--hoam-color-feedback-error);
+  font: var(--hoam-typography-body-2);
+  margin: 0;
+}

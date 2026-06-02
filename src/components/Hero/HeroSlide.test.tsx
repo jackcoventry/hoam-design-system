@@ -37,6 +37,8 @@ vi.mock('@/components/Hero/HeroSlide.module.css', () => ({
 
 type MockButtonProps = {
   children: ReactNode;
+  as?: 'a';
+  href?: string;
   variant?: string;
 };
 
@@ -55,14 +57,22 @@ type MockGridItemProps = {
 const capturedGridItemProps: MockGridItemProps[] = [];
 
 vi.mock('@/components/Button', () => ({
-  Button: ({ children, variant }: MockButtonProps) => (
-    <button
-      type="button"
-      data-variant={variant}
-    >
-      {children}
-    </button>
-  ),
+  Button: ({ children, as, href, variant }: MockButtonProps) =>
+    as === 'a' ? (
+      <a
+        href={href}
+        data-variant={variant}
+      >
+        {children}
+      </a>
+    ) : (
+      <button
+        type="button"
+        data-variant={variant}
+      >
+        {children}
+      </button>
+    ),
 }));
 
 vi.mock('@/components/Layout', () => ({
@@ -121,7 +131,7 @@ describe('HeroSlide', () => {
     expect(screen.getByText('Hero Subtitle')).toBeInTheDocument();
     expect(screen.getByRole('heading', { level: 1, name: 'Hero Title' })).toBeInTheDocument();
     expect(screen.getByText('Hero text content')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Click me' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Click me' })).toHaveAttribute('href', '/test');
   });
 
   it('calls useMessages with the global namespace', () => {
@@ -138,7 +148,7 @@ describe('HeroSlide', () => {
       />
     );
 
-    expect(screen.getByRole('button', { name: 'Read more' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Read more' })).toHaveAttribute('href', '/test');
   });
 
   it('falls back to translated button text when button text is an empty string', () => {
@@ -149,13 +159,13 @@ describe('HeroSlide', () => {
       />
     );
 
-    expect(screen.getByRole('button', { name: 'Read more' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Read more' })).toHaveAttribute('href', '/test');
   });
 
   it('uses the primary button variant', () => {
     render(<HeroSlide {...baseProps} />);
 
-    expect(screen.getByRole('button', { name: 'Click me' })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'Click me' })).toHaveAttribute(
       'data-variant',
       'primary'
     );
