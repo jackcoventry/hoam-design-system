@@ -2,6 +2,8 @@
 
 `hoam-design-system` works in both the Pages Router and the App Router.
 
+The package supports React 18 and React 19. It avoids React 19-only APIs so Next.js applications can consume the library without being forced onto a specific React major version.
+
 ## Install
 
 ```bash
@@ -97,6 +99,22 @@ Notable details:
 - `LogoCarousel` uses an isomorphic layout effect so server rendering does not emit layout-effect warnings
 
 The main rule for consumers is still the same: if your usage relies on interaction, local state, refs, or browser APIs, create a small client wrapper for that part of the UI.
+
+## NotificationBar HTML
+
+`NotificationBar` can render trusted HTML strings, which is useful for CMS-managed notices that include links or simple inline markup.
+
+```tsx
+'use client';
+
+import { NotificationBar } from 'hoam-design-system/NotificationBar';
+
+export function SiteNotice() {
+  return <NotificationBar messages={['Sale now on - <a href="/sale">Take me there</a>.']} />;
+}
+```
+
+Only pass sanitized or otherwise trusted HTML strings. For untrusted user-generated content, pass plain text or React nodes instead.
 
 ## Modal stack provider
 

@@ -13,6 +13,8 @@ Peer dependencies:
 - `react` `^18 || ^19`
 - `react-dom` `^18 || ^19`
 
+The library supports both React 18 and React 19. Components avoid React 19-only APIs so applications can upgrade React on their own schedule.
+
 ## Basic Usage
 
 Import the bundled stylesheet once, then use components from the root package or a component subpath.
@@ -59,6 +61,18 @@ Available entrypoints:
 - `hoam-design-system/styles.css` is intentionally all-in. This library is designed to ship as a cohesive single-brand system rather than as per-component CSS fragments.
 - `swiper` is an intentional dependency of the library. It powers `Carousel` and components built on top of it, such as `Hero` and `ImageGallery`.
 - Form validation uses `zod/mini` internally to keep the validation/runtime bundle leaner without changing the public API.
+
+## HTML Content
+
+Most component content should be passed as plain text or React nodes.
+
+`NotificationBar` also supports trusted HTML strings so CMS-managed notices can render links and simple inline markup:
+
+```tsx
+<NotificationBar messages={['Sale now on - <a href="/sale">Take me there</a>.']} />
+```
+
+Only pass sanitized or otherwise trusted HTML strings to `NotificationBar`. For untrusted user-generated content, pass plain text or React nodes instead.
 
 ## TypeScript
 

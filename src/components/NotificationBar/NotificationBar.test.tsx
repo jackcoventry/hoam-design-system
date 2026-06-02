@@ -64,15 +64,15 @@ describe('NotificationBar', () => {
     expect(output).toContainHTML('<strong>First</strong>');
   });
 
-  it('renders string messages as text rather than HTML', () => {
+  it('renders string messages as trusted HTML', () => {
     act(() => {
       render(<NotificationBar messages={['<strong>First</strong>']} />);
     });
 
     const output = screen.getByLabelText('Notifications').querySelector('output');
 
-    expect(output).toHaveTextContent('<strong>First</strong>');
-    expect(output?.querySelector('strong')).not.toBeInTheDocument();
+    expect(output).toContainHTML('<strong>First</strong>');
+    expect(output?.querySelector('strong')).toHaveTextContent('First');
   });
 
   it('uses a custom aria-label when provided', () => {
