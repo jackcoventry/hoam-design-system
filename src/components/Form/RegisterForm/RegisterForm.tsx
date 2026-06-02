@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useId, useMemo } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm, useWatch } from 'react-hook-form';
 import { z } from 'zod/mini';
@@ -69,6 +69,7 @@ export type RegisterFormProps = {
 export function RegisterForm({ onSubmit, data, error, loading }: Readonly<RegisterFormProps>) {
   const t = useMessages('form');
   const regForm = useMessages('registerForm');
+  const baseId = useId();
   const registerFormSchema = useMemo(
     () =>
       createRegisterFormSchema({
@@ -118,6 +119,20 @@ export function RegisterForm({ onSubmit, data, error, loading }: Readonly<Regist
   const passwordStrength = calculatePasswordStrength(password);
 
   const textFieldClasses = styles.textField;
+  const fieldIds = {
+    firstName: `${baseId}-firstName`,
+    lastName: `${baseId}-lastName`,
+    email: `${baseId}-email`,
+    password: `${baseId}-password`,
+    confirmPassword: `${baseId}-confirmPassword`,
+  };
+  const errorIds = {
+    firstName: errors.firstName ? `${fieldIds.firstName}-error` : undefined,
+    lastName: errors.lastName ? `${fieldIds.lastName}-error` : undefined,
+    email: errors.email ? `${fieldIds.email}-error` : undefined,
+    password: errors.password ? `${fieldIds.password}-error` : undefined,
+    confirmPassword: errors.confirmPassword ? `${fieldIds.confirmPassword}-error` : undefined,
+  };
 
   if (error) {
     return (
@@ -146,42 +161,57 @@ export function RegisterForm({ onSubmit, data, error, loading }: Readonly<Regist
         <h2 className={styles.title}>{regForm.title}</h2>
 
         <section>
-          <FieldLabel htmlFor="firstName">{regForm.firstNameLabel}</FieldLabel>
-          <FieldWrapper error={errors?.firstName?.message}>
+          <FieldLabel htmlFor={fieldIds.firstName}>{regForm.firstNameLabel}</FieldLabel>
+          <FieldWrapper
+            error={errors.firstName?.message}
+            errorId={errorIds.firstName}
+          >
             <input
               {...register('firstName')}
-              id="firstName"
+              id={fieldIds.firstName}
               placeholder={regForm.firstNamePlaceholder}
               className={textFieldClasses}
-              data-valid={errors?.firstName ? 'false' : 'true'}
+              data-valid={errors.firstName ? 'false' : 'true'}
+              aria-invalid={errors.firstName ? 'true' : 'false'}
+              aria-describedby={errorIds.firstName}
               disabled={loading}
             />
           </FieldWrapper>
         </section>
 
         <section>
-          <FieldLabel htmlFor="lastName">{regForm.lastNameLabel}</FieldLabel>
-          <FieldWrapper error={errors?.lastName?.message}>
+          <FieldLabel htmlFor={fieldIds.lastName}>{regForm.lastNameLabel}</FieldLabel>
+          <FieldWrapper
+            error={errors.lastName?.message}
+            errorId={errorIds.lastName}
+          >
             <input
               {...register('lastName')}
-              id="lastName"
+              id={fieldIds.lastName}
               placeholder={regForm.lastNamePlaceholder}
               className={textFieldClasses}
-              data-valid={errors?.lastName ? 'false' : 'true'}
+              data-valid={errors.lastName ? 'false' : 'true'}
+              aria-invalid={errors.lastName ? 'true' : 'false'}
+              aria-describedby={errorIds.lastName}
               disabled={loading}
             />
           </FieldWrapper>
         </section>
 
         <section>
-          <FieldLabel htmlFor="email">{regForm.emailLabel}</FieldLabel>
-          <FieldWrapper error={errors?.email?.message}>
+          <FieldLabel htmlFor={fieldIds.email}>{regForm.emailLabel}</FieldLabel>
+          <FieldWrapper
+            error={errors.email?.message}
+            errorId={errorIds.email}
+          >
             <input
               {...register('email')}
-              id="email"
+              id={fieldIds.email}
               placeholder={regForm.emailPlaceholder}
               className={textFieldClasses}
-              data-valid={errors?.email ? 'false' : 'true'}
+              data-valid={errors.email ? 'false' : 'true'}
+              aria-invalid={errors.email ? 'true' : 'false'}
+              aria-describedby={errorIds.email}
               disabled={loading}
             />
           </FieldWrapper>
@@ -189,31 +219,41 @@ export function RegisterForm({ onSubmit, data, error, loading }: Readonly<Regist
 
         <hr />
         <section>
-          <FieldLabel htmlFor="password">{regForm.passwordLabel}</FieldLabel>
+          <FieldLabel htmlFor={fieldIds.password}>{regForm.passwordLabel}</FieldLabel>
           <PasswordStrengthMeter strength={passwordStrength} />
-          <FieldWrapper error={errors?.password?.message}>
+          <FieldWrapper
+            error={errors.password?.message}
+            errorId={errorIds.password}
+          >
             <input
               {...register('password')}
               type="password"
-              id="password"
+              id={fieldIds.password}
               placeholder={regForm.passwordPlaceholder}
               className={textFieldClasses}
-              data-valid={errors?.password ? 'false' : 'true'}
+              data-valid={errors.password ? 'false' : 'true'}
+              aria-invalid={errors.password ? 'true' : 'false'}
+              aria-describedby={errorIds.password}
               disabled={loading}
             />
           </FieldWrapper>
         </section>
 
         <section>
-          <FieldLabel htmlFor="confirmPassword">{regForm.passwordConfirmLabel}</FieldLabel>
-          <FieldWrapper error={errors?.confirmPassword?.message}>
+          <FieldLabel htmlFor={fieldIds.confirmPassword}>{regForm.passwordConfirmLabel}</FieldLabel>
+          <FieldWrapper
+            error={errors.confirmPassword?.message}
+            errorId={errorIds.confirmPassword}
+          >
             <input
               {...register('confirmPassword')}
               type="password"
-              id="confirmPassword"
+              id={fieldIds.confirmPassword}
               placeholder={regForm.passwordConfirmPlaceholder}
               className={textFieldClasses}
-              data-valid={errors?.confirmPassword ? 'false' : 'true'}
+              data-valid={errors.confirmPassword ? 'false' : 'true'}
+              aria-invalid={errors.confirmPassword ? 'true' : 'false'}
+              aria-describedby={errorIds.confirmPassword}
               disabled={loading}
             />
           </FieldWrapper>

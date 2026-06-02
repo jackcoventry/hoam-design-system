@@ -1,4 +1,4 @@
-import { Activity, type KeyboardEvent, useRef, useState } from 'react';
+import { type KeyboardEvent, useRef, useState } from 'react';
 
 import { Button } from '@/components/Button';
 import { BodyText } from '@/components/Common/BodyText';
@@ -130,20 +130,16 @@ export function DesktopTabs({
         const isActive = activeTab === tab.id;
 
         return (
-          <Activity
+          <section
             key={tab.id}
-            mode={isActive ? 'visible' : 'hidden'}
+            role="tabpanel"
+            id={`hoam-panel-${tab.id}`}
+            aria-labelledby={`hoam-tab-${tab.id}`}
+            hidden={!isActive}
+            className={styles.panel}
           >
-            <section
-              role="tabpanel"
-              id={`hoam-panel-${tab.id}`}
-              aria-labelledby={`hoam-tab-${tab.id}`}
-              hidden={!isActive}
-              className={styles.panel}
-            >
-              <BodyText>{tab.content}</BodyText>
-            </section>
-          </Activity>
+            <BodyText>{tab.content}</BodyText>
+          </section>
         );
       })}
     </div>

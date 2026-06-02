@@ -1,3 +1,4 @@
+import { useId } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod/mini';
@@ -106,6 +107,7 @@ export function ProductInfo({
 }: Readonly<ProductInfoProps>) {
   const t = useMessages('productTile');
   const { formatCurrency } = useCurrency();
+  const baseId = useId();
   const optionGroups = data.options;
 
   const defaultMoreInformation = data?.moreInformation?.[0];
@@ -173,6 +175,8 @@ export function ProductInfo({
             <Stack gap="lg">
               {optionGroups.map((group) => {
                 const errorMessage = errors[group.id]?.message;
+                const errorId =
+                  typeof errorMessage === 'string' ? `${baseId}-${group.id}-error` : undefined;
                 const groupedOptions =
                   group.input === 'select' && group.options.some((option) => option.category)
                     ? getOptionsByCategory(group.options)
@@ -182,6 +186,7 @@ export function ProductInfo({
                   <FieldWrapper
                     key={group.id}
                     error={typeof errorMessage === 'string' ? errorMessage : undefined}
+                    errorId={errorId}
                   >
                     <Controller
                       name={group.id}
@@ -197,6 +202,7 @@ export function ProductInfo({
                             value={fieldValue}
                             onBlur={field.onBlur}
                             onChange={(value) => field.onChange(value)}
+                            aria-describedby={errorId}
                           >
                             {groupedOptions
                               ? groupedOptions.map((category) => (
@@ -237,6 +243,7 @@ export function ProductInfo({
                             value={fieldValue}
                             onChange={(value) => field.onChange(String(value))}
                             variant={group.input}
+                            aria-describedby={errorId}
                           />
                         );
                       }}

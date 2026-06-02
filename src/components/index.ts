@@ -19,6 +19,7 @@ export * from './Navigation';
 export * from './NewsletterBanner';
 export * from './NotificationBar';
 export * from './Pagination';
+export * from './ProductFilters';
 export * from './ProductInfo';
 export * from './ProductTile';
 export * from './PromoSection';

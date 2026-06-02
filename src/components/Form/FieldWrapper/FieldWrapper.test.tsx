@@ -25,7 +25,10 @@ describe('FieldWrapper', () => {
 
   it('renders an error message when error is provided', () => {
     render(
-      <FieldWrapper error="This field is required">
+      <FieldWrapper
+        error="This field is required"
+        errorId="field-error"
+      >
         <input type="text" />
       </FieldWrapper>
     );
@@ -34,6 +37,7 @@ describe('FieldWrapper', () => {
 
     expect(error).toBeInTheDocument();
     expect(error).toHaveTextContent('This field is required');
+    expect(error).toHaveAttribute('id', 'field-error');
   });
 
   it('renders both children and error message together', () => {

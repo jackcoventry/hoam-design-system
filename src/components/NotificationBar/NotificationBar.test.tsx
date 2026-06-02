@@ -54,7 +54,7 @@ describe('NotificationBar', () => {
 
   it('renders the first message', () => {
     act(() => {
-      render(<NotificationBar messages={['<strong>First</strong>', 'Second']} />);
+      render(<NotificationBar messages={[<strong key="first">First</strong>, 'Second']} />);
     });
 
     const region = screen.getByLabelText('Notifications');
@@ -62,6 +62,17 @@ describe('NotificationBar', () => {
 
     expect(output).toBeInTheDocument();
     expect(output).toContainHTML('<strong>First</strong>');
+  });
+
+  it('renders string messages as text rather than HTML', () => {
+    act(() => {
+      render(<NotificationBar messages={['<strong>First</strong>']} />);
+    });
+
+    const output = screen.getByLabelText('Notifications').querySelector('output');
+
+    expect(output).toHaveTextContent('<strong>First</strong>');
+    expect(output?.querySelector('strong')).not.toBeInTheDocument();
   });
 
   it('uses a custom aria-label when provided', () => {

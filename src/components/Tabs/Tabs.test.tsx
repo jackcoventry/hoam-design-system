@@ -112,22 +112,6 @@ vi.mock('@/components/Tabs/Tabs.module.css', () => ({
   },
 }));
 
-vi.mock('react', async () => {
-  const actual = await vi.importActual<typeof import('react')>('react');
-
-  return {
-    ...actual,
-    Activity: ({ children, mode }: { children: ReactNode; mode: 'visible' | 'hidden' }) => (
-      <div
-        data-testid="activity"
-        data-mode={mode}
-      >
-        {children}
-      </div>
-    ),
-  };
-});
-
 describe('Tabs', () => {
   const items: TabProps[] = [
     {

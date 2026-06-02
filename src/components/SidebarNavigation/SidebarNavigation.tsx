@@ -1,4 +1,4 @@
-import { Activity, Suspense, useState } from 'react';
+import { Suspense, useState } from 'react';
 
 import { Accordion, AccordionHeader, AccordionItem, AccordionPanel } from '@/components/Accordion';
 import { Button } from '@/components/Button';
@@ -60,7 +60,7 @@ export function SidebarNavigation(props: Readonly<SidebarNavigationProps>) {
         </Button>
 
         <Suspense fallback={<Spinner />}>
-          <Activity mode={isOpen ? 'visible' : 'hidden'}>
+          <div hidden={!isOpen}>
             <Accordion>
               {items.map((item) => (
                 <AccordionItem
@@ -86,7 +86,7 @@ export function SidebarNavigation(props: Readonly<SidebarNavigationProps>) {
                 </AccordionItem>
               ))}
             </Accordion>
-          </Activity>
+          </div>
         </Suspense>
       </>
     );

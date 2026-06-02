@@ -37,6 +37,8 @@ export type VariantSelectorProps = {
   wrap?: boolean;
   /** Controls the visual representation of each option. */
   variant?: 'color' | 'image' | 'label' | undefined;
+  /** Ids of elements that describe the selector, such as validation errors. */
+  'aria-describedby'?: string | undefined;
 };
 
 function focusNextTick(fn: () => void) {
@@ -49,7 +51,17 @@ function focusNextTick(fn: () => void) {
 
 export const VariantSelector = forwardRef<HTMLInputElement, VariantSelectorProps>(
   (
-    { name, value, onChange, options, label, required, wrap = true, variant = 'label' },
+    {
+      name,
+      value,
+      onChange,
+      options,
+      label,
+      required,
+      wrap = true,
+      variant = 'label',
+      'aria-describedby': ariaDescribedBy,
+    },
     forwardedRef
   ) => {
     const legendId = useId();
@@ -133,6 +145,7 @@ export const VariantSelector = forwardRef<HTMLInputElement, VariantSelectorProps
     return (
       <fieldset
         aria-required={required || undefined}
+        aria-describedby={ariaDescribedBy}
         className={styles.root}
       >
         <Stack gap="sm">
