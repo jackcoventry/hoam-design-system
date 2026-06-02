@@ -1,6 +1,6 @@
 import type React from 'react';
 
-type TimerRef<T> = React.RefObject<T | null>;
+type TimerRef<T> = React.MutableRefObject<T | null>;
 
 export function clearTimeoutSafe(ref: TimerRef<ReturnType<typeof globalThis.setTimeout>>) {
   if (ref.current !== null) {

@@ -6,9 +6,11 @@ import { clearIntervalSafe, clearTimeoutSafe } from '@/utils/clearIntervalTimeou
 
 import styles from '@/components/NotificationBar/NotificationBar.module.css';
 
+export type NotificationBarMessage = React.ReactNode;
+
 export type NotificationBarProps = {
   /** Trusted HTML strings or React nodes rendered as rotating notification content. Sanitize untrusted HTML before passing it here. */
-  messages: React.ReactNode[];
+  messages: readonly NotificationBarMessage[];
   /** Accessible label for the notification region. */
   'aria-label'?: string;
 };

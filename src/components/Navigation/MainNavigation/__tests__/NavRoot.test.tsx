@@ -9,7 +9,7 @@ vi.mock('@/components/Navigation/Navigation.module.css', () => ({
   },
 }));
 
-function createInnerRef(): React.RefObject<HTMLElement | null> {
+function createInnerRef(): React.MutableRefObject<HTMLElement | null> {
   return { current: null };
 }
 

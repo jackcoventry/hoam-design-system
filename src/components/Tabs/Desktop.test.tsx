@@ -1,40 +1,33 @@
+import { forwardRef, type ReactNode } from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
-import type { ReactNode } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 
 import { DesktopTabs } from '@/components/Tabs';
 
+type MockButtonProps = {
+  children: ReactNode;
+  onClick?: () => void;
+  onKeyDown?: React.KeyboardEventHandler<HTMLButtonElement>;
+  id?: string;
+  role?: string;
+  tabIndex?: number;
+  className?: string;
+  variant?: string;
+  'aria-selected'?: boolean;
+  'aria-controls'?: string;
+  'data-active'?: string;
+};
+
 vi.mock('@/components/Button', () => ({
-  Button: ({
-    children,
-    onClick,
-    onKeyDown,
-    id,
-    role,
-    tabIndex,
-    className,
-    variant,
-    ref,
-    ...rest
-  }: {
-    children: ReactNode;
-    onClick?: () => void;
-    onKeyDown?: React.KeyboardEventHandler<HTMLButtonElement>;
-    id?: string;
-    role?: string;
-    tabIndex?: number;
-    className?: string;
-    variant?: string;
-    ref?: ((element: HTMLButtonElement | null) => void) | React.RefObject<HTMLButtonElement | null>;
-    'aria-selected'?: boolean;
-    'aria-controls'?: string;
-    'data-active'?: string;
-  }) => {
+  Button: forwardRef<HTMLButtonElement, MockButtonProps>(function MockButton(
+    { children, onClick, onKeyDown, id, role, tabIndex, className, variant, ...rest },
+    ref
+  ) {
     function setRef(element: HTMLButtonElement | null) {
       if (typeof ref === 'function') {
         ref(element);
       } else if (ref && 'current' in ref) {
-        ref.current = element;
+        (ref as React.MutableRefObject<HTMLButtonElement | null>).current = element;
       }
     }
 
@@ -54,7 +47,7 @@ vi.mock('@/components/Button', () => ({
         {children}
       </button>
     );
-  },
+  }),
 }));
 
 vi.mock('@/components/Common/BodyText', () => ({
