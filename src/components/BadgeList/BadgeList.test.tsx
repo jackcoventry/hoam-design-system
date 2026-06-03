@@ -42,6 +42,19 @@ describe('BadgeListItem', () => {
     expect(screen.getByText('Featured')).toHaveAttribute('data-variant', 'highlight');
   });
 
+  it('applies a custom className to the badge item', () => {
+    render(
+      <BadgeListItem
+        variant="default"
+        className="custom-badge"
+      >
+        New
+      </BadgeListItem>
+    );
+
+    expect(screen.getByText('New')).toHaveClass('custom-badge');
+  });
+
   it('returns null when children is empty', () => {
     const { container } = render(<BadgeListItem variant="default">{null}</BadgeListItem>);
 
@@ -65,16 +78,27 @@ describe('BadgeList', () => {
   });
 
   it('renders valid BadgeListItem children', () => {
-    render(
+    const { container } = render(
       <BadgeList>
         <BadgeListItem variant="default">One</BadgeListItem>
         <BadgeListItem variant="alert">Two</BadgeListItem>
       </BadgeList>
     );
 
+    expect(container.firstChild).toBeInTheDocument();
     expect(screen.getByText('One')).toBeInTheDocument();
     expect(screen.getByText('Two')).toBeInTheDocument();
     expect(warnMock).not.toHaveBeenCalled();
+  });
+
+  it('applies a custom className to the badge list root', () => {
+    const { container } = render(
+      <BadgeList className="custom-badge-list">
+        <BadgeListItem variant="default">One</BadgeListItem>
+      </BadgeList>
+    );
+
+    expect(container.firstChild).toHaveClass('custom-badge-list');
   });
 
   it('renders only BadgeListItem children when mixed with invalid children', () => {

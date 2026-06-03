@@ -1,3 +1,5 @@
+import clsx from 'clsx';
+
 import { Icon } from '@/components/Icon';
 import { IconId } from '@/design-tokens/icons';
 
@@ -10,11 +12,13 @@ export type InfoGridItemProps = {
   description?: string | undefined;
   /** Icon token id shown above the text content. */
   icon: string;
+  /** Optional class applied to the item root. */
+  className?: string;
 };
 
-export function InfoGridItem({ title, description, icon }: Readonly<InfoGridItemProps>) {
+export function InfoGridItem({ title, description, icon, className }: Readonly<InfoGridItemProps>) {
   return (
-    <div className={styles.root}>
+    <div className={clsx(styles.root, className)}>
       <span className={styles.icon}>
         <Icon
           id={icon as IconId}

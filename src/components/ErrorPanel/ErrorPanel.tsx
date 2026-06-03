@@ -15,15 +15,22 @@ export type ErrorPanelProps = {
   returnLabel?: string;
   /** Destination used by the return action. */
   returnUrl?: string;
+  /** Optional class applied to the panel root. */
+  className?: string;
 };
 
-export function ErrorPanel({ message, returnLabel, returnUrl = '/' }: Readonly<ErrorPanelProps>) {
+export function ErrorPanel({
+  message,
+  returnLabel,
+  returnUrl = '/',
+  className,
+}: Readonly<ErrorPanelProps>) {
   const t = useMessages('errorPanel');
 
   return (
     <Stack
       gap="lg"
-      className={styles.root}
+      className={clsx(styles.root, className)}
     >
       <img
         src={mindfullnessIllustration}

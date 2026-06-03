@@ -103,9 +103,15 @@ describe('SearchResults', () => {
   ];
 
   it('renders a no results message when items is empty', () => {
-    render(<SearchResults items={[]} />);
+    render(
+      <SearchResults
+        items={[]}
+        className="custom-search-results"
+      />
+    );
 
     expect(screen.getByText('No results!')).toBeInTheDocument();
+    expect(screen.getByText('No results!').parentElement).toHaveClass('custom-search-results');
     expect(screen.queryByRole('list')).not.toBeInTheDocument();
     expect(screen.queryByTestId('pagination')).not.toBeInTheDocument();
   });
@@ -129,8 +135,14 @@ describe('SearchResults', () => {
   });
 
   it('renders pagination when there are results', () => {
-    render(<SearchResults items={items} />);
+    const { container } = render(
+      <SearchResults
+        items={items}
+        className="custom-search-results"
+      />
+    );
 
+    expect(container.firstChild).toHaveClass('custom-search-results');
     expect(screen.getByTestId('pagination')).toHaveTextContent('Page 1');
   });
 
@@ -143,14 +155,16 @@ describe('SearchResults', () => {
 
 describe('SearchForm', () => {
   it('renders the form controls with default labels and placeholder', () => {
-    render(
+    const { container } = render(
       <SearchForm
         onClose={() => {}}
         onSubmit={() => {}}
         loading={false}
+        className="custom-search-form"
       />
     );
 
+    expect(container.firstChild).toHaveClass('custom-search-form');
     expect(screen.getByRole('button', { name: 'Close dialog' })).toBeInTheDocument();
     expect(screen.getByRole('searchbox', { name: 'Search' })).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Enter keywords...')).toBeInTheDocument();

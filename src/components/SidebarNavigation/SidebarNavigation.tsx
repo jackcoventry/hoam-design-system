@@ -1,4 +1,5 @@
 import { Suspense, useState } from 'react';
+import clsx from 'clsx';
 
 import { Accordion, AccordionHeader, AccordionItem, AccordionPanel } from '@/components/Accordion';
 import { Button } from '@/components/Button';
@@ -30,6 +31,8 @@ export type SidebarNavigationProps = {
   hideLabel?: string;
   /** Override for the mobile "show navigation" label. */
   showLabel?: string;
+  /** Optional class applied to the navigation root on desktop. */
+  className?: string;
 };
 
 export function SidebarNavigation(props: Readonly<SidebarNavigationProps>) {
@@ -39,6 +42,7 @@ export function SidebarNavigation(props: Readonly<SidebarNavigationProps>) {
     'aria-label': ariaLabel = t.title,
     hideLabel = t.hide,
     showLabel = t.show,
+    className,
   } = props;
 
   const isDesktop = useMediaQuery(`(min-width: ${BREAKPOINTS.UP.SM})`);
@@ -94,7 +98,7 @@ export function SidebarNavigation(props: Readonly<SidebarNavigationProps>) {
 
   return (
     <nav
-      className={styles.root}
+      className={clsx(styles.root, className)}
       aria-label={ariaLabel}
     >
       <ul className={styles.list}>

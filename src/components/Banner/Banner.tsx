@@ -1,3 +1,5 @@
+import clsx from 'clsx';
+
 import { Button } from '@/components/Button';
 import { Container, Grid, GridItem, Section, Stack } from '@/components/Layout';
 import { useMessages } from '@/hooks/useMessages';
@@ -24,13 +26,22 @@ export type BannerProps = {
     url: string;
     text: string | undefined;
   };
+  /** Optional class applied to the banner root. */
+  className?: string;
 };
 
-export function Banner({ title = '', subtitle, text, image, button }: Readonly<BannerProps>) {
+export function Banner({
+  title = '',
+  subtitle,
+  text,
+  image,
+  button,
+  className,
+}: Readonly<BannerProps>) {
   const t = useMessages('global');
 
   return (
-    <div className={styles.root}>
+    <div className={clsx(styles.root, className)}>
       <div className={styles.content}>
         <Container>
           <Grid cols={2}>

@@ -1,4 +1,5 @@
 /** Accessible label helper for form controls. */
+export type { FieldLabelProps } from '@/components/Form/FieldLabel/FieldLabel';
 export { FieldLabel } from '@/components/Form/FieldLabel/FieldLabel';
 /** Props for checkbox controls and groups. */
 export type { CheckboxProps } from '@/components/Form/Checkbox/Checkbox';

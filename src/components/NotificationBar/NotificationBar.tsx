@@ -1,4 +1,5 @@
 import { type CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
+import clsx from 'clsx';
 
 import { useMessages } from '@/hooks/useMessages';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
@@ -13,6 +14,8 @@ export type NotificationBarProps = {
   messages: readonly NotificationBarMessage[];
   /** Accessible label for the notification region. */
   'aria-label'?: string;
+  /** Optional class applied to the notification section root. */
+  className?: string;
 };
 
 const INTERVAL = 5000;
@@ -30,6 +33,7 @@ function NotificationMessage({ message }: Readonly<{ message: React.ReactNode }>
 export function NotificationBar({
   messages,
   'aria-label': ariaLabel,
+  className,
 }: Readonly<NotificationBarProps>) {
   const t = useMessages('notificationBar');
   const prefersReducedMotion = usePrefersReducedMotion();
@@ -132,7 +136,7 @@ export function NotificationBar({
   return (
     <section
       aria-label={ariaLabel ?? t.label}
-      className={styles.root}
+      className={clsx(styles.root, className)}
       {...interactiveProps}
     >
       <output

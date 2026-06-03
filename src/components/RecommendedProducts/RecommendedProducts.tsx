@@ -1,3 +1,5 @@
+import clsx from 'clsx';
+
 import { BodyText } from '@/components/Common/BodyText';
 import { Container, Grid, GridItem, Section, Stack } from '@/components/Layout';
 import { ProductTile, type ProductTileProps } from '@/components/ProductTile';
@@ -11,17 +13,20 @@ export type RecommendedProductsProps = {
   description?: string | undefined;
   /** Product cards rendered in the recommendation grid. */
   products: ProductTileProps[];
+  /** Optional class applied to the recommendation section root. */
+  className?: string;
 };
 
 export function RecommendedProducts({
   title,
   description,
   products,
+  className,
 }: Readonly<RecommendedProductsProps>) {
   return (
     <Section
       space="md"
-      className={styles.root}
+      className={clsx(styles.root, className)}
     >
       <Stack gap="lg">
         {title && (

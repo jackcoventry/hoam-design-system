@@ -46,11 +46,15 @@ export type SearchFormProps = {
   placeholderText?: string;
   /** Shows a focus-only close button for standalone modal compositions. */
   showCloseButton?: boolean;
+  /** Optional class applied to the search form wrapper. */
+  className?: string;
 };
 
 export type SearchResultsProps = {
   /** Search results rendered in the list. */
   items: SearchFormResult[];
+  /** Optional class applied to the search results root. */
+  className?: string;
 };
 
 export function SearchResult({ title, url, preview }: Readonly<SearchFormResult>) {
@@ -82,19 +86,19 @@ export function SearchLoader() {
   );
 }
 
-export function SearchResults({ items }: Readonly<SearchResultsProps>) {
+export function SearchResults({ items, className }: Readonly<SearchResultsProps>) {
   const t = useMessages('searchForm');
 
   if (items.length === 0) {
     return (
-      <div className={styles.message}>
+      <div className={clsx(styles.message, className)}>
         <p>{t.noResults}</p>
       </div>
     );
   }
 
   return (
-    <>
+    <div className={className}>
       <ol className={styles.results}>
         {items.map((item, index) => (
           <li key={item.id ?? `${item.url}-${index}`}>
@@ -109,7 +113,7 @@ export function SearchResults({ items }: Readonly<SearchResultsProps>) {
       <div className={styles.pagination}>
         <Pagination currentPage={1} />
       </div>
-    </>
+    </div>
   );
 }
 
@@ -125,6 +129,7 @@ export function SearchForm(props: Readonly<SearchFormProps>) {
     submitLabel = t.submitLabel,
     placeholderText = t.placeholderText,
     showCloseButton = true,
+    className,
   } = props;
 
   const {
@@ -144,7 +149,7 @@ export function SearchForm(props: Readonly<SearchFormProps>) {
   const queryErrorId = queryError ? `${inputId}-error` : undefined;
 
   return (
-    <div className={styles.wrapper}>
+    <div className={clsx(styles.wrapper, className)}>
       <Stack>
         {showCloseButton ? (
           <Button

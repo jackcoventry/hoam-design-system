@@ -1,3 +1,5 @@
+import clsx from 'clsx';
+
 import { Button } from '@/components/Button';
 import { Container, Grid, GridItem, Stack } from '@/components/Layout';
 
@@ -18,6 +20,8 @@ export type PromoSectionProps = {
   imageUrl?: string | undefined;
   /** Controls whether the image appears on the left or right. */
   alignment?: 'left' | 'right' | undefined;
+  /** Optional class applied to the promo section root. */
+  className?: string;
 };
 
 export function PromoSection({
@@ -28,6 +32,7 @@ export function PromoSection({
   linkText,
   imageUrl,
   alignment = 'left',
+  className,
 }: Readonly<PromoSectionProps>) {
   const imageBlock = imageUrl ? (
     <GridItem
@@ -76,7 +81,7 @@ export function PromoSection({
   );
 
   return (
-    <div className={styles.root}>
+    <div className={clsx(styles.root, className)}>
       <Container>
         <Grid>
           {alignment === 'left' ? (

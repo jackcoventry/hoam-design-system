@@ -2,7 +2,8 @@ import { useMessages } from '@/hooks/useMessages';
 
 import styles from '@/components/Navigation/Navigation.module.css';
 
-type TopNavigationProps = {
+export type TopNavigationProps = {
+  /** Top navigation items rendered inside the list. */
   children: React.ReactNode;
 };
 

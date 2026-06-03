@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import clsx from 'clsx';
 
 import { Container, Grid, GridItem, Section, Stack } from '@/components/Layout';
 import { useIsomorphicLayoutEffect } from '@/hooks/useIsomorphicLayoutEffect';
@@ -20,6 +21,8 @@ export type LogoCarouselProps = {
   pauseOnHover?: boolean;
   /** Accessible label for the scrolling logo region. */
   'aria-label'?: string;
+  /** Optional class applied to the carousel section root. */
+  className?: string;
 };
 
 const MIN_REPEAT = 2;
@@ -37,6 +40,7 @@ export function LogoCarousel({
   items,
   pauseOnHover = true,
   'aria-label': ariaLabel,
+  className,
 }: Readonly<LogoCarouselProps>) {
   const containerRef = useRef<HTMLDivElement>(null);
   const railRef = useRef<HTMLDivElement>(null);
@@ -126,7 +130,7 @@ export function LogoCarousel({
   return (
     <Section
       space="2xl"
-      className={styles.root}
+      className={clsx(styles.root, className)}
     >
       <div
         ref={containerRef}

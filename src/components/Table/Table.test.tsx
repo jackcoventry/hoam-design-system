@@ -77,6 +77,26 @@ describe('Table', () => {
     expect(container.firstChild).toHaveClass('root');
   });
 
+  it('applies a custom className to the root container', () => {
+    const { container } = render(
+      <Table className="custom-table">
+        <TableHeader>
+          <tr>
+            <th>Name</th>
+          </tr>
+        </TableHeader>
+        <TableBody>
+          <tr>
+            <td>Sam</td>
+          </tr>
+        </TableBody>
+      </Table>
+    );
+
+    expect(container.firstChild).toHaveClass('root');
+    expect(container.firstChild).toHaveClass('custom-table');
+  });
+
   it('calls invariant for the expected structural checks', () => {
     render(
       <Table>

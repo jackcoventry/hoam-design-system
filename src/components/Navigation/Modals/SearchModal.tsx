@@ -13,7 +13,7 @@ import { AsyncState } from '@/types/async';
 
 import styles from '@/components/Navigation/Modals/SearchModal.module.css';
 
-type SearchModalProps<TData, TError extends Error = Error> = {
+export type SearchModalProps<TData, TError extends Error = Error> = {
   open: boolean;
   onClose: () => void;
   onSubmit: SubmitHandler<SearchFormSchemaType>;

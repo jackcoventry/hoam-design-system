@@ -54,6 +54,18 @@ describe('Message', () => {
     expect(alert).toHaveAttribute('data-open', 'true');
   });
 
+  it('applies a custom className to the alert root', () => {
+    render(
+      <Message
+        status="info"
+        title="Styled message"
+        className="custom-message"
+      />
+    );
+
+    expect(screen.getByRole('alert')).toHaveClass('custom-message');
+  });
+
   it('renders a close button only when onClose is provided', () => {
     const { rerender } = render(
       <Message

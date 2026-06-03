@@ -24,14 +24,19 @@ export type TabsProps = {
   layout?: Layout;
   /** Keyboard activation mode for desktop tabs. */
   mode?: Mode;
+  /** Optional class applied to the tabs root. */
+  className?: string;
 };
 
-export function Tabs({ title, items, layout, mode }: Readonly<TabsProps>) {
+export function Tabs({ title, items, layout, mode, className }: Readonly<TabsProps>) {
   const isDesktop = useMediaQuery(`(min-width: ${BREAKPOINTS.UP.MD})`);
 
   if (!isDesktop) {
     return (
-      <section aria-label={title}>
+      <section
+        aria-label={title}
+        className={className}
+      >
         <Accordion showToggleAll={false}>
           {items.map((tab) => (
             <AccordionItem
@@ -51,6 +56,7 @@ export function Tabs({ title, items, layout, mode }: Readonly<TabsProps>) {
     <DesktopTabs
       title={title}
       items={items}
+      {...(className === undefined ? {} : { className })}
       {...(layout === undefined ? {} : { layout })}
       {...(mode === undefined ? {} : { mode })}
     />

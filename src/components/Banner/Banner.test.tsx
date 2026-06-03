@@ -127,6 +127,18 @@ describe('Banner', () => {
     expect(screen.getByRole('button', { name: 'Learn more' })).toBeInTheDocument();
   });
 
+  it('applies a custom className to the root', () => {
+    const { container } = render(
+      <Banner
+        {...baseProps}
+        className="custom-banner"
+      />
+    );
+
+    expect(container.firstChild).toHaveClass('root');
+    expect(container.firstChild).toHaveClass('custom-banner');
+  });
+
   it('uses the primary button variant', () => {
     render(<Banner {...baseProps} />);
 

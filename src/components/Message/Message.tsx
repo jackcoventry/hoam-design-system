@@ -1,4 +1,5 @@
 import { type MouseEvent, useState } from 'react';
+import clsx from 'clsx';
 
 import { BodyText } from '@/components/Common/BodyText';
 import { Icon } from '@/components/Icon';
@@ -19,11 +20,13 @@ export type MessageProps = {
   title: string;
   /** Accessible label for the dismiss button. */
   closeMessage?: string;
+  /** Optional class applied to the message root. */
+  className?: string;
 };
 
 export function Message(props: Readonly<MessageProps>) {
   const t = useMessages('message');
-  const { status, text, title, onClose, closeMessage = t.close } = props;
+  const { status, text, title, onClose, closeMessage = t.close, className } = props;
 
   const [isOpen, setIsOpen] = useState(true);
 
@@ -34,7 +37,7 @@ export function Message(props: Readonly<MessageProps>) {
 
   return (
     <div
-      className={styles.root}
+      className={clsx(styles.root, className)}
       data-status={status}
       data-open={isOpen}
       role="alert"
