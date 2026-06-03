@@ -172,6 +172,10 @@
   margin-left: auto;
 }
 
+.root[data-variant="drawer"] .body[data-padded="true"] {
+  width: calc(100% - var(--hoam-spacing-lg));
+}
+
 @keyframes modal-overlay-in {
   from {
     opacity: 0;

@@ -1,10 +1,11 @@
 :root {
   --hoam-search-form-height: 50px;
   --hoam-search-form-spacing: var(--hoam-spacing-xl);
-  --hoam-search-form-wrapper-height: calc(var(--hoam-search-form-height) * calc(var(--hoam-search-form-spacing) * 2));
+  --hoam-search-form-wrapper-height: calc(var(--hoam-search-form-height) + (var(--hoam-search-form-spacing) * 2));
 }
 
 .root {
+  align-items: flex-start;
   display: flex;
   gap: var(--hoam-spacing-md);
 }
@@ -38,8 +39,10 @@
 
 .wrapper {
   background-color: var(--hoam-color-surface-accent);
+  border-radius: var(--hoam-border-radius-default);
   gap: var(--hoam-search-form-spacing);
   height: var(--hoam-search-form-wrapper-height);
+  min-width: 0;
   padding: var(--hoam-search-form-spacing);
   width: 100%;
 }

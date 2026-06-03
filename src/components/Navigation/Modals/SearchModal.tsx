@@ -11,6 +11,8 @@ import { Modal } from '@/components/Modal';
 import { ModalVariant } from '@/components/Modal/Modal';
 import { AsyncState } from '@/types/async';
 
+import styles from '@/components/Navigation/Modals/SearchModal.module.css';
+
 type SearchModalProps<TData, TError extends Error = Error> = {
   open: boolean;
   onClose: () => void;
@@ -37,11 +39,15 @@ export function SearchModal<TData, TError extends Error = Error>({
       variant={variant}
     >
       <Modal.Header padded={false}>
-        <SearchForm
-          onClose={onClose}
-          onSubmit={onSubmit}
-          loading={state?.status === 'loading'}
-        />
+        <div className={styles.header}>
+          <SearchForm
+            onClose={onClose}
+            onSubmit={onSubmit}
+            loading={state?.status === 'loading'}
+            showCloseButton={false}
+          />
+          <Modal.CloseButton />
+        </div>
       </Modal.Header>
 
       <Modal.Body padded={false}>

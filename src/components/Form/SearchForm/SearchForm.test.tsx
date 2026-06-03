@@ -189,6 +189,19 @@ describe('SearchForm', () => {
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 
+  it('can hide the focus-only close button for modal compositions with their own close control', () => {
+    render(
+      <SearchForm
+        onClose={() => {}}
+        onSubmit={() => {}}
+        loading={false}
+        showCloseButton={false}
+      />
+    );
+
+    expect(screen.queryByRole('button', { name: 'Close dialog' })).not.toBeInTheDocument();
+  });
+
   it('calls onSubmit with the entered query when the form is valid', async () => {
     const onSubmit = vi.fn<(data: SearchFormSchemaType) => void | Promise<void>>();
 

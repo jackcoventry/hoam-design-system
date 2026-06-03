@@ -232,8 +232,15 @@ describe('Modal', () => {
 
     renderMountedOpenModal({ onClose });
 
-    const closeButtons = screen.getAllByRole('button', { name: 'Close modal' });
-    const backdropButton = getRequiredElement(closeButtons[0], 'Expected backdrop button to exist');
+    const dialog = screen.getByRole('dialog', { name: 'Example modal' });
+    const root = dialog.closest('[data-variant]');
+    const backdropButton = getRequiredElement(
+      root?.querySelector('button[aria-hidden="true"]'),
+      'Expected backdrop button to exist'
+    );
+
+    expect(backdropButton).toBeInTheDocument();
+    expect(screen.getAllByRole('button', { name: 'Close modal' })).toHaveLength(1);
 
     fireEvent.click(backdropButton);
 
@@ -256,8 +263,7 @@ describe('Modal', () => {
       </ModalRoot>
     );
 
-    const buttons = screen.getAllByRole('button', { name: 'Close modal' });
-    const closeButton = getRequiredElement(buttons[1], 'Expected close button to exist');
+    const closeButton = screen.getByRole('button', { name: 'Close modal' });
 
     fireEvent.click(closeButton);
 
@@ -291,8 +297,7 @@ describe('Modal', () => {
 
     await flushRafQueue();
 
-    const buttons = screen.getAllByRole('button', { name: 'Close modal' });
-    const closeButton = getRequiredElement(buttons[1], 'Expected close button to exist');
+    const closeButton = screen.getByRole('button', { name: 'Close modal' });
 
     expect(closeButton).toHaveFocus();
   });
@@ -303,8 +308,7 @@ describe('Modal', () => {
     await flushRafQueue();
 
     const dialog = screen.getByRole('dialog', { name: 'Example modal' });
-    const closeButtons = screen.getAllByRole('button', { name: 'Close modal' });
-    const closeButton = getRequiredElement(closeButtons[1], 'Expected close button to exist');
+    const closeButton = screen.getByRole('button', { name: 'Close modal' });
     const firstAction = screen.getByRole('button', { name: 'First action' });
     const secondAction = screen.getByRole('button', { name: 'Second action' });
     const footerAction = screen.getByRole('button', { name: 'Footer action' });
@@ -331,8 +335,7 @@ describe('Modal', () => {
     await flushRafQueue();
 
     const dialog = screen.getByRole('dialog', { name: 'Example modal' });
-    const closeButtons = screen.getAllByRole('button', { name: 'Close modal' });
-    const closeButton = getRequiredElement(closeButtons[1], 'Expected close button to exist');
+    const closeButton = screen.getByRole('button', { name: 'Close modal' });
     const footerAction = screen.getByRole('button', { name: 'Footer action' });
 
     closeButton.focus();

@@ -28,6 +28,7 @@ type MockSearchFormProps = {
   onClose: () => void;
   onSubmit: SubmitHandler<SearchFormSchemaType>;
   loading: boolean;
+  showCloseButton?: boolean;
 };
 
 type MockSearchResultsProps = {
@@ -37,6 +38,7 @@ type MockSearchResultsProps = {
 const modalMock = vi.fn<(props: MockModalProps) => void>();
 const modalHeaderMock = vi.fn<(props: MockHeaderProps) => void>();
 const modalBodyMock = vi.fn<(props: MockBodyProps) => void>();
+const modalCloseButtonMock = vi.fn<() => void>();
 const searchFormMock = vi.fn<(props: MockSearchFormProps) => void>();
 const searchLoaderMock = vi.fn<() => void>();
 const searchResultsMock = vi.fn<(props: MockSearchResultsProps) => void>();
@@ -97,6 +99,19 @@ vi.mock('@/components/Modal', () => ({
           >
             {children}
           </div>
+        );
+      },
+
+      CloseButton: () => {
+        modalCloseButtonMock();
+
+        return (
+          <button
+            type="button"
+            onClick={() => modalMock.mock.calls.at(-1)?.[0].onClose()}
+          >
+            Close modal
+          </button>
         );
       },
     }
@@ -196,7 +211,28 @@ describe('SearchModal', () => {
     expect(bodyProps?.padded).toBe(false);
   });
 
-  it('passes onClose, onSubmit and loading=false to SearchForm when not loading', () => {
+  it('renders a visible close button wired to the modal close handler', () => {
+    const state: AsyncState<unknown> = { status: 'idle' };
+
+    render(
+      <SearchModal
+        open
+        onClose={onClose}
+        onSubmit={onSubmit}
+        variant="modal"
+        state={state}
+        data={results}
+      />
+    );
+
+    expect(modalCloseButtonMock).toHaveBeenCalledTimes(1);
+
+    screen.getByRole('button', { name: 'Close modal' }).click();
+
+    expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it('passes onClose, onSubmit, loading=false and close opt-out to SearchForm when not loading', () => {
     const state: AsyncState<unknown> = { status: 'idle' };
 
     render(
@@ -217,6 +253,7 @@ describe('SearchModal', () => {
     expect(searchFormProps?.onClose).toBe(onClose);
     expect(searchFormProps?.onSubmit).toBe(onSubmit);
     expect(searchFormProps?.loading).toBe(false);
+    expect(searchFormProps?.showCloseButton).toBe(false);
   });
 
   it('passes loading=true to SearchForm and renders SearchLoader when loading', () => {

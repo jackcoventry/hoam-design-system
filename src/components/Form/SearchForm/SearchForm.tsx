@@ -44,6 +44,8 @@ export type SearchFormProps = {
   submitLabel?: string;
   /** Optional override for the search input placeholder text. */
   placeholderText?: string;
+  /** Shows a focus-only close button for standalone modal compositions. */
+  showCloseButton?: boolean;
 };
 
 export type SearchResultsProps = {
@@ -122,6 +124,7 @@ export function SearchForm(props: Readonly<SearchFormProps>) {
     loading,
     submitLabel = t.submitLabel,
     placeholderText = t.placeholderText,
+    showCloseButton = true,
   } = props;
 
   const {
@@ -143,12 +146,14 @@ export function SearchForm(props: Readonly<SearchFormProps>) {
   return (
     <div className={styles.wrapper}>
       <Stack>
-        <Button
-          className={clsx(styles.srClose, utils.focusableOnly)}
-          onClick={onClose}
-        >
-          {tModal.close}
-        </Button>
+        {showCloseButton ? (
+          <Button
+            className={clsx(styles.srClose, utils.focusableOnly)}
+            onClick={onClose}
+          >
+            {tModal.close}
+          </Button>
+        ) : null}
         <form
           className={styles.root}
           onSubmit={(event) => {
