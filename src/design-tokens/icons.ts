@@ -1,11 +1,15 @@
 // AUTO-GENERATED FILE — DO NOT EDIT
 
 export const ICON_IDS = [
+  "arrow-down",
   "arrow-left",
   "arrow-right",
+  "arrow-up",
   "bag",
   "caret-down",
+  "caret-left",
   "caret-right",
+  "caret-up",
   "check",
   "clock",
   "close",
