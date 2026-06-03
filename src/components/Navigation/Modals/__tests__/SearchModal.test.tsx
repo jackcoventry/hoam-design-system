@@ -120,7 +120,6 @@ vi.mock('@/components/Form', () => ({
 
     return <div data-testid="search-form" />;
   },
-
 }));
 
 describe('SearchModal', () => {

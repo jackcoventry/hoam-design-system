@@ -13,12 +13,7 @@ export type SearchModalProps = {
   variant: ModalVariant;
 };
 
-export function SearchModal({
-  open,
-  onClose,
-  onSubmit,
-  variant,
-}: Readonly<SearchModalProps>) {
+export function SearchModal({ open, onClose, onSubmit, variant }: Readonly<SearchModalProps>) {
   return (
     <Modal
       isOpen={open}

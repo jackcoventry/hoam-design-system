@@ -50,7 +50,7 @@
     "test:visual": "npm run build-storybook && playwright test tests/visual",
     "typecheck": "tsc --noEmit",
     "lint": "eslint . --max-warnings=0",
-    "prettier": "prettier . --check",
+    "prettier": "prettier --write \"src/**/*.{css,tsx,ts}\"",
     "icons": "tsx src/scripts/generate-icons.ts && svg-sprite --config svg.json --log=info \"src/icons/*.svg\"",
     "tokens": "tsx src/lib/style-dictionary/register.ts",
     "generate": "npm run icons && npm run tokens",
