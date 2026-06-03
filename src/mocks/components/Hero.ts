@@ -2,63 +2,63 @@ import { HeroSlideProps } from '@/components/Hero/HeroSlide';
 
 const items: HeroSlideProps[] = [
   {
-    id: '1',
+    id: 'house-espresso',
     title: 'Hoam',
     subtitle: 'Special collection',
-    text: 'A test description',
+    text: 'Coming soon',
     featuredImage: {
       src: '/hero/range.png',
-      alt: '',
+      alt: 'Coffee products and brewing accessories arranged together',
     },
     button: {
-      url: '/',
-      text: 'Read more',
+      url: '/shop/coffee',
+      text: 'Shop coffee',
     },
   },
   {
-    id: '2',
-    title: 'Slide 2',
-    subtitle: 'Christmas collection',
-    text: 'Another test description',
+    id: 'single-origin',
+    title: 'Seasonal single origins',
+    subtitle: 'Limited roast release',
+    text: 'Explore coffees with clear tasting notes, traceable origins, and roast profiles matched to filter and espresso brewing.',
     featuredImage: {
       src: '/hero/range.png',
-      alt: '',
+      alt: 'A seasonal coffee collection displayed with brew equipment',
     },
     button: {
-      url: '/',
-      text: 'Find out more',
+      url: '/shop/category/single-origin',
+      text: 'Explore origins',
     },
   },
   {
-    id: '3',
-    title: 'Slide 3',
-    subtitle: 'Member exclusive',
-    text: 'Yet another test description',
+    id: 'subscription',
+    title: 'Never run out of coffee',
+    subtitle: 'Flexible subscriptions',
+    text: 'Choose espresso, filter, decaf, or roaster selection and adjust your delivery schedule whenever your routine changes.',
     background: {
       kind: 'image',
       src: '/hero/banner-3.webp',
     },
     featuredImage: {
       src: '/hero/range.png',
-      alt: '',
+      alt: 'Subscription coffee bags and seasonal gifts',
     },
     button: {
-      url: '/',
-      text: 'Join now',
+      url: '/subscriptions',
+      text: 'Start a subscription',
     },
   },
   {
-    id: '4',
-    title: 'Slide 4',
-    subtitle: 'New Arrivals',
-    text: 'Check out our new shop',
+    id: 'brew-guides',
+    title: 'Brew with confidence',
+    subtitle: 'Guides and gear',
+    text: 'Find grinders, kettles, filters, and practical recipes for espresso, pour-over, French press, and cold brew.',
     background: {
       kind: 'video',
       src: '/hero/hero.mp4',
     },
     button: {
-      url: '/',
-      text: 'Read more',
+      url: '/learn/brewing-guides',
+      text: 'Read brew guides',
     },
   },
 ];

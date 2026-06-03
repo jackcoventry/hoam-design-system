@@ -40,8 +40,8 @@ export function InfoGrid({ title, description, children, className }: Readonly<I
             <GridItem
               className={styles.content}
               span={12}
-              spanLg={8}
-              startLg={3}
+              spanLg={10}
+              startLg={2}
             >
               <Stack>
                 <h2 className={styles.title}>{title}</h2>

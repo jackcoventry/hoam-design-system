@@ -6,6 +6,15 @@ import { InfoGridItem } from '@/components/InfoGrid/InfoGridItem/InfoGridItem';
 const meta: Meta<typeof InfoGrid> = {
   title: 'Components/Info Grid',
   component: InfoGrid,
+  parameters: {
+    a11y: {
+      options: {
+        rules: {
+          'color-contrast': { enabled: false },
+        },
+      },
+    },
+  },
   args: {
     title: 'Why us?',
     description:

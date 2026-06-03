@@ -1029,7 +1029,7 @@
     "name": "hoam-typography-size-6",
     "cssVar": "--hoam-typography-size-6",
     "type": "dimension",
-    "value": "clamp(1rem, min(20vmin, 7vw), 6rem)",
+    "value": "clamp(1rem, min(20vmin, 7vw), 4rem)",
     "group": null,
     "set": "size",
     "extensions": {
@@ -1172,7 +1172,7 @@
     "name": "hoam-typography-title-1",
     "cssVar": "--hoam-typography-title-1",
     "type": "typography",
-    "value": "400 clamp(1rem, min(20vmin, 7vw), 6rem)/1.6 Boldonse, system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
+    "value": "400 clamp(1rem, min(20vmin, 7vw), 4rem)/1.6 Boldonse, system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
     "group": null,
     "set": "title",
     "extensions": {
@@ -1181,7 +1181,7 @@
     },
     "originalValues": {
       "fontFamily": "Boldonse, system-ui, -apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif",
-      "fontSize": "clamp(1rem, min(20vmin, 7vw), 6rem)",
+      "fontSize": "clamp(1rem, min(20vmin, 7vw), 4rem)",
       "fontWeight": 400,
       "lineHeight": 1.6
     }

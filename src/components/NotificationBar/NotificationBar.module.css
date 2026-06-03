@@ -17,11 +17,13 @@
 .root a:link,
 .root a:visited {
   color: var(--hoam-color-link-default);
-  text-decoration: none;
+  text-decoration: underline;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.18em;
 }
 
 @media (--hoam-hoverable) {
   .root a:hover {
-    text-decoration: underline;
+    text-decoration-thickness: 0.12em;
   }
 }

@@ -1,12 +1,12 @@
 const items = {
-  title: 'Introducing our new product line',
-  subtitle: 'PRODUCT LAUNCH',
+  title: 'Meet the House Espresso Blend',
+  subtitle: 'SIGNATURE ROAST',
   description:
-    'Fugiat esse consequat ad aliquip amet aliquip sed sit voluptate. Enim est culpa labore pariatur aliquip culpa mollit excepteur officia ea magna',
-  linkUrl: '#',
-  linkText: 'Shop Now',
+    'A dependable blend for flat whites, cortados, and straight espresso, built around milk chocolate, caramel, and a clean orange finish.',
+  linkUrl: '/shop/coffee/house-espresso-blend',
+  linkText: 'Shop the blend',
   imageUrl:
-    'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=60',
+    'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=800&q=80',
   alignment: 'left',
 };
 

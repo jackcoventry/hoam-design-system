@@ -71,7 +71,7 @@
       },
       "6": {
         "$type": "dimension",
-        "$value": "clamp(1rem, min(20vmin, 7vw), 6rem)"
+        "$value": "clamp(1rem, min(20vmin, 7vw), 4rem)"
       }
     },
     "line-height": {
