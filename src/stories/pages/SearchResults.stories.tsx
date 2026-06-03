@@ -6,7 +6,6 @@ import SearchResultsData from '@/mocks/components/SearchResults';
 import BaseTemplate from '@/stories/templates/Base';
 
 import styles from '@/stories/pages/SearchResults.module.css';
-import typography from '@/styles/Typography.module.css';
 
 const meta: Meta = {
   title: 'Pages/Search Results',
