@@ -68,14 +68,14 @@ vi.mock('@/utils/convertNumberToCurrency', () => ({
 describe('BasketItem', () => {
   const baseItem: BasketItemProps = {
     id: 'item-1',
-    title: 'Oak Chair',
-    summary: 'Comfortable wooden chair',
+    title: 'House Espresso Blend',
+    summary: '250g whole bean coffee',
     price: 25,
     thumbnail: {
-      src: '/chair.jpg',
-      alt: 'Oak Chair',
+      src: '/coffee.jpg',
+      alt: 'House Espresso Blend',
     },
-    url: '/products/oak-chair',
+    url: '/shop/coffee/house-espresso-blend',
     onChange: vi.fn(),
     quantity: 3,
   };
@@ -89,15 +89,15 @@ describe('BasketItem', () => {
       </table>
     );
 
-    expect(screen.getByText('Oak Chair')).toBeInTheDocument();
+    expect(screen.getByText('House Espresso Blend')).toBeInTheDocument();
 
     const links = screen.getAllByRole('link');
     expect(links).toHaveLength(2);
-    expect(links[0]).toHaveAttribute('href', '/products/oak-chair');
-    expect(links[1]).toHaveAttribute('href', '/products/oak-chair');
+    expect(links[0]).toHaveAttribute('href', '/shop/coffee/house-espresso-blend');
+    expect(links[1]).toHaveAttribute('href', '/shop/coffee/house-espresso-blend');
 
-    const image = screen.getByRole('img', { name: 'Oak Chair' });
-    expect(image).toHaveAttribute('src', '/chair.jpg');
+    const image = screen.getByRole('img', { name: 'House Espresso Blend' });
+    expect(image).toHaveAttribute('src', '/coffee.jpg');
   });
 
   it('uses an empty alt attribute when thumbnail alt is missing', () => {
@@ -106,7 +106,7 @@ describe('BasketItem', () => {
         <tbody>
           <BasketItem
             {...baseItem}
-            thumbnail={{ src: '/chair.jpg' }}
+            thumbnail={{ src: '/coffee.jpg' }}
           />
         </tbody>
       </table>
@@ -191,27 +191,27 @@ describe('Basket', () => {
   const items: BasketItemProps[] = [
     {
       id: 'item-1',
-      title: 'Oak Chair',
-      summary: 'Comfortable wooden chair',
+      title: 'House Espresso Blend',
+      summary: '250g whole bean coffee',
       price: 25,
       thumbnail: {
-        src: '/chair.jpg',
-        alt: 'Oak Chair',
+        src: '/coffee.jpg',
+        alt: 'House Espresso Blend',
       },
-      url: '/products/oak-chair',
+      url: '/shop/coffee/house-espresso-blend',
       onChange: vi.fn(),
       quantity: 2,
     },
     {
       id: 'item-2',
-      title: 'Desk Lamp',
-      summary: 'Brass desk lamp',
+      title: 'Pourover Kettle',
+      summary: 'Gooseneck kettle for filter coffee',
       price: 40,
       thumbnail: {
-        src: '/lamp.jpg',
-        alt: 'Desk Lamp',
+        src: '/kettle.jpg',
+        alt: 'Pourover Kettle',
       },
-      url: '/products/desk-lamp',
+      url: '/shop/brewing-equipment/pourover-kettle',
       onChange: vi.fn(),
       quantity: 1,
     },
@@ -251,8 +251,8 @@ describe('Basket', () => {
       />
     );
 
-    expect(screen.getByText('Oak Chair')).toBeInTheDocument();
-    expect(screen.getByText('Desk Lamp')).toBeInTheDocument();
+    expect(screen.getByText('House Espresso Blend')).toBeInTheDocument();
+    expect(screen.getByText('Pourover Kettle')).toBeInTheDocument();
   });
 
   it('renders the correct number of body rows', () => {
@@ -276,7 +276,7 @@ describe('Basket', () => {
     );
 
     expect(screen.getAllByRole('row')).toHaveLength(1);
-    expect(screen.queryByText('Oak Chair')).not.toBeInTheDocument();
+    expect(screen.queryByText('House Espresso Blend')).not.toBeInTheDocument();
   });
 
   it('renders an empty tbody when items is null', () => {
@@ -288,7 +288,7 @@ describe('Basket', () => {
     );
 
     expect(screen.getAllByRole('row')).toHaveLength(1);
-    expect(screen.queryByText('Oak Chair')).not.toBeInTheDocument();
+    expect(screen.queryByText('House Espresso Blend')).not.toBeInTheDocument();
   });
 
   it('wires each item quantity selector to its own onChange handler', () => {
@@ -298,27 +298,27 @@ describe('Basket', () => {
     const testItems: BasketItemProps[] = [
       {
         id: 'item-1',
-        title: 'Oak Chair',
-        summary: 'Comfortable wooden chair',
+        title: 'House Espresso Blend',
+        summary: '250g whole bean coffee',
         price: 25,
         thumbnail: {
-          src: '/chair.jpg',
-          alt: 'Oak Chair',
+          src: '/coffee.jpg',
+          alt: 'House Espresso Blend',
         },
-        url: '/products/oak-chair',
+        url: '/shop/coffee/house-espresso-blend',
         onChange: firstOnChange,
         quantity: 1,
       },
       {
         id: 'item-2',
-        title: 'Desk Lamp',
-        summary: 'Brass desk lamp',
+        title: 'Pourover Kettle',
+        summary: 'Gooseneck kettle for filter coffee',
         price: 40,
         thumbnail: {
-          src: '/lamp.jpg',
-          alt: 'Desk Lamp',
+          src: '/kettle.jpg',
+          alt: 'Pourover Kettle',
         },
-        url: '/products/desk-lamp',
+        url: '/shop/brewing-equipment/pourover-kettle',
         onChange: secondOnChange,
         quantity: 4,
       },

@@ -11,6 +11,7 @@
 
 .centered {
   align-items: center;
+  text-align: center;
 }
 
 .contentLink {
@@ -36,6 +37,7 @@
 
 @media (--hoam-breakpoint-md-up) {
   .media {
+    align-items: center;
     display: flex;
   }
 }

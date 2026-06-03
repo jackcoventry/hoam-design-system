@@ -8,13 +8,13 @@ const meta: Meta<typeof Banner> = {
   title: 'Components/Banner',
   component: Banner,
   args: {
-    title: 'Test Banner',
-    subtitle: 'Test subtitle',
-    text: 'Lorem ipsum',
+    title: 'Fresh coffee, roasted weekly',
+    subtitle: 'Seasonal single origins',
+    text: 'Explore espresso blends, filter roasts, and brewing essentials selected for balanced everyday cups.',
     image: '/hero/range.png',
     button: {
-      url: '/',
-      text: 'Read more',
+      url: '/shop/coffee',
+      text: 'Shop coffee',
     },
   },
   argTypes: {

@@ -19,61 +19,61 @@ type Story = StoryObj<typeof Tabs>;
 
 const TABS: TabProps[] = [
   {
-    id: 'home',
-    label: 'Home',
+    id: 'tasting-notes',
+    label: 'Tasting notes',
     content: (
       <BodyText>
         <p>
-          Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae
-          pellentesque sem placerat. In id cursus mi pretium tellus duis convallis.
+          Expect milk chocolate, soft caramel, and a gentle citrus lift from our house espresso
+          blend.
         </p>
         <p>
-          Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus
-          bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere.
+          Filter roasts lean brighter, with stone fruit, honey, and floral aromatics depending on
+          the origin.
         </p>
         <p>
-          Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia
-          nostra inceptos himenaeos. Lorem ipsum dolor sit amet consectetur adipiscing elit.
+          Each bag includes roast level, origin, and brew guidance so the first cup is easy to dial
+          in.
         </p>
       </BodyText>
     ),
   },
   {
-    id: 'contact',
-    label: 'Contact',
+    id: 'brew-guide',
+    label: 'Brew guide',
     content: (
       <BodyText>
         <p>
-          Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus
-          bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere.
+          Start with 18g of coffee to 36g of espresso, or use a 1:16 ratio for pour-over and French
+          press.
         </p>
         <p>
-          Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia
-          nostra inceptos himenaeos. Lorem ipsum dolor sit amet consectetur adipiscing elit.
+          Grind finer for espresso, medium for filter, and coarse for immersion brewers such as
+          French press.
         </p>
         <p>
-          Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae
-          pellentesque sem placerat. In id cursus mi pretium tellus duis convallis.
+          Rest freshly roasted beans for a few days before brewing to unlock better sweetness and
+          crema.
         </p>
       </BodyText>
     ),
   },
   {
-    id: 'search',
-    label: 'Search',
+    id: 'delivery',
+    label: 'Delivery',
     content: (
       <BodyText>
         <p>
-          Ut hendrerit semper vel class aptent taciti sociosqu. Ad litora torquent per conubia
-          nostra inceptos himenaeos. Lorem ipsum dolor sit amet consectetur adipiscing elit.
+          Coffee is roasted weekly and dispatched quickly so beans arrive fresh and ready for your
+          preferred brew method.
         </p>
         <p>
-          Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque faucibus ex sapien vitae
-          pellentesque sem placerat. In id cursus mi pretium tellus duis convallis.
+          Subscription orders can be paused, skipped, or changed between espresso, filter, and decaf
+          selections.
         </p>
         <p>
-          Tempus leo eu aenean sed diam urna tempor. Pulvinar vivamus fringilla lacus nec metus
-          bibendum egestas. Iaculis massa nisl malesuada lacinia integer nunc posuere.
+          Brewing equipment and accessories ship with the same care as coffee, using recyclable
+          packing where possible.
         </p>
       </BodyText>
     ),

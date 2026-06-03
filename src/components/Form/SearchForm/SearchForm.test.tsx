@@ -228,14 +228,14 @@ describe('SearchForm', () => {
     );
 
     const input = screen.getByRole('searchbox', { name: 'Search' });
-    fireEvent.change(input, { target: { value: 'kitchen sinks' } });
+    fireEvent.change(input, { target: { value: 'espresso grinders' } });
     fireEvent.click(screen.getByRole('button', { name: 'Search' }));
 
     await waitFor(() => {
       expect(onSubmit).toHaveBeenCalledTimes(1);
     });
 
-    expect(onSubmit.mock.calls[0]?.[0]).toEqual({ q: 'kitchen sinks' });
+    expect(onSubmit.mock.calls[0]?.[0]).toEqual({ q: 'espresso grinders' });
   });
 
   it('trims the submitted value via schema validation', async () => {

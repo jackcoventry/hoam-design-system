@@ -15,13 +15,13 @@ const meta: Meta<typeof BlogArticle> = {
     backgrounds: { value: 'light' },
   },
   args: {
-    category: 'Lifestyle & Culture',
-    title: 'Amet Consectetur Adipiscing',
+    category: 'Coffee Knowledge',
+    title: 'How to Choose the Right Coffee Roast',
     summary:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.',
+      'A practical guide to roast level, origin, grind size, and brew method for better coffee at home.',
     author: {
-      name: 'Jane Doe',
-      id: 'abc',
+      name: 'Maya Hart',
+      id: 'maya-hart',
       image: 'https://placehold.co/20x20',
     },
     profileLink: '/',
@@ -30,8 +30,7 @@ const meta: Meta<typeof BlogArticle> = {
     image: {
       src: '/hero/banner-3.webp',
       alt: 'A festive scene featuring an array of coffee products',
-      caption:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.',
+      caption: 'Freshly roasted coffee, brewing tools, and seasonal gifts ready for dispatch.',
     },
     socialLinks: SocialLinks,
   },
@@ -73,74 +72,69 @@ function StoryTemplate({
         socialLinks={socialLinks}
       >
         <p>
-          Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per
-          conubia nostra, per inceptos himenaeos.
+          Choosing coffee gets easier when you start with how you brew. Espresso, filter, French
+          press, and cold brew all reward slightly different roast profiles and grind sizes.
         </p>
         <p>
-          Lorem ipsum dolor sit amet, <strong>consectetur adipiscing elit</strong>. Integer nec
-          odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh
-          elementum imperdiet. Duis sagittis ipsum. Praesent mauris.{' '}
-          <em>Fusce nec tellus sed augue semper porta</em>. Mauris massa.
+          A <strong>medium roast</strong> is a reliable everyday choice for most brewers. It keeps
+          enough sweetness and body for milk drinks while preserving the origin character that makes
+          black coffee interesting. <em>Lighter roasts</em> tend to feel brighter and more aromatic.
         </p>
         <p>
-          Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per
-          conubia nostra, per inceptos himenaeos. Curabitur sodales ligula in libero. Sed dignissim
-          lacinia nunc. Curabitur tortor. Pellentesque nibh. Aenean quam.{' '}
-          <a href="#test">In scelerisque sem at dolor</a>. Maecenas mattis.
+          If you like chocolate, caramel, and toasted nut notes, start with espresso blends or
+          washed Central American coffees. For citrus, florals, and tea-like cups, look at African
+          filter roasts and <a href="#test">single-origin releases</a>.
         </p>
 
-        <h2>Subheading: Curabitur Sodales Ligula</h2>
+        <h2>Start With Your Brew Method</h2>
         <p>
-          Maecenas faucibus mollis interdum. Praesent commodo cursus magna, vel scelerisque nisl
-          consectetur et. Donec sed odio dui. Integer posuere erat a ante venenatis dapibus posuere
-          velit aliquet.
+          Espresso benefits from body and sweetness, so blends and medium roasts are forgiving.
+          Pour-over highlights clarity, so lighter single origins can show more detail.
         </p>
 
         <h3>Key Points</h3>
         <ul>
-          <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
-          <li>Integer posuere erat a ante venenatis dapibus posuere velit aliquet.</li>
-          <li>Donec sed odio dui. Cras mattis consectetur purus sit amet fermentum.</li>
+          <li>Choose espresso blends for milk drinks and consistent daily brewing.</li>
+          <li>Choose filter roasts for brighter acidity and more origin character.</li>
+          <li>Choose whole bean when possible, then grind just before brewing.</li>
         </ul>
 
         <p>
-          Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed
-          consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et.
+          Freshness matters too. Coffee usually tastes best after a short resting period and before
+          it has spent too long exposed to air, heat, or sunlight.
         </p>
 
-        <h2>In-Depth Analysis: Aenean Lacinia Bibendum Nulla</h2>
+        <h2>Read Tasting Notes Practically</h2>
         <p>
-          Aenean lacinia bibendum nulla sed consectetur. Lorem ipsum dolor sit amet, consectetur
-          adipiscing elit. Sed posuere consectetur est at lobortis. Cras justo odio, dapibus ac
-          facilisis in, egestas eget quam.
+          Tasting notes are not added flavours. They describe the impression a coffee gives when it
+          is roasted and brewed well, much like notes on wine or chocolate.
         </p>
 
         <blockquote>
-          “Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante
-          venenatis dapibus posuere velit aliquet.”
+          “If a coffee sounds like something you already enjoy, it is usually a good place to
+          start.”
         </blockquote>
 
         <p>
-          Nullam id dolor id nibh ultricies vehicula ut id elit. Nullam quis risus eget urna mollis
-          ornare vel eu leo. Maecenas faucibus mollis interdum. Vestibulum id ligula porta felis
-          euismod semper.
+          Notes such as chocolate and caramel often point to a rounder cup. Citrus and berry notes
+          usually signal more acidity. Floral notes tend to appear in cleaner filter roasts.
         </p>
 
-        <h3>Numbered Steps</h3>
+        <h3>Simple Selection Steps</h3>
         <ol>
-          <li>Curabitur blandit tempus porttitor.</li>
-          <li>Nullam quis risus eget urna mollis ornare vel eu leo.</li>
-          <li>Integer posuere erat a ante venenatis dapibus posuere velit aliquet.</li>
+          <li>Pick your main brew method.</li>
+          <li>Choose a roast level that suits that method.</li>
+          <li>Select tasting notes that match flavours you already like.</li>
         </ol>
 
-        <h2>Conclusion: Etiam Porta Sem Malesuada</h2>
+        <h2>Keep Notes and Adjust</h2>
         <p>
-          Etiam porta sem malesuada magna mollis euismod. Donec ullamcorper nulla non metus auctor
-          fringilla. Cras mattis consectetur purus sit amet fermentum.
+          Once you have a bag open, note grind size, dose, water temperature, and brew time. Small
+          adjustments can make the same coffee taste sweeter, brighter, or more balanced.
         </p>
         <p>
-          Nulla vitae elit libero, a pharetra augue. Sed posuere consectetur est at lobortis.
-          Curabitur blandit tempus porttitor. Nullam quis risus eget urna mollis ornare vel eu leo.
+          When in doubt, start with a medium roast and a simple recipe. From there, explore lighter
+          origins, richer espresso blends, and decaf options with confidence.
         </p>
       </BlogArticle>
       <NewsletterBannerDemo />

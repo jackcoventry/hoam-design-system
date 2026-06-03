@@ -37,8 +37,8 @@ export const LongContent: Story = {
     </div>
   ),
   args: {
-    title: 'Extra long product title with multiple descriptive words',
+    title: 'Extra long single-origin espresso blend title with multiple tasting notes',
     description:
-      'A deliberately long product description used to verify the tile keeps text inside the card at narrow widths.',
+      'A deliberately long coffee description used to verify the tile keeps tasting notes, origin details, and roast information inside the card at narrow widths.',
   },
 };

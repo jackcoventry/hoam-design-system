@@ -44,10 +44,11 @@ export function Banner({
     <div className={clsx(styles.root, className)}>
       <div className={styles.content}>
         <Container>
-          <Grid cols={2}>
+          <Grid cols={12}>
             <GridItem
-              span={2}
-              spanMd={image ? 1 : 2}
+              span={12}
+              spanMd={image ? 5 : 12}
+              startMd={2}
               className={styles.textContent}
             >
               <Section>
@@ -67,14 +68,17 @@ export function Banner({
 
             {image && (
               <GridItem
-                span={2}
-                spanMd={1}
+                span={6}
+                spanMd={6}
                 className={styles.media}
               >
-                <img
-                  src={image}
-                  alt=""
-                />
+                <span>
+                  <img
+                    src={image}
+                    alt=""
+                    className={styles.image}
+                  />
+                </span>
               </GridItem>
             )}
           </Grid>

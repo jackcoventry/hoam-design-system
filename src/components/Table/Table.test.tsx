@@ -41,8 +41,8 @@ describe('Table', () => {
         </TableHeader>
         <TableBody>
           <tr>
-            <td>Frodo</td>
-            <td>Ring-bearer</td>
+            <td>House Espresso Blend</td>
+            <td>250g whole bean</td>
           </tr>
         </TableBody>
       </Table>
@@ -54,8 +54,8 @@ describe('Table', () => {
     expect(table).toHaveClass('table');
     expect(screen.getByText('Name')).toBeInTheDocument();
     expect(screen.getByText('Role')).toBeInTheDocument();
-    expect(screen.getByText('Frodo')).toBeInTheDocument();
-    expect(screen.getByText('Ring-bearer')).toBeInTheDocument();
+    expect(screen.getByText('House Espresso Blend')).toBeInTheDocument();
+    expect(screen.getByText('250g whole bean')).toBeInTheDocument();
   });
 
   it('wraps the table in the root container', () => {
@@ -68,7 +68,7 @@ describe('Table', () => {
         </TableHeader>
         <TableBody>
           <tr>
-            <td>Sam</td>
+            <td>Colombia Pink Bourbon</td>
           </tr>
         </TableBody>
       </Table>
@@ -87,7 +87,7 @@ describe('Table', () => {
         </TableHeader>
         <TableBody>
           <tr>
-            <td>Sam</td>
+            <td>Colombia Pink Bourbon</td>
           </tr>
         </TableBody>
       </Table>
@@ -107,7 +107,7 @@ describe('Table', () => {
         </TableHeader>
         <TableBody>
           <tr>
-            <td>Merry</td>
+            <td>French Press Kit</td>
           </tr>
         </TableBody>
       </Table>
@@ -158,7 +158,7 @@ describe('Table', () => {
           </TableHeader>
           <TableBody>
             <tr>
-              <td>Pippin</td>
+              <td>Pourover Kettle</td>
             </tr>
           </TableBody>
           <TableBody>

@@ -13,8 +13,8 @@ describe('RadioGroup', () => {
         />
         <Radio
           name="contact"
-          label="Phone"
-          value="phone"
+          label="Store pickup"
+          value="store-pickup"
         />
       </RadioGroup>
     );
