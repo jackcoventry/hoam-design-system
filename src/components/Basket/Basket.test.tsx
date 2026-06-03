@@ -231,6 +231,18 @@ describe('Basket', () => {
     expect(screen.getAllByRole('columnheader', { name: 'Total' })).toHaveLength(1);
   });
 
+  it('applies a custom className to the table root', () => {
+    render(
+      <Basket
+        items={items}
+        total={90}
+        className="custom-basket"
+      />
+    );
+
+    expect(screen.getByRole('table')).toHaveClass('custom-basket');
+  });
+
   it('renders all basket items', () => {
     render(
       <Basket

@@ -87,6 +87,15 @@ function getRequiredElement<T>(value: T | undefined | null, message: string): T 
   return value;
 }
 
+function getModalCloseButton(dialogName = 'Example modal'): HTMLButtonElement {
+  const dialog = screen.getByRole('dialog', { name: dialogName });
+
+  return getRequiredElement(
+    dialog.querySelector<HTMLButtonElement>('button[aria-label="Close modal"]'),
+    'Expected close button to exist'
+  );
+}
+
 let rafQueue: FrameRequestCallback[] = [];
 let rafId = 0;
 
@@ -235,7 +244,7 @@ describe('Modal', () => {
     const dialog = screen.getByRole('dialog', { name: 'Example modal' });
     const root = dialog.closest('[data-variant]');
     const backdropButton = getRequiredElement(
-      root?.querySelector('button[aria-hidden="true"]'),
+      root?.querySelector<HTMLButtonElement>('button[aria-hidden="true"][tabindex="-1"]'),
       'Expected backdrop button to exist'
     );
 
@@ -263,7 +272,7 @@ describe('Modal', () => {
       </ModalRoot>
     );
 
-    const closeButton = screen.getByRole('button', { name: 'Close modal' });
+    const closeButton = getModalCloseButton();
 
     fireEvent.click(closeButton);
 
@@ -297,7 +306,7 @@ describe('Modal', () => {
 
     await flushRafQueue();
 
-    const closeButton = screen.getByRole('button', { name: 'Close modal' });
+    const closeButton = getModalCloseButton();
 
     expect(closeButton).toHaveFocus();
   });
@@ -308,7 +317,7 @@ describe('Modal', () => {
     await flushRafQueue();
 
     const dialog = screen.getByRole('dialog', { name: 'Example modal' });
-    const closeButton = screen.getByRole('button', { name: 'Close modal' });
+    const closeButton = getModalCloseButton();
     const firstAction = screen.getByRole('button', { name: 'First action' });
     const secondAction = screen.getByRole('button', { name: 'Second action' });
     const footerAction = screen.getByRole('button', { name: 'Footer action' });
@@ -335,7 +344,7 @@ describe('Modal', () => {
     await flushRafQueue();
 
     const dialog = screen.getByRole('dialog', { name: 'Example modal' });
-    const closeButton = screen.getByRole('button', { name: 'Close modal' });
+    const closeButton = getModalCloseButton();
     const footerAction = screen.getByRole('button', { name: 'Footer action' });
 
     closeButton.focus();

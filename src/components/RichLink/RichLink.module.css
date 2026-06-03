@@ -6,6 +6,7 @@
   border-radius: var(--hoam-border-radius-large);
   box-shadow: var(--hoam-shadow-small);
   display: flex;
+  min-width: 0;
   overflow: hidden;
   position: relative;
   transition:
@@ -58,8 +59,15 @@
 .text {
   bottom: var(--hoam-spacing-md);
   color: var(--hoam-color-surface-inverse);
+  display: -webkit-box;
   font: var(--hoam-typography-title-3);
   left: var(--hoam-spacing-md);
+  line-clamp: 2;
+  max-width: calc(100% - (var(--hoam-spacing-md) * 2));
+  overflow: hidden;
+  overflow-wrap: anywhere;
   position: absolute;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
   z-index: var(--hoam-layer-raised);
 }

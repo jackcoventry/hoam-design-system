@@ -1,3 +1,5 @@
+import clsx from 'clsx';
+
 import { Button } from '@/components/Button';
 import { QuantitySelector } from '@/components/QuantitySelector';
 import { useCurrency } from '@/hooks/useCurrency';
@@ -35,6 +37,8 @@ export type BasketProps = {
   items?: BasketItemProps[] | null;
   /** Basket subtotal shown in the footer. */
   total: number;
+  /** Optional class applied to the basket table root. */
+  className?: string;
 };
 
 export function BasketItem({
@@ -131,11 +135,11 @@ export function BasketFooter({ total = 0 }: Readonly<{ total: number }>) {
   );
 }
 
-export function Basket({ items = [] }: Readonly<BasketProps>) {
+export function Basket({ items = [], className }: Readonly<BasketProps>) {
   const t = useMessages('basket');
 
   return (
-    <table className={styles.root}>
+    <table className={clsx(styles.root, className)}>
       <thead className={styles.thead}>
         <tr className={styles.row}>
           <th scope="col">{t.columnProduct}</th>

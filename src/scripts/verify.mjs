@@ -9,6 +9,7 @@ const STEPS = [
   { name: 'TypeScript', command: ['npm', 'run', 'typecheck'] },
   { name: 'Unit tests', command: ['npm', 'run', 'test:run:unit'] },
   { name: 'Accessibility', command: ['npm', 'run', 'test:a11y'] },
+  { name: 'Visual layout', command: ['npm', 'run', 'test:visual'] },
 ];
 
 const verbose = process.argv.includes('--verbose');

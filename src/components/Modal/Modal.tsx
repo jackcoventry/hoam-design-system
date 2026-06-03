@@ -332,7 +332,7 @@ function ModalRoot({
       <button
         type="button"
         className={styles.backdrop}
-        aria-label={t.close}
+        aria-hidden="true"
         tabIndex={-1}
         onClick={close}
       />

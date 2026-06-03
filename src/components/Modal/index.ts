@@ -4,6 +4,7 @@ export type {
   ModalRootProps,
   ModalSectionProps,
   ModalTitleProps,
+  ModalVariant,
 } from '@/components/Modal/Modal';
 /** Modal primitives for dialogs and drawers. */
 export {

@@ -29,3 +29,16 @@ export const NewItem = { ...Template, args: { newItem: true } };
 export const LowStock = { ...Template, args: { lowStock: true } };
 
 export const LowStockAndNew = { ...Template, args: { newItem: true, lowStock: true } };
+
+export const LongContent: Story = {
+  render: (args) => (
+    <div style={{ width: '180px' }}>
+      <ProductTile {...args} />
+    </div>
+  ),
+  args: {
+    title: 'Extra long product title with multiple descriptive words',
+    description:
+      'A deliberately long product description used to verify the tile keeps text inside the card at narrow widths.',
+  },
+};
