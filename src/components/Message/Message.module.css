@@ -3,11 +3,13 @@
 }
 
 .root {
+  background: var(--hoam-color-surface-inverse);
   border-width: 2px;
   border-style: solid;
   border-left-width: 8px;
   border-radius: var(--hoam-border-radius-default);
   border-color: var(--hoam-message-color-border);
+  box-shadow: var(--hoam-shadow-small);
   padding: var(--hoam-spacing-md);
   display: grid;
   gap: var(--hoam-spacing-xs);

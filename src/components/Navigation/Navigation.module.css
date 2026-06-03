@@ -7,6 +7,7 @@
 
 .root {
   background-color: var(--hoam-color-surface-default);
+  border-bottom: var(--hoam-border-size-default) var(--hoam-color-surface-alpha-inverse);
   display: none;
   height: var(--hoam-navigation-bar-height);
   position: relative;
@@ -29,6 +30,7 @@
   align-items: center;
   background: none;
   border: none;
+  border-radius: var(--hoam-border-radius-small);
   color: var(--hoam-color-text-inverse);
   cursor: pointer;
   display: inline-flex;
@@ -73,7 +75,8 @@
 .panel {
   animation: panel-enter var(--hoam-transition-duration-medium) forwards;
   background-color: var(--hoam-color-surface-soft);
-  box-shadow: var(--hoam-shadow-small), var(--hoam-shadow-medium);
+  border-top: var(--hoam-border-size-default) var(--hoam-color-border-soft);
+  box-shadow: var(--hoam-shadow-large);
   height: var(--hoam-navigation-height);
   left: 0;
   max-width: 100%;
@@ -92,6 +95,7 @@
 
 .panelSubLevel {
   background-color: var(--hoam-color-surface-inverse);
+  border-left: var(--hoam-border-size-default) var(--hoam-color-border-soft);
   height: var(--hoam-navigation-height);
   left: 100%;
   overflow: auto;
@@ -120,6 +124,7 @@
   display: flex;
   font: var(--hoam-typography-body-1);
   justify-content: space-between;
+  border-radius: var(--hoam-border-radius-small);
   padding: var(--hoam-spacing-md);
   text-decoration: none;
   width: 100%;

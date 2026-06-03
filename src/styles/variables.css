@@ -56,9 +56,9 @@
   --hoam-layer-toast: 800;
   --hoam-layer-skip-link: 900;
   --hoam-layer-debug: 9999;
-  --hoam-shadow-small: 0 0 1px 0 rgba(0, 0, 0, 0.3);
-  --hoam-shadow-medium: 0 6px 6px 0 rgba(0, 0, 0, 0.3);
-  --hoam-shadow-large: 0 10px 40px 0 rgba(0, 0, 0, 0.3);
+  --hoam-shadow-small: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+  --hoam-shadow-medium: 0 10px 24px -8px rgba(0, 0, 0, 0.3);
+  --hoam-shadow-large: 0 24px 60px -18px rgba(0, 0, 0, 0.3);
   --hoam-spacing-0: 0px;
   --hoam-spacing-2xs: 4px;
   --hoam-spacing-xs: 8px;

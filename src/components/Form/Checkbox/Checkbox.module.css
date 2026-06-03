@@ -45,11 +45,16 @@
 .box {
   align-items: center;
   background: var(--hoam-color-surface-inverse);
+  border: var(--hoam-border-size-default) var(--hoam-color-border-default);
+  border-radius: var(--hoam-border-radius-small);
   display: inline-flex;
   height: var(--checkbox-box-size);
   justify-content: center;
   width: var(--checkbox-box-size);
-  transition: background var(--hoam-transition-function-circ) var(--hoam-transition-duration-medium);
+  transition:
+    background var(--hoam-transition-function-circ) var(--hoam-transition-duration-medium),
+    border-color var(--hoam-transition-duration-short) var(--hoam-transition-function-quad),
+    box-shadow var(--hoam-transition-duration-short) var(--hoam-transition-function-quad);
 }
 
 .icon {
@@ -60,10 +65,16 @@
 
 .input:checked + .box {
   background: var(--hoam-color-surface-accent);
+  border-color: var(--hoam-color-border-accent);
 }
 
 .input:indeterminate + .box {
   background: var(--hoam-color-surface-accent-soft);
+  border-color: var(--hoam-color-border-accent);
+}
+
+.input:focus-visible + .box {
+  box-shadow: 0 0 0 3px var(--hoam-color-surface-accent-soft);
 }
 
 .input:checked + .box .icon,

@@ -4,7 +4,9 @@
 
 .root {
   background-color: var(--hoam-color-surface-inverse);
+  border: var(--hoam-border-size-default) var(--hoam-color-border-soft);
   border-radius: var(--hoam-border-radius-default);
+  box-shadow: var(--hoam-shadow-medium);
   display: grid;
   gap: var(--hoam-spacing-md);
   padding: var(--hoam-spacing-xl);
@@ -26,11 +28,23 @@
 }
 
 .textField {
+  background: var(--hoam-color-surface-inverse);
   border-radius: var(--hoam-border-radius-default);
   border: var(--hoam-border-size-default) var(--hoam-form-color-field-border);
+  box-shadow: inset 0 1px 2px var(--hoam-color-surface-alpha-soft);
   font: var(--hoam-typography-label-1);
   padding: var(--hoam-spacing-sm) var(--hoam-spacing-md);
+  transition:
+    border-color var(--hoam-transition-duration-short) var(--hoam-transition-function-quad),
+    box-shadow var(--hoam-transition-duration-short) var(--hoam-transition-function-quad);
   width: 100%;
+}
+
+.textField:focus {
+  box-shadow:
+    inset 0 1px 2px var(--hoam-color-surface-alpha-soft),
+    0 0 0 3px var(--hoam-color-surface-accent-soft);
+  outline: none;
 }
 
 .textField[data-valid="false"] {

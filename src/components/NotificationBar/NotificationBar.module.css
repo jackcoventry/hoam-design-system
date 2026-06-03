@@ -6,6 +6,7 @@
 
 .root {
   background-color: var(--hoam-color-surface-inverse);
+  border-bottom: var(--hoam-border-size-default) var(--hoam-color-border-soft);
   font: var(--hoam-typography-label-1);
   height: var(--hoam-notification-bar-height);
   padding: var(--hoam-spacing-sm);

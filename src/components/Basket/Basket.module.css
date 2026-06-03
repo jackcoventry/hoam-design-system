@@ -14,10 +14,21 @@
 
 .row {
   background-color: var(--hoam-color-surface-inverse);
+  border: var(--hoam-border-size-default) var(--hoam-color-border-soft);
   border-radius: var(--hoam-border-radius-default);
   gap: var(--hoam-spacing-xl);
   grid-template-columns: 120px minmax(0, 1fr);
   grid-template-areas: "image text" "quantity price";
+  transition:
+    border-color var(--hoam-transition-duration-short) var(--hoam-transition-function-quad),
+    box-shadow var(--hoam-transition-duration-short) var(--hoam-transition-function-quad);
+}
+
+@media (--hoam-hoverable) {
+  .tbody .row:hover {
+    border-color: var(--hoam-color-border-default);
+    box-shadow: var(--hoam-shadow-medium);
+  }
 }
 
 .thead {

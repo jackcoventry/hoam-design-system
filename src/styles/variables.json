@@ -789,7 +789,7 @@
     "name": "hoam-shadow-small",
     "cssVar": "--hoam-shadow-small",
     "type": "shadow",
-    "value": "0 0 1px 0 rgba(0, 0, 0, 0.3)",
+    "value": "0 1px 3px 0 rgba(0, 0, 0, 0.3)",
     "group": null,
     "set": "shadow"
   },
@@ -797,7 +797,7 @@
     "name": "hoam-shadow-medium",
     "cssVar": "--hoam-shadow-medium",
     "type": "shadow",
-    "value": "0 6px 6px 0 rgba(0, 0, 0, 0.3)",
+    "value": "0 10px 24px -8px rgba(0, 0, 0, 0.3)",
     "group": null,
     "set": "shadow"
   },
@@ -805,7 +805,7 @@
     "name": "hoam-shadow-large",
     "cssVar": "--hoam-shadow-large",
     "type": "shadow",
-    "value": "0 10px 40px 0 rgba(0, 0, 0, 0.3)",
+    "value": "0 24px 60px -18px rgba(0, 0, 0, 0.3)",
     "group": null,
     "set": "shadow"
   },

@@ -18,16 +18,23 @@
 }
 
 .root[data-layout="horizontal"] .list {
+  border-bottom: var(--hoam-border-size-default) var(--hoam-color-border-soft);
   overflow-x: auto;
   margin: calc(var(--hoam-spacing-md) * -1);
-  padding: var(--hoam-spacing-md);
+  padding: var(--hoam-spacing-md) var(--hoam-spacing-md) calc(var(--hoam-spacing-md) + 1px);
 }
 
 .root[data-layout="vertical"] .list {
+  border-right: var(--hoam-border-size-default) var(--hoam-color-border-soft);
   flex-direction: column;
+  padding-right: var(--hoam-spacing-md);
 }
 
 .list {
   display: flex;
   gap: var(--hoam-spacing-md);
+}
+
+.panel {
+  min-width: 0;
 }
