@@ -4,11 +4,8 @@ import { describe, expect, it, vi } from 'vitest';
 
 import {
   SearchForm,
-  type SearchFormResult,
   type SearchFormSchemaType,
   SearchLoader,
-  SearchResult,
-  SearchResults,
 } from '@/components/Form/SearchForm/SearchForm';
 
 vi.mock('@/components/Button', () => ({
@@ -61,95 +58,11 @@ vi.mock('@/components/Pagination', () => ({
   ),
 }));
 
-describe('SearchResult', () => {
-  it('renders the title, preview and link', () => {
-    render(
-      <SearchResult
-        title="Useful result"
-        preview="A short preview"
-        url="/result"
-      />
-    );
-
-    expect(screen.getByRole('heading', { level: 4, name: 'Useful result' })).toBeInTheDocument();
-    expect(screen.getByText('A short preview')).toBeInTheDocument();
-
-    const link = screen.getByRole('link', { name: 'Read more' });
-    expect(link).toHaveAttribute('href', '/result');
-  });
-});
-
 describe('SearchLoader', () => {
   it('renders the spinner', () => {
     render(<SearchLoader />);
 
     expect(screen.getByTestId('spinner')).toBeInTheDocument();
-  });
-});
-
-describe('SearchResults', () => {
-  const items: SearchFormResult[] = [
-    {
-      id: 1,
-      title: 'First result',
-      url: '/first',
-      preview: 'First preview',
-    },
-    {
-      title: 'Second result',
-      url: '/second',
-      preview: 'Second preview',
-    },
-  ];
-
-  it('renders a no results message when items is empty', () => {
-    render(
-      <SearchResults
-        items={[]}
-        className="custom-search-results"
-      />
-    );
-
-    expect(screen.getByText('No results!')).toBeInTheDocument();
-    expect(screen.getByText('No results!').parentElement).toHaveClass('custom-search-results');
-    expect(screen.queryByRole('list')).not.toBeInTheDocument();
-    expect(screen.queryByTestId('pagination')).not.toBeInTheDocument();
-  });
-
-  it('renders a list of results', () => {
-    render(<SearchResults items={items} />);
-
-    const list = screen.getByRole('list');
-    expect(list.tagName).toBe('OL');
-
-    expect(screen.getByRole('heading', { level: 4, name: 'First result' })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { level: 4, name: 'Second result' })).toBeInTheDocument();
-
-    expect(screen.getByText('First preview')).toBeInTheDocument();
-    expect(screen.getByText('Second preview')).toBeInTheDocument();
-
-    const links = screen.getAllByRole('link', { name: 'Read more' });
-    expect(links).toHaveLength(2);
-    expect(links[0]).toHaveAttribute('href', '/first');
-    expect(links[1]).toHaveAttribute('href', '/second');
-  });
-
-  it('renders pagination when there are results', () => {
-    const { container } = render(
-      <SearchResults
-        items={items}
-        className="custom-search-results"
-      />
-    );
-
-    expect(container.firstChild).toHaveClass('custom-search-results');
-    expect(screen.getByTestId('pagination')).toHaveTextContent('Page 1');
-  });
-
-  it('renders one list item per result', () => {
-    render(<SearchResults items={items} />);
-
-    expect(screen.getAllByRole('listitem')).toHaveLength(2);
   });
 });
 

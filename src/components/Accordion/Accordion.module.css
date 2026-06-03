@@ -54,6 +54,7 @@
   align-items: center;
   background: none;
   border: none;
+  color: var(--hoam-color-text-default);
   cursor: pointer;
   display: flex;
   font: var(--hoam-typography-title-3);

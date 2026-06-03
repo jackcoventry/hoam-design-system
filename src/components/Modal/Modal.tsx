@@ -23,7 +23,9 @@ import styles from '@/components/Modal/Modal.module.css';
 import typography from '@/styles/Typography.module.css';
 
 export const Variants = ['modal', 'drawer'] as const;
+export const Surfaces = ['default', 'transparent'] as const;
 export type ModalVariant = (typeof Variants)[number];
+export type ModalSurface = (typeof Surfaces)[number];
 type ModalPhase = 'closed' | 'opening' | 'open' | 'closing';
 
 type ModalContextValue = {
@@ -58,6 +60,8 @@ export type ModalRootProps = {
   'aria-label'?: string;
   /** Changes the presentation between a centered modal and drawer layout. */
   variant?: ModalVariant;
+  /** Changes the visual treatment of the dialog panel. */
+  surface?: ModalSurface;
 };
 
 export type ModalSectionProps = PropsWithChildren<{
@@ -80,6 +84,7 @@ function ModalRoot({
   children,
   'aria-label': ariaLabel,
   variant = 'modal',
+  surface = 'default',
 }: Readonly<PropsWithChildren<ModalRootProps>>) {
   const t = useMessages('modal');
   const rootRef = useRef<HTMLDivElement | null>(null);
@@ -327,6 +332,7 @@ function ModalRoot({
       ref={rootRef}
       className={styles.root}
       data-variant={variant}
+      data-surface={surface}
       data-state={phase}
     >
       <button

@@ -54,6 +54,12 @@
   z-index: var(--hoam-layer-raised);
 }
 
+.root[data-surface="transparent"] .dialog {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
 .root[data-variant="modal"] .dialog {
   border-radius: var(--hoam-border-radius-large);
   margin: 0 var(--hoam-spacing-xl);

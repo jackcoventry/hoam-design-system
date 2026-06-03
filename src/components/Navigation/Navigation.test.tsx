@@ -4,11 +4,10 @@ import type { SubmitHandler } from 'react-hook-form';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import type { BasketItemProps } from '@/components/Basket';
-import type { SearchFormResult, SearchFormSchemaType } from '@/components/Form';
+import type { SearchFormSchemaType } from '@/components/Form';
 import { Navigation } from '@/components/Navigation/Navigation';
 import type { NavTopLevelItem, NavUserItem } from '@/components/Navigation/types';
 import { useMegaNavState } from '@/hooks/useNavState';
-import type { AsyncState } from '@/utils/useAsyncTask';
 
 type MockDesktopNavigationProps = {
   items: NavTopLevelItem[];
@@ -28,13 +27,11 @@ type MockDesktopNavigationProps = {
   resetNavigation: () => void;
 };
 
-type MockSearchModalProps<TData, TError extends Error = Error> = {
+type MockSearchModalProps = {
   open: boolean;
   onClose: () => void;
   onSubmit: SubmitHandler<SearchFormSchemaType>;
   variant: string;
-  state: AsyncState<TData, TError>;
-  data: SearchFormResult[] | null;
 };
 
 type MockBasketModalProps = {
@@ -47,7 +44,7 @@ type MockBasketModalProps = {
 const mobileNavigationMock =
   vi.fn<(props: { items: Array<NavTopLevelItem | NavUserItem> }) => void>();
 const desktopNavigationMock = vi.fn<(props: MockDesktopNavigationProps) => void>();
-const searchModalMock = vi.fn<(props: MockSearchModalProps<unknown, Error>) => void>();
+const searchModalMock = vi.fn<(props: MockSearchModalProps) => void>();
 const basketModalMock = vi.fn<(props: MockBasketModalProps) => void>();
 
 vi.mock('@/hooks/useNavState', () => ({
@@ -125,18 +122,14 @@ vi.mock('@/components/Navigation/DesktopNavigation/DesktopNavigation', () => ({
 }));
 
 vi.mock('@/components/Navigation/Modals/SearchModal', () => ({
-  SearchModal: <TData, TError extends Error = Error>(
-    props: MockSearchModalProps<TData, TError>
-  ) => {
-    const { open, onClose, onSubmit, variant, state, data } = props;
+  SearchModal: (props: MockSearchModalProps) => {
+    const { open, onClose, onSubmit, variant } = props;
 
     searchModalMock({
       open,
       onClose,
       onSubmit,
       variant,
-      state: state as AsyncState<unknown, Error>,
-      data,
     });
 
     return (
@@ -193,7 +186,6 @@ describe('Navigation', () => {
   const resetNavigation = vi.fn<() => void>();
 
   const searchSubmit: SubmitHandler<SearchFormSchemaType> = vi.fn();
-  const idleSearchState: AsyncState<unknown> = { status: 'idle' };
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -217,8 +209,6 @@ describe('Navigation', () => {
     render(
       <Navigation
         searchSubmit={searchSubmit}
-        searchData={null}
-        searchState={idleSearchState}
         basketData={[]}
       />
     );
@@ -245,8 +235,6 @@ describe('Navigation', () => {
         items={items}
         userItems={userItems}
         searchSubmit={searchSubmit}
-        searchData={null}
-        searchState={idleSearchState}
         basketData={[]}
       />
     );
@@ -270,8 +258,6 @@ describe('Navigation', () => {
         items={items}
         userItems={userItems}
         searchSubmit={searchSubmit}
-        searchData={null}
-        searchState={idleSearchState}
         basketData={[]}
       />
     );
@@ -301,25 +287,9 @@ describe('Navigation', () => {
   });
 
   it('passes search props through to SearchModal', () => {
-    const searchData: SearchFormResult[] = [
-      {
-        id: 1,
-        title: 'Result 1',
-        url: '/result-1',
-        preview: 'Preview text',
-      },
-    ];
-
-    const searchState: AsyncState<{ results: string[] }> = {
-      status: 'success',
-      data: { results: ['one'] },
-    };
-
     render(
       <Navigation
         searchSubmit={searchSubmit}
-        searchData={searchData}
-        searchState={searchState}
         basketData={[]}
       />
     );
@@ -333,8 +303,6 @@ describe('Navigation', () => {
     expect(searchModalProps?.open).toBe(false);
     expect(searchModalProps?.onSubmit).toBe(searchSubmit);
     expect(searchModalProps?.variant).toBe('modal');
-    expect(searchModalProps?.state).toEqual(searchState);
-    expect(searchModalProps?.data).toEqual(searchData);
     expect(typeof searchModalProps?.onClose).toBe('function');
   });
 
@@ -358,8 +326,6 @@ describe('Navigation', () => {
     render(
       <Navigation
         searchSubmit={searchSubmit}
-        searchData={null}
-        searchState={idleSearchState}
         basketData={basketData}
       />
     );
@@ -380,8 +346,6 @@ describe('Navigation', () => {
     render(
       <Navigation
         searchSubmit={searchSubmit}
-        searchData={null}
-        searchState={idleSearchState}
         basketData={[]}
       />
     );
@@ -402,8 +366,6 @@ describe('Navigation', () => {
     render(
       <Navigation
         searchSubmit={searchSubmit}
-        searchData={null}
-        searchState={idleSearchState}
         basketData={[]}
       />
     );
@@ -425,8 +387,6 @@ describe('Navigation', () => {
     render(
       <Navigation
         searchSubmit={searchSubmit}
-        searchData={null}
-        searchState={idleSearchState}
         basketData={[]}
       />
     );
@@ -447,8 +407,6 @@ describe('Navigation', () => {
     render(
       <Navigation
         searchSubmit={searchSubmit}
-        searchData={null}
-        searchState={idleSearchState}
         basketData={[]}
       />
     );
@@ -470,8 +428,6 @@ describe('Navigation', () => {
     render(
       <Navigation
         searchSubmit={searchSubmit}
-        searchData={null}
-        searchState={idleSearchState}
         basketData={[]}
       />
     );
@@ -498,8 +454,6 @@ describe('Navigation', () => {
         brandLabel="Acme"
         homeHref="/welcome"
         searchSubmit={searchSubmit}
-        searchData={null}
-        searchState={idleSearchState}
         basketData={[]}
       />
     );
@@ -518,20 +472,4 @@ describe('Navigation', () => {
     );
   });
 
-  it('passes null search data through to SearchModal', () => {
-    render(
-      <Navigation
-        searchSubmit={searchSubmit}
-        searchData={null}
-        searchState={idleSearchState}
-        basketData={[]}
-      />
-    );
-
-    expect(searchModalMock).toHaveBeenCalledWith(
-      expect.objectContaining({
-        data: null,
-      })
-    );
-  });
 });

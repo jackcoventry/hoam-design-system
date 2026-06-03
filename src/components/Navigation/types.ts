@@ -1,8 +1,7 @@
 import { SubmitHandler } from 'react-hook-form';
 
 import { BasketItemProps } from '@/components/Basket';
-import type { SearchFormResult, SearchFormSchemaType } from '@/components/Form';
-import { AsyncState } from '@/types/async';
+import type { SearchFormSchemaType } from '@/components/Form';
 
 export type NavigationLayout = 'list' | 'thumbnail';
 export type NavUserAction = 'USER_SEARCH' | 'USER_BASKET';
@@ -94,7 +93,7 @@ export type NavTreeItem =
   | NavLeafItem
   | NavThumbnailItem;
 
-export interface NavigationProps<TData, TError extends Error = Error> {
+export interface NavigationProps {
   /** Primary navigation tree rendered in both desktop and mobile navigation. */
   items?: NavTopLevelItem[];
   /** Secondary user-action items such as account, search, and basket. */
@@ -105,10 +104,6 @@ export interface NavigationProps<TData, TError extends Error = Error> {
   homeHref?: string;
   /** Search form submit handler used by the built-in search modal. */
   searchSubmit: SubmitHandler<SearchFormSchemaType>;
-  /** Search results rendered inside the built-in search modal. */
-  searchData: SearchFormResult[] | null;
-  /** Async state object that drives the built-in search modal UI. */
-  searchState: AsyncState<TData, TError>;
   /** Basket items rendered inside the built-in basket modal. */
   basketData: BasketItemProps[];
 }

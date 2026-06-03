@@ -8,16 +8,14 @@ import type { NavigationProps } from '@/components/Navigation/types';
 import { useMegaNavState } from '@/hooks/useNavState';
 import { SITE } from '@/constants/site';
 
-export function Navigation<TData, TError extends Error = Error>({
+export function Navigation({
   items = [],
   userItems = [],
   brandLabel = SITE.title,
   homeHref = '/',
   searchSubmit,
-  searchData = [],
-  searchState,
   basketData = [],
-}: Readonly<NavigationProps<TData, TError>>) {
+}: Readonly<NavigationProps>) {
   const {
     openIndex,
     setOpenIndex,
@@ -81,9 +79,7 @@ export function Navigation<TData, TError extends Error = Error>({
         open={openSearchModal}
         onClose={handleSearchModalClose}
         variant="modal"
-        data={searchData}
         onSubmit={searchSubmit}
-        state={searchState}
       />
 
       <BasketModal

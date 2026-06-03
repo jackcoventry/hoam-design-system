@@ -14,16 +14,23 @@
   text-transform: uppercase;
 }
 
+.text {
+  display: block;
+  margin: 0 auto;
+  max-width: 500px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .root a:link,
 .root a:visited {
   color: var(--hoam-color-link-default);
   text-decoration: underline;
-  text-decoration-thickness: 0.08em;
-  text-underline-offset: 0.18em;
 }
 
 @media (--hoam-hoverable) {
   .root a:hover {
-    text-decoration-thickness: 0.12em;
+    text-decoration: none;
   }
 }

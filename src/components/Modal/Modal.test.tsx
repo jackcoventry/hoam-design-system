@@ -154,6 +154,7 @@ describe('Modal', () => {
         {...(props.onClose ? { onClose: props.onClose } : {})}
         {...(props['aria-label'] ? { 'aria-label': props['aria-label'] } : {})}
         {...(props.variant ? { variant: props.variant } : {})}
+        {...(props.surface ? { surface: props.surface } : {})}
       >
         {children ?? (
           <>
@@ -234,6 +235,16 @@ describe('Modal', () => {
 
     expect(root).toBeInTheDocument();
     expect(root).toHaveAttribute('data-variant', 'drawer');
+  });
+
+  it('passes surface to the root element', () => {
+    renderMountedOpenModal({ surface: 'transparent' });
+
+    const dialog = screen.getByRole('dialog', { name: 'Example modal' });
+    const root = dialog.closest('[data-surface]');
+
+    expect(root).toBeInTheDocument();
+    expect(root).toHaveAttribute('data-surface', 'transparent');
   });
 
   it('calls onClose when the backdrop is clicked', () => {

@@ -24,7 +24,12 @@ const FADE_TIME = 500;
 
 function NotificationMessage({ message }: Readonly<{ message: React.ReactNode }>) {
   if (typeof message === 'string') {
-    return <span dangerouslySetInnerHTML={{ __html: message }} />;
+    return (
+      <span
+        className={styles.text}
+        dangerouslySetInnerHTML={{ __html: message }}
+      />
+    );
   }
 
   return <>{message}</>;

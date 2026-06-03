@@ -1,8 +1,10 @@
 .header {
   align-items: start;
+  box-sizing: border-box;
   display: grid;
   gap: var(--hoam-spacing-md);
   grid-template-columns: minmax(0, 1fr) auto;
+  inline-size: min(42rem, calc(100vw - (var(--hoam-spacing-xl) * 2)));
+  max-inline-size: 100%;
   padding: var(--hoam-spacing-md);
-  width: 100%;
 }
