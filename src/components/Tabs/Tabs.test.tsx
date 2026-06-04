@@ -40,7 +40,15 @@ vi.mock('@/components/Accordion', () => ({
       {children}
     </div>
   ),
-  AccordionItem: ({ children, id, title }: { children: ReactNode; id: string; title: ReactNode }) => (
+  AccordionItem: ({
+    children,
+    id,
+    title,
+  }: {
+    children: ReactNode;
+    id: string;
+    title: ReactNode;
+  }) => (
     <section
       data-testid="accordion-item"
       data-id={id}

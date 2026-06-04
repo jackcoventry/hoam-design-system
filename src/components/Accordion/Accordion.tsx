@@ -92,7 +92,10 @@ export function Accordion({
   const openIds = isControlled ? controlledOpenIds : internalOpenIds;
 
   const itemIds = useMemo(
-    () => Children.toArray(children).map(getAccordionItemId).filter((id) => id !== null),
+    () =>
+      Children.toArray(children)
+        .map(getAccordionItemId)
+        .filter((id) => id !== null),
     [children]
   );
 

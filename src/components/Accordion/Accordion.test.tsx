@@ -109,11 +109,17 @@ describe('Accordion', () => {
   }) {
     return render(
       <Accordion {...props}>
-        <AccordionItem id="one" title="First section">
+        <AccordionItem
+          id="one"
+          title="First section"
+        >
           <p>First content</p>
         </AccordionItem>
 
-        <AccordionItem id="two" title="Second section">
+        <AccordionItem
+          id="two"
+          title="Second section"
+        >
           <p>Second content</p>
         </AccordionItem>
       </Accordion>
@@ -237,7 +243,10 @@ describe('Accordion', () => {
   it('does not render the toggle-all button when there is only one item', () => {
     render(
       <Accordion allowMultiple>
-        <AccordionItem id="one" title="Only section">
+        <AccordionItem
+          id="one"
+          title="Only section"
+        >
           <p>Only content</p>
         </AccordionItem>
       </Accordion>
@@ -408,7 +417,10 @@ describe('Accordion', () => {
   it('renders open and closed icons correctly', () => {
     const { unmount } = render(
       <Accordion defaultOpenIds={['one']}>
-        <AccordionItem id="one" title="First section">
+        <AccordionItem
+          id="one"
+          title="First section"
+        >
           <p>First content</p>
         </AccordionItem>
       </Accordion>
@@ -421,7 +433,10 @@ describe('Accordion', () => {
 
     render(
       <Accordion>
-        <AccordionItem id="one" title="First section">
+        <AccordionItem
+          id="one"
+          title="First section"
+        >
           <p>First content</p>
         </AccordionItem>
       </Accordion>
@@ -433,7 +448,10 @@ describe('Accordion', () => {
   it('sets ids and accessibility relationships between header and panel', () => {
     render(
       <Accordion defaultOpenIds={['abc']}>
-        <AccordionItem id="abc" title="Section title">
+        <AccordionItem
+          id="abc"
+          title="Section title"
+        >
           <p>Panel content</p>
         </AccordionItem>
       </Accordion>
@@ -452,7 +470,10 @@ describe('Accordion', () => {
   it('renders panel content inside BodyText', () => {
     render(
       <Accordion defaultOpenIds={['one']}>
-        <AccordionItem id="one" title="First section">
+        <AccordionItem
+          id="one"
+          title="First section"
+        >
           <p>First content</p>
         </AccordionItem>
       </Accordion>
@@ -464,7 +485,10 @@ describe('Accordion', () => {
   it('throws when AccordionItem is used outside Accordion', () => {
     expect(() =>
       render(
-        <AccordionItem id="one" title="First section">
+        <AccordionItem
+          id="one"
+          title="First section"
+        >
           <p>First content</p>
         </AccordionItem>
       )
@@ -475,10 +499,16 @@ describe('Accordion', () => {
     render(
       <Accordion allowMultiple>
         {'plain text'}
-        <AccordionItem id="one" title="First section">
+        <AccordionItem
+          id="one"
+          title="First section"
+        >
           <p>First content</p>
         </AccordionItem>
-        <AccordionItem id="two" title="Second section">
+        <AccordionItem
+          id="two"
+          title="Second section"
+        >
           <p>Second content</p>
         </AccordionItem>
       </Accordion>

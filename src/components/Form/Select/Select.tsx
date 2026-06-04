@@ -90,8 +90,10 @@ function hasChildrenProp(child: ReactNode): child is ReactElement<{ children?: R
 function hasOptionProps(
   child: ReactNode
 ): child is ReactElement<{ children?: ReactNode; label?: string; value: string }> {
-  return isValidElement<{ children?: ReactNode; label?: string; value?: unknown }>(child)
-    && typeof child.props.value === 'string';
+  return (
+    isValidElement<{ children?: ReactNode; label?: string; value?: unknown }>(child) &&
+    typeof child.props.value === 'string'
+  );
 }
 
 function getTextFromNode(node: ReactNode): string {
