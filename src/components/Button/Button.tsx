@@ -126,7 +126,7 @@ function omitKeys<T extends object, const K extends readonly (keyof T)[]>(
     delete (clone as Record<PropertyKey, unknown>)[key];
   }
 
-  return clone as Omit<T, K[number]>;
+  return clone;
 }
 
 function ButtonContent({ children, icon, iconOnly = false }: Readonly<ButtonContentProps>) {

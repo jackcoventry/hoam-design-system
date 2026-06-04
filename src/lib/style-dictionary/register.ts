@@ -30,7 +30,7 @@ const rawTokenObjects = await Promise.all(
 );
 
 const rawTokens = rawTokenObjects.reduce<TokenRecord>(
-  (acc, obj) => merge(acc, obj) as TokenRecord,
+  (acc, obj) => merge(acc, obj),
   {}
 );
 

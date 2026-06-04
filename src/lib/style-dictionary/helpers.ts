@@ -47,7 +47,7 @@ export function getLeafExtensions(rawTokens: TokenRecord, path: string[]): Token
   }
 
   const extensions = getRecordValue(node, '$extensions');
-  return isRecord(extensions) ? (extensions as TokenExtensions) : null;
+  return isRecord(extensions) ? extensions : null;
 }
 
 export function findGroup(rawTokens: TokenRecord, path: string[]): string | null {
