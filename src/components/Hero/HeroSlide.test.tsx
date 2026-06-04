@@ -51,11 +51,7 @@ const capturedGridItemProps: MockGridItemProps[] = [];
 
 vi.mock('@/components/Button', () => ({
   Button: ({ children, as, href }: MockButtonProps) =>
-    as === 'a' ? (
-      <a href={href}>{children}</a>
-    ) : (
-      <button type="button">{children}</button>
-    ),
+    as === 'a' ? <a href={href}>{children}</a> : <button type="button">{children}</button>,
 }));
 
 vi.mock('@/components/Layout', () => ({

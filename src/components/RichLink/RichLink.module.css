@@ -15,18 +15,6 @@
     transform var(--hoam-transition-duration-short) var(--hoam-transition-function-quad);
 }
 
-.root::after {
-  background-color: var(--hoam-color-surface-default);
-  content: "";
-  display: block;
-  height: 100%;
-  left: 0;
-  opacity: 0.2;
-  position: absolute;
-  top: 0;
-  width: 100%;
-}
-
 @media (--hoam-hoverable) {
   .root:hover {
     border-color: var(--hoam-color-border-default);
@@ -57,8 +45,11 @@
 }
 
 .text {
+  background-color: var(--hoam-color-surface-default);
+  border-radius: var(--hoam-border-radius-small);
   bottom: var(--hoam-spacing-md);
-  color: var(--hoam-color-surface-inverse);
+  box-sizing: border-box;
+  color: var(--hoam-color-text-inverse);
   display: -webkit-box;
   font: var(--hoam-typography-title-3);
   left: var(--hoam-spacing-md);
@@ -66,6 +57,7 @@
   max-width: calc(100% - (var(--hoam-spacing-md) * 2));
   overflow: hidden;
   overflow-wrap: anywhere;
+  padding: var(--hoam-spacing-2xs) var(--hoam-spacing-xs);
   position: absolute;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
