@@ -35,10 +35,3 @@ export const Single = {
     data: [MockSlides[0]],
   },
 };
-
-export const Video = {
-  ...Template,
-  args: {
-    data: [MockSlides[3]],
-  },
-};

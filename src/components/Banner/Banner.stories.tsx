@@ -9,7 +9,7 @@ const meta: Meta<typeof Banner> = {
   component: Banner,
   args: {
     title: 'Fresh coffee, roasted weekly',
-    subtitle: 'Seasonal single origins',
+    subtitle: 'Seasonal',
     text: 'Explore espresso blends, filter roasts, and brewing essentials selected for balanced everyday cups.',
     image: '/hero/range.png',
     button: {

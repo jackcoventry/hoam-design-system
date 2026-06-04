@@ -115,6 +115,15 @@ test.describe('Storybook accessibility smoke tests', () => {
   test('scans component and page stories with axe', async ({ page }) => {
     test.setTimeout(180000);
 
+    const duplicateKeyWarnings: string[] = [];
+    page.on('console', (message) => {
+      const text = message.text();
+
+      if (message.type() === 'error' && /children with the same key|unique "key" prop/i.test(text)) {
+        duplicateKeyWarnings.push(text);
+      }
+    });
+
     const storyIds = await getA11yStoryIds(page);
 
     for (const storyId of storyIds) {
@@ -123,6 +132,8 @@ test.describe('Storybook accessibility smoke tests', () => {
         await runPageAxe(page);
       });
     }
+
+    expect(duplicateKeyWarnings).toEqual([]);
   });
 
   test('keeps the modal story keyboard accessible', async ({ page }) => {

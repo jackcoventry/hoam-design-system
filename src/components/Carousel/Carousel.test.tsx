@@ -37,6 +37,7 @@ type MockSwiperProps = {
   a11y?: {
     enabled: boolean;
     containerMessage: string;
+    containerRole: string;
   };
   navigation?: boolean;
   pagination?: false | { clickable: boolean };
@@ -188,6 +189,7 @@ describe('Carousel', () => {
     expect(props.a11y).toEqual({
       enabled: true,
       containerMessage: 'Carousel',
+      containerRole: 'region',
     });
     expect(props.navigation).toBe(false);
     expect(props.pagination).toBe(false);
@@ -213,6 +215,7 @@ describe('Carousel', () => {
     expect(props.a11y).toEqual({
       enabled: true,
       containerMessage: 'Featured content',
+      containerRole: 'region',
     });
   });
 

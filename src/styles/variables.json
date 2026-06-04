@@ -995,7 +995,7 @@
   {
     "name": "hoam-typography-size-3",
     "cssVar": "--hoam-typography-size-3",
-    "type": "dimension",
+    "type": "string",
     "value": "clamp(1rem, min(20vmin, 7vw), 1.5rem)",
     "group": null,
     "set": "size",
@@ -1006,7 +1006,7 @@
   {
     "name": "hoam-typography-size-4",
     "cssVar": "--hoam-typography-size-4",
-    "type": "dimension",
+    "type": "string",
     "value": "clamp(1rem, min(20vmin, 7vw), 2rem)",
     "group": null,
     "set": "size",
@@ -1017,7 +1017,7 @@
   {
     "name": "hoam-typography-size-5",
     "cssVar": "--hoam-typography-size-5",
-    "type": "dimension",
+    "type": "string",
     "value": "clamp(1rem, min(20vmin, 7vw), 3rem)",
     "group": null,
     "set": "size",
@@ -1028,7 +1028,7 @@
   {
     "name": "hoam-typography-size-6",
     "cssVar": "--hoam-typography-size-6",
-    "type": "dimension",
+    "type": "string",
     "value": "clamp(1rem, min(20vmin, 7vw), 4rem)",
     "group": null,
     "set": "size",

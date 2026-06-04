@@ -71,14 +71,14 @@ function StoryTemplate({
         image={image}
         socialLinks={socialLinks}
       >
+        <p>Choosing coffee gets easier when you start with how you brew.</p>
+
         <p>
-          Choosing coffee gets easier when you start with how you brew. Espresso, filter, French
-          press, and cold brew all reward slightly different roast profiles and grind sizes.
-        </p>
-        <p>
-          A <strong>medium roast</strong> is a reliable everyday choice for most brewers. It keeps
-          enough sweetness and body for milk drinks while preserving the origin character that makes
-          black coffee interesting. <em>Lighter roasts</em> tend to feel brighter and more aromatic.
+          Espresso, filter, French press, and cold brew all reward slightly different roast profiles
+          and grind sizes. A <strong>medium roast</strong> is a reliable everyday choice for most
+          brewers. It keeps enough sweetness and body for milk drinks while preserving the origin
+          character that makes black coffee interesting. <em>Lighter roasts</em> tend to feel
+          brighter and more aromatic.
         </p>
         <p>
           If you like chocolate, caramel, and toasted nut notes, start with espresso blends or

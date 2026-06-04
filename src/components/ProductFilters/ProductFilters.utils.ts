@@ -166,7 +166,7 @@ export function buildChips(
       continue;
     }
 
-    const selectedIds = getOptionSelections(value, group.id);
+    const selectedIds = new Set(getOptionSelections(value, group.id));
 
     for (const optionId of selectedIds) {
       const option = group.options.find((item) => item.id === optionId);

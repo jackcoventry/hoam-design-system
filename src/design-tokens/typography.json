@@ -58,19 +58,19 @@
         "$value": "{typography.size.base}"
       },
       "3": {
-        "$type": "dimension",
+        "$type": "string",
         "$value": "clamp(1rem, min(20vmin, 7vw), 1.5rem)"
       },
       "4": {
-        "$type": "dimension",
+        "$type": "string",
         "$value": "clamp(1rem, min(20vmin, 7vw), 2rem)"
       },
       "5": {
-        "$type": "dimension",
+        "$type": "string",
         "$value": "clamp(1rem, min(20vmin, 7vw), 3rem)"
       },
       "6": {
-        "$type": "dimension",
+        "$type": "string",
         "$value": "clamp(1rem, min(20vmin, 7vw), 4rem)"
       }
     },
