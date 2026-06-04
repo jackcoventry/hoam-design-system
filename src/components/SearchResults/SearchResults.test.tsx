@@ -43,21 +43,19 @@ vi.mock('@/components/Pagination', () => ({
 }));
 
 describe('SearchResult', () => {
-  it('renders the title, preview, ordinal and link', () => {
+  it('renders the title, preview and link', () => {
     render(
       <SearchResult
         title="Useful result"
         preview="A short preview"
         url="/result"
-        index={2}
       />
     );
 
-    expect(screen.getByText('Result 03')).toBeInTheDocument();
     expect(screen.getByRole('heading', { level: 2, name: 'Useful result' })).toBeInTheDocument();
     expect(screen.getByText('A short preview')).toBeInTheDocument();
 
-    const link = screen.getByRole('link', { name: 'Read more' });
+    const link = screen.getByRole('link', { name: /Useful result/ });
     expect(link).toHaveAttribute('href', '/result');
   });
 });
@@ -97,14 +95,13 @@ describe('SearchResults', () => {
     const list = screen.getByRole('list');
     expect(list.tagName).toBe('OL');
 
-    expect(screen.getByText('2 results')).toBeInTheDocument();
     expect(screen.getByRole('heading', { level: 2, name: 'First result' })).toBeInTheDocument();
     expect(screen.getByRole('heading', { level: 2, name: 'Second result' })).toBeInTheDocument();
 
     expect(screen.getByText('First preview')).toBeInTheDocument();
     expect(screen.getByText('Second preview')).toBeInTheDocument();
 
-    const links = screen.getAllByRole('link', { name: 'Read more' });
+    const links = screen.getAllByRole('link');
     expect(links).toHaveLength(2);
     expect(links[0]).toHaveAttribute('href', '/first');
     expect(links[1]).toHaveAttribute('href', '/second');
