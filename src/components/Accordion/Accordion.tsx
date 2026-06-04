@@ -1,10 +1,7 @@
 import {
   Children,
   createContext,
-  HTMLAttributes,
   isValidElement,
-  PropsWithChildren,
-  ReactElement,
   ReactNode,
   useCallback,
   useContext,
@@ -41,35 +38,24 @@ export interface AccordionProps {
 export interface AccordionItemProps {
   /** Stable identifier used for button and panel relationships. */
   id: string;
-  /** Exactly one `AccordionHeader` and one `AccordionPanel`. */
-  children: ReactNode;
-  /** Adds custom class names to the item wrapper. */
-  className?: string;
-}
-
-export interface AccordionHeaderProps {
   /** Header content shown inside the item trigger button. */
-  children: ReactNode;
-  /** Adds custom class names to the trigger button. */
-  className?: string | undefined;
-  /** Prevents the item from being toggled. */
-  disabled?: boolean;
-}
-
-export interface AccordionPanelProps {
+  title: ReactNode;
   /** Panel content shown when the item is open. */
   children: ReactNode;
+  /** Adds custom class names to the item wrapper. */
+  className?: string | undefined;
+  /** Adds custom class names to the trigger button. */
+  triggerClassName?: string | undefined;
   /** Adds custom class names to the panel wrapper. */
-  className?: string;
+  panelClassName?: string | undefined;
+  /** Prevents the item from being toggled. */
+  disabled?: boolean;
 }
 
 interface AccordionContextType {
   openIds: string[];
   toggle: (id: string) => void;
 }
-
-type AccordionHeaderElement = ReactElement<React.ComponentProps<typeof AccordionHeader>>;
-type AccordionPanelElement = ReactElement<React.ComponentProps<typeof AccordionPanel>>;
 
 const AccordionContext = createContext<AccordionContextType | null>(null);
 
@@ -81,37 +67,12 @@ function useAccordionContext() {
   return ctx;
 }
 
-function isAccordionItemElement(child: ReactNode): child is ReactElement<AccordionItemProps> {
-  return isValidElement(child) && child.type === AccordionItem;
-}
+function getAccordionItemId(child: ReactNode): string | null {
+  if (!isValidElement<{ id?: unknown }>(child) || typeof child.props.id !== 'string') {
+    return null;
+  }
 
-function getAccordionItemParts(children: ReactNode): {
-  header: AccordionHeaderElement;
-  panel: AccordionPanelElement;
-} {
-  const childArray = Children.toArray(children);
-
-  logger.invariant(
-    childArray.length === 2,
-    'AccordionItem must contain exactly two children: <AccordionHeader /> and <AccordionPanel />'
-  );
-
-  const [headerChild, panelChild] = childArray;
-
-  logger.invariant(
-    isValidElement(headerChild) && headerChild.type === AccordionHeader,
-    'The first child of AccordionItem must be <AccordionHeader />'
-  );
-
-  logger.invariant(
-    isValidElement(panelChild) && panelChild.type === AccordionPanel,
-    'The second child of AccordionItem must be <AccordionPanel />'
-  );
-
-  return {
-    header: headerChild as AccordionHeaderElement,
-    panel: panelChild as AccordionPanelElement,
-  };
+  return child.props.id;
 }
 
 export function Accordion({
@@ -133,8 +94,8 @@ export function Accordion({
   const itemIds = useMemo(
     () =>
       Children.toArray(children)
-        .filter(isAccordionItemElement)
-        .map((child) => child.props.id),
+        .map(getAccordionItemId)
+        .filter((id) => id !== null),
     [children]
   );
 
@@ -193,12 +154,17 @@ export function Accordion({
   );
 }
 
-export function AccordionItem({ id, children, className }: Readonly<AccordionItemProps>) {
+export function AccordionItem({
+  id,
+  title,
+  children,
+  className,
+  triggerClassName,
+  panelClassName,
+  disabled = false,
+}: Readonly<AccordionItemProps>) {
   const { openIds, toggle } = useAccordionContext();
   const isOpen = openIds.includes(id);
-
-  const { header, panel } = getAccordionItemParts(children);
-  const isDisabled = header.props.disabled ?? false;
 
   const headerId = `accordion-header-${id}`;
   const panelId = `accordion-panel-${id}`;
@@ -207,7 +173,7 @@ export function AccordionItem({ id, children, className }: Readonly<AccordionIte
     <div
       className={clsx(styles.item, className)}
       data-state={isOpen ? 'open' : 'closed'}
-      data-disabled={isDisabled ? 'true' : 'false'}
+      data-disabled={disabled ? 'true' : 'false'}
     >
       <div className={styles.itemTitle}>
         <button
@@ -215,11 +181,11 @@ export function AccordionItem({ id, children, className }: Readonly<AccordionIte
           type="button"
           aria-controls={panelId}
           aria-expanded={isOpen}
-          disabled={isDisabled}
+          disabled={disabled}
           onClick={() => toggle(id)}
-          className={clsx(styles.itemTitleButton, header.props.className)}
+          className={clsx(styles.itemTitleButton, triggerClassName)}
         >
-          <span className={styles.itemTitleText}>{header.props.children}</span>
+          <span className={styles.itemTitleText}>{title}</span>
 
           <span
             className={styles.icon}
@@ -237,23 +203,13 @@ export function AccordionItem({ id, children, className }: Readonly<AccordionIte
         id={panelId}
         aria-labelledby={headerId}
         aria-hidden={!isOpen}
-        className={clsx(styles.panel, panel.props.className)}
+        className={clsx(styles.panel, panelClassName)}
         data-open={isOpen ? 'true' : 'false'}
       >
         <div className={styles.panelInner}>
-          <BodyText>{panel.props.children}</BodyText>
+          <BodyText>{children}</BodyText>
         </div>
       </section>
     </div>
   );
-}
-
-export function AccordionHeader({ children }: Readonly<AccordionHeaderProps>) {
-  return <>{children}</>;
-}
-
-export function AccordionPanel({
-  children,
-}: Readonly<PropsWithChildren<AccordionPanelProps & HTMLAttributes<HTMLDivElement>>>) {
-  return <>{children}</>;
 }

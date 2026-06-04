@@ -59,19 +59,24 @@ vi.mock('@/components/Accordion', () => ({
   Accordion: ({ children }: { children: ReactNode }) => (
     <div data-testid="accordion">{children}</div>
   ),
-  AccordionItem: ({ children, id }: { children: ReactNode; id: string }) => (
+  AccordionItem: ({
+    children,
+    id,
+    title,
+    triggerClassName,
+  }: {
+    children: ReactNode;
+    id: string;
+    title: ReactNode;
+    triggerClassName?: string;
+  }) => (
     <section
       data-testid="accordion-item"
       data-id={id}
     >
-      {children}
+      <h2 className={triggerClassName}>{title}</h2>
+      <div data-testid="accordion-panel">{children}</div>
     </section>
-  ),
-  AccordionHeader: ({ children, className }: { children: ReactNode; className?: string }) => (
-    <h2 className={className}>{children}</h2>
-  ),
-  AccordionPanel: ({ children }: { children: ReactNode }) => (
-    <div data-testid="accordion-panel">{children}</div>
   ),
 }));
 

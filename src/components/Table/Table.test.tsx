@@ -1,16 +1,7 @@
 import { render, screen } from '@testing-library/react';
-import type { ReactNode } from 'react';
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import { Table, TableBody, TableHeader } from '@/components/Table';
-
-const invariantMock = vi.fn<(condition: boolean, message: string) => void>();
-
-vi.mock('@/utils/logger', () => ({
-  logger: {
-    invariant: (condition: boolean, message: string) => invariantMock(condition, message),
-  },
-}));
 
 vi.mock('@/components/Table/Table.module.css', () => ({
   default: {
@@ -20,16 +11,6 @@ vi.mock('@/components/Table/Table.module.css', () => ({
 }));
 
 describe('Table', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-
-    invariantMock.mockImplementation((condition, message) => {
-      if (!condition) {
-        throw new Error(message);
-      }
-    });
-  });
-
   it('renders a table with header and body when given valid children', () => {
     render(
       <Table>
@@ -97,148 +78,25 @@ describe('Table', () => {
     expect(container.firstChild).toHaveClass('custom-table');
   });
 
-  it('calls invariant for the expected structural checks', () => {
+  it('supports native table children without runtime component checks', () => {
     render(
       <Table>
-        <TableHeader>
+        <caption>Available coffee</caption>
+        <thead>
           <tr>
             <th>Name</th>
           </tr>
-        </TableHeader>
-        <TableBody>
+        </thead>
+        <tbody>
           <tr>
             <td>French Press Kit</td>
           </tr>
-        </TableBody>
+        </tbody>
       </Table>
     );
 
-    expect(invariantMock).toHaveBeenCalledTimes(3);
-    expect(invariantMock).toHaveBeenNthCalledWith(
-      1,
-      true,
-      '<Table /> must contain exactly two children: <TableHeader /> and <typeof TableBody />'
-    );
-    expect(invariantMock).toHaveBeenNthCalledWith(
-      2,
-      true,
-      'The first child of Table must be <TableHeader />'
-    );
-    expect(invariantMock).toHaveBeenNthCalledWith(
-      3,
-      true,
-      'The second child of Table must be <TableBody />'
-    );
-  });
-
-  it('throws when given fewer than two children', () => {
-    expect(() =>
-      render(
-        <Table>
-          <TableHeader>
-            <tr>
-              <th>Name</th>
-            </tr>
-          </TableHeader>
-        </Table>
-      )
-    ).toThrow(
-      '<Table /> must contain exactly two children: <TableHeader /> and <typeof TableBody />'
-    );
-  });
-
-  it('throws when given more than two children', () => {
-    expect(() =>
-      render(
-        <Table>
-          <TableHeader>
-            <tr>
-              <th>Name</th>
-            </tr>
-          </TableHeader>
-          <TableBody>
-            <tr>
-              <td>Pourover Kettle</td>
-            </tr>
-          </TableBody>
-          <TableBody>
-            <tr>
-              <td>Extra</td>
-            </tr>
-          </TableBody>
-        </Table>
-      )
-    ).toThrow(
-      '<Table /> must contain exactly two children: <TableHeader /> and <typeof TableBody />'
-    );
-  });
-
-  it('throws when the first child is not TableHeader', () => {
-    expect(() =>
-      render(
-        <Table>
-          <TableBody>
-            <tr>
-              <td>Wrong order</td>
-            </tr>
-          </TableBody>
-          <TableBody>
-            <tr>
-              <td>Still wrong</td>
-            </tr>
-          </TableBody>
-        </Table>
-      )
-    ).toThrow('The first child of Table must be <TableHeader />');
-  });
-
-  it('throws when the second child is not TableBody', () => {
-    expect(() =>
-      render(
-        <Table>
-          <TableHeader>
-            <tr>
-              <th>Name</th>
-            </tr>
-          </TableHeader>
-          <TableHeader>
-            <tr>
-              <th>Still header</th>
-            </tr>
-          </TableHeader>
-        </Table>
-      )
-    ).toThrow('The second child of Table must be <TableBody />');
-  });
-
-  it('throws when the first child is not a valid element', () => {
-    expect(() =>
-      render(
-        <Table>
-          {'not a header' as unknown as ReactNode}
-          <TableBody>
-            <tr>
-              <td>Body</td>
-            </tr>
-          </TableBody>
-        </Table>
-      )
-    ).toThrow('The first child of Table must be <TableHeader />');
-  });
-
-  it('throws when the second child is not a valid element', () => {
-    expect(() =>
-      render(
-        <Table>
-          <TableHeader>
-            <tr>
-              <th>Name</th>
-            </tr>
-          </TableHeader>
-          {'not a body' as unknown as ReactNode}
-        </Table>
-      )
-    ).toThrow('The second child of Table must be <TableBody />');
+    expect(screen.getByText('Available coffee')).toBeInTheDocument();
+    expect(screen.getByText('French Press Kit')).toBeInTheDocument();
   });
 });
 

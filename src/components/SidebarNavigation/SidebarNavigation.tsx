@@ -1,7 +1,7 @@
 import { Suspense, useState } from 'react';
 import clsx from 'clsx';
 
-import { Accordion, AccordionHeader, AccordionItem, AccordionPanel } from '@/components/Accordion';
+import { Accordion, AccordionItem } from '@/components/Accordion';
 import { Button } from '@/components/Button';
 import { Stack } from '@/components/Layout';
 import { Spinner } from '@/components/Loading';
@@ -70,23 +70,21 @@ export function SidebarNavigation(props: Readonly<SidebarNavigationProps>) {
                 <AccordionItem
                   key={item.id}
                   id={item.id}
+                  title={item.label}
+                  triggerClassName={styles.sectionTitle}
                 >
-                  <AccordionHeader className={styles.sectionTitle}>{item.label}</AccordionHeader>
-
-                  <AccordionPanel>
-                    <ul className={styles.list}>
-                      {item.items?.map((child) => (
-                        <li key={child.id}>
-                          <a
-                            href={child.href}
-                            className={styles.link}
-                          >
-                            {child.label}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </AccordionPanel>
+                  <ul className={styles.list}>
+                    {item.items?.map((child) => (
+                      <li key={child.id}>
+                        <a
+                          href={child.href}
+                          className={styles.link}
+                        >
+                          {child.label}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
                 </AccordionItem>
               ))}
             </Accordion>

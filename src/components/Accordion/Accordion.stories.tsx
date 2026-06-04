@@ -2,7 +2,7 @@ import { JSX, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 
 import type { AccordionProps } from '@/components/Accordion';
-import { Accordion, AccordionHeader, AccordionItem, AccordionPanel } from '@/components/Accordion';
+import { Accordion, AccordionItem } from '@/components/Accordion';
 
 type AccordionStoryArgs = Omit<AccordionProps, 'children'> & {
   sectionOneHeader: string;
@@ -20,14 +20,18 @@ function renderAccordion({
 }: AccordionStoryArgs) {
   return (
     <Accordion {...args}>
-      <AccordionItem id="one">
-        <AccordionHeader>{sectionOneHeader}</AccordionHeader>
-        <AccordionPanel>{sectionOneContent}</AccordionPanel>
+      <AccordionItem
+        id="one"
+        title={sectionOneHeader}
+      >
+        {sectionOneContent}
       </AccordionItem>
 
-      <AccordionItem id="two">
-        <AccordionHeader>{sectionTwoHeader}</AccordionHeader>
-        <AccordionPanel>{sectionTwoContent}</AccordionPanel>
+      <AccordionItem
+        id="two"
+        title={sectionTwoHeader}
+      >
+        {sectionTwoContent}
       </AccordionItem>
     </Accordion>
   );
@@ -48,14 +52,18 @@ function ControlledAccordion({
       openIds={openIds}
       onChange={setOpenIds}
     >
-      <AccordionItem id="one">
-        <AccordionHeader>{sectionOneHeader}</AccordionHeader>
-        <AccordionPanel>{sectionOneContent}</AccordionPanel>
+      <AccordionItem
+        id="one"
+        title={sectionOneHeader}
+      >
+        {sectionOneContent}
       </AccordionItem>
 
-      <AccordionItem id="two">
-        <AccordionHeader>{sectionTwoHeader}</AccordionHeader>
-        <AccordionPanel>{sectionTwoContent}</AccordionPanel>
+      <AccordionItem
+        id="two"
+        title={sectionTwoHeader}
+      >
+        {sectionTwoContent}
       </AccordionItem>
     </Accordion>
   );

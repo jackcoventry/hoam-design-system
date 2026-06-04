@@ -30,6 +30,10 @@ export interface SelectProps<M extends boolean = false>
   multiple?: M;
   /** Optional visible label rendered above the control. */
   label?: string;
+  /** Optional disabled option rendered before the supplied options. */
+  placeholder?: string;
+  /** Submitted value for the placeholder option, defaults to an empty string. */
+  placeholderValue?: string;
 }
 
 export interface SelectOptionProps
@@ -47,13 +51,6 @@ export interface SelectOptGroupProps extends OptgroupHTMLAttributes<HTMLOptGroup
   label: string;
   /** Grouped options rendered inside the optgroup. */
   children?: ReactNode;
-}
-
-export interface SelectPlaceholderProps {
-  /** Placeholder content rendered as a hidden disabled option. */
-  children: ReactNode;
-  /** Placeholder value, defaults to an empty string. */
-  value?: string;
 }
 
 type OptionLookup = Map<string, string>;
@@ -86,38 +83,17 @@ const OptGroup = forwardRef<HTMLOptGroupElement, SelectOptGroupProps>(
 
 OptGroup.displayName = 'OptGroup';
 
-const Placeholder = ({ children, value = '' }: SelectPlaceholderProps) => (
-  <option
-    value={value}
-    disabled
-    hidden
-  >
-    {children}
-  </option>
-);
-
-Placeholder.displayName = 'Placeholder';
-
-function isOptionElement(
-  child: ReactNode
-): child is ReactElement<SelectOptionProps, typeof Option> {
-  return isValidElement<SelectOptionProps>(child) && child.type === Option;
-}
-
-function isOptGroupElement(
-  child: ReactNode
-): child is ReactElement<SelectOptGroupProps, typeof OptGroup> {
-  return isValidElement<SelectOptGroupProps>(child) && child.type === OptGroup;
-}
-
-function isPlaceholderElement(
-  child: ReactNode
-): child is ReactElement<SelectPlaceholderProps, typeof Placeholder> {
-  return isValidElement<SelectPlaceholderProps>(child) && child.type === Placeholder;
-}
-
 function hasChildrenProp(child: ReactNode): child is ReactElement<{ children?: ReactNode }> {
   return isValidElement<{ children?: ReactNode }>(child);
+}
+
+function hasOptionProps(
+  child: ReactNode
+): child is ReactElement<{ children?: ReactNode; label?: string; value: string }> {
+  return (
+    isValidElement<{ children?: ReactNode; label?: string; value?: unknown }>(child) &&
+    typeof child.props.value === 'string'
+  );
 }
 
 function getTextFromNode(node: ReactNode): string {
@@ -136,31 +112,25 @@ function getTextFromNode(node: ReactNode): string {
   return '';
 }
 
-function buildOptionLookup(children: ReactNode): OptionLookup {
+function buildOptionLookup(
+  children: ReactNode,
+  placeholder?: string,
+  placeholderValue = ''
+): OptionLookup {
   const lookup: OptionLookup = new Map();
+
+  if (placeholder !== undefined) {
+    lookup.set(placeholderValue, placeholder.length > 0 ? placeholder : placeholderValue);
+  }
 
   function walk(nodes: ReactNode): void {
     Children.forEach(nodes, (child) => {
-      if (isOptionElement(child)) {
+      if (hasOptionProps(child)) {
         const textLabel = getTextFromNode(child.props.children);
         const displayLabel =
           child.props.label ?? (textLabel.length > 0 ? textLabel : child.props.value);
 
         lookup.set(child.props.value, displayLabel);
-        return;
-      }
-
-      if (isOptGroupElement(child)) {
-        walk(child.props.children);
-        return;
-      }
-
-      if (isPlaceholderElement(child)) {
-        const placeholderValue = child.props.value ?? '';
-        const textLabel = getTextFromNode(child.props.children);
-        const displayLabel = textLabel.length > 0 ? textLabel : placeholderValue;
-
-        lookup.set(placeholderValue, displayLabel);
         return;
       }
 
@@ -180,6 +150,8 @@ const SelectRoot = forwardRef(function Select<M extends boolean = false>(
     id,
     name,
     label,
+    placeholder,
+    placeholderValue = '',
     value,
     onChange,
     multiple,
@@ -203,7 +175,10 @@ const SelectRoot = forwardRef(function Select<M extends boolean = false>(
     onChange(event.target.value as OnChangeValue<M>, event);
   }
 
-  const optionLookup = useMemo(() => buildOptionLookup(children), [children]);
+  const optionLookup = useMemo(
+    () => buildOptionLookup(children, placeholder, placeholderValue),
+    [children, placeholder, placeholderValue]
+  );
 
   const displayValue = Array.isArray(value)
     ? value.map((item) => optionLookup.get(item) ?? item).join(', ')
@@ -237,6 +212,15 @@ const SelectRoot = forwardRef(function Select<M extends boolean = false>(
           onChange={handleChange}
           {...rest}
         >
+          {placeholder !== undefined ? (
+            <option
+              value={placeholderValue}
+              disabled
+              hidden
+            >
+              {placeholder}
+            </option>
+          ) : null}
           {children}
         </select>
 
@@ -254,5 +238,4 @@ const SelectRoot = forwardRef(function Select<M extends boolean = false>(
 export const Select = Object.assign(SelectRoot, {
   Option,
   OptGroup,
-  Placeholder,
 });
