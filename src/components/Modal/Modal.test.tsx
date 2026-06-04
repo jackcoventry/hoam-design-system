@@ -87,6 +87,15 @@ function getRequiredElement<T>(value: T | undefined | null, message: string): T 
   return value;
 }
 
+function getModalCloseButton(dialogName = 'Example modal'): HTMLButtonElement {
+  const dialog = screen.getByRole('dialog', { name: dialogName });
+
+  return getRequiredElement(
+    dialog.querySelector<HTMLButtonElement>('button[aria-label="Close modal"]'),
+    'Expected close button to exist'
+  );
+}
+
 let rafQueue: FrameRequestCallback[] = [];
 let rafId = 0;
 
@@ -145,6 +154,7 @@ describe('Modal', () => {
         {...(props.onClose ? { onClose: props.onClose } : {})}
         {...(props['aria-label'] ? { 'aria-label': props['aria-label'] } : {})}
         {...(props.variant ? { variant: props.variant } : {})}
+        {...(props.surface ? { surface: props.surface } : {})}
       >
         {children ?? (
           <>
@@ -227,13 +237,30 @@ describe('Modal', () => {
     expect(root).toHaveAttribute('data-variant', 'drawer');
   });
 
+  it('passes surface to the root element', () => {
+    renderMountedOpenModal({ surface: 'transparent' });
+
+    const dialog = screen.getByRole('dialog', { name: 'Example modal' });
+    const root = dialog.closest('[data-surface]');
+
+    expect(root).toBeInTheDocument();
+    expect(root).toHaveAttribute('data-surface', 'transparent');
+  });
+
   it('calls onClose when the backdrop is clicked', () => {
     const onClose = vi.fn();
 
     renderMountedOpenModal({ onClose });
 
-    const closeButtons = screen.getAllByRole('button', { name: 'Close modal' });
-    const backdropButton = getRequiredElement(closeButtons[0], 'Expected backdrop button to exist');
+    const dialog = screen.getByRole('dialog', { name: 'Example modal' });
+    const root = dialog.closest('[data-variant]');
+    const backdropButton = getRequiredElement(
+      root?.querySelector<HTMLButtonElement>('button[aria-hidden="true"][tabindex="-1"]'),
+      'Expected backdrop button to exist'
+    );
+
+    expect(backdropButton).toBeInTheDocument();
+    expect(screen.getAllByRole('button', { name: 'Close modal' })).toHaveLength(1);
 
     fireEvent.click(backdropButton);
 
@@ -256,8 +283,7 @@ describe('Modal', () => {
       </ModalRoot>
     );
 
-    const buttons = screen.getAllByRole('button', { name: 'Close modal' });
-    const closeButton = getRequiredElement(buttons[1], 'Expected close button to exist');
+    const closeButton = getModalCloseButton();
 
     fireEvent.click(closeButton);
 
@@ -291,8 +317,7 @@ describe('Modal', () => {
 
     await flushRafQueue();
 
-    const buttons = screen.getAllByRole('button', { name: 'Close modal' });
-    const closeButton = getRequiredElement(buttons[1], 'Expected close button to exist');
+    const closeButton = getModalCloseButton();
 
     expect(closeButton).toHaveFocus();
   });
@@ -303,8 +328,7 @@ describe('Modal', () => {
     await flushRafQueue();
 
     const dialog = screen.getByRole('dialog', { name: 'Example modal' });
-    const closeButtons = screen.getAllByRole('button', { name: 'Close modal' });
-    const closeButton = getRequiredElement(closeButtons[1], 'Expected close button to exist');
+    const closeButton = getModalCloseButton();
     const firstAction = screen.getByRole('button', { name: 'First action' });
     const secondAction = screen.getByRole('button', { name: 'Second action' });
     const footerAction = screen.getByRole('button', { name: 'Footer action' });
@@ -331,8 +355,7 @@ describe('Modal', () => {
     await flushRafQueue();
 
     const dialog = screen.getByRole('dialog', { name: 'Example modal' });
-    const closeButtons = screen.getAllByRole('button', { name: 'Close modal' });
-    const closeButton = getRequiredElement(closeButtons[1], 'Expected close button to exist');
+    const closeButton = getModalCloseButton();
     const footerAction = screen.getByRole('button', { name: 'Footer action' });
 
     closeButton.focus();

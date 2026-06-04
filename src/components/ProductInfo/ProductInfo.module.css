@@ -30,4 +30,5 @@
 
 .title {
   font: var(--hoam-typography-title-2);
+  margin-bottom: var(--hoam-spacing-2xs);
 }

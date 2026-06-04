@@ -1,28 +1,28 @@
 const items = [
   {
     id: 1,
-    src: 'https://placehold.co/600x400?text=Logo+1',
-    alt: 'Logo 1',
+    src: 'https://placehold.co/600x400?text=Daily+Brew',
+    alt: 'Daily Brew',
   },
   {
     id: 2,
-    src: 'https://placehold.co/600x400?text=Logo+2',
-    alt: 'Logo 2',
+    src: 'https://placehold.co/600x400?text=Roast+Journal',
+    alt: 'Roast Journal',
   },
   {
     id: 3,
-    src: 'https://placehold.co/600x400?text=Logo+3',
-    alt: 'Logo 3',
+    src: 'https://placehold.co/600x400?text=Cafe+Review',
+    alt: 'Cafe Review',
   },
   {
     id: 4,
-    src: 'https://placehold.co/600x400?text=Logo+4',
-    alt: 'Logo 4',
+    src: 'https://placehold.co/600x400?text=Home+Barista',
+    alt: 'Home Barista',
   },
   {
     id: 5,
-    src: 'https://placehold.co/600x400?text=Logo+5',
-    alt: 'Logo 5',
+    src: 'https://placehold.co/600x400?text=Coffee+Weekly',
+    alt: 'Coffee Weekly',
   },
 ];
 

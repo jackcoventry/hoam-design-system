@@ -13,6 +13,16 @@ describe('FieldWrapper', () => {
     expect(screen.getByRole('textbox')).toBeInTheDocument();
   });
 
+  it('applies a custom className to the root', () => {
+    const { container } = render(
+      <FieldWrapper className="custom-field-wrapper">
+        <input type="text" />
+      </FieldWrapper>
+    );
+
+    expect(container.firstChild).toHaveClass('custom-field-wrapper');
+  });
+
   it('does not render an error message when error is not provided', () => {
     render(
       <FieldWrapper>

@@ -12,7 +12,7 @@
 }
 
 .item {
-  padding: var(--hoam-spacing-sm) 0;
+  padding: var(--hoam-spacing-md) 0;
 }
 
 .item:not(:last-child) {
@@ -54,13 +54,15 @@
   align-items: center;
   background: none;
   border: none;
+  color: var(--hoam-color-text-default);
   cursor: pointer;
   display: flex;
   font: var(--hoam-typography-title-3);
   gap: var(--hoam-spacing-sm);
   justify-content: space-between;
   margin: 0;
-  padding: 0;
+  padding: var(--hoam-spacing-2xs) 0;
+  transition: color var(--hoam-transition-duration-short) var(--hoam-transition-function-quad);
   width: 100%;
 }
 

@@ -23,13 +23,13 @@ export default meta;
 
 const productArray = [1, 2, 3];
 const bannerMock = {
-  title: 'Test Banner',
-  subtitle: 'Test subtitle',
-  text: 'Lorem ipsum',
+  title: 'Coffee for every brew method',
+  subtitle: 'Roasted in small batches',
+  text: 'Browse signature espresso, bright filter roasts, and brewing accessories for better coffee at home.',
   image: '/hero/range.png',
   button: {
-    url: '/',
-    text: 'Read more',
+    url: '/shop/coffee',
+    text: 'Shop coffee',
   },
 } satisfies BannerProps;
 
@@ -62,6 +62,7 @@ const Template = {
               {productArray.map((product) => (
                 <GridItem
                   span={12}
+                  spanMd={6}
                   spanLg={4}
                   key={product}
                 >
@@ -88,6 +89,7 @@ const Template = {
               {productArray.map((product) => (
                 <GridItem
                   span={12}
+                  spanMd={6}
                   spanLg={4}
                   key={product}
                 >

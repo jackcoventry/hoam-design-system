@@ -7,7 +7,6 @@ import { z } from 'zod/mini';
 import { Button } from '@/components/Button';
 import { Stack } from '@/components/Layout';
 import { Spinner } from '@/components/Loading';
-import { Pagination } from '@/components/Pagination';
 import { useMessages } from '@/hooks/useMessages';
 
 import formStyles from '@/components/Form/Form.module.css';
@@ -22,17 +21,6 @@ function createSearchFormSchema(requiredMessage: string) {
 
 export type SearchFormSchemaType = z.infer<ReturnType<typeof createSearchFormSchema>>;
 
-export type SearchFormResult = {
-  /** Optional stable identifier for the result item. */
-  id?: number;
-  /** Result title shown in the list. */
-  title: string;
-  /** Destination opened by the result action. */
-  url: string;
-  /** Short preview text shown under the result title. */
-  preview: string;
-};
-
 export type SearchFormProps = {
   /** Called when the close action is triggered. */
   onClose: () => void;
@@ -44,70 +32,17 @@ export type SearchFormProps = {
   submitLabel?: string;
   /** Optional override for the search input placeholder text. */
   placeholderText?: string;
+  /** Shows a focus-only close button for standalone modal compositions. */
+  showCloseButton?: boolean;
+  /** Optional class applied to the search form wrapper. */
+  className?: string;
 };
-
-export type SearchResultsProps = {
-  /** Search results rendered in the list. */
-  items: SearchFormResult[];
-};
-
-export function SearchResult({ title, url, preview }: Readonly<SearchFormResult>) {
-  const t = useMessages('searchForm');
-
-  return (
-    <div className={styles.result}>
-      <Stack>
-        <h4 className={styles.resultTitle}>{title}</h4>
-        <p className={styles.resultPreview}>{preview}</p>
-        <Button
-          as="a"
-          href={url}
-          size="small"
-          className={styles.resultButton}
-        >
-          {t.readMore}
-        </Button>
-      </Stack>
-    </div>
-  );
-}
 
 export function SearchLoader() {
   return (
     <div className={styles.loader}>
       <Spinner />
     </div>
-  );
-}
-
-export function SearchResults({ items }: Readonly<SearchResultsProps>) {
-  const t = useMessages('searchForm');
-
-  if (items.length === 0) {
-    return (
-      <div className={styles.message}>
-        <p>{t.noResults}</p>
-      </div>
-    );
-  }
-
-  return (
-    <>
-      <ol className={styles.results}>
-        {items.map((item, index) => (
-          <li key={item.id ?? `${item.url}-${index}`}>
-            <SearchResult
-              title={item.title}
-              preview={item.preview}
-              url={item.url}
-            />
-          </li>
-        ))}
-      </ol>
-      <div className={styles.pagination}>
-        <Pagination currentPage={1} />
-      </div>
-    </>
   );
 }
 
@@ -122,6 +57,8 @@ export function SearchForm(props: Readonly<SearchFormProps>) {
     loading,
     submitLabel = t.submitLabel,
     placeholderText = t.placeholderText,
+    showCloseButton = true,
+    className,
   } = props;
 
   const {
@@ -141,14 +78,16 @@ export function SearchForm(props: Readonly<SearchFormProps>) {
   const queryErrorId = queryError ? `${inputId}-error` : undefined;
 
   return (
-    <div className={styles.wrapper}>
+    <div className={clsx(styles.wrapper, className)}>
       <Stack>
-        <Button
-          className={clsx(styles.srClose, utils.focusableOnly)}
-          onClick={onClose}
-        >
-          {tModal.close}
-        </Button>
+        {showCloseButton ? (
+          <Button
+            className={clsx(styles.srClose, utils.focusableOnly)}
+            onClick={onClose}
+          >
+            {tModal.close}
+          </Button>
+        ) : null}
         <form
           className={styles.root}
           onSubmit={(event) => {

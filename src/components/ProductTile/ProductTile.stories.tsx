@@ -29,3 +29,16 @@ export const NewItem = { ...Template, args: { newItem: true } };
 export const LowStock = { ...Template, args: { lowStock: true } };
 
 export const LowStockAndNew = { ...Template, args: { newItem: true, lowStock: true } };
+
+export const LongContent: Story = {
+  render: (args) => (
+    <div style={{ width: '180px' }}>
+      <ProductTile {...args} />
+    </div>
+  ),
+  args: {
+    title: 'Extra long single-origin espresso blend title with multiple tasting notes',
+    description:
+      'A deliberately long coffee description used to verify the tile keeps tasting notes, origin details, and roast information inside the card at narrow widths.',
+  },
+};

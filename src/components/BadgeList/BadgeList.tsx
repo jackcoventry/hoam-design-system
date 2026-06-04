@@ -5,6 +5,7 @@ import {
   type ReactElement,
   type ReactNode,
 } from 'react';
+import clsx from 'clsx';
 
 import { logger } from '@/utils/logger';
 
@@ -15,11 +16,14 @@ export type BadgeListItemVariant = (typeof BadgeListVariants)[number];
 export type BadgeListItemProps = {
   /** Visual style applied to the badge item. */
   variant: BadgeListItemVariant;
+  /** Optional class applied to the badge item root. */
+  className?: string;
 };
 
 export function BadgeListItem({
   children,
   variant = 'default',
+  className,
 }: PropsWithChildren<BadgeListItemProps>) {
   if (!children) {
     return null;
@@ -27,7 +31,7 @@ export function BadgeListItem({
 
   return (
     <span
-      className={styles.item}
+      className={clsx(styles.item, className)}
       data-variant={variant}
     >
       {children}
@@ -35,13 +39,18 @@ export function BadgeListItem({
   );
 }
 
+export type BadgeListProps = PropsWithChildren<{
+  /** Optional class applied to the badge list root. */
+  className?: string;
+}>;
+
 function isBadgeListItemElement(
   child: ReactNode
 ): child is ReactElement<PropsWithChildren<BadgeListItemProps>> {
   return isValidElement(child) && child.type === BadgeListItem;
 }
 
-export function BadgeList({ children }: Readonly<PropsWithChildren>) {
+export function BadgeList({ children, className }: Readonly<BadgeListProps>) {
   const items = Children.map(children, (child) => {
     if (isBadgeListItemElement(child)) {
       return child;
@@ -51,5 +60,5 @@ export function BadgeList({ children }: Readonly<PropsWithChildren>) {
     return null;
   });
 
-  return <div className={styles.root}>{items}</div>;
+  return <div className={clsx(styles.root, className)}>{items}</div>;
 }

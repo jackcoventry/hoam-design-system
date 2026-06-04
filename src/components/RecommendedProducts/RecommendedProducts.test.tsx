@@ -75,15 +75,15 @@ describe('RecommendedProducts', () => {
   const products: ProductTileProps[] = [
     {
       productId: 'prod-1',
-      title: 'Product One',
+      title: 'House Espresso Blend',
     } as ProductTileProps,
     {
       productId: 'prod-2',
-      title: 'Product Two',
+      title: 'Colombia Pink Bourbon',
     } as ProductTileProps,
     {
       productId: 'prod-3',
-      title: 'Product Three',
+      title: 'French Press Starter Kit',
     } as ProductTileProps,
   ];
 
@@ -135,9 +135,9 @@ describe('RecommendedProducts', () => {
 
     const tiles = screen.getAllByTestId('product-tile');
     expect(tiles).toHaveLength(3);
-    expect(screen.getByText('Product One')).toBeInTheDocument();
-    expect(screen.getByText('Product Two')).toBeInTheDocument();
-    expect(screen.getByText('Product Three')).toBeInTheDocument();
+    expect(screen.getByText('House Espresso Blend')).toBeInTheDocument();
+    expect(screen.getByText('Colombia Pink Bourbon')).toBeInTheDocument();
+    expect(screen.getByText('French Press Starter Kit')).toBeInTheDocument();
   });
 
   it('passes product props through to ProductTile', () => {

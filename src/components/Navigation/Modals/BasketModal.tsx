@@ -26,7 +26,7 @@ export function BasketModal({ open, onClose, data, variant }: Readonly<BasketMod
         <Modal.Title>
           <span className={typography.heading}>{t.modalBasket}</span>
         </Modal.Title>
-        <Modal.CloseButton callback={onClose} />
+        <Modal.CloseButton />
       </Modal.Header>
 
       <Modal.Body>

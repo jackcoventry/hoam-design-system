@@ -1,4 +1,5 @@
 import { Children, isValidElement, type ReactElement, type ReactNode } from 'react';
+import clsx from 'clsx';
 
 import {
   InfoGridItem,
@@ -16,6 +17,8 @@ export type InfoGridProps = {
   description?: string | undefined;
   /** One to three `InfoGridItem` children. */
   children: ReactNode | ReactNode[];
+  /** Optional class applied to the grid section root. */
+  className?: string;
 };
 
 const INVALID_CHILD_MESSAGE = 'InfoGrid component only accepts child of type InfoGridItem';
@@ -25,10 +28,10 @@ function isInfoGridItemElement(child: ReactNode): child is ReactElement<InfoGrid
   return isValidElement(child) && child.type === InfoGridItem;
 }
 
-export function InfoGrid({ title, description, children }: Readonly<InfoGridProps>) {
+export function InfoGrid({ title, description, children, className }: Readonly<InfoGridProps>) {
   return (
     <Section
-      className={styles.root}
+      className={clsx(styles.root, className)}
       space="4xl"
     >
       <Stack gap="2xl">
@@ -37,8 +40,8 @@ export function InfoGrid({ title, description, children }: Readonly<InfoGridProp
             <GridItem
               className={styles.content}
               span={12}
-              spanLg={8}
-              startLg={3}
+              spanLg={10}
+              startLg={2}
             >
               <Stack>
                 <h2 className={styles.title}>{title}</h2>

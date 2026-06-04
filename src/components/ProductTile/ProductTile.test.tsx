@@ -34,7 +34,14 @@ vi.mock('@/components/Button', () => ({
 }));
 
 vi.mock('@/components/Layout', () => ({
-  Stack: ({ children }: { children: ReactNode }) => <div data-testid="stack">{children}</div>,
+  Stack: ({ children, className }: { children: ReactNode; className?: string }) => (
+    <div
+      data-testid="stack"
+      className={className}
+    >
+      {children}
+    </div>
+  ),
 }));
 
 describe('ProductTile', () => {
@@ -74,6 +81,17 @@ describe('ProductTile', () => {
 
     const link = screen.getByRole('link');
     expect(link).toHaveAttribute('href', '#prod-1');
+  });
+
+  it('applies a custom className to the root stack', () => {
+    render(
+      <ProductTile
+        {...baseProps}
+        className="custom-product-tile"
+      />
+    );
+
+    expect(screen.getAllByTestId('stack')[0]).toHaveClass('custom-product-tile');
   });
 
   it('renders image with correct alt text', () => {

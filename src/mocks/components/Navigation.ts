@@ -111,7 +111,11 @@ const items = [
             href: '/shop/all-products/merchandise',
             items: [
               { id: 'mugs', label: 'Mugs', href: '/shop/category/mugs' },
-              { id: 't-shirts', label: 'T-Shirts & Apparel', href: '/shop/category/t-shirts' },
+              {
+                id: 'roaster-aprons',
+                label: 'Roaster Aprons',
+                href: '/shop/category/roaster-aprons',
+              },
               { id: 'stickers', label: 'Stickers & Prints', href: '/shop/category/stickers' },
               {
                 id: 'coffee-bags',

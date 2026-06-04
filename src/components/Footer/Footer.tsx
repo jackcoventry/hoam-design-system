@@ -29,6 +29,8 @@ export type FooterProps = {
   bottomLinks?: Array<FooterLink>;
   /** Social links rendered with icons. */
   socialLinks?: Array<FooterLink>;
+  /** Optional class applied to the footer root. */
+  className?: string;
 };
 
 const MAX_TOP_SECTIONS = 4;
@@ -37,12 +39,13 @@ export function Footer({
   topLinks = [],
   bottomLinks = [],
   socialLinks = [],
+  className,
 }: Readonly<FooterProps>) {
   const visibleTopLinks = topLinks.slice(0, MAX_TOP_SECTIONS);
   const t = useMessages('footer');
 
   return (
-    <footer className={styles.root}>
+    <footer className={clsx(styles.root, className)}>
       <Container>
         <Grid
           gap="lg"

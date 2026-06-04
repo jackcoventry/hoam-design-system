@@ -22,6 +22,17 @@ describe('Breadcrumb', () => {
     expect(screen.getByRole('navigation', { name: 'Breadcrumb' })).toBeInTheDocument();
   });
 
+  it('applies a custom className to the navigation root', () => {
+    render(
+      <Breadcrumb
+        items={mockItems}
+        className="custom-breadcrumb"
+      />
+    );
+
+    expect(screen.getByRole('navigation', { name: 'Breadcrumb' })).toHaveClass('custom-breadcrumb');
+  });
+
   it('renders breadcrumb links for all but the last item', () => {
     render(<Breadcrumb items={mockItems} />);
 

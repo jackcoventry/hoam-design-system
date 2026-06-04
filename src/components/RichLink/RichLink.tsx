@@ -1,3 +1,5 @@
+import clsx from 'clsx';
+
 import styles from '@/components/RichLink/RichLink.module.css';
 
 export type RichLinkProps = {
@@ -9,13 +11,21 @@ export type RichLinkProps = {
   imageAlt?: string;
   /** Visible title shown in the card. */
   title: string;
+  /** Optional class applied to the link root. */
+  className?: string;
 };
 
-export function RichLink({ href, title, image, imageAlt = '' }: Readonly<RichLinkProps>) {
+export function RichLink({
+  href,
+  title,
+  image,
+  imageAlt = '',
+  className,
+}: Readonly<RichLinkProps>) {
   return (
     <a
       href={href}
-      className={styles.root}
+      className={clsx(styles.root, className)}
     >
       <span className={styles.text}>{title}</span>
       <img

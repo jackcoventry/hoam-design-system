@@ -46,31 +46,31 @@ vi.mock('@/lib/i18n/formatting/currency', () => ({
 
 describe('ProductFilters.utils', () => {
   const checkboxGroup: CheckboxGroup = {
-    id: 'colour',
-    label: 'Colour',
+    id: 'roast',
+    label: 'Roast',
     kind: 'checkbox',
     options: [
-      { id: 'red', label: 'Red' },
-      { id: 'blue', label: 'Blue' },
+      { id: 'light', label: 'Light Roast' },
+      { id: 'dark', label: 'Dark Roast' },
     ],
     searchable: true,
-    searchPlaceholder: 'Search colours',
+    searchPlaceholder: 'Search roasts',
   };
 
   const nonSearchableCheckboxGroup: CheckboxGroup = {
-    id: 'brand',
-    label: 'Brand',
+    id: 'grinder',
+    label: 'Grinder',
     kind: 'checkbox',
-    options: [{ id: 'nike', label: 'Nike' }],
+    options: [{ id: 'comandante', label: 'Comandante' }],
   };
 
   const radioGroup: RadioGroup = {
-    id: 'size',
-    label: 'Size',
+    id: 'grind',
+    label: 'Grind',
     kind: 'radio',
     options: [
-      { id: 'small', label: 'Small' },
-      { id: 'large', label: 'Large' },
+      { id: 'whole-bean', label: 'Whole Bean' },
+      { id: 'espresso-fine', label: 'Espresso Fine' },
     ],
   };
 
@@ -85,8 +85,8 @@ describe('ProductFilters.utils', () => {
 
   const baseValue: FilterValue = {
     options: {
-      colour: ['red'],
-      size: ['large'],
+      roast: ['light'],
+      grind: ['espresso-fine'],
     },
     ranges: {
       price: {
@@ -137,7 +137,7 @@ describe('ProductFilters.utils', () => {
 
   describe('option selection helpers', () => {
     it('returns selected options for a group', () => {
-      expect(getOptionSelections(baseValue, 'colour')).toEqual(['red']);
+      expect(getOptionSelections(baseValue, 'roast')).toEqual(['light']);
     });
 
     it('returns an empty array when a group has no option selections', () => {
@@ -145,11 +145,11 @@ describe('ProductFilters.utils', () => {
     });
 
     it('returns true when an option is selected', () => {
-      expect(isOptionSelected(baseValue, 'colour', 'red')).toBe(true);
+      expect(isOptionSelected(baseValue, 'roast', 'light')).toBe(true);
     });
 
     it('returns false when an option is not selected', () => {
-      expect(isOptionSelected(baseValue, 'colour', 'blue')).toBe(false);
+      expect(isOptionSelected(baseValue, 'roast', 'dark')).toBe(false);
     });
   });
 
@@ -170,8 +170,8 @@ describe('ProductFilters.utils', () => {
 
       expect(result).toEqual({
         options: {
-          colour: ['red'],
-          size: ['large'],
+          roast: ['light'],
+          grind: ['espresso-fine'],
         },
         ranges: {
           price: {
@@ -189,12 +189,12 @@ describe('ProductFilters.utils', () => {
 
   describe('toggleOptionSelection', () => {
     it('adds an option for checkbox groups when not currently selected', () => {
-      const result = toggleOptionSelection(baseValue, checkboxGroup, 'blue');
+      const result = toggleOptionSelection(baseValue, checkboxGroup, 'dark');
 
       expect(result).toEqual({
         options: {
-          colour: ['red', 'blue'],
-          size: ['large'],
+          roast: ['light', 'dark'],
+          grind: ['espresso-fine'],
         },
         ranges: {
           price: {
@@ -206,12 +206,12 @@ describe('ProductFilters.utils', () => {
     });
 
     it('removes an option for checkbox groups when currently selected', () => {
-      const result = toggleOptionSelection(baseValue, checkboxGroup, 'red');
+      const result = toggleOptionSelection(baseValue, checkboxGroup, 'light');
 
       expect(result).toEqual({
         options: {
-          colour: [],
-          size: ['large'],
+          roast: [],
+          grind: ['espresso-fine'],
         },
         ranges: {
           price: {
@@ -223,12 +223,12 @@ describe('ProductFilters.utils', () => {
     });
 
     it('selects a radio option when not currently selected', () => {
-      const result = toggleOptionSelection(baseValue, radioGroup, 'small');
+      const result = toggleOptionSelection(baseValue, radioGroup, 'whole-bean');
 
       expect(result).toEqual({
         options: {
-          colour: ['red'],
-          size: ['small'],
+          roast: ['light'],
+          grind: ['whole-bean'],
         },
         ranges: {
           price: {
@@ -240,12 +240,12 @@ describe('ProductFilters.utils', () => {
     });
 
     it('clears a radio option when it is already selected', () => {
-      const result = toggleOptionSelection(baseValue, radioGroup, 'large');
+      const result = toggleOptionSelection(baseValue, radioGroup, 'espresso-fine');
 
       expect(result).toEqual({
         options: {
-          colour: ['red'],
-          size: [],
+          roast: ['light'],
+          grind: [],
         },
         ranges: {
           price: {
@@ -263,8 +263,8 @@ describe('ProductFilters.utils', () => {
 
       expect(result).toEqual({
         options: {
-          colour: ['red'],
-          size: ['large'],
+          roast: ['light'],
+          grind: ['espresso-fine'],
         },
         ranges: {
           price: {},
@@ -277,8 +277,8 @@ describe('ProductFilters.utils', () => {
 
       expect(result).toEqual({
         options: {
-          colour: [],
-          size: ['large'],
+          roast: [],
+          grind: ['espresso-fine'],
         },
         ranges: {
           price: {
@@ -338,7 +338,7 @@ describe('ProductFilters.utils', () => {
       expect(getSelectedCount(rangeGroup, value)).toBe(0);
     });
 
-    it('returns 0 for range groups with no stored range value', () => {
+    it('returns 0 for range groups with no stolight range value', () => {
       const value: FilterValue = {
         options: {},
         ranges: {},
@@ -350,7 +350,7 @@ describe('ProductFilters.utils', () => {
     it('returns the number of selected options for option groups', () => {
       const value: FilterValue = {
         options: {
-          colour: ['red', 'blue'],
+          roast: ['light', 'dark'],
         },
         ranges: {},
       };
@@ -452,16 +452,16 @@ describe('ProductFilters.utils', () => {
           label: 'GBP en-GB 10-50',
         },
         {
-          key: 'colour-red',
-          groupId: 'colour',
-          groupLabel: 'Colour',
-          label: 'Red',
+          key: 'roast-light',
+          groupId: 'roast',
+          groupLabel: 'Roast',
+          label: 'Light Roast',
         },
         {
-          key: 'size-large',
-          groupId: 'size',
-          groupLabel: 'Size',
-          label: 'Large',
+          key: 'grind-espresso-fine',
+          groupId: 'grind',
+          groupLabel: 'Grind',
+          label: 'Espresso Fine',
         },
       ]);
     });
@@ -493,7 +493,7 @@ describe('ProductFilters.utils', () => {
     it('skips missing option ids when building chips', () => {
       const value: FilterValue = {
         options: {
-          colour: ['red', 'missing'],
+          roast: ['light', 'missing'],
         },
         ranges: {},
       };
@@ -502,10 +502,10 @@ describe('ProductFilters.utils', () => {
 
       expect(result).toEqual([
         {
-          key: 'colour-red',
-          groupId: 'colour',
-          groupLabel: 'Colour',
-          label: 'Red',
+          key: 'roast-light',
+          groupId: 'roast',
+          groupLabel: 'Roast',
+          label: 'Light Roast',
         },
       ]);
     });
@@ -513,8 +513,8 @@ describe('ProductFilters.utils', () => {
 
   describe('search helpers', () => {
     const option: FilterOption = {
-      id: 'red',
-      label: 'Red Shirt',
+      id: 'light',
+      label: 'Light Roast',
     };
 
     it('matches when the query is empty', () => {
@@ -526,29 +526,29 @@ describe('ProductFilters.utils', () => {
     });
 
     it('matches case-insensitively', () => {
-      expect(matchesSearch(option, 'red')).toBe(true);
-      expect(matchesSearch(option, 'RED')).toBe(true);
-      expect(matchesSearch(option, 'shirt')).toBe(true);
+      expect(matchesSearch(option, 'light')).toBe(true);
+      expect(matchesSearch(option, 'LIGHT')).toBe(true);
+      expect(matchesSearch(option, 'roast')).toBe(true);
     });
 
     it('returns false when the query does not match', () => {
-      expect(matchesSearch(option, 'blue')).toBe(false);
+      expect(matchesSearch(option, 'dark')).toBe(false);
     });
 
     it('returns only visible matching options', () => {
       const options: readonly FilterOption[] = [
-        { id: 'red', label: 'Red Shirt' },
-        { id: 'blue', label: 'Blue Jeans' },
-        { id: 'green', label: 'Green Hat' },
+        { id: 'light', label: 'Light Roast' },
+        { id: 'dark', label: 'Dark Roast' },
+        { id: 'green', label: 'Green Coffee Beans' },
       ];
 
-      expect(getVisibleOptions(options, 'blue')).toEqual([{ id: 'blue', label: 'Blue Jeans' }]);
+      expect(getVisibleOptions(options, 'dark')).toEqual([{ id: 'dark', label: 'Dark Roast' }]);
     });
 
     it('returns all options when the query is blank', () => {
       const options: readonly FilterOption[] = [
-        { id: 'red', label: 'Red Shirt' },
-        { id: 'blue', label: 'Blue Jeans' },
+        { id: 'light', label: 'Light Roast' },
+        { id: 'dark', label: 'Dark Roast' },
       ];
 
       expect(getVisibleOptions(options, '   ')).toEqual(options);
@@ -556,11 +556,11 @@ describe('ProductFilters.utils', () => {
 
     it('returns an empty array when no options match', () => {
       const options: readonly FilterOption[] = [
-        { id: 'red', label: 'Red Shirt' },
-        { id: 'blue', label: 'Blue Jeans' },
+        { id: 'light', label: 'Light Roast' },
+        { id: 'dark', label: 'Dark Roast' },
       ];
 
-      expect(getVisibleOptions(options, 'socks')).toEqual([]);
+      expect(getVisibleOptions(options, 'tea')).toEqual([]);
     });
   });
 });

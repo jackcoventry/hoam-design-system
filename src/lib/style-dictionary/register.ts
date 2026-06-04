@@ -29,10 +29,7 @@ const rawTokenObjects = await Promise.all(
   tokenFiles.map(async (file) => JSON.parse(await readFile(file, 'utf8')) as TokenRecord)
 );
 
-const rawTokens = rawTokenObjects.reduce<TokenRecord>(
-  (acc, obj) => merge(acc, obj) as TokenRecord,
-  {}
-);
+const rawTokens = rawTokenObjects.reduce<TokenRecord>((acc, obj) => merge(acc, obj), {});
 
 StyleDictionary.registerTransform({
   name: 'attribute/group',

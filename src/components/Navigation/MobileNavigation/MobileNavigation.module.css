@@ -78,6 +78,7 @@
 .toggle {
   background: none;
   border: none;
+  color: var(--hoam-color-link-default);
   cursor: pointer;
   padding: var(--hoam-spacing-2xs);
 }

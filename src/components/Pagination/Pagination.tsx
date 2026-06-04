@@ -1,3 +1,5 @@
+import clsx from 'clsx';
+
 import { Button } from '@/components/Button';
 import { useMessages } from '@/hooks/useMessages';
 
@@ -20,6 +22,8 @@ export type PaginationProps = {
   siblingCount?: number;
   /** Called when the selected page changes. */
   onPageChange?: (page: number) => void;
+  /** Optional class applied to the pagination navigation root. */
+  className?: string;
 };
 
 function clamp(value: number, min: number, max: number): number {
@@ -79,6 +83,7 @@ export function Pagination(props: Readonly<PaginationProps>) {
     'aria-label': ariaLabel = t.title,
     siblingCount = 1,
     onPageChange,
+    className,
   } = props;
   const safePageCount = Math.max(1, pageCount);
   const safeSiblingCount = Math.max(0, siblingCount);
@@ -107,7 +112,7 @@ export function Pagination(props: Readonly<PaginationProps>) {
   return (
     <nav
       aria-label={ariaLabel}
-      className={styles.root}
+      className={clsx(styles.root, className)}
     >
       <ul className={styles.list}>
         <li>

@@ -2,13 +2,14 @@
 
 .root {
   display: grid;
-  position: relative;
   margin: 0 auto;
+  min-width: 0;
+  position: relative;
 }
 
 @media (--hoam-hoverable) {
   .root:hover .image {
-    transform: scale(1.1);
+    transform: scale(1.05);
   }
 }
 
@@ -45,9 +46,14 @@
 
 .link {
   color: var(--hoam-color-link-default);
-  font: var(--hoam-typography-title-3);
   display: block;
+  font: var(--hoam-typography-title-3);
+  max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
   text-decoration: none;
+  white-space: nowrap;
 }
 
 .link::after {
@@ -67,7 +73,13 @@
 }
 
 .title {
+  display: block;
   font: var(--hoam-typography-title-4);
+  max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .price {
@@ -89,10 +101,19 @@
 }
 
 .description {
+  display: -webkit-box;
   font: var(--hoam-typography-label-1);
+  line-clamp: 2;
+  max-width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
 .content {
+  min-width: 0;
   padding: var(--hoam-spacing-xs) 0;
   text-align: center;
 }

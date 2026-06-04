@@ -1,4 +1,5 @@
 import { type KeyboardEvent, useRef, useState } from 'react';
+import clsx from 'clsx';
 
 import { Button } from '@/components/Button';
 import { BodyText } from '@/components/Common/BodyText';
@@ -12,6 +13,7 @@ export function DesktopTabs({
   items,
   layout = 'vertical',
   mode = 'manual',
+  className,
 }: Readonly<TabsProps>) {
   const firstId = items[0]?.id ?? null;
   const [activeTab, setActiveTab] = useState<string | null>(firstId);
@@ -89,7 +91,7 @@ export function DesktopTabs({
 
   return (
     <div
-      className={styles.root}
+      className={clsx(styles.root, className)}
       data-layout={layout}
       data-mode={mode}
     >

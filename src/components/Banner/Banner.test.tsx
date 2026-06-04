@@ -127,6 +127,18 @@ describe('Banner', () => {
     expect(screen.getByRole('button', { name: 'Learn more' })).toBeInTheDocument();
   });
 
+  it('applies a custom className to the root', () => {
+    const { container } = render(
+      <Banner
+        {...baseProps}
+        className="custom-banner"
+      />
+    );
+
+    expect(container.firstChild).toHaveClass('root');
+    expect(container.firstChild).toHaveClass('custom-banner');
+  });
+
   it('uses the primary button variant', () => {
     render(<Banner {...baseProps} />);
 
@@ -163,16 +175,16 @@ describe('Banner', () => {
     expect(image).toHaveAttribute('alt', '');
   });
 
-  it('sets the text grid item spanMd to 2 when there is no image', () => {
+  it('uses the full grid width for text when there is no image', () => {
     render(<Banner {...baseProps} />);
 
     const gridItems = screen.getAllByTestId('grid-item');
     expect(gridItems).toHaveLength(1);
-    expect(gridItems[0]).toHaveAttribute('data-span', '2');
-    expect(gridItems[0]).toHaveAttribute('data-span-md', '2');
+    expect(gridItems[0]).toHaveAttribute('data-span', '12');
+    expect(gridItems[0]).toHaveAttribute('data-span-md', '12');
   });
 
-  it('sets the text grid item spanMd to 1 when there is an image', () => {
+  it('uses a narrower text column when there is an image', () => {
     render(
       <Banner
         {...baseProps}
@@ -181,7 +193,8 @@ describe('Banner', () => {
     );
 
     const gridItems = screen.getAllByTestId('grid-item');
-    expect(gridItems[0]).toHaveAttribute('data-span-md', '1');
+    expect(gridItems[0]).toHaveAttribute('data-span', '12');
+    expect(gridItems[0]).toHaveAttribute('data-span-md', '5');
   });
 
   it('renders the media grid item when there is an image', () => {
@@ -193,8 +206,8 @@ describe('Banner', () => {
     );
 
     const gridItems = screen.getAllByTestId('grid-item');
-    expect(gridItems[1]).toHaveAttribute('data-span', '2');
-    expect(gridItems[1]).toHaveAttribute('data-span-md', '1');
+    expect(gridItems[1]).toHaveAttribute('data-span', '6');
+    expect(gridItems[1]).toHaveAttribute('data-span-md', '6');
   });
 
   it('falls back to translated read more when button text is undefined', () => {
@@ -239,7 +252,7 @@ describe('Banner', () => {
     );
 
     expect(screen.getByTestId('container')).toBeInTheDocument();
-    expect(screen.getByTestId('grid')).toHaveAttribute('data-cols', '2');
+    expect(screen.getByTestId('grid')).toHaveAttribute('data-cols', '12');
     expect(screen.getByTestId('section')).toBeInTheDocument();
     expect(screen.getByTestId('stack')).toHaveAttribute('data-gap', 'sm');
   });

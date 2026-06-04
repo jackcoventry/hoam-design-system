@@ -1,4 +1,5 @@
 import { ReactNode } from 'react';
+import clsx from 'clsx';
 
 import { BodyText } from '@/components/Common/BodyText';
 import type { FooterLink } from '@/components/Footer';
@@ -43,6 +44,8 @@ export type BlogArticleProps = {
   children: ReactNode;
   /** Social links rendered in the sharing section. */
   socialLinks: Array<FooterLink>;
+  /** Optional class applied to the article wrapper. */
+  className?: string;
 };
 
 export function BlogArticle({
@@ -56,6 +59,7 @@ export function BlogArticle({
   image,
   socialLinks = [],
   children,
+  className,
 }: Readonly<BlogArticleProps>) {
   const t = useMessages('blogArticle');
   const tGlobal = useMessages('global');
@@ -66,7 +70,7 @@ export function BlogArticle({
   });
 
   return (
-    <div className={styles.wrapper}>
+    <div className={clsx(styles.wrapper, className)}>
       <article className={styles.root}>
         <div className={styles.headerWrapper}>
           <Container>

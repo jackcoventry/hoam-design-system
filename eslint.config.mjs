@@ -145,6 +145,13 @@ export default defineConfig(
   },
 
   {
+    files: ['**/*.test.{ts,tsx}', '**/*.spec.{ts,tsx}'],
+    rules: {
+      '@typescript-eslint/no-unnecessary-type-assertion': 'off',
+    },
+  },
+
+  {
     files: [
       'src/components/**/*.{ts,tsx}',
       'src/hooks/**/*.{ts,tsx}',

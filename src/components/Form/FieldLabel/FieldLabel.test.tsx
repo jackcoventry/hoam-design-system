@@ -19,6 +19,19 @@ describe('FieldLabel', () => {
     expect(label).toHaveTextContent('Email address');
   });
 
+  it('applies a custom className to the label', () => {
+    const { container } = render(
+      <FieldLabel
+        htmlFor="email"
+        className="custom-field-label"
+      >
+        Email address
+      </FieldLabel>
+    );
+
+    expect(container.querySelector('label')).toHaveClass('custom-field-label');
+  });
+
   it('renders ReactNode children', () => {
     render(
       <FieldLabel htmlFor="password">

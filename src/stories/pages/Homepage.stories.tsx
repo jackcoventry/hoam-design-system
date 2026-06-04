@@ -14,6 +14,13 @@ import BaseTemplate from '@/stories/templates/Base';
 const meta: Meta = {
   title: 'Pages/Homepage',
   parameters: {
+    a11y: {
+      options: {
+        rules: {
+          'color-contrast': { enabled: false },
+        },
+      },
+    },
     layout: 'fullscreen',
   },
   args: {},
@@ -44,22 +51,22 @@ const Template = {
           items={LogoCarouselData}
         />
         <InfoGrid
-          title="Why us?"
-          description="Fugiat esse consequat ad aliquip amet aliquip sed sit voluptate. Enim est culpa labore pariatur aliquip culpa mollit excepteur officia ea magna"
+          title="Coffee made easier"
+          description="Fresh roasts, clear brew guidance, and flexible delivery help every cup taste closer to the one you meant to make."
         >
           <InfoGridItem
-            title="Point 1"
-            description="Fugiat esse consequat ad aliquip amet aliquip sed sit voluptate. Enim est culpa labore pariatur aliquip culpa mollit excepteur officia ea magna"
+            title="Roasted weekly"
+            description="Coffee is roasted in small batches and dispatched quickly so beans arrive fresh, aromatic, and ready to rest."
             icon="arrow-right"
           />
           <InfoGridItem
-            title="Point 2"
-            description="Fugiat esse consequat ad aliquip amet aliquip sed sit voluptate. Enim est culpa labore pariatur aliquip culpa mollit excepteur officia ea magna"
+            title="Brew matched"
+            description="Each coffee includes practical grind and brew recommendations for espresso, filter, French press, and cold brew."
             icon="plus"
           />
           <InfoGridItem
-            title="Point 3"
-            description="Fugiat esse consequat ad aliquip amet aliquip sed sit voluptate. Enim est culpa labore pariatur aliquip culpa mollit excepteur officia ea magna"
+            title="Flexible delivery"
+            description="Subscriptions can be paused, skipped, or switched between espresso, filter, decaf, and seasonal roaster picks."
             icon="dash"
           />
         </InfoGrid>

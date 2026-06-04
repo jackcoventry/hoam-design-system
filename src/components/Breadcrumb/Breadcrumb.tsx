@@ -1,3 +1,5 @@
+import clsx from 'clsx';
+
 import { NavPanelLinkItem } from '@/components/Navigation/types';
 import { useMessages } from '@/hooks/useMessages';
 
@@ -8,9 +10,15 @@ export type BreadcrumbProps = {
   items: NavPanelLinkItem[];
   /** Accessible label for the breadcrumb navigation landmark. */
   'aria-label'?: string | undefined;
+  /** Optional class applied to the breadcrumb navigation root. */
+  className?: string;
 };
 
-export function Breadcrumb({ items, 'aria-label': ariaLabel }: Readonly<BreadcrumbProps>) {
+export function Breadcrumb({
+  items,
+  'aria-label': ariaLabel,
+  className,
+}: Readonly<BreadcrumbProps>) {
   const t = useMessages('breadcrumb');
 
   if (!items || items.length === 0) return null;
@@ -20,7 +28,7 @@ export function Breadcrumb({ items, 'aria-label': ariaLabel }: Readonly<Breadcru
   return (
     <nav
       aria-label={ariaLabel ?? t.navigationLabel}
-      className={styles.root}
+      className={clsx(styles.root, className)}
     >
       <ol className={styles.list}>
         {items.map((item, index) => {

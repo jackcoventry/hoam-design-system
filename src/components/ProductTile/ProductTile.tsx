@@ -1,3 +1,5 @@
+import clsx from 'clsx';
+
 import { BadgeList, BadgeListItem } from '@/components/BadgeList';
 import { Button } from '@/components/Button';
 import { Stack } from '@/components/Layout';
@@ -33,6 +35,8 @@ export type ProductTileProps = {
   lowStock: boolean;
   /** Product image displayed at the top of the card. */
   image: ProductImage;
+  /** Optional class applied to the product tile root. */
+  className?: string;
 };
 
 export function ProductTile({
@@ -44,6 +48,7 @@ export function ProductTile({
   lowStock,
   newItem,
   image,
+  className,
 }: Readonly<ProductTileProps>) {
   const t = useMessages('productTile');
   const { formatCurrency } = useCurrency();
@@ -51,7 +56,7 @@ export function ProductTile({
   return (
     <Stack
       gap="sm"
-      className={styles.root}
+      className={clsx(styles.root, className)}
     >
       <div className={styles.imageWrapper}>
         {newItem || lowStock ? (

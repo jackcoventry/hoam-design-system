@@ -5,9 +5,12 @@ import type { NavTreeItem } from '@/components/Navigation/types';
 
 import styles from '@/components/Navigation/MobileNavigation/MobileNavigation.module.css';
 
-type MobileNavigationItemProps = {
+export type MobileNavigationItemProps = {
+  /** Navigation tree item rendered by this recursive item. */
   item: NavTreeItem;
+  /** Current nesting level. */
   level?: number;
+  /** Maximum nesting level rendered recursively. */
   maxLevel?: number;
 };
 

@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import clsx from 'clsx';
 
 import { Carousel } from '@/components/Carousel';
 import { useMessages } from '@/hooks/useMessages';
@@ -12,9 +13,11 @@ export type HeroProps = {
   items: HeroSlideProps[];
   /** Accessible label for the hero carousel region. */
   'aria-label'?: string;
+  /** Optional class applied to the hero root. */
+  className?: string;
 };
 
-export function Hero({ items, 'aria-label': ariaLabel }: Readonly<HeroProps>) {
+export function Hero({ items, 'aria-label': ariaLabel, className }: Readonly<HeroProps>) {
   const t = useMessages('hero');
   const getSlideKey = useCallback((item: HeroSlideProps) => item.id, []);
   const renderSlide = useCallback((item: HeroSlideProps) => <HeroSlide {...item} />, []);
@@ -24,11 +27,16 @@ export function Hero({ items, 'aria-label': ariaLabel }: Readonly<HeroProps>) {
     const firstItem = items[0];
     if (!firstItem) return null;
 
-    return <HeroSlide {...firstItem} />;
+    return (
+      <HeroSlide
+        {...firstItem}
+        {...(className === undefined ? {} : { className })}
+      />
+    );
   }
 
   return (
-    <div className={styles.root}>
+    <div className={clsx(styles.root, className)}>
       <Carousel
         slides={items}
         getSlideKey={getSlideKey}

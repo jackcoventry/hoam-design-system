@@ -1,4 +1,4 @@
 /** Props for a single badge item. */
-export type { BadgeListItemProps, BadgeListItemVariant } from './BadgeList';
+export type { BadgeListItemProps, BadgeListItemVariant, BadgeListProps } from './BadgeList';
 /** Inline badge list for short metadata, alerts, and highlights. */
 export { BadgeList, BadgeListItem, BadgeListVariants } from './BadgeList';

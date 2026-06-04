@@ -1,3 +1,5 @@
+import clsx from 'clsx';
+
 import { Button } from '@/components/Button';
 import { Container, Grid, GridItem } from '@/components/Layout';
 import { useMessages } from '@/hooks/useMessages';
@@ -40,6 +42,8 @@ export type HeroSlideProps = {
     url: string;
     text?: string | undefined;
   };
+  /** Optional class applied to the slide root. */
+  className?: string;
 };
 
 export function HeroSlide({
@@ -49,6 +53,7 @@ export function HeroSlide({
   background,
   featuredImage,
   button,
+  className,
 }: Readonly<HeroSlideProps>) {
   const t = useMessages('global');
   const prefersReducedMotion = usePrefersReducedMotion();
@@ -59,7 +64,7 @@ export function HeroSlide({
   };
 
   return (
-    <div className={styles.root}>
+    <div className={clsx(styles.root, className)}>
       {background ? (
         <div className={styles.background}>
           {background.kind === 'image' ? (

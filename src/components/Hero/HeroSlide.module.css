@@ -72,5 +72,6 @@
 }
 
 .contentLink {
+  display: inline-flex;
   padding-top: var(--hoam-spacing-xl);
 }

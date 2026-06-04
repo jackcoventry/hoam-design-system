@@ -2,10 +2,17 @@
 
 .root {
   aspect-ratio: 16/9;
-  border-radius: var(--hoam-border-radius-default);
+  border: var(--hoam-border-size-default) var(--hoam-color-border-soft);
+  border-radius: var(--hoam-border-radius-large);
+  box-shadow: var(--hoam-shadow-small);
   display: flex;
+  min-width: 0;
   overflow: hidden;
   position: relative;
+  transition:
+    border-color var(--hoam-transition-duration-short) var(--hoam-transition-function-quad),
+    box-shadow var(--hoam-transition-duration-short) var(--hoam-transition-function-quad),
+    transform var(--hoam-transition-duration-short) var(--hoam-transition-function-quad);
 }
 
 .root::after {
@@ -21,8 +28,14 @@
 }
 
 @media (--hoam-hoverable) {
+  .root:hover {
+    border-color: var(--hoam-color-border-default);
+    box-shadow: var(--hoam-shadow-large);
+    transform: translateY(-2px);
+  }
+
   .root:hover .image {
-    transform: scale(1.1);
+    transform: scale(1.06);
   }
 }
 
@@ -37,6 +50,7 @@
 }
 
 @media (--hoam-motion-reduce) {
+  .root,
   .image {
     transition: none !important;
   }
@@ -45,8 +59,15 @@
 .text {
   bottom: var(--hoam-spacing-md);
   color: var(--hoam-color-surface-inverse);
+  display: -webkit-box;
   font: var(--hoam-typography-title-3);
   left: var(--hoam-spacing-md);
+  line-clamp: 2;
+  max-width: calc(100% - (var(--hoam-spacing-md) * 2));
+  overflow: hidden;
+  overflow-wrap: anywhere;
   position: absolute;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
   z-index: var(--hoam-layer-raised);
 }

@@ -7,6 +7,7 @@
 
 .root {
   background: var(--hoam-color-surface-alpha);
+  backdrop-filter: blur(8px);
   box-sizing: border-box;
   display: flex;
   height: 100dvh;
@@ -39,6 +40,7 @@
 
 .dialog {
   background: var(--hoam-color-surface-inverse);
+  border: var(--hoam-border-size-default) var(--hoam-color-border-soft);
   box-shadow: var(--hoam-shadow-large);
   box-sizing: border-box;
   display: flex;
@@ -52,8 +54,14 @@
   z-index: var(--hoam-layer-raised);
 }
 
+.root[data-surface="transparent"] .dialog {
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
 .root[data-variant="modal"] .dialog {
-  border-radius: var(--hoam-border-radius-default);
+  border-radius: var(--hoam-border-radius-large);
   margin: 0 var(--hoam-spacing-xl);
   max-height: calc(100dvh - var(--hoam-spacing-xl));
   max-width: 1200px;
@@ -142,7 +150,7 @@
 }
 
 .header:has(+ .body:not(:empty)) {
-  border-bottom: var(--hoam-border-size-default) var(--hoam-color-border-accent);
+  border-bottom: var(--hoam-border-size-default) var(--hoam-color-border-soft);
 }
 
 .body {
@@ -153,7 +161,7 @@
 }
 
 .body:has(+ .footer:not(:empty)) {
-  border-bottom: var(--hoam-border-size-default) var(--hoam-color-border-accent);
+  border-bottom: var(--hoam-border-size-default) var(--hoam-color-border-soft);
 }
 
 .header[data-padded="true"],
@@ -168,6 +176,10 @@
 
 .closeButton:only-child {
   margin-left: auto;
+}
+
+.root[data-variant="drawer"] .body[data-padded="true"] {
+  width: calc(100% - var(--hoam-spacing-lg));
 }
 
 @keyframes modal-overlay-in {

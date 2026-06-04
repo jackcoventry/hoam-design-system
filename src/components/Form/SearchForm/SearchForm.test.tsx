@@ -4,11 +4,8 @@ import { describe, expect, it, vi } from 'vitest';
 
 import {
   SearchForm,
-  type SearchFormResult,
   type SearchFormSchemaType,
   SearchLoader,
-  SearchResult,
-  SearchResults,
 } from '@/components/Form/SearchForm/SearchForm';
 
 vi.mock('@/components/Button', () => ({
@@ -61,24 +58,6 @@ vi.mock('@/components/Pagination', () => ({
   ),
 }));
 
-describe('SearchResult', () => {
-  it('renders the title, preview and link', () => {
-    render(
-      <SearchResult
-        title="Useful result"
-        preview="A short preview"
-        url="/result"
-      />
-    );
-
-    expect(screen.getByRole('heading', { level: 4, name: 'Useful result' })).toBeInTheDocument();
-    expect(screen.getByText('A short preview')).toBeInTheDocument();
-
-    const link = screen.getByRole('link', { name: 'Read more' });
-    expect(link).toHaveAttribute('href', '/result');
-  });
-});
-
 describe('SearchLoader', () => {
   it('renders the spinner', () => {
     render(<SearchLoader />);
@@ -87,70 +66,18 @@ describe('SearchLoader', () => {
   });
 });
 
-describe('SearchResults', () => {
-  const items: SearchFormResult[] = [
-    {
-      id: 1,
-      title: 'First result',
-      url: '/first',
-      preview: 'First preview',
-    },
-    {
-      title: 'Second result',
-      url: '/second',
-      preview: 'Second preview',
-    },
-  ];
-
-  it('renders a no results message when items is empty', () => {
-    render(<SearchResults items={[]} />);
-
-    expect(screen.getByText('No results!')).toBeInTheDocument();
-    expect(screen.queryByRole('list')).not.toBeInTheDocument();
-    expect(screen.queryByTestId('pagination')).not.toBeInTheDocument();
-  });
-
-  it('renders a list of results', () => {
-    render(<SearchResults items={items} />);
-
-    const list = screen.getByRole('list');
-    expect(list.tagName).toBe('OL');
-
-    expect(screen.getByRole('heading', { level: 4, name: 'First result' })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { level: 4, name: 'Second result' })).toBeInTheDocument();
-
-    expect(screen.getByText('First preview')).toBeInTheDocument();
-    expect(screen.getByText('Second preview')).toBeInTheDocument();
-
-    const links = screen.getAllByRole('link', { name: 'Read more' });
-    expect(links).toHaveLength(2);
-    expect(links[0]).toHaveAttribute('href', '/first');
-    expect(links[1]).toHaveAttribute('href', '/second');
-  });
-
-  it('renders pagination when there are results', () => {
-    render(<SearchResults items={items} />);
-
-    expect(screen.getByTestId('pagination')).toHaveTextContent('Page 1');
-  });
-
-  it('renders one list item per result', () => {
-    render(<SearchResults items={items} />);
-
-    expect(screen.getAllByRole('listitem')).toHaveLength(2);
-  });
-});
-
 describe('SearchForm', () => {
   it('renders the form controls with default labels and placeholder', () => {
-    render(
+    const { container } = render(
       <SearchForm
         onClose={() => {}}
         onSubmit={() => {}}
         loading={false}
+        className="custom-search-form"
       />
     );
 
+    expect(container.firstChild).toHaveClass('custom-search-form');
     expect(screen.getByRole('button', { name: 'Close dialog' })).toBeInTheDocument();
     expect(screen.getByRole('searchbox', { name: 'Search' })).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Enter keywords...')).toBeInTheDocument();
@@ -189,6 +116,19 @@ describe('SearchForm', () => {
     expect(onClose).toHaveBeenCalledTimes(1);
   });
 
+  it('can hide the focus-only close button for modal compositions with their own close control', () => {
+    render(
+      <SearchForm
+        onClose={() => {}}
+        onSubmit={() => {}}
+        loading={false}
+        showCloseButton={false}
+      />
+    );
+
+    expect(screen.queryByRole('button', { name: 'Close dialog' })).not.toBeInTheDocument();
+  });
+
   it('calls onSubmit with the entered query when the form is valid', async () => {
     const onSubmit = vi.fn<(data: SearchFormSchemaType) => void | Promise<void>>();
 
@@ -201,14 +141,14 @@ describe('SearchForm', () => {
     );
 
     const input = screen.getByRole('searchbox', { name: 'Search' });
-    fireEvent.change(input, { target: { value: 'kitchen sinks' } });
+    fireEvent.change(input, { target: { value: 'espresso grinders' } });
     fireEvent.click(screen.getByRole('button', { name: 'Search' }));
 
     await waitFor(() => {
       expect(onSubmit).toHaveBeenCalledTimes(1);
     });
 
-    expect(onSubmit.mock.calls[0]?.[0]).toEqual({ q: 'kitchen sinks' });
+    expect(onSubmit.mock.calls[0]?.[0]).toEqual({ q: 'espresso grinders' });
   });
 
   it('trims the submitted value via schema validation', async () => {

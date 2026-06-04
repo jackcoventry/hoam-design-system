@@ -1,53 +1,37 @@
 import { SubmitHandler } from 'react-hook-form';
 
-import {
-  SearchForm,
-  SearchFormResult,
-  SearchFormSchemaType,
-  SearchLoader,
-  SearchResults,
-} from '@/components/Form';
+import { SearchForm, SearchFormSchemaType } from '@/components/Form';
 import { Modal } from '@/components/Modal';
 import { ModalVariant } from '@/components/Modal/Modal';
-import { AsyncState } from '@/types/async';
 
-type SearchModalProps<TData, TError extends Error = Error> = {
+import styles from '@/components/Navigation/Modals/SearchModal.module.css';
+
+export type SearchModalProps = {
   open: boolean;
   onClose: () => void;
   onSubmit: SubmitHandler<SearchFormSchemaType>;
   variant: ModalVariant;
-  state: AsyncState<TData, TError>;
-  data: SearchFormResult[] | null;
 };
 
-export function SearchModal<TData, TError extends Error = Error>({
-  open,
-  onClose,
-  onSubmit,
-  state,
-  variant,
-  data = [],
-}: Readonly<SearchModalProps<TData, TError>>) {
-  const loading = state?.status === 'loading';
-
+export function SearchModal({ open, onClose, onSubmit, variant }: Readonly<SearchModalProps>) {
   return (
     <Modal
       isOpen={open}
       onClose={onClose}
       variant={variant}
+      surface="transparent"
     >
       <Modal.Header padded={false}>
-        <SearchForm
-          onClose={onClose}
-          onSubmit={onSubmit}
-          loading={state?.status === 'loading'}
-        />
+        <div className={styles.header}>
+          <SearchForm
+            onClose={onClose}
+            onSubmit={onSubmit}
+            loading={false}
+            showCloseButton={false}
+          />
+          <Modal.CloseButton />
+        </div>
       </Modal.Header>
-
-      <Modal.Body padded={false}>
-        {loading ? <SearchLoader /> : null}
-        {data && data.length > 0 && !loading ? <SearchResults items={data} /> : null}
-      </Modal.Body>
     </Modal>
   );
 }

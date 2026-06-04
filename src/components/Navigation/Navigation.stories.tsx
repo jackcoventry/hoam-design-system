@@ -1,13 +1,11 @@
-import { useMemo } from 'react';
 import { Meta, StoryObj } from '@storybook/react-vite';
 import { SubmitHandler } from 'react-hook-form';
 
-import { SearchFormResult, SearchFormSchemaType } from '@/components/Form';
+import { SearchFormSchemaType } from '@/components/Form';
 import { Navigation } from '@/components/Navigation';
-import { useAsyncTask } from '@/utils/useAsyncTask';
+import { navigateToStory } from '@/utils/navigateToStory';
 import BasketData from '@/mocks/components/Basket';
 import NavigationData from '@/mocks/components/Navigation';
-import SearchFormData from '@/mocks/components/SearchResults';
 import UserNavigationData from '@/mocks/components/UserNavigation';
 
 const meta: Meta<typeof Navigation> = {
@@ -31,19 +29,8 @@ export default meta;
 type Story = StoryObj<typeof Navigation>;
 
 function DefaultStory() {
-  const search = useMemo(
-    () => async () => {
-      const response = SearchFormData as SearchFormResult[];
-      await new Promise((resolve) => setTimeout(resolve, 600));
-      return response;
-    },
-    []
-  );
-
-  const { state, run, data } = useAsyncTask(search);
-
-  const onSubmit: SubmitHandler<SearchFormSchemaType> = async () => {
-    await run();
+  const onSubmit: SubmitHandler<SearchFormSchemaType> = () => {
+    navigateToStory('Pages/Search Results', 'Default');
   };
 
   return (
@@ -52,8 +39,6 @@ function DefaultStory() {
         items={NavigationData}
         userItems={UserNavigationData}
         searchSubmit={onSubmit}
-        searchData={data}
-        searchState={state}
         basketData={BasketData}
       />
     </div>

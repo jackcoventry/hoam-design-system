@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import clsx from 'clsx';
 
 import { Carousel } from '@/components/Carousel';
 import { useMessages } from '@/hooks/useMessages';
@@ -16,11 +17,14 @@ export type ImageGalleryProps = {
   images?: ImageProps[];
   /** Accessible label for the gallery carousel. */
   'aria-label'?: string;
+  /** Optional class applied to the gallery root. */
+  className?: string;
 };
 
 export function ImageGallery({
   images = [],
   'aria-label': ariaLabel,
+  className,
 }: Readonly<ImageGalleryProps>) {
   const t = useMessages('imageGallery');
   const getSlideKey = useCallback((item: ImageProps) => item.id, []);
@@ -40,7 +44,7 @@ export function ImageGallery({
   if (!images.length) return null;
 
   return (
-    <div className={styles.root}>
+    <div className={clsx(styles.root, className)}>
       <Carousel
         slides={images}
         getSlideKey={getSlideKey}

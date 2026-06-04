@@ -18,7 +18,7 @@ const basketMock = vi.fn<(props: { items: BasketItemProps[]; total: number }) =>
 
 const basketFooterMock = vi.fn<(props: { total: number }) => void>();
 
-const closeButtonMock = vi.fn<(props: { callback: () => void }) => void>();
+const closeButtonMock = vi.fn<() => void>();
 
 const useMessagesMock = vi.fn<(namespace: string) => { modalBasket: string }>();
 
@@ -72,13 +72,13 @@ vi.mock('@/components/Modal', () => {
     <div data-testid="modal-title">{children}</div>
   );
 
-  ModalComponent.CloseButton = ({ callback }: { callback: () => void }) => {
-    closeButtonMock({ callback });
+  ModalComponent.CloseButton = () => {
+    closeButtonMock();
 
     return (
       <button
         type="button"
-        onClick={callback}
+        onClick={() => modalMock.mock.calls.at(-1)?.[0].onClose()}
       >
         Close modal
       </button>
@@ -223,7 +223,7 @@ describe('BasketModal', () => {
     expect(basketFooterProps?.total).toBe(0);
   });
 
-  it('wires Modal.CloseButton to onClose', () => {
+  it('renders a close button wired to the modal close handler', () => {
     render(
       <BasketModal
         open
@@ -233,9 +233,7 @@ describe('BasketModal', () => {
       />
     );
 
-    const closeButtonProps = closeButtonMock.mock.calls[0]?.[0];
-    expect(closeButtonProps).toBeDefined();
-    expect(closeButtonProps?.callback).toBe(onClose);
+    expect(closeButtonMock).toHaveBeenCalledTimes(1);
 
     fireEvent.click(screen.getByRole('button', { name: 'Close modal' }));
     expect(onClose).toHaveBeenCalledTimes(1);

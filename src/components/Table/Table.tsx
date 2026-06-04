@@ -1,4 +1,5 @@
 import { Children, isValidElement, PropsWithChildren, ReactElement, ReactNode } from 'react';
+import clsx from 'clsx';
 
 import { logger } from '@/utils/logger';
 
@@ -6,6 +7,14 @@ import styles from '@/components/Table/Table.module.css';
 
 type TableHeaderElement = ReactElement<React.ComponentProps<typeof TableHeader>>;
 type TableBodyElement = ReactElement<React.ComponentProps<typeof TableBody>>;
+
+export type TableProps = PropsWithChildren<{
+  /** Optional class applied to the table wrapper. */
+  className?: string;
+}>;
+
+export type TableHeaderProps = PropsWithChildren;
+export type TableBodyProps = PropsWithChildren;
 
 function getTableParts(children: ReactNode): {
   header: TableHeaderElement;
@@ -36,11 +45,11 @@ function getTableParts(children: ReactNode): {
   };
 }
 
-export function Table({ children }: Readonly<PropsWithChildren>) {
+export function Table({ children, className }: Readonly<TableProps>) {
   const { header, body } = getTableParts(children);
 
   return (
-    <div className={styles.root}>
+    <div className={clsx(styles.root, className)}>
       <table className={styles.table}>
         {header}
         {body}
@@ -49,10 +58,10 @@ export function Table({ children }: Readonly<PropsWithChildren>) {
   );
 }
 
-export function TableHeader({ children }: Readonly<PropsWithChildren>) {
+export function TableHeader({ children }: Readonly<TableHeaderProps>) {
   return <thead>{children}</thead>;
 }
 
-export function TableBody({ children }: Readonly<PropsWithChildren>) {
+export function TableBody({ children }: Readonly<TableBodyProps>) {
   return <tbody>{children}</tbody>;
 }

@@ -10,9 +10,14 @@ const items = [
     href: '/shop',
   },
   {
-    id: 'sample',
-    label: 'Sample product',
-    href: '/shop/sample-product',
+    id: 'coffee',
+    label: 'Coffee',
+    href: '/shop/coffee',
+  },
+  {
+    id: 'house-espresso-blend',
+    label: 'House Espresso Blend',
+    href: '/shop/coffee/house-espresso-blend',
   },
 ];
 

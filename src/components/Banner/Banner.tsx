@@ -1,3 +1,5 @@
+import clsx from 'clsx';
+
 import { Button } from '@/components/Button';
 import { Container, Grid, GridItem, Section, Stack } from '@/components/Layout';
 import { useMessages } from '@/hooks/useMessages';
@@ -24,19 +26,29 @@ export type BannerProps = {
     url: string;
     text: string | undefined;
   };
+  /** Optional class applied to the banner root. */
+  className?: string;
 };
 
-export function Banner({ title = '', subtitle, text, image, button }: Readonly<BannerProps>) {
+export function Banner({
+  title = '',
+  subtitle,
+  text,
+  image,
+  button,
+  className,
+}: Readonly<BannerProps>) {
   const t = useMessages('global');
 
   return (
-    <div className={styles.root}>
+    <div className={clsx(styles.root, className)}>
       <div className={styles.content}>
         <Container>
-          <Grid cols={2}>
+          <Grid cols={12}>
             <GridItem
-              span={2}
-              spanMd={image ? 1 : 2}
+              span={12}
+              spanMd={image ? 5 : 12}
+              startMd={2}
               className={styles.textContent}
             >
               <Section>
@@ -56,14 +68,17 @@ export function Banner({ title = '', subtitle, text, image, button }: Readonly<B
 
             {image && (
               <GridItem
-                span={2}
-                spanMd={1}
+                span={6}
+                spanMd={6}
                 className={styles.media}
               >
-                <img
-                  src={image}
-                  alt=""
-                />
+                <span>
+                  <img
+                    src={image}
+                    alt=""
+                    className={styles.image}
+                  />
+                </span>
               </GridItem>
             )}
           </Grid>

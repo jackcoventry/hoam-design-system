@@ -1,5 +1,6 @@
 import { useId } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
+import clsx from 'clsx';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod/mini';
 
@@ -74,6 +75,8 @@ export type ProductInfoProps = {
   onSubmit: (args: ProductInformationSchemaType) => void;
   /** Shows a submitting state on the call-to-action button. */
   isSubmitting: boolean;
+  /** Optional class applied to the product information root. */
+  className?: string;
 };
 
 function getDisplayValue(option: ProductOption) {
@@ -104,6 +107,7 @@ export function ProductInfo({
   data,
   onSubmit,
   isSubmitting = false,
+  className,
 }: Readonly<ProductInfoProps>) {
   const t = useMessages('productTile');
   const { formatCurrency } = useCurrency();
@@ -141,7 +145,7 @@ export function ProductInfo({
   const salePriceString = formatCurrency(price.saleAmount);
 
   return (
-    <div className={styles.root}>
+    <div className={clsx(styles.root, className)}>
       <Stack>
         <div className={styles.content}>
           <Stack gap="sm">

@@ -34,8 +34,8 @@ export const Group: Story = {
       />
       <Radio
         name="contact-method"
-        label="Phone"
-        value="phone"
+        label="Store pickup"
+        value="store-pickup"
       />
       <Radio
         name="contact-method"
@@ -62,11 +62,11 @@ function ControlledRender() {
       />
       <Radio
         name="contact-method-controlled"
-        label="Phone"
-        value="phone"
-        checked={value === 'phone'}
+        label="Store pickup"
+        value="store-pickup"
+        checked={value === 'store-pickup'}
         onCheckedChange={(checked) => {
-          if (checked) setValue('phone');
+          if (checked) setValue('store-pickup');
         }}
       />
       <Radio

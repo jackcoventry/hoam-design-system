@@ -1,18 +1,12 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { SubmitHandler } from 'react-hook-form';
 
 import { Button } from '@/components/Button';
-import {
-  SearchForm,
-  SearchFormSchemaType,
-  SearchLoader,
-  SearchResults,
-} from '@/components/Form/SearchForm';
+import { SearchForm, SearchFormSchemaType } from '@/components/Form/SearchForm';
 import { Stack } from '@/components/Layout';
 import { Modal, type ModalRootProps, Variants } from '@/components/Modal';
-import { useAsyncTask } from '@/utils/useAsyncTask';
-import MockSearchResults from '@/mocks/components/SearchResults';
+import { navigateToStory } from '@/utils/navigateToStory';
 
 const meta: Meta<typeof Modal> = {
   title: 'Components/Modal',
@@ -115,37 +109,17 @@ function CustomHeaderModalStory() {
   );
 }
 
-type SearchModalStoryProps = {
-  noResults?: boolean;
-};
-
-function SearchModalStory({ noResults = false }: Readonly<SearchModalStoryProps>) {
+function SearchModalStory() {
   const [open, setOpen] = useState(false);
 
-  const search = useMemo(
-    () => async () => {
-      const response = MockSearchResults;
-      await new Promise((resolve) => setTimeout(resolve, 600));
-      return response;
-    },
-    []
-  );
-
-  const { state, run, data, error } = useAsyncTask(search);
-
-  const onSubmit: SubmitHandler<SearchFormSchemaType> = async () => {
-    await run();
+  const onSubmit: SubmitHandler<SearchFormSchemaType> = () => {
+    setOpen(false);
+    navigateToStory('Pages/Search Results', 'Default');
   };
 
   const handleClose = () => {
     setOpen(false);
-
-    setTimeout(() => {
-      void run();
-    }, 500);
   };
-
-  const loading = state.status === 'loading';
 
   return (
     <div>
@@ -165,19 +139,9 @@ function SearchModalStory({ noResults = false }: Readonly<SearchModalStoryProps>
           <SearchForm
             onClose={handleClose}
             onSubmit={onSubmit}
-            loading={loading}
+            loading={false}
           />
         </Modal.Header>
-
-        <Modal.Body padded={false}>
-          {loading ? <SearchLoader /> : null}
-          {error ? (
-            <div role="alert">
-              <p>{error.message}</p>
-            </div>
-          ) : null}
-          {data && !error && !loading ? <SearchResults items={noResults ? [] : data} /> : null}
-        </Modal.Body>
       </Modal>
     </div>
   );
@@ -200,8 +164,4 @@ export const CustomHeader: Story = {
 
 export const CustomSearchForm: Story = {
   render: () => <SearchModalStory />,
-};
-
-export const CustomSearchFormNoResults: Story = {
-  render: () => <SearchModalStory noResults={true} />,
 };

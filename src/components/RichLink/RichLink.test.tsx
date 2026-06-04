@@ -34,6 +34,19 @@ describe('RichLink', () => {
     expect(screen.getByText('Design systems')).toBeInTheDocument();
   });
 
+  it('applies a custom className to the link root', () => {
+    render(
+      <RichLink
+        href="/articles/design-systems"
+        title="Design systems"
+        image="/images/design-systems.jpg"
+        className="custom-rich-link"
+      />
+    );
+
+    expect(screen.getByRole('link', { name: 'Design systems' })).toHaveClass('custom-rich-link');
+  });
+
   it('renders the image with the provided alt text', () => {
     render(
       <RichLink

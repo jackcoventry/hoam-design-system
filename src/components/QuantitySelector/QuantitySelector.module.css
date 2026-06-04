@@ -13,10 +13,15 @@
 .inner {
   display: inline-flex;
   align-items: center;
+  background: var(--hoam-color-surface-inverse);
+  border: var(--hoam-border-size-default) var(--hoam-color-border-soft);
+  border-radius: var(--hoam-border-radius-default);
+  overflow: hidden;
+  justify-content: space-between;
 }
 
 .input {
-  background-color: var(--hoam-color-surface-inverse);
+  background-color: transparent;
   border: none;
   color: var(--hoam-color-text-default);
   font: var(--hoam-typography-body-1);
@@ -34,9 +39,12 @@
 
 .button {
   border: none;
-  border-radius: var(--hoam-border-radius-default);
+  border-radius: 0;
   height: var(--hoam-size-quantity-selector);
   outline: none;
+  transition:
+    background-color var(--hoam-transition-duration-short) var(--hoam-transition-function-quad),
+    color var(--hoam-transition-duration-short) var(--hoam-transition-function-quad);
   width: var(--hoam-size-quantity-selector);
 }
 

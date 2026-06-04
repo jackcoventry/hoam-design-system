@@ -21,13 +21,13 @@ const meta: Meta = {
 export default meta;
 
 const bannerMock = {
-  title: 'Test Banner',
-  subtitle: 'Test subtitle',
-  text: 'Lorem ipsum',
+  title: 'Find your next roast',
+  subtitle: 'Coffee search',
+  text: 'Filter by roast, origin, availability, and price to discover coffee that suits your brew style.',
   image: '/hero/range.png',
   button: {
-    url: '/',
-    text: 'Read more',
+    url: '/shop/coffee',
+    text: 'Shop coffee',
   },
 } satisfies BannerProps;
 
@@ -84,7 +84,6 @@ function Component() {
             span={12}
             spanMd={12}
             spanLg={6}
-            spanXl={4}
             key={product.productId}
           >
             <ProductTile {...product} />

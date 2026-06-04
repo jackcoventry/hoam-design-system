@@ -195,7 +195,7 @@ function createNavItems(): NavTopLevelItem[] {
               items: [
                 {
                   id: 'shop-leaf-2',
-                  label: 'Jackets',
+                  label: 'Espresso blends',
                   href: '/shop/jackets',
                 },
               ],

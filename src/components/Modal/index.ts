@@ -3,7 +3,9 @@ export type {
   ModalCloseButtonProps,
   ModalRootProps,
   ModalSectionProps,
+  ModalSurface,
   ModalTitleProps,
+  ModalVariant,
 } from '@/components/Modal/Modal';
 /** Modal primitives for dialogs and drawers. */
 export {
@@ -14,6 +16,7 @@ export {
   ModalHeader,
   ModalRoot,
   ModalTitle,
+  Surfaces,
   Variants,
 } from '@/components/Modal/Modal';
 /** Provider and hook for coordinating stacked modal state. */

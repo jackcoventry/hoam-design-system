@@ -9,23 +9,31 @@
   --hoam-button-font: var(--hoam-typography-button-1);
 
   --hoam-button-color-bg: var(--hoam-color-surface-default);
+  --hoam-button-color-border: transparent;
   --hoam-button-color-text: var(--hoam-color-text-inverse);
 }
 
 .root {
+  align-items: center;
   background-color: var(--hoam-button-color-bg);
-  border: none;
+  border: var(--hoam-border-size-default) var(--hoam-button-color-border);
   border-radius: var(--hoam-button-border-radius);
   color: var(--hoam-button-color-text);
   cursor: pointer;
   display: flex;
   gap: var(--hoam-button-content-gap);
   font: var(--hoam-button-font);
+  justify-content: center;
   line-height: 1.375;
   min-height: var(--hoam-button-min-height);
   outline: none;
   padding: var(--hoam-button-spacing-vertical) var(--hoam-button-spacing-horizontal);
   text-decoration: none;
+  transition:
+    background-color var(--hoam-transition-duration-short) var(--hoam-transition-function-quad),
+    border-color var(--hoam-transition-duration-short) var(--hoam-transition-function-quad),
+    color var(--hoam-transition-duration-short) var(--hoam-transition-function-quad),
+    transform var(--hoam-transition-duration-short) var(--hoam-transition-function-quad);
   white-space: nowrap;
 }
 
@@ -39,6 +47,7 @@
 
 .root[data-variant="secondary"] {
   --hoam-button-color-bg: var(--hoam-color-surface-inverse);
+  --hoam-button-color-border: var(--hoam-color-border-soft);
   --hoam-button-color-text: var(--hoam-color-text-default);
 }
 
@@ -48,21 +57,40 @@
 }
 
 @media (--hoam-hoverable) {
-  .root[data-variant="primary"]:not(:disabled):hover,
-  .root[data-variant="secondary"]:not(:disabled):hover {
-    --hoam-button-color-bg: var(--hoam-color-surface-accent);
+  .root[data-variant="primary"]:not(:disabled):hover {
+    --hoam-button-color-bg: var(--hoam-color-surface-accent-soft);
+    --hoam-button-color-border: var(--hoam-color-border-accent);
     --hoam-button-color-text: var(--hoam-color-text-inverse);
+  }
+
+  .root[data-variant="secondary"]:not(:disabled):hover {
+    --hoam-button-color-bg: var(--hoam-color-surface-soft);
+    --hoam-button-color-border: var(--hoam-color-border-default);
+    --hoam-button-color-text: var(--hoam-color-text-default);
   }
 
   .root[data-variant="tertiary"]:not(:disabled):hover {
     --hoam-button-color-bg: var(--hoam-color-surface-default);
+    --hoam-button-color-border: var(--hoam-color-border-strong);
   }
+}
+
+.root:not(:disabled):active {
+  transform: translateY(1px);
 }
 
 .root:disabled {
   --hoam-button-color-bg: var(--hoam-color-surface-soft);
-  --hoam-button-color-text: var(--hoam-color-text-default);
+  --hoam-button-color-border: var(--hoam-color-border-soft);
+  --hoam-button-color-text: var(--hoam-color-text-soft);
   cursor: not-allowed;
+  opacity: 0.72;
+}
+
+@media (--hoam-motion-reduce) {
+  .root {
+    transition: none !important;
+  }
 }
 
 .icon {

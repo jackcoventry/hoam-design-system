@@ -26,6 +26,7 @@ export * from './PromoSection';
 export * from './QuantitySelector';
 export * from './RecommendedProducts';
 export * from './RichLink';
+export * from './SearchResults';
 export * from './SidebarNavigation';
 export * from './SkipToContentLink';
 export * from './Table';
