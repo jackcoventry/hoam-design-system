@@ -1,4 +1,5 @@
 @import "@/styles/media.css";
+@import "@/styles/breakpoints.css";
 
 .root {
   background-color: var(--hoam-color-surface-inverse);
@@ -20,7 +21,6 @@
   }
 }
 
-.links,
 .socialLinks {
   display: flex;
   gap: var(--hoam-spacing-md);
@@ -40,6 +40,16 @@
   font: var(--hoam-typography-label-1);
   margin-bottom: var(--hoam-spacing-md);
   text-transform: uppercase;
+}
+
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hoam-spacing-md);
+
+  @media (--hoam-breakpoint-md-up) {
+    flex-direction: row;
+  }
 }
 
 .links a {
@@ -63,5 +73,7 @@
 }
 
 .backToTop {
-  justify-content: end;
+  @media (--hoam-breakpoint-md-up) {
+    justify-content: end;
+  }
 }

@@ -509,6 +509,26 @@ describe('ProductFilters.utils', () => {
         },
       ]);
     });
+
+    it('builds one chip when a selected option id is repeated', () => {
+      const value: FilterValue = {
+        options: {
+          roast: ['light', 'light'],
+        },
+        ranges: {},
+      };
+
+      const result = buildChips([checkboxGroup], value, 'en-GB', 'GBP', productFilterChipMessages);
+
+      expect(result).toEqual([
+        {
+          key: 'roast-light',
+          groupId: 'roast',
+          groupLabel: 'Roast',
+          label: 'Light Roast',
+        },
+      ]);
+    });
   });
 
   describe('search helpers', () => {

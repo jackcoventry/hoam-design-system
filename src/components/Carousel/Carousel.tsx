@@ -124,6 +124,7 @@ export function Carousel<T>({
     () => ({
       enabled: true,
       containerMessage: ariaLabel ?? t.label,
+      containerRole: 'region',
     }),
     [ariaLabel, t.label]
   );

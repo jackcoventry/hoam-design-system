@@ -100,7 +100,8 @@ const config: SDConfig = parsedConfig;
 applyPrivateScopeFilters(config, rawTokens);
 addBreakpointOutputs(config);
 
-const sd = new StyleDictionary(config);
+const verbosity = process.argv.includes('--verbose') ? 'verbose' : undefined;
+const sd = new StyleDictionary(config, { verbosity });
 
 await sd.buildAllPlatforms();
 

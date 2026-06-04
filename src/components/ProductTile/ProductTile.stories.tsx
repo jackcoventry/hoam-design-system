@@ -14,7 +14,7 @@ type Story = StoryObj<typeof ProductTile>;
 
 const Template: Story = {
   render: (args) => (
-    <div style={{ width: '300px' }}>
+    <div style={{ width: '350px' }}>
       <ProductTile {...args} />
     </div>
   ),
@@ -32,7 +32,7 @@ export const LowStockAndNew = { ...Template, args: { newItem: true, lowStock: tr
 
 export const LongContent: Story = {
   render: (args) => (
-    <div style={{ width: '180px' }}>
+    <div style={{ width: '400px' }}>
       <ProductTile {...args} />
     </div>
   ),

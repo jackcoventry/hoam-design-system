@@ -17,9 +17,9 @@ const items: HeroSlideProps[] = [
   },
   {
     id: 'single-origin',
-    title: 'Seasonal single origins',
+    title: 'Seasonal',
     subtitle: 'Limited roast release',
-    text: 'Explore coffees with clear tasting notes, traceable origins, and roast profiles matched to filter and espresso brewing.',
+    text: 'Explore coffees with clear tasting notes.',
     featuredImage: {
       src: '/hero/range.png',
       alt: 'A seasonal coffee collection displayed with brew equipment',
@@ -31,11 +31,10 @@ const items: HeroSlideProps[] = [
   },
   {
     id: 'subscription',
-    title: 'Never run out of coffee',
+    title: 'Unlimited coffee',
     subtitle: 'Flexible subscriptions',
-    text: 'Choose espresso, filter, decaf, or roaster selection and adjust your delivery schedule whenever your routine changes.',
+    text: 'Adjust your delivery schedule whenever your routine changes.',
     background: {
-      kind: 'image',
       src: '/hero/banner-3.webp',
     },
     featuredImage: {
@@ -45,20 +44,6 @@ const items: HeroSlideProps[] = [
     button: {
       url: '/subscriptions',
       text: 'Start a subscription',
-    },
-  },
-  {
-    id: 'brew-guides',
-    title: 'Brew with confidence',
-    subtitle: 'Guides and gear',
-    text: 'Find grinders, kettles, filters, and practical recipes for espresso, pour-over, French press, and cold brew.',
-    background: {
-      kind: 'video',
-      src: '/hero/hero.mp4',
-    },
-    button: {
-      url: '/learn/brewing-guides',
-      text: 'Read brew guides',
     },
   },
 ];

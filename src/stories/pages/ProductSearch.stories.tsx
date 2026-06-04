@@ -44,11 +44,11 @@ const initialValue: FilterValue = {
 
 const dataSet = [
   productTile,
-  productTile,
+  { ...productTile, productId: `${productTile.productId}-2` },
   productTileNew,
-  productTile,
-  productTileNew,
-  productTile,
+  { ...productTile, productId: `${productTile.productId}-3` },
+  { ...productTileNew, productId: `${productTileNew.productId}-2` },
+  { ...productTile, productId: `${productTile.productId}-4` },
 ];
 
 function Component() {

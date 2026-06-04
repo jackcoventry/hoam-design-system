@@ -3,19 +3,12 @@ import clsx from 'clsx';
 import { Button } from '@/components/Button';
 import { Container, Grid, GridItem } from '@/components/Layout';
 import { useMessages } from '@/hooks/useMessages';
-import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 
 import styles from '@/components/Hero/HeroSlide.module.css';
 
-export type HeroBackground =
-  | {
-      kind: 'image';
-      src: string;
-    }
-  | {
-      kind: 'video';
-      src: string;
-    };
+export type HeroBackground = {
+  src: string;
+};
 
 export type HeroImage = {
   /** Image source URL. */
@@ -33,7 +26,7 @@ export type HeroSlideProps = {
   subtitle: string;
   /** Body copy shown in the slide. */
   text: string;
-  /** Optional image or video background. */
+  /** Optional decorative image background. */
   background?: HeroBackground | undefined;
   /** Optional featured image shown alongside the text content. */
   featuredImage?: HeroImage | undefined;
@@ -56,32 +49,16 @@ export function HeroSlide({
   className,
 }: Readonly<HeroSlideProps>) {
   const t = useMessages('global');
-  const prefersReducedMotion = usePrefersReducedMotion();
-  const videoProps = {
-    muted: true,
-    className: styles.video,
-    ...(!prefersReducedMotion && { autoPlay: true, loop: true }),
-  };
 
   return (
     <div className={clsx(styles.root, className)}>
       {background ? (
         <div className={styles.background}>
-          {background.kind === 'image' ? (
-            <img
-              src={background.src}
-              alt=""
-              className={styles.backgroundImage}
-            />
-          ) : (
-            <video {...videoProps}>
-              <track kind="captions" />
-              <source
-                src={background.src}
-                type="video/mp4"
-              />
-            </video>
-          )}
+          <img
+            src={background.src}
+            alt=""
+            className={styles.backgroundImage}
+          />
         </div>
       ) : null}
 
@@ -113,7 +90,6 @@ export function HeroSlide({
                 <Button
                   as="a"
                   href={button.url}
-                  variant="primary"
                 >
                   {button.text || t.readMore}
                 </Button>

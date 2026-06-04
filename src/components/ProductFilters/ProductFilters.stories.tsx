@@ -21,7 +21,12 @@ const initialValue: FilterValue = {
   },
 };
 
-const dataSet = [productTile, productTile, productTile, productTileNew];
+const dataSet = [
+  productTile,
+  { ...productTile, productId: `${productTile.productId}-2` },
+  { ...productTile, productId: `${productTile.productId}-3` },
+  productTileNew,
+];
 
 export function CoffeeFilterExample(): JSX.Element {
   const [value, setValue] = useState<FilterValue>(initialValue);

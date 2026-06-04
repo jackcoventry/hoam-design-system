@@ -54,9 +54,9 @@ export function Footer({
           <GridItem spanXl={3}>
             <span className={styles.logo}>{SITE.title}</span>
           </GridItem>
-          {visibleTopLinks.map((section) => (
+          {visibleTopLinks.map((section, sectionIndex) => (
             <GridItem
-              key={section.title}
+              key={`${section.title}-${sectionIndex}`}
               span={12}
               spanSm={6}
               spanLg={3}
@@ -65,8 +65,8 @@ export function Footer({
               <h2 className={styles.sectionTitle}>{section.title}</h2>
 
               <ul className={styles.list}>
-                {section.links.map((link) => (
-                  <li key={link.href}>
+                {section.links.map((link, linkIndex) => (
+                  <li key={`${link.href}-${linkIndex}`}>
                     <a href={link.href}>{link.label}</a>
                   </li>
                 ))}
@@ -83,9 +83,9 @@ export function Footer({
 
               <Stack gap="lg">
                 <div className={styles.socialLinks}>
-                  {socialLinks.map((link) => (
+                  {socialLinks.map((link, linkIndex) => (
                     <a
-                      key={link.label}
+                      key={`${link.href}-${linkIndex}`}
                       href={link.href}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -101,16 +101,25 @@ export function Footer({
         </Grid>
 
         <Grid className={styles.separator}>
-          <GridItem span={10}>
+          <GridItem
+            span={12}
+            spanMd={10}
+          >
             <div className={styles.links}>
-              {bottomLinks.map((link) => (
-                <div key={link.href}>
-                  <a href={link.href}>{link.label}</a>
-                </div>
+              {bottomLinks.map((link, linkIndex) => (
+                <a
+                  key={`${link.href}-${linkIndex}`}
+                  href={link.href}
+                >
+                  {link.label}
+                </a>
               ))}
             </div>
           </GridItem>
-          <GridItem span={2}>
+          <GridItem
+            span={12}
+            spanMd={2}
+          >
             <div className={clsx(styles.links, styles.backToTop)}>
               <a href="#content">{t.backToTop}</a>
             </div>

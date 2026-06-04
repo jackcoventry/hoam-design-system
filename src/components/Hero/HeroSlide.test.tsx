@@ -9,14 +9,9 @@ type Messages = {
 };
 
 const mockUseMessages = vi.fn<(namespace: string) => Messages>();
-const mockUsePrefersReducedMotion = vi.fn<() => boolean>();
 
 vi.mock('@/hooks/useMessages', () => ({
   useMessages: (namespace: string) => mockUseMessages(namespace),
-}));
-
-vi.mock('@/hooks/usePrefersReducedMotion', () => ({
-  usePrefersReducedMotion: () => mockUsePrefersReducedMotion(),
 }));
 
 vi.mock('@/components/Hero/HeroSlide.module.css', () => ({
@@ -31,7 +26,6 @@ vi.mock('@/components/Hero/HeroSlide.module.css', () => ({
     contentLink: 'contentLink',
     media: 'media',
     textContent: 'textContent',
-    video: 'video',
   },
 }));
 
@@ -39,7 +33,6 @@ type MockButtonProps = {
   children: ReactNode;
   as?: 'a';
   href?: string;
-  variant?: string;
 };
 
 type MockGridProps = {
@@ -57,21 +50,11 @@ type MockGridItemProps = {
 const capturedGridItemProps: MockGridItemProps[] = [];
 
 vi.mock('@/components/Button', () => ({
-  Button: ({ children, as, href, variant }: MockButtonProps) =>
+  Button: ({ children, as, href }: MockButtonProps) =>
     as === 'a' ? (
-      <a
-        href={href}
-        data-variant={variant}
-      >
-        {children}
-      </a>
+      <a href={href}>{children}</a>
     ) : (
-      <button
-        type="button"
-        data-variant={variant}
-      >
-        {children}
-      </button>
+      <button type="button">{children}</button>
     ),
 }));
 
@@ -122,7 +105,6 @@ describe('HeroSlide', () => {
     mockUseMessages.mockReturnValue({
       readMore: 'Read more',
     });
-    mockUsePrefersReducedMotion.mockReturnValue(false);
   });
 
   it('renders the text content', () => {
@@ -162,19 +144,9 @@ describe('HeroSlide', () => {
     expect(screen.getByRole('link', { name: 'Read more' })).toHaveAttribute('href', '/test');
   });
 
-  it('uses the primary button variant', () => {
-    render(<HeroSlide {...baseProps} />);
-
-    expect(screen.getByRole('link', { name: 'Click me' })).toHaveAttribute(
-      'data-variant',
-      'primary'
-    );
-  });
-
   it('renders no background when background is not provided', () => {
     const { container } = render(<HeroSlide {...baseProps} />);
 
-    expect(container.querySelector('video')).not.toBeInTheDocument();
     expect(container.querySelector('img.backgroundImage')).not.toBeInTheDocument();
   });
 
@@ -182,7 +154,7 @@ describe('HeroSlide', () => {
     const { container } = render(
       <HeroSlide
         {...baseProps}
-        background={{ kind: 'image', src: '/image.jpg' }}
+        background={{ src: '/image.jpg' }}
       />
     );
 
@@ -191,61 +163,6 @@ describe('HeroSlide', () => {
     expect(image).toBeInTheDocument();
     expect(image).toHaveAttribute('src', '/image.jpg');
     expect(image).toHaveAttribute('alt', '');
-  });
-
-  it('renders a video background when video background is provided', () => {
-    const { container } = render(
-      <HeroSlide
-        {...baseProps}
-        background={{ kind: 'video', src: '/video.mp4' }}
-      />
-    );
-
-    const video = container.querySelector('video');
-    const source = container.querySelector('source');
-    const track = container.querySelector('track');
-
-    if (!(video instanceof HTMLVideoElement)) {
-      throw new TypeError('Expected a video element');
-    }
-
-    expect(video).toBeInTheDocument();
-    expect(video.muted).toBe(true);
-    expect(video).toHaveClass('video');
-
-    expect(source).toHaveAttribute('src', '/video.mp4');
-    expect(source).toHaveAttribute('type', 'video/mp4');
-    expect(track).toHaveAttribute('kind', 'captions');
-  });
-
-  it('enables autoplay and loop on the video when reduced motion is false', () => {
-    const { container } = render(
-      <HeroSlide
-        {...baseProps}
-        background={{ kind: 'video', src: '/video.mp4' }}
-      />
-    );
-
-    const video = container.querySelector('video');
-
-    expect(video).toHaveProperty('autoplay', true);
-    expect(video).toHaveProperty('loop', true);
-  });
-
-  it('does not enable autoplay or loop on the video when reduced motion is true', () => {
-    mockUsePrefersReducedMotion.mockReturnValue(true);
-
-    const { container } = render(
-      <HeroSlide
-        {...baseProps}
-        background={{ kind: 'video', src: '/video.mp4' }}
-      />
-    );
-
-    const video = container.querySelector('video');
-
-    expect(video).not.toHaveAttribute('autoplay');
-    expect(video).not.toHaveAttribute('loop');
   });
 
   it('renders a featured image when provided', () => {
