@@ -1,7 +1,7 @@
 import { PropsWithChildren, useId, useMemo, useRef, useState } from 'react';
 import clsx from 'clsx';
 
-import { Accordion, AccordionHeader, AccordionItem, AccordionPanel } from '@/components/Accordion';
+import { Accordion, AccordionItem } from '@/components/Accordion';
 import { Button } from '@/components/Button';
 import { Select } from '@/components/Form/Select/Select';
 import { Stack } from '@/components/Layout';
@@ -136,45 +136,41 @@ export function FilterBar(props: PropsWithChildren<FilterBarProps>) {
                   <AccordionItem
                     key={group.id}
                     id={group.id}
+                    title={<span className={styles.groupLabel}>{group.label}</span>}
                   >
-                    <AccordionHeader>
-                      <span className={styles.groupLabel}>{group.label}</span>
-                    </AccordionHeader>
-                    <AccordionPanel>
-                      <Stack>
-                        {isRangeGroup(group) ? (
-                          <FilterBarRangePanel
-                            baseId={baseId}
-                            group={group}
-                            value={value}
-                            onChange={onChange}
-                          />
-                        ) : isOptionGroup(group) ? (
-                          <FilterBarOptionPanel
-                            baseId={baseId}
-                            group={group}
-                            value={value}
-                            onToggle={(optionId) => {
-                              onChange(toggleOptionSelection(value, group, optionId));
-                            }}
-                          />
-                        ) : null}
+                    <Stack>
+                      {isRangeGroup(group) ? (
+                        <FilterBarRangePanel
+                          baseId={baseId}
+                          group={group}
+                          value={value}
+                          onChange={onChange}
+                        />
+                      ) : isOptionGroup(group) ? (
+                        <FilterBarOptionPanel
+                          baseId={baseId}
+                          group={group}
+                          value={value}
+                          onToggle={(optionId) => {
+                            onChange(toggleOptionSelection(value, group, optionId));
+                          }}
+                        />
+                      ) : null}
 
-                        {selectedCount > 0 ? (
-                          <div className={styles.panelActions}>
-                            <Button
-                              className={styles.panelTextButton}
-                              onClick={() => {
-                                onChange(clearGroup(value, group));
-                              }}
-                              size="small"
-                            >
-                              {t.clear}
-                            </Button>
-                          </div>
-                        ) : null}
-                      </Stack>
-                    </AccordionPanel>
+                      {selectedCount > 0 ? (
+                        <div className={styles.panelActions}>
+                          <Button
+                            className={styles.panelTextButton}
+                            onClick={() => {
+                              onChange(clearGroup(value, group));
+                            }}
+                            size="small"
+                          >
+                            {t.clear}
+                          </Button>
+                        </div>
+                      ) : null}
+                    </Stack>
                   </AccordionItem>
                 );
               })}

@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 
-import { Accordion, AccordionHeader, AccordionItem, AccordionPanel } from '@/components/Accordion';
+import { Accordion, AccordionItem } from '@/components/Accordion';
 import { Button } from '@/components/Button';
 import { Modal, ModalStackProvider } from '@/components/Modal';
 import { ProductInfo } from '@/components/ProductInfo';
@@ -36,14 +36,18 @@ describe('Accessibility smoke tests', () => {
           allowMultiple
           defaultOpenIds={['details']}
         >
-          <AccordionItem id="details">
-            <AccordionHeader>Details</AccordionHeader>
-            <AccordionPanel>Seasonal espresso blend.</AccordionPanel>
+          <AccordionItem
+            id="details"
+            title="Details"
+          >
+            Seasonal espresso blend.
           </AccordionItem>
 
-          <AccordionItem id="delivery">
-            <AccordionHeader>Delivery</AccordionHeader>
-            <AccordionPanel>Ships in 1-2 business days.</AccordionPanel>
+          <AccordionItem
+            id="delivery"
+            title="Delivery"
+          >
+            Ships in 1-2 business days.
           </AccordionItem>
         </Accordion>
       </main>

@@ -1,4 +1,4 @@
-/** Props for the accordion root component. */
-export type { AccordionProps } from './Accordion';
+/** Props for the accordion components. */
+export type { AccordionItemProps, AccordionProps } from './Accordion';
 /** Expandable disclosure content for long-form sections and FAQs. */
-export { Accordion, AccordionHeader, AccordionItem, AccordionPanel } from './Accordion';
+export { Accordion, AccordionItem } from './Accordion';

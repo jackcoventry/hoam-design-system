@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import type { ReactNode } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { Accordion, AccordionHeader, AccordionItem, AccordionPanel } from '@/components/Accordion';
+import { Accordion, AccordionItem } from '@/components/Accordion';
 
 const mockUseMessages = vi.fn<
   (namespace: string) => {
@@ -109,18 +109,12 @@ describe('Accordion', () => {
   }) {
     return render(
       <Accordion {...props}>
-        <AccordionItem id="one">
-          <AccordionHeader>First section</AccordionHeader>
-          <AccordionPanel>
-            <p>First content</p>
-          </AccordionPanel>
+        <AccordionItem id="one" title="First section">
+          <p>First content</p>
         </AccordionItem>
 
-        <AccordionItem id="two">
-          <AccordionHeader>Second section</AccordionHeader>
-          <AccordionPanel>
-            <p>Second content</p>
-          </AccordionPanel>
+        <AccordionItem id="two" title="Second section">
+          <p>Second content</p>
         </AccordionItem>
       </Accordion>
     );
@@ -243,11 +237,8 @@ describe('Accordion', () => {
   it('does not render the toggle-all button when there is only one item', () => {
     render(
       <Accordion allowMultiple>
-        <AccordionItem id="one">
-          <AccordionHeader>Only section</AccordionHeader>
-          <AccordionPanel>
-            <p>Only content</p>
-          </AccordionPanel>
+        <AccordionItem id="one" title="Only section">
+          <p>Only content</p>
         </AccordionItem>
       </Accordion>
     );
@@ -346,12 +337,10 @@ describe('Accordion', () => {
       <Accordion>
         <AccordionItem
           id="one"
+          title="First section"
           className="custom-item"
         >
-          <AccordionHeader>First section</AccordionHeader>
-          <AccordionPanel>
-            <p>First content</p>
-          </AccordionPanel>
+          <p>First content</p>
         </AccordionItem>
       </Accordion>
     );
@@ -360,14 +349,15 @@ describe('Accordion', () => {
     expect(item).toHaveClass('custom-item');
   });
 
-  it('passes className from AccordionHeader to the trigger button', () => {
+  it('passes triggerClassName to the trigger button', () => {
     const { container } = render(
       <Accordion>
-        <AccordionItem id="one">
-          <AccordionHeader className="custom-header">First section</AccordionHeader>
-          <AccordionPanel>
-            <p>First content</p>
-          </AccordionPanel>
+        <AccordionItem
+          id="one"
+          title="First section"
+          triggerClassName="custom-header"
+        >
+          <p>First content</p>
         </AccordionItem>
       </Accordion>
     );
@@ -377,14 +367,15 @@ describe('Accordion', () => {
     expect(container.querySelector('.itemTitleButton')).toBeInTheDocument();
   });
 
-  it('passes className from AccordionPanel to the panel section', () => {
+  it('passes panelClassName to the panel section', () => {
     render(
       <Accordion>
-        <AccordionItem id="one">
-          <AccordionHeader>First section</AccordionHeader>
-          <AccordionPanel className="custom-panel">
-            <p>First content</p>
-          </AccordionPanel>
+        <AccordionItem
+          id="one"
+          title="First section"
+          panelClassName="custom-panel"
+        >
+          <p>First content</p>
         </AccordionItem>
       </Accordion>
     );
@@ -393,14 +384,15 @@ describe('Accordion', () => {
     expect(panel).toHaveClass('custom-panel');
   });
 
-  it('disables an item when AccordionHeader has disabled set', () => {
+  it('disables an item when disabled is set', () => {
     render(
       <Accordion>
-        <AccordionItem id="one">
-          <AccordionHeader disabled>First section</AccordionHeader>
-          <AccordionPanel>
-            <p>First content</p>
-          </AccordionPanel>
+        <AccordionItem
+          id="one"
+          title="First section"
+          disabled
+        >
+          <p>First content</p>
         </AccordionItem>
       </Accordion>
     );
@@ -416,11 +408,8 @@ describe('Accordion', () => {
   it('renders open and closed icons correctly', () => {
     const { unmount } = render(
       <Accordion defaultOpenIds={['one']}>
-        <AccordionItem id="one">
-          <AccordionHeader>First section</AccordionHeader>
-          <AccordionPanel>
-            <p>First content</p>
-          </AccordionPanel>
+        <AccordionItem id="one" title="First section">
+          <p>First content</p>
         </AccordionItem>
       </Accordion>
     );
@@ -432,11 +421,8 @@ describe('Accordion', () => {
 
     render(
       <Accordion>
-        <AccordionItem id="one">
-          <AccordionHeader>First section</AccordionHeader>
-          <AccordionPanel>
-            <p>First content</p>
-          </AccordionPanel>
+        <AccordionItem id="one" title="First section">
+          <p>First content</p>
         </AccordionItem>
       </Accordion>
     );
@@ -447,11 +433,8 @@ describe('Accordion', () => {
   it('sets ids and accessibility relationships between header and panel', () => {
     render(
       <Accordion defaultOpenIds={['abc']}>
-        <AccordionItem id="abc">
-          <AccordionHeader>Section title</AccordionHeader>
-          <AccordionPanel>
-            <p>Panel content</p>
-          </AccordionPanel>
+        <AccordionItem id="abc" title="Section title">
+          <p>Panel content</p>
         </AccordionItem>
       </Accordion>
     );
@@ -469,11 +452,8 @@ describe('Accordion', () => {
   it('renders panel content inside BodyText', () => {
     render(
       <Accordion defaultOpenIds={['one']}>
-        <AccordionItem id="one">
-          <AccordionHeader>First section</AccordionHeader>
-          <AccordionPanel>
-            <p>First content</p>
-          </AccordionPanel>
+        <AccordionItem id="one" title="First section">
+          <p>First content</p>
         </AccordionItem>
       </Accordion>
     );
@@ -484,73 +464,22 @@ describe('Accordion', () => {
   it('throws when AccordionItem is used outside Accordion', () => {
     expect(() =>
       render(
-        <AccordionItem id="one">
-          <AccordionHeader>First section</AccordionHeader>
-          <AccordionPanel>
-            <p>First content</p>
-          </AccordionPanel>
+        <AccordionItem id="one" title="First section">
+          <p>First content</p>
         </AccordionItem>
       )
     ).toThrow('AccordionItem must be used within Accordion');
   });
 
-  it('throws when AccordionItem does not contain exactly two children', () => {
-    expect(() =>
-      render(
-        <Accordion>
-          <AccordionItem id="one">
-            <AccordionHeader>First section</AccordionHeader>
-          </AccordionItem>
-        </Accordion>
-      )
-    ).toThrow(
-      'AccordionItem must contain exactly two children: <AccordionHeader /> and <AccordionPanel />'
-    );
-  });
-
-  it('throws when the first child is not AccordionHeader', () => {
-    expect(() =>
-      render(
-        <Accordion>
-          <AccordionItem id="one">
-            <AccordionPanel>
-              <p>First content</p>
-            </AccordionPanel>
-            <AccordionHeader>First section</AccordionHeader>
-          </AccordionItem>
-        </Accordion>
-      )
-    ).toThrow('The first child of AccordionItem must be <AccordionHeader />');
-  });
-
-  it('throws when the second child is not AccordionPanel', () => {
-    expect(() =>
-      render(
-        <Accordion>
-          <AccordionItem id="one">
-            <AccordionHeader>First section</AccordionHeader>
-            <div>Not a panel</div>
-          </AccordionItem>
-        </Accordion>
-      )
-    ).toThrow('The second child of AccordionItem must be <AccordionPanel />');
-  });
-
-  it('ignores non-AccordionItem children when computing toggle-all ids', () => {
+  it('ignores children without string ids when computing toggle-all ids', () => {
     render(
       <Accordion allowMultiple>
         {'plain text'}
-        <AccordionItem id="one">
-          <AccordionHeader>First section</AccordionHeader>
-          <AccordionPanel>
-            <p>First content</p>
-          </AccordionPanel>
+        <AccordionItem id="one" title="First section">
+          <p>First content</p>
         </AccordionItem>
-        <AccordionItem id="two">
-          <AccordionHeader>Second section</AccordionHeader>
-          <AccordionPanel>
-            <p>Second content</p>
-          </AccordionPanel>
+        <AccordionItem id="two" title="Second section">
+          <p>Second content</p>
         </AccordionItem>
       </Accordion>
     );

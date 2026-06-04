@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod/mini';
 
-import { Accordion, AccordionHeader, AccordionItem, AccordionPanel } from '@/components/Accordion';
+import { Accordion, AccordionItem } from '@/components/Accordion';
 import { BadgeList, BadgeListItem } from '@/components/BadgeList';
 import { Button } from '@/components/Button';
 import { BodyText } from '@/components/Common/BodyText';
@@ -274,15 +274,11 @@ export function ProductInfo({
                 <AccordionItem
                   key={item.id}
                   id={item.id}
+                  title={<strong>{item.title}</strong>}
                 >
-                  <AccordionHeader>
-                    <strong>{item.title}</strong>
-                  </AccordionHeader>
-                  <AccordionPanel>
-                    <BodyText>
-                      <p>{item.text}</p>
-                    </BodyText>
-                  </AccordionPanel>
+                  <BodyText>
+                    <p>{item.text}</p>
+                  </BodyText>
                 </AccordionItem>
               ))}
             </Accordion>

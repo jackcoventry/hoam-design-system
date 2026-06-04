@@ -1,4 +1,4 @@
-import { Accordion, AccordionHeader, AccordionItem, AccordionPanel } from '@/components/Accordion';
+import { Accordion, AccordionItem } from '@/components/Accordion';
 import { DesktopTabs } from '@/components/Tabs/Desktop';
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { BREAKPOINTS } from '@/styles/breakpoints';
@@ -42,9 +42,9 @@ export function Tabs({ title, items, layout, mode, className }: Readonly<TabsPro
             <AccordionItem
               key={tab.id}
               id={tab.id}
+              title={tab.label}
             >
-              <AccordionHeader>{tab.label}</AccordionHeader>
-              <AccordionPanel>{tab.content}</AccordionPanel>
+              {tab.content}
             </AccordionItem>
           ))}
         </Accordion>
