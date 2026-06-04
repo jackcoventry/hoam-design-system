@@ -109,10 +109,10 @@ describe('Select', () => {
     render(
       <Select
         label="Country"
+        placeholder="Select a country"
         value=""
         onChange={() => {}}
       >
-        <Select.Placeholder>Select a country</Select.Placeholder>
         <Select.Option value="uk">United Kingdom</Select.Option>
       </Select>
     );
@@ -123,11 +123,10 @@ describe('Select', () => {
   it('renders a placeholder option with disabled and hidden attributes', () => {
     const { container } = render(
       <Select
+        placeholder="Select a country"
         value=""
         onChange={() => {}}
-      >
-        <Select.Placeholder>Select a country</Select.Placeholder>
-      </Select>
+      />
     );
 
     const option = container.querySelector('option');
@@ -143,11 +142,11 @@ describe('Select', () => {
     render(
       <Select
         label="Example"
+        placeholder=""
+        placeholderValue="placeholder"
         value="placeholder"
         onChange={() => {}}
-      >
-        <Select.Placeholder value="placeholder">{''}</Select.Placeholder>
-      </Select>
+      />
     );
 
     expect(screen.getByText('placeholder', { selector: 'span' })).toBeInTheDocument();
@@ -168,6 +167,22 @@ describe('Select', () => {
     );
 
     expect(screen.getByText('France', { selector: 'span' })).toBeInTheDocument();
+  });
+
+  it('builds lookup values from native option children', () => {
+    render(
+      <Select
+        label="Country"
+        value="uk"
+        onChange={() => {}}
+      >
+        <optgroup label="Europe">
+          <option value="uk">United Kingdom</option>
+        </optgroup>
+      </Select>
+    );
+
+    expect(screen.getByText('United Kingdom', { selector: 'span' })).toBeInTheDocument();
   });
 
   it('extracts text from option children for display value', () => {
@@ -370,6 +385,5 @@ describe('Select', () => {
   it('exports compound subcomponents', () => {
     expect(Select.Option).toBeDefined();
     expect(Select.OptGroup).toBeDefined();
-    expect(Select.Placeholder).toBeDefined();
   });
 });

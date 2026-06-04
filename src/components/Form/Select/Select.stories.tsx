@@ -31,6 +31,7 @@ function SelectStoryWrapper({
     <div>
       <Select
         label={label}
+        placeholder="Select size"
         value={value}
         onChange={(nextValue) => {
           if (typeof nextValue === 'string') {
@@ -38,7 +39,6 @@ function SelectStoryWrapper({
           }
         }}
       >
-        <Select.Placeholder>Select size</Select.Placeholder>
         {children}
       </Select>
     </div>
