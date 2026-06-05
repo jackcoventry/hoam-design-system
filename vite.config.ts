@@ -66,6 +66,9 @@ export default defineConfig({
     cssCodeSplit: false,
     rollupOptions: {
       external: ['react', 'react-dom', 'react/jsx-runtime'],
+      output: {
+        banner: '"use client";',
+      },
     },
   },
 });
