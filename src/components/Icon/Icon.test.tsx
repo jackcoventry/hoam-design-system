@@ -12,13 +12,14 @@ describe('Icon', () => {
     expect(svg).toBeInTheDocument();
   });
 
-  it('renders a use element with the correct sprite reference', () => {
+  it('renders inline icon content', () => {
     const { container } = render(<Icon id="arrow-left" />);
 
-    const use = container.querySelector('use');
+    const svg = container.querySelector('svg');
 
-    expect(use).toBeInTheDocument();
-    expect(use).toHaveAttribute('xlink:href', expect.stringContaining('icons.svg#arrow-left'));
+    expect(svg).toHaveAttribute('viewBox', '0 0 16 16');
+    expect(svg?.querySelector('path')).toBeInTheDocument();
+    expect(svg?.querySelector('use')).not.toBeInTheDocument();
   });
 
   it('is decorative by default', () => {

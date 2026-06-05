@@ -25,11 +25,29 @@ async function generateIcons(): Promise<void> {
     throw new Error('Duplicate icon names detected');
   }
 
+  const iconEntries = await Promise.all(
+    icons.map(async (icon) => {
+      const svg = await fs.readFile(path.join(iconsDir, `${icon}.svg`), 'utf8');
+      const viewBox = svg.match(/\sviewBox="([^"]+)"/)?.[1] ?? '0 0 16 16';
+      const body = svg
+        .replace(/^[\s\S]*?<svg\b[^>]*>/, '')
+        .replace(/<\/svg>\s*$/, '')
+        .trim();
+
+      return [icon, { viewBox, body }] as const;
+    })
+  );
+
   const tsContent = `// AUTO-GENERATED FILE — DO NOT EDIT
 
 export const ICON_IDS = ${JSON.stringify(icons, null, 2)} as const;
 
 export type IconId = (typeof ICON_IDS)[number];
+
+export const ICONS = ${JSON.stringify(Object.fromEntries(iconEntries), null, 2)} as const satisfies Record<
+  IconId,
+  { viewBox: string; body: string }
+>;
 `;
 
   await fs.writeFile(iconsTsOutput, tsContent, 'utf8');

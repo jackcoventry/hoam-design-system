@@ -1,5 +1,5 @@
-import iconsSpriteUrl from '@/assets/icons/icons.svg';
 import type { IconId } from '@/design-tokens/icons';
+import { ICONS } from '@/design-tokens/icons';
 
 export type IconProps = {
   /** Icon token id from the generated icon sprite. */
@@ -19,19 +19,21 @@ export function Icon({
   'aria-label': ariaLabel,
 }: Readonly<IconProps>) {
   const isDecorative = !ariaLabel;
+  const icon = ICONS[id];
+
+  if (!icon) {
+    return null;
+  }
 
   return (
     <svg
       className={className}
       width={size}
       height={size}
+      viewBox={icon.viewBox}
       fill="currentColor"
       {...(isDecorative ? { 'aria-hidden': true } : { role: 'img', 'aria-label': ariaLabel })}
-    >
-      <use
-        href={`${iconsSpriteUrl}#${id}`}
-        xlinkHref={`${iconsSpriteUrl}#${id}`}
-      />
-    </svg>
+      dangerouslySetInnerHTML={{ __html: icon.body }}
+    />
   );
 }
