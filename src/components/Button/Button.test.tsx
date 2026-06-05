@@ -196,10 +196,11 @@ describe('Button', () => {
   it('renders an icon when icon is provided', () => {
     const { container } = render(<Button icon="arrow-right">Next</Button>);
 
-    const use = container.querySelector('use');
+    const icon = container.querySelector('svg');
 
-    expect(use).toBeInTheDocument();
-    expect(use).toHaveAttribute('xlink:href', expect.stringContaining('icons.svg#arrow-right'));
+    expect(icon).toBeInTheDocument();
+    expect(icon).toHaveAttribute('viewBox', '0 0 16 16');
+    expect(icon?.querySelector('path')).toBeInTheDocument();
   });
 
   it('applies visual data attributes in button mode', () => {
