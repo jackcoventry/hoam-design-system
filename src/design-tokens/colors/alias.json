@@ -93,6 +93,9 @@
       },
       "accent": {
         "$value": "{color.accent.default}"
+      },
+      "highlight": {
+        "$value": "{palette.semantic.highlight}"
       }
     },
     "feedback": {

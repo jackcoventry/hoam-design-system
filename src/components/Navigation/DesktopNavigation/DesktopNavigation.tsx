@@ -79,7 +79,7 @@ export function DesktopNavigation({
       subTriggersOnly: (panelRoot: Element) =>
         querySubItemVisibility<HTMLElement>(panelRoot, '[data-sub-trigger]'),
       subInteractive: (panelRoot: Element) =>
-        querySubItemVisibility<HTMLElement>(panelRoot, '[data-sub-trigger], [data-sub-link]'),
+        querySubItemVisibility<HTMLElement>(panelRoot, '[data-sub-trigger], [data-panel-promo]'),
       thirdList: (container: Element, domId: string) =>
         querySubItemVisibility<HTMLElement>(container, `#${domId}-panel [data-sub-link]`),
     }),

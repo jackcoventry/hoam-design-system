@@ -19,6 +19,7 @@ export const defaultMessages = {
     columnDetails: 'Details',
     columnQuantity: 'Quantity',
     columnTotal: 'Total',
+    empty: 'Your basket is empty!',
   },
   blogArticle: {
     avatarAria: (name: string) => `The avatar of ${name}`,

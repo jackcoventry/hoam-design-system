@@ -32,4 +32,5 @@
 .subtitle {
   font: var(--hoam-typography-body-1);
   letter-spacing: 0.25rem;
+  text-transform: uppercase;
 }

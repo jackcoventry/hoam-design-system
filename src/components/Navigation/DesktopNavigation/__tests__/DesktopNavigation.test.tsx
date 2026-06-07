@@ -432,7 +432,7 @@ describe('DesktopNavigation', () => {
 
     expect(querySubItemVisibility).toHaveBeenCalledWith(
       panelRoot,
-      '[data-sub-trigger], [data-sub-link]'
+      '[data-sub-trigger], [data-panel-promo]'
     );
   });
 

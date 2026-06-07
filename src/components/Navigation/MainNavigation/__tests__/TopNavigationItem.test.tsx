@@ -5,6 +5,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { panelId, topTriggerId } from '@/components/Navigation/helpers';
 import { TopNavigationItem } from '@/components/Navigation/MainNavigation/TopNavigationItem';
 import type { NavTopLevelItem, TopNavigationItemProps } from '@/components/Navigation/types';
+import { TOP_ARROW_FOCUS_ATTR } from '@/hooks/useKeyboardNav';
 
 vi.mock('@/components/Navigation/helpers', () => ({
   panelId: vi.fn((id: string) => `${id}-panel`),
@@ -253,6 +254,21 @@ describe('TopNavigationItem', () => {
     fireEvent.focus(button);
 
     expect(props.onFocusOpen).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not call onFocusOpen when focus was moved by top-level arrow navigation', () => {
+    const props = createProps({
+      hasPanel: true,
+    });
+
+    render(<TopNavigationItem {...props} />);
+
+    const button = screen.getByRole('button', { name: 'Shop' });
+    button.setAttribute(TOP_ARROW_FOCUS_ATTR, 'true');
+    fireEvent.focus(button);
+
+    expect(props.onFocusOpen).not.toHaveBeenCalled();
+    expect(button).not.toHaveAttribute(TOP_ARROW_FOCUS_ATTR);
   });
 
   it('does not call onFocusOpen for a non-panel link item', () => {

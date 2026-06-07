@@ -22,7 +22,7 @@ export function InfoGridItem({ title, description, icon, className }: Readonly<I
       <span className={styles.icon}>
         <Icon
           id={icon as IconId}
-          size="3em"
+          size="2em"
         />
       </span>
       <h3 className={styles.title}>{title}</h3>

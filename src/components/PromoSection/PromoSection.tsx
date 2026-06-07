@@ -37,7 +37,10 @@ export function PromoSection({
   const imageBlock = imageUrl ? (
     <GridItem
       span={12}
+      spanMd={6}
+      startMd={4}
       spanLg={5}
+      startLg={1}
     >
       <img
         src={imageUrl}

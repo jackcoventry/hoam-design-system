@@ -6,33 +6,47 @@ import items from '@/mocks/components/Basket';
 const meta: Meta<typeof Basket> = {
   title: 'Components/Basket',
   component: Basket,
-  args: {},
+  args: {
+    items,
+  },
   argTypes: {
     items: {
       table: { disable: true },
     },
   },
 };
+
 export default meta;
 
-type Story = StoryObj<typeof Basket>;
+type Story = StoryObj<typeof meta>;
 
 const Template: Story = {
-  render: () => {
-    // Just to give element of realism
-    const total = items?.reduce((acc, item) => {
-      const result = item.price * item.quantity;
-      return result + acc;
+  render: (args) => {
+    const basketItems = args.items ?? [];
+
+    const total = basketItems.reduce((acc, item) => {
+      return acc + item.price * item.quantity;
     }, 0);
+
     return (
-      <div>
-        <Basket
-          items={items}
-          total={total}
-        />
-      </div>
+      <Basket
+        items={basketItems}
+        total={total}
+      />
     );
   },
 };
 
-export const Default = { ...Template, args: {} };
+export const Default: Story = {
+  ...Template,
+  args: {
+    items,
+  },
+};
+
+export const NoItems: Story = {
+  ...Template,
+  args: {
+    items: [],
+  },
+};

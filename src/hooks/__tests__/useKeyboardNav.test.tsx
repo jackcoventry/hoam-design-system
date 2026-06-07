@@ -3,7 +3,7 @@ import { render } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { focusNextTick, moveInList, querySubItemVisibility } from '@/components/Navigation/helpers';
-import { useKeyboardNav } from '@/hooks/useKeyboardNav';
+import { TOP_ARROW_FOCUS_ATTR, useKeyboardNav } from '@/hooks/useKeyboardNav';
 import { KEYS } from '@/constants/keys';
 
 vi.mock('@/components/Navigation/helpers', () => ({
@@ -202,7 +202,7 @@ describe('useKeyboardNav', () => {
     handler(event);
 
     expect(mockedQuerySubItemVisibility).toHaveBeenCalledWith(container, '[data-top-cyclable]');
-    expect(mockedMoveInList).toHaveBeenCalledWith(topItems, target, 1);
+    expect(mockedMoveInList).toHaveBeenCalledWith(topItems, target, 1, expect.any(Function));
   });
 
   it('moves left through top cyclable items', () => {
@@ -216,7 +216,26 @@ describe('useKeyboardNav', () => {
 
     handler(event);
 
-    expect(mockedMoveInList).toHaveBeenCalledWith(topItems, target, -1);
+    expect(mockedMoveInList).toHaveBeenCalledWith(topItems, target, -1, expect.any(Function));
+  });
+
+  it('marks top cyclable arrow destinations before moving focus', () => {
+    const target = document.createElement('button');
+    target.dataset.topCyclable = '';
+
+    const next = document.createElement('button');
+    const topItems = [target, next];
+    mockedQuerySubItemVisibility.mockReturnValue(topItems);
+
+    const { event } = createKeyboardEvent(KEYS.ARROW_RIGHT, target);
+
+    handler(event);
+
+    const markDestination = mockedMoveInList.mock.calls[0]?.[3];
+    const setAttributeSpy = vi.spyOn(next, 'setAttribute');
+    markDestination?.(next);
+
+    expect(setAttributeSpy).toHaveBeenCalledWith(TOP_ARROW_FOCUS_ATTR, 'true');
   });
 
   it('focuses the first top cyclable item on HOME', () => {
@@ -315,12 +334,13 @@ describe('useKeyboardNav', () => {
     container.append(panel);
 
     vi.mocked(subSelectors.subTriggersOnly).mockReturnValue([target, sibling]);
+    vi.mocked(subSelectors.subInteractive).mockReturnValue([target, sibling]);
 
     const { event } = createKeyboardEvent(KEYS.ARROW_DOWN, target);
 
     handler(event);
 
-    expect(subSelectors.subTriggersOnly).toHaveBeenCalledWith(panel);
+    expect(subSelectors.subInteractive).toHaveBeenCalledWith(panel);
     expect(mockedMoveInList).toHaveBeenCalledWith([target, sibling], target, 1);
   });
 
@@ -337,6 +357,7 @@ describe('useKeyboardNav', () => {
     container.append(panel);
 
     vi.mocked(subSelectors.subTriggersOnly).mockReturnValue([previous, target]);
+    vi.mocked(subSelectors.subInteractive).mockReturnValue([previous, target]);
 
     const { event } = createKeyboardEvent(KEYS.ARROW_UP, target);
 
@@ -359,6 +380,7 @@ describe('useKeyboardNav', () => {
     container.append(panel);
 
     vi.mocked(subSelectors.subTriggersOnly).mockReturnValue([first, target]);
+    vi.mocked(subSelectors.subInteractive).mockReturnValue([first, target]);
 
     const { event } = createKeyboardEvent(KEYS.HOME, target);
 
@@ -381,12 +403,59 @@ describe('useKeyboardNav', () => {
     container.append(panel);
 
     vi.mocked(subSelectors.subTriggersOnly).mockReturnValue([target, last]);
+    vi.mocked(subSelectors.subInteractive).mockReturnValue([target, last]);
 
     const { event } = createKeyboardEvent(KEYS.END, target);
 
     handler(event);
 
     expect(mockedFocusNextTick).toHaveBeenCalledWith(last);
+  });
+
+  it('moves from the last sub trigger to the panel promo on ARROW_DOWN', () => {
+    const panel = document.createElement('div');
+    panel.id = 'panel-shop';
+
+    const target = document.createElement('button');
+    target.id = 'group-group-a';
+    target.dataset.subTrigger = '';
+
+    const promo = document.createElement('a');
+    promo.dataset.panelPromo = '';
+
+    panel.append(target, promo);
+    container.append(panel);
+
+    vi.mocked(subSelectors.subTriggersOnly).mockReturnValue([target]);
+    vi.mocked(subSelectors.subInteractive).mockReturnValue([target, promo]);
+
+    const { event } = createKeyboardEvent(KEYS.ARROW_DOWN, target);
+
+    handler(event);
+
+    expect(mockedMoveInList).toHaveBeenCalledWith([target, promo], target, 1);
+  });
+
+  it('moves from the panel promo through panel interactive items', () => {
+    const panel = document.createElement('div');
+    panel.id = 'panel-shop';
+
+    const trigger = document.createElement('button');
+    trigger.dataset.subTrigger = '';
+
+    const target = document.createElement('a');
+    target.dataset.panelPromo = '';
+
+    panel.append(trigger, target);
+    container.append(panel);
+
+    vi.mocked(subSelectors.subInteractive).mockReturnValue([trigger, target]);
+
+    const { event } = createKeyboardEvent(KEYS.ARROW_UP, target);
+
+    handler(event);
+
+    expect(mockedMoveInList).toHaveBeenCalledWith([trigger, target], target, -1);
   });
 
   it('focuses the parent panel trigger from a sub trigger on ARROW_LEFT', () => {

@@ -244,6 +244,14 @@
     "set": "border"
   },
   {
+    "name": "hoam-color-border-highlight",
+    "cssVar": "--hoam-color-border-highlight",
+    "type": "color",
+    "value": "#fff44f",
+    "group": "border",
+    "set": "border"
+  },
+  {
     "name": "hoam-color-feedback-error",
     "cssVar": "--hoam-color-feedback-error",
     "type": "color",
@@ -511,6 +519,17 @@
     "cssVar": "--hoam-palette-semantic-info",
     "type": "color",
     "value": "#1890ff",
+    "group": "global",
+    "set": "semantic",
+    "extensions": {
+      "scope": "private"
+    }
+  },
+  {
+    "name": "hoam-palette-semantic-highlight",
+    "cssVar": "--hoam-palette-semantic-highlight",
+    "type": "color",
+    "value": "#fff44f",
     "group": "global",
     "set": "semantic",
     "extensions": {

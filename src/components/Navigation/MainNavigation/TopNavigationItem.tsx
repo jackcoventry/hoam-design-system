@@ -1,5 +1,6 @@
 import { panelId, topTriggerId } from '@/components/Navigation/helpers';
 import type { TopNavigationItemProps } from '@/components/Navigation/types';
+import { TOP_ARROW_FOCUS_ATTR } from '@/hooks/useKeyboardNav';
 
 import styles from '@/components/Navigation/Navigation.module.css';
 
@@ -37,7 +38,14 @@ export function TopNavigationItem({
           className={styles.link}
           aria-expanded={isOpen}
           aria-controls={panelId(item.id)}
-          onFocus={onFocusOpen}
+          onFocus={(event) => {
+            const wasArrowFocus = event.currentTarget.getAttribute(TOP_ARROW_FOCUS_ATTR) === 'true';
+            event.currentTarget.removeAttribute(TOP_ARROW_FOCUS_ATTR);
+
+            if (!wasArrowFocus) {
+              onFocusOpen();
+            }
+          }}
         >
           {item.label}
         </button>

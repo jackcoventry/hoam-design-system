@@ -22,10 +22,17 @@ export const wrapIndex = (i: number, len: number) => {
   return ((i % len) + len) % len;
 };
 
-export const moveInList = (list: HTMLElement[], current: HTMLElement, delta: number) => {
+export const moveInList = (
+  list: HTMLElement[],
+  current: HTMLElement,
+  delta: number,
+  beforeFocus?: (next: HTMLElement) => void
+) => {
   if (!list.length) return;
   const idx = Math.max(0, list.indexOf(current));
   const next = list[wrapIndex(idx + delta, list.length)];
+  if (!next) return;
+  beforeFocus?.(next);
   focusNextTick(next);
 };
 

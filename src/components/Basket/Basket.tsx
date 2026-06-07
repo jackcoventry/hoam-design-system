@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 
 import { Button } from '@/components/Button';
+import { Icon } from '@/components/Icon';
 import { QuantitySelector } from '@/components/QuantitySelector';
 import { useCurrency } from '@/hooks/useCurrency';
 import { useMessages } from '@/hooks/useMessages';
@@ -137,6 +138,15 @@ export function BasketFooter({ total = 0 }: Readonly<{ total: number }>) {
 
 export function Basket({ items = [], className }: Readonly<BasketProps>) {
   const t = useMessages('basket');
+
+  if (!items?.length) {
+    return (
+      <p className={styles.empty}>
+        <Icon id="bag" />
+        <span>{t.empty}</span>
+      </p>
+    );
+  }
 
   return (
     <table className={clsx(styles.root, className)}>

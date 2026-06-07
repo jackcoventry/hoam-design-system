@@ -12,6 +12,6 @@ a:focus-visible,
 button:focus-visible,
 select:focus-visible,
 input:focus-visible {
-  outline: 3px solid var(--hoam-color-border-accent);
-  outline-offset: 6px;
+  outline: 4px solid var(--hoam-color-border-highlight);
+  outline-offset: 3px;
 }

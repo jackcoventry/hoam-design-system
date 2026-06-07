@@ -18,6 +18,8 @@ type SubSelectors = {
   thirdList: (container: Element, groupBtnDomId: string) => HTMLElement[];
 };
 
+export const TOP_ARROW_FOCUS_ATTR = 'data-top-arrow-focus';
+
 type UseKeyboardNavOptions = {
   rootRef: React.RefObject<HTMLElement | null>;
   items: NavItem[];
@@ -50,6 +52,21 @@ function focusFirst(items: HTMLElement[]) {
 
 function focusLast(items: HTMLElement[]) {
   focusNextTick(items.at(-1));
+}
+
+function markTopArrowFocus(next: HTMLElement) {
+  next.setAttribute(TOP_ARROW_FOCUS_ATTR, 'true');
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      next.removeAttribute(TOP_ARROW_FOCUS_ATTR);
+    });
+  });
+}
+
+function focusTopItem(item?: HTMLElement | null) {
+  if (!item) return;
+  markTopArrowFocus(item);
+  focusNextTick(item);
 }
 
 function getPanelElement(el: HTMLElement): HTMLElement | null {
@@ -87,25 +104,26 @@ export function useKeyboardNav({
       const isTopCyclable = target.matches('[data-top-cyclable]');
       const isSubTrigger = target.matches('[data-sub-trigger]');
       const isThirdLink = target.matches('[data-sub-link]');
+      const isPanelPromo = target.matches('[data-panel-promo]');
 
       if (isTopCyclable) {
         const topItems = querySubItemVisibility<HTMLElement>(container, '[data-top-cyclable]');
 
         switch (logicalKey) {
           case KEYS.ARROW_RIGHT:
-            moveInList(topItems, target, 1);
+            moveInList(topItems, target, 1, markTopArrowFocus);
             return;
 
           case KEYS.ARROW_LEFT:
-            moveInList(topItems, target, -1);
+            moveInList(topItems, target, -1, markTopArrowFocus);
             return;
 
           case KEYS.HOME:
-            focusFirst(topItems);
+            focusTopItem(topItems[0]);
             return;
 
           case KEYS.END:
-            focusLast(topItems);
+            focusTopItem(topItems.at(-1));
             return;
 
           case KEYS.ARROW_DOWN: {
@@ -148,23 +166,23 @@ export function useKeyboardNav({
         const panelEl = getPanelElement(target);
         if (!panelEl) return;
 
-        const categories = subSelectors.subTriggersOnly(panelEl);
+        const panelItems = subSelectors.subInteractive(panelEl);
 
         switch (logicalKey) {
           case KEYS.ARROW_DOWN:
-            moveInList(categories, target, 1);
+            moveInList(panelItems, target, 1);
             return;
 
           case KEYS.ARROW_UP:
-            moveInList(categories, target, -1);
+            moveInList(panelItems, target, -1);
             return;
 
           case KEYS.HOME:
-            focusFirst(categories);
+            focusFirst(panelItems);
             return;
 
           case KEYS.END:
-            focusLast(categories);
+            focusLast(panelItems);
             return;
 
           case KEYS.ARROW_LEFT: {
@@ -184,6 +202,40 @@ export function useKeyboardNav({
               firstThirdLevelItem?.focus();
             });
 
+            return;
+          }
+
+          default:
+            return;
+        }
+      }
+
+      if (isPanelPromo) {
+        const panelEl = getPanelElement(target);
+        if (!panelEl) return;
+
+        const panelItems = subSelectors.subInteractive(panelEl);
+
+        switch (logicalKey) {
+          case KEYS.ARROW_DOWN:
+            moveInList(panelItems, target, 1);
+            return;
+
+          case KEYS.ARROW_UP:
+            moveInList(panelItems, target, -1);
+            return;
+
+          case KEYS.HOME:
+            focusFirst(panelItems);
+            return;
+
+          case KEYS.END:
+            focusLast(panelItems);
+            return;
+
+          case KEYS.ARROW_LEFT: {
+            const trigger = getPanelTrigger(container, panelEl);
+            if (trigger) focusNextTick(trigger);
             return;
           }
 
