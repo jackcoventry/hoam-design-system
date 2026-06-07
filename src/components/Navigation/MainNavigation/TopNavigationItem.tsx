@@ -39,8 +39,7 @@ export function TopNavigationItem({
           aria-expanded={isOpen}
           aria-controls={panelId(item.id)}
           onFocus={(event) => {
-            const wasArrowFocus =
-              event.currentTarget.getAttribute(TOP_ARROW_FOCUS_ATTR) === 'true';
+            const wasArrowFocus = event.currentTarget.getAttribute(TOP_ARROW_FOCUS_ATTR) === 'true';
             event.currentTarget.removeAttribute(TOP_ARROW_FOCUS_ATTR);
 
             if (!wasArrowFocus) {

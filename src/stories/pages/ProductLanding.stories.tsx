@@ -4,11 +4,9 @@ import { Banner, type BannerProps } from '@/components/Banner';
 import { Button } from '@/components/Button';
 import { Container, Grid, GridItem, Section, Stack } from '@/components/Layout';
 import { ProductTile, type ProductTileProps } from '@/components/ProductTile';
+import { SectionHeader } from '@/components/SectionHeader/SectionHeader';
 import { productTile } from '@/mocks/components/ProductTile';
 import BaseTemplate from '@/stories/templates/Base';
-
-import typography from '@/styles/Typography.module.css';
-import utils from '@/styles/Util.module.css';
 
 const meta: Meta<ProductTileProps> = {
   title: 'Pages/Product Landing',
@@ -46,8 +44,7 @@ const Template = {
             </Grid>
             <Grid gap="lg">
               <GridItem span={12}>
-                <div className={utils.justifyBetween}>
-                  <h2 className={typography.heading}>Featured products</h2>
+                <SectionHeader title="Featured products">
                   <Button
                     as="a"
                     href="/"
@@ -56,7 +53,7 @@ const Template = {
                   >
                     See all
                   </Button>
-                </div>
+                </SectionHeader>
               </GridItem>
 
               {productArray.map((product) => (
@@ -73,8 +70,7 @@ const Template = {
 
             <Grid gap="lg">
               <GridItem span={12}>
-                <div className={utils.justifyBetween}>
-                  <h2 className={typography.heading}>New products</h2>
+                <SectionHeader title="New products">
                   <Button
                     as="a"
                     href="/"
@@ -83,7 +79,7 @@ const Template = {
                   >
                     See all
                   </Button>
-                </div>
+                </SectionHeader>
               </GridItem>
 
               {productArray.map((product) => (
