@@ -5,7 +5,6 @@ import { SectionHeader } from '@/components/SectionHeader/SectionHeader';
 
 vi.mock('@/components/SectionHeader/SectionHeader.module.css', () => ({
   default: {
-    root: 'root',
     slot: 'slot',
   },
 }));
@@ -58,7 +57,6 @@ describe('SectionHeader', () => {
 
     const root = container.firstElementChild;
 
-    expect(root).toHaveClass('root');
     expect(root).toHaveClass('justifyBetween');
     expect(root).toContainElement(screen.getByRole('heading', { name: 'New arrivals' }));
     expect(root).toContainElement(screen.getByRole('button', { name: 'Filter' }));
