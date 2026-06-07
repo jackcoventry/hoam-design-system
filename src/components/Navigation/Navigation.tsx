@@ -86,7 +86,7 @@ export function Navigation({
         open={openBasketModal}
         onClose={handleBasketModalClose}
         variant="drawer"
-        data={basketData}
+        data={[]}
       />
     </>
   );

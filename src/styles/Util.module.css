@@ -1,7 +1,7 @@
 .focus:focus-visible,
 .focus:focus-visible + .focusTarget {
-  outline: 3px solid var(--hoam-color-border-accent);
-  outline-offset: 6px;
+  outline: 4px solid var(--hoam-color-border-highlight);
+  outline-offset: 3px;
 }
 
 .justifyBetween {

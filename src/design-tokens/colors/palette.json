@@ -84,6 +84,9 @@
       },
       "info": {
         "$value": "#1890FF"
+      },
+      "highlight": {
+        "$value": "#fff44f"
       }
     },
     "neutral-alpha": {
