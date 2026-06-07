@@ -35,17 +35,17 @@ const Template: Story = {
         <InfoGridItem
           title={args.title}
           description={args.description}
-          icon="arrow-right"
+          icon="house"
         />
         <InfoGridItem
           title={args.title}
           description={args.description}
-          icon="plus"
+          icon="calendar"
         />
         <InfoGridItem
           title={args.title}
           description={args.description}
-          icon="dash"
+          icon="box"
         />
       </InfoGrid>
     </div>

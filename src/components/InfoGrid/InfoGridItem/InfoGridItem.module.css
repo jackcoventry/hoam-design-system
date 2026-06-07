@@ -12,6 +12,7 @@
   display: inline-flex;
   margin: 0 auto;
   overflow: hidden;
+  padding: var(--hoam-spacing-sm);
 }
 
 .title {
