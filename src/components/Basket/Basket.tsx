@@ -139,7 +139,7 @@ export function BasketFooter({ total = 0 }: Readonly<{ total: number }>) {
 export function Basket({ items = [], className }: Readonly<BasketProps>) {
   const t = useMessages('basket');
 
-  if (items?.length === 0) {
+  if (!items?.length) {
     return (
       <p className={styles.empty}>
         <Icon id="bag" />

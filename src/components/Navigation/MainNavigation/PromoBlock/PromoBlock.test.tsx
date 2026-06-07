@@ -68,7 +68,8 @@ describe('PromoBlock', () => {
 
     const link = screen.getByRole('link');
     expect(link).toHaveAttribute('data-sub-link');
-    expect(link).toHaveAttribute('data-top-cyclable');
+    expect(link).toHaveAttribute('data-panel-promo');
+    expect(link).not.toHaveAttribute('data-top-cyclable');
   });
 
   it('does not add interactive data attributes when href is not provided', () => {
@@ -80,6 +81,7 @@ describe('PromoBlock', () => {
 
     const root = container.firstElementChild;
     expect(root).not.toHaveAttribute('data-sub-link');
+    expect(root).not.toHaveAttribute('data-panel-promo');
     expect(root).not.toHaveAttribute('data-top-cyclable');
   });
 

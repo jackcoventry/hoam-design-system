@@ -8,7 +8,7 @@ export function PromoBlock({ title, subtitle, href, image }: Readonly<PromoBlock
     ? {
         href,
         'data-sub-link': true,
-        'data-top-cyclable': true,
+        'data-panel-promo': true,
       }
     : {};
 

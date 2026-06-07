@@ -54,6 +54,7 @@ vi.mock('@/hooks/useMessages', () => ({
         columnDetails: 'Details',
         columnQuantity: 'Quantity',
         columnTotal: 'Total',
+        empty: 'Your basket is empty',
       };
     }
 
@@ -267,7 +268,7 @@ describe('Basket', () => {
     expect(rows).toHaveLength(3);
   });
 
-  it('renders an empty tbody when items is empty', () => {
+  it('renders an empty state when items is empty', () => {
     render(
       <Basket
         items={[]}
@@ -275,11 +276,12 @@ describe('Basket', () => {
       />
     );
 
-    expect(screen.getAllByRole('row')).toHaveLength(1);
+    expect(screen.getByText('Your basket is empty')).toBeInTheDocument();
+    expect(screen.queryByRole('table')).not.toBeInTheDocument();
     expect(screen.queryByText('House Espresso Blend')).not.toBeInTheDocument();
   });
 
-  it('renders an empty tbody when items is null', () => {
+  it('renders an empty state when items is null', () => {
     render(
       <Basket
         items={null}
@@ -287,7 +289,8 @@ describe('Basket', () => {
       />
     );
 
-    expect(screen.getAllByRole('row')).toHaveLength(1);
+    expect(screen.getByText('Your basket is empty')).toBeInTheDocument();
+    expect(screen.queryByRole('table')).not.toBeInTheDocument();
     expect(screen.queryByText('House Espresso Blend')).not.toBeInTheDocument();
   });
 
