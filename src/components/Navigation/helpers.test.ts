@@ -1,5 +1,6 @@
 import {
   focusNextTick,
+  getElementByDomId,
   groupBtnId,
   groupPanelId,
   isVisible,
@@ -170,6 +171,32 @@ describe('navigation helpers', () => {
       const result = querySubItemVisibility<HTMLElement>(root, '[data-sub-trigger]');
 
       expect(result).toEqual([]);
+    });
+  });
+
+  describe('getElementByDomId', () => {
+    it('finds ids that are not valid CSS selectors', () => {
+      const root = document.createElement('div');
+      const element = document.createElement('button');
+      element.id = 'panel-gid://shopify/Metaobject/325111382387';
+      root.append(element);
+      document.body.append(root);
+
+      expect(getElementByDomId(root, 'panel-gid://shopify/Metaobject/325111382387')).toBe(element);
+
+      root.remove();
+    });
+
+    it('returns null when the id exists outside the scoped root', () => {
+      const root = document.createElement('div');
+      const outside = document.createElement('button');
+      outside.id = 'panel-gid://shopify/Metaobject/325111382387';
+      document.body.append(root, outside);
+
+      expect(getElementByDomId(root, 'panel-gid://shopify/Metaobject/325111382387')).toBeNull();
+
+      root.remove();
+      outside.remove();
     });
   });
 

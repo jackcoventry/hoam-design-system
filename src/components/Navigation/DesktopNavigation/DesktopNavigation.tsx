@@ -4,7 +4,7 @@ import { Container, Grid, GridItem } from '@/components/Layout';
 import { DesktopNavigationActions } from '@/components/Navigation/DesktopNavigation/DesktopNavigationActions';
 import { DesktopNavigationItems } from '@/components/Navigation/DesktopNavigation/DesktopNavigationItems';
 import { DesktopNavigationLogo } from '@/components/Navigation/DesktopNavigation/DesktopNavigationLogo';
-import { querySubItemVisibility } from '@/components/Navigation/helpers';
+import { getElementByDomId, querySubItemVisibility } from '@/components/Navigation/helpers';
 import type { NavTopLevelItem, NavUserItem } from '@/components/Navigation/types';
 import { useKeyboardNav } from '@/hooks/useKeyboardNav';
 import { KEYS } from '@/constants/keys';
@@ -80,8 +80,10 @@ export function DesktopNavigation({
         querySubItemVisibility<HTMLElement>(panelRoot, '[data-sub-trigger]'),
       subInteractive: (panelRoot: Element) =>
         querySubItemVisibility<HTMLElement>(panelRoot, '[data-sub-trigger], [data-panel-promo]'),
-      thirdList: (container: Element, domId: string) =>
-        querySubItemVisibility<HTMLElement>(container, `#${domId}-panel [data-sub-link]`),
+      thirdList: (container: Element, domId: string) => {
+        const panel = getElementByDomId(container, `${domId}-panel`);
+        return panel ? querySubItemVisibility<HTMLElement>(panel, '[data-sub-link]') : [];
+      },
     }),
     []
   );

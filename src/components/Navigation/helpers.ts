@@ -13,6 +13,18 @@ export const querySubItemVisibility = <T extends HTMLElement>(
   sel: string
 ) => Array.from(root?.querySelectorAll<T>(sel)).filter(isVisible);
 
+export const getElementByDomId = <T extends HTMLElement>(
+  root: Element | Document,
+  id: string
+): T | null => {
+  const documentRoot = root instanceof Document ? root : root.ownerDocument;
+  const element = documentRoot.getElementById(id);
+
+  if (!(element instanceof HTMLElement)) return null;
+  if (root instanceof Document) return element as T;
+  return root.contains(element) ? (element as T) : null;
+};
+
 export const focusNextTick = (el?: HTMLElement | null) => {
   if (el) requestAnimationFrame(() => el.focus());
 };

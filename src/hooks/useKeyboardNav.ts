@@ -1,6 +1,11 @@
 import { useCallback } from 'react';
 
-import { focusNextTick, moveInList, querySubItemVisibility } from '@/components/Navigation/helpers';
+import {
+  focusNextTick,
+  getElementByDomId,
+  moveInList,
+  querySubItemVisibility,
+} from '@/components/Navigation/helpers';
 import { KEYS } from '@/constants/keys';
 
 type NavChildItem = {
@@ -75,7 +80,7 @@ function getPanelElement(el: HTMLElement): HTMLElement | null {
 
 function getPanelTrigger(container: HTMLElement, panelEl: HTMLElement): HTMLElement | null {
   const labelledBy = panelEl.getAttribute('aria-labelledby');
-  return labelledBy ? container.querySelector<HTMLElement>(`#${labelledBy}`) : null;
+  return labelledBy ? getElementByDomId(container, labelledBy) : null;
 }
 
 export function useKeyboardNav({
@@ -141,8 +146,7 @@ export function useKeyboardNav({
             setOpenGroupId(item?.items[0]?.id ?? null);
 
             requestAnimationFrame(() => {
-              const panelRoot =
-                container.querySelector<HTMLElement>(`#panel-${rawId}`) ?? container;
+              const panelRoot = getElementByDomId(container, `panel-${rawId}`) ?? container;
 
               const firstFocusable =
                 querySubItemVisibility<HTMLElement>(panelRoot, '[data-sub-trigger]')[0] ??
