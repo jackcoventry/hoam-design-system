@@ -6,7 +6,7 @@ import {
   DesktopNavigation,
   type DesktopNavigationProps,
 } from '@/components/Navigation/DesktopNavigation/DesktopNavigation';
-import { querySubItemVisibility } from '@/components/Navigation/helpers';
+import { getElementByDomId, querySubItemVisibility } from '@/components/Navigation/helpers';
 import type {
   DesktopNavigationActionsProps,
   DesktopNavigationItemsProps,
@@ -138,8 +138,11 @@ vi.mock('@/components/Navigation/DesktopNavigation/DesktopNavigationActions', ()
 }));
 
 vi.mock('@/components/Navigation/helpers', () => ({
+  getElementByDomId: vi.fn(),
   querySubItemVisibility: vi.fn(),
 }));
+
+const mockedGetElementByDomId = vi.mocked(getElementByDomId);
 
 const keyboardHandlerMock = vi.fn<(event: KeyboardEvent) => void>();
 const useKeyboardNavMock = vi.fn<(config: KeyboardNavConfig) => KeyboardNavHandler>();
@@ -446,12 +449,51 @@ describe('DesktopNavigation', () => {
     }
 
     const container = document.createElement('div');
+    const panel = document.createElement('div');
+    mockedGetElementByDomId.mockReturnValue(panel);
 
     lastKeyboardNavConfig.subSelectors.thirdList(container, 'shop-group-1');
 
-    expect(querySubItemVisibility).toHaveBeenCalledWith(
-      container,
-      '#shop-group-1-panel [data-sub-link]'
+    expect(mockedGetElementByDomId).toHaveBeenCalledWith(container, 'shop-group-1-panel');
+    expect(querySubItemVisibility).toHaveBeenCalledWith(panel, '[data-sub-link]');
+  });
+
+  it('creates thirdList lookups for Shopify GID ids without selector interpolation', () => {
+    const props = createProps();
+
+    render(<DesktopNavigation {...props} />);
+
+    if (!lastKeyboardNavConfig) {
+      throw new Error('Expected useKeyboardNav to be called');
+    }
+
+    const container = document.createElement('div');
+    const panel = document.createElement('div');
+    const shopifyId = 'gid://shopify/Metaobject/325111382387';
+    mockedGetElementByDomId.mockReturnValue(panel);
+
+    lastKeyboardNavConfig.subSelectors.thirdList(container, shopifyId);
+
+    expect(mockedGetElementByDomId).toHaveBeenCalledWith(container, `${shopifyId}-panel`);
+    expect(querySubItemVisibility).toHaveBeenCalledWith(panel, '[data-sub-link]');
+  });
+
+  it('returns an empty thirdList when the panel id is not found', () => {
+    const props = createProps();
+
+    render(<DesktopNavigation {...props} />);
+
+    if (!lastKeyboardNavConfig) {
+      throw new Error('Expected useKeyboardNav to be called');
+    }
+
+    const container = document.createElement('div');
+    mockedGetElementByDomId.mockReturnValue(null);
+
+    expect(lastKeyboardNavConfig.subSelectors.thirdList(container, 'missing-group')).toEqual([]);
+    expect(querySubItemVisibility).not.toHaveBeenCalledWith(
+      expect.any(HTMLElement),
+      '[data-sub-link]'
     );
   });
 

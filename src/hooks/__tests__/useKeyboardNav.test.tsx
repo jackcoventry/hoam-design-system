@@ -2,17 +2,24 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { focusNextTick, moveInList, querySubItemVisibility } from '@/components/Navigation/helpers';
+import {
+  focusNextTick,
+  getElementByDomId,
+  moveInList,
+  querySubItemVisibility,
+} from '@/components/Navigation/helpers';
 import { TOP_ARROW_FOCUS_ATTR, useKeyboardNav } from '@/hooks/useKeyboardNav';
 import { KEYS } from '@/constants/keys';
 
 vi.mock('@/components/Navigation/helpers', () => ({
   focusNextTick: vi.fn(),
+  getElementByDomId: vi.fn(),
   moveInList: vi.fn(),
   querySubItemVisibility: vi.fn(),
 }));
 
 const mockedFocusNextTick = vi.mocked(focusNextTick);
+const mockedGetElementByDomId = vi.mocked(getElementByDomId);
 const mockedMoveInList = vi.mocked(moveInList);
 const mockedQuerySubItemVisibility = vi.mocked(querySubItemVisibility);
 
@@ -279,6 +286,7 @@ describe('useKeyboardNav', () => {
     container.append(panel);
 
     const firstSubTrigger = document.createElement('button');
+    mockedGetElementByDomId.mockReturnValue(panel);
 
     mockedQuerySubItemVisibility.mockImplementation((root, selector) => {
       if (root === container && selector === '[data-top-cyclable]') {
@@ -300,6 +308,71 @@ describe('useKeyboardNav', () => {
 
     expect(setOpenIndex).toHaveBeenCalledWith(0);
     expect(setOpenGroupId).toHaveBeenCalledWith('group-a');
+    expect(mockedGetElementByDomId).toHaveBeenCalledWith(container, 'panel-shop');
+    expect(focusSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('opens a Shopify GID top trigger without using the id as a selector', () => {
+    const shopifyId = 'gid://shopify/Metaobject/325111382387';
+    let localHandler: ReturnType<typeof useKeyboardNav> | undefined;
+    const localRootRef: React.MutableRefObject<HTMLElement | null> = {
+      current: document.createElement('div'),
+    };
+
+    render(
+      <TestHarness
+        rootRef={localRootRef}
+        items={[
+          {
+            id: shopifyId,
+            items: [{ id: 'coffee-group' }],
+          },
+        ]}
+        setOpenIndex={setOpenIndex}
+        setOpenGroupId={setOpenGroupId}
+        mapArrow={mapArrow}
+        subSelectors={subSelectors}
+        onReady={(value) => {
+          localHandler = value;
+        }}
+      />
+    );
+
+    const target = document.createElement('button');
+    target.id = `trigger-${shopifyId}`;
+    target.dataset.topCyclable = '';
+    target.dataset.topTrigger = '';
+
+    const panel = document.createElement('div');
+    panel.id = `panel-${shopifyId}`;
+    localRootRef.current?.append(panel);
+
+    const firstSubTrigger = document.createElement('button');
+    const focusSpy = vi.spyOn(firstSubTrigger, 'focus').mockImplementation(() => {});
+
+    mockedGetElementByDomId.mockReturnValue(panel);
+    mockedQuerySubItemVisibility.mockImplementation((root, selector) => {
+      if (root === localRootRef.current && selector === '[data-top-cyclable]') {
+        return [target];
+      }
+
+      if (root === panel && selector === '[data-sub-trigger]') {
+        return [firstSubTrigger];
+      }
+
+      return [];
+    });
+
+    const { event } = createKeyboardEvent(KEYS.ARROW_DOWN, target);
+
+    localHandler?.(event);
+
+    expect(setOpenIndex).toHaveBeenCalledWith(0);
+    expect(setOpenGroupId).toHaveBeenCalledWith('coffee-group');
+    expect(mockedGetElementByDomId).toHaveBeenCalledWith(
+      localRootRef.current,
+      `panel-${shopifyId}`
+    );
     expect(focusSpy).toHaveBeenCalledTimes(1);
   });
 
@@ -473,11 +546,13 @@ describe('useKeyboardNav', () => {
     panel.append(target);
 
     vi.mocked(subSelectors.subTriggersOnly).mockReturnValue([target]);
+    mockedGetElementByDomId.mockReturnValue(trigger);
 
     const { event } = createKeyboardEvent(KEYS.ARROW_LEFT, target);
 
     handler(event);
 
+    expect(mockedGetElementByDomId).toHaveBeenCalledWith(container, 'trigger-shop');
     expect(mockedFocusNextTick).toHaveBeenCalledWith(trigger);
   });
 
