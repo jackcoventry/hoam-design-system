@@ -78,6 +78,8 @@ describe('BasketItem', () => {
     },
     url: '/shop/coffee/house-espresso-blend',
     onChange: vi.fn(),
+    onEmpty: vi.fn(),
+    onLike: vi.fn(),
     quantity: 3,
   };
 
@@ -201,6 +203,8 @@ describe('Basket', () => {
       },
       url: '/shop/coffee/house-espresso-blend',
       onChange: vi.fn(),
+      onEmpty: vi.fn(),
+      onLike: vi.fn(),
       quantity: 2,
     },
     {
@@ -214,6 +218,8 @@ describe('Basket', () => {
       },
       url: '/shop/brewing-equipment/pourover-kettle',
       onChange: vi.fn(),
+      onEmpty: vi.fn(),
+      onLike: vi.fn(),
       quantity: 1,
     },
   ];
@@ -310,6 +316,8 @@ describe('Basket', () => {
         },
         url: '/shop/coffee/house-espresso-blend',
         onChange: firstOnChange,
+        onEmpty: vi.fn(),
+        onLike: vi.fn(),
         quantity: 1,
       },
       {
@@ -323,6 +331,8 @@ describe('Basket', () => {
         },
         url: '/shop/brewing-equipment/pourover-kettle',
         onChange: secondOnChange,
+        onEmpty: vi.fn(),
+        onLike: vi.fn(),
         quantity: 4,
       },
     ];

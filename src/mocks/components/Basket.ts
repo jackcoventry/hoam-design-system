@@ -11,6 +11,8 @@ const items = [
     url: '/shop/coffee/house-espresso-blend',
     quantity: 1,
     onChange: () => {},
+    onEmpty: () => {},
+    onLike: () => {},
   },
   {
     id: 'colombia-pink-bourbon',
@@ -24,6 +26,8 @@ const items = [
     url: '/shop/coffee/colombia-pink-bourbon',
     quantity: 2,
     onChange: () => {},
+    onEmpty: () => {},
+    onLike: () => {},
   },
   {
     id: 'french-press-starter-kit',
@@ -37,6 +41,8 @@ const items = [
     url: '/shop/brewing-equipment/french-press-starter-kit',
     quantity: 1,
     onChange: () => {},
+    onEmpty: () => {},
+    onLike: () => {},
   },
   {
     id: 'reusable-cup',
@@ -50,6 +56,8 @@ const items = [
     url: '/shop/accessories/reusable-coffee-cup',
     quantity: 1,
     onChange: () => {},
+    onEmpty: () => {},
+    onLike: () => {},
   },
 ];
 

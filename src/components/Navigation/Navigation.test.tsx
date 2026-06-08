@@ -319,6 +319,8 @@ describe('Navigation', () => {
         },
         url: '/product-1',
         onChange: vi.fn(),
+        onEmpty: vi.fn(),
+        onLike: vi.fn(),
         quantity: 2,
       },
     ];
