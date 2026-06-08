@@ -122,6 +122,8 @@ describe('BasketModal', () => {
         alt: 'Item One',
       },
       onChange: vi.fn(),
+      onEmpty: vi.fn(),
+      onLike: vi.fn(),
     },
     {
       id: 'item-2',
@@ -135,6 +137,8 @@ describe('BasketModal', () => {
         alt: 'Item Two',
       },
       onChange: vi.fn(),
+      onEmpty: vi.fn(),
+      onLike: vi.fn(),
     },
   ];
 

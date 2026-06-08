@@ -21,8 +21,10 @@ type ProductImage = {
 export type ProductTileProps = {
   /** Product title shown in the card. */
   title: string;
-  /** Stable product identifier used to build the default link target. */
+  /** Stable product identifier. */
   productId: string;
+  /** Product href target. */
+  href: string;
   /** Supporting description shown below the title. */
   description: string;
   /** Current and optional comparison pricing. */
@@ -43,7 +45,7 @@ export type ProductTileProps = {
 
 export function ProductTile({
   title,
-  productId,
+  href,
   description,
   price,
   inStock,
@@ -94,7 +96,7 @@ export function ProductTile({
       >
         <h2 className={styles.title}>
           <a
-            href={`#${productId}`}
+            href={href}
             className={styles.link}
           >
             <span>{title}</span>

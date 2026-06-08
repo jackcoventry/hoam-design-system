@@ -60,6 +60,7 @@ describe('ProductTile', () => {
   const baseProps = {
     title: 'Test Product',
     productId: 'prod-1',
+    href: '/prod-1',
     description: 'A lovely item',
     price: {
       amount: 100,
@@ -80,7 +81,7 @@ describe('ProductTile', () => {
     expect(screen.getByText('A lovely item')).toBeInTheDocument();
 
     const link = screen.getByRole('link');
-    expect(link).toHaveAttribute('href', '#prod-1');
+    expect(link).toHaveAttribute('href', '/prod-1');
   });
 
   it('applies a custom className to the root stack', () => {

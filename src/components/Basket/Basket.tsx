@@ -31,6 +31,10 @@ export type BasketItemProps = {
   onChange: (value: number) => void;
   /** Current quantity for the basket item. */
   quantity: number;
+  /** Called when the bin icon is clicked. */
+  onEmpty: () => void;
+  /** Called when the like button is clicked */
+  onLike: () => void;
 };
 
 export type BasketProps = {
@@ -49,6 +53,8 @@ export function BasketItem({
   url,
   onChange,
   quantity,
+  onEmpty,
+  onLike,
 }: Readonly<BasketItemProps>) {
   const totalPrice = quantity * price;
   const t = useMessages('basket');
@@ -84,12 +90,14 @@ export function BasketItem({
               title={t.remove}
               icon="trash"
               iconOnly
+              onClick={onEmpty}
             />
             <Button
               size="small"
               variant="secondary"
               icon="heart-fill"
               iconOnly
+              onClick={onLike}
             >
               {t.save}
             </Button>
@@ -160,7 +168,8 @@ export function Basket({ items = [], className }: Readonly<BasketProps>) {
       </thead>
       <tbody className={styles.tbody}>
         {items?.map((item) => {
-          const { id, title, summary, price, thumbnail, url, onChange, quantity } = item;
+          const { id, title, summary, price, thumbnail, url, onChange, quantity, onEmpty, onLike } =
+            item;
           return (
             <BasketItem
               key={id}
@@ -172,6 +181,8 @@ export function Basket({ items = [], className }: Readonly<BasketProps>) {
               url={url}
               onChange={onChange}
               quantity={quantity}
+              onEmpty={onEmpty}
+              onLike={onLike}
             />
           );
         })}

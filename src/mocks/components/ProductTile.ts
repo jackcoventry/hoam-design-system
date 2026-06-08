@@ -1,6 +1,7 @@
 const productTile = {
   title: 'House Espresso Blend',
   productId: 'house-espresso-blend',
+  href: '/house-espresso-blend',
   description: 'A balanced everyday espresso with notes of milk chocolate, caramel, and orange.',
   price: { amount: 14, saleAmount: 12 },
   inStock: true,
@@ -15,6 +16,7 @@ const productTile = {
 const productTileOutOfStock = {
   title: 'Yirgacheffe Filter Roast',
   productId: 'yirgacheffe-filter-roast',
+  href: '/yirgacheffe-filter-roast',
   description: 'A floral Ethiopian filter coffee with bergamot, peach, and honey sweetness.',
   price: { amount: 18, saleAmount: 16 },
   inStock: false,
@@ -29,6 +31,7 @@ const productTileOutOfStock = {
 const productTileNew = {
   title: 'Colombia Pink Bourbon',
   productId: 'colombia-pink-bourbon',
+  href: '/colombia-pink-bourbon',
   description: 'A limited single-origin roast with raspberry, panela, and creamy vanilla notes.',
   price: { amount: 21, saleAmount: 19 },
   inStock: true,
@@ -43,6 +46,7 @@ const productTileNew = {
 const productTileLowStock = {
   title: 'Kenya AA Espresso',
   productId: 'kenya-aa-espresso',
+  href: '/kenya-aa-espresso',
   description: 'A bright espresso roast with blackcurrant, cocoa nibs, and a juicy finish.',
   price: { amount: 17, saleAmount: 15 },
   inStock: true,
