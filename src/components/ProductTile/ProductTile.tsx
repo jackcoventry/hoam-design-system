@@ -45,7 +45,6 @@ export type ProductTileProps = {
 
 export function ProductTile({
   title,
-  productId,
   href,
   description,
   price,
