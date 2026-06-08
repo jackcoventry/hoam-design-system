@@ -30,9 +30,9 @@ export function TopNavigationItem({
       }}
     >
       {hasPanel ? (
-        <button
+        <a
+          href={item.href}
           id={topTriggerId(item.id)}
-          type="button"
           data-top-trigger
           data-top-cyclable
           className={styles.link}
@@ -48,7 +48,7 @@ export function TopNavigationItem({
           }}
         >
           {item.label}
-        </button>
+        </a>
       ) : (
         <a
           id={topTriggerId(item.id)}

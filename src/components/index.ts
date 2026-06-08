@@ -1,5 +1,6 @@
 export * from './Accordion';
 export * from './BadgeList';
+export * from './Banner';
 export * from './Basket';
 export * from './BlogArticle';
 export * from './Breadcrumb';

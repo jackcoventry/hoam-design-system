@@ -37,6 +37,8 @@ export type ProductTileProps = {
   image: ProductImage;
   /** Optional class applied to the product tile root. */
   className?: string;
+  /** Callback function when add to cart button is clicked. */
+  onAddToBasket?: () => void;
 };
 
 export function ProductTile({
@@ -49,6 +51,7 @@ export function ProductTile({
   newItem,
   image,
   className,
+  onAddToBasket,
 }: Readonly<ProductTileProps>) {
   const t = useMessages('productTile');
   const { formatCurrency } = useCurrency();
@@ -118,6 +121,7 @@ export function ProductTile({
           disabled={!inStock}
           className={styles.button}
           size="small"
+          onClick={inStock ? onAddToBasket : undefined}
         >
           {inStock ? t.addToCart : t.outOfStock}
         </Button>

@@ -157,8 +157,26 @@ describe('CategoryGroup', () => {
     expect(capturedIconProps).toHaveLength(0);
   });
 
-  it('renders a button when children are provided', () => {
+  it('renders a panel trigger link when children and href are provided', () => {
     const props = createProps({
+      children: <div data-testid="group-children">Children</div>,
+    });
+
+    render(<CategoryGroup {...props} />);
+
+    const link = screen.getByRole('link', { name: 'Featured' });
+
+    expect(link).toBeInTheDocument();
+    expect(link).toHaveAttribute('href', '/featured');
+    expect(link).toHaveAttribute('data-sub-trigger');
+    expect(link).not.toHaveAttribute('type');
+    expect(link).toHaveClass('groupTopLink');
+    expect(screen.getByTestId('group-children')).toBeInTheDocument();
+  });
+
+  it('renders a button fallback when children are provided without an href', () => {
+    const props = createProps({
+      subitem: createSubitem({ href: '' }),
       children: <div data-testid="group-children">Children</div>,
     });
 
@@ -169,18 +187,19 @@ describe('CategoryGroup', () => {
     expect(button).toBeInTheDocument();
     expect(button).toHaveAttribute('type', 'button');
     expect(button).toHaveAttribute('data-sub-trigger');
-    expect(button).toHaveClass('groupTopLink');
-    expect(screen.getByTestId('group-children')).toBeInTheDocument();
+    expect(button).toHaveAttribute('aria-controls', 'group-1-panel');
+    expect(button).toHaveAttribute('aria-expanded', 'false');
+    expect(screen.queryByRole('link', { name: 'Featured' })).not.toBeInTheDocument();
   });
 
-  it('does not render an anchor when children are provided', () => {
+  it('does not render a button when children and href are provided', () => {
     const props = createProps({
       children: <div data-testid="group-children">Children</div>,
     });
 
     render(<CategoryGroup {...props} />);
 
-    expect(screen.queryByRole('link', { name: 'Featured' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Featured' })).not.toBeInTheDocument();
   });
 
   it('calls groupBtnId with the subitem id when children are provided', () => {
@@ -207,7 +226,7 @@ describe('CategoryGroup', () => {
     expect(groupPanelId).toHaveBeenCalledWith('group-1');
   });
 
-  it('sets the button id from groupBtnId', () => {
+  it('sets the panel trigger link id from groupBtnId', () => {
     const props = createProps({
       subitem: createSubitem({ id: 'group-1' }),
       children: <div data-testid="group-children">Children</div>,
@@ -215,8 +234,8 @@ describe('CategoryGroup', () => {
 
     render(<CategoryGroup {...props} />);
 
-    const button = screen.getByRole('button', { name: 'Featured' });
-    expect(button).toHaveAttribute('id', 'group-1-button');
+    const link = screen.getByRole('link', { name: 'Featured' });
+    expect(link).toHaveAttribute('id', 'group-1-button');
   });
 
   it('sets aria-controls from groupPanelId', () => {
@@ -227,8 +246,8 @@ describe('CategoryGroup', () => {
 
     render(<CategoryGroup {...props} />);
 
-    const button = screen.getByRole('button', { name: 'Featured' });
-    expect(button).toHaveAttribute('aria-controls', 'group-1-panel');
+    const link = screen.getByRole('link', { name: 'Featured' });
+    expect(link).toHaveAttribute('aria-controls', 'group-1-panel');
   });
 
   it('sets aria-expanded to false when closed', () => {
@@ -239,8 +258,8 @@ describe('CategoryGroup', () => {
 
     render(<CategoryGroup {...props} />);
 
-    const button = screen.getByRole('button', { name: 'Featured' });
-    expect(button).toHaveAttribute('aria-expanded', 'false');
+    const link = screen.getByRole('link', { name: 'Featured' });
+    expect(link).toHaveAttribute('aria-expanded', 'false');
   });
 
   it('sets aria-expanded to true when open', () => {
@@ -251,19 +270,19 @@ describe('CategoryGroup', () => {
 
     render(<CategoryGroup {...props} />);
 
-    const button = screen.getByRole('button', { name: 'Featured' });
-    expect(button).toHaveAttribute('aria-expanded', 'true');
+    const link = screen.getByRole('link', { name: 'Featured' });
+    expect(link).toHaveAttribute('aria-expanded', 'true');
   });
 
-  it('calls onFocusOpen when the button receives focus', () => {
+  it('calls onFocusOpen when the panel trigger link receives focus', () => {
     const props = createProps({
       children: <div data-testid="group-children">Children</div>,
     });
 
     render(<CategoryGroup {...props} />);
 
-    const button = screen.getByRole('button', { name: 'Featured' });
-    fireEvent.focus(button);
+    const link = screen.getByRole('link', { name: 'Featured' });
+    fireEvent.focus(link);
 
     expect(props.onFocusOpen).toHaveBeenCalledTimes(1);
   });
