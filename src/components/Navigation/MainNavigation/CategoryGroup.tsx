@@ -12,23 +12,46 @@ export function CategoryGroup({
   children,
 }: Readonly<CategoryGroupProps>) {
   const btnId = groupBtnId(subitem.id);
+  const panelId = groupPanelId(subitem.id);
   const hasChildren = Boolean(children);
+  const hasHref = typeof subitem.href === 'string' && subitem.href.length > 0;
 
   return (
     <div
       className={styles.group}
       onPointerEnter={onHoverOpen}
     >
-      {hasChildren ? (
+      {hasChildren && hasHref ? (
+        <>
+          <a
+            id={btnId}
+            data-sub-trigger
+            onFocus={onFocusOpen}
+            className={styles.groupTopLink}
+            href={subitem.href}
+            aria-controls={panelId}
+            aria-expanded={open}
+          >
+            {subitem.label}
+
+            <Icon
+              size="0.75em"
+              id={open ? 'caret-down' : 'caret-right'}
+            />
+          </a>
+
+          {children}
+        </>
+      ) : hasChildren ? (
         <>
           <button
             id={btnId}
             type="button"
             data-sub-trigger
-            aria-expanded={open}
-            aria-controls={groupPanelId(subitem.id)}
             onFocus={onFocusOpen}
             className={styles.groupTopLink}
+            aria-controls={panelId}
+            aria-expanded={open}
           >
             {subitem.label}
 

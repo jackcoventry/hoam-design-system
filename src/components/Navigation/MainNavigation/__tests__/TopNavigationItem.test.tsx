@@ -92,7 +92,7 @@ describe('TopNavigationItem', () => {
     expect(link).toHaveClass('link');
   });
 
-  it('renders a button when hasPanel is true', () => {
+  it('renders a panel trigger link when hasPanel is true', () => {
     const props = createProps({
       hasPanel: true,
       item: createItem({
@@ -103,13 +103,14 @@ describe('TopNavigationItem', () => {
 
     render(<TopNavigationItem {...props} />);
 
-    const button = screen.getByRole('button', { name: 'Shop' });
-    expect(button).toBeInTheDocument();
-    expect(button).toHaveAttribute('type', 'button');
-    expect(button).toHaveAttribute('id', 'shop-trigger');
-    expect(button).toHaveAttribute('data-top-trigger');
-    expect(button).toHaveAttribute('data-top-cyclable');
-    expect(button).toHaveClass('link');
+    const link = screen.getByRole('link', { name: 'Shop' });
+    expect(link).toBeInTheDocument();
+    expect(link).toHaveAttribute('href', '/shop');
+    expect(link).toHaveAttribute('id', 'shop-trigger');
+    expect(link).toHaveAttribute('data-top-trigger');
+    expect(link).toHaveAttribute('data-top-cyclable');
+    expect(link).not.toHaveAttribute('type');
+    expect(link).toHaveClass('link');
   });
 
   it('calls topTriggerId for a non-panel item', () => {
@@ -135,7 +136,7 @@ describe('TopNavigationItem', () => {
     expect(panelId).toHaveBeenCalledWith('shop');
   });
 
-  it('sets aria-expanded to false on the button when closed', () => {
+  it('sets aria-expanded to false on the panel trigger link when closed', () => {
     const props = createProps({
       hasPanel: true,
       isOpen: false,
@@ -143,11 +144,11 @@ describe('TopNavigationItem', () => {
 
     render(<TopNavigationItem {...props} />);
 
-    const button = screen.getByRole('button', { name: 'Shop' });
-    expect(button).toHaveAttribute('aria-expanded', 'false');
+    const link = screen.getByRole('link', { name: 'Shop' });
+    expect(link).toHaveAttribute('aria-expanded', 'false');
   });
 
-  it('sets aria-expanded to true on the button when open', () => {
+  it('sets aria-expanded to true on the panel trigger link when open', () => {
     const props = createProps({
       hasPanel: true,
       isOpen: true,
@@ -155,11 +156,11 @@ describe('TopNavigationItem', () => {
 
     render(<TopNavigationItem {...props} />);
 
-    const button = screen.getByRole('button', { name: 'Shop' });
-    expect(button).toHaveAttribute('aria-expanded', 'true');
+    const link = screen.getByRole('link', { name: 'Shop' });
+    expect(link).toHaveAttribute('aria-expanded', 'true');
   });
 
-  it('sets aria-controls from panelId on the button', () => {
+  it('sets aria-controls from panelId on the panel trigger link', () => {
     const props = createProps({
       hasPanel: true,
       item: createItem({ id: 'shop' }),
@@ -167,8 +168,8 @@ describe('TopNavigationItem', () => {
 
     render(<TopNavigationItem {...props} />);
 
-    const button = screen.getByRole('button', { name: 'Shop' });
-    expect(button).toHaveAttribute('aria-controls', 'shop-panel');
+    const link = screen.getByRole('link', { name: 'Shop' });
+    expect(link).toHaveAttribute('aria-controls', 'shop-panel');
   });
 
   it('does not render a button when hasPanel is false', () => {
@@ -181,14 +182,14 @@ describe('TopNavigationItem', () => {
     expect(screen.queryByRole('button', { name: 'Shop' })).not.toBeInTheDocument();
   });
 
-  it('does not render a link when hasPanel is true', () => {
+  it('does not render a button when hasPanel is true', () => {
     const props = createProps({
       hasPanel: true,
     });
 
     render(<TopNavigationItem {...props} />);
 
-    expect(screen.queryByRole('link', { name: 'Shop' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Shop' })).not.toBeInTheDocument();
   });
 
   it('calls onHoverOpen on pointer enter when hasPanel is true', () => {
@@ -237,21 +238,21 @@ describe('TopNavigationItem', () => {
 
     render(<TopNavigationItem {...props} />);
 
-    const button = screen.getByRole('button', { name: 'Shop' });
-    fireEvent.focus(button);
+    const link = screen.getByRole('link', { name: 'Shop' });
+    fireEvent.focus(link);
 
     expect(props.onHoverClose).not.toHaveBeenCalled();
   });
 
-  it('calls onFocusOpen when the panel trigger button receives focus', () => {
+  it('calls onFocusOpen when the panel trigger link receives focus', () => {
     const props = createProps({
       hasPanel: true,
     });
 
     render(<TopNavigationItem {...props} />);
 
-    const button = screen.getByRole('button', { name: 'Shop' });
-    fireEvent.focus(button);
+    const link = screen.getByRole('link', { name: 'Shop' });
+    fireEvent.focus(link);
 
     expect(props.onFocusOpen).toHaveBeenCalledTimes(1);
   });
@@ -263,12 +264,12 @@ describe('TopNavigationItem', () => {
 
     render(<TopNavigationItem {...props} />);
 
-    const button = screen.getByRole('button', { name: 'Shop' });
-    button.setAttribute(TOP_ARROW_FOCUS_ATTR, 'true');
-    fireEvent.focus(button);
+    const link = screen.getByRole('link', { name: 'Shop' });
+    link.setAttribute(TOP_ARROW_FOCUS_ATTR, 'true');
+    fireEvent.focus(link);
 
     expect(props.onFocusOpen).not.toHaveBeenCalled();
-    expect(button).not.toHaveAttribute(TOP_ARROW_FOCUS_ATTR);
+    expect(link).not.toHaveAttribute(TOP_ARROW_FOCUS_ATTR);
   });
 
   it('does not call onFocusOpen for a non-panel link item', () => {
@@ -318,7 +319,7 @@ describe('TopNavigationItem', () => {
     expect(screen.getByRole('link', { name: 'Discover' })).toBeInTheDocument();
   });
 
-  it('renders the item label in button mode', () => {
+  it('renders the item label in panel link mode', () => {
     const props = createProps({
       hasPanel: true,
       item: createItem({
@@ -328,7 +329,7 @@ describe('TopNavigationItem', () => {
 
     render(<TopNavigationItem {...props} />);
 
-    expect(screen.getByRole('button', { name: 'Discover' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Discover' })).toBeInTheDocument();
   });
 
   it('preserves the provided href in link mode', () => {
