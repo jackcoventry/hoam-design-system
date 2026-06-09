@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import type { ReactNode } from 'react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
@@ -28,8 +28,21 @@ vi.mock('@/components/BadgeList', () => ({
 }));
 
 vi.mock('@/components/Button', () => ({
-  Button: ({ children, disabled }: { children: ReactNode; disabled?: boolean }) => (
-    <button disabled={disabled}>{children}</button>
+  Button: ({
+    children,
+    disabled,
+    onClick,
+  }: {
+    children: ReactNode;
+    disabled?: boolean;
+    onClick?: () => void;
+  }) => (
+    <button
+      disabled={disabled}
+      onClick={onClick}
+    >
+      {children}
+    </button>
   ),
 }));
 
@@ -219,10 +232,27 @@ describe('ProductTile', () => {
     expect(button).toBeDisabled();
   });
 
-  it('renders save button', () => {
+  it('does not render the save button when onLike is not provided', () => {
     render(<ProductTile {...baseProps} />);
 
-    expect(screen.getByRole('button', { name: 'Save' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Save' })).not.toBeInTheDocument();
+  });
+
+  it('renders the save button and calls onLike when onLike is provided', () => {
+    const onLike = vi.fn();
+
+    render(
+      <ProductTile
+        {...baseProps}
+        onLike={onLike}
+      />
+    );
+
+    const button = screen.getByRole('button', { name: 'Save' });
+    expect(button).toBeInTheDocument();
+
+    fireEvent.click(button);
+    expect(onLike).toHaveBeenCalledTimes(1);
   });
 
   it('does not render description when empty', () => {

@@ -179,6 +179,55 @@ describe('BasketItem', () => {
     expect(screen.getByRole('button', { name: 'Remove' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Save' })).toBeInTheDocument();
   });
+
+  it('does not render the remove control when onEmpty is not provided', () => {
+    const itemWithoutRemove = { ...baseItem };
+    delete itemWithoutRemove.onEmpty;
+
+    render(
+      <table>
+        <tbody>
+          <BasketItem {...itemWithoutRemove} />
+        </tbody>
+      </table>
+    );
+
+    expect(screen.queryByRole('button', { name: 'Remove' })).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Save' })).toBeInTheDocument();
+  });
+
+  it('does not render the save control when onLike is not provided', () => {
+    const itemWithoutSave = { ...baseItem };
+    delete itemWithoutSave.onLike;
+
+    render(
+      <table>
+        <tbody>
+          <BasketItem {...itemWithoutSave} />
+        </tbody>
+      </table>
+    );
+
+    expect(screen.getByRole('button', { name: 'Remove' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Save' })).not.toBeInTheDocument();
+  });
+
+  it('does not render item action controls when no action callbacks are provided', () => {
+    const itemWithoutActions = { ...baseItem };
+    delete itemWithoutActions.onEmpty;
+    delete itemWithoutActions.onLike;
+
+    render(
+      <table>
+        <tbody>
+          <BasketItem {...itemWithoutActions} />
+        </tbody>
+      </table>
+    );
+
+    expect(screen.queryByRole('button', { name: 'Remove' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Save' })).not.toBeInTheDocument();
+  });
 });
 
 describe('BasketFooter', () => {

@@ -32,9 +32,9 @@ export type BasketItemProps = {
   /** Current quantity for the basket item. */
   quantity: number;
   /** Called when the bin icon is clicked. */
-  onEmpty: () => void;
+  onEmpty?: () => void;
   /** Called when the like button is clicked */
-  onLike: () => void;
+  onLike?: () => void;
 };
 
 export type BasketProps = {
@@ -89,22 +89,27 @@ export function BasketItem({
             <p className={styles.summaryText}>{summary}</p>
           </span>
           <div className={styles.controls}>
-            <Button
-              size="small"
-              title={t.remove}
-              icon="trash"
-              iconOnly
-              onClick={onEmpty}
-            />
-            <Button
-              size="small"
-              variant="secondary"
-              icon="heart-fill"
-              iconOnly
-              onClick={onLike}
-            >
-              {t.save}
-            </Button>
+            {onEmpty ? (
+              <Button
+                size="small"
+                title={t.remove}
+                icon="trash"
+                iconOnly
+                onClick={onEmpty}
+              />
+            ) : null}
+
+            {onLike ? (
+              <Button
+                size="small"
+                variant="secondary"
+                icon="heart-fill"
+                iconOnly
+                onClick={onLike}
+              >
+                {t.save}
+              </Button>
+            ) : null}
           </div>
         </div>
       </td>
@@ -171,25 +176,12 @@ export function Basket({ items = [], className }: Readonly<BasketProps>) {
         </tr>
       </thead>
       <tbody className={styles.tbody}>
-        {items?.map((item) => {
-          const { id, title, summary, price, thumbnail, url, onChange, quantity, onEmpty, onLike } =
-            item;
-          return (
-            <BasketItem
-              key={id}
-              id={id}
-              title={title}
-              summary={summary}
-              price={price}
-              thumbnail={thumbnail}
-              url={url}
-              onChange={onChange}
-              quantity={quantity}
-              onEmpty={onEmpty}
-              onLike={onLike}
-            />
-          );
-        })}
+        {items?.map((item) => (
+          <BasketItem
+            key={item.id}
+            {...item}
+          />
+        ))}
       </tbody>
     </table>
   );

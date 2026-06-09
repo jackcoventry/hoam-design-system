@@ -41,6 +41,8 @@ export type ProductTileProps = {
   className?: string;
   /** Callback function when add to cart button is clicked. */
   onAddToBasket?: () => void;
+  /** Callback function when like button is clicked. */
+  onLike?: () => void;
 };
 
 export function ProductTile({
@@ -54,6 +56,7 @@ export function ProductTile({
   image,
   className,
   onAddToBasket,
+  onLike,
 }: Readonly<ProductTileProps>) {
   const t = useMessages('productTile');
   const { formatCurrency } = useCurrency();
@@ -79,16 +82,19 @@ export function ProductTile({
             className={styles.image}
           />
         </figure>
-        <span className={styles.save}>
-          <Button
-            size="small"
-            variant="secondary"
-            icon="heart-fill"
-            iconOnly
-          >
-            {t.save}
-          </Button>
-        </span>
+        {onLike ? (
+          <span className={styles.save}>
+            <Button
+              size="small"
+              variant="secondary"
+              icon="heart-fill"
+              iconOnly
+              onClick={onLike}
+            >
+              {t.save}
+            </Button>
+          </span>
+        ) : null}
       </div>
       <Stack
         gap="xs"
