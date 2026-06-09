@@ -48,6 +48,7 @@ export type BasketProps = {
 
 export function BasketItem({
   title,
+  summary,
   price,
   thumbnail,
   url,
@@ -82,7 +83,10 @@ export function BasketItem({
             <span className={styles.title}>{title}</span>
           </a>
           <span className={styles.summary}>
-            {t.price}: {formatCurrency(price)}
+            <p>
+              {t.price}: {formatCurrency(price)}
+            </p>
+            <p className={styles.summaryText}>{summary}</p>
           </span>
           <div className={styles.controls}>
             <Button

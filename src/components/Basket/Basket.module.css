@@ -91,7 +91,7 @@
 .content {
   display: flex;
   flex-direction: column;
-  gap: var(--hoam-spacing-xs);
+  gap: var(--hoam-spacing-2xs);
   height: 100%;
   min-width: 0;
 }
@@ -128,9 +128,13 @@
   overflow-wrap: anywhere;
 }
 
+.summaryText {
+  color: var(--hoam-color-text-soft);
+}
+
 .summary {
   font: var(--hoam-typography-label-1);
-  height: 1.5em;
+  height: 3.25em;
   white-space: nowrap;
 }
 
@@ -144,6 +148,7 @@
   -webkit-line-clamp: 2;
 }
 
+.summaryText,
 .summary,
 .title {
   display: block;
@@ -194,7 +199,6 @@
 
   .title {
     display: block;
-    height: 1.5em;
     white-space: nowrap;
   }
 
