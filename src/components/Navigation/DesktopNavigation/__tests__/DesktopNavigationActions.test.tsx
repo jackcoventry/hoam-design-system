@@ -33,6 +33,8 @@ const mockedUseMessages = vi.mocked(useMessages);
 
 vi.mock('@/components/Navigation/Navigation.module.css', () => ({
   default: {
+    count: 'count',
+    countWrapper: 'countWrapper',
     list: 'list',
     item: 'item',
     link: 'link',
@@ -190,6 +192,66 @@ describe('DesktopNavigationActions', () => {
     const srText = screen.getByText('Account');
     expect(srText.tagName).toBe('SPAN');
     expect(srText).toHaveClass('srOnly');
+  });
+
+  it('does not render a count badge when the user item has no count', () => {
+    const props = createProps({
+      userItems: [
+        createUserItem({
+          id: 'basket',
+          label: 'Basket',
+          href: '/basket',
+          icon: 'basket',
+        }),
+      ],
+    });
+
+    render(<DesktopNavigationActions {...props} />);
+
+    expect(screen.queryByText('0')).not.toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Basket' })).not.toHaveAttribute('aria-label');
+  });
+
+  it('renders the full visual count when it is two digits or fewer', () => {
+    const props = createProps({
+      userItems: [
+        createUserItem({
+          id: 'basket',
+          label: 'Basket',
+          href: '/basket',
+          icon: 'basket',
+          count: 12,
+        }),
+      ],
+    });
+
+    render(<DesktopNavigationActions {...props} />);
+
+    const count = screen.getByText('12');
+    expect(count).toHaveClass('count');
+    expect(count).toHaveAttribute('aria-hidden', 'true');
+    expect(screen.getByRole('link', { name: 'Basket 12' })).toBeInTheDocument();
+  });
+
+  it('caps the visual count at two digits while exposing the full count to screen readers', () => {
+    const props = createProps({
+      userItems: [
+        createUserItem({
+          id: 'basket',
+          label: 'Basket',
+          href: '/basket',
+          icon: 'basket',
+          count: 123,
+        }),
+      ],
+    });
+
+    render(<DesktopNavigationActions {...props} />);
+
+    const count = screen.getByText('99+');
+    expect(count).toHaveClass('count');
+    expect(count).toHaveAttribute('aria-hidden', 'true');
+    expect(screen.getByRole('link', { name: 'Basket 123' })).toBeInTheDocument();
   });
 
   it('calls onResetNavigation on focus capture', () => {

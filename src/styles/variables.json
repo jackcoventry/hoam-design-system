@@ -1056,6 +1056,17 @@
     }
   },
   {
+    "name": "hoam-typography-size-7",
+    "cssVar": "--hoam-typography-size-7",
+    "type": "dimension",
+    "value": "12px",
+    "group": null,
+    "set": "size",
+    "extensions": {
+      "scope": "private"
+    }
+  },
+  {
     "name": "hoam-typography-size-base",
     "cssVar": "--hoam-typography-size-base",
     "type": "dimension",
@@ -1325,6 +1336,23 @@
     "originalValues": {
       "fontFamily": "Lato, system-ui, -apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif",
       "fontSize": "16px",
+      "fontWeight": 300,
+      "lineHeight": 1.5
+    }
+  },
+  {
+    "name": "hoam-typography-label-2",
+    "cssVar": "--hoam-typography-label-2",
+    "type": "typography",
+    "value": "300 12px/1.5 Lato, system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
+    "group": null,
+    "set": "label",
+    "extensions": {
+      "$name": "Label 2"
+    },
+    "originalValues": {
+      "fontFamily": "Lato, system-ui, -apple-system, Segoe UI, Helvetica Neue, Arial, sans-serif",
+      "fontSize": "12px",
       "fontWeight": 300,
       "lineHeight": 1.5
     }
