@@ -81,6 +81,17 @@ export const Label = {
   },
 };
 
+export const Disabled = {
+  ...Template,
+  args: {
+    options: getOptionsByInput('label').map((option, index) => ({
+      ...option,
+      disabled: index === 1,
+    })),
+    variant: 'label',
+  },
+};
+
 export const Color = {
   ...Template,
   args: {

@@ -18,8 +18,11 @@ const preview: Preview = {
     options: {
       storySort: {
         order: [
-          'Pages',
+          'Introduction',
           'Components',
+          'Foundations',
+          'Layout',
+          'Pages',
           '*',
         ],
       },

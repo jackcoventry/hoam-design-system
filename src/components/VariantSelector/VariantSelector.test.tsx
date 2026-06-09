@@ -238,9 +238,16 @@ describe('VariantSelector', () => {
       />
     );
 
-    expect(screen.getByRole('radio', { name: 'Medium' })).toBeDisabled();
-    expect(screen.getByRole('radio', { name: 'Small' })).not.toBeDisabled();
-    expect(screen.getByRole('radio', { name: 'Large' })).not.toBeDisabled();
+    const small = screen.getByRole('radio', { name: 'Small' });
+    const medium = screen.getByRole('radio', { name: 'Medium' });
+    const large = screen.getByRole('radio', { name: 'Large' });
+
+    expect(medium).toBeDisabled();
+    expect(medium.closest('label')).toHaveAttribute('data-disabled', 'true');
+    expect(small).not.toBeDisabled();
+    expect(small.closest('label')).not.toHaveAttribute('data-disabled');
+    expect(large).not.toBeDisabled();
+    expect(large.closest('label')).not.toHaveAttribute('data-disabled');
   });
 
   it('focuses the selected input when the radiogroup itself receives focus', async () => {

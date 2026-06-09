@@ -30,11 +30,15 @@
   gap: var(--hoam-spacing-xs);
 }
 
-.radio:checked + .visual .indicator {
+.radio:not(:disabled):checked + .visual .indicator {
   border-color: var(--hoam-color-border-accent);
   box-shadow:
     var(--hoam-shadow-small),
     0 0 0 2px var(--hoam-color-surface-accent-soft);
+}
+
+.radio:disabled + .visual .indicator {
+  opacity: 0.5;
 }
 
 .indicator {
@@ -53,8 +57,14 @@
     box-shadow var(--hoam-transition-duration-short) var(--hoam-transition-function-quad);
 }
 
+.item[data-disabled="true"],
+.item[data-disabled="true"] .visual,
+.item[data-disabled="true"] .indicator {
+  cursor: not-allowed;
+}
+
 @media (--hoam-hoverable) {
-  .item:hover .indicator {
+  .item:not([data-disabled="true"]):hover .indicator {
     border-color: var(--hoam-color-border-default);
   }
 }

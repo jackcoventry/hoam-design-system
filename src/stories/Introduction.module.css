@@ -1,0 +1,134 @@
+.root {
+  background: #ffffff;
+  color: #111111;
+  min-height: 100vh;
+}
+
+.hero {
+  border-bottom: 1px solid #e5e5e5;
+  display: grid;
+  gap: var(--hoam-spacing-md);
+  padding-block: var(--hoam-spacing-2xl);
+}
+
+.eyebrow {
+  color: #6b3bbf;
+  font: var(--hoam-typography-label-1);
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.title {
+  color: #111111;
+  font: var(--hoam-typography-title-1);
+  margin: 0;
+  max-width: 14ch;
+}
+
+.intro {
+  color: #333333;
+  font: var(--hoam-typography-body-1);
+  line-height: 1.6;
+  margin: 0;
+  max-width: 72ch;
+}
+
+.actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--hoam-spacing-md);
+  margin-block-start: var(--hoam-spacing-sm);
+}
+
+.primaryLink,
+.secondaryLink {
+  color: #111111;
+  font: var(--hoam-typography-label-1);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.2em;
+}
+
+.primaryLink {
+  color: #5b21b6;
+}
+
+.primaryLink:hover,
+.secondaryLink:hover {
+  color: #7c3aed;
+}
+
+.sectionBlock {
+  display: grid;
+  gap: var(--hoam-spacing-lg);
+  padding-block: var(--hoam-spacing-xl);
+}
+
+.sectionTitle {
+  color: #111111;
+  font: var(--hoam-typography-heading-2);
+  margin: 0;
+}
+
+.panelGrid {
+  display: grid;
+  gap: var(--hoam-spacing-md);
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.panel {
+  background: #ffffff;
+  border: 1px solid #dedede;
+  border-radius: 8px;
+  display: grid;
+  gap: var(--hoam-spacing-sm);
+  padding: var(--hoam-spacing-lg);
+}
+
+.panelTitle {
+  color: #111111;
+  font: var(--hoam-typography-heading-3);
+  margin: 0;
+}
+
+.panelText {
+  color: #333333;
+  font: var(--hoam-typography-body-2);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.storePanel {
+  background: #f7f3ff;
+  border: 1px solid #ddd1ff;
+  border-radius: 8px;
+  display: grid;
+  gap: var(--hoam-spacing-md);
+  margin-block: var(--hoam-spacing-xl);
+  padding: var(--hoam-spacing-xl);
+}
+
+.storeTitle {
+  color: #111111;
+  font: var(--hoam-typography-heading-2);
+  margin: 0;
+}
+
+.storeText {
+  color: #333333;
+  font: var(--hoam-typography-body-1);
+  line-height: 1.6;
+  margin: 0;
+  max-width: 72ch;
+}
+
+.list {
+  color: #333333;
+  display: grid;
+  font: var(--hoam-typography-body-1);
+  gap: var(--hoam-spacing-sm);
+  line-height: 1.6;
+  margin: 0;
+  max-width: 72ch;
+  padding-inline-start: var(--hoam-spacing-lg);
+}

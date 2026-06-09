@@ -231,6 +231,7 @@ export const VariantSelector = forwardRef<HTMLInputElement, VariantSelectorProps
                 <label
                   key={option.value}
                   className={styles.item}
+                  data-disabled={option.disabled || undefined}
                 >
                   <input
                     ref={setRef}
