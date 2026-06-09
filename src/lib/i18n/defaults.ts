@@ -143,7 +143,7 @@ export const defaultMessages = {
   },
   searchForm: {
     submitLabel: 'Search',
-    placeholderText: 'Enter keywords...',
+    placeholderText: 'Enter product name...',
     readMore: 'Read more',
     noResults: 'No results!',
     required: 'Required',

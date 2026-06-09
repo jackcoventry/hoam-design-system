@@ -84,6 +84,8 @@ export interface NavUserItem {
   title?: string;
   /** Optional built-in behavior for search and basket actions. */
   action?: NavUserAction;
+  /** Optional numeric badge count shown for the action. */
+  count?: number;
 }
 
 export type NavTreeItem =

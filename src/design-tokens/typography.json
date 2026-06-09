@@ -72,6 +72,10 @@
       "6": {
         "$type": "string",
         "$value": "clamp(1rem, min(20vmin, 7vw), 4rem)"
+      },
+      "7": {
+        "$type": "dimension",
+        "$value": "12px"
       }
     },
     "line-height": {
@@ -230,6 +234,17 @@
         },
         "$extensions": {
           "$name": "Label"
+        }
+      },
+      "2": {
+        "$value": {
+          "fontFamily": "{typography.family.3}",
+          "fontWeight": "{typography.weight.1}",
+          "fontSize": "{typography.size.7}",
+          "lineHeight": "{typography.line-height.1}"
+        },
+        "$extensions": {
+          "$name": "Label 2"
         }
       }
     }

@@ -80,7 +80,7 @@ describe('SearchForm', () => {
     expect(container.firstChild).toHaveClass('custom-search-form');
     expect(screen.getByRole('button', { name: 'Close dialog' })).toBeInTheDocument();
     expect(screen.getByRole('searchbox', { name: 'Search' })).toBeInTheDocument();
-    expect(screen.getByPlaceholderText('Enter keywords...')).toBeInTheDocument();
+    expect(screen.getByPlaceholderText('Enter product name...')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Search' })).toBeInTheDocument();
   });
 
@@ -223,7 +223,7 @@ describe('SearchForm', () => {
     const input = screen.getByRole('searchbox', { name: 'Search' });
     expect(input).toHaveAttribute('aria-invalid', 'false');
     expect(input).toHaveAttribute('data-valid', 'true');
-    expect(input).toHaveAttribute('placeholder', 'Enter keywords...');
+    expect(input).toHaveAttribute('placeholder', 'Enter product name...');
   });
 
   it('disables the input and submit button while loading', () => {

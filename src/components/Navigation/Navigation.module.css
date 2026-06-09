@@ -20,6 +20,26 @@
   }
 }
 
+.countWrapper {
+  position: relative;
+}
+
+.count {
+  align-items: center;
+  background-color: var(--hoam-color-surface-accent);
+  border-radius: var(--hoam-border-radius-full);
+  display: flex;
+  font: var(--hoam-typography-label-2);
+  height: 1.5rem;
+  justify-content: center;
+  min-width: 1.5rem;
+  overflow: hidden;
+  padding-inline: var(--hoam-spacing-3xs);
+  position: absolute;
+  top: calc(var(--hoam-spacing-md) * -1);
+  right: calc(var(--hoam-spacing-md) * -1);
+}
+
 .inner {
   display: grid;
   gap: var(--hoam-spacing-xs);
