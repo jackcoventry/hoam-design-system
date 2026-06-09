@@ -5,6 +5,7 @@ export * from './Basket';
 export * from './BlogArticle';
 export * from './Breadcrumb';
 export * from './Button';
+export * from './Common/BodyText';
 export * from './ErrorPanel';
 export * from './Footer';
 export * from './Form';
